@@ -7,14 +7,17 @@
 \contentsline {section}{\numberline {1}The Simple Theory of Types}{4}%
 \contentsline {subsection}{\numberline {1.1}Intuitionistic Logic}{4}%
 \contentsline {subsubsection}{Proof Equivalences}{6}%
-\contentsline {subsection}{\numberline {1.2}The Curry-Howard Correspondence}{8}%
+\contentsline {subsection}{\numberline {1.2}The Curry-Howard Correspondence}{7}%
 \contentsline {subsubsection}{Term Equivalences}{10}%
 \contentsline {paragraph}{$\alpha $ conversion}{10}%
 \contentsline {paragraph}{$\beta $ reduction}{10}%
 \contentsline {paragraph}{$\eta $ conversion}{11}%
+\contentsline {subsubsection}{In place of a summary}{11}%
 \contentsline {section}{\numberline {2}Going Linear}{11}%
-\contentsline {subsection}{\numberline {2.1}Linear Logic}{11}%
-\contentsline {section}{\numberline {3}Lambek Calculi}{12}%
-\contentsline {section}{\numberline {4}Going Modal}{12}%
-\contentsline {schapter}{Bibliography}{13}%
+\contentsline {subsection}{\numberline {2.1}Linear Logic}{12}%
+\contentsline {subsubsection}{Proof Equivalences}{12}%
+\contentsline {subsection}{\numberline {2.2}As a Type Theory}{13}%
+\contentsline {section}{\numberline {3}Lambek Calculi}{13}%
+\contentsline {section}{\numberline {4}Going Modal}{13}%
+\contentsline {schapter}{Bibliography}{15}%
 \gdef \the@ipfilectr {}

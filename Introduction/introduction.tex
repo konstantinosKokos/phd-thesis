@@ -96,10 +96,10 @@ And dually again, the introduction of the conjunction $\times I$ permits us to j
 \textit{Structural} rules, on the other hand, allow us to manipulate structures; they are presented in Figure~\ref{subfigure:intuitionistic_logic_rules:structural}.
 Structural rules have a two-fold role.
 First, they explicate an extra propery of our structure binding operator, namely commutativity.
-One could also make do with an implicit $Exchange$ rule by treating structures as \textit{multisets} rather than lists -- having it explicit, however, will keep us conscious of its presence and strengthen our emotional bond to it, in turn making us really notice its absence when it will no longer be there (it also keeps the presentation tidier).
+One could also make do with an implicit $\Exchange{}$ rule by treating structures as \textit{multisets} rather than lists -- having it explicit, however, will keep us conscious of its presence and strengthen our emotional bond to it, in turn making us really notice its absence when it will no longer be there (it also keeps the presentation tidier).
 Second, they give an account of the status of propositions as reusable resources.
-The $Weakening$ rule states that if we were able to derive a proposition \prop{B} from some context $\Gamma$, we will also be able to do so if the context were to contain some arbitrary extra proposition \prop{A}.
-Conversely, the $Contraction$ rule states that if we needed a context containing two instances of a proposition \prop{A} to derive a proposition \prop{B}, we could also make do with just one instance of it, discarding the other without remorse.
+The $\Weakening{}$ rule states that if we were able to derive a proposition \prop{B} from some context $\Gamma$, we will also be able to do so if the context were to contain some arbitrary extra proposition \prop{A}.
+Conversely, the $\Contraction{}$ rule states that if we needed a context containing two instances of a proposition \prop{A} to derive a proposition \prop{B}, we could also make do with just one instance of it, discarding the other without remorse.
 %
 %\paragraph{Formula Polarity}
 %Each unique occurrence of (part of) a formula within a judgement can be assigned a polarity value, positive or negative.
@@ -128,7 +128,7 @@ Conversely, the $Contraction$ rule states that if we needed a context containing
 	\begin{subfigure}{1\textwidth}
 		\centering
 		\begin{tabularx}{0.7\textwidth}{@{}C@{\qquad}C@{}}
-		\multicolumn{2}{c}{$\infer[Ax]{\prop A \vdash \prop A}{}$}\\[1em]
+		\multicolumn{2}{@{}c@{}}{$\infer[Ax]{\prop A \vdash \prop A}{}$}\\[1em]
 		$\infer[\to E]{\Gamma, \Delta \vdash \prop B}{\Gamma \vdash \prop A \to \prop B & \Delta \vdash \prop B}$ 
 		& 
 		$\infer[\to I]{\Gamma \vdash \prop A \to \prop B}{\Gamma, \prop A \vdash \prop B}$\\[1em]
@@ -138,14 +138,14 @@ Conversely, the $Contraction$ rule states that if we needed a context containing
 		\end{tabularx}
 		\caption{Logical Rules}
 		\label{subfigure:intuitionistic_logic_rules:logical}
-	\end{subfigure}\\[1em]
+	\end{subfigure}\\[2em]
 	\begin{subfigure}{1\textwidth}
 		\centering
 		\begin{tabularx}{0.7\textwidth}{@{}C@{\qquad}C@{}}
-		\multicolumn{2}{c}{$\infer[Exchange]{\Delta, \Gamma \vdash \prop A}{\Gamma, \Delta \vdash \prop A}$}\\[1em]
-		$\infer[Weakening]{\Gamma, \prop A \vdash \prop B}{\Gamma \vdash \prop B} $ 
+		\multicolumn{2}{@{}c@{}}{$\infer[\Exchange{}]{\Delta, \Gamma \vdash \prop A}{\Gamma, \Delta \vdash \prop A}$}\\[1em]
+		$\infer[\Weakening{}]{\Gamma, \prop A \vdash \prop B}{\Gamma \vdash \prop B} $ 
 		&
-		$\infer[Contraction]{\Gamma, \prop A \vdash \prop B}{\Gamma, \prop A, \prop A \vdash \prop B}$
+		$\infer[\Contraction{}]{\Gamma, \prop A \vdash \prop B}{\Gamma, \prop A, \prop A \vdash \prop B}$
 		\end{tabularx}
 		\caption{Structural Rules}
 		\label{subfigure:intuitionistic_logic_rules:structural}
@@ -170,33 +170,33 @@ The strong normalisation property guarantees that a canonical form exists for an
 Figure~\ref{figure:intuitionistic_proof_reduction} presents rewrite instructions for the two detour patterns we may encounter (one per logical connective).
 Read bottom-up%
 \footnote{In the small-to-big rather than literal sense! If confused: start from the proof leaves and go down.},
-the first one suggests that if one were to hypothesize a proposition \prop{A}, use it within an (arbitrarily deep) proof $u$ together with extra context $\Gamma$ to derive a proposition \prop{B}, before finally redacting the hypothesis and composing with a proof $t$ that derives \prop{A} from context $\Delta$, it would have been smarter (and more concise!) to just plug in $t$ directly when previously hypothesizing \prop{A}, since then no redaction or composition would have been necessary.
+the first one suggests that if one were to hypothesize a proposition \prop{A}, use it within an (arbitrarily deep) proof $t$ together with extra context $\Gamma$ to derive a proposition \prop{B}, before finally redacting the hypothesis and composing with a proof $u$ that derives \prop{A} from context $\Delta$, it would have been smarter (and more concise!) to just plug in $u$ directly when previously hypothesizing \prop{A}, since then no redaction or composition would have been necessary.
 In a similar vein, the second suggests that if one were to derive and merge proofs $t$ and $u$ (of propositions \prop{A} and \prop{B}, respectively), only to eliminate their product against hypothetical instances of \prop{A} and \prop{B} that were used to derive some \prop{C} with extra context $\Theta$ within proof $v$, the proof can be reduced by just plugging $t$ and $u$ in place of the axiom leaves of $v$.
+Note the use of horizontal dots at the axiom leaves, to denote simultaneous substitutions of \textit{all} occurrences of redundant hypotheses, and the use of unnamed vertical dots to denote (invertible) sequences of \Contraction{} rules.
 
 \begin{figure}
-	\begin{tabularx}{0.9\textwidth}{@{}c@{~$\implies$~}c@{}}
+	\begin{tabularx}{0.95\textwidth}{@{}c@{~$\implies$~}c@{}}
 	$\infer[\to E]{\Gamma, \Delta \vdash \prop{B}}{
 	\infer[\to I]{\Gamma \vdash \prop{A} \to \prop{B}}{
 		\infer*[]{\Gamma, \prop{A} \vdash \prop{B}}{
 			\infer[]{\Gamma, \prop{A} \dots \vdash \prop{B}}{
-				\infer*[u]{}{\dots & \infer[Ax]{\prop{A} \vdash \prop{A}}{} 
+					\infer*[t]{}{\dots & \infer[Ax]{\prop{A} \vdash \prop{A}}{}}
 				}
 			}
 		}
-	}
-	&
-	\infer{\Delta \vdash \prop{A}}{
-	\infer*[t]{}{}
-	}
+		&
+		\infer{\Delta \vdash \prop{A}}{
+			\infer*[u]{}{}
+		}
 	}$
 	&
 	$ 
 	\infer*[]{\Gamma, \Delta \vdash \prop{B}}{
 		\infer[]{\Gamma, \Delta \dots \vdash \prop{B}}{
-			\infer*[u]{}{
+			\infer*[t]{}{
 			\dots &
 			\infer[]{\Delta \vdash A}{
-				\infer*[t]{}{}
+				\infer*[u]{}{}
 			}}
 		}
 	}
@@ -242,7 +242,7 @@ In a similar vein, the second suggests that if one were to derive and merge proo
 	} 
 	$
 	\end{tabularx}
-	\caption{Proof Reduction Patterns}
+	\caption{Intuitionistic Logic Proof Reductions}
 	\label{figure:intuitionistic_proof_reduction}
 \end{figure}
 
@@ -269,7 +269,7 @@ i.e. rather than a sequence of formulas, we have a sequence of distinct variable
 \begin{figure}
 	\centering
 	\begin{tabularx}{0.975\textwidth}{@{}C@{~}C@{}}
-		\multicolumn{2}{c}{$\infer[Ax]{\term{x_i} : \prop A \vdash \term{x_i} : \prop A}{}$}\\[1em]
+		\multicolumn{2}{@{}c@{}}{$\infer[Ax]{\term{x_i} : \prop A \vdash \term{x_i} : \prop A}{}$}\\[1em]
 		$\infer[\to E]{\Gamma, \Delta \vdash \term{s~t} : \prop B}{\Gamma \vdash \term{s} : \prop A \to \prop B & \Delta \vdash \term{t} : \prop B}$ 
 		& 
 		$\infer[\to I]{\Gamma \vdash \term{\lambda x_i.s} : \prop A \to \prop B}{\Gamma, \term{x_i}: \prop A \vdash \term{s}:\prop B}$\\[1em]
@@ -283,12 +283,12 @@ i.e. rather than a sequence of formulas, we have a sequence of distinct variable
 		$\infer[\times I]
 			{\Gamma, \Delta \vdash \cterm{(\term{s}, \term{t})}: \prop{A} \times \prop{B}}
 			{\Gamma \vdash \term{s}: \prop{A} & \Delta \vdash \term{t}:\prop{B}}$\\[1em]
-		\multicolumn{2}{c}{$\infer[Exchange]{\Delta, \Gamma \vdash \term{s}: \prop{A}}{\Gamma, \Delta \vdash \term{s}: \prop{A}}$}\\[1em]
-		$\infer[Weakening]
+		\multicolumn{2}{@{}c@{}}{$\infer[\Exchange{}]{\Delta, \Gamma \vdash \term{s}: \prop{A}}{\Gamma, \Delta \vdash \term{s}: \prop{A}}$}\\[1em]
+		$\infer[\Weakening{}]
 			{\Gamma, \term{x_i}: \prop{A} \vdash \term{s}: \prop{B}}
 			{\Gamma \vdash \term{s}:\prop{B}} $ 
 		&
-		$\infer[Contraction]
+		$\infer[\Contraction{}]
 			{\Gamma, \term{x_k}: \prop{A} \vdash \term{s}_{[\term{x_i} \mapsto \term{x_k}, \term{x_j} \mapsto \term{x_k}]}:\prop{B}}
 			{\Gamma,  \term{x_i}: \prop{A}, \term{x_j}: \prop{A} \vdash \term{s}: \prop{B}}$
 		\end{tabularx}
@@ -302,20 +302,20 @@ Its dual, $\to I$, allows us to create (so-called anonymous) functions by derivi
 Any occurrence of \term{x_i} within \term{s} is then \textit{bound} by the abstraction; variables that do not have a binding abstraction are called \textit{free}.
 The conjunction introduction $\times I$ allows us to create tuple objects \term{(s, t)} through their parts \term{s} and \term{t}.
 Its dual $\to E$ gives us the option to identify the two coordinates of a tuple \term{s} with variables \term{x_i} and \term{x_j}, when the latter are hypothesized assumptions for deriving some program \term{t}.
-If our assumptions are not in order, blocking the applicability of some rule, we can put them back where they belong with $Exchange$.
-With $Contraction$ we can pretend to be using two different instances \term{x_i} and \term{x_j} of the same type before identifying the two as a single object \term{x_i} in term \term{s} with term \term{t}'');
+If our assumptions are not in order, blocking the applicability of some rule, we can put them back where they belong with $\Exchange{}$.
+With $\Contraction{}$ we can pretend to be using two different instances \term{x_i} and \term{x_j} of the same type before identifying the two as a single object \term{x_i} in term \term{s} with term \term{t}'');
 note here the meta-notation for \textit{variable substitution}, $\term{s}_{[\term{x_i} \mapsto \term{t}]}$, which reads as ``replace any occurrence of variable \term{x_i}.
-And finally, we can introduce throwaway variables into our typing environment with $Weakening$ (arguably useful for creating things like constant functions).
+And finally, we can introduce throwaway variables into our typing environment with $\Weakening{}$ (arguably useful for creating things like constant functions).
 
 There's just a few catches to beware of.
 The first has to do with tracing variables in a proof; the concatenation of structures $\Gamma$, $\Delta$ is only valid if $\Gamma$ and $\Delta$ contain no variables of the same name; if that were to be the case, we would be dealing with variable shadowing, a situation where the same name could ambiguously refer to two distinct objects (a horrible thing).
-The second has to do with do with the $Exchange$ rule. 
+The second has to do with do with the $\Exchange{}$ rule. 
 The careful reader might notice that the rule leaves no imprint on the term level, meaning we cannot distinguish between a program where variables were a priori provided in the correct order, and one where they were shuffled into position later on.
 This is justifiable if one is to treat the rule as a syntactic bureaucracy that has no real semantic effect, i.e. if we consider the two proofs as equivalent, following along the commuting conversions mentioned earlier (supporting the idea that in this type theory, asssumptions are multisets rather than sequences).
 A slightly more perverse problem arises out of the product elimination rule $\times E$.
 The rule posits that two assumptions $\term{x_i}: \prop{A}$ and $\term{x_j}: \prop{B}$ can be substituted by a single (derived) term of their product type $\term{s}: \prop{A}\times\prop{B}$. 
 Choosing different depths within the proof tree upon which to perform this substitution will yield distinct terms (because indeed they represent distinct sequences of computation); whether there's any merit in distinguishing between the two is, however, debatable.
-Finally, whereas other rules can be read as syntactic operations on terms, (this presentation of) the $Contraction$ rule contains meta-notation that is not part of the term syntax itself.
+Finally, whereas other rules can be read as syntactic operations on terms, (this presentation of) the $\Contraction{}$ rule contains meta-notation that is not part of the term syntax itself.
 That is to say, $\term{s}_{[\term{x_i} \mapsto \term{t}]}$ is \textit{not} a valid term -- even if the result of the operation it denotes is.
 Generally speaking, substitution of objects for others of the same type is (modulo variable shadowing) an admissible property of the type system.
 Mixing syntax and meta-syntax in the same system is a dirty trick we will sporadically employ; this surely invites some trouble, but conscious use of it can be worth it, since it significantly simplifies presentation.
@@ -355,15 +355,37 @@ The equivalence relation enacted by this conversion is called $\eta$ equivalence
 	\cterm{(case \term{s} of (\term{x_i},\term{x_j}) in \term{x_i}, case \term{s} of (\term{x_k},\term{x_l}) in \term{x_l})} & \Longleftrightarrow \term{s}
 \end{align*}
 
+\subsubsection{In place of a summary}
+Table~\ref{table:CHC} summarizes the subsection.
+
+\begin{table}
+	\centering
+	\begin{tabularx}{0.8\textwidth}{@{}CC@{}}
+	\textbf{Logic}			& \textbf{Computer Science}\\
+	\toprule
+	Propositional Constant	& Base Type\\
+	Logical Connectives 	& Type Constructors\\
+	Implication				& Function Type\\
+	Conjunction				& Product Type\\
+	Axiom					& Variable\\
+	Introduction Rule		& Constructor Pattern\\
+	Elimination Rule		& Destructor Pattern\\
+	Proof Normalization		& Computation\\
+	Provability				& Type Inhabitation	 
+	\end{tabularx}
+	\caption{The Curry-Howard correspondence in tabular form.}
+	\label{table:CHC}
+\end{table}
+
 \section{Going Linear}
 We are now ready to start charting grounds in substructural territories: we will gradually impoverish our logic by removing structural rules one by one, and see where that gets us. 
-The weakest links are the $Contraction$ and $Weakening$ rules.
-These two rules are a cultural and ideological remnant of the age of prosperity and abundance.
+The weakest links are the $\Contraction{}$ and $\Weakening{}$ rules.
+These two rules are a cultural and ideological remnant of a long-gone age infested by delusions of prosperity and abundance.
 In their presence, propositions are proof objects that can be freely replicated and discarded.
 Removing them (or controlling their applicability via other means) directs us towards a more eco-conscious regime by turning propositions into finite resources, the production and/or consumption of which is not to be taken for granted.
-Removing $Contraction$ yields Affine Logic, a logic in which resources can be used no more than once.
-Removing $Weakening$ yields Relevant Logic, a logic in which resources can be used no less than once.
-removing both yields Linear Logic, a logic in which resources can be used \textit{exactly} once.
+Removing $\Contraction{}$ yields Affine Logic, a logic in which resources can be used no more than once.
+Removing $\Weakening{}$ yields Relevant Logic, a logic in which resources can be used no less than once.
+Removing both yields Linear Logic, a logic in which resources can be used \textit{exactly} once.
 The intuitionistic formulations of the above give rise to corresponding type theories~\cite{pierce2004advanced}.
 For the purposes of this manuscript, we will focus our presentation on linear type theory.
 
@@ -377,40 +399,132 @@ The new, weird-looking arrow of the linear implication is read as lolli(pop) due
 Conjunction $\times$ is now separated into two distinct operators, $\otimes$ and $\with$. 
 The first denotes a linear tuple, and $\prop{A} \otimes \prop{B}$ is read as \textit{both} \prop{A} \textit{and} \prop{B}.
 The second denotes a choice, and $\prop{A} \with \prop{B}$ is read as \prop{A} \textit{with} \prop{B}, or \textit{choose one of} \prop{A} \textit{or} \prop{B}.
-The subset of the logic concerning these connectives is presented in Figure~\ref{figure:linear_logic_rules} (contexts, judgements, rules and proofs look just like before).
+This choice is manifested in the presence of two eliminators for our new connective: a left projection $\with E_1$ and a right projection $\with E_2$.
+It is noteworthy that introducing $\with$ requires that the two proof branches used to derive each of its coordinates share the same context $\Gamma$, unlike $\otimes$.
+The subset of linear logic concerning the connectives discussed is presented in Figure~\ref{figure:linear_logic_rules} (contexts, judgements, rules and proofs look just like before).
+For the sake of homogeneity and explicitness, \Exchange{} still makes an appearance as the sole structural rule.
 
 
 \begin{figure}
 	\centering
 	\begin{subfigure}{1\textwidth}
 		\centering
-		\begin{tabularx}{0.7\textwidth}{@{}C@{\qquad}C@{}}
-		\multicolumn{2}{c}{$\infer[Ax]{\prop A \vdash \prop A}{}$}\\[1em]
-		$\infer[\to E]{\Gamma, \Delta \vdash \prop B}{\Gamma \vdash \prop A \to \prop B & \Delta \vdash \prop B}$ 
+		\begin{tabularx}{0.7\textwidth}{@{}C@{~}C@{\qquad}C@{}}
+		\multicolumn{3}{@{}c@{}}{$\infer[Ax]{\prop A \vdash \prop A}{}$}\\[1em]
+		\multicolumn{2}{@{}c}{
+		$\infer[\li E]{\Gamma, \Delta \vdash \prop B}{\Gamma \vdash \prop A \li \prop B & \Delta \vdash \prop B}$}
 		& 
-		$\infer[\to I]{\Gamma \vdash \prop A \to \prop B}{\Gamma, \prop A \vdash \prop B}$\\[1em]
-		$\infer[\times E]{\Gamma,\Delta \vdash \prop C}{\Gamma \vdash \prop A \times \prop B & \Delta, \prop A , \prop B \vdash \prop C}$ 
+		$\infer[\li I]{\Gamma \vdash \prop A \li \prop B}{\Gamma, \prop A \vdash \prop B}$\\[1em]
+		\multicolumn{2}{@{}c}{
+		$\infer[\otimes E]{\Gamma,\Delta \vdash \prop C}{\Gamma \vdash \prop A \otimes \prop B & \Delta, \prop A , \prop B \vdash \prop C}$}
 		&
-		$\infer[\times I]{\Gamma, \Delta \vdash \prop A \times \prop B}{\Gamma \vdash \prop A & \Delta \vdash \prop B}$
+		$\infer[\otimes I]{\Gamma, \Delta \vdash \prop A \otimes \prop B}{\Gamma \vdash \prop A & \Delta \vdash \prop B}$\\[1em]
+		$
+		\infer[\with E_1]{\Gamma \vdash \prop{A}}{\Gamma \vdash \prop{A} \with \prop{B}}
+		$
+		&
+		$
+		\infer[\with E_2]{\Gamma \vdash \prop{B}}{\Gamma \vdash \prop{A} \with \prop{B}}
+		$
+		&
+		$
+		\infer[\with I]{\Gamma \vdash \prop{A} \with \prop{B}}{\Gamma \vdash \prop{A} & \Gamma \vdash \prop{B}}
+		$
 		\end{tabularx}
 		\caption{Logical Rules}
 		\label{subfigure:linear_logic_rules:logical}
-	\end{subfigure}\\[1em]
-%	\begin{subfigure}{1\textwidth}
-%		\centering
-%		\begin{tabularx}{0.7\textwidth}{@{}C@{\qquad}C@{}}
-%		\multicolumn{2}{c}{$\infer[Exchange]{\Delta, \Gamma \vdash \prop A}{\Gamma, \Delta \vdash \prop A}$}\\[1em]
-%		$\infer[Weakening]{\Gamma, \prop A \vdash \prop B}{\Gamma \vdash \prop B} $ 
-%		&
-%		$\infer[Contraction]{\Gamma, \prop A \vdash \prop B}{\Gamma, \prop A, \prop A \vdash \prop B}$
-%		\end{tabularx}
-%		\caption{Structural Rules}
-%		\label{subfigure:intuitionistic_logic_rules:structural}
-%	\end{subfigure}
+	\end{subfigure}\\[2em]
+	\begin{subfigure}{1\textwidth}
+		\centering
+		\begin{tabularx}{0.7\textwidth}{@{}C@{}}
+		$
+		\infer[\Exchange{}]{\Delta, \Gamma \vdash \prop{A}}{\Gamma, \Delta \vdash \prop{A}}
+		$
+		\end{tabularx}
+		\caption{Structural Rule}
+		\label{subfigure:linear_logic_rules:structural}
+	\end{subfigure}
 	\caption{Linear Logic}
 	\label{figure:linear_logic_rules}
 \end{figure}
 
+\subsubsection{Proof Equivalences}
+The notions of proof equivalence discussed in the previous section hold also for linear logic.
+Proof normalization looks almost identical to before in the case of $\to$ and $\times$ (substituting of course for $\li$ and $\otimes$).
+The key difference lies in the absence of horizontal dots and unnamed vertical dots (since the \Contraction{} rule is no more, meaning that there can only be a single occurrence of each axiom replaced with a proof).
+The extra connective $\with$ introduces its own two redexes (one per eliminator); the reduction of the first projection is shown in Figure~\ref{figure:linear_proof_reductions}. 
+Its reading is straightforward: if one were to use $\Gamma$ once to derive \prop{A} and once to derive \prop{B}, proceed by joining the two, and then make the choice to keep the left proof, there was no need for the second proof in the first place.
+
+\begin{figure}
+	\centering
+	\begin{tabularx}{0.95\textwidth}{@{}c@{~$\implies$~}c@{}}
+	$\infer[\li E]{\Gamma, \Delta \vdash \prop{B}}{
+	\infer[\li I]{\Gamma \vdash \prop{A} \to \prop{B}}{
+		\infer*[t]{\Gamma, \prop{A} \vdash \prop{B}}{
+				\infer[Ax]{\prop{A} \vdash \prop{A}}{} 
+			}
+		}
+		&
+		\infer{\Delta \vdash \prop{A}}{
+			\infer*[u]{}{}
+		}
+	}$
+	&
+	$ 
+	\infer[]{\Gamma, \Delta \vdash \prop{B}}{
+		\infer*[t]{}{
+		\infer[]{\Delta \vdash A}{
+			\infer*[u]{}{}
+		}}
+	}
+	$\\[2em]
+	$
+	\infer[\otimes E]{\Gamma, \Delta, \Theta \vdash \prop{C}}{
+		\infer[\otimes I]{\Gamma, \Delta \vdash \prop{A} \otimes \prop{B}}{
+			\infer[]{\Gamma \vdash \prop{A}}{\infer*[t]{}{}}
+			&
+			\infer[]{\Delta \vdash \prop{B}}{\infer*[u]{}{}}
+		}		
+		&
+		\infer*[v]{\Theta, \prop{A}, \prop{B} \vdash \prop{C}}{
+			\infer[Ax]{\prop{A} \vdash \prop{A}}{}
+			&
+			\infer[Ax]{\prop{B} \vdash \prop{B}}{}
+		}
+	}
+	$
+	&
+	$
+	\infer*[v]{\Gamma, \Delta, \Theta \vdash \prop{C}}{
+		\infer[]{\Gamma \vdash \prop{A}}{
+			\infer*[t]{}{}
+		}
+		&
+		\infer[]{\Delta \vdash \prop{B}}{
+			\infer*[u]{}{}
+		}
+	}
+	$\\[2em]
+	$
+	\infer[\with E_1]{\Gamma \vdash \prop{A}}{
+		\infer[\with I]{\Gamma \vdash \prop{A} \with \prop{B}}{
+			\infer*[t]{\Gamma \vdash \prop{A}}{}
+			&
+			\infer*[u]{\Gamma \vdash \prop{B}}{}
+		}
+	}
+	$
+	&
+	$
+	\infer*[t]{\Gamma \vdash \prop{A}}{}
+	$
+	\end{tabularx}
+	\caption{Linear Logic Proof Reductions.}
+	\label{figure:linear_proof_reductions}
+\end{figure}
+
+\subsection{As a Type Theory}
+The Curry-Howard correspondence is 
 
 
 \section{Lambek Calculi}

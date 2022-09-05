@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2022.6.20)  5 SEP 2022 14:55
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2022.6.20)  5 SEP 2022 17:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -391,14 +391,11 @@ Overfull \hbox (17.63219pt too wide) in paragraph at lines 138--138
  []
 
 [6]
-Overfull \hbox (34.15984pt too wide) in alignment at lines 244--244
+Overfull \hbox (17.08714pt too wide) in alignment at lines 244--244
 [][] 
  []
 
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [7]
+[7]
 Overfull \hbox (16.68835pt too wide) in paragraph at lines 294--294
  []|$[]$| 
  []
@@ -412,48 +409,58 @@ Overfull \hbox (7.85674pt too wide) in paragraph at lines 294--294
 Underfull \vbox (badness 1168) has occurred while \output is active []
 
  [9]
-[10]
+[10] [11]
 LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 3
-76.
+98.
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 LaTeX Font Info:    Trying to load font information for OMS+pcr on input line 3
-76.
+98.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omspcr.fd
 File: omspcr.fd 
 )
 LaTeX Font Info:    Font shape `OMS/pcr/m/n' in size <8> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 376.
- [11]
-Overfull \hbox (1.20673pt too wide) in paragraph at lines 395--395
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 398.
+
+Overfull \hbox (1.37502pt too wide) in paragraph at lines 433--433
  []|$[]$| 
  []
 
 
-Overfull \hbox (17.63219pt too wide) in paragraph at lines 395--395
+Overfull \hbox (8.59729pt too wide) in paragraph at lines 433--433
  []|$[]$| 
  []
 
-(./Introduction/introduction.bbl [12]
+
+Overfull \hbox (6.51395pt too wide) in paragraph at lines 433--433
+ []|$[]$| 
+ []
+
+[12]
+Underfull \hbox (badness 10000) in alignment at lines 521--521
+[][] 
+ []
+
+(./Introduction/introduction.bbl [13] [14]
 Underfull \hbox (badness 4242) in paragraph at lines 21--25
 []\OT1/ppl/m/n/10 Arend Heyt-ing.  Die for-malen regeln der in-tu-ition-is-tis-
 chen
  []
 
-)) [13
+)) [15
 
 
 ] (./thesis.aux (./Preface/preface.aux) (./Introduction/introduction.aux)) ) 
 Here is how much of TeX's memory you used:
- 4611 strings out of 483065
- 65578 string characters out of 5963550
- 308196 words of memory out of 5000000
- 19528 multiletter control sequences out of 15000+600000
+ 4619 strings out of 483065
+ 65752 string characters out of 5963550
+ 309282 words of memory out of 5000000
+ 19536 multiletter control sequences out of 15000+600000
  559463 words of font info for 90 fonts, out of 8000000 for 9000
  81 hyphenation exceptions out of 8191
- 53i,49n,50p,644b,489s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 53i,49n,50p,644b,490s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/u
 sr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dis
@@ -471,10 +478,10 @@ dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/share/texlive/texmf-dist/fonts/t
 ype1/urw/palatino/uplr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/pal
 atino/uplr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplri8
 a.pfb>
-Output written on thesis.pdf (23 pages, 214415 bytes).
+Output written on thesis.pdf (25 pages, 219621 bytes).
 PDF statistics:
- 144 PDF objects out of 1000 (max. 8388607)
- 101 compressed objects within 2 object streams
+ 151 PDF objects out of 1000 (max. 8388607)
+ 106 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
