@@ -1,0 +1,178 @@
+% Sample document for  LOTDISS.CLS, a document class for dissertations in the
+% Landelijke Onderzoekschool Taalwetenschap (LOT)
+%
+% Author: Alexis Dimitriadis
+
+% Version 1.4b -- Current as of February, 2018
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Customize this template to suit your needs. DO NOT define the commands 
+% that are commented out below, unless you need to change them.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Select the right University as a class option (download the .clo file first).
+% Defined: utrecht.clo, leiden.clo, nijmegen.clo, groningen.clo, aclc.clo
+% If your institute is not defined, write me to ask for it.
+%
+\documentclass[utrecht]{lotdiss}
+%
+% The default font size is 10pt, but can be changed in the usual way:
+% \documentclass[utrecht,11pt]{lotdiss}
+%
+% See the manual for description of the options [preview] and [notitlesec]
+
+% [preview] will change the declared paper size to the true LOT book 
+% size (24x16cm). This IS NOT NECESSARY: The printing shop wants
+% A4 pages and will do the rest. Only works with PDF output.
+
+% Add [notitlesec] if for some reason you need to suppress loading the 
+% package titlesec.sty 
+
+
+
+% You might want to collect all your preamble LaTeX code (below) and put it in a 
+% special file, e.g., declarations.tex
+%\include{declarations}
+
+% Add packages and definitions you want to use:
+%\usepackage{times}
+%\usepackage{gb4e,qtree}
+% etc.
+
+% Uncomment to generate an index (but you probably won't bother until the end)
+% \makeindex
+
+
+%%%%%%%%%%%%%%%%%%%  The dissertation's title pages  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% These are the default sizes for titles. Customize them if you wish:
+%\let\TitleSize=\huge
+%\let\SubtitleSize=\LARGE
+%\def\TitleStretch{1.4}
+
+% If your titles are too long to fit on one line, indicate desired breaks with \\
+\title{Title of Your Dissertation}
+\subtitle{A Suitable Subtitle\\on Multiple Lines}
+
+% Define the Dutch title (unless your entire Dissertation is in Dutch)
+\dutchtitle{Nederlandstalige Titel}
+\dutchsubtitle{De Tweede Regel van Je Titel, \\ ook Vrij Lang}
+
+% For dissertations with tri-lingual titles, you'll have to redefine \@titlepage!
+
+% For Groningen dissertations, only English is supported
+
+
+% Fill in here as appropriate.
+\author{Your Name}
+\geboren{1 januari 2000 \\ te Place, Country}
+
+%%%%%%%%%%%%%%
+% Contents of page ii, which contains the publisher details and book metadata
+
+% You'll get these from the LOT office
+\isbn{000-11-22222-33-4}  
+\NUR{000}  
+
+% A description or credit for the cover illustration
+\imagecredit{Cover illustration: The Tower of Babel, by Pieter Bruegel}
+
+% If the current year is not the correct copyright year, override it here
+%\copyrightyear{2009}
+
+% The copyright claim is automatically generated, but you can override it:
+%\copyrightclaim{Copyright \copyright\ 2009 by Anonymous. All rights reserved.}
+
+% You can add a note in the space just above the publisher details (p. ii)
+%\abovepublisher{The research reported here was supported by a generous 
+%  grant from my grandparents etc. etc. etc.}
+
+
+%%%%%%%%%%%%%%%%%%%%%
+% The promotors page
+
+% This will be formatted inside a table on page iv. 
+% If necessary, add co-promotors etc. as shown
+\promotors{
+Promotores:  & Prof. Dr. D. E. Knuth \\
+			 & Prof. Dr. L. Lamport \\
+%[4pt] Co-promotores: &  Prof. Dr. H. Kopka\\
+%						& Dr. P. W. Daly \\
+}
+
+% OPTIONAL: Acknowledgment of the project that funded the research, the NWO grant, etc.
+% It will appear at the bottom of the promotors page, as recommended by LOT guidelines.
+% 
+% \support{
+%   The research reported here was supported by the Netherlands Organization 
+%   for Scientific Research under project number 000-00-000.
+% }
+
+% The rector's name is already set from the style files. 
+% If is out of date, you can adjust it here (but please also notify me)
+%\rectormagnificus{Dr. D.D. Breimer,\\
+%  Hoogleraar in de faculteit der Wiskunde en Natuurwetenschappen en die der Geneeskunde}
+
+% Fill this in when you have a promotion date
+% \promotiondate{donderdag 10 december 2009 \\ klokke 16.15 uur}
+
+% Dedication page (Optional): The dedication is vertically centered on the page, 
+% and otherwise formatted only as you specify
+%
+% If you have a really short Dedication (no more than one
+% paragraph) you can define it here:
+\dedication{\raggedleft
+	This example is dedicated to everyone \\
+	who hates to read manuals.
+}
+% ALTERNATELY, you can put the dedication in a separate file, e.g. dedication.tex:
+%\dedicationfile{dedication}
+
+
+\begin{document}
+% The following command now generates your opening pages:
+\FrontMatter
+
+% Include any other front-matter sections. Their titles should be formatted 
+% with \chapter* e.g., \chapter*{Acknowledgements}
+\include{acknowledgements}
+% \include{abbreviations} % etc.
+
+\MainMatter  % Turns on regular page numbering, etc.
+
+% The regular (numbered) chapters.
+
+\include{introduction}
+\include{ch2}
+\include{ch3}
+\include{ch4}
+\include{conclusion}
+
+%% The declaration \appendix begins the appendices. 
+%% Appendix chapters must appear before \BackMatter. Don't ask why...
+%
+%\appendix
+%\include{appendixA}
+
+\BackMatter
+%% For bibliography, indices, etc.
+
+%\bibliographystyle{linquiry2}
+%\bibliography{myreferences}
+
+% If you're making an index (also uncomment \makeindex in the preamble)
+%\printindex
+
+% Required post-chapter sections: 
+% Dutch-language summary, curriculum vitae
+
+\include{dutch-summary}
+\include{CurriculumVitae}
+
+
+\end{document}
+
+For more ways to customize (hack) the format, examine the source of file lotdiss.cls
+

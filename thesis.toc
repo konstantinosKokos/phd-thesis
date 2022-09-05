@@ -1,0 +1,20 @@
+\gdef \the@ipfilectr {@-1}
+\contentsline {schapter}{Preface}{ix}%
+\gdef \the@ipfilectr {}
+\gdef \the@ipfilectr {@-2}
+\contentsline {chapter}{\numberline {I}Introduction}{1}%
+\contentsline {paragraph}{References}{3}%
+\contentsline {section}{\numberline {1}The Simple Theory of Types}{4}%
+\contentsline {subsection}{\numberline {1.1}Intuitionistic Logic}{4}%
+\contentsline {subsubsection}{Proof Equivalences}{6}%
+\contentsline {subsection}{\numberline {1.2}The Curry-Howard Correspondence}{8}%
+\contentsline {subsubsection}{Term Equivalences}{10}%
+\contentsline {paragraph}{$\alpha $ conversion}{10}%
+\contentsline {paragraph}{$\beta $ reduction}{10}%
+\contentsline {paragraph}{$\eta $ conversion}{11}%
+\contentsline {section}{\numberline {2}Going Linear}{11}%
+\contentsline {subsection}{\numberline {2.1}Linear Logic}{11}%
+\contentsline {section}{\numberline {3}Lambek Calculi}{12}%
+\contentsline {section}{\numberline {4}Going Modal}{12}%
+\contentsline {schapter}{Bibliography}{13}%
+\gdef \the@ipfilectr {}

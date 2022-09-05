@@ -1,0 +1,422 @@
+\chapter{Introduction}
+\label{chapter:Introduction}
+
+\chapabstract{``In the beginning, there were types.''}
+
+Our story begins with the (over-ambitious, in hindsight) ravings of one of the world's most well-renowned mathematicians, David Hilbert. 
+Unhappy with the numerous paradoxes and inconsistencies of mathematics at the end of the 19th century, Hilbert would postulate the existence and advocate the formulation of a finite set of axiomatic rules, which, when put together, would give rise to the most well-behaved system known to [wo]mankind, capable of acting as a universal meta-theory for all mathematics, in the process absolving all mathematicians of their sins.
+The idea was of course appealing and gained traction, not the least due to Hilbert's influence over the field (and his will to exercise it).
+As with all ideas that generate traction, however, it was not long before a cultural counter-movement would develop.
+Intuitionism, with Luitzen Egbertus Jan Brouwer as its forefather, would challenge Hilbert's program by questioning the objective validity of (any) mathematical logic.
+What it would claim, instead, is that mathematics is but a subjective process of construction that abides by some rules of inference, which, internally consistent as they may be, hold no reflection of deeper truth or meaning.
+In practice, intuitionists would reject the law of the excluded middle (an essential tool for Hilbert's school of formalists) and argue that for a proof to be considered valid, it has to provide concrete instructions for the construction of the object it claims to prove.
+The dispute went on for a couple of decades, its flame carried on by the respective students of the two rivals.
+Logic, intrigue, conflict, fame...  these truly were the years to be an active mathematician.
+Eventually, in a critical moment of clarity and inspiration, and tired by the ongoing drama, Kurt G\"odel, with his famous incompleteness theorem, would declare Hilbert's program unattainable, thus putting a violent end to the line of formalist heathens and paving the way for the true revolution that was to come.
+This is in reference, of course, to the biggest discovery of the last century\footnote{In proof theory, at least.}, made independently (using wildly different words every time) by various mathematicians and logicians spanning different timelines.
+Put plainly, what is now known as the Curry-Howard correspondence establishes a syntactic equivalence between deductive systems in intuitionistic brands of logic and corresponding computational systems, called $\lambda$-calculi.
+Put even more plainly, it suggests that valid proofs in such logics constitute in fact compilable code for functional progamss, bridging in essence the seemingly disparate fields of mathematic logic and computer science.
+The repercussions of this discovery were enormous, and are more tangible today than ever before; type systems comprised of higher-order $\lambda$-calculi and their logics provide the theoretical foundations for modern programming languages and proof assistants (this last fact is both important and interesting, but won't concern us much presently).
+
+In a more niche (but equally beautiful) fragment of the mathematical world, and in parallel to the above developments, applied logicians and formally inclined linguists have demonstrated a stunning perserverance in their self-imposed quest of modeling natural language syntax and semantics, but making do only with the vocabulary provided by formal logics.
+The modern incarnation of this noble endeavour is due to Jim Lambek, who was the first to point out that the grammaticality of a natural language utterance can be equated to provability in a certain logic (or type inhabitation, if one is to borrow the terminology of constructive type theories), if the grammar (a collection of empirical linguistic rules) were to be treated as a substructural logic (a collection of formal mathematical rules).
+Funnily enough, the kind of logics Lambek would employ for his purposes would be exactly those at the interesection of intuitionistic and linear logic, the latter only made formally explicit in a breakthrough paper almost three decades later by Jean-Yves Girard.
+By that time, Richard Montague had already come up with the fantastically novel idea of seeing no distinction between formal and natural languages, single-handedly birthing and popularizing the field of formal semantics (which would chiefly invole semantic computations using $\lambda$-calculus notation), finally fulfilling Gottlob Frege's long-prophesized principle of compositionality which would once and for all put the Chomskian tradition to rest\footnote{In some corners of the world, this part of the prophecy has not yet transpired.}, ushering linguistics into a new era.
+With the benefit of posterity, it would be tempting for us to act smart and exclaim that Lambek and Montague's ideas were remarkably aligned. 
+In reality, it took another couple of decades for someone to notice.
+The credit is due to Johan van Benthem, who basically pointed out that Lambek's calculi make for the perfect syntactic machinery for Montague's program, seeing as they admit the Curry-Howard correspondence, thus being able to drive semantic composition virtually for free (in fact one could go as far as to say that they are the only kind of machinery that can accomplish such a feat without being riddled with ad-hoc transformations).
+This revelation, combined with the contemporary bloom of substructural logics, was the spark that ignited a renewed interest in Lambek's work.
+The culmination point for this interest was typelogical grammars (or categorial type logics): families of closely related type theories extending the original calculi of Lambek with unary operators lent from modal logic, intended to implement a stricter but more linguistically faithful modeling of the composition of natural language form and meaning.
+
+In this chapter, we will isolate some key concepts from this frantic timeline and expound a bit on their details.
+No novel contributions are to be found here; the intention is to establish some common grounds before we get to proceed. 
+If confident in your knowledge of the subject matter, feel free of course to skip ahead.
+
+\paragraph{References}
+
+\newpage
+
+\section{The Simple Theory of Types}
+
+Simple type theory is the computational formalization of intuitionistic logic. 
+It is in essence an adornment of the rules of intuitionistic logic with the computational manipulations they dictate upon mathematical terms.
+Dually, it provides a decision procedure that allows one to infer the type of a given program by inspecting the operations that led up to its construction.
+It is a staple of almost folkloric standing for computer scientists across the globe, tracing its origins to the seminal works of Bertrand Russel and Alonzo Church~\cite{russel1908,church1940}.
+The adjective ``simple'' is not intended as either a diminutive nor a condescending remark pertaining to the difficulty of the subject matter, but rather to distinguish it from the broader class of intuitionistic type theories, which attempt to systematize the notions of quantification (universal and existential), stratification of propositional hierarchies, and more recently equivalence (neither of which we will concern ourselves with).
+
+Our presentation will begin with intuitionistic logic (or rather the multiplicative fragment of it). 
+Once that is done, we will give a brief account of the the Curry-Howard correspondence, which shall allow us to give a computational account of the logic, that being the simply typed $\lambda$-calculus.
+
+\subsection{Intuitionistic Logic}
+Intuitionistic logic is due to Arend Heyting~\cite{heyting1930}, who was the first to formalize Bouwer's intuitionism.
+It is a restricted version of classical logic, where the laws of the excluded middle (tertium non datur) and the elimination of the double negation no longer hold universally.
+The first states that one must choose between a proposition $\prop{A}$ and its negation $\neg \prop{A}$ ($p \wedge \neg \prop{A}$), whereas the second that a double negation is equivalent to an identity ($\neg \neg \prop{A} \equiv \prop{A}$).
+The absence of these two laws implies that several theorems of classical logic are no longer derivable in intuitionistic logic, meaning that the logic is weaker in terms of expressivity.
+On the bright side, it has the pleasant effect that proofs of intuitionistic logic are constructive, i.e. they explicitly demonstrate the formation of a concrete instance of whatever proposition claim to be proving.
+
+Focusing only on the \textit{multiplicative} fragment of the logic\footnote{The full logic also includes disjunctive formulas, but we will skip them from this presentation as they are of little interest to us. For brevity, we will from now on use intuitionistic logic to refer to its multiplicative fragment.}, we have a tiny recursive language that allows us to define the various shapes of logical \textit{propositions} (or \textit{formulas}).
+Given some finite set of propositional constants \propcon{}, and \prop{A}, \prop{B}, \prop{C} arbitrary well-formed propositions, the language of propositions is inductively defined as 
+\[
+\prop{A}, \prop{B}, \prop{C} ::= p \ | \ \prop{A} \to \prop{B} \ | \ \prop{A} \times \prop{B}
+\]
+where $p \in \propcon{}$.
+Propositions are therefore closed under the two binary \textit{logical connectives} $\to$ and $\times$; we call the first an \textit{implication}, and the second a \textit{conjunction}. 
+A \textit{complex} proposition is any proposition that is not a member of \propcon.
+
+Besides propositions, we have \textit{structures}. 
+Structures are built from propositions with the aid of a single binary operation, the notation and properties of which can vary between different presentations of the logic.
+In our case, we will indicate valid structures with greek uppercase letters $\Gamma$, $\Delta, \Theta$, and define structures inductively as 
+\[
+	\Gamma, \Delta, \Theta ::= 1 \ | \ \prop{A} \ | \ \Gamma, \Delta
+\]
+In other words, structures are an inductive set closed under the operator $\_,\_$ which satisfies associativity and is equipped with an identity element $1$ (the \textit{empty} structure), i.e. a monoid.
+A perhaps more down-to-earth way of looking at a structure is as a \textit{list} or \textit{sequence} of propositions.
+
+Given propositions and structures, we can next define \textit{judgements}, statements of the form
+$\Gamma \vdash \prop{A}$.
+We read such a statement as a suggestion that from a structure of assumptions (or \textit{context}) $\Gamma$ one can derive a proposition $\prop{A}$.
+
+A \textit{rule} is a two-line statement separated by a horizontal line.
+Above the line, we have a (possibly empty) sequence of judgements, which we call the \textit{premises} of the rule.
+Below the line, we have a single judgement, which we call the rule's \textit{conclusion}.
+The rule can be thought of as a formal guarantee that if all of its premises are deliverable, then so is the conclusion.
+Each rule has an identifying name, written directly to the right of the horizontal line.
+
+Rules may be split in two conceptual categories.
+\textit{Logical} rules, on the one hand, provide instructions for eliminating and introducing logical connectives.
+Figure~\ref{subfigure:intuitionistic_logic_rules:logical} presents the logical rules of intuitionistic logic.
+The first rule, the axiom of identity $Ax$, contains no premises and asserts the reflexivity of provability operator $\vdash$. 
+It states that from a proposition \prop{A} one can infer that very proposition (duh!).
+The remaining logical rules come in pairs, one per logical connective.
+The elimination of the implication (or modus ponens) states that, given a proof of a proposition $\prop A \to \prop B$ from some context $\Gamma$ and a proof of proposition \prop{A} from context $\Delta$, one can join the two contexts to derive a proposition \prop{B}.
+Dually, the introduction of the implication (or deduction theorem) states that from a proof of a proposition \prop{B} given context $\Gamma, \prop{A}$, one can use $\Gamma$ alone to derive an implicational proposition $\prop A \to \prop B$.
+In a similar manner, the elimination of the conjunction $\times E $ states that, given a proof of a proposition $\prop A \times \prop B$ from context $\Gamma$, and a proof that the triplet $\Delta, \prop A, \prop B$ allows us to derive a proposition $\prop C$, one could well use $\Gamma$ together with $\Delta$ to derive $\prop C$ directly.
+And dually again, the introduction of the conjunction $\times I$ permits us to join two unrelated proofs, one of $\prop A$ from $\Gamma$ and one of $\prop B$ from $\Delta$ into a single proof, that of $\prop A \times \prop B$ from $\Gamma, \Delta$.
+
+\textit{Structural} rules, on the other hand, allow us to manipulate structures; they are presented in Figure~\ref{subfigure:intuitionistic_logic_rules:structural}.
+Structural rules have a two-fold role.
+First, they explicate an extra propery of our structure binding operator, namely commutativity.
+One could also make do with an implicit $Exchange$ rule by treating structures as \textit{multisets} rather than lists -- having it explicit, however, will keep us conscious of its presence and strengthen our emotional bond to it, in turn making us really notice its absence when it will no longer be there (it also keeps the presentation tidier).
+Second, they give an account of the status of propositions as reusable resources.
+The $Weakening$ rule states that if we were able to derive a proposition \prop{B} from some context $\Gamma$, we will also be able to do so if the context were to contain some arbitrary extra proposition \prop{A}.
+Conversely, the $Contraction$ rule states that if we needed a context containing two instances of a proposition \prop{A} to derive a proposition \prop{B}, we could also make do with just one instance of it, discarding the other without remorse.
+%
+%\paragraph{Formula Polarity}
+%Each unique occurrence of (part of) a formula within a judgement can be assigned a polarity value, positive or negative.
+%All formulas left of the turnstile are positive, and the lone formula to its right is negative.
+%For a complex formula we can inductively define the polarity of its constituents, all the way down to its leaves (the latter being propositional constants) depending on its connective.
+%Conjunctive formulas propagate their polarity unchanged to both their coordinates, whereas implicative formulas flip their polarity for the constituent left of the arrow; see Table~\ref{table:polarity_induction}.
+%
+%\begin{table}
+%	\centering
+%	\begin{tabularx}{0.6\textwidth}{@{}XX@{\qquad}cc@{}}
+%	\multicolumn{2}{@{}l}{Complex formula /}	&	\multicolumn{2}{@{}l}{Constituent polarity}\\
+%	\multicolumn{2}{@{}c}{of polarity}		& 	\prop{A} & \prop{B}\\
+%	\toprule
+%	\multirow{2}{*}{$\prop{A} \times \prop{B}$} 	& $+$ & $+$ & $+$\\
+%													& $-$ & $-$ & $-$\\[0.5em]
+%	\multirow{2}{*}{$\prop{A} \to \prop{B}$}		& $+$ & $-$ & $+$\\
+%													& $-$ & $+$ & $-$
+%	\end{tabularx}
+%	\caption{Polarity Induction}
+%	\label{table:polarity_induction}
+%\end{table}
+
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{1\textwidth}
+		\centering
+		\begin{tabularx}{0.7\textwidth}{@{}C@{\qquad}C@{}}
+		\multicolumn{2}{c}{$\infer[Ax]{\prop A \vdash \prop A}{}$}\\[1em]
+		$\infer[\to E]{\Gamma, \Delta \vdash \prop B}{\Gamma \vdash \prop A \to \prop B & \Delta \vdash \prop B}$ 
+		& 
+		$\infer[\to I]{\Gamma \vdash \prop A \to \prop B}{\Gamma, \prop A \vdash \prop B}$\\[1em]
+		$\infer[\times E]{\Gamma,\Delta \vdash \prop C}{\Gamma \vdash \prop A \times \prop B & \Delta, \prop A , \prop B \vdash \prop C}$ 
+		&
+		$\infer[\times I]{\Gamma, \Delta \vdash \prop A \times \prop B}{\Gamma \vdash \prop A & \Delta \vdash \prop B}$
+		\end{tabularx}
+		\caption{Logical Rules}
+		\label{subfigure:intuitionistic_logic_rules:logical}
+	\end{subfigure}\\[1em]
+	\begin{subfigure}{1\textwidth}
+		\centering
+		\begin{tabularx}{0.7\textwidth}{@{}C@{\qquad}C@{}}
+		\multicolumn{2}{c}{$\infer[Exchange]{\Delta, \Gamma \vdash \prop A}{\Gamma, \Delta \vdash \prop A}$}\\[1em]
+		$\infer[Weakening]{\Gamma, \prop A \vdash \prop B}{\Gamma \vdash \prop B} $ 
+		&
+		$\infer[Contraction]{\Gamma, \prop A \vdash \prop B}{\Gamma, \prop A, \prop A \vdash \prop B}$
+		\end{tabularx}
+		\caption{Structural Rules}
+		\label{subfigure:intuitionistic_logic_rules:structural}
+	\end{subfigure}
+	\caption{Intuitionistic Logic}
+	\label{figure:intuitioistic_logic_rules}
+\end{figure}
+
+\subsubsection{Proof Equivalences}
+The same judgement may be provable in more than one ways.
+The difference between two proofs of the same judgement can be substantial, when they indeed describe distinct derivation procedures, or trivial.
+Trivial variations come in two kinds: syntactic equivalences (i.e. sequences of rule applications that can safely be rearranged) and redundant detours (i.e. sequences of rule applications that can altogether removed).
+
+The first kind is not particularly noteworthy.
+In essence, we say that two proofs are syntactically equivalent if they differ only in the positioning of structural rule applications.
+This notion can be formally captured by establishing an equivalence relation between proofs on the basis of commuting conversions.
+
+The second kind is more interesting and slightly more involved.
+A proof pattern in which a logical connective is introduced, only to be immediately eliminated, is called a \textit{detour} (or $\beta$ redex).
+Detours can be locally resolved via proof rewrites -- the fix-point of performing all applicable resolutions is called \textit{proof normalization} and yields a canonical proof form. 
+The strong normalisation property guarantees that a canonical form exists for any proof in the logic, and in fact the choice of available rewrites to apply at each step is irrelevant, as all paths have the same end point~\cite{groote1999strong}.
+Figure~\ref{figure:intuitionistic_proof_reduction} presents rewrite instructions for the two detour patterns we may encounter (one per logical connective).
+Read bottom-up%
+\footnote{In the small-to-big rather than literal sense! If confused: start from the proof leaves and go down.},
+the first one suggests that if one were to hypothesize a proposition \prop{A}, use it within an (arbitrarily deep) proof $u$ together with extra context $\Gamma$ to derive a proposition \prop{B}, before finally redacting the hypothesis and composing with a proof $t$ that derives \prop{A} from context $\Delta$, it would have been smarter (and more concise!) to just plug in $t$ directly when previously hypothesizing \prop{A}, since then no redaction or composition would have been necessary.
+In a similar vein, the second suggests that if one were to derive and merge proofs $t$ and $u$ (of propositions \prop{A} and \prop{B}, respectively), only to eliminate their product against hypothetical instances of \prop{A} and \prop{B} that were used to derive some \prop{C} with extra context $\Theta$ within proof $v$, the proof can be reduced by just plugging $t$ and $u$ in place of the axiom leaves of $v$.
+
+\begin{figure}
+	\begin{tabularx}{0.9\textwidth}{@{}c@{~$\implies$~}c@{}}
+	$\infer[\to E]{\Gamma, \Delta \vdash \prop{B}}{
+	\infer[\to I]{\Gamma \vdash \prop{A} \to \prop{B}}{
+		\infer*[]{\Gamma, \prop{A} \vdash \prop{B}}{
+			\infer[]{\Gamma, \prop{A} \dots \vdash \prop{B}}{
+				\infer*[u]{}{\dots & \infer[Ax]{\prop{A} \vdash \prop{A}}{} 
+				}
+			}
+		}
+	}
+	&
+	\infer{\Delta \vdash \prop{A}}{
+	\infer*[t]{}{}
+	}
+	}$
+	&
+	$ 
+	\infer*[]{\Gamma, \Delta \vdash \prop{B}}{
+		\infer[]{\Gamma, \Delta \dots \vdash \prop{B}}{
+			\infer*[u]{}{
+			\dots &
+			\infer[]{\Delta \vdash A}{
+				\infer*[t]{}{}
+			}}
+		}
+	}
+	$\\[2em]
+	$
+	\infer[\times E]{\Gamma, \Delta, \Theta \vdash \prop{C}}{
+		\infer[\times I]{\Gamma, \Delta \vdash \prop{A} \times \prop{B}}{
+			\infer[]{\Gamma \vdash \prop{A}}{\infer*[t]{}{}}
+			&
+			\infer[]{\Delta \vdash \prop{B}}{\infer*[u]{}{}}
+		}		
+		&
+		\infer*[]{\Theta, \prop{A}, \prop{B} \vdash \prop{C}}{
+			\infer[]{\Theta, \prop{A}, \prop{B}\dots \vdash \prop{C}}{
+				\infer*[v]{}{
+					\infer[Ax]{\prop{A} \vdash \prop{A}}{
+					}
+					&
+					\dots
+					&
+					\infer[Ax]{\prop{B} \vdash \prop{B}}{}
+				}
+			}
+		}
+	}
+	$
+	&
+	$
+	\infer*[]{\Gamma, \Delta, \Theta \vdash \prop{C}}{
+		\infer[]{\Gamma, \Delta, \Theta \dots \vdash \prop{C}}{
+			\infer*[v]{}{
+				\infer[]{\Gamma \vdash \prop{A}}{
+					\infer*[t]{}{}
+				}
+				&
+				\dots 
+				&
+				\infer[]{\Delta \vdash \prop{B}}{
+					\infer*[u]{}{}
+				}
+			}
+		}
+	} 
+	$
+	\end{tabularx}
+	\caption{Proof Reduction Patterns}
+	\label{figure:intuitionistic_proof_reduction}
+\end{figure}
+
+
+\subsection{The Curry-Howard Correspondence}
+The Curry-Howard correspondence asserts an equivalence between the above presentation of the logic in natural deduction, and a system of computation known as the $\lambda$-calculus.
+The entry point for such an approach is to interpret propositions as \textit{types} of a minimal functional programming language (a perhaps more aptly named alternative to the Curry-Howard correspondence is the propositions-as-types interpretation).
+In that sense, the set of propositional constants \propcon{} becomes the programming language's basic set of \textit{primitive} types (think of them as built-ins).
+Implicational formulas $\prop A \to \prop B$ are read as \textit{function} types, and conjunction formulas are read as \textit{tuples}.
+From now we will use formulas, propositions and types interchangeably.
+Following along the correspondence allows us to selectively speak about individual, named instances of propositions -- we call these \textit{terms}.
+The simplest kind of term is a \textit{variable}, corresponding to a hypothesis in the proof tree.
+Each logical rule is identified with a programming pattern: the axiom rule is variable \textit{instantiation}, introduction rules are \textit{constructors} of complex types, and elimination rules are their \textit{destructors}.
+The question of whether a logical proposition is provable translates to the question of whether the corresponding type is inhabited; i.e. whether an object of such a type can be created -- we will refer to the latter as a \textit{well-formed} term.
+
+Rather than present a grammar of terms and later ground it in the logic, we will instead simply revisit the rules we established just above, now adorning each with a term rewrite instruction -- the result is a tiny yet still elegant and expressive type theory, presented in Figure~\ref{figure:simple_type_theory}.
+Given an enumerable set $\mathcal{V}$ of unique names for indexed variables, with elements \term{x_i}, and denoting arbitrary but well-formed terms with \term{s}, \term{t}, \term{u}, we will use $\term{s}: \prop{A}$ (or $\term{s}^{\prop{A}}$) to indicate that term \term{s} is of type \prop{A}.
+Assumptions $\Gamma$, $\Delta$ will now denote a \textit{typing environment}:
+\[
+\term x_1 : \prop  A_1 ,~ \term x_2 : \prop A_2 \dots ~ \term x_n : \prop A_n
+\]
+i.e. rather than a sequence of formulas, we have a sequence of distinct variables, each of a specific type, and a judgement $\Gamma \vdash \term{s} : \prop{B}$ will now denote the derivation of a term \term{s} of type \prop{B} out of such an environment.
+
+\begin{figure}
+	\centering
+	\begin{tabularx}{0.975\textwidth}{@{}C@{~}C@{}}
+		\multicolumn{2}{c}{$\infer[Ax]{\term{x_i} : \prop A \vdash \term{x_i} : \prop A}{}$}\\[1em]
+		$\infer[\to E]{\Gamma, \Delta \vdash \term{s~t} : \prop B}{\Gamma \vdash \term{s} : \prop A \to \prop B & \Delta \vdash \term{t} : \prop B}$ 
+		& 
+		$\infer[\to I]{\Gamma \vdash \term{\lambda x_i.s} : \prop A \to \prop B}{\Gamma, \term{x_i}: \prop A \vdash \term{s}:\prop B}$\\[1em]
+		$\infer[\times E]
+			{\Gamma,\Delta \vdash
+			 \cterm{case \term{s} of (\term{x_i}, \term{x_j}) in \term{t}} 
+			 : \prop{C}}
+			{\Gamma \vdash \term{s}: \prop A \times \prop B & 
+			\Delta, \term{x_i}: \prop A , \term{x_j}: \prop B \vdash \term{t}: \prop{C}}$ 
+		&
+		$\infer[\times I]
+			{\Gamma, \Delta \vdash \cterm{(\term{s}, \term{t})}: \prop{A} \times \prop{B}}
+			{\Gamma \vdash \term{s}: \prop{A} & \Delta \vdash \term{t}:\prop{B}}$\\[1em]
+		\multicolumn{2}{c}{$\infer[Exchange]{\Delta, \Gamma \vdash \term{s}: \prop{A}}{\Gamma, \Delta \vdash \term{s}: \prop{A}}$}\\[1em]
+		$\infer[Weakening]
+			{\Gamma, \term{x_i}: \prop{A} \vdash \term{s}: \prop{B}}
+			{\Gamma \vdash \term{s}:\prop{B}} $ 
+		&
+		$\infer[Contraction]
+			{\Gamma, \term{x_k}: \prop{A} \vdash \term{s}_{[\term{x_i} \mapsto \term{x_k}, \term{x_j} \mapsto \term{x_k}]}:\prop{B}}
+			{\Gamma,  \term{x_i}: \prop{A}, \term{x_j}: \prop{A} \vdash \term{s}: \prop{B}}$
+		\end{tabularx}
+	\caption{Simple Type Theory}
+	\label{figure:simple_type_theory}
+\end{figure}
+
+Inspecting Figure~\ref{figure:simple_type_theory}, things for the most part look good.
+The implication elimination rule $\to E$ provides us with a composite term $\term{s~t}$ that denotes the function application of \term{s} on \term{t}.
+Its dual, $\to I$, allows us to create (so-called anonymous) functions by deriving a result \term{s} dependent on some hypothesized argument \term{x_i} which is then \textit{abstracted} over as \term{\lambda x_i.s}.
+Any occurrence of \term{x_i} within \term{s} is then \textit{bound} by the abstraction; variables that do not have a binding abstraction are called \textit{free}.
+The conjunction introduction $\times I$ allows us to create tuple objects \term{(s, t)} through their parts \term{s} and \term{t}.
+Its dual $\to E$ gives us the option to identify the two coordinates of a tuple \term{s} with variables \term{x_i} and \term{x_j}, when the latter are hypothesized assumptions for deriving some program \term{t}.
+If our assumptions are not in order, blocking the applicability of some rule, we can put them back where they belong with $Exchange$.
+With $Contraction$ we can pretend to be using two different instances \term{x_i} and \term{x_j} of the same type before identifying the two as a single object \term{x_i} in term \term{s} with term \term{t}'');
+note here the meta-notation for \textit{variable substitution}, $\term{s}_{[\term{x_i} \mapsto \term{t}]}$, which reads as ``replace any occurrence of variable \term{x_i}.
+And finally, we can introduce throwaway variables into our typing environment with $Weakening$ (arguably useful for creating things like constant functions).
+
+There's just a few catches to beware of.
+The first has to do with tracing variables in a proof; the concatenation of structures $\Gamma$, $\Delta$ is only valid if $\Gamma$ and $\Delta$ contain no variables of the same name; if that were to be the case, we would be dealing with variable shadowing, a situation where the same name could ambiguously refer to two distinct objects (a horrible thing).
+The second has to do with do with the $Exchange$ rule. 
+The careful reader might notice that the rule leaves no imprint on the term level, meaning we cannot distinguish between a program where variables were a priori provided in the correct order, and one where they were shuffled into position later on.
+This is justifiable if one is to treat the rule as a syntactic bureaucracy that has no real semantic effect, i.e. if we consider the two proofs as equivalent, following along the commuting conversions mentioned earlier (supporting the idea that in this type theory, asssumptions are multisets rather than sequences).
+A slightly more perverse problem arises out of the product elimination rule $\times E$.
+The rule posits that two assumptions $\term{x_i}: \prop{A}$ and $\term{x_j}: \prop{B}$ can be substituted by a single (derived) term of their product type $\term{s}: \prop{A}\times\prop{B}$. 
+Choosing different depths within the proof tree upon which to perform this substitution will yield distinct terms (because indeed they represent distinct sequences of computation); whether there's any merit in distinguishing between the two is, however, debatable.
+Finally, whereas other rules can be read as syntactic operations on terms, (this presentation of) the $Contraction$ rule contains meta-notation that is not part of the term syntax itself.
+That is to say, $\term{s}_{[\term{x_i} \mapsto \term{t}]}$ is \textit{not} a valid term -- even if the result of the operation it denotes is.
+Generally speaking, substitution of objects for others of the same type is (modulo variable shadowing) an admissible property of the type system.
+Mixing syntax and meta-syntax in the same system is a dirty trick we will sporadically employ; this surely invites some trouble, but conscious use of it can be worth it, since it significantly simplifies presentation.
+
+\subsubsection{Term Equivalences}
+There exist three kinds of equivalence relations between terms, each given an identifying greek letter.\footnote{The denotational significance of these letters I have yet to understand -- legend has it that it only starts making sense after having written your 10th compiler from scratch.}
+
+\paragraph{$\alpha$ conversion} is a semantically null rewrite obtained by renaming variables according to the substitution meta-notation $\term{s}_{[x_i \mapsto x_j]}$ described above. 
+Despite seeming innocuous at a first glance, $\alpha$ conversion is an evil and dangerous operation that needs to be applied with extreme caution so as to avoid variable capture, i.e. substituting a variable's name with one that is already in use.  
+Two terms are $\alpha$ equivalent if we can rewrite one into the other using just $\alpha$ conversions.
+Standardizing variable naming, e.g. according to the distance between variables and their respective binders, alleviates the effort required to check for $\alpha$ equivalence by casting it to simple syntactic equality (string matching).
+
+\paragraph{$\beta$ reduction}
+The term rewrites we have so far inspected were either provided by specific rules, or were notational overhead due to the denominational ambiguity of variables.
+Aside from the above, our type system provides two minimal computation steps that tell us how to reduce expressions that involve the deconstruction of a just-constructed type:
+\begin{align*}
+\term{\lambda x.s}~\term{t} & \implies \term{s}_{[\term{x} \mapsto \term{t}]}\\
+\cterm{case (\term{s}, \term{t}) of (\term{x_i}, \term{x_j}) in \term{u}} & \implies \term{u_{[\term{s} \mapsto \term{x_i}, \term{t} \mapsto \term{x_j}]}}
+\end{align*}
+
+A term on which no $\beta$ reductions can be applied is said to be in $\beta$-normal form.
+The Church-Rosser theorem asserts first that one such form exists for all well-formed terms, and second, that this form is inevitable and inescapable -- any reduction strategy followed to the end will bring us to it.
+Two terms are $\beta$ equivalent to one another if they both reduce to the same $\beta$-normal form.
+
+If you are at this point getting a feeling of deja vu, rest assured this is not on you; we have indeed gone through this before, last time around with proofs rather than terms.
+If one were to replicate the above term reductions with their corresponding proofs, they would end up exactly with the proof reduction patterns of Figure~\ref{figure:intuitionistic_proof_reduction}.
+I will spare you the theatrics of faking surprise at this fact, but if this not something you were exposed to previously, take a moment here to marvel at the realization that proof normalization is in fact computation.
+This ground-shattering discovery lies at the essence of the Curry-Howard correspondence.
+
+\paragraph{$\eta$ conversion}
+In contrast to $\beta$ conversion, which tells us how to simplify an introduce-then-eliminate pattern, $\eta$ conversion tells us how to simplify an eliminate-then-introduce pattern.
+An $\eta$ long form of a term is one in which the arguments to type operators are made explicit, whereas an $\eta$ contracted (or pointfree) form is one where arguments are kept hidden.
+We refer to the simplification of an expanded form as $\eta$ reduction, and to the reverse process as $\eta$ expansion; either is a form of $\eta$ conversion.
+The equivalence relation enacted by this conversion is called $\eta$ equivalence.
+\begin{align*}
+	\term{\lambda x.s~x} & \Longleftrightarrow \term{s}\\
+	\cterm{(case \term{s} of (\term{x_i},\term{x_j}) in \term{x_i}, case \term{s} of (\term{x_k},\term{x_l}) in \term{x_l})} & \Longleftrightarrow \term{s}
+\end{align*}
+
+\section{Going Linear}
+We are now ready to start charting grounds in substructural territories: we will gradually impoverish our logic by removing structural rules one by one, and see where that gets us. 
+The weakest links are the $Contraction$ and $Weakening$ rules.
+These two rules are a cultural and ideological remnant of the age of prosperity and abundance.
+In their presence, propositions are proof objects that can be freely replicated and discarded.
+Removing them (or controlling their applicability via other means) directs us towards a more eco-conscious regime by turning propositions into finite resources, the production and/or consumption of which is not to be taken for granted.
+Removing $Contraction$ yields Affine Logic, a logic in which resources can be used no more than once.
+Removing $Weakening$ yields Relevant Logic, a logic in which resources can be used no less than once.
+removing both yields Linear Logic, a logic in which resources can be used \textit{exactly} once.
+The intuitionistic formulations of the above give rise to corresponding type theories~\cite{pierce2004advanced}.
+For the purposes of this manuscript, we will focus our presentation on linear type theory.
+
+\subsection{Linear Logic}
+Linear logic is due to Jean-Yves Girard~\cite{girard1987linear}.
+The full logic includes additive connectives as well as a modality that allows one to incorporate non-linear propositions into the presentation, but we will happily forget about those.
+
+For the multiplicative only fragment there is not much we have to do.
+We will note first that the nature of the implication arrow changes from material implication to a transformation process; i.e. where we previously had $\prop{A} \to \prop{B}$ to denote that \prop{B} logically follows from \prop{A}, we will now have $\prop{A} \li \prop{B}$ to denote a process that transforms a single \prop{A} into a single \prop{B}, consuming the former in the process.
+The new, weird-looking arrow of the linear implication is read as lolli(pop) due to its suggestive appearance.\footnote{If trying to typeset it yourself, DO NOT duckduckgo for ``lolli latex''. It can be found as \texttt{\textbackslash multimap}. You are welcome.}
+Conjunction $\times$ is now separated into two distinct operators, $\otimes$ and $\with$. 
+The first denotes a linear tuple, and $\prop{A} \otimes \prop{B}$ is read as \textit{both} \prop{A} \textit{and} \prop{B}.
+The second denotes a choice, and $\prop{A} \with \prop{B}$ is read as \prop{A} \textit{with} \prop{B}, or \textit{choose one of} \prop{A} \textit{or} \prop{B}.
+The subset of the logic concerning these connectives is presented in Figure~\ref{figure:linear_logic_rules} (contexts, judgements, rules and proofs look just like before).
+
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{1\textwidth}
+		\centering
+		\begin{tabularx}{0.7\textwidth}{@{}C@{\qquad}C@{}}
+		\multicolumn{2}{c}{$\infer[Ax]{\prop A \vdash \prop A}{}$}\\[1em]
+		$\infer[\to E]{\Gamma, \Delta \vdash \prop B}{\Gamma \vdash \prop A \to \prop B & \Delta \vdash \prop B}$ 
+		& 
+		$\infer[\to I]{\Gamma \vdash \prop A \to \prop B}{\Gamma, \prop A \vdash \prop B}$\\[1em]
+		$\infer[\times E]{\Gamma,\Delta \vdash \prop C}{\Gamma \vdash \prop A \times \prop B & \Delta, \prop A , \prop B \vdash \prop C}$ 
+		&
+		$\infer[\times I]{\Gamma, \Delta \vdash \prop A \times \prop B}{\Gamma \vdash \prop A & \Delta \vdash \prop B}$
+		\end{tabularx}
+		\caption{Logical Rules}
+		\label{subfigure:linear_logic_rules:logical}
+	\end{subfigure}\\[1em]
+%	\begin{subfigure}{1\textwidth}
+%		\centering
+%		\begin{tabularx}{0.7\textwidth}{@{}C@{\qquad}C@{}}
+%		\multicolumn{2}{c}{$\infer[Exchange]{\Delta, \Gamma \vdash \prop A}{\Gamma, \Delta \vdash \prop A}$}\\[1em]
+%		$\infer[Weakening]{\Gamma, \prop A \vdash \prop B}{\Gamma \vdash \prop B} $ 
+%		&
+%		$\infer[Contraction]{\Gamma, \prop A \vdash \prop B}{\Gamma, \prop A, \prop A \vdash \prop B}$
+%		\end{tabularx}
+%		\caption{Structural Rules}
+%		\label{subfigure:intuitionistic_logic_rules:structural}
+%	\end{subfigure}
+	\caption{Linear Logic}
+	\label{figure:linear_logic_rules}
+\end{figure}
+
+
+
+\section{Lambek Calculi}
+\section{Going Modal}
+
+\bibliographystyle{alpha}
+\bibliography{bibliography}
+
+

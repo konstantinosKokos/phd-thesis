@@ -1,0 +1,36 @@
+\begin{thebibliography}{Chu40}
+
+\bibitem[Chu40]{church1940}
+Alonzo Church.
+\newblock A formulation of the simple theory of types.
+\newblock {\em The journal of symbolic logic}, 5(2):56--68, 1940.
+
+\bibitem[Gir87]{girard1987linear}
+Jean-Yves Girard.
+\newblock Linear logic.
+\newblock {\em Theoretical computer science}, 50(1):1--101, 1987.
+
+\bibitem[Gro99]{groote1999strong}
+Philippe~de Groote.
+\newblock On the strong normalization of natural deduction with
+  permutation-conversions.
+\newblock In {\em International Conference on Rewriting Techniques and
+  Applications}, pages 45--59. Springer, 1999.
+
+\bibitem[Hey30]{heyting1930}
+Arend Heyting.
+\newblock Die formalen regeln der intuitionistischen logik.
+\newblock {\em Sitzungsbericht PreuBische Akademie der Wissenschaften Berlin,
+  physikalisch-mathematische Klasse II}, pages 42--56, 1930.
+
+\bibitem[Pie04]{pierce2004advanced}
+Benjamin~C Pierce.
+\newblock {\em Advanced topics in types and programming languages}.
+\newblock MIT press, 2004.
+
+\bibitem[Rus08]{russel1908}
+Bertrand Russell.
+\newblock Mathematical logic as based on the theory of types.
+\newblock {\em American journal of mathematics}, 30(3):222--262, 1908.
+
+\end{thebibliography}

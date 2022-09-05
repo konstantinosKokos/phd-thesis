@@ -1,0 +1,60 @@
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{relsize}
+\usepackage{proof}
+\usepackage{subcaption}
+\usepackage{chapterbib}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{color}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{palatino}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                  chapter / section formatting
+\usepackage{chngcntr}
+\renewcommand{\thechapter}{\Roman{chapter}}
+\counterwithout{section}{chapter}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newcommand{\todo}{\textcolor{red}{todo}}
+
+\renewcommand{\arraystretch}{1.05}
+
+\newcommand{\chapabstract}[1]{
+	\vspace{-14pt}
+	{\flushright\small
+	\textit{#1}\\
+	\vspace{14pt}}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                  term / type / rule macros
+\newcommand{\prop}[1]{%
+	\ensuremath{\uppercase{\normalfont\textsc{#1}}}%
+}
+
+\newcommand{\propcon}{%
+	\ensuremath{\mathsf{Prop}_0}%
+}
+
+\newcommand{\cterm}[1]{%
+	\text{#1}%
+}
+
+\newcommand{\term}[1]{%
+	\ensuremath{\mathsf{#1}}%
+}
+
+\newcommand{\li}{%
+	\multimap%
+}
+
+\newcommand{\with}{%
+	\ensuremath{\&}%
+}
+
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
