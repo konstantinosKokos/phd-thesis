@@ -1,36 +1,74 @@
-\begin{thebibliography}{Chu40}
+\begin{thebibliography}{11}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
-\bibitem[Chu40]{church1940}
-Alonzo Church.
+\bibitem[Abramsky(1993)]{abramsky1993computational}
+S.~Abramsky.
+\newblock Computational interpretations of linear logic.
+\newblock \emph{Theoretical computer science}, 111\penalty0 (1-2):\penalty0
+  3--57, 1993.
+
+\bibitem[Church(1940)]{church1940}
+A.~Church.
 \newblock A formulation of the simple theory of types.
-\newblock {\em The journal of symbolic logic}, 5(2):56--68, 1940.
+\newblock \emph{The journal of symbolic logic}, 5\penalty0 (2):\penalty0
+  56--68, 1940.
 
-\bibitem[Gir87]{girard1987linear}
-Jean-Yves Girard.
+\bibitem[Curry(1934)]{curry1934functionality}
+H.~B. Curry.
+\newblock Functionality in combinatory logic.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 20\penalty0
+  (11):\penalty0 584--590, 1934.
+
+\bibitem[de~Bruijn(1983)]{de1983automath}
+N.~G. de~Bruijn.
+\newblock Automath, a language for mathematics.
+\newblock In \emph{Automation of Reasoning}, pages 159--200. Springer, 1983.
+\newblock Original manuscript from 1968.
+
+\bibitem[Girard(1987)]{girard1987linear}
+J.-Y. Girard.
 \newblock Linear logic.
-\newblock {\em Theoretical computer science}, 50(1):1--101, 1987.
+\newblock \emph{Theoretical computer science}, 50\penalty0 (1):\penalty0
+  1--101, 1987.
 
-\bibitem[Gro99]{groote1999strong}
-Philippe~de Groote.
+\bibitem[Groote(1999)]{groote1999strong}
+P.~d. Groote.
 \newblock On the strong normalization of natural deduction with
   permutation-conversions.
-\newblock In {\em International Conference on Rewriting Techniques and
+\newblock In \emph{International Conference on Rewriting Techniques and
   Applications}, pages 45--59. Springer, 1999.
 
-\bibitem[Hey30]{heyting1930}
-Arend Heyting.
+\bibitem[Heyting(1930)]{heyting1930}
+A.~Heyting.
 \newblock Die formalen regeln der intuitionistischen logik.
-\newblock {\em Sitzungsbericht PreuBische Akademie der Wissenschaften Berlin,
+\newblock \emph{Sitzungsbericht PreuBische Akademie der Wissenschaften Berlin,
   physikalisch-mathematische Klasse II}, pages 42--56, 1930.
 
-\bibitem[Pie04]{pierce2004advanced}
-Benjamin~C Pierce.
-\newblock {\em Advanced topics in types and programming languages}.
+\bibitem[Howard(1980)]{howard1980formulae}
+W.~A. Howard.
+\newblock The formulae-as-types notion of construction.
+\newblock \emph{To HB Curry: essays on combinatory logic, lambda calculus and
+  formalism}, 44:\penalty0 479--490, 1980.
+\newblock Original manuscript from 1969.
+
+\bibitem[Pierce(2004)]{pierce2004advanced}
+B.~C. Pierce.
+\newblock \emph{Advanced topics in types and programming languages}.
 \newblock MIT press, 2004.
 
-\bibitem[Rus08]{russel1908}
-Bertrand Russell.
+\bibitem[Russell(1908)]{russel1908}
+B.~Russell.
 \newblock Mathematical logic as based on the theory of types.
-\newblock {\em American journal of mathematics}, 30(3):222--262, 1908.
+\newblock \emph{American journal of mathematics}, 30\penalty0 (3):\penalty0
+  222--262, 1908.
+
+\bibitem[S{\o}rensen and Urzyczyn(2006)]{sorensen2006lectures}
+M.~H. S{\o}rensen and P.~Urzyczyn.
+\newblock \emph{Lectures on the Curry-Howard isomorphism}.
+\newblock Elsevier, 2006.
 
 \end{thebibliography}

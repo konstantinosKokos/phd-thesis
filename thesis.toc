@@ -1,23 +1,30 @@
 \gdef \the@ipfilectr {@-1}
-\contentsline {schapter}{Preface}{ix}%
+\contentsline {schapter}{Preface}{ix}{}%
 \gdef \the@ipfilectr {}
 \gdef \the@ipfilectr {@-2}
-\contentsline {chapter}{\numberline {I}Introduction}{1}%
-\contentsline {paragraph}{References}{3}%
-\contentsline {section}{\numberline {1}The Simple Theory of Types}{4}%
-\contentsline {subsection}{\numberline {1.1}Intuitionistic Logic}{4}%
-\contentsline {subsubsection}{Proof Equivalences}{6}%
-\contentsline {subsection}{\numberline {1.2}The Curry-Howard Correspondence}{7}%
-\contentsline {subsubsection}{Term Equivalences}{10}%
-\contentsline {paragraph}{$\alpha $ conversion}{10}%
-\contentsline {paragraph}{$\beta $ reduction}{10}%
-\contentsline {paragraph}{$\eta $ conversion}{11}%
-\contentsline {subsubsection}{In place of a summary}{11}%
-\contentsline {section}{\numberline {2}Going Linear}{11}%
-\contentsline {subsection}{\numberline {2.1}Linear Logic}{12}%
-\contentsline {subsubsection}{Proof Equivalences}{12}%
-\contentsline {subsection}{\numberline {2.2}As a Type Theory}{13}%
-\contentsline {section}{\numberline {3}Lambek Calculi}{13}%
-\contentsline {section}{\numberline {4}Going Modal}{13}%
-\contentsline {schapter}{Bibliography}{15}%
+\contentsline {chapter}{\numberline {I}Introduction}{1}{}%
+\contentsline {section}{\numberline {1}The Simple Theory of Types}{4}{}%
+\contentsline {subsection}{\numberline {1.1}Intuitionistic Logic}{4}{}%
+\contentsline {subsubsection}{Proof Equivalences}{6}{}%
+\contentsline {subsection}{\numberline {1.2}The Curry-Howard Correspondence}{7}{}%
+\contentsline {subsubsection}{Term Equivalences}{10}{}%
+\contentsline {paragraph}{$\alpha $ conversion}{10}{}%
+\contentsline {paragraph}{$\beta $ reduction}{10}{}%
+\contentsline {paragraph}{$\eta $ conversion}{11}{}%
+\contentsline {subsubsection}{In place of a summary}{11}{}%
+\contentsline {subsection}{\numberline {1.3}Intermezzo: Useful Definitions}{12}{}%
+\contentsline {paragraph}{Formula Polarity}{12}{}%
+\contentsline {paragraph}{Type Raising}{12}{}%
+\contentsline {paragraph}{Function Order}{12}{}%
+\contentsline {paragraph}{Currying}{13}{}%
+\contentsline {section}{\numberline {2}Going Linear}{14}{}%
+\contentsline {subsection}{\numberline {2.1}Linear Types}{14}{}%
+\contentsline {subsubsection}{Proof \& Term Reductions}{15}{}%
+\contentsline {subsection}{\numberline {2.2}Proof Nets}{16}{}%
+\contentsline {section}{\numberline {3}Lambek Calculi}{16}{}%
+\contentsline {section}{\numberline {4}Going Modal}{16}{}%
+\contentsline {schapter}{Bibliography\markboth {\MakeUppercase {Bibliography}}{\MakeUppercase {Bibliography}}}{17}{}%
+\gdef \the@ipfilectr {}
+\gdef \the@ipfilectr {@-3}
+\contentsline {chapter}{\numberline {II}Chapter 2: Title Pending}{19}{}%
 \gdef \the@ipfilectr {}

@@ -16,6 +16,11 @@
 \usepackage{chngcntr}
 \renewcommand{\thechapter}{\Roman{chapter}}
 \counterwithout{section}{chapter}
+
+\usepackage{natbib}
+\bibliographystyle{abbrvnat}
+\setcitestyle{authoryear,open={[},close={]},aysep={, }}
+\renewcommand{\cite}{\citep}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -41,7 +46,7 @@
 }
 
 \newcommand{\cterm}[1]{%
-	\text{#1}%
+	\textrm{#1}%
 }
 
 \newcommand{\term}[1]{%
