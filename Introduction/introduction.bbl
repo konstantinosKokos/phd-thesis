@@ -1,4 +1,4 @@
-\begin{thebibliography}{11}
+\begin{thebibliography}{15}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -23,11 +23,24 @@ H.~B. Curry.
 \newblock \emph{Proceedings of the National Academy of Sciences}, 20\penalty0
   (11):\penalty0 584--590, 1934.
 
+\bibitem[Danos and Regnier(1989)]{danos1989structure}
+V.~Danos and L.~Regnier.
+\newblock The structure of multiplicatives.
+\newblock \emph{Archive for Mathematical logic}, 28\penalty0 (3):\penalty0
+  181--203, 1989.
+
 \bibitem[de~Bruijn(1983)]{de1983automath}
 N.~G. de~Bruijn.
 \newblock Automath, a language for mathematics.
 \newblock In \emph{Automation of Reasoning}, pages 159--200. Springer, 1983.
 \newblock Original manuscript from 1968.
+
+\bibitem[de~Groote(1999)]{groote1999strong}
+P.~de~Groote.
+\newblock On the strong normalization of natural deduction with
+  permutation-conversions.
+\newblock In \emph{International Conference on Rewriting Techniques and
+  Applications}, pages 45--59. Springer, 1999.
 
 \bibitem[Girard(1987)]{girard1987linear}
 J.-Y. Girard.
@@ -35,12 +48,12 @@ J.-Y. Girard.
 \newblock \emph{Theoretical computer science}, 50\penalty0 (1):\penalty0
   1--101, 1987.
 
-\bibitem[Groote(1999)]{groote1999strong}
-P.~d. Groote.
-\newblock On the strong normalization of natural deduction with
-  permutation-conversions.
-\newblock In \emph{International Conference on Rewriting Techniques and
-  Applications}, pages 45--59. Springer, 1999.
+\bibitem[Guerrini(2011)]{guerrini2011linear}
+S.~Guerrini.
+\newblock A linear algorithm for mll proof net correctness and
+  sequentialization.
+\newblock \emph{Theoretical Computer Science}, 412\penalty0 (20):\penalty0
+  1958--1978, 2011.
 
 \bibitem[Heyting(1930)]{heyting1930}
 A.~Heyting.
@@ -54,6 +67,18 @@ W.~A. Howard.
 \newblock \emph{To HB Curry: essays on combinatory logic, lambda calculus and
   formalism}, 44:\penalty0 479--490, 1980.
 \newblock Original manuscript from 1969.
+
+\bibitem[Martin-L{\"o}f(1982)]{martin1982constructive}
+P.~Martin-L{\"o}f.
+\newblock Constructive mathematics and computer programming.
+\newblock In \emph{Studies in Logic and the Foundations of Mathematics}, volume
+  104, pages 153--175. Elsevier, 1982.
+
+\bibitem[Murawski and Ong(2000)]{murawski2000dominator}
+A.~S. Murawski and C.-H. Ong.
+\newblock Dominator trees and fast verification of proof nets.
+\newblock In \emph{Proceedings Fifteenth Annual IEEE Symposium on Logic in
+  Computer Science (Cat. No. 99CB36332)}, pages 181--191. IEEE, 2000.
 
 \bibitem[Pierce(2004)]{pierce2004advanced}
 B.~C. Pierce.

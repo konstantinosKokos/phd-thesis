@@ -10,6 +10,17 @@
 \usepackage{multirow}
 \usepackage{makecell}
 \usepackage{palatino}
+\usepackage{graphicx}
+
+\usepackage{lipsum}  
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                  tikz horror
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+\interfootnotelinepenalty=10000
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                  chapter / section formatting
@@ -35,10 +46,22 @@
 	\vspace{14pt}}
 }
 
+
+\newcommand{\copyleft}{\reflectbox{\copyright}}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                  term / type / rule macros
-\newcommand{\prop}[1]{%
+\newcommand{\smallprop}[1]{%
 	\ensuremath{\uppercase{\normalfont\textsc{#1}}}%
+}
+\newcommand{\prop}[1]{%
+	\ensuremath{\vnorm{}\smallprop{#1}}%
+}
+\newcommand{\smallterm}[1]{%
+	\ensuremath{\mathsf{#1}}%
+}
+\newcommand{\term}[1]{%
+	\ensuremath{\vnorm{}\smallterm{#1}}
 }
 
 \newcommand{\propcon}{%
@@ -49,16 +72,14 @@
 	\textrm{#1}%
 }
 
-\newcommand{\term}[1]{%
-	\ensuremath{\mathsf{#1}}%
-}
+
 
 \newcommand{\li}{%
 	\multimap%
 }
 
 \newcommand{\with}{%
-	\ensuremath{\&}%
+	{\ensuremath{\&}}%
 }
 \newcommand{\Exchange}{%
 	\ensuremath{Exchange}%
@@ -70,5 +91,27 @@
 	\ensuremath{Weakening}%
 }
 
+\newcommand{\logic}[1]{%
+	\mathsf{#1}%
+}
+
+\newcommand{\ILL}{\logic{ILL}}
+\newcommand{\IL}{\logic{IL}}
+
 \newcolumntype{C}{>{\centering\arraybackslash}X}
 \newcolumntype{L}{>{\raggedright\arraybackslash}X}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                  proofnet stuff
+\newcommand{\pprop}[1]{%
+	\ensuremath{\smallprop{#1}^{+}}%
+}
+\newcommand{\nprop}[1]{%
+	\ensuremath{\smallprop{#1}^{-}}%
+}
+\newcommand{\vnorm}[1]{%
+	\vphantom{S^X}{#1}
+}
+\newcommand{\parlink}{%
+	\raisebox{\depth}{\reflectbox{\scalebox{1}[-1]{$\with$}}}%
+}
