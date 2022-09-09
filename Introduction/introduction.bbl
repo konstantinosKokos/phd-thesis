@@ -1,4 +1,4 @@
-\begin{thebibliography}{15}
+\begin{thebibliography}{16}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -67,6 +67,12 @@ W.~A. Howard.
 \newblock \emph{To HB Curry: essays on combinatory logic, lambda calculus and
   formalism}, 44:\penalty0 479--490, 1980.
 \newblock Original manuscript from 1969.
+
+\bibitem[Lambek(1958)]{lambek1958mathematics}
+J.~Lambek.
+\newblock The mathematics of sentence structure.
+\newblock \emph{The American Mathematical Monthly}, 65\penalty0 (3):\penalty0
+  154--170, 1958.
 
 \bibitem[Martin-L{\"o}f(1982)]{martin1982constructive}
 P.~Martin-L{\"o}f.

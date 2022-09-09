@@ -10,16 +10,22 @@
 \usepackage{multirow}
 \usepackage{makecell}
 \usepackage{palatino}
+\renewcommand{\baselinestretch}{1} 
 \usepackage{graphicx}
 
 \usepackage{lipsum}  
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 					footnotes
+\usepackage[perpage]{footmisc}
+\interfootnotelinepenalty=10000
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                  tikz horror
 \usepackage{tikz}
 \usetikzlibrary{calc}
 
-\interfootnotelinepenalty=10000
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -34,7 +40,6 @@
 \renewcommand{\cite}{\citep}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 \newcommand{\todo}{\textcolor{red}{todo}}
 
 \renewcommand{\arraystretch}{1.05}
@@ -45,7 +50,6 @@
 	\textit{#1}\\
 	\vspace{14pt}}
 }
-
 
 \newcommand{\copyleft}{\reflectbox{\copyright}}
 
@@ -61,7 +65,7 @@
 	\ensuremath{\mathsf{#1}}%
 }
 \newcommand{\term}[1]{%
-	\ensuremath{\vnorm{}\smallterm{#1}}
+	\smallterm{#1}
 }
 
 \newcommand{\propcon}{%
@@ -73,9 +77,11 @@
 }
 
 
-
 \newcommand{\li}{%
-	\multimap%
+	\scalebox{1}[1]{$\multimap$}
+}
+\newcommand{\il}{%
+	\scalebox{-1}[1]{$\li$}%
 }
 
 \newcommand{\with}{%
@@ -97,6 +103,7 @@
 
 \newcommand{\ILL}{\logic{ILL}}
 \newcommand{\IL}{\logic{IL}}
+\newcommand{\LC}{\logic{LC}}
 
 \newcolumntype{C}{>{\centering\arraybackslash}X}
 \newcolumntype{L}{>{\raggedright\arraybackslash}X}
@@ -110,8 +117,8 @@
 	\ensuremath{\smallprop{#1}^{-}}%
 }
 \newcommand{\vnorm}[1]{%
-	\vphantom{S^X}{#1}
+	\vphantom{S^x}{#1}%
 }
 \newcommand{\parlink}{%
-	\raisebox{\depth}{\reflectbox{\scalebox{1}[-1]{$\with$}}}%
+	\raisebox{\depth}{\scalebox{-1}[-1]{$\with$}}%
 }

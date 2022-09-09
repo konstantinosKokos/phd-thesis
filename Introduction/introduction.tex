@@ -546,19 +546,19 @@ Let us also point out that in the case of the implication introduction rule $\li
 		\begin{tabularx}{0.95\textwidth}{@{}C@{~}C@{\qquad}C@{}}
 		\multicolumn{3}{@{}c@{}}{$\infer[Ax]{\term{x_i}: \prop A \vdash \term{x_i}: \prop A}{}$}\\[1em]
 		\multicolumn{2}{@{}c}{
-		$\infer[\li E]{\Gamma, \Delta \vdash \term{s~t}: \prop B}{\Gamma \vdash \term{s}: \prop A \li \prop B & \Delta \vdash \term{t}: \prop B}$}
+		$\infer[\li E]{\Gamma, \Delta \vdash \term{s~t}: \prop B}{\Gamma \vdash \term{s}: \prop A \li \prop B & \Delta \vdash \term{t}: \prop{A}}$}
 		& 
 		$\infer[\li I]{\Gamma \vdash \term{\lambda x_i.s}: \prop A \li \prop B}{\Gamma, \term{x_i}: \prop A \vdash \term{s}: \prop B}$\\[1em]
 		\multicolumn{2}{@{}c}{
-		$\infer[\otimes E]{\Gamma,\Delta \vdash \cterm{case \term{s} of (\term{x_i}, \term{x_j}) in \term{t}}: \prop C}{\Gamma \vdash \term{s}: \prop A \otimes \prop B & \Delta, \term{x_i}: \prop A , \term{x_j}: \prop B \vdash \term{t}: \prop C}$}
+		$\infer[\otimes E]{\Gamma,\Delta \vdash \cterm{case \smallterm{s} of (\smallterm{x_i}, \smallterm{x_j}) in \smallterm{t}}: \prop C}{\Gamma \vdash \term{s}: \prop A \otimes \prop B & \Delta, \term{x_i}: \prop A , \term{x_j}: \prop B \vdash \term{t}: \prop C}$}
 		&
 		$\infer[\otimes I]{\Gamma, \Delta \vdash (\term{s}, \term{t}): \prop A \otimes \prop B}{\Gamma \vdash \term{s}: \prop A & \Delta \vdash \term{t}: \prop B}$\\[1em]
 		$
-		\infer[\with E_1]{\Gamma \vdash \cterm{fst(\term{s})}: \prop{A}}{\Gamma \vdash \term{s}: \prop{A} \with \prop{B}}
+		\infer[\with E_1]{\Gamma \vdash \cterm{fst(\smallterm{s})}: \prop{A}}{\Gamma \vdash \smallterm{s}: \prop{A} \with \prop{B}}
 		$
 		&
 		$
-		\infer[\with E_2]{\Gamma \vdash \cterm{snd(\term{s})}: \prop{B}}{\Gamma \vdash \term{s}: \prop{A} \with \prop{B}}
+		\infer[\with E_2]{\Gamma \vdash \cterm{snd(\smallterm{s})}: \prop{B}}{\Gamma \vdash \term{s}: \prop{A} \with \prop{B}}
 		$
 		&
 		$
@@ -591,7 +591,7 @@ Its reading is straightforward: if one were to use $\Gamma$ to independently der
 The equivalent term reduction steps this time around are:
 \begin{align*}
 \term{\lambda x_i.s}~\term{t} & \overset{\beta}{\rightsquigarrow} \term{s}_{[\term{x_i} \mapsto \term{t}]}\\
-\cterm{case (\term{s}, \term{t}) of (\term{x_i}, \term{x_j}) in \term{u}} & \overset{\beta}{\rightsquigarrow} \term{u_{[\term{s} \mapsto \term{x_i}, \term{t} \mapsto \term{x_j}]}}\\
+\cterm{case (\smallterm{s}, \smallterm{t}) of (\smallterm{x_i}, \smallterm{x_j}) in \smallterm{u}} & \overset{\beta}{\rightsquigarrow} \term{u_{[\term{s} \mapsto \term{x_i}, \term{t} \mapsto \term{x_j}]}}\\
 \cterm{fst}(\langle\term{s},\term{t}\rangle) & \overset{\beta}{\rightsquigarrow} \term{s}\\
 \cterm{snd}(\langle\term{s},\term{t}\rangle) & \overset{\beta}{\rightsquigarrow} \term{t}\\
 \end{align*}
@@ -678,11 +678,11 @@ We have also seen how it is at times overly bureaucratic in its explication of s
 To our luck, an additional representation makes itself available as soon as we step into linear grounds, namely \textit{proof nets}, also due to Girard~\cite{girard1987linear}. 
 Proof nets are best suited for the multiplicative fragment of the logic (they are amenable to extensions with additive connectives, but things get uglier there).
 In our case, we have foregone the disjunctive connectives, and we have already suggested that the multiplicative conjunction $\otimes$ is (to an extent) interchangeable with the implication arrow $\li$ (we actually did this for intuitionistic connectives, but there is no need to repeat ourselves -- the story looks identical with their linear variants).
-This gives us the much needed excuse to justify presenting proof nets for the implication-only fragment of linear logic $\ILL$, which is by far the easiest and most natural one.
+This gives us the much needed excuse to justify limiting our presenting of proof nets to the implication-only fragment of linear logic, $\ILL_{\li}$, where things are easy and intuitive.
 
 In natural deduction, our proofs are built sequentially.
 We start with some hypothesized variables and combine them via rules to derive more complex terms, which then serve as premises for a next iteration of rule applications.
-As long as we are careful not to get stuck in some detour loop hell, we rinse and repeat, and eventually, after a finite number of steps (equal to the proof's depth), we end up with our conclusion, at which point we can call it a day.
+As long as we are careful not to get stuck in some detour loop hell, we rinse and repeat, and eventually, after a finite number of steps, we end up with our conclusion, at which point we can call it a day.
 Proof nets offer an appealing alternative: they are parallel, in the sense that they allow multiple conclusions to be derived simultaneously.
 They also have no notion of temporal precedence: everything happens in a single instant, meaning that positive subformulas are good to use without having to wait for their conditions to be met.
 
@@ -710,7 +710,7 @@ We will consider the natural deduction proof of linear function composition of F
 \end{figure}
 
 The first thing we need to do is write formulas as their \textit{decomposition trees}; it sounds fancy, but in reality this is just recompiling formulas according to their underlying grammar, but now in tree form:
-propositional constants becomes leaves, and logical connectives become branch nodes.
+propositional constants become leaves, and logical connectives become branch nodes.
 To make this a tiny bit more interesting, we will decorate atomic subformulas with a superscript denoting their polarity, according to the schema of Subsection~\ref{subsection:utility_definitions}.
 For formula trees with positive roots (i.e. trees occuring left of the turnstile), we will put a label beneath them to identify them with the variable that provides them.
 We will also distinguish tree edges originating from a negative implication and pointing to a positive tree by marking them with dashed lines -- these denote positively rooted trees that are either nested within a higher-order positive implication, or in the argument position of an implication right of the turnstile.%
@@ -789,12 +789,12 @@ A proof frame with axiom links on top is called a \textit{proof structure}, and 
 
 Alas, the relation from proofs structures is not one-to-one: there exist many more proof structures than proofs.
 A proof structure is a \textit{proof net} if and only if it satisfies a correctness criterion.
-There have been various formulations of this criterion, each with a different time complexity~\cite{girard1987linear,danos1989structure,murawski2000dominator,guerrini2011linear}.
-We will adopt a (slightly rephrased) version of the acyclicity and connectedness criterion of Danos and Regnier~\cite{danos1989structure}.
-Informally, we are going to treat a proof structure as a heterogeneous graph, consisting of two node types, logical connectives and atomic formulas, and three edge types: tree-structure edges, further subcategorized according to their polarity, and axiom links.
+There have been various formulations of this criterion, each with a different time complexity, ranging from exponential to linear~\cite{girard1987linear,danos1989structure,murawski2000dominator,guerrini2011linear}.
+We will adopt an (informally rephrased) version of the acyclicity and connectedness criterion of Danos and Regnier~\cite{danos1989structure}.
+We are going to treat a proof structure as a heterogeneous graph, consisting of two node types, logical connectives and atomic formulas, and three edge types: tree-structure edges, further subcategorized according to their polarity, and axiom links.
 We are then going to attempt a traversal of that graph using an algorithm defined on the basis of the above parameterization, that further utilizes the  ancillary tree labels we have assigned earlier.
 At each step of the traversal, the algorithm will write down a (partial) term or term instruction.
-We will expect the traversal to be terminating (i.e. to not get stuck in a loop) and complete (i.e. to have passed through all nodes and edges), and the term it has transcribed at its last step to be well-formed, at which point we will claim the proof structure to indeed be a proof net.
+We will expect the traversal to be terminating (i.e. to not get stuck in a loop) and complete without repeats (i.e. to have passed through all nodes and edges exactly once), and the term it has transcribed at its last step to be well-formed, at which point we will happily claim the proof structure to indeed be a proof net.
 
 \paragraph{Traversing $\ILL_{\li}$ Nets}
 Let us now sketch the outline of the traversal algorithm.
@@ -804,7 +804,7 @@ When encountering a negative implication, we will create a $\lambda$ abstraction
 When encountering a negative leaf, we will traverse across the axiom link to its positive counterpart and switch to positive mode.
 In positive mode, we move downwards along positive nodes.
 When we encounter a positive implication, we will add  its negative (upward) branch to our mental stack and proceed downwards.
-Upon running out of positive nodes to visit, we will write down the variable label assigned to the positive tree's root, and then perform a negative traversal to each of the negative branches we have encountered going down, in reverse order.
+Upon running out of positive nodes to visit, we will write down the variable label assigned to the positive tree's root, and then perform a negative traversal of each of the negative branches that live in our stack (i.e. we have encountered going down), in reverse order.
 We will start from the root of the formula tree occurring right of the turnstile (we know which one that is by the fact it has no variable label underneath it) in negative mode.
 
 In our case, this is a negative implication, the dashed line of which reads $\smallterm{x_2}$, so we start by writing down $\smallterm{\lambda x_2. (\dots)}$. 
@@ -812,7 +812,8 @@ We move on to \nprop{C}, which is a leaf, so we cross over to \pprop{C} and swit
 We proceed in negatative mode to \nprop{B}, cross over to \pprop{B} and repeat the above, getting $\smallterm{\lambda x_2.x_1~(x_0~\dots)}$ before going into negative mode again.
 The final axiom link points us to \pprop{A}, which is its own root, named $\smallterm{x_2}$.
 At this point, our traversal has transcribed the term $\smallterm{\lambda x_2.x_1~(x_0~x_2)}$ and we have ran out of paths to explore.
-By now, all our nodes and edges have been visited, and our final term is both well-formed and identical to the one prescribed by the natural deduction proof of Figure~\ref{figure:funcomp}: a happy outcome!
+By now, all our nodes and edges have been visited, and our final term is both well-formed and identical to the one prescribed by the natural deduction proof of Figure~\ref{figure:funcomp}: a joyful outcome!
+If we consider ourselves bound to the permutation of assumptions dictated by the variable indices, the only thing we would need to do going backwards is guess the presence (and position) of the \Exchange{} rule.
 
 \paragraph{Axiom Links and Where to Find Them}
 It would be understandable if at this point we allowed ourselves a feeling of complacency; navigating a proof net is no small feat, after all.
@@ -820,26 +821,6 @@ But upon careful inspection, you might realize that you have been tricked.
 There never was any room for error in transitioning from the proof frame of Figure~\ref{subfigure:proof_frame_funcomp} to the proof structure of Figure~\ref{subfigure:proof_structure_funcomp}. 
 A rare and lucky coindidence, or perhaps the result of carefully planned concealment?
 Regardless of what it might have been, we cannot reasonably anticipate there to always be a single possible set of axiom links, so we need a decision procedure that tells us how to actually extract them from a less forgiving proof.
-
-Let us revisit the natural deduction proof of Figure~\ref{figure:funcomp}.
-This time around, we will explicate polarity information, and put an identifying index to each atomic formula occurrence at its axiom leaves; 
-the turnstile mirrors indices faithfully, but inverts atomic polarities.
-Going bottom up through Figure~\ref{figure:funcomp_annotated}, every encounter of an implication elimination allows us (i) to identify the set of indices coming from the functor's negative part with the set of indices provided by the counterpart positive argument and (ii) to propagate the negative indices of the functor's remainder to the succedent of the next conclusion.
-That is, the first elimination $\li E(1)$ creates the identification $\{k \leftrightarrow m\}$, and propagates the positive leftover $\nprop{B}_l$ to the next proof step, whereas the next elimination $\li E(2)$ identifies $\{i \leftrightarrow l\}$ and propagates $\nprop{C}_j$ downwards.
-Identifications made through a partial proof are carried over to the next step, and at elimination branches we join past identifications with the just-established one%
-\footnote{
-Lets avoid any misteps here. The joining described is \textit{not} set-theoretic union. Rather, we first take the set-theoretic union, and then iteratively reduce the set by conflating all identifications that agree in at least one element, up to a fixpoint.
-For instance, joining $\{ i \leftrightarrow k\}$ and $\{ l\leftrightarrow i, j \leftrightarrow m\}$ yields $\{i \leftrightarrow k \leftrightarrow l, j \leftrightarrow m \}$. Such a situation could arise for example when attempting to find the axiom links of non $\beta$ normal proofs, like
-\[
-\term{\left(\lambda x_0.x_0^{\prop{A}_i \li \prop{B}_j}~x_1^{\prop{A}_k}\right)~x_2^{\prop{A}_l \li \prop{B}_m}}
-\]
-The added burden has the enormous benefit of yielding ``$\beta$ normalized'' links and resolving potential future headaches a priori.
-} -- at the proof's conclusion we then finally get a single set of identifications which, applied as a mapping (e.g. to the first coordinate), yields a link decorated judgement, in our case:
-\[
-	\nprop{A}_k \li \pprop{B}_i, \nprop{B}_i \li \pprop{C}_j \vdash \pprop{A}_k \li \nprop{C}_j
-\]
-Matching indices correspond exactly to the axiom links of Figure~\ref{subfigure:proof_structure_funcomp}.
-Now, we really do know how to move freely back and forth between proof nets and natural deduction proofs in $\ILL_{\li}$.
 
 \begin{figure}
 	\begin{tikzpicture}[
@@ -869,15 +850,15 @@ Now, we really do know how to move freely back and forth between proof nets and 
 	$
 	}
 	};
-	\node[focus] (ak) at (0.75, 1.125) {};
-	\node[focus] (am) at (4.3,  1.125) {};
+	\node[focus] (ak) at (0.5875, 1.125) {};
+	\node[focus] (am) at (3.925,  1.125) {};
 	\draw[link, <-] (ak) to[bend left=45] (am); %$(am.north)$);
-	\node[focus] (bl1) at	(1.8, 1.125) {};
-	\node[focus] (bl2) at (2.85, 0.525) {};
+	\node[focus] (bl1) at	(1.5, 1.125) {};
+	\node[focus] (bl2) at (2.6, 0.525) {};
 	\draw[link, ->] (bl1) -- (bl2);
-	\node[focus] (bi) at (-3.85, 0.525) {};
-	\node[focus] (cj1) at (-2.8, 0.525) {};
-	\node[focus] (cj2) at (0.725, -0.075) {};	
+	\node[focus] (bi) at (-3.65, 0.525) {};
+	\node[focus] (cj1) at (-2.7, 0.525) {};
+	\node[focus] (cj2) at (0.65, -0.075) {};	
 	\draw[link, <-] (bi) to[bend left=60] (bl2);
 	\draw[link, ->] (cj1) -- (cj2);
 	\end{tikzpicture}
@@ -885,11 +866,83 @@ Now, we really do know how to move freely back and forth between proof nets and 
 	\label{figure:funcomp_annotated}
 \end{figure}
 
+Let us revisit the natural deduction proof of Figure~\ref{figure:funcomp}.
+This time around, we will explicate polarity information, and put an identifying index to each atomic formula occurrence at its axiom leaves; 
+the turnstile mirrors indices faithfully, but inverts atomic polarities.
+Going bottom up through Figure~\ref{figure:funcomp_annotated}, every encounter of an implication elimination allows us (i) to identify the set of indices coming from the functor's negative part with the set of indices provided by the counterpart positive argument and (ii) to propagate the negative indices of the functor's remainder to the succedent of the next conclusion.
+That is, the first elimination $\li E(1)$ creates the identification $\{k \leftrightarrow m\}$, and propagates the positive leftover $\nprop{B}_l$ to the next proof step, whereas the next elimination $\li E(2)$ identifies $\{i \leftrightarrow l\}$ and propagates $\nprop{C}_j$ downwards.
+Upon reaching the proof's conclusion, we get to merge all identifications established along the proof%
+\footnote{
+Lets avoid any misteps here. The joining described is \textit{not} set-theoretic union. Rather, we first take the set-theoretic union, and then iteratively reduce the set by conflating all identifications that agree in at least one element, up to a fixpoint.
+For instance, joining $\{ i \leftrightarrow k\}$ and $\{ l\leftrightarrow i, j \leftrightarrow m\}$ yields $\{i \leftrightarrow k \leftrightarrow l, j \leftrightarrow m \}$. Such a situation could arise for example when attempting to find the axiom links of non $\beta$ normal proofs, like
+\[
+\term{\left(\lambda x_0.x_0^{\prop{A}_i \li \prop{B}_j}~x_1^{\prop{A}_k}\right)~x_2^{\prop{A}_l \li \prop{B}_m}}
+\]
+The added burden has the enormous benefit of yielding ``$\beta$ normalized'' links and resolving potential future headaches a priori.
+}
+, which can then be applied as a mapping (e.g. to the lexicographically first element) yielding a link-decorate judgement, in our case:
+\[
+	\nprop{A}_k \li \pprop{B}_i, \nprop{B}_i \li \pprop{C}_j \vdash \pprop{A}_k \li \nprop{C}_j
+\]
+Matching indices correspond exactly to the axiom links of Figure~\ref{subfigure:proof_structure_funcomp} -- the two representations are in fact equivalent.
+Now, we really do know how to freely move back and forth between the proof net and natural deduction presentation of proofs in $\ILL_{\li}$.
 
-\newpage
-\section{Lambek Calculi}
+The question then is, when should we use which?
+The original intention of proof nets was to provide a compact, bureacracy-free representation of proofs that abstracts away from structural rules.
+In that sense, their strength is also their weakness; same as the $\lambda$-terms they prescribe, they encode the semantically essential part of a proof, but hide structural subtleties that can prove hard to guess or recover.
+At the same time, performing search over proof nets is a horrible idea; the number of possible links we need to consider scales factorially with respect to the number of atoms in the proof frame, and checking whether a set of links is valid is in the best case linear.
+Due to these limitations, proof nets were envisaged as a compiled form of an existing proof, rather than a canvas to find that proof on.
+We will not see proof nets again for a while, but we will keep their memory warm in our hearts.
+Because when we do, we will challenge this perception and see how their parallel nature can actually be very convenient for proof search.
+Until then, we can temporarily store them in our mental backlog. 
+
+
+\section{Dropping Commutativity}
+There is only one structural rule left\footnote{Or is there?}; it is time for \Exchange{} to go.
+Dropping structural commutativity gives us an \textit{ordered} type system, i.e. one where variables must be used exactly in the order they were provided.
+If we were now to naively go about our business using $\ILL$ without commutativity, we would soon stumble upon a pitfall. 
+Recalling the shape of the $\li E$ rule, we come to the realization that the functions carried over to this new type system are suddenly picky; they can only be applied to arguments to their right.
+This should raise some red flags: we want our type system to be directional, but not uni-directional: where shall we look for the left-biased variant of the implication?
+The answer is simple: the conflation between the two directions was natural, up until a moment ago; having them both explicit would not amount to much, since by \Exchange{} they would be interderivable.
+With \Exchange{} removed, the veil is lifted and we can now see this clearly: there were always two implications, except disguised by the same symbol!
+
+The logic that does our newfound friend justice has come to be known as the Lambek Calculus~\cite{lambek1958mathematics}.
+A careful reader will notice the chronological inconsistency of our presentational tour: the Lambek Calculus predates Linear Logic, despite being a refinement of its purely linear part!
+Formulas will now abide by the following grammar:
+\begin{equation}
+\prop{A}, \prop{B}, \prop{C} ::= p \ | \ \prop{A} \li \prop{B} \ | \ \prop{A} \il \prop{B}
+% \ | \ \prop{A} \otimes \prop{B} \ | \ \prop{A} \with \prop{B}
+\tag{$\LC$}
+\label{grammar:LC}
+\end{equation}
+Alternative presentations include multiplicative and/or additive conjunction and/or disjunction, but the interesting feature lies in the two implications.
+The rules of this fragment are presented in Figure~\ref{figure:lambek_calculus_rules}.
+The directed version of the implication arrow has slightly denotational semantics: it points from argument to conclusion, meaning that what used to be $\li$ now becomes $\il$ (it looks for an argument directly to its right to produce a result).
+The new version of $\li$ is in reverse: it looks for an argument directly to its left.
+The use of the word \textit{directly} is not meaningless prose.
+Another interesting aspect of the Lambek Calculus is that it brings forth a notion of adjacency.
+\todo
+
+\begin{figure}
+	\centering
+	\centering
+	\begin{tabularx}{0.95\textwidth}{@{}CC@{}}
+		\multicolumn{2}{@{}c@{}}{$\infer[Ax]{\prop A \vdash \prop A}{}$}\\[1em]
+		$\infer[\il E]{\Gamma, \Delta \vdash \prop B}{\Gamma \vdash  \prop{B} \il \prop{A} & \Delta \vdash \prop{A}}$
+		& 
+		$\infer[\il I]{\Gamma \vdash \prop{B} \il \prop{A}}{\Gamma, \prop A \vdash \prop B}$\\[1em]
+		$\infer[\li E]{\Gamma, \Delta \vdash \prop B}{\Gamma \vdash \prop A & \Delta \vdash \prop{A}\li\prop{B}}$
+		& 
+		$\infer[\li I]{\Gamma \vdash \prop A \li \prop B}{\prop A, \Gamma \vdash \prop B}$\\[1em]
+	\end{tabularx}
+	\caption{todo}
+	\label{figure:lambek_calculus_rules}
+\end{figure}
+
 
 \section{Going Modal}
+
+\section{The Linguistic Perspective}
 
 \nocite{sorensen2006lectures}
 \nocite{martin1982constructive}
