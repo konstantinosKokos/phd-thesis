@@ -1,4 +1,4 @@
-\begin{thebibliography}{16}
+\begin{thebibliography}{22}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -10,6 +10,11 @@ S.~Abramsky.
 \newblock Computational interpretations of linear logic.
 \newblock \emph{Theoretical computer science}, 111\penalty0 (1-2):\penalty0
   3--57, 1993.
+
+\bibitem[Barendregt et~al.(1984)]{barendregt1984lambda}
+H.~P. Barendregt et~al.
+\newblock \emph{The lambda calculus}, volume~3.
+\newblock North-Holland Amsterdam, 1984.
 
 \bibitem[Church(1940)]{church1940}
 A.~Church.
@@ -74,6 +79,12 @@ J.~Lambek.
 \newblock \emph{The American Mathematical Monthly}, 65\penalty0 (3):\penalty0
   154--170, 1958.
 
+\bibitem[Lambek(1961)]{lambek1961calculus}
+J.~Lambek.
+\newblock On the calculus of syntactic types.
+\newblock \emph{Structure of language and its mathematical aspects},
+  12:\penalty0 166--178, 1961.
+
 \bibitem[Martin-L{\"o}f(1982)]{martin1982constructive}
 P.~Martin-L{\"o}f.
 \newblock Constructive mathematics and computer programming.
@@ -91,6 +102,11 @@ B.~C. Pierce.
 \newblock \emph{Advanced topics in types and programming languages}.
 \newblock MIT press, 2004.
 
+\bibitem[Prawitz(1965)]{prawitz1965proof}
+D.~Prawitz.
+\newblock A proof-theoretical study.
+\newblock \emph{Uppsala: Almqvist \& Wilkselll}, 1965.
+
 \bibitem[Russell(1908)]{russel1908}
 B.~Russell.
 \newblock Mathematical logic as based on the theory of types.
@@ -101,5 +117,22 @@ B.~Russell.
 M.~H. S{\o}rensen and P.~Urzyczyn.
 \newblock \emph{Lectures on the Curry-Howard isomorphism}.
 \newblock Elsevier, 2006.
+
+\bibitem[Troelstra and Schwichtenberg(2000)]{troelstra2000basic}
+A.~S. Troelstra and H.~Schwichtenberg.
+\newblock \emph{Basic proof theory}.
+\newblock Number~43. Cambridge University Press, 2000.
+
+\bibitem[Wansing(1990)]{wansing1990formulas}
+H.~Wansing.
+\newblock Formulas-as-types for a hierarchy of sublogics of intuitionistic
+  propositional logic.
+\newblock In \emph{Workshop on Nonclassical Logics and Information Processing},
+  pages 125--145. Springer, 1990.
+
+\bibitem[Wansing(2002)]{wansing2002sequent}
+H.~Wansing.
+\newblock Sequent systems for modal logics.
+\newblock \emph{Handbook of philosophical logic}, pages 61--145, 2002.
 
 \end{thebibliography}

@@ -6,13 +6,16 @@
 \usepackage{chapterbib}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{stmaryrd}
 \usepackage{color}
 \usepackage{multirow}
 \usepackage{makecell}
 \usepackage{palatino}
 \renewcommand{\baselinestretch}{1} 
 \usepackage{graphicx}
+\usepackage{xparse}
 
+\usepackage{calc}
 \usepackage{lipsum}  
 
 
@@ -25,8 +28,6 @@
 %                  tikz horror
 \usepackage{tikz}
 \usetikzlibrary{calc}
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                  chapter / section formatting
@@ -42,6 +43,10 @@
 
 \newcommand{\todo}{\textcolor{red}{todo}}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%				tabular settings
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
 \renewcommand{\arraystretch}{1.05}
 
 \newcommand{\chapabstract}[1]{
@@ -67,23 +72,24 @@
 \newcommand{\term}[1]{%
 	\smallterm{#1}
 }
-
 \newcommand{\propcon}{%
 	\ensuremath{\mathsf{Prop}_0}%
 }
-
 \newcommand{\cterm}[1]{%
 	\textrm{#1}%
 }
-
-
 \newcommand{\li}{%
-	\scalebox{1}[1]{$\multimap$}
+	\scalebox{1}[1]{\ensuremath{\multimap}}
 }
 \newcommand{\il}{%
 	\scalebox{-1}[1]{$\li$}%
 }
-
+\newcommand{\divleft}{%
+	\backslash%
+}
+\newcommand{\divright}{%
+	/%
+}
 \newcommand{\with}{%
 	{\ensuremath{\&}}%
 }
@@ -96,17 +102,73 @@
 \newcommand{\Weakening}{%
 	\ensuremath{Weakening}%
 }
-
-\newcommand{\logic}[1]{%
-	\mathsf{#1}%
+\newcommand{\ctx}[1]{%
+	\llbracket{#1}\rrbracket%
+}
+\newcommand{\bracket}[1]{%
+	\langle{#1}\rangle%
+}
+\newcommand{\appright}{%
+	\ensuremath{\triangleleft}%
+}
+\newcommand{\appleft}{%
+	\ensuremath{\triangleright}%
+}
+\newcommand{\nappright}{%
+	\ensuremath{\blacktriangleleft}%
+}
+\newcommand{\nappleft}{%
+	\ensuremath{\blacktriangleright}%
+}
+\newcommand{\adbmal}{%
+	\scalebox{-1}[1]{\ensuremath{\lambda}}%
 }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					type modalities
+
+\makeatletter
+\newcommand{\getfontdim}[1]{%
+  \fontdimen22
+  \ifx#1\displaystyle\textfont\else
+  \ifx#1\textstyle\textfont\else
+  \ifx#1\scriptstyle\scriptfont\else
+  \scriptscriptfont\fi\fi\fi 2
+}
+\makeatother
+
+\newcommand{\domodaltypescale}[2]{%
+	\raisebox{0.5\getfontdim{#1}}{\scalebox{0.9}{\ensuremath{#1#2}}}%
+}
+\newcommand{\modaltypescale}[1]{\mathpalette\domodaltypescale{#1}\relax}
+\renewcommand{\diamond}{%
+	\modaltypescale{\diamondsuit}%
+}
+\renewcommand{\Box}{%
+	\modaltypescale{\boxempty}%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                  term modalities
+\makeatletter
+\newcommand{\domodaltermscale}[2]{%
+	\raisebox{0.25\getfontdim{#1}}{\scalebox{0.85}{\ensuremath{#1#2}}}%
+}
+\makeatother
+\newcommand{\modaltermscale}[1]{\mathpalette\domodaltermscale{#1}\relax}
+\newcommand{\boxelim}{\modaltermscale{\blacktriangledown}}
+\newcommand{\boxintro}{{\modaltermscale{\blacktriangle}}}
+\newcommand{\diaelim}{\modaltermscale{\triangledown}}
+\newcommand{\diaintro}{\modaltermscale{\vartriangle}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					logics
+\newcommand{\logic}[1]{\textbf{#1}}
 \newcommand{\ILL}{\logic{ILL}}
 \newcommand{\IL}{\logic{IL}}
-\newcommand{\LC}{\logic{LC}}
-
-\newcolumntype{C}{>{\centering\arraybackslash}X}
-\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcommand{\LC}{\logic{L}}
+\newcommand{\NL}{\logic{NL}}
+\newcommand{\NLP}{\logic{NLP}}
+\newcommand{\LP}{\logic{LP}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                  proofnet stuff
@@ -121,4 +183,7 @@
 }
 \newcommand{\parlink}{%
 	\raisebox{\depth}{\scalebox{-1}[-1]{$\with$}}%
+}
+\newcommand{\sbind}{%
+	\ensuremath{\cdot}%
 }

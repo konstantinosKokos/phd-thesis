@@ -9,26 +9,32 @@
 \contentsline {subsection}{\numberline {1.2}The Curry-Howard Correspondence}{7}{}%
 \contentsline {subsubsection}{Term Equivalences}{10}{}%
 \contentsline {paragraph}{$\alpha $ conversion}{10}{}%
-\contentsline {paragraph}{$\beta $ reduction}{10}{}%
+\contentsline {paragraph}{$\beta $ reduction}{11}{}%
 \contentsline {paragraph}{$\eta $ conversion}{11}{}%
-\contentsline {subsubsection}{In place of a summary}{11}{}%
-\contentsline {subsection}{\numberline {1.3}Intermezzo: Useful Boni}{11}{}%
+\contentsline {subsubsection}{In place of a summary}{12}{}%
+\contentsline {subsection}{\numberline {1.3}A Small Digression}{12}{}%
 \contentsline {paragraph}{Formula Polarity}{12}{}%
-\contentsline {paragraph}{Type Raising}{12}{}%
-\contentsline {paragraph}{Function Order}{12}{}%
+\contentsline {paragraph}{Type Raising}{13}{}%
+\contentsline {paragraph}{Function Order}{13}{}%
 \contentsline {paragraph}{Notational Shorthands}{13}{}%
-\contentsline {paragraph}{Currying}{13}{}%
-\contentsline {section}{\numberline {2}Going Linear}{14}{}%
+\contentsline {paragraph}{Currying}{14}{}%
+\contentsline {section}{\numberline {2}Going Linear}{15}{}%
 \contentsline {subsection}{\numberline {2.1}Linear Types}{15}{}%
-\contentsline {subsubsection}{Proof \& Term Reductions}{16}{}%
-\contentsline {subsection}{\numberline {2.2}Proof Nets}{17}{}%
-\contentsline {paragraph}{Traversing $\mathsf {ILL}_{\scalebox {1}[1]{$\multimap $} }$ Nets}{20}{}%
-\contentsline {paragraph}{Axiom Links and Where to Find Them}{20}{}%
-\contentsline {section}{\numberline {3}Dropping Commutativity}{22}{}%
-\contentsline {section}{\numberline {4}Going Modal}{23}{}%
-\contentsline {section}{\numberline {5}The Linguistic Perspective}{23}{}%
-\contentsline {schapter}{Bibliography\markboth {\MakeUppercase {Bibliography}}{\MakeUppercase {Bibliography}}}{25}{}%
+\contentsline {subsubsection}{Proof \& Term Reductions}{17}{}%
+\contentsline {subsection}{\numberline {2.2}Proof Nets}{18}{}%
+\contentsline {paragraph}{Traversing $\textbf {ILL}_{\scalebox {1}[1]{\ensuremath {\multimap }} }$ Nets}{20}{}%
+\contentsline {paragraph}{Axiom Links and Where to Find Them}{21}{}%
+\contentsline {section}{\numberline {3}Lambek Calculi}{22}{}%
+\contentsline {subsection}{\numberline {3.1}Dropping Commutativity}{22}{}%
+\contentsline {paragraph}{Proof \& Term Reductions}{24}{}%
+\contentsline {subsection}{\numberline {3.2}Dropping Associativity}{25}{}%
+\contentsline {paragraph}{Proof \& Term Reductions}{26}{}%
+\contentsline {subsection}{\numberline {3.3}The Full Landscape}{26}{}%
+\contentsline {section}{\numberline {4}Restoring Control}{27}{}%
+\contentsline {paragraph}{Proof \& Term Reductions}{29}{}%
+\contentsline {section}{\numberline {5}The Linguistic Perspective}{29}{}%
+\contentsline {schapter}{Bibliography\markboth {\MakeUppercase {Bibliography}}{\MakeUppercase {Bibliography}}}{31}{}%
 \gdef \the@ipfilectr {}
 \gdef \the@ipfilectr {@-3}
-\contentsline {chapter}{\numberline {II}Chapter 2: Title Pending}{27}{}%
+\contentsline {chapter}{\numberline {II}Chapter 2: Title Pending}{33}{}%
 \gdef \the@ipfilectr {}
