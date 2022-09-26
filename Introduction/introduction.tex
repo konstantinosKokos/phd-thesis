@@ -101,10 +101,10 @@ And dually again, the introduction of the conjunction $\times I$ permits us to j
 \textit{Structural} rules, on the other hand, allow us to manipulate structures; they are presented in Figure~\ref{subfigure:intuitionistic_logic_rules:structural}.
 Structural rules have a two-fold role.
 First, they explicate an extra propery of our structure binding operator, namely commutativity.
-One could also make do with an implicit $\Exchange{}$ rule by treating structures as \textit{multisets} rather than lists -- having it explicit, however, will keep us conscious of its presence and strengthen our emotional bond to it, in turn making us really notice its absence when it will no longer be there (it also keeps the presentation tidier).
+One could also make do with an implicit exchange rule $\Exchange{}$ by treating structures as \textit{multisets} rather than lists -- having it explicit, however, will keep us conscious of its presence and strengthen our emotional bond to it, in turn making us really notice its absence when it will no longer be there (it also keeps the presentation tidier).
 Second, they give an account of the status of propositions as reusable resources.
-The $\Weakening{}$ rule states that if we were able to derive a proposition \prop{B} from some assumptions $\Gamma$, we will also be able to do so if the assumptions were to contain some arbitrary extra proposition \prop{A}.
-Conversely, the $\Contraction{}$ rule states that if we needed some assumption structure containing two instances of a proposition \prop{A} to derive a proposition \prop{B}, we could also make do with just one instance of it, discarding the other without remorse.
+The weakening rule $\Weakening{}$ states that if we were able to derive a proposition \prop{B} from some assumptions $\Gamma$, we will also be able to do so if the assumptions were to contain some arbitrary extra proposition \prop{A}.
+Conversely, the contraction rule $\Contraction{}$ states that if we needed some assumption structure containing two instances of a proposition \prop{A} to derive a proposition \prop{B}, we could also make do with just one instance of it, discarding the other without remorse.
 
 A \textit{proof}, finally, is a heterogeneous variadic tree.
 At its root, it has a judgement, guaranteed to be derivable (provided we did not mess up somewhere).
@@ -116,21 +116,21 @@ At its leaves, it has identity axioms -- the smallest kind of proof.
 	\begin{subfigure}{1\textwidth}
 		\centering
 		\begin{tabularx}{0.7\textwidth}{@{}C@{\qquad}C@{}}
-		\multicolumn{2}{@{}c@{}}{$\infer[Ax]{\prop A \vdash \prop A}{}$}\\[1em]
+		\multicolumn{2}{@{}c@{}}{$\infer[Ax]{\prop A \vdash \prop A}{}$}\\[\smallsep]
 		$\infer[\to E]{\Gamma, \Delta \vdash \prop B}{\Gamma \vdash \prop A \to \prop B & \Delta \vdash \prop B}$ 
 		& 
-		$\infer[\to I]{\Gamma \vdash \prop A \to \prop B}{\Gamma, \prop A \vdash \prop B}$\\[1em]
+		$\infer[\to I]{\Gamma \vdash \prop A \to \prop B}{\Gamma, \prop A \vdash \prop B}$\\[\smallsep]
 		$\infer[\times E]{\Gamma,\Delta \vdash \prop C}{\Gamma \vdash \prop A \times \prop B & \Delta, \prop A , \prop B \vdash \prop C}$ 
 		&
 		$\infer[\times I]{\Gamma, \Delta \vdash \prop A \times \prop B}{\Gamma \vdash \prop A & \Delta \vdash \prop B}$
 		\end{tabularx}
 		\caption{Logical rules.}
 		\label{subfigure:intuitionistic_logic_rules:logical}
-	\end{subfigure}\\[2em]
+	\end{subfigure}\\[\midsep]
 	\begin{subfigure}{1\textwidth}
 		\centering
 		\begin{tabularx}{0.7\textwidth}{@{}C@{\qquad}C@{}}
-		\multicolumn{2}{@{}c@{}}{$\infer[\Exchange{}]{\Delta, \Gamma \vdash \prop A}{\Gamma, \Delta \vdash \prop A}$}\\[1em]
+		\multicolumn{2}{@{}c@{}}{$\infer[\Exchange{}]{\Delta, \Gamma \vdash \prop A}{\Gamma, \Delta \vdash \prop A}$}\\[\smallsep]
 		$\infer[\Weakening{}]{\Gamma, \prop A \vdash \prop B}{\Gamma \vdash \prop B} $ 
 		&
 		$\infer[\Contraction{}]{\Gamma, \prop A \vdash \prop B}{\Gamma, \prop A, \prop A \vdash \prop B}$
@@ -159,86 +159,83 @@ Figure~\ref{figure:intuitionistic_proof_reduction} presents rewrite instructions
 Read bottom-up%
 \footnote{In the small-to-big rather than literal sense! If confused: start from the proof leaves and go down.},
 the first one suggests that if one were to hypothesize a proposition $\smallprop{A}$, use it within an (arbitrarily deep) proof $s$ together with extra assumptions $\Gamma$ to derive a proposition $\smallprop{B}$, before finally redacting the hypothesis and composing with a proof $t$ that derives $\smallprop{A}$ from assumptions $\Delta$, it would have been smarter (and more concise!) to just plug in $t$ directly when previously hypothesizing $\smallprop{A}$, since then no redaction or composition would have been necessary.
-In a similar vein, the second suggests that if one were to derive and merge proofs $s$ and $t$ (of propositions $\smallprop{A}$ and $\smallprop{B}$, respectively), only to eliminate their product against hypothetical instances of $\smallprop{A}$ and $\smallprop{B}$ that were used to derive some $\smallprop{C}$ with extra assumptions $\Theta$ within proof $u$, the proof can be reduced by just plugging $s$ and $t$ in place of the axiom leaves of $u$.
+In a similar vein, the second suggests that if one were to derive and merge proofs $s$ and $t$ (of propositions $\smallprop{A}$ and $\smallprop{B}$, respectively), only to eliminate their product against hypothetical instances of $\smallprop{A}$ and $\smallprop{B}$ that were used in proof $u$ to derive $\smallprop{C}$ (together with assumptions $\Theta$), the proof can be reduced by just plugging $s$ and $t$ in place of the axiom leaves of $u$.
 Note the use of horizontal dots at the axiom leaves, denoting simultaneous substitutions of \textit{all} occurrences of redundant hypotheses, and the use of unnamed vertical dots, denoting (invertible) sequences of \Contraction{} and/or \Exchange{} rules.
 
 \begin{figure}
-	\begin{subfigure}{1\textwidth}
-		\begin{tabularx}{0.95\textwidth}{@{}c@{~}c@{~}c@{}}
-		$\infer[\to E]{\Gamma, \Delta \vdash \prop{B}}{
-		\infer[\to I]{\Gamma \vdash \prop{A} \to \prop{B}}{
-			\infer*[]{\Gamma, \prop{A} \vdash \prop{B}}{
-				\infer[]{\Gamma, \prop{A} \dots \vdash \prop{B}}{
-						\infer*[s]{}{\dots & \infer[Ax]{\prop{A} \vdash \prop{A}}{}}
-					}
+	\centering
+	\begin{tabularx}{0.9\textwidth}{@{}c@{~}c@{~}c@{}}
+	$\infer[\to E]{\Gamma, \Delta \vdash \prop{B}}{
+	\infer[\to I]{\Gamma \vdash \prop{A} \to \prop{B}}{
+		\infer*[]{\Gamma, \prop{A} \vdash \prop{B}}{
+			\infer[]{\Gamma, \prop{A} \dots \vdash \prop{B}}{
+					\infer*[s]{}{\dots & \infer[Ax]{\prop{A} \vdash \prop{A}}{}}
 				}
 			}
-			&
-			\infer{\Delta \vdash \prop{A}}{
+		}
+		&
+		\infer{\Delta \vdash \prop{A}}{
+			\infer*[t]{}{}
+		}
+	}$
+	&
+	\raisebox{20pt}{$\implies$}
+	&
+	$ 
+	\infer*[]{\Gamma, \Delta \vdash \prop{B}}{
+		\infer[]{\Gamma, \Delta \dots \vdash \prop{B}}{
+			\infer*[s]{}{
+			\dots &
+			\infer[]{\Delta \vdash A}{
 				\infer*[t]{}{}
-			}
-		}$
-		&
-		\raisebox{20pt}{$\implies$}
-		&
-		$ 
-		\infer*[]{\Gamma, \Delta \vdash \prop{B}}{
-			\infer[]{\Gamma, \Delta \dots \vdash \prop{B}}{
-				\infer*[s]{}{
-				\dots &
-				\infer[]{\Delta \vdash A}{
-					\infer*[t]{}{}
-				}}
-			}
+			}}
 		}
-		$\\[2em]
-		$
-		\infer[\times E]{\Gamma, \Delta, \Theta \vdash \prop{C}}{
-			\infer[\times I]{\Gamma, \Delta \vdash \prop{A} \times \prop{B}}{
-				\infer[]{\Gamma \vdash \prop{A}}{\infer*[s]{}{}}
-				&
-				\infer[]{\Delta \vdash \prop{B}}{\infer*[t]{}{}}
-			}		
+	}
+	$\\[\smallsep]
+	$
+	\infer[\times E]{\Gamma, \Delta, \Theta \vdash \prop{C}}{
+		\infer[\times I]{\Gamma, \Delta \vdash \prop{A} \times \prop{B}}{
+			\infer[]{\Gamma \vdash \prop{A}}{\infer*[s]{}{}}
 			&
-			\infer*[]{\Theta, \prop{A}, \prop{B} \vdash \prop{C}}{
-				\infer[]{\Theta, \prop{A}, \prop{B}\dots \vdash \prop{C}}{
-					\infer*[u]{}{
-						\infer[Ax]{\prop{A} \vdash \prop{A}}{
-						}
-						&
-						\dots
-						&
-						\infer[Ax]{\prop{B} \vdash \prop{B}}{}
+			\infer[]{\Delta \vdash \prop{B}}{\infer*[t]{}{}}
+		}		
+		&
+		\hspace{-15pt}
+		\infer*[]{\Theta, \prop{A}, \prop{B} \vdash \prop{C}}{
+			\infer[]{\Theta, \prop{A}, \prop{B}\dots \vdash \prop{C}}{
+				\infer*[u]{}{
+					\infer[Ax]{\prop{A} \vdash \prop{A}}{
 					}
+					&
+					\dots
+					&
+					\infer[Ax]{\prop{B} \vdash \prop{B}}{}
 				}
 			}
 		}
-		$
-		&
-		\raisebox{20pt}{$\implies$}
-		&
-		$
-		\infer*[]{\Gamma, \Delta, \Theta \vdash \prop{C}}{
-			\infer[]{\Gamma, \Delta, \Theta \dots \vdash \prop{C}}{
-				\infer*[u]{}{
-					\infer[]{\Gamma \vdash \prop{A}}{
-						\infer*[s]{}{}
-					}
-					&
-					\dots 
-					&
-					\infer[]{\Delta \vdash \prop{B}}{
-						\infer*[t]{}{}
-					}
+	}
+	$
+	&
+	\raisebox{20pt}{$\implies$}
+	&
+	$
+	\infer*[]{\Gamma, \Delta, \Theta \vdash \prop{C}}{
+		\infer[]{\Gamma, \Delta, \Theta \dots \vdash \prop{C}}{
+			\infer*[u]{}{
+				\infer[]{\Gamma \vdash \prop{A}}{
+					\infer*[s]{}{}
+				}
+				&
+				\dots 
+				&
+				\infer[]{\Delta \vdash \prop{B}}{
+					\infer*[t]{}{}
 				}
 			}
-		} 
-		$
-		\end{tabularx}
-		\label{123}
-		\caption{123}
-	\end{subfigure}
-	\caption{Intuitionistic proof reductions.}
+		}
+	} 
+	$
+	\end{tabularx}	\caption{Intuitionistic $\beta$ redexes.}
 	\label{figure:intuitionistic_proof_reduction}
 \end{figure}
 
@@ -279,7 +276,7 @@ i.e. rather than a sequence of formulas, we have a sequence of distinct variable
 		&
 		$\infer[\times I]
 			{\Gamma, \Delta \vdash \cterm{(\term{s}, \term{t})}: \prop{A} \times \prop{B}}
-			{\Gamma \vdash \term{s}: \prop{A} & \Delta \vdash \term{t}:\prop{B}}$\\[2em]
+			{\Gamma \vdash \term{s}: \prop{A} & \Delta \vdash \term{t}:\prop{B}}$\\[\smallsep]
 		\multicolumn{2}{@{}c@{}}{$\infer[\Exchange{}]{\Delta, \Gamma \vdash \term{s}: \prop{A}}{\Gamma, \Delta \vdash \term{s}: \prop{A}}$}\\[2em]
 		$\infer[\Weakening{}]
 			{\Gamma, \term{x_i}: \prop{A} \vdash \term{s}: \prop{B}}
@@ -333,8 +330,8 @@ Standardizing variable naming, e.g. according to the distance between variables 
 The term rewrites we have so far inspected were either provided by specific rules, or were notational overhead due to the denominational ambiguity of variables.
 Aside from the above, our type system provides two minimal computation steps that tell us how to reduce expressions that involve the deconstruction of a just-constructed type:
 \begin{align*}
-(\term{\lambda x_i.s})~\term{t} & \overset{\beta}{\rightsquigarrow} \term{s}_{[\term{x_i} \mapsto \term{t}]}\\
-\cterm{case (\term{s}, \term{t}) of (\term{x_i}, \term{x_j}) in \term{u}} & \overset{\beta}{\rightsquigarrow} \term{u_{[\term{s} \mapsto \term{x_i}, \term{t} \mapsto \term{x_j}]}}
+(\term{\lambda x_i.s})~\term{t} & \overset{\beta}{\leadsto} \term{s}_{[\term{x_i} \mapsto \term{t}]}\\
+\cterm{case (\term{s}, \term{t}) of (\term{x_i}, \term{x_j}) in \term{u}} & \overset{\beta}{\leadsto} \term{u_{[\term{s} \mapsto \term{x_i}, \term{t} \mapsto \term{x_j}]}}
 \end{align*}
 
 A term on which no $\beta$ reductions can be applied is said to be in $\beta$-normal form.
@@ -460,6 +457,7 @@ Combined with type raising, this trick is interesting, as it permits us to indir
 Keep a mental note.
 
 \begin{figure}
+	\centering
 	\begin{subfigure}{1\textwidth}
 		\[
 		\infer[\to I (x2)]{\term{x_0} \vdash \term{\lambda x_1x_2.x_0~(\term{x_1},\term{x_2})}: \prop{A} \to \prop{B} \to \prop{C}}{
@@ -476,7 +474,7 @@ Keep a mental note.
 		\]
 		\caption{Currying}
 		\label{subfigure:currying}
-	\end{subfigure}\\[2em]
+	\end{subfigure}\\[\midsep]
 	\begin{subfigure}{1\textwidth}
 		\[
 			\infer[\to I]{\term{x_1} \vdash \term{\lambda x_0.}\cterm{case \term{x_0} of (\term{x_2}, \term{x_3}) in \term{x_1~x_2~x_3}}:(\prop{A} \times \prop{B})\to \prop{C}}{
@@ -554,11 +552,11 @@ Let us also point out that in the case of the implication introduction rule $\li
 		\multicolumn{2}{@{}c}{
 		$\infer[\li E]{\Gamma, \Delta \vdash \term{s~t}: \prop B}{\Gamma \vdash \term{s}: \prop A \li \prop B & \Delta \vdash \term{t}: \prop{A}}$}
 		& 
-		$\infer[\li I]{\Gamma \vdash \term{\lambda x_i.s}: \prop A \li \prop B}{\Gamma, \term{x_i}: \prop A \vdash \term{s}: \prop B}$\\[2em]
+		$\infer[\li I]{\Gamma \vdash \term{\lambda x_i.s}: \prop A \li \prop B}{\Gamma, \term{x_i}: \prop A \vdash \term{s}: \prop B}$\\[\smallsep]
 		\multicolumn{2}{@{}c}{
 		$\infer[\otimes E]{\Gamma,\Delta \vdash \cterm{case \smallterm{s} of (\smallterm{x_i}, \smallterm{x_j}) in \smallterm{t}}: \prop C}{\Gamma \vdash \term{s}: \prop A \otimes \prop B & \Delta, \term{x_i}: \prop A , \term{x_j}: \prop B \vdash \term{t}: \prop C}$}
 		&
-		$\infer[\otimes I]{\Gamma, \Delta \vdash (\term{s}, \term{t}): \prop A \otimes \prop B}{\Gamma \vdash \term{s}: \prop A & \Delta \vdash \term{t}: \prop B}$\\[2em]
+		$\infer[\otimes I]{\Gamma, \Delta \vdash (\term{s}, \term{t}): \prop A \otimes \prop B}{\Gamma \vdash \term{s}: \prop A & \Delta \vdash \term{t}: \prop B}$\\[\smallsep]
 		$
 		\infer[\with E_1]{\Gamma \vdash \cterm{fst(\smallterm{s})}: \prop{A}}{\Gamma \vdash \smallterm{s}: \prop{A} \with \prop{B}}
 		$
@@ -573,7 +571,7 @@ Let us also point out that in the case of the implication introduction rule $\li
 		\end{tabularx}
 		\caption{Logical rules.}
 		\label{subfigure:linear_logic_rules:logical}
-	\end{subfigure}\\[2em]
+	\end{subfigure}\\[\midsep]
 	\begin{subfigure}{1\textwidth}
 		\centering
 		\begin{tabularx}{0.7\textwidth}{@{}C@{}}
@@ -596,10 +594,10 @@ The extra connective $\with$ introduces its own two redexes (one per eliminator)
 Its reading is straightforward: if one were to use $\Gamma$ to independently derive \smallprop{A} and \smallprop{B} along two parallel proofs, proceed by constructing a choice between the two, and then also make that choice (favoring either), there was never any need for the other in the first place.
 The equivalent term reduction steps this time around are:
 \begin{align*}
-(\term{\lambda x_i.s})~\term{t} & \overset{\beta}{\rightsquigarrow} \term{s}_{[\term{x_i} \mapsto \term{t}]}\\
-\cterm{case (\smallterm{s}, \smallterm{t}) of (\smallterm{x_i}, \smallterm{x_j}) in \smallterm{u}} & \overset{\beta}{\rightsquigarrow} \term{u_{[\term{s} \mapsto \term{x_i}, \term{t} \mapsto \term{x_j}]}}\\
-\cterm{fst}(\langle\term{s},\term{t}\rangle) & \overset{\beta}{\rightsquigarrow} \term{s}\\
-\cterm{snd}(\langle\term{s},\term{t}\rangle) & \overset{\beta}{\rightsquigarrow} \term{t}\\
+(\term{\lambda x_i.s})~\term{t} & \overset{\beta}{\leadsto} \term{s}_{[\term{x_i} \mapsto \term{t}]}\\
+\cterm{case (\smallterm{s}, \smallterm{t}) of (\smallterm{x_i}, \smallterm{x_j}) in \smallterm{u}} & \overset{\beta}{\leadsto} \term{u_{[\term{s} \mapsto \term{x_i}, \term{t} \mapsto \term{x_j}]}}\\
+\cterm{fst}(\langle\term{s},\term{t}\rangle) & \overset{\beta}{\leadsto} \term{s}\\
+\cterm{snd}(\langle\term{s},\term{t}\rangle) & \overset{\beta}{\leadsto} \term{t}\\
 \end{align*}
 
 
@@ -627,7 +625,7 @@ The equivalent term reduction steps this time around are:
 			\infer*[t]{}{}
 		}}
 	}
-	$\\[2em]
+	$\\[\smallsep]
 	$
 	\infer[\otimes E]{\Gamma, \Delta, \Theta \vdash \prop{C}}{
 		\infer[\otimes I]{\Gamma, \Delta \vdash \prop{A} \otimes \prop{B}}{
@@ -656,7 +654,7 @@ The equivalent term reduction steps this time around are:
 			\infer*[u]{}{}
 		}
 	}
-	$\\[2em]
+	$\\[\smallsep]
 	$
 	\infer[\with E_1]{\Gamma \vdash \prop{A}}{
 		\infer[\with I]{\Gamma \vdash \prop{A} \with \prop{B}}{
@@ -673,7 +671,7 @@ The equivalent term reduction steps this time around are:
 	\infer*[s]{\Gamma \vdash \prop{A}}{}
 	$
 	\end{tabularx}
-	\caption{Linear proof reductions.}
+	\caption{Linear $\beta$ redexes.}
 	\label{figure:linear_proof_reductions}
 \end{figure}
 
@@ -697,7 +695,7 @@ We will consider the natural deduction proof of linear function composition of F
 
 \begin{figure}
 	\[
-		\infer[Exchange]{\term{x_0}, \term{x_1} \vdash \term{\lambda x_2.x_1~(x_0~x_2)}: \prop{A} \li \prop{C}}{
+		\infer[\Exchange]{\term{x_0}, \term{x_1} \vdash \term{\lambda x_2.x_1~(x_0~x_2)}: \prop{A} \li \prop{C}}{
 			\infer[\li I]{\term{x_1}, \term{x_0} \vdash \term{\lambda x_2.x_1~(x_0~x_2)}: \prop{A} \li \prop{C}}{
 				\infer[\li E]{\term{x_1}, \term{x_0}, \term{x_2} \vdash \term{x_2~(x_1~x_0)}: \prop{A} \li \prop{C}}{
 					\infer[Ax]{\term{x_1}:\prop{B}\li\prop{C}}{}
@@ -725,6 +723,7 @@ Such positive formulas play the role of hypotheses that have been abstracted ove
 An arrangement of the decomposition trees of all formulas as they occur within a judgement is called a \textit{proof frame}; the one for our running example can be seen in Figure~\ref{subfigure:proof_frame_funcomp}.
 
 \begin{figure}
+	\centering
 	\begin{subfigure}{1\textwidth}
 		\centering
 		\begin{tikzpicture}
@@ -750,7 +749,7 @@ An arrangement of the decomposition trees of all formulas as they occur within a
 	\end{tikzpicture}
 	\caption{Proof frame.}
 	\label{subfigure:proof_frame_funcomp}
-	\end{subfigure}\\[2em]
+	\end{subfigure}\\[\midsep]
 	\begin{subfigure}{1\textwidth}
 		\centering
 		\begin{tikzpicture}
@@ -829,6 +828,7 @@ A rare and lucky coindidence, or perhaps the result of carefully planned conceal
 Regardless of what it might have been, we cannot reasonably anticipate there to always be a single possible set of axiom links, so we need a decision procedure that tells us how to actually extract them from a less forgiving proof.
 
 \begin{figure}
+	\centering
 	\begin{tikzpicture}[
 		   focus/.style={rectangle, thick, draw, minimum size=15pt},
 		   link/.style={thick}
@@ -837,7 +837,7 @@ Regardless of what it might have been, we cannot reasonably anticipate there to 
 	{
 	\textcolor{gray!120}{
 	$
-		\infer[Exchange]{\nprop{A}_k\li\pprop{B}_l, \nprop{B}_i\li\pprop{C}_j \vdash \pprop{A}_m \li \nprop{C}_j}{
+		\infer[\Exchange]{\nprop{A}_k\li\pprop{B}_l, \nprop{B}_i\li\pprop{C}_j \vdash \pprop{A}_m \li \nprop{C}_j}{
 			\infer[\li I]{\nprop{B}_i\li\pprop{C}_j, \pprop{A}_k\li\pprop{B}_l \vdash  \pprop{A}_m \li \nprop{C}_j}{
 				\infer[\li E (2)]{\nprop{B}_i\li\pprop{C}_j, \nprop{A}_k\li\pprop{B}_l, \pprop{A}_m \vdash \nprop{C}_j}{
 					\infer[Ax]{\nprop{B}_i\li\pprop{C}_j\vdash \pprop{B}_i \li \nprop{C}_j}{
@@ -941,7 +941,6 @@ This also serves to better illustrate a remark made earlier: the rule can be app
 
 \begin{figure}
 	\centering
-	\centering
 	\begin{tabularx}{0.975\textwidth}{@{}CC@{}}
 		\multicolumn{2}{@{}c@{}}{$\infer[Ax]{\term{x_i}: \prop A \vdash \term{x_i}: \prop A}{}$}\\[2em]
 		$\infer[\divright E]{\Gamma, \Delta \vdash \term{s}\appright\term{t}: \prop B}{\Gamma \vdash  \term{s}: \prop{B} \divright \prop{A} & \Delta \vdash \term{t}: \prop{A}}$
@@ -972,9 +971,9 @@ The only addition is the symmetric version of the familiar implicational redex.
 For the redex of the product, the substituted $\smallprop{A}$ and $\smallprop{B}$ hypotheses are now wrapped on both sides by a context $\Theta$, following the formulation of $\otimes E$.
 The corresponding term reductions are:
 \begin{align*}
-(\term{\lambda x_i.s})~\term{t} & \overset{\beta}{\rightsquigarrow} \term{s}_{[\term{x_i} \mapsto \term{t}]}\\
-\term{t}~(\term{\adbmal x_i.s}) & \overset{\beta}{\rightsquigarrow} \term{s}_{[\term{x_i} \mapsto \term{t}]}\\
-\cterm{case (\smallterm{s}, \smallterm{t}) of (\smallterm{x_i}, \smallterm{x_j}) in \smallterm{u}} & \overset{\beta}{\rightsquigarrow} \term{u_{[\term{s} \mapsto \term{x_i}, \term{t} \mapsto \term{x_j}]}}\\
+(\term{\lambda x_i.s})~\term{t} & \overset{\beta}{\leadsto} \term{s}_{[\term{x_i} \mapsto \term{t}]}\\
+\term{t}~(\term{\adbmal x_i.s}) & \overset{\beta}{\leadsto} \term{s}_{[\term{x_i} \mapsto \term{t}]}\\
+\cterm{case (\smallterm{s}, \smallterm{t}) of (\smallterm{x_i}, \smallterm{x_j}) in \smallterm{u}} & \overset{\beta}{\leadsto} \term{u_{[\term{s} \mapsto \term{x_i}, \term{t} \mapsto \term{x_j}]}}\\
 \end{align*}
 
 \begin{figure}
@@ -1001,7 +1000,7 @@ The corresponding term reductions are:
 			\infer*[t]{}{}
 		}}
 	}
-	$\\[2em]
+	$\\[\smallsep]
 	$\infer[\divleft E]{\Gamma, \Delta \vdash \prop{B}}{
 		\infer{\Gamma \vdash \prop{A}}{
 			\infer*[t]{}{}
@@ -1023,7 +1022,7 @@ The corresponding term reductions are:
 			\infer*[t]{}{}
 		}}
 	}
-	$\\[2em]
+	$\\[\smallsep]
 	$
 	\infer[\otimes E]{\Theta\ctx{\Gamma, \Delta} \vdash \prop{C}}{
 		\infer[\otimes I]{\Gamma, \Delta \vdash \prop{A} \otimes \prop{B}}{
@@ -1054,7 +1053,7 @@ The corresponding term reductions are:
 	}
 	$
 	\end{tabularx}
-	\caption{Lambek proof reductions.}
+	\caption{Lambek $\beta$ redexes.}
 	\label{figure:lambek_proof_reductions}
 \end{figure}
 
@@ -1158,12 +1157,14 @@ By contrast, the maximalist attitude makes no concessions and seeks both for the
 \footnote{Direct translation of a silly but fitting greek aphorism. Cake is bad for dogs.}
 What if there was a way to keep our logic computationally tractable but with temporary and on-demand access to normally excluded reasoning tools?
 
+\subsection{The Logic of Modalities}
 The answer comes in the form of unary \textit{modalities}, type-forming operators lent from modal logics, that allow navigation between logics of different structural properties.
 Unary modalities hold a key role in the presentation of full linear logic; there, a single operator $!$ (called \textit{bang}) would allow an embedding of intuitionistic (non-linear) propositions into the linear regime, essentially acting as a licensor of \Contraction{} and \Weakening{}.
-In our case, we will make do with two modalities from temporal logic, the diamond $\diamond$ and the box $\Box$, that form a resiudal pair satisfying the accessibility relations:
+In our case, we will make do with two modalities from temporal logic, the diamond $\diamond$ and the box $\Box$, that form a residual pair.
+Their composition $\Box\diamond(\_)$ yields an \textit{interior} operator, and $\diamond\Box(\_)$ a \textit{closure} operator, i.e. they satisfy the accessibility relations:
 \begin{center}
 \begin{tabularx}{0.5\textwidth}{@{}ccc@{}}
-	$ \smallprop{A} \vdash \Box\diamond \smallprop{A}$ & and & $\diamond\Box \smallprop{A} \vdash \smallprop{A}$
+	$ \smallprop{A} \longrightarrow \Box\diamond \smallprop{A}$ & and & $\diamond\Box \smallprop{A} \longrightarrow \smallprop{A}$
 \end{tabularx}
 \end{center}
 
@@ -1177,7 +1178,7 @@ In our case, we will make do with two modalities from temporal logic, the diamon
 		$\infer[\Box I]{\Gamma \vdash \boxintro{\term{s}}:\Box\prop{A}}{
 			\bracket{\Gamma} \vdash \term{s}:\prop{A}
 		}$
-		\\[2em]
+		\\[\smallsep]
 		$\infer[\diamond E]{\Gamma\ctx{\Delta} \vdash \cterm{case \term{\diaelim t} of \term{x_i} in \term{s}}: \prop{B}}{
 			\Gamma\ctx{\bracket{\term{x_i}:\prop{A}}}\vdash\term{s}:\prop{B}
 			&
@@ -1213,55 +1214,28 @@ Term constructions for the single-premise rules are uncomplicated: each type ope
 This is not the case for the $\diamond E$ rule, which requires some attention:
 the structural substitution of $\bracket{\smallprop{A}}$ for $\Delta$ necessitates a case construct that calls for a term substitution of the variable $\smallterm{x_i}$ for $\diaelim\smallterm{t}$.
 
+
 \paragraph{Proof \& Term Reductions}
-The normalization routines hold as usual
 
 \begin{figure}
 	\centering
 	\begin{subfigure}{1\textwidth}
-		\begin{tabularx}{0.95\textwidth}{@{}ccc@{}}
-%		$\infer[\Box E]{\bracket{\Gamma} \vdash \prop{A}}{
-%			\infer[\Box I]{\Gamma \vdash \Box \prop{A}}{
-%				\infer*[s]{\bracket{\Gamma} \vdash  \prop{A}}{}
-%			}
-%		}
-%		$
-%		&
-%		\raisebox{10pt}{$\implies$}
-%		&
-%		$\infer*[s]{\bracket{\Gamma} \vdash \prop{A}}{}
-%		$\\[2em]
-		$\infer[\diamond E]{\Delta \vdash \diamond\prop{A}}{
-			\infer[\diamond I]{\bracket{\prop{A}}\vdash \diamond A}{
-				\infer[Ax]{\prop{A} \vdash \prop{A}}{}
+	\centering
+		\begin{tabularx}{0.85\textwidth}{@{}ccc@{}}
+		$\infer[\Box E]{\bracket{\Gamma} \vdash \prop{A}}{
+			\infer[\Box I]{\Gamma \vdash \Box \prop{A}}{
+				\infer*[s]{\bracket{\Gamma} \vdash  \prop{A}}{}
 			}
-			&
-			\infer*[s]{\Delta \vdash \diamond\prop{A}}{}
-		}$
-		&
-		\raisebox{20pt}{$\implies$}
-		&
-		$\infer*[s]{\Delta \vdash \diamond \prop{A}}{}
+		}
 		$
-		\end{tabularx}
-	\label{subfigure:123}
-	\caption{a}
-	\end{subfigure}\\[2em]
-	\begin{subfigure}{1\textwidth}
-		\begin{tabularx}{0.95\textwidth}{@{}ccc@{}}
-%		$\infer[\Box I]{\Gamma \vdash \Box\prop{A}}{
-%			\infer[\Box E]{\bracket{\Gamma} \vdash \prop{A}}{
-%				\infer*[s]{\Gamma \vdash  \Box\prop{A}}{}
-%			}
-%		}
-%		$
-%		&
-%		\raisebox{10pt}{$\implies$}
-%		&
-%		$\infer*[s]{\Gamma \vdash \Box\prop{A}}{}
-%		$\\[2em]
+		&
+		\raisebox{10pt}{$\implies$}
+		&
+		$\infer*[s]{\bracket{\Gamma} \vdash \prop{A}}{}
+		$\\[\smallsep]
 		$\infer[\diamond E]{\Gamma\ctx{\bracket{\Delta}} \vdash \prop{B}}{
-			\infer*[s]{\Gamma\ctx{\bracket{\prop{A}}} \vdash \prop{B}}{\infer[Ax]{\prop{A} \vdash \prop{A}}{}}
+			\infer*[s]{\Gamma\ctx{\bracket{\prop{A}}} \vdash \prop{B}}{
+				\infer[Ax]{\prop{A} \vdash \prop{A}}{}}
 			&
 			\infer[\diamond I]{\bracket{\Delta} \vdash \diamond\prop{A}}{
 				\infer*[t]{\Delta \vdash \prop{A}}{}
@@ -1276,25 +1250,225 @@ The normalization routines hold as usual
 		}
 		$
 		\end{tabularx}
-	\label{subfigure:123}
-	\caption{b}
+		\caption{$\beta$ redexes.}
+		\label{subfigure:modal_beta_reductions}
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}{1\textwidth}
+		\centering
+		\begin{tabularx}{0.8\textwidth}{@{}ccc@{}}
+			$\infer[\Box I]{\Gamma \vdash \Box\prop{A}}{
+			\infer[\Box E]{\bracket{\Gamma} \vdash \prop{A}}{
+					\infer*[s]{\Gamma \vdash  \Box\prop{A}}{}
+				}
+			}
+			$
+			&
+			\raisebox{5pt}{$\equiv$}
+			&
+			$\infer*[s]{\Gamma \vdash \Box\prop{A}}{}
+			$\\[\smallsep]
+			$\infer[\diamond E]{\Delta \vdash \diamond\prop{A}}{
+				\infer[\diamond I]{\bracket{\prop{A}}\vdash \diamond A}{
+					\infer[Ax]{\prop{A} \vdash \prop{A}}{}
+				}
+				&
+				\infer*[s]{\Delta \vdash \diamond\prop{A}}{}
+			}$
+			&
+			\raisebox{15pt}{$\equiv$}
+			&
+			$\infer*[s]{\Delta \vdash \diamond \prop{A}}{}
+			$
+		\end{tabularx}
+		\caption{$\eta$ redexes.}
+		\label{subfigure:modal_eta_reductions}
 	\end{subfigure}
 	\caption{Proof reductions for unary modalities.}
 	\label{figure:modal_proof_reductions}
 \end{figure}
 
-%, except the latter is now marked with a decoration $\diaelim$.
-%This means that the term decoration does not take scope at the outermost layer of term $\smallterm{s}$, but rather nested arbitrarily deeply within it, unlike its better behaved friends.
+The proof patterns of Figure~\ref{subfigure:modal_beta_reductions} exhibit introduction elimination chains of modal operators, and thus constitute $\beta$ redexes subject to normalization.
+The first one is trivial: it just says that a sequential application of $\Box I$ followed by $\Box E$ can be safely excised.
+The second one proposes that if a $\diamond I$ is the last rule to have been applied on the substitution branch $t$ of the $\diamond E$ rule, it would make sense to simply plug proof $t$ in place of the proposition $\smallprop{A}$ hypothesized in the other  branch $s$.
+On the term level, these rules correspond to computations:
+\begin{align*}
+\boxelim \boxintro \term{s} & \overset{\beta}{\leadsto} \term{s}\\
+\cterm{case \term{\diaelim \diaintro t} of \term{x} in \term{s}} & \overset{\beta}{\leadsto} \term{s}_{[\term{x} \mapsto \term{t}]}
+\end{align*}
+The dual direction of $\eta$ equivalences also holds -- since these are not as frequently encountered as the more pedestrian implication and product equivalences, we explictly present them in Figure~\ref{subfigure:modal_eta_reductions}.
+The term equivalences they materialize are:
+\begin{align*}
+\boxintro \boxelim \term{s} & \overset{\eta}{\equiv} \term{s}\\
+\cterm{case \term{\diaelim{s}} of \term{x} in \term{\diaintro{x}}} & \overset{\eta}{\equiv} \term{s}
+%\cterm{case \term{\diaelim \diaintro t} of \term{x} in \term{s}} & \overset{\beta}{\leadsto} \term{s}_{[\termt{x} \mapsto \term{t}]}
+\end{align*}
 
-%is mirrored by a retroactively applied term substitution of the variable $\smallterm{x_i}$ for $\smallterm{t}$, except the latter is now marked with a decoration $\diaelim$ -- this means that the term decoration does not take scope at the outermost layer of term $\smallterm{s}$, but rather nested arbitrarily deeply within it, unlike its better behaved friends.
-%Note that here we are breaking our own rules on best practices and using the meta-syntax notation of term substitution; a stricter formulation of the term rewrite would instead be:
-%\[
-%\]
-%We will indulge in the convenience of the substitution version, which makes $\beta$/$\eta$ reductions easier to notice and perform.
-%The consequence is that we are conflating multiple terms into a single representation, implicitly establishing a syntactic equivalence on proofs that claims that the exact position of a $\diamond E$ rule is \textit{semantically irrelevant} so long as the same variable $\smallterm{x_i}$ is substituted by the same term $\smallterm{\diaelim t}$.
-%
+\paragraph{Properties}
+Situating our unary operators within the modal logic zoo is no trivial endeavour (especially if you, like me, have had limited exposure to it before).
+They are best characterized by the properties they satisfy, so inspecting them should shed some light on their proof-theoretic behavior (as a bonus, it will also help us get better acquainted with the kind of term rewrites their rules prescribe).
+Figure~\ref{figure:modal_properties:accessibility} presents the proof translations equivalent to the accessibility relations that were foretold:
+\begin{center}
+\begin{tabularx}{0.65\textwidth}{@{}ccc@{}}
+	$ \Gamma \vdash \smallprop{A} \leadsto \Gamma \vdash \Box\diamond \smallprop{A}$ & and & $\Gamma \vdash \diamond\Box \smallprop{A} \leadsto \Gamma \vdash \smallprop{A}$
+\end{tabularx}
+\end{center}
+On the type level, the connectives are \textit{Galois connected} operators.
+They satisfy a transformation such that for any pair $\smallprop{A}$, $\smallprop{B}$, $\smallprop{A} \vdash \Box \smallprop{B}$ holds if and only if $\diamond \smallprop{A} \vdash \smallprop{B}$.
+Further, both operators are \textit{monotone}, meaning that they provide a way to cast $\smallprop{A} \vdash \smallprop{B}$ into either $\diamond \smallprop{A} \vdash \diamond \smallprop{B}$ or $\Box \smallprop{A} \vdash \Box \smallprop{B}$.
+Figure~\ref{figure:modal_properties:monotonicity} illustrates the transformation processes, conditional on initial derivations.
+
+
+\begin{figure}
+	\centering
+	\begin{tabularx}{0.75\textwidth}{@{}c@{\qquad}c@{}}
+		$
+		\infer[\Box I]{\Gamma \vdash \boxintro\diaintro\term{s}:\Box \diamond \prop{A}}{
+			\infer[\diamond I]{\bracket{\Gamma} \vdash \diaintro\term{s}: \diamond \prop{A}}{
+				\infer*[s]{\Gamma \vdash \term{s}: \prop{A}}{}
+			}
+		}
+		$
+		&
+		$
+		\infer[\diamond E]{\Gamma \vdash \cterm{case \term{\diaelim{s}} of \term{x_i} in \term{\boxelim x_i}}: \prop{A}}{
+			\infer[\Box E]{\bracket{\term{x_i}: \Box \prop{A}}\vdash \boxelim\term{x_i}:\prop{A}}{
+				\infer[Ax]{\term{x_i}: \Box\prop{A} \vdash \term{x_i}: \Box\prop{A}}{}
+			}
+			&
+			\infer*[s]{\Gamma\vdash \term{s}: \diamond \Box \prop{A}}{}
+		}
+		$
+		\end{tabularx}
+	\caption{Modal acessibility relations as proof transformations.}
+	\label{figure:modal_properties:accessibility}
+\end{figure}
+
+\begin{figure}
+	\begin{subfigure}{1\textwidth}
+		\[
+			\infer[\diamond E]{\term{x_j}: \diamond \prop{A} \vdash \caseof{\diaelim x_j}{x_i}{s}:\prop{B}}{
+				\infer[\Box E]{\bracket{\term{x_i}: \prop{A}} \vdash \boxelim\term{s}: \prop{B}}{
+					\infer*[s]{\term{x_i}: \prop{A} \vdash \term{s}: \Box\prop{B}}{}
+				}
+				&
+				\infer[Ax]{\term{x_j}: \diamond \prop{A} \vdash \term{x_j}: \diamond \prop{A}}{}
+			}
+		\]
+	\caption{Galois connectedness.}
+	\label{subfigure:modal_properties:galois1}	
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}{1\textwidth}
+		\[
+			\infer[\Box I]{\term{x_j}: \diamond \prop{A} \vdash \boxintro(\caseof{\diaelim \diaintro x_j}{x_i}{\lambda x_i.s}): \prop{B}}{
+				\infer[\diamond E]{\bracket{\term{x_j}: \prop{A}} \vdash \caseof{\diaelim \diaintro x_j}{x_i}{\lambda x_i.s}: \prop{B}}{
+					\infer[\li I]{\vdash \term{\lambda x_i.s}: \diamond\prop{A} \li \prop{B}}{
+						\infer*[s]{\term{x_i}: \diamond\prop{A} \vdash \term{s}: \prop{B}}{}
+					}
+					&
+					\infer[\diamond I]{\bracket{\term{x_j}: \prop{A}} \vdash \term{\diaintro x_j}: \diamond \prop{A}}{
+						\infer[Ax]{\term{x_j}: \prop{A} \vdash \term{x_j}: \prop{A}}{}
+					}
+				}
+			}
+		\]
+	\caption{Ditto, the other way around.}
+	\label{subfigure:modal_properties:galois2}	
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}{1\textwidth}
+		\[
+			\infer[\diamond E]{\term{x_j}: \diamond \prop{A} \vdash  \cterm{case \term{\diaelim x_j} of \term{x_i} in \term{s}}: \diamond \prop{B}}{
+					\infer[\diamond I]{\bracket{\term{x_i}: \prop{A}} \vdash \diaintro \term{s}: \diamond \prop{B}}{
+						\infer*[s]{\term{x_i}: \prop{A} \vdash \term{s}: \prop{B}}{}
+					}
+					&
+					\infer[Ax]{\term{x_j}: \diamond \prop{A} \vdash \term{x_j}: \diamond \prop{A}}{}
+			}
+		\]
+	\caption{Monotonicity of the diamond.}
+	\label{subfigure:modal_properties:diamond_mono}
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}{1\textwidth}
+		\[
+			\infer[\Box I]{\term{x_j}: \Box \prop{A} \vdash \boxintro{((\term{\lambda x_i.s})~\term{\boxelim x_j}}:\Box \prop{B}}{
+				\infer[\li E]{\bracket{\term{x_j}: \Box \prop{A}} \vdash (\term{\lambda x_i.s})~\term{\boxelim x_j}: \prop{B}}{
+					\infer[\li I]{\vdash \term{\lambda x_i.s}: \prop{A} \li\prop{B}}{
+						\infer*[s]{\term{x_i}: \prop{A} \vdash \term{s}: \prop{B}}{}
+					}
+					&
+					\infer[\Box E]{\bracket{\term{x_j}: \Box \prop{A}} \vdash \boxelim\term{x_j}:\prop{A}}{	
+						\infer[Ax]{\term{x_j}: \Box\prop{A} \vdash \term{x_j}: \Box\prop{A}}{}
+					}
+				}
+			}
+		\]
+		\caption{Monotonicity of the box.}
+		\label{subfigure:modal_properties:box_mono}
+	\end{subfigure}
+	\caption{Deriving operational properties of the two modalities. Feel free to substitute $\li$ for a directional variant in \ref{subfigure:modal_properties:galois2} and \ref{subfigure:modal_properties:box_mono}.}
+	\label{figure:modal_properties:monotonicity}
+\end{figure}
+
+
+\paragraph{A Digression on Modal Terms}
+For the modally savvy, the term rewrites attributed to the modal rules might seem unorthodox.
+A more common presentation employs the simpler meta-syntax notation of term substitution.
+For instance, $\diamond E$ can often be spotted in the wild as:
+\[
+	\infer[\diamond E]{\Gamma\ctx{\Delta} \vdash \term{s}_{[\term{x_i}\mapsto\term{\diaelim t}]}: \prop{B}}{
+		\Gamma\ctx{\bracket{\term{x_i}:\prop{A}}}\vdash\term{s}:\prop{B}
+		&
+		\Delta \vdash \term{t}:\diamond\prop{A}
+	}
+\]
+In this disguise, the rule is again seen as realizing a retroactive substitution of $\smallterm{x_i}$ with $\smallterm{\diaelim t}$, except this time around the substitution is \textit{actually} performed, resulting in less cumbersome terms being carried around.
+Opting for this alternative notation has however a number of negative consequences.
+The more superficial one is that the main term connective does not take scope at the outermost layer of rule's yield, but rather nested arbitrarily deeply within it, unlike its better behaved version.
+From a proof-theoretic perspective, normalization is now baked directly into the theory: the term yield of the rule exactly coincides with its $\beta$ reduced form.
+At the same time, all rule permutations boil down to having the exact same reduction, i.e. multiple previously distinct terms are conflated into a single representation.
+This establishes an impicit syntactic equivalence on proofs that claims that the exact position of the $\diamond E$ rule is \textit{semantically irrelevant} (so long of course as the same variable $\smallterm{x_i}$ is substituted by the same term $\smallterm{\diaelim t}$).
+All these are perhaps minor points not worth taking too seriously, but for one concerned with concrete implementation the extra merit of notational simplicity comes at the cost of equality checking become way more tedious.
+With this in mind (and in a rare moment of excessive formal zeal), we will exercise some self restraint and avoid indulging in the convenience of this version.
+
+\subsection{Structural Reasoning}
+This minor detour hopefully helped us acquire a first taste for modalities.
+We now know how to introduce and eliminate them and what the effect of doing so is on the antecedent structure, and got a first glimpse of their properties, the term rewrites they prescribe and the type inequalities (in the form of unidirectional derivations) they give rise to.
+The question then becomes how to actually use them for the task at hand, namely disciplined traversal between substructural logics.
+Structural reasoning is accomplished via structural postulates, rules of inference that enact commutativity and associativity (or combinations thereof) but in a controlled fashion.
+These are permissible only under strict conditions on the substructures constituent to the antecedent structure -- this is where the new kind of structures will prove useful.
+There is no fixed vocabulary of structural rules as they are intended for application-specific finetuning of a universal logical core, so we are free to design and populate it according to our own needs.
+Prime examples and standard items for consideration include the controlled associativity and mixed associativity-commutativity rules of Figure~\ref{figure:modal_structural_rules}.
+The first rule $\rulestyle{ass}_{\diamond}$ allows a marked (angularly bracketed) $\Phi$ structure to escape its bind to its neighbour $\Theta$, forcing it to associate to the structure $\Delta$ to its left instead.
+The second one $\rulestyle{mix}_{\diamond}$ allows a marked $\Theta$ to swap position with its right-adjacent neighbor $\Phi$, disassociating from its left neighbour $\Delta$ in the process.
+In domains where even finer control is needed, one can consider indexed families of (possibly interacting) modalities, each with their own structural brackets and rulesets.
+
+\begin{figure}
+	\centering
+	\begin{tabularx}{0.75\textwidth}{@{}c@{\qquad}c@{}}	
+	$
+	\infer[\rulestyle{ass}_{\diamond}]{\Gamma\ctx{(\Delta, \Theta), \bracket{\Phi}} \vdash \prop{A}}{
+		\Gamma\ctx{\Delta, (\Theta, \bracket{\Phi})} \vdash \prop{A}
+	}
+	$
+	&
+	$
+	\infer[\rulestyle{mix}_{\diamond}]{\Gamma\ctx{(\Delta, \Phi), \bracket{\Theta}} \vdash \prop{A}}{
+		\Gamma\ctx{(\Delta, \bracket{\Theta}), \Phi} \vdash \prop{A}
+	}
+	$
+	\end{tabularx}
+	\caption{Controlled associativity/commutativity.}	
+	\label{figure:modal_structural_rules}
+\end{figure} 
 
 \section{The Linguistic Perspective}
+
+\subsection{Type-Logical Grammars}
+
+\subsubsection{Test}
+
+\subsection{Abstract Categorial Grammars}
+
+\subsection{Other Formalisms}
 
 \nocite{sorensen2006lectures}
 \nocite{martin1982constructive}

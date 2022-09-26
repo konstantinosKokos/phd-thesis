@@ -3,7 +3,6 @@
 \usepackage{relsize}
 \usepackage{proof}
 \usepackage{subcaption}
-\usepackage{chapterbib}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{stmaryrd}
@@ -14,9 +13,24 @@
 \renewcommand{\baselinestretch}{1} 
 \usepackage{graphicx}
 \usepackage{xparse}
-
 \usepackage{calc}
 \usepackage{lipsum}  
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 					bibliography horror
+\usepackage{natbib}
+\bibliographystyle{abbrvnat}
+\setcitestyle{authoryear,open={[},close={]},aysep={, }}
+\renewcommand{\cite}{\citep}
+
+\usepackage{chapterbib}
+\renewcommand{\bibname}{Chapter Bibliography}
+%\newcommand{\bibsec}{%
+%	\section*{Chapter Bibliography}%
+%	\addcontentsline{toc}{section}{Chapter Bibliography}%
+%}
+%\renewcommand{\thebibliography}{\section{TEST}}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -33,13 +47,20 @@
 %                  chapter / section formatting
 \usepackage{chngcntr}
 \renewcommand{\thechapter}{\Roman{chapter}}
+%\renewcommand\thesubsubsection{\Alph{subsubsection}}
+\setcounter{secnumdepth}{3}
 \counterwithout{section}{chapter}
 
-\usepackage{natbib}
-\bibliographystyle{abbrvnat}
-\setcitestyle{authoryear,open={[},close={]},aysep={, }}
-\renewcommand{\cite}{\citep}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					toc
+\setcounter{tocdepth}{3}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%				lengths and spacings
+\newcommand{\smallsep}{1.5em}
+\newcommand{\midsep}{2.5em}
+
 
 \newcommand{\todo}{\textcolor{red}{todo}}
 
@@ -60,69 +81,28 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                  term / type / rule macros
-\newcommand{\smallprop}[1]{%
-	\ensuremath{\uppercase{\normalfont\textsc{#1}}}%
-}
-\newcommand{\prop}[1]{%
-	\ensuremath{\vnorm{}\smallprop{#1}}%
-}
-\newcommand{\smallterm}[1]{%
-	\ensuremath{\mathsf{#1}}%
-}
-\newcommand{\term}[1]{%
-	\smallterm{#1}
-}
-\newcommand{\propcon}{%
-	\ensuremath{\mathsf{Prop}_0}%
-}
-\newcommand{\cterm}[1]{%
-	\textrm{#1}%
-}
-\newcommand{\li}{%
-	\scalebox{1}[1]{\ensuremath{\multimap}}
-}
-\newcommand{\il}{%
-	\scalebox{-1}[1]{$\li$}%
-}
-\newcommand{\divleft}{%
-	\backslash%
-}
-\newcommand{\divright}{%
-	/%
-}
-\newcommand{\with}{%
-	{\ensuremath{\&}}%
-}
-\newcommand{\Exchange}{%
-	\ensuremath{Exchange}%
-}
-\newcommand{\Contraction}{%
-	\ensuremath{Contraction}%
-}
-\newcommand{\Weakening}{%
-	\ensuremath{Weakening}%
-}
-\newcommand{\ctx}[1]{%
-	\llbracket{#1}\rrbracket%
-}
-\newcommand{\bracket}[1]{%
-	\langle{#1}\rangle%
-}
-\newcommand{\appright}{%
-	\ensuremath{\triangleleft}%
-}
-\newcommand{\appleft}{%
-	\ensuremath{\triangleright}%
-}
-\newcommand{\nappright}{%
-	\ensuremath{\blacktriangleleft}%
-}
-\newcommand{\nappleft}{%
-	\ensuremath{\blacktriangleright}%
-}
-\newcommand{\adbmal}{%
-	\scalebox{-1}[1]{\ensuremath{\lambda}}%
-}
+\newcommand{\smallprop}[1]{	\ensuremath{\uppercase{\normalfont\textsc{#1}}}}
+\newcommand{\prop}[1]{\ensuremath{\vnorm{}\smallprop{#1}}}
+\newcommand{\smallterm}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\term}[1]{\smallterm{#1}}
+\newcommand{\propcon}{\ensuremath{\mathsf{Prop}_0}}
+\newcommand{\cterm}[1]{	\textrm{#1}}
+\newcommand{\li}{\scalebox{1}[1]{\ensuremath{\multimap}}}
+\newcommand{\il}{\scalebox{-1}[1]{$\li$}}
+\newcommand{\divleft}{\backslash}
+\newcommand{\divright}{	/}
+\newcommand{\with}{{\ensuremath{\&}}}
+\newcommand{\rulestyle}[1]{\ensuremath{\mathrm{#1}}}
+\newcommand{\Exchange}{\rulestyle{exch.}}
+\newcommand{\Contraction}{\rulestyle{contr.}}
+\newcommand{\Weakening}{\rulestyle{weak.}}
+\newcommand{\ctx}[1]{\llbracket{#1}\rrbracket}
+\newcommand{\bracket}[1]{\langle{#1}\rangle}
+\newcommand{\appright}{	\ensuremath{\triangleleft}}
+\newcommand{\appleft}{\ensuremath{\triangleright}}
+\newcommand{\nappright}{\ensuremath{\blacktriangleleft}}
+\newcommand{\nappleft}{	\ensuremath{\blacktriangleright}}
+\newcommand{\adbmal}{\scalebox{-1}[1]{\ensuremath{\lambda}}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					type modalities
@@ -159,6 +139,7 @@
 \newcommand{\boxintro}{{\modaltermscale{\blacktriangle}}}
 \newcommand{\diaelim}{\modaltermscale{\triangledown}}
 \newcommand{\diaintro}{\modaltermscale{\vartriangle}}
+\newcommand{\caseof}[3]{\cterm{case \term{#1} of \term{#2} in \term{#3}}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					logics
@@ -172,18 +153,8 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                  proofnet stuff
-\newcommand{\pprop}[1]{%
-	\ensuremath{\smallprop{#1}^{+}}%
-}
-\newcommand{\nprop}[1]{%
-	\ensuremath{\smallprop{#1}^{-}}%
-}
-\newcommand{\vnorm}[1]{%
-	\vphantom{S^x}{#1}%
-}
-\newcommand{\parlink}{%
-	\raisebox{\depth}{\scalebox{-1}[-1]{$\with$}}%
-}
-\newcommand{\sbind}{%
-	\ensuremath{\cdot}%
-}
+\newcommand{\pprop}[1]{	\ensuremath{\smallprop{#1}^{+}}}
+\newcommand{\nprop}[1]{	\ensuremath{\smallprop{#1}^{-}}}
+\newcommand{\vnorm}[1]{	\vphantom{S^x}{#1}}
+\newcommand{\parlink}{\raisebox{\depth}{\scalebox{-1}[-1]{$\with$}}}
+\newcommand{\sbind}{\ensuremath{\cdot}}

@@ -1,0 +1,13 @@
+\begin{thebibliography}{1}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[S{\o}rensen and Urzyczyn(2006)]{sorensen2006lectures}
+M.~H. S{\o}rensen and P.~Urzyczyn.
+\newblock \emph{Lectures on the Curry-Howard isomorphism}.
+\newblock Elsevier, 2006.
+
+\end{thebibliography}
