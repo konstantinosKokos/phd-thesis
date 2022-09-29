@@ -15,7 +15,11 @@
 \usepackage{xparse}
 \usepackage{calc}
 \usepackage{lipsum}  
+\usepackage{ifthen}
+\usepackage{hyperref}
 
+
+\newcommand{\todo}{\textcolor{red}{todo}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 					bibliography horror
@@ -53,16 +57,12 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					toc
-\setcounter{tocdepth}{3}
-
+\setcounter{tocdepth}{2}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %				lengths and spacings
 \newcommand{\smallsep}{1.5em}
-\newcommand{\midsep}{2.5em}
-
-
-\newcommand{\todo}{\textcolor{red}{todo}}
+\newcommand{\midsep}{2em}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %				tabular settings
@@ -79,9 +79,13 @@
 
 \newcommand{\copyleft}{\reflectbox{\copyright}}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					lingu examples
+\newcommand{\textex}[1]{``#1''}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                  term / type / rule macros
-\newcommand{\smallprop}[1]{	\ensuremath{\uppercase{\normalfont\textsc{#1}}}}
+\newcommand{\smallprop}[1]{	\ensuremath{\textsc{\uppercase{\normalfont\textsc{#1}}}}}
 \newcommand{\prop}[1]{\ensuremath{\vnorm{}\smallprop{#1}}}
 \newcommand{\smallterm}[1]{\ensuremath{\mathsf{#1}}}
 \newcommand{\term}[1]{\smallterm{#1}}
@@ -93,9 +97,11 @@
 \newcommand{\divright}{	/}
 \newcommand{\with}{{\ensuremath{\&}}}
 \newcommand{\rulestyle}[1]{\ensuremath{\mathrm{#1}}}
-\newcommand{\Exchange}{\rulestyle{exch.}}
-\newcommand{\Contraction}{\rulestyle{contr.}}
-\newcommand{\Weakening}{\rulestyle{weak.}}
+\newcommand{\Exchange}{\rulestyle{ex}}
+\newcommand{\Contraction}{\rulestyle{contr}}
+\newcommand{\Weakening}{\rulestyle{weak}}
+\newcommand{\Lex}{\rulestyle{lex}}
+\newcommand{\Ax}{\rulestyle{id}}
 \newcommand{\ctx}[1]{\llbracket{#1}\rrbracket}
 \newcommand{\bracket}[1]{\langle{#1}\rangle}
 \newcommand{\appright}{	\ensuremath{\triangleleft}}
@@ -103,6 +109,32 @@
 \newcommand{\nappright}{\ensuremath{\blacktriangleleft}}
 \newcommand{\nappleft}{	\ensuremath{\blacktriangleright}}
 \newcommand{\adbmal}{\scalebox{-1}[1]{\ensuremath{\lambda}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					grammar shortcuts
+\newcommand{\w}[1]{\text{#1}}
+\newcommand{\smallgtype}[1]{\ensuremath{\textsc{\lowercase{\normalfont\textsc{#1}}}}}
+\newcommand{\gtype}[2]{%
+	\ifthenelse
+		{\equal{#1}{s}}%
+		{\smallgtype{#2}}%
+		{\ensuremath{\vnorm{}\smallgtype{#2}}}%
+}
+\newcommand{\subcat}[3]{\gtype{#1}{#2}\textsubscript{#3}}
+\newcommand{\s}[1][]{\gtype{#1}{s}}
+\newcommand{\smalls}{\s[s]}
+\newcommand{\smain}[1][]{\subcat{#1}{\smalls}{}}
+\newcommand{\smallsmain}{\smain[s]}
+\newcommand{\svi}[1][]{\subcat{#1}{\s}{vi}}
+\newcommand{\smallsvi}{\svi[s]}
+\newcommand{\ssub}[1][]{\subcat{#1}{\s}{sub}}
+\newcommand{\smallssub}{\ssub[s]}
+\newcommand{\np}[1][]{\gtype{#1}{np}}
+\newcommand{\smallnp}{\np[s]}
+\newcommand{\n}[1][]{\gtype{#1}{n}}
+\newcommand{\smalln}{\n[s]}
+\newcommand{\pp}[1][]{\gtype{#1}{pp}}
+\newcommand{\smallpp}{\pp[s]}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					type modalities
@@ -117,22 +149,14 @@
 }
 \makeatother
 
-\newcommand{\domodaltypescale}[2]{%
-	\raisebox{0.5\getfontdim{#1}}{\scalebox{0.9}{\ensuremath{#1#2}}}%
-}
+\newcommand{\domodaltypescale}[2]{\raisebox{0.5\getfontdim{#1}}{\scalebox{0.9}{\ensuremath{#1#2}}}}
 \newcommand{\modaltypescale}[1]{\mathpalette\domodaltypescale{#1}\relax}
-\renewcommand{\diamond}{%
-	\modaltypescale{\diamondsuit}%
-}
-\renewcommand{\Box}{%
-	\modaltypescale{\boxempty}%
-}
+\renewcommand{\diamond}{\modaltypescale{\diamondsuit}}
+\renewcommand{\Box}{\modaltypescale{\boxempty}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                  term modalities
 \makeatletter
-\newcommand{\domodaltermscale}[2]{%
-	\raisebox{0.25\getfontdim{#1}}{\scalebox{0.85}{\ensuremath{#1#2}}}%
-}
+\newcommand{\domodaltermscale}[2]{\raisebox{0.25\getfontdim{#1}}{\scalebox{0.85}{\ensuremath{#1#2}}}}
 \makeatother
 \newcommand{\modaltermscale}[1]{\mathpalette\domodaltermscale{#1}\relax}
 \newcommand{\boxelim}{\modaltermscale{\blacktriangledown}}

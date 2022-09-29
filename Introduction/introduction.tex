@@ -29,7 +29,7 @@ This revelation, combined with the contemporary bloom of substructural logics, w
 The culmination point for this interest was typelogical grammars (or categorial type logics): families of closely related type theories extending the original calculi of Lambek with unary operators lent from modal logic, intended to implement a stricter but more linguistically faithful modeling of the composition of natural language form and meaning.
 
 In this chapter, we will isolate some key concepts from this frantic timeline and expound a bit on their details.
-No novel contributions are to be found here; the intention is to establish some common grounds before we get to proceed. 
+Other than reinvented notation or perhaps some fresh example, no novel contributions are to be found here; the intention is merely to establish some common grounds before we get to proceed. 
 If confident in your knowledge of the subject matter, \texttt{goto} Chapter~\ref{chapter:chapter_2}.
 
 \subsubsection*{Key References}
@@ -90,21 +90,21 @@ Each rule has an identifying name, written directly to the right of the horizont
 Rules may be split in two conceptual categories.
 \textit{Logical} rules, on the one hand, provide instructions for eliminating and introducing logical connectives.
 Figure~\ref{subfigure:intuitionistic_logic_rules:logical} presents the logical rules of intuitionistic logic.
-The first rule, the axiom of identity $Ax$, contains no premises and asserts the reflexivity of the provability operator $\vdash$. 
-It states that from a proposition \prop{A} one can infer that very proposition (duh!).
+The first rule, the axiom of identity $\Ax$, contains no premises and asserts the reflexivity of the provability operator $\vdash$. 
+It states that from a proposition $\smallprop{A}$ one can infer that very proposition (duh!).
 The remaining logical rules come in pairs, one per logical connective.
-The elimination of the implication (or modus ponens) states that, given a proof of a proposition $\prop A \to \prop B$ from assumptions $\Gamma$ and a proof of proposition \prop{A} from assumptions $\Delta$, one can join the two to derive a proposition \prop{B}.
-Dually, the introduction of the implication (or \textit{deduction theorem}) states that from a proof of a proposition \prop{B} given assumptions $\Gamma, \prop{A}$, one can use $\Gamma$ alone to derive an implicational proposition $\prop A \to \prop B$.
-In a similar manner, the elimination of the conjunction $\times E $ states that, given a proof of a proposition $\prop A \times \prop B$ from assumptions $\Gamma$, and a proof that the triplet $\Delta, \prop A, \prop B$ allows us to derive a proposition $\prop C$, one could well use $\Gamma$ together with $\Delta$ to derive $\prop C$ directly.
-And dually again, the introduction of the conjunction $\times I$ permits us to join two unrelated proofs, one of $\prop A$ from $\Gamma$ and one of $\prop B$ from $\Delta$ into a single proof, that of their product $\prop A \times \prop B$, from $\Gamma$ joined with $\Delta$.
+The elimination of the implication (or modus ponens) states that, given a proof of a proposition $\smallprop A \to \prop B$ from assumptions $\Gamma$ and a proof of proposition $\smallprop{A}$ from assumptions $\Delta$, one can join the two to derive a proposition $\smallprop{B}$.
+Dually, the introduction of the implication (or \textit{deduction theorem}) states that from a proof of a proposition \prop{B} given assumptions $\Gamma, \smallprop{A}$, one can use $\Gamma$ alone to derive an implicational proposition $\smallprop A \to \smallprop B$.
+In a similar manner, the elimination of the conjunction $\times E $ states that, given a proof of a proposition $\smallprop A \times \smallprop B$ from assumptions $\Gamma$, and a proof that the triplet $\Delta, \smallprop A, \smallprop B$ allows us to derive a proposition $\smallprop C$, one could well use $\Gamma$ together with $\Delta$ to derive $\prop C$ directly.
+And dually again, the introduction of the conjunction $\times I$ permits us to join two unrelated proofs, one of $\smallprop A$ from $\Gamma$ and one of $\smallprop B$ from $\Delta$ into a single proof, that of their product $\smallprop A \times \smallprop B$, from $\Gamma$ joined with $\Delta$.
 
 \textit{Structural} rules, on the other hand, allow us to manipulate structures; they are presented in Figure~\ref{subfigure:intuitionistic_logic_rules:structural}.
 Structural rules have a two-fold role.
 First, they explicate an extra propery of our structure binding operator, namely commutativity.
 One could also make do with an implicit exchange rule $\Exchange{}$ by treating structures as \textit{multisets} rather than lists -- having it explicit, however, will keep us conscious of its presence and strengthen our emotional bond to it, in turn making us really notice its absence when it will no longer be there (it also keeps the presentation tidier).
 Second, they give an account of the status of propositions as reusable resources.
-The weakening rule $\Weakening{}$ states that if we were able to derive a proposition \prop{B} from some assumptions $\Gamma$, we will also be able to do so if the assumptions were to contain some arbitrary extra proposition \prop{A}.
-Conversely, the contraction rule $\Contraction{}$ states that if we needed some assumption structure containing two instances of a proposition \prop{A} to derive a proposition \prop{B}, we could also make do with just one instance of it, discarding the other without remorse.
+The weakening rule $\Weakening{}$ states that if we were able to derive a proposition $\smallprop{B}$ from some assumptions $\Gamma$, we will also be able to do so if the assumptions were to contain some arbitrary extra proposition $\smallprop{A}$.
+Conversely, the contraction rule $\Contraction{}$ states that if we needed some assumption structure containing two instances of a proposition $\smallprop{A}$ to derive a proposition $\smallprop{B}$, we could also make do with just one instance of it, discarding the other without remorse.
 
 A \textit{proof}, finally, is a heterogeneous variadic tree.
 At its root, it has a judgement, guaranteed to be derivable (provided we did not mess up somewhere).
@@ -116,7 +116,7 @@ At its leaves, it has identity axioms -- the smallest kind of proof.
 	\begin{subfigure}{1\textwidth}
 		\centering
 		\begin{tabularx}{0.7\textwidth}{@{}C@{\qquad}C@{}}
-		\multicolumn{2}{@{}c@{}}{$\infer[Ax]{\prop A \vdash \prop A}{}$}\\[\smallsep]
+		\multicolumn{2}{@{}c@{}}{$\infer[\Ax]{\prop A \vdash \prop A}{}$}\\[\smallsep]
 		$\infer[\to E]{\Gamma, \Delta \vdash \prop B}{\Gamma \vdash \prop A \to \prop B & \Delta \vdash \prop B}$ 
 		& 
 		$\infer[\to I]{\Gamma \vdash \prop A \to \prop B}{\Gamma, \prop A \vdash \prop B}$\\[\smallsep]
@@ -169,7 +169,7 @@ Note the use of horizontal dots at the axiom leaves, denoting simultaneous subst
 	\infer[\to I]{\Gamma \vdash \prop{A} \to \prop{B}}{
 		\infer*[]{\Gamma, \prop{A} \vdash \prop{B}}{
 			\infer[]{\Gamma, \prop{A} \dots \vdash \prop{B}}{
-					\infer*[s]{}{\dots & \infer[Ax]{\prop{A} \vdash \prop{A}}{}}
+					\infer*[s]{}{\dots & \infer[\Ax]{\prop{A} \vdash \prop{A}}{}}
 				}
 			}
 		}
@@ -204,12 +204,12 @@ Note the use of horizontal dots at the axiom leaves, denoting simultaneous subst
 		\infer*[]{\Theta, \prop{A}, \prop{B} \vdash \prop{C}}{
 			\infer[]{\Theta, \prop{A}, \prop{B}\dots \vdash \prop{C}}{
 				\infer*[u]{}{
-					\infer[Ax]{\prop{A} \vdash \prop{A}}{
+					\infer[\Ax]{\prop{A} \vdash \prop{A}}{
 					}
 					&
 					\dots
 					&
-					\infer[Ax]{\prop{B} \vdash \prop{B}}{}
+					\infer[\Ax]{\prop{B} \vdash \prop{B}}{}
 				}
 			}
 		}
@@ -263,7 +263,7 @@ i.e. rather than a sequence of formulas, we have a sequence of distinct variable
 \begin{figure}
 	\centering
 	\begin{tabularx}{0.975\textwidth}{@{}C@{~}C@{}}
-		\multicolumn{2}{@{}c@{}}{$\infer[Ax]{\term{x_i} : \prop A \vdash \term{x_i} : \prop A}{}$}\\[2em]
+		\multicolumn{2}{@{}c@{}}{$\infer[\Ax]{\term{x_i} : \prop A \vdash \term{x_i} : \prop A}{}$}\\[2em]
 		$\infer[\to E]{\Gamma, \Delta \vdash \term{s~t} : \prop B}{\Gamma \vdash \term{s} : \prop A \to \prop B & \Delta \vdash \term{t} : \prop B}$ 
 		& 
 		$\infer[\to I]{\Gamma \vdash \term{\lambda x_i.s} : \prop A \to \prop B}{\Gamma, \term{x_i}: \prop A \vdash \term{s}:\prop B}$\\[2em]
@@ -416,9 +416,9 @@ The converse, i.e. type lowering, is not true: $ (\smallprop{A} \to \smallprop{C
 	\[
 		\infer[\to I]{\term{x_1}: \prop{A} \vdash \term{\lambda x_0.x_0~x_1}: (\prop{A} \to \prop{C}) \to \prop{C}}{
 			\infer[\to E]{\term{x_0}: \prop{A} \to \prop{C}, \term{x_1}: \prop{A} \vdash \term{x_0~x_1}: \prop{C}}{
-				\infer[Ax]{\term{x_0}: \prop{A} \to \prop{C} \vdash \term{x_0}: \prop{A} \to \prop{C}}{}
+				\infer[\Ax]{\term{x_0}: \prop{A} \to \prop{C} \vdash \term{x_0}: \prop{A} \to \prop{C}}{}
 				&
-				\infer[Ax]{\term{x_1}: \prop{A} \vdash \term{x_1}: \prop{A}}{}
+				\infer[\Ax]{\term{x_1}: \prop{A} \vdash \term{x_1}: \prop{A}}{}
 			}
 		}
 	\]
@@ -440,7 +440,7 @@ It is probably inevitable that at some point proofs will need a smaller font siz
 %We will rewrite axioms as follows:
 In this notation, axioms will be rewritten as follows:
 \[
-\infer[Ax]{\term{x_i}: \prop{A} \vdash \term{x_i}: \prop{A}}{} \quad \raisebox{7pt}{$\equiv$} \quad \infer[Ax]{\term{x_i}:\prop{A}}{}
+\infer[\Ax]{\term{x_i}: \prop{A} \vdash \term{x_i}: \prop{A}}{} \quad \raisebox{7pt}{$\equiv$} \quad \infer[\Ax]{\term{x_i}:\prop{A}}{}
 \]
 And assumptions will appear without type assignments (if uncertain of what some variable's type is, just trace it back to its axiom). 
 We will always provide type declarations for derived terms (right of the turnstile).
@@ -462,12 +462,12 @@ Keep a mental note.
 		\[
 		\infer[\to I (x2)]{\term{x_0} \vdash \term{\lambda x_1x_2.x_0~(\term{x_1},\term{x_2})}: \prop{A} \to \prop{B} \to \prop{C}}{
 			\infer[\to E]{\term{x_0}, \term{x_1}, \term{x_2} \vdash \term{x_0}~(\term{x_1}, \term{x_2}): \prop{C}}{
-				\infer[Ax]{\term{x_0}: (\prop{A} \times \prop{B}) \to \prop{C}}{}
+				\infer[\Ax]{\term{x_0}: (\prop{A} \times \prop{B}) \to \prop{C}}{}
 				&
 				\infer[\times I]{ \term{x_1}, \term{x_2} \vdash (\term{x_1},\term{x_2}): \prop{A} \times \prop{B}}{
-					\infer[Ax]{\term{x_1}: \prop{A}}{}
+					\infer[\Ax]{\term{x_1}: \prop{A}}{}
 					&			
-					\infer[Ax]{\term{x_2}: \prop{B}}{}
+					\infer[\Ax]{\term{x_2}: \prop{B}}{}
 				}
 			}
 		}
@@ -480,16 +480,16 @@ Keep a mental note.
 			\infer[\to I]{\term{x_1} \vdash \term{\lambda x_0.}\cterm{case \term{x_0} of (\term{x_2}, \term{x_3}) in \term{x_1~x_2~x_3}}:(\prop{A} \times \prop{B})\to \prop{C}}{
 				\infer[\Exchange{}]{\term{x_1}, \term{x_0}  \vdash \cterm{case \term{x_0} of (\term{x_2}, \term{x_3}) in \term{x_1~x_2~x_3}}:\prop{C}}{
 					\infer[\times E]{\term{x_0}, \term{x_1} \vdash \cterm{case \term{x_0} of (\term{x_2}, \term{x_3}) in \term{x_1~x_2~x_3}}:\prop{C}}{
-						\infer[Ax]{\term{x_0}: \prop{A} \times \prop{B}}{}
+						\infer[\Ax]{\term{x_0}: \prop{A} \times \prop{B}}{}
 						&
 						\infer[\to E]{\term{x_1}, \term{x_2}, \term{x_3} \vdash \term{x_1~x_2~x_3}: \prop{C}}{
 							\infer[\to E]{\term{x_1}, \term{x_2} \vdash \term{x_1~x_2}: \prop{B} \to \prop{C}}{
-								\infer[Ax]{\term{x_1}: \prop{A} \to \prop{B} \to \prop{C}}{}
+								\infer[\Ax]{\term{x_1}: \prop{A} \to \prop{B} \to \prop{C}}{}
 								&
-								\infer[Ax]{\term{x_2}: \prop{A}}{}
+								\infer[\Ax]{\term{x_2}: \prop{A}}{}
 							}
 							&
-							\infer[Ax]{\term{x_3}: \prop{B}}{}
+							\infer[\Ax]{\term{x_3}: \prop{B}}{}
 						}
 					}
 				}
@@ -502,6 +502,14 @@ Keep a mental note.
 	\label{figure:curry_uncurry}
 \end{figure}
 
+\paragraph{Proof Search}
+Attempting to derive a judgement of the form $\Gamma \vdash \smallprop{A}$ amounts to searching for a suitable proof of that statement, a process called \textit{proof search}.
+We distinguish two directions of proof search: the \textit{backward chaining} (or top-down) approach starts from the goal judgement and iteratively expands it into judgements with smaller assumptions -- one judgement per premise generated by the rule of inference applied -- with the intention being the eventual deconstruction of all branches into axioms of identity.
+The other direction is called \textit{forward chaining} (or bottom-up), and starts from a collection of hypothesized propositions (axioms) that are glued together to form progressively more complex structures, until the goal judgement is reached.
+Without digressing further, it is important to realize that both directions suffer the same issue, albeit from different angles, namely hypothetical reasoning.
+Forward chaining requires a perfect guess of any and all propositions reqired in deriving $\smallprop{A}$ from $\Gamma$, even those that will be redacted and thus never occur in $\Gamma$.
+Dually, backward chaining might require introduction of substructures and subformulas that are nowhere to be found in either the antecedents or the succedent of the current judgement due to the modus ponens-like behavior of implication elimination.
+Long story short, proof search is hard.
 
 \section{Going Linear}
 We are now ready to start charting grounds in substructural territories: we will gradually impoverish our logic by removing structural rules one by one, and see where that gets us. 
@@ -548,7 +556,7 @@ Let us also point out that in the case of the implication introduction rule $\li
 	\begin{subfigure}{1\textwidth}
 		\centering
 		\begin{tabularx}{0.95\textwidth}{@{}C@{~}C@{\qquad}C@{}}
-		\multicolumn{3}{@{}c@{}}{$\infer[Ax]{\term{x_i}: \prop A \vdash \term{x_i}: \prop A}{}$}\\[2em]
+		\multicolumn{3}{@{}c@{}}{$\infer[\Ax]{\term{x_i}: \prop A \vdash \term{x_i}: \prop A}{}$}\\[2em]
 		\multicolumn{2}{@{}c}{
 		$\infer[\li E]{\Gamma, \Delta \vdash \term{s~t}: \prop B}{\Gamma \vdash \term{s}: \prop A \li \prop B & \Delta \vdash \term{t}: \prop{A}}$}
 		& 
@@ -607,7 +615,7 @@ The equivalent term reduction steps this time around are:
 	$\infer[\li E]{\Gamma, \Delta \vdash \prop{B}}{
 	\infer[\li I]{\Gamma \vdash \prop{A} \li \prop{B}}{
 		\infer*[s]{\Gamma, \prop{A} \vdash \prop{B}}{
-				\infer[Ax]{\prop{A} \vdash \prop{A}}{} 
+				\infer[\Ax]{\prop{A} \vdash \prop{A}}{} 
 			}
 		}
 		&
@@ -635,9 +643,9 @@ The equivalent term reduction steps this time around are:
 		}		
 		&
 		\infer*[u]{\Theta, \prop{A}, \prop{B} \vdash \prop{C}}{
-			\infer[Ax]{\prop{A} \vdash \prop{A}}{}
+			\infer[\Ax]{\prop{A} \vdash \prop{A}}{}
 			& 
-			\infer[Ax]{\prop{B} \vdash \prop{B}}{}
+			\infer[\Ax]{\prop{B} \vdash \prop{B}}{}
 		}
 	}
 	$
@@ -698,12 +706,12 @@ We will consider the natural deduction proof of linear function composition of F
 		\infer[\Exchange]{\term{x_0}, \term{x_1} \vdash \term{\lambda x_2.x_1~(x_0~x_2)}: \prop{A} \li \prop{C}}{
 			\infer[\li I]{\term{x_1}, \term{x_0} \vdash \term{\lambda x_2.x_1~(x_0~x_2)}: \prop{A} \li \prop{C}}{
 				\infer[\li E]{\term{x_1}, \term{x_0}, \term{x_2} \vdash \term{x_2~(x_1~x_0)}: \prop{A} \li \prop{C}}{
-					\infer[Ax]{\term{x_1}:\prop{B}\li\prop{C}}{}
+					\infer[\Ax]{\term{x_1}:\prop{B}\li\prop{C}}{}
 					&
 					\infer[\li E]{\term{x_0}, \term{x_2} \vdash \term{x_0~x_2}: \prop{B}}{
-						\infer[Ax]{\term{x_0}: \prop{A}\li\prop{B}}{}
+						\infer[\Ax]{\term{x_0}: \prop{A}\li\prop{B}}{}
 						&
-						\infer[Ax]{\term{x_2}: \prop{A}}{}
+						\infer[\Ax]{\term{x_2}: \prop{A}}{}
 					}
 				}
 			}
@@ -840,14 +848,14 @@ Regardless of what it might have been, we cannot reasonably anticipate there to 
 		\infer[\Exchange]{\nprop{A}_k\li\pprop{B}_l, \nprop{B}_i\li\pprop{C}_j \vdash \pprop{A}_m \li \nprop{C}_j}{
 			\infer[\li I]{\nprop{B}_i\li\pprop{C}_j, \pprop{A}_k\li\pprop{B}_l \vdash  \pprop{A}_m \li \nprop{C}_j}{
 				\infer[\li E (2)]{\nprop{B}_i\li\pprop{C}_j, \nprop{A}_k\li\pprop{B}_l, \pprop{A}_m \vdash \nprop{C}_j}{
-					\infer[Ax]{\nprop{B}_i\li\pprop{C}_j\vdash \pprop{B}_i \li \nprop{C}_j}{
+					\infer[\Ax]{\nprop{B}_i\li\pprop{C}_j\vdash \pprop{B}_i \li \nprop{C}_j}{
 					}
 					&
 					\infer[\li E (1)]{\nprop{A}_k\li\pprop{B}_l, \pprop{A}_m \vdash \nprop{B}_l}{
-	  					\infer[Ax]{\nprop{A}_k\li\pprop{B}_l \vdash \pprop{A}_k\li\nprop{B}_l}{	
+	  					\infer[\Ax]{\nprop{A}_k\li\pprop{B}_l \vdash \pprop{A}_k\li\nprop{B}_l}{	
 						}
 						&
-						\infer[Ax]{\pprop{A}_m \vdash \nprop{A}_m}{
+						\infer[\Ax]{\pprop{A}_m \vdash \nprop{A}_m}{
 						}
 					}
 				}
@@ -942,7 +950,7 @@ This also serves to better illustrate a remark made earlier: the rule can be app
 \begin{figure}
 	\centering
 	\begin{tabularx}{0.975\textwidth}{@{}CC@{}}
-		\multicolumn{2}{@{}c@{}}{$\infer[Ax]{\term{x_i}: \prop A \vdash \term{x_i}: \prop A}{}$}\\[2em]
+		\multicolumn{2}{@{}c@{}}{$\infer[\Ax]{\term{x_i}: \prop A \vdash \term{x_i}: \prop A}{}$}\\[2em]
 		$\infer[\divright E]{\Gamma, \Delta \vdash \term{s}\appright\term{t}: \prop B}{\Gamma \vdash  \term{s}: \prop{B} \divright \prop{A} & \Delta \vdash \term{t}: \prop{A}}$
 		& 
 		$\infer[\divright I]{\Gamma \vdash \term{\lambda x_i.s}: \prop{B} \divright \prop{A}}{\Gamma, \term{x_i}: \prop A \vdash \term{s}: \prop{B}}$\\[2em]
@@ -982,7 +990,7 @@ The corresponding term reductions are:
 	$\infer[\divright E]{\Gamma, \Delta \vdash \prop{B}}{
 	\infer[\divright I]{\Gamma \vdash \prop{B} \divright \prop{A}}{
 		\infer*[s]{\Gamma, \prop{A} \vdash \prop{B}}{
-				\infer[Ax]{\prop{A} \vdash \prop{A}}{} 
+				\infer[\Ax]{\prop{A} \vdash \prop{A}}{} 
 			}
 		}
 		&
@@ -1008,7 +1016,7 @@ The corresponding term reductions are:
 		&
 		\infer[\divleft I]{\Delta \vdash \prop{A} \divleft \prop{B}}{
 			\infer*[s]{\prop{A}, \Delta \vdash \prop{B}}{
-				\infer[Ax]{\prop{A} \vdash \prop{A}}{} 
+				\infer[\Ax]{\prop{A} \vdash \prop{A}}{} 
 			}
 		}
 	}$
@@ -1032,9 +1040,9 @@ The corresponding term reductions are:
 		}		
 		&
 		\infer*[u]{\Theta\ctx{\prop{A}, \prop{B}} \vdash \prop{C}}{
-			\infer[Ax]{\prop{A} \vdash \prop{A}}{}
+			\infer[\Ax]{\prop{A} \vdash \prop{A}}{}
 			& 
-			\infer[Ax]{\prop{B} \vdash \prop{B}}{}
+			\infer[\Ax]{\prop{B} \vdash \prop{B}}{}
 		}
 	}
 	$
@@ -1076,7 +1084,7 @@ The notation $\Gamma\ctx{\Delta}$ now denotes that $\Delta$ is a \textit{subtree
 \begin{figure}
 	\centering
 	\begin{tabularx}{0.99\textwidth}{@{}CC@{}}
-		\multicolumn{2}{@{}c@{}}{$\infer[Ax]{\term{x_i}: \prop A \vdash \term{x_i}: \prop A}{}$}\\[2em]
+		\multicolumn{2}{@{}c@{}}{$\infer[\Ax]{\term{x_i}: \prop A \vdash \term{x_i}: \prop A}{}$}\\[2em]
 		$\infer[\divright E]{(\Gamma \sbind \Delta) \vdash \term{s}\nappright\term{t}: \prop B}{\Gamma \vdash \term{s}: \prop{B} \divright \prop{A} & \Delta \vdash \term{t}: \prop{A}}$
 		& 
 		$\infer[\divright I]{\Gamma \vdash \term{\lambda x_i.s}: \prop{B} \divright \prop{A}}{(\Gamma \sbind \term{x_i}: \prop A) \vdash \term{s}:\prop B}$\\[2em]
@@ -1153,19 +1161,33 @@ The point to take home is that proof search becomes decidedly easier in the abse
 The defeatist attitude here would be to just accept the trade-off between expressivity and complexity, weep for the theorems forever lost, take our victory and walk away.
 The problem lies however in the common occasion where the structure of objects under scrutiny overlaps only \textit{partially} with a specific substructural flavor, modulo some exceptional but real cases that require added expressivity.
 In such a scenario, taking a step up in the hierarchy would cause an undesirable combinatorial explosion, whereas staying put would sacrifice our ability to argue about these exceptional cases. 
-By contrast, the maximalist attitude makes no concessions and seeks both for the cake to be full and the dog to be fed.%
+By contrast, the maximalist attitude makes no concessions and seeks both for the cake to be whole and the dog to be fed.%
 \footnote{Direct translation of a silly but fitting greek aphorism. Cake is bad for dogs.}
 What if there was a way to keep our logic computationally tractable but with temporary and on-demand access to normally excluded reasoning tools?
 
 \subsection{The Logic of Modalities}
 The answer comes in the form of unary \textit{modalities}, type-forming operators lent from modal logics, that allow navigation between logics of different structural properties.
 Unary modalities hold a key role in the presentation of full linear logic; there, a single operator $!$ (called \textit{bang}) would allow an embedding of intuitionistic (non-linear) propositions into the linear regime, essentially acting as a licensor of \Contraction{} and \Weakening{}.
-In our case, we will make do with two modalities from temporal logic, the diamond $\diamond$ and the box $\Box$, that form a residual pair.
-Their composition $\Box\diamond(\_)$ yields an \textit{interior} operator, and $\diamond\Box(\_)$ a \textit{closure} operator, i.e. they satisfy the accessibility relations:
+In our case, we will make do with two modalities from temporal logic, the diamond $\diamond$ and the box $\Box$, that form a \textit{residuated pair}.
+Their residuation properties can be formulated either (i) in the form of a type-level biconditional derivability relation:
 \begin{center}
-\begin{tabularx}{0.5\textwidth}{@{}ccc@{}}
-	$ \smallprop{A} \longrightarrow \Box\diamond \smallprop{A}$ & and & $\diamond\Box \smallprop{A} \longrightarrow \smallprop{A}$
-\end{tabularx}
+	\begin{tabularx}{0.35\textwidth}{@{}ccc@{}}
+	$\diamond \prop{A} \vdash \prop{B}$ iff $\prop{A} \vdash \Box\prop{B}$
+	\end{tabularx}
+\end{center}
+or (ii) their monotonic behavior
+\begin{center}
+	\begin{tabularx}{0.35\textwidth}{@{}ccc@{}}
+		$\prop{A} \vdash \prop{B}$ & $\implies$ & $\diamond \prop{A}\vdash \diamond\prop{B}$\\
+		$\prop{A} \vdash \prop{B}$ & $\implies$ & $ \Box{A}\vdash \Box\prop{B}$\\
+	\end{tabularx}
+\end{center}
+and their compositions, where $\diamond\Box(\_)$ is an \textit{interior} and $\Box\diamond(\_)$ a \textit{closure} operator:
+\begin{center}
+	\begin{tabularx}{0.35\textwidth}{@{}ccc@{}}
+		$\Gamma \vdash \prop{A}$ & $\implies$ & $\Gamma \vdash \Box\diamond\prop{A}$\\
+		$\Gamma \vdash \diamond\Box\prop{A}$ & $\implies$ & $ \Gamma \vdash \prop{A}$\\
+	\end{tabularx}
 \end{center}
 
 \begin{figure}
@@ -1200,7 +1222,7 @@ Their incorporation adds a new kind of structure to the ones provided by the und
 \[
 	\Gamma, \Delta, \Theta ::= \dots \ | \ \bracket{\Gamma}
 \]
-Structures under angular brackets behave differently to the rest; they act as an impenetrable barrier that permits or hinders the introduction or elimination of modal connectives in a judgement.
+Angular brackets denote unary tree branches that behave slightly different to the rest; they act as an impenetrable barrier that permits or hinders the introduction or elimination of modal connectives in a judgement.
 The box elimination rule $\Box E$ grants us the option of removing a logical box from the succedent of the premise (as long as it is its main connective), but encloses the premises in angular brackets in the process.
 Its introduction counterpart $\Box I$ does the exact opposite: it frees a judgement's assumptions from their brackets, but puts the succedent proposition under the scope of a box.
 The diamond behaves just the other way around.
@@ -1208,15 +1230,14 @@ Its introduction rule $\diamond I$ is straightforward: it offers the possibility
 The elimination rule $\diamond E$ is more of a problem child, behaving akin to a unary product.
 Without locality restrictions, it inspects a proof of $\smallprop{B}$, the assumptions of which contain a substructure $\bracket{\smallprop{A}}$ within context $\Gamma{\ctx{\_}}$, and allows the post-hoc substitution of the hypothesis together with its brackets by a structure $\Delta$, if from it one can derive $\diamond \smallprop{A}$.
 
-Rules are adorned with term rewrite instructions in the propositions-as-types style~\cite{wansing2002sequent}.
+Rules are adorned with term rewrite instructions in the propositions-as-types style, similar to how temporal logic can be operationalized in the $\lambda$-calculus~\cite{wansing2002sequent}.
 The mnemonic is now two-dimensional: upward triangles denote introduction and downward ones elimination, whereas black triangles are for the box, white ones for the diamond.
 Term constructions for the single-premise rules are uncomplicated: each type operation just leaves the corresponding term footprint.
 This is not the case for the $\diamond E$ rule, which requires some attention:
 the structural substitution of $\bracket{\smallprop{A}}$ for $\Delta$ necessitates a case construct that calls for a term substitution of the variable $\smallterm{x_i}$ for $\diaelim\smallterm{t}$.
-
+Note that the free variables of the resulting expression ($\caseof{\diaelim t}{x_i}{s}$) are the union of the free variables of \smallterm{s} and those of \smallterm{t}, with the exception of \smallterm{x_i}, which is \textit{bound} by the case construct.
 
 \paragraph{Proof \& Term Reductions}
-
 \begin{figure}
 	\centering
 	\begin{subfigure}{1\textwidth}
@@ -1235,7 +1256,7 @@ the structural substitution of $\bracket{\smallprop{A}}$ for $\Delta$ necessitat
 		$\\[\smallsep]
 		$\infer[\diamond E]{\Gamma\ctx{\bracket{\Delta}} \vdash \prop{B}}{
 			\infer*[s]{\Gamma\ctx{\bracket{\prop{A}}} \vdash \prop{B}}{
-				\infer[Ax]{\prop{A} \vdash \prop{A}}{}}
+				\infer[\Ax]{\prop{A} \vdash \prop{A}}{}}
 			&
 			\infer[\diamond I]{\bracket{\Delta} \vdash \diamond\prop{A}}{
 				\infer*[t]{\Delta \vdash \prop{A}}{}
@@ -1269,7 +1290,7 @@ the structural substitution of $\bracket{\smallprop{A}}$ for $\Delta$ necessitat
 			$\\[\smallsep]
 			$\infer[\diamond E]{\Delta \vdash \diamond\prop{A}}{
 				\infer[\diamond I]{\bracket{\prop{A}}\vdash \diamond A}{
-					\infer[Ax]{\prop{A} \vdash \prop{A}}{}
+					\infer[\Ax]{\prop{A} \vdash \prop{A}}{}
 				}
 				&
 				\infer*[s]{\Delta \vdash \diamond\prop{A}}{}
@@ -1303,112 +1324,6 @@ The term equivalences they materialize are:
 %\cterm{case \term{\diaelim \diaintro t} of \term{x} in \term{s}} & \overset{\beta}{\leadsto} \term{s}_{[\termt{x} \mapsto \term{t}]}
 \end{align*}
 
-\paragraph{Properties}
-Situating our unary operators within the modal logic zoo is no trivial endeavour (especially if you, like me, have had limited exposure to it before).
-They are best characterized by the properties they satisfy, so inspecting them should shed some light on their proof-theoretic behavior (as a bonus, it will also help us get better acquainted with the kind of term rewrites their rules prescribe).
-Figure~\ref{figure:modal_properties:accessibility} presents the proof translations equivalent to the accessibility relations that were foretold:
-\begin{center}
-\begin{tabularx}{0.65\textwidth}{@{}ccc@{}}
-	$ \Gamma \vdash \smallprop{A} \leadsto \Gamma \vdash \Box\diamond \smallprop{A}$ & and & $\Gamma \vdash \diamond\Box \smallprop{A} \leadsto \Gamma \vdash \smallprop{A}$
-\end{tabularx}
-\end{center}
-On the type level, the connectives are \textit{Galois connected} operators.
-They satisfy a transformation such that for any pair $\smallprop{A}$, $\smallprop{B}$, $\smallprop{A} \vdash \Box \smallprop{B}$ holds if and only if $\diamond \smallprop{A} \vdash \smallprop{B}$.
-Further, both operators are \textit{monotone}, meaning that they provide a way to cast $\smallprop{A} \vdash \smallprop{B}$ into either $\diamond \smallprop{A} \vdash \diamond \smallprop{B}$ or $\Box \smallprop{A} \vdash \Box \smallprop{B}$.
-Figure~\ref{figure:modal_properties:monotonicity} illustrates the transformation processes, conditional on initial derivations.
-
-
-\begin{figure}
-	\centering
-	\begin{tabularx}{0.75\textwidth}{@{}c@{\qquad}c@{}}
-		$
-		\infer[\Box I]{\Gamma \vdash \boxintro\diaintro\term{s}:\Box \diamond \prop{A}}{
-			\infer[\diamond I]{\bracket{\Gamma} \vdash \diaintro\term{s}: \diamond \prop{A}}{
-				\infer*[s]{\Gamma \vdash \term{s}: \prop{A}}{}
-			}
-		}
-		$
-		&
-		$
-		\infer[\diamond E]{\Gamma \vdash \cterm{case \term{\diaelim{s}} of \term{x_i} in \term{\boxelim x_i}}: \prop{A}}{
-			\infer[\Box E]{\bracket{\term{x_i}: \Box \prop{A}}\vdash \boxelim\term{x_i}:\prop{A}}{
-				\infer[Ax]{\term{x_i}: \Box\prop{A} \vdash \term{x_i}: \Box\prop{A}}{}
-			}
-			&
-			\infer*[s]{\Gamma\vdash \term{s}: \diamond \Box \prop{A}}{}
-		}
-		$
-		\end{tabularx}
-	\caption{Modal acessibility relations as proof transformations.}
-	\label{figure:modal_properties:accessibility}
-\end{figure}
-
-\begin{figure}
-	\begin{subfigure}{1\textwidth}
-		\[
-			\infer[\diamond E]{\term{x_j}: \diamond \prop{A} \vdash \caseof{\diaelim x_j}{x_i}{s}:\prop{B}}{
-				\infer[\Box E]{\bracket{\term{x_i}: \prop{A}} \vdash \boxelim\term{s}: \prop{B}}{
-					\infer*[s]{\term{x_i}: \prop{A} \vdash \term{s}: \Box\prop{B}}{}
-				}
-				&
-				\infer[Ax]{\term{x_j}: \diamond \prop{A} \vdash \term{x_j}: \diamond \prop{A}}{}
-			}
-		\]
-	\caption{Galois connectedness.}
-	\label{subfigure:modal_properties:galois1}	
-	\end{subfigure}\\[\midsep]
-	\begin{subfigure}{1\textwidth}
-		\[
-			\infer[\Box I]{\term{x_j}: \diamond \prop{A} \vdash \boxintro(\caseof{\diaelim \diaintro x_j}{x_i}{\lambda x_i.s}): \prop{B}}{
-				\infer[\diamond E]{\bracket{\term{x_j}: \prop{A}} \vdash \caseof{\diaelim \diaintro x_j}{x_i}{\lambda x_i.s}: \prop{B}}{
-					\infer[\li I]{\vdash \term{\lambda x_i.s}: \diamond\prop{A} \li \prop{B}}{
-						\infer*[s]{\term{x_i}: \diamond\prop{A} \vdash \term{s}: \prop{B}}{}
-					}
-					&
-					\infer[\diamond I]{\bracket{\term{x_j}: \prop{A}} \vdash \term{\diaintro x_j}: \diamond \prop{A}}{
-						\infer[Ax]{\term{x_j}: \prop{A} \vdash \term{x_j}: \prop{A}}{}
-					}
-				}
-			}
-		\]
-	\caption{Ditto, the other way around.}
-	\label{subfigure:modal_properties:galois2}	
-	\end{subfigure}\\[\midsep]
-	\begin{subfigure}{1\textwidth}
-		\[
-			\infer[\diamond E]{\term{x_j}: \diamond \prop{A} \vdash  \cterm{case \term{\diaelim x_j} of \term{x_i} in \term{s}}: \diamond \prop{B}}{
-					\infer[\diamond I]{\bracket{\term{x_i}: \prop{A}} \vdash \diaintro \term{s}: \diamond \prop{B}}{
-						\infer*[s]{\term{x_i}: \prop{A} \vdash \term{s}: \prop{B}}{}
-					}
-					&
-					\infer[Ax]{\term{x_j}: \diamond \prop{A} \vdash \term{x_j}: \diamond \prop{A}}{}
-			}
-		\]
-	\caption{Monotonicity of the diamond.}
-	\label{subfigure:modal_properties:diamond_mono}
-	\end{subfigure}\\[\midsep]
-	\begin{subfigure}{1\textwidth}
-		\[
-			\infer[\Box I]{\term{x_j}: \Box \prop{A} \vdash \boxintro{((\term{\lambda x_i.s})~\term{\boxelim x_j}}:\Box \prop{B}}{
-				\infer[\li E]{\bracket{\term{x_j}: \Box \prop{A}} \vdash (\term{\lambda x_i.s})~\term{\boxelim x_j}: \prop{B}}{
-					\infer[\li I]{\vdash \term{\lambda x_i.s}: \prop{A} \li\prop{B}}{
-						\infer*[s]{\term{x_i}: \prop{A} \vdash \term{s}: \prop{B}}{}
-					}
-					&
-					\infer[\Box E]{\bracket{\term{x_j}: \Box \prop{A}} \vdash \boxelim\term{x_j}:\prop{A}}{	
-						\infer[Ax]{\term{x_j}: \Box\prop{A} \vdash \term{x_j}: \Box\prop{A}}{}
-					}
-				}
-			}
-		\]
-		\caption{Monotonicity of the box.}
-		\label{subfigure:modal_properties:box_mono}
-	\end{subfigure}
-	\caption{Deriving operational properties of the two modalities. Feel free to substitute $\li$ for a directional variant in \ref{subfigure:modal_properties:galois2} and \ref{subfigure:modal_properties:box_mono}.}
-	\label{figure:modal_properties:monotonicity}
-\end{figure}
-
-
 \paragraph{A Digression on Modal Terms}
 For the modally savvy, the term rewrites attributed to the modal rules might seem unorthodox.
 A more common presentation employs the simpler meta-syntax notation of term substitution.
@@ -1421,21 +1336,187 @@ For instance, $\diamond E$ can often be spotted in the wild as:
 	}
 \]
 In this disguise, the rule is again seen as realizing a retroactive substitution of $\smallterm{x_i}$ with $\smallterm{\diaelim t}$, except this time around the substitution is \textit{actually} performed, resulting in less cumbersome terms being carried around.
-Opting for this alternative notation has however a number of negative consequences.
+
+Opting for this alternative notation has, however, a number of negative consequences.
 The more superficial one is that the main term connective does not take scope at the outermost layer of rule's yield, but rather nested arbitrarily deeply within it, unlike its better behaved version.
-From a proof-theoretic perspective, normalization is now baked directly into the theory: the term yield of the rule exactly coincides with its $\beta$ reduced form.
+From a proof-theoretic perspective, normalization is now baked directly into the theory, as the term yield of the rule exactly coincides with its $\beta$ reduced form.
 At the same time, all rule permutations boil down to having the exact same reduction, i.e. multiple previously distinct terms are conflated into a single representation.
-This establishes an impicit syntactic equivalence on proofs that claims that the exact position of the $\diamond E$ rule is \textit{semantically irrelevant} (so long of course as the same variable $\smallterm{x_i}$ is substituted by the same term $\smallterm{\diaelim t}$).
+This establishes an impicit syntactic equivalence on proofs that claims that the exact position of the $\diamond E$ rule is \textit{syntactically irrelevant} (so long of course as the same variable $\smallterm{x_i}$ is substituted by the same term $\smallterm{\diaelim t}$).
+Finally, the shorthand version hides variables; hypotheses that would be bound by the case construct are instead erased and forgotten, obfuscating the term-to-proof correspondence.
 All these are perhaps minor points not worth taking too seriously, but for one concerned with concrete implementation the extra merit of notational simplicity comes at the cost of equality checking become way more tedious.
 With this in mind (and in a rare moment of excessive formal zeal), we will exercise some self restraint and avoid indulging in the convenience of this version.
 
+\paragraph{Properties}
+Situating our unary operators within the modal logic zoo is no trivial endeavour (especially if you, like me, have had limited exposure to it before).
+They are best characterized by the properties they satisfy, so inspecting them should shed some light on their proof-theoretic behavior (as a bonus, it will also help us get better acquainted with the kind of term rewrites their rules prescribe).
+Figure~\ref{figure:modal_properties:residuation} presents the proof transformations equivalent to the properties foretold:
+ (\subref{subfigure:modal_properties:diamond_mono}) and (\subref{subfigure:modal_properties:box_mono}) for monotonicity, (\subref{subfigure:modal_properties:closure}) and (\subref{subfigure:modal_properties:interior}) for composition, and (\subref{subfigure:modal_properties:residuation:1}) and (\subref{subfigure:modal_properties:residuation:2}) for the two directions of the residuation law.
+Feel free to substitute $\li$ for a directional variant as needed.
+Worth a special mention are also the so-called triple laws:
+\begin{align*}
+	\diamond\prop{A} \dashv\vdash \diamond\Box\diamond\prop{A}\\
+	\Box\prop{A} \dashv\vdash \Box\diamond\Box\prop{A}
+\end{align*}
+which can be read intuitively as claiming that prepending an already modal type with (one or more) diamond-box pairs in alteration has no real effect, as these can unconditionally cancel out or be expanded into.
+Figure~\ref{figure:modal_triple_laws} presents proofs of the above in both directions.
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{1\textwidth}
+		\[
+			\infer[\diamond E]{\term{x_j}: \diamond \prop{A} \vdash  \cterm{case \term{\diaelim x_j} of \term{x_i} in \term{s}}: \diamond \prop{B}}{
+					\infer[\diamond I]{\bracket{\term{x_i}: \prop{A}} \vdash \diaintro \term{s}: \diamond \prop{B}}{
+						\infer*[s]{\term{x_i}: \prop{A} \vdash \term{s}: \prop{B}}{}
+					}
+					&
+					\infer[\Ax]{\term{x_j}: \diamond \prop{A} \vdash \term{x_j}: \diamond \prop{A}}{}
+			}
+		\]
+		\caption{Monotonicity of the diamond.}
+		\label{subfigure:modal_properties:diamond_mono}
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}{1\textwidth}
+		\[
+			\infer[\Box I]{\term{x_j}: \Box \prop{A} \vdash \boxintro{((\term{\lambda x_i.s})~\term{\boxelim x_j}}:\Box \prop{B}}{
+				\infer[\li E]{\bracket{\term{x_j}: \Box \prop{A}} \vdash (\term{\lambda x_i.s})~\term{\boxelim x_j}: \prop{B}}{
+					\infer[\li I]{\vdash \term{\lambda x_i.s}: \prop{A} \li\prop{B}}{
+						\infer*[s]{\term{x_i}: \prop{A} \vdash \term{s}: \prop{B}}{}
+					}
+					&
+					\infer[\Box E]{\bracket{\term{x_j}: \Box \prop{A}} \vdash \boxelim\term{x_j}:\prop{A}}{	
+						\infer[\Ax]{\term{x_j}: \Box\prop{A} \vdash \term{x_j}: \Box\prop{A}}{}
+					}
+				}
+			}
+		\]
+		\caption{Monotonicity of the box.}
+		\label{subfigure:modal_properties:box_mono}
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}{0.4\textwidth}
+		\[
+		\infer[\Box I]{\Gamma \vdash \boxintro\diaintro\term{s}:\Box \diamond \prop{A}}{
+			\infer[\diamond I]{\bracket{\Gamma} \vdash \diaintro\term{s}: \diamond \prop{A}}{
+				\infer*[s]{\Gamma \vdash \term{s}: \prop{A}}{}
+			}
+		}
+		\]
+		\caption{The closure $\diamond\Box(\_)$.}
+		\label{subfigure:modal_properties:closure}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\[
+		\infer[\diamond E]{\Gamma \vdash \cterm{case \term{\diaelim{s}} of \term{x_i} in \term{\boxelim x_i}}: \prop{A}}{
+						\infer[\Box E]{\bracket{\term{x_i}: \Box \prop{A}}\vdash \boxelim\term{x_i}:\prop{A}}{
+							\infer[\Ax]{\term{x_i}: \Box\prop{A} \vdash \term{x_i}: \Box\prop{A}}{}
+						}
+						&
+						\infer*[s]{\Gamma\vdash \term{s}: \diamond \Box \prop{A}}{}
+				}
+		\]
+		\caption{And the interior $\Box\diamond(\_)$.}
+		\label{subfigure:modal_properties:interior}
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}{1\textwidth}
+		\[
+			\infer[\diamond E]{\term{x_j}: \diamond \prop{A} \vdash \caseof{\diaelim x_j}{x_i}{s}:\prop{B}}{
+				\infer[\Box E]{\bracket{\term{x_i}: \prop{A}} \vdash \boxelim\term{s}: \prop{B}}{
+					\infer*[s]{\term{x_i}: \prop{A} \vdash \term{s}: \Box\prop{B}}{}
+				}
+				&
+				\infer[\Ax]{\term{x_j}: \diamond \prop{A} \vdash \term{x_j}: \diamond \prop{A}}{}
+			}
+		\]
+	\caption{Residuation law: from $\smallprop{A} \vdash \Box\smallprop{B}$ to $\diamond\smallprop{A} \vdash \smallprop{B}$.}
+	\label{subfigure:modal_properties:residuation:1}	
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}{1\textwidth}
+		\[
+			\infer[\Box I]{\term{x_j}: \diamond \prop{A} \vdash \boxintro(\caseof{\diaelim \diaintro x_j}{x_i}{\lambda x_i.s}): \prop{B}}{
+				\infer[\diamond E]{\bracket{\term{x_j}: \prop{A}} \vdash \caseof{\diaelim \diaintro x_j}{x_i}{\lambda x_i.s}: \prop{B}}{
+					\infer[\li I]{\vdash \term{\lambda x_i.s}: \diamond\prop{A} \li \prop{B}}{
+						\infer*[s]{\term{x_i}: \diamond\prop{A} \vdash \term{s}: \prop{B}}{}
+					}
+					&
+					\infer[\diamond I]{\bracket{\term{x_j}: \prop{A}} \vdash \term{\diaintro x_j}: \diamond \prop{A}}{
+						\infer[\Ax]{\term{x_j}: \prop{A} \vdash \term{x_j}: \prop{A}}{}
+					}
+				}
+			}
+		\]
+		\caption{Ditto, the other way around.}
+		\label{subfigure:modal_properties:residuation:2}	
+	\end{subfigure}
+	\caption{Derivations for the various aspects of residuation.}
+	\label{figure:modal_properties:residuation}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{1\textwidth}
+		\[
+			\infer[\Box I]{\term{x_j}: \Box\diamond\Box\prop{A} \vdash \boxintro(\caseof{\diaelim \boxelim x_j}{x_i}{\boxelim{x_i}}): \Box\prop{A}}{
+				\infer[\diamond E]{\bracket{\term{x_j}: \Box\diamond \prop{A}} \vdash \caseof{\diaelim \boxelim x_j}{x_i}{\boxelim{x_i}}: \prop{A}}{
+					\infer[\Box E]{\bracket{\term{x_i}: \Box \prop{A}} \vdash \term{\boxelim x_i}:\prop{A}}{
+						\infer[\Ax]{\term{x_i}: \Box\prop{A} \vdash \term{x_i}: \Box\prop{A}}{}
+					}
+					&
+					\infer[\Box E]{\bracket{\term{x_j}:\Box\diamond\Box\prop{A}} \vdash \term{\boxelim x_j}:\diamond\Box\prop{A}}{
+						\infer[\Ax]{\term{x_j}: \Box\diamond\Box\prop{A}\vdash\term{x_j}:\Box\diamond\Box\prop{A}}{}
+					}
+				}
+			}
+		\]
+		\caption{Contraction of $\Box\diamond\Box(\_)$ to $\Box(\_)$.}
+		\label{subfigure:triple_law:box_collapse}
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}{1\textwidth}
+		\[
+			\infer[\Box I]{\term{x_i}:\Box\prop{A} \vdash \boxintro\diaintro\term{x_i}:\Box\diamond\Box\prop{A}}{
+				\infer[\diamond I]{\bracket{\term{x_i}: \Box\prop{A}} \vdash \diaintro\term{x_i}:\diamond\Box\prop{A}}{
+					\infer[\Ax]{\term{x_i}:\Box\prop{A}\vdash \term{x_i}:\Box\prop{A}}{}
+				}
+			}
+		\]
+		\caption{Expansion of $\Box(\_)$ to $\Box\diamond\Box(\_)$.}
+		\label{subfigure:triple_law:box_expand}
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}{1\textwidth}
+		\[
+			\infer[\diamond E]{\term{x_j}:\diamond\Box\diamond\prop{A} \vdash \caseof{\diaelim x_j}{x_i}{\boxelim x_i}: \diamond\prop{A}}{
+				\infer[\Box E]{\bracket{\term{x_i}: \Box\diamond\prop{A}} \vdash \boxelim\term{x_i}: \diamond\prop{A}}{
+					\infer[\Ax]{\term{x_i}: \Box\diamond\prop{A} \vdash \term{x_i}: \Box\diamond\prop{A}}{}
+				}
+				&
+				\infer[\Ax]{\term{x_j}: \diamond\Box\diamond\prop{A} \vdash \term{x_j}: \diamond\Box\diamond\prop{A}}{}
+			}
+		\]
+		\caption{Contraction of $\diamond\Box\diamond(\_)$ to $\diamond(\_)$.}
+		\label{subfigure:triple_law:diamond_collapse}
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}{1\textwidth}
+		\[
+			\infer[\diamond E]{\term{x_j}: \diamond \prop{A} \vdash \caseof{\diaelim x_j}{x_i}{\diaintro\boxintro\diaintro x_i}:\diamond\Box\diamond\prop{A}}{
+				\infer[\diamond I]{\bracket{\term{x_i}:\prop{A}} \vdash \diaintro\boxintro\diaintro\term{x_i}:\diamond\Box\diamond\prop{A}}{
+					\infer*[\text{\ref{subfigure:modal_properties:closure}}]{\term{x_i}: \prop{A} \vdash \boxintro\diaintro\term{x_i}: \Box\diamond\prop{A}}{}
+				}
+				&
+				\infer[\Ax]{\term{x_j}: \diamond \prop{A} \vdash \term{x_j}:\diamond\prop{A}}{}
+			}
+		\]
+		\caption{Expansion of $\diamond(\_)$ to $\diamond\Box\diamond(\_)$.}
+		\label{subfigure:triple_law:diamond_expand}
+	\end{subfigure}
+	\caption{The triple laws for the two modalities in both directions.}
+	\label{figure:modal_triple_laws}
+\end{figure}
+
 \subsection{Structural Reasoning}
-This minor detour hopefully helped us acquire a first taste for modalities.
+This detour may have proven lengthy, but has hopefully helped us acquire a first taste for modalities.
 We now know how to introduce and eliminate them and what the effect of doing so is on the antecedent structure, and got a first glimpse of their properties, the term rewrites they prescribe and the type inequalities (in the form of unidirectional derivations) they give rise to.
 The question then becomes how to actually use them for the task at hand, namely disciplined traversal between substructural logics.
-Structural reasoning is accomplished via structural postulates, rules of inference that enact commutativity and associativity (or combinations thereof) but in a controlled fashion.
-These are permissible only under strict conditions on the substructures constituent to the antecedent structure -- this is where the new kind of structures will prove useful.
-There is no fixed vocabulary of structural rules as they are intended for application-specific finetuning of a universal logical core, so we are free to design and populate it according to our own needs.
+Structural reasoning is accomplished via structural postulates, rules of inference that enact commutativity and associativity (or combinations thereof), except in a controlled fashion.
+These are permissible only under strict conditions on the substructures constituent to the antecedent structure -- this is exactly where the new kind of structures will prove useful.
+There is no fixed vocabulary of structural rules, as they are intended for application-specific finetuning of a universal logical core, so we are free to design and populate it according to our own needs.
 Prime examples and standard items for consideration include the controlled associativity and mixed associativity-commutativity rules of Figure~\ref{figure:modal_structural_rules}.
 The first rule $\rulestyle{ass}_{\diamond}$ allows a marked (angularly bracketed) $\Phi$ structure to escape its bind to its neighbour $\Theta$, forcing it to associate to the structure $\Delta$ to its left instead.
 The second one $\rulestyle{mix}_{\diamond}$ allows a marked $\Theta$ to swap position with its right-adjacent neighbor $\Phi$, disassociating from its left neighbour $\Delta$ in the process.
@@ -1460,9 +1541,160 @@ In domains where even finer control is needed, one can consider indexed families
 	\label{figure:modal_structural_rules}
 \end{figure} 
 
+
 \section{The Linguistic Perspective}
+Despite their presentation having intentionally been left vague and abstract, the ideas explored so far have been a keystone element of computer science, from its inception until recent modernity.
+Beyond that, they form the common theoretical underpinnings for the formal treatment of natural languages and their various aspects, where they manifest as so-called \textit{Categorial Grammars}.
+Categorial grammars is a heavily overloaded term that refers to a wide and diverse family of related formalisms, each with its own ambitions, goals, strengths and weaknesses.
+The most encompassing way of defining a categorial grammar is thus best accomplished through a high-level intersection of their common points.
+A categorial grammar is tied to a (usually substructural) logic, commonly a choice from the ones reviewed so far.
+The choice of logic is part personal preference, but is usually motivated by the degree of alignment between the options under consideration and the characteristics of the target language -- a factor that also comes into play is also the trade-off between expressivity and complexity.
+On the basis of the chosen logic, a categorial grammar has a \textit{lexicon}; a mapping from primitive linguistic entries (i.e. words) to formulas of that logic.
+Their dependence on a lexicon grants categorial grammars their \textit{strongly lexicalized} title -- as the adage goes, words carry their combinatorics on their sleeves.
+With these two components in hand, compiling composite structures for complex linguistic entries (i.e. parsing) becomes a process of formal deduction dictated by the interplay between the types of the participating atomic elements, and the rules of inference the logic is equipped with.
+Categorial grammars are a staple of the linguistic tradition and a focal point for practitioners, logicians and linguists alike. 
+In this section we will examine some of their main strands, with a special emphasis on two spiritual progenitors of the unique flavor that is to be developed and presented later in this thesis.
 
 \subsection{Type-Logical Grammars}
+The earliest take at a categorial grammar are the AB grammars attributed to Kazimierz Adjukiewicz~\cite{ajdukiewicz1935syntaktische} and Yehoshua Bar-Hillel~\cite{bar1953quasi}, but it was Jim Lambek that raised the existing notation and operations into the glory of a fully-fledged type theory.
+In their original purpose as envisaged by Lambek, his calculi would find use as a universal system of \textit{grammatical} computation -- a perspective adopted and advanced into what has presently come to be known as type-logical grammars.
+In a natural language setting, the original Lambek calculus $\LC$ would be the logic of \textit{strings}; it can faithfully portray the generation of natural language utterances, where arbitrary reordering is a destructive process that ruins coherence.
+Its stricter version $\NL$ would instead be the logic of \textit{constituency trees}; on top of word order, it further specifies constituency structure, allowing a distinction between different syntactic analyses of the same surface form.
+
+To see this in action, let us consider first an instantiation of a Lambek Calculus $\NL$ with the set of primitive types $\propcon$ populated with signs characterizing the grammatical role of a piece of text that can independently stand on its own (i.e. phrasal categories or, more crudely, parts of speech).
+In a toy fragment and for illustration purposes, this could look like:
+\[
+	\propcon := \{\smalln, \smallnp, \smallsmain, \smallpp\}
+\]
+for a grammar able to reason about nouns \smalln, noun phrases and bare nouns \smallnp{}, sentential clauses \smallsmain{}, prepositional phrases \smallpp{} and functions thereof in English.
+One might wonder: what happened to the remaining kinds of phrasal categories like verbs, adjectives and adverbs?
+These would indicate grammatical functions, and in fact should be represented as such.
+An intransitive phrase, for instance, is a grammatical function that would consume a left-adjacent noun phrase to produce a sentence, therefore it would materialize as $\smallnp\divleft\smallsmain$.
+It follows that a transitive phrase or copula would then be of type $(\smallnp\divleft\smallsmain)\divright\smallnp$, a function that requires a right-adjacent noun phrase to produce an intransitive phrase, whereas a bitransitive, requiring two, would be $((\smallnp\divleft\smallsmain)\divright\smallnp)\divright\smallnp$, etc.
+In the same vein, determiner phrases consume right-adjacent nouns and lift them to noun phrases $\smallnp\divright\smalln$, whereas prenominal adjectives are noun phrase (or noun) endomorphisms modifying them but keeping their type intact, $\smallnp\divright\smallnp$ (and the other way around for postnominal use).
+Adverbs would also be endomorphisms, except this time higher-order -- \linebreak$(\smallnp\divright\smallnp)\divright(\smallnp\divright\smallnp)$ for adjectival and $(\smallnp\divleft\smalls)\divleft(\smallnp\divleft\smalls)$ for verbal modification, respectively.
+
+\begin{figure}
+	\centering
+	\begin{tabularx}{0.5\textwidth}{@{}r@{\quad::\quad}l}
+		eye, ocean		& $\smalln$\\
+		oceans, suns 	& $\smallnp$\\
+		the				& $\smallnp\divright\smalln$\\
+		opiate 			& $\smallnp\divright\smallnp$\\
+		behold[s]		& $(\smallnp\divleft\smalls)\divright\smallnp$\\
+		pour[ed] 		& $\smallnp\divleft\smalls$\\
+		there 			& $\smallgtype{adv} := (\smallnp\divleft\smalls)\divleft(\smallnp\divleft\smalls)$\\
+		by				& $\pp\divright\np$\\
+		litten 			& $(\smallnp\divleft\smallnp)\divright\smallpp$
+	\end{tabularx}
+	\caption{}
+	\label{figure:toy_lambek_lexicon}
+\end{figure}
+
+\begin{figure}
+	\begin{subfigure}{1\textwidth}
+	\[
+		\infer[\divleft E]{(\w{opiate}\sbind\w{oceans})\sbind(\w{poured}\sbind\w{there}) \vdash \s}{
+			\infer[\divright E]{\w{opiate}\sbind\w{oceans} \vdash \np}{
+				\infer[\Lex]{\w{opiate} : \np\divright\np}{}
+				&
+				\infer[\Lex]{\w{oceans}: \np}{}
+			}
+			&
+			\infer[\divleft E]{\w{poured}\sbind\w{there} \vdash \np\divleft\s}{
+				\infer[\Lex]{\w{poured}: \np\divleft\s}{}
+				&
+				\infer[\Lex]{\w{there}: \smallgtype{adv}}{}
+			}
+		}
+	\]
+	\caption{Derivation for \textex{Opiate oceans poured there}.}
+	\label{subfigure:opiate_oceans_poured_there}
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}{1\textwidth}
+	\[
+		\infer[\divright E]{\w{litten}\sbind(\w{by}\sbind\w{suns}) \vdash \np\divleft\np}{
+			\infer[\Lex]{\w{litten} : (\np\divleft\np)\divright\pp }{}
+			&
+			\infer[\divright E]{\w{by}\sbind\w{suns} \vdash \pp}{
+				\infer[\Lex]{\w{by}: \pp\divright\np}{}
+				&
+				\infer[\Lex]{\w{suns}: \np}{}
+			}
+		}
+	\]
+	\caption{Derivation for \textex{litten by suns}.}
+	\label{subfigure:litten_by_suns}
+	\end{subfigure}
+	\caption{Example applicative derivations in \NL{}.}
+	\label{figure:nl_applicative_examples}
+\end{figure}
+
+Formulas like the above are supplied by and grounded in the lexicon. 
+We will employ the miniature mock-up of Figure~\ref{figure:toy_lambek_lexicon}, with the aid of which we can at last derive our very first linguistic derivations!
+The purely appicative examples of Figure~\ref{figure:nl_applicative_examples} should be straightforward to decipher.
+Do not be spooked by the seemingly new rule of inference, $\Lex$, simply meant to convey type assignments pulled from our lexicon.
+Unlike the identity axiom $\Ax$, which instantiates hypothetical variables, $\Lex$ introduces lexical constants.
+Lexical constants behave just like variables, except they are neither wantonly typed nor amenable to function abstraction.
+The two proofs of~\ref{subfigure:opiate_oceans_poured_there} and~\ref{subfigure:litten_by_suns} can be combined to yield a derivation for the phrase \textex{Opiate oceans litten by suns poured there}.
+Though, if someone were to put this to the test and really attempt to proceed with the derivation, they would soon find themselves at a crossroads regarding which of the two nominal modifiers to apply first.
+The choice of $\NL$ over $\LC$ means that the priority of application reflects in two distinct judgements, each with its own proof, that differ in the bracketing structure of the composite $\np$ they contain:
+\begin{center}
+\begin{tabularx}{0.9\textwidth}{@{}ccc@{}}
+	$\w{opiate}\sbind(\w{oceans}\sbind(\w{litten}\sbind(\dots)))$ & vs. & $(\w{opiate}\sbind\w{oceans})\sbind(\w{litten}\sbind(\dots))$
+\end{tabularx}
+\end{center}
+This is an admittedly stretched case of \textit{derivational ambiguity}, a situation where from the same lexical assignments one can obtain multiple syntactic analyses, which may correspond to equinumerous semantic interpretations (more on that in a bit).
+If the derivations were to be derived in the associative calculus $\LC$, the ambiguity would have been \textit{spurious}, as both would lead to a structurally identical judgement.
+Derivational ambiguity is not necessarily bad, provided the divergence in the proofs constructed is linguistically meaningful.%
+\footnote{Just think of all the different things you could do with pijamas, elephants, telescopes, etc.}
+This is not the case for spurious ambiguity, as it introduces undesirable (and uninterpretable) redundancy, at the dismay of parsers (or mostly their designers).
+
+Despite their elegance and formal appeal, Lambek calculi in their pure form suffer from an aversion to anomalies, which natural languages tend to exhibit at a disproportionate degree. 
+Participial phrases used as post-nominal adjectives, like the example of Figure~\ref{subfigure:litten_by_suns}, can for instance be located either immediately after the noun (phrase) they modify, or deferred until after the verbal head dominating it -- which is to say that an alternative composition of our running example \textex{Opiate oceans poured there, litten by suns} would also be a grammatically valid construction, but not one we could ever hope to derive with our current machinery.%
+\footnote{Comma added for naturality but (as far as my English is concerned) the sentence remains grammatical even without it.}
+One could of course attept to cop out of the problem by just introducing ad-hoc raised forms for movable parts, one per distinct position they can be found at. The repercussions of such a move would soon, however, prove catastrophic.
+On the one hand, the once reliably concise lexicon would become overpopulated by endless variations on the same theme: each expansion point of a lexical type would percolate into all other lexical items it interacts with (either as consumers or producers thereof), the effect cascading at progressively larger lexical neighborhoods, until (if ever) an eventual equilibrium is reached.
+On the other hand, raised types obfuscate the functional relations and constituency structures we have worked so hard to reveal and incorporate, virtually beating the very purpose of the logic.
+Relaxing the structural constraints of the logic to globally allow movement and/or rebracketing is no good either. 
+Spurious ambiguity would be the least of our concerns as we would be faced with \textit{overgeneration}, i.e. the unwelcome ability to derive proofs that have no correspondence to correct linguistic structures whatsoever, leading us back to square zero.
+If you have not skipped any parts yet, your reward should now manifest as a premonition of what is to come: modalities to the rescue!
+
+%Ever since pioneering work integrated them 
+%Modalities play an integral role in the modern type-logical toolkit~\cite{moortgat1997categorial,moortgat1999constants}.
+%Pioneering work would  ~\cite{moortgat1995multimodal,kurtonina1997structural}
+
+% should probably foresee what what comes next: the time of the modalities is finally at hand.
+%Opting for the cop out option
+
+
+% typing tension, type ambiguity
+% no ex nihilo
+% OVERGENERATION => M
+% big correspondence table
+% lexicalism
+% ss
+
+
+%\begin{table}
+%	\centering
+%	\begin{tabularx}{0.8\textwidth}{@{}CC@{}}
+%	\textbf{Logic}			& \textbf{Computer Science}\\
+%	\toprule
+%	Propositional Constant	& Base Type\\
+%	Logical Connectives 	& Type Constructors\\
+%	Implication				& Function Type\\
+%	Conjunction				& Product Type\\
+%	Axiom					& Variable\\
+%	Introduction Rule		& Constructor Pattern\\
+%	Elimination Rule		& Destructor Pattern\\
+%	Proof Normalization		& Computation\\
+%	Provability				& Type Inhabitation	 
+%	\end{tabularx}
+%	\caption{The Curry-Howard correspondence in tabular form.}
+%	\label{table:CHC}
+%\end{table}
+
 
 \subsubsection{Test}
 

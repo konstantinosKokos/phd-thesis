@@ -1,4 +1,4 @@
-\begin{thebibliography}{22}
+\begin{thebibliography}{26}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -10,6 +10,16 @@ S.~Abramsky.
 \newblock Computational interpretations of linear logic.
 \newblock \emph{Theoretical computer science}, 111\penalty0 (1-2):\penalty0
   3--57, 1993.
+
+\bibitem[Ajdukiewicz(1935)]{ajdukiewicz1935syntaktische}
+K.~Ajdukiewicz.
+\newblock Die syntaktische konnexitat.
+\newblock \emph{Studia philosophica}, pages 1--27, 1935.
+
+\bibitem[Bar-Hillel(1953)]{bar1953quasi}
+Y.~Bar-Hillel.
+\newblock A quasi-arithmetical notation for syntactic description.
+\newblock \emph{Language}, 29\penalty0 (1):\penalty0 47--58, 1953.
 
 \bibitem[Barendregt et~al.(1984)]{barendregt1984lambda}
 H.~P. Barendregt et~al.
@@ -90,6 +100,18 @@ P.~Martin-L{\"o}f.
 \newblock Constructive mathematics and computer programming.
 \newblock In \emph{Studies in Logic and the Foundations of Mathematics}, volume
   104, pages 153--175. Elsevier, 1982.
+
+\bibitem[Moortgat(1997)]{moortgat1997categorial}
+M.~Moortgat.
+\newblock Categorial type logics.
+\newblock In \emph{Handbook of logic and language}, pages 93--177. Elsevier,
+  1997.
+
+\bibitem[Moortgat(1999)]{moortgat1999constants}
+M.~Moortgat.
+\newblock Constants of grammatical reasoning.
+\newblock \emph{Constraints and resources in natural language syntax and
+  semantics}, pages 195--219, 1999.
 
 \bibitem[Murawski and Ong(2000)]{murawski2000dominator}
 A.~S. Murawski and C.-H. Ong.

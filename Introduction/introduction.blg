@@ -4,45 +4,45 @@ The top-level auxiliary file: introduction.aux
 The style file: abbrvnat.bst
 Database file #1: bibliography.bib
 Warning--there's a number but no series in troelstra2000basic
-You've used 22 entries,
+You've used 26 entries,
             2773 wiz_defined-function locations,
-            737 strings with 7564 characters,
-and the built_in function-call counts, 9195 in all, are:
-= -- 890
-> -- 274
-< -- 32
-+ -- 103
-- -- 81
-* -- 590
-:= -- 1354
-add.period$ -- 74
-call.type$ -- 22
-change.case$ -- 88
-chr.to.int$ -- 22
-cite$ -- 45
-duplicate$ -- 513
-empty$ -- 899
-format.name$ -- 112
-if$ -- 2011
+            761 strings with 8014 characters,
+and the built_in function-call counts, 10958 in all, are:
+= -- 1068
+> -- 314
+< -- 39
++ -- 119
+- -- 93
+* -- 693
+:= -- 1603
+add.period$ -- 87
+call.type$ -- 26
+change.case$ -- 104
+chr.to.int$ -- 26
+cite$ -- 53
+duplicate$ -- 618
+empty$ -- 1073
+format.name$ -- 128
+if$ -- 2409
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 26
-newline$ -- 120
-num.names$ -- 88
-pop$ -- 203
+missing$ -- 30
+newline$ -- 140
+num.names$ -- 104
+pop$ -- 240
 preamble$ -- 1
-purify$ -- 70
+purify$ -- 82
 quote$ -- 0
-skip$ -- 368
+skip$ -- 446
 stack$ -- 0
-substring$ -- 482
-swap$ -- 85
-text.length$ -- 10
+substring$ -- 587
+swap$ -- 110
+text.length$ -- 13
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 222
+type$ -- 266
 warning$ -- 1
-while$ -- 107
+while$ -- 130
 width$ -- 0
-write$ -- 300
+write$ -- 353
 (There was 1 warning)
