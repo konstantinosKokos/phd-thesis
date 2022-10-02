@@ -26,7 +26,7 @@ With the benefit of posterity, it would be tempting for us to act smart and excl
 In reality, it took another couple of decades for someone to notice.
 The credit is due to Johan van Benthem, who basically pointed out that Lambek's calculi make for the perfect syntactic machinery for Montague's program, seeing as they admit the Curry-Howard correspondence, and are therefore able to drive semantic composition virtually for free (in fact one could go as far as to say that they are the only kind of machinery that can accomplish such a feat without being riddled with ad-hoc transformations).
 This revelation, combined with the contemporary bloom of substructural logics, was the spark that ignited a renewed interest in Lambek's work.
-The culmination point for this interest was typelogical grammars (or categorial type logics): families of closely related type theories extending the original calculi of Lambek with unary operators lent from modal logic, intended to implement a stricter but more linguistically faithful modeling of the composition of natural language form and meaning.
+The culmination point for this interest was type-logical grammars (or categorial type logics): families of closely related type theories extending the original calculi of Lambek with unary operators lent from modal logic, intended to implement a stricter but more linguistically faithful modeling of the composition of natural language form and meaning.
 
 In this chapter, we will isolate some key concepts from this frantic timeline and expound a bit on their details.
 Other than reinvented notation or perhaps some fresh example, no novel contributions are to be found here; the intention is merely to establish some common grounds before we get to proceed. 
@@ -69,7 +69,7 @@ A \textit{complex} proposition is any proposition that is not a member of \propc
 
 Besides propositions, we have \textit{structures}. 
 Structures are built from propositions with the aid of a single binary operation, the notation and properties of which can vary between different presentations of the logic.
-In our case, we will indicate valid structures with greek uppercase letters $\Gamma$, $\Delta, \Theta$, and define structures inductively as 
+In our case, we will indicate valid structures with Greek uppercase letters $\Gamma$, $\Delta, \Theta$, and define structures inductively as 
 \[
 	\Gamma, \Delta, \Theta ::= 1 \ | \ \prop{A} \ | \ \Gamma, \Delta
 \]
@@ -344,7 +344,7 @@ I will spare you the theatrics of faking surprise at this fact, but if this not 
 This ground-shattering discovery lies at the essence of the Curry-Howard correspondence.
 
 \paragraph{$\eta$ conversion}
-In contrast to $\beta$ conversion, which tells us how to simplify an introduce-then-eliminate pattern, $\eta$ conversion tells us how to simplify an eliminate-then-introduce pattern.
+In contrast to $\beta$ conversion, which tells us how to simplify an introduce-then-eliminate pattern, $\eta$ conversion tells us how to modify an eliminate-then-introduce pattern.
 An $\eta$ long (or normal) form of a term is one in which the arguments to type operators are made explicit (i.e. all introductions of a connective are preceded by its elimination), whereas an $\eta$ contracted (or pointfree) form is one where arguments are kept hidden~\cite{prawitz1965proof}.
 We refer to the simplification of an expanded form as $\eta$ reduction, which is the computational dual of $\beta$ reduction.
 The reverse process is an $\eta$ expansion: $\eta$ long forms witness the completeness of atomic propositions, which posits that any derivable statement $\Gamma \vdash \smallprop{A}$ can be converted to an alternative form $\Gamma' \vdash \smallprop{A}$, where $\Gamma'$ consists only of atomic propositions~\cite{troelstra2000basic}.
@@ -541,8 +541,8 @@ The new, weird-looking arrow of linear implication is read as lolli(pop) due to 
 Conjunction $\times$ is now separated into two distinct operators, the multiplicative $\otimes$ and the additive $\with$. 
 The first denotes a linear tuple, and $\smallprop{A} \otimes \smallprop{B}$ is read as \textit{both} \prop{A} \textit{and} \prop{B}.
 A linear tuple offers no possibility of projection: we will need to use both coordinates going forward.
-The second denotes a choice, and $\smallprop{A} \with \smallprop{B}$ is read as \smallprop{A} \textit{with} \smallprop{B}, or \textit{choose one of} \smallprop{A} \textit{or} \smallprop{B}.
-This choice is \textit{external}, as the freedom of applying it is on operator rather than the proof, and is manifested by the presence of two eliminators for our new connective: a left projection $\with E_1$ and a right projection $\with E_2$; choosing one means we lose the possibility of obtaining the other.
+The second denotes a choice, and $\smallprop{A} \with \smallprop{B}$ is read as \smallprop{A} \textit{with} \smallprop{B}, or \textit{choose one of}\smallprop{A} \textit{or} \smallprop{B}.
+This choice is \textit{external}, as the freedom of applying it lies with the operator rather than the proof, and is manifested by the presence of two eliminators for our new connective: a left projection $\with E_1$ and a right projection $\with E_2$; choosing one means we lose the possibility of obtaining the other.
 Unique to the $\with I$ rule is the fact that two proof branches used to derive each coordinate of the $\smallprop{A} \with \smallprop{B}$ conclusion share the same assumptions $\Gamma$.
 The subset of linear logic concerning the connectives discussed is presented in Figure~\ref{figure:linear_logic_rules}, together with its term rewrites (assumptions, judgements, rules and proofs look just like before).
 For the sake of homogeneity and explicitness, \Exchange{} still makes an appearance as the sole structural rule.
@@ -795,7 +795,7 @@ A proof frame must satisfy an invariance property before the eligibility of the 
 Namely, it must contain an equal number of positive and negative occurrences of each unique atomic formula that appears within it.
 This perfectly fits the linear logic paradigm: everything produced has to be consumed, and vice versa.
 In our case, we have three unique formulas, \smallprop{A}, \smallprop{B} and \smallprop{C}, each one of which has a single positive and a single negative occurrence: check.
-The next thing to do in building a proof net is to establish a bijection between atomic formulas of negative polarity, and draw it as an extra set of edges, pointed negative atoms to their positive matches: we call those \textit{axiom links}.
+The next thing to do in building a proof net is to establish a bijection between atomic formulas of opposite polarity, and draw it as an extra set of edges, pointed negative atoms to their positive matches: we call those \textit{axiom links}.
 Axiom links essentially specify the elimination of function types: they identify function arguments with their concrete inputs in a geometric fashion.
 We do not need to put much thought for our running example: since all atoms have a single occurrence of each polarity, there is just one possible bijection to consider, presented in Figure~\ref{subfigure:proof_structure_funcomp}.
 A proof frame with axiom links on top is called a \textit{proof structure}, and this representation provides all of the information contained within a proof.
@@ -803,7 +803,7 @@ A proof frame with axiom links on top is called a \textit{proof structure}, and 
 Alas, the relation from proofs structures is not one-to-one: there exist many more proof structures than proofs.
 A proof structure is a \textit{proof net} if and only if it satisfies a correctness criterion.
 There have been various formulations of this criterion, each with a different time complexity, ranging from exponential to linear~\cite{girard1987linear,danos1989structure,murawski2000dominator,guerrini2011linear}.
-We will adopt an (informally rephrased) version of the acyclicity and connectedness criterion of Danos and Regnier~\cite{danos1989structure}.
+We will adopt an (informally rephrased) version of the acyclicity and connectedness criterion of \citet{danos1989structure}.
 We are going to treat a proof structure as a heterogeneous graph, consisting of two node types, logical connectives and atomic formulas, and three edge types: tree-structure edges, further subcategorized according to their polarity, and axiom links.
 We are then going to attempt a traversal of that graph using an algorithm defined on the basis of the above parameterization, that further utilizes the  ancillary tree labels we have assigned earlier.
 At each step of the traversal, the algorithm will write down a (partial) term or term instruction.
@@ -865,13 +865,13 @@ Regardless of what it might have been, we cannot reasonably anticipate there to 
 	}
 	};
 	\node[focus] (ak) at (0.5875, 1.125) {};
-	\node[focus] (am) at (3.925,  1.125) {};
+	\node[focus] (am) at (3.785,  1.125) {};
 	\draw[link, <-] (ak) to[bend left=45] (am); %$(am.north)$);
-	\node[focus] (bl1) at	(1.5, 1.125) {};
-	\node[focus] (bl2) at (2.6, 0.525) {};
+	\node[focus] (bl1) at	(1.475, 1.125) {};
+	\node[focus] (bl2) at (2.5, 0.525) {};
 	\draw[link, ->] (bl1) -- (bl2);
-	\node[focus] (bi) at (-3.65, 0.525) {};
-	\node[focus] (cj1) at (-2.7, 0.525) {};
+	\node[focus] (bi) at (-3.475, 0.525) {};
+	\node[focus] (cj1) at (-2.55, 0.525) {};
 	\node[focus] (cj2) at (0.65, -0.075) {};	
 	\draw[link, <-] (bi) to[bend left=60] (bl2);
 	\draw[link, ->] (cj1) -- (cj2);
@@ -893,7 +893,7 @@ For instance, joining $\{ i \leftrightarrow k\}$ and $\{ l\leftrightarrow i, j \
 \term{\left(\lambda x_0.x_0^{\prop{A}_i \li \prop{B}_j}~x_1^{\prop{A}_k}\right)~x_2^{\prop{A}_l \li \prop{B}_m}}
 \]
 The added burden has the enormous benefit of yielding ``$\beta$ normalized'' links and resolving potential future headaches a priori.
-}
+}%
 , which can then be applied as a mapping (e.g. to the lexicographically first element) yielding a link-decorate judgement, in our case:
 \[
 	\nprop{A}_k \li \pprop{B}_i, \nprop{B}_i \li \pprop{C}_j \vdash \pprop{A}_k \li \nprop{C}_j
@@ -968,7 +968,7 @@ This also serves to better illustrate a remark made earlier: the rule can be app
 	\label{figure:lambek_calculus_rules}
 \end{figure}
 
-The Lambek Calculus hails from an intuitionistic tradition, and is thus amenable to a propositions-as-types interpretation~\cite{wansing1990formulas}.
+The Lambek Calculus hails from an intuitionistic tradition, and is thus amenable to a propositions as types interpretation~\cite{wansing1990formulas}.
 Addorning its rules with faithful term rewrites translates into a type system that is both linear and ordered~\cite{pierce2004advanced}.
 Things get funky there: we now have two distinct modes of function application and $\lambda$ abstraction, each pair with its own reduction.
 We use $\appright$ and $\appleft$ to denote right and left application, respectively -- the mnemonic is that the triangle points to the function -- and $\lambda$ and $\adbmal$ to denote the two kinds of anonymous functions.
@@ -1162,7 +1162,7 @@ The defeatist attitude here would be to just accept the trade-off between expres
 The problem lies however in the common occasion where the structure of objects under scrutiny overlaps only \textit{partially} with a specific substructural flavor, modulo some exceptional but real cases that require added expressivity.
 In such a scenario, taking a step up in the hierarchy would cause an undesirable combinatorial explosion, whereas staying put would sacrifice our ability to argue about these exceptional cases. 
 By contrast, the maximalist attitude makes no concessions and seeks both for the cake to be whole and the dog to be fed.%
-\footnote{Direct translation of a silly but fitting greek aphorism. Cake is bad for dogs.}
+\footnote{Direct translation of a silly but fitting Greek aphorism. Cake is bad for dogs.}
 What if there was a way to keep our logic computationally tractable but with temporary and on-demand access to normally excluded reasoning tools?
 
 \subsection{The Logic of Modalities}
@@ -1182,7 +1182,7 @@ or (ii) their monotonic behavior
 		$\prop{A} \vdash \prop{B}$ & $\implies$ & $ \Box{A}\vdash \Box\prop{B}$\\
 	\end{tabularx}
 \end{center}
-and their compositions, where $\diamond\Box(\_)$ is an \textit{interior} and $\Box\diamond(\_)$ a \textit{closure} operator:
+and the adjointness of their compositions, where $\diamond\Box(\_)$ is an \textit{interior} and $\Box\diamond(\_)$ a \textit{closure} operator:
 \begin{center}
 	\begin{tabularx}{0.35\textwidth}{@{}ccc@{}}
 		$\Gamma \vdash \prop{A}$ & $\implies$ & $\Gamma \vdash \Box\diamond\prop{A}$\\
@@ -1230,17 +1230,15 @@ Its introduction rule $\diamond I$ is straightforward: it offers the possibility
 The elimination rule $\diamond E$ is more of a problem child, behaving akin to a unary product.
 Without locality restrictions, it inspects a proof of $\smallprop{B}$, the assumptions of which contain a substructure $\bracket{\smallprop{A}}$ within context $\Gamma{\ctx{\_}}$, and allows the post-hoc substitution of the hypothesis together with its brackets by a structure $\Delta$, if from it one can derive $\diamond \smallprop{A}$.
 
-Rules are adorned with term rewrite instructions in the propositions-as-types style, similar to how temporal logic can be operationalized in the $\lambda$-calculus~\cite{wansing2002sequent}.
+Rules are adorned with term rewrite instructions in the propositions as types style, similar to how temporal logic can be operationalized in the $\lambda$-calculus~\cite{wansing2002sequent}.
 The mnemonic is now two-dimensional: upward triangles denote introduction and downward ones elimination, whereas black triangles are for the box, white ones for the diamond.
 Term constructions for the single-premise rules are uncomplicated: each type operation just leaves the corresponding term footprint.
 This is not the case for the $\diamond E$ rule, which requires some attention:
 the structural substitution of $\bracket{\smallprop{A}}$ for $\Delta$ necessitates a case construct that calls for a term substitution of the variable $\smallterm{x_i}$ for $\diaelim\smallterm{t}$.
-Note that the free variables of the resulting expression ($\caseof{\diaelim t}{x_i}{s}$) are the union of the free variables of \smallterm{s} and those of \smallterm{t}, with the exception of \smallterm{x_i}, which is \textit{bound} by the case construct.
+Note that the free variables of the resulting expression ($\caseof{\diaelim t}{x_i}{s}$) are the union of the free variables of \smallterm{t} and those of \smallterm{s} except for \smallterm{x_i}, which becomes \textit{bound} by the case construct.
 
 \paragraph{Proof \& Term Reductions}
 \begin{figure}
-	\centering
-	\begin{subfigure}{1\textwidth}
 	\centering
 		\begin{tabularx}{0.85\textwidth}{@{}ccc@{}}
 		$\infer[\Box E]{\bracket{\Gamma} \vdash \prop{A}}{
@@ -1271,11 +1269,29 @@ Note that the free variables of the resulting expression ($\caseof{\diaelim t}{x
 		}
 		$
 		\end{tabularx}
-		\caption{$\beta$ redexes.}
-		\label{subfigure:modal_beta_reductions}
-	\end{subfigure}\\[\midsep]
-	\begin{subfigure}{1\textwidth}
-		\centering
+		\caption{Modal $\beta$ redexes.}
+		\label{figure:modal_beta_reductions}
+\end{figure}
+
+The proof patterns of Figure~\ref{figure:modal_beta_reductions} exhibit introduction elimination chains of modal operators, and thus constitute $\beta$ redexes subject to normalization.
+The first one is trivial: it just says that a sequential application of $\Box I$ followed by $\Box E$ can be safely excised.
+The second one proposes that if a $\diamond I$ is the last rule to have been applied on the substitution branch $t$ of the $\diamond E$ rule, it would make sense to simply plug proof $t$ in place of the proposition $\smallprop{A}$ hypothesized in the other  branch $s$.
+On the term level, these rules correspond to computations:
+\begin{align*}
+\boxelim \boxintro \term{s} & \overset{\beta}{\leadsto} \term{s}\\
+\cterm{case \term{\diaelim \diaintro t} of \term{x} in \term{s}} & \overset{\beta}{\leadsto} \term{s}_{[\term{x} \mapsto \term{t}]}
+\end{align*}
+
+The dual direction of $\eta$ equivalences also holds -- since these are not as frequently encountered as the more pedestrian implication and product equivalences, we explictly present them in Figure~\ref{figure:modal_eta_reductions}.
+The term equivalences they materialize are:
+\begin{align*}
+\boxintro \boxelim \term{s} & \overset{\eta}{\equiv} \term{s}\\
+\cterm{case \term{\diaelim{s}} of \term{x} in \term{\diaintro{x}}} & \overset{\eta}{\equiv} \term{s}
+%\cterm{case \term{\diaelim \diaintro t} of \term{x} in \term{s}} & \overset{\beta}{\leadsto} \term{s}_{[\termt{x} \mapsto \term{t}]}
+\end{align*}
+
+\begin{figure}
+	\centering
 		\begin{tabularx}{0.8\textwidth}{@{}ccc@{}}
 			$\infer[\Box I]{\Gamma \vdash \Box\prop{A}}{
 			\infer[\Box E]{\bracket{\Gamma} \vdash \prop{A}}{
@@ -1301,28 +1317,10 @@ Note that the free variables of the resulting expression ($\caseof{\diaelim t}{x
 			$\infer*[s]{\Delta \vdash \diamond \prop{A}}{}
 			$
 		\end{tabularx}
-		\caption{$\eta$ redexes.}
-		\label{subfigure:modal_eta_reductions}
-	\end{subfigure}
-	\caption{Proof reductions for unary modalities.}
-	\label{figure:modal_proof_reductions}
+	\caption{Modal $\eta$ redexes.}
+	\label{figure:modal_eta_reductions}
 \end{figure}
 
-The proof patterns of Figure~\ref{subfigure:modal_beta_reductions} exhibit introduction elimination chains of modal operators, and thus constitute $\beta$ redexes subject to normalization.
-The first one is trivial: it just says that a sequential application of $\Box I$ followed by $\Box E$ can be safely excised.
-The second one proposes that if a $\diamond I$ is the last rule to have been applied on the substitution branch $t$ of the $\diamond E$ rule, it would make sense to simply plug proof $t$ in place of the proposition $\smallprop{A}$ hypothesized in the other  branch $s$.
-On the term level, these rules correspond to computations:
-\begin{align*}
-\boxelim \boxintro \term{s} & \overset{\beta}{\leadsto} \term{s}\\
-\cterm{case \term{\diaelim \diaintro t} of \term{x} in \term{s}} & \overset{\beta}{\leadsto} \term{s}_{[\term{x} \mapsto \term{t}]}
-\end{align*}
-The dual direction of $\eta$ equivalences also holds -- since these are not as frequently encountered as the more pedestrian implication and product equivalences, we explictly present them in Figure~\ref{subfigure:modal_eta_reductions}.
-The term equivalences they materialize are:
-\begin{align*}
-\boxintro \boxelim \term{s} & \overset{\eta}{\equiv} \term{s}\\
-\cterm{case \term{\diaelim{s}} of \term{x} in \term{\diaintro{x}}} & \overset{\eta}{\equiv} \term{s}
-%\cterm{case \term{\diaelim \diaintro t} of \term{x} in \term{s}} & \overset{\beta}{\leadsto} \term{s}_{[\termt{x} \mapsto \term{t}]}
-\end{align*}
 
 \paragraph{A Digression on Modal Terms}
 For the modally savvy, the term rewrites attributed to the modal rules might seem unorthodox.
@@ -1351,7 +1349,7 @@ Situating our unary operators within the modal logic zoo is no trivial endeavour
 They are best characterized by the properties they satisfy, so inspecting them should shed some light on their proof-theoretic behavior (as a bonus, it will also help us get better acquainted with the kind of term rewrites their rules prescribe).
 Figure~\ref{figure:modal_properties:residuation} presents the proof transformations equivalent to the properties foretold:
  (\subref{subfigure:modal_properties:diamond_mono}) and (\subref{subfigure:modal_properties:box_mono}) for monotonicity, (\subref{subfigure:modal_properties:closure}) and (\subref{subfigure:modal_properties:interior}) for composition, and (\subref{subfigure:modal_properties:residuation:1}) and (\subref{subfigure:modal_properties:residuation:2}) for the two directions of the residuation law.
-Feel free to substitute $\li$ for a directional variant as needed.
+ 
 Worth a special mention are also the so-called triple laws:
 \begin{align*}
 	\diamond\prop{A} \dashv\vdash \diamond\Box\diamond\prop{A}\\
@@ -1541,7 +1539,6 @@ In domains where even finer control is needed, one can consider indexed families
 	\label{figure:modal_structural_rules}
 \end{figure} 
 
-
 \section{The Linguistic Perspective}
 Despite their presentation having intentionally been left vague and abstract, the ideas explored so far have been a keystone element of computer science, from its inception until recent modernity.
 Beyond that, they form the common theoretical underpinnings for the formal treatment of natural languages and their various aspects, where they manifest as so-called \textit{Categorial Grammars}.
@@ -1557,8 +1554,9 @@ In this section we will examine some of their main strands, with a special empha
 
 \subsection{Type-Logical Grammars}
 The earliest take at a categorial grammar are the AB grammars attributed to Kazimierz Adjukiewicz~\cite{ajdukiewicz1935syntaktische} and Yehoshua Bar-Hillel~\cite{bar1953quasi}, but it was Jim Lambek that raised the existing notation and operations into the glory of a fully-fledged type theory.
-In their original purpose as envisaged by Lambek, his calculi would find use as a universal system of \textit{grammatical} computation -- a perspective adopted and advanced into what has presently come to be known as type-logical grammars.
-In a natural language setting, the original Lambek calculus $\LC$ would be the logic of \textit{strings}; it can faithfully portray the generation of natural language utterances, where arbitrary reordering is a destructive process that ruins coherence.
+In their original purpose as envisaged by Lambek, his calculi would find use as \textit{grammar logics}, i.e. universal systems of \textit{grammatical} computation -- a perspective adopted and advanced into what has presently come to be known as type-logical grammars~\cite{morrill1994type,moortgat1997categorial,sep-typelogical-grammar}.
+In a natural language setting, the linear base of the Lambek calculi is naturally equated to the resource sensitivity of grammar: words play a single grammatical role in the phrases they help form -- there's no ignoring or reusing items at will.
+There, the original Lambek calculus $\LC$ would be the logic of \textit{strings}; it can faithfully portray the generation of natural language utterances, where arbitrary reordering is a destructive process that ruins coherence.
 Its stricter version $\NL$ would instead be the logic of \textit{constituency trees}; on top of word order, it further specifies constituency structure, allowing a distinction between different syntactic analyses of the same surface form.
 
 To see this in action, let us consider first an instantiation of a Lambek Calculus $\NL$ with the set of primitive types $\propcon$ populated with signs characterizing the grammatical role of a piece of text that can independently stand on its own (i.e. phrasal categories or, more crudely, parts of speech).
@@ -1577,17 +1575,19 @@ Adverbs would also be endomorphisms, except this time higher-order -- \linebreak
 \begin{figure}
 	\centering
 	\begin{tabularx}{0.5\textwidth}{@{}r@{\quad::\quad}l}
-		eye, ocean		& $\smalln$\\
+		eye				& $\smalln$\\
 		oceans, suns 	& $\smallnp$\\
 		the				& $\smallnp\divright\smalln$\\
 		opiate 			& $\smallnp\divright\smallnp$\\
-		behold[s]		& $(\smallnp\divleft\smalls)\divright\smallnp$\\
-		pour[ed] 		& $\smallnp\divleft\smalls$\\
-		there 			& $\smallgtype{adv} := (\smallnp\divleft\smalls)\divleft(\smallnp\divleft\smalls)$\\
+		poured 			& $\smallgtype{itv} := \smallnp\divleft\smalls$\\
+		behold			& $\smallgtype{tv} :=(\smallnp\divleft\smalls)\divright\smallnp$\\
+		there 			& $\smallgtype{adv}_{\divleft} := (\smallnp\divleft\smalls)\divleft(\smallnp\divleft\smalls)$\\
+		never			& $\smallgtype{adv}_{\divright} := (\smallnp\divleft\smalls)\divright(\smallnp\divleft\smalls))$\\
 		by				& $\pp\divright\np$\\
-		litten 			& $(\smallnp\divleft\smallnp)\divright\smallpp$
+		litten 			& $(\smallnp\divleft\smallnp)\divright\smallpp$\\
+		may				& $\smallgtype{aux} := (\smallnp\divleft\smalls)\divright(\smallnp\divleft\smalls))$
 	\end{tabularx}
-	\caption{}
+	\caption{Toy lovecraftian lexicon of pure Lambek types.}
 	\label{figure:toy_lambek_lexicon}
 \end{figure}
 
@@ -1604,7 +1604,7 @@ Adverbs would also be endomorphisms, except this time higher-order -- \linebreak
 			\infer[\divleft E]{\w{poured}\sbind\w{there} \vdash \np\divleft\s}{
 				\infer[\Lex]{\w{poured}: \np\divleft\s}{}
 				&
-				\infer[\Lex]{\w{there}: \smallgtype{adv}}{}
+				\infer[\Lex]{\w{there}: \gtype{adv}_{\divleft}}{}
 			}
 		}
 	\]
@@ -1630,15 +1630,16 @@ Adverbs would also be endomorphisms, except this time higher-order -- \linebreak
 	\label{figure:nl_applicative_examples}
 \end{figure}
 
-Formulas like the above are supplied by and grounded in the lexicon. 
-We will employ the miniature mock-up of Figure~\ref{figure:toy_lambek_lexicon}, with the aid of which we can at last derive our very first linguistic derivations!
+Linguistic reasoning is not done ex nihilo -- formulas like the above are supplied by and grounded in the lexicon. 
+This does not exclude the option of utilizing hypotheticals instantiated by the axiom rule $\Ax$ -- hypothetical reasoning lives, in fact, at the core of the type-logical inferential process, as we will soon see.
+It means, rather, that our building blocks will for the most part be \textit{lexical constants}, proof objects that behave just like variables, except they are neither wantonly typed nor amenable to function abstraction.
+To convey the difference between the two, we will instantiate the latter with a seemingly new rule of inference, $\Lex$, which simply performs lexical lookup, i.e. pulls a word's type from the lexicon.
+For demonstration purposes, we will employ the miniature mock-up of Figure~\ref{figure:toy_lambek_lexicon}, with the aid of which we can at last derive our very first linguistic derivations!
+
 The purely appicative examples of Figure~\ref{figure:nl_applicative_examples} should be straightforward to decipher.
-Do not be spooked by the seemingly new rule of inference, $\Lex$, simply meant to convey type assignments pulled from our lexicon.
-Unlike the identity axiom $\Ax$, which instantiates hypothetical variables, $\Lex$ introduces lexical constants.
-Lexical constants behave just like variables, except they are neither wantonly typed nor amenable to function abstraction.
 The two proofs of~\ref{subfigure:opiate_oceans_poured_there} and~\ref{subfigure:litten_by_suns} can be combined to yield a derivation for the phrase \textex{Opiate oceans litten by suns poured there}.
 Though, if someone were to put this to the test and really attempt to proceed with the derivation, they would soon find themselves at a crossroads regarding which of the two nominal modifiers to apply first.
-The choice of $\NL$ over $\LC$ means that the priority of application reflects in two distinct judgements, each with its own proof, that differ in the bracketing structure of the composite $\np$ they contain:
+The choice of $\NL$ over $\LC$ implies that the two priorities of application reflect in as many distinct judgements, each with its own proof, that differ in the bracketing structure of the composite $\np$ they contain:
 \begin{center}
 \begin{tabularx}{0.9\textwidth}{@{}ccc@{}}
 	$\w{opiate}\sbind(\w{oceans}\sbind(\w{litten}\sbind(\dots)))$ & vs. & $(\w{opiate}\sbind\w{oceans})\sbind(\w{litten}\sbind(\dots))$
@@ -1650,31 +1651,153 @@ Derivational ambiguity is not necessarily bad, provided the divergence in the pr
 \footnote{Just think of all the different things you could do with pijamas, elephants, telescopes, etc.}
 This is not the case for spurious ambiguity, as it introduces undesirable (and uninterpretable) redundancy, at the dismay of parsers (or mostly their designers).
 
-Despite their elegance and formal appeal, Lambek calculi in their pure form suffer from an aversion to anomalies, which natural languages tend to exhibit at a disproportionate degree. 
+Despite their elegance and formal appeal, grammars relying purely on Lambek calculi form suffer from an aversion to anomalies like discontinuities and long-distance dependencies, which natural languages tend to exhibit at a striking degree.
 Participial phrases used as post-nominal adjectives, like the example of Figure~\ref{subfigure:litten_by_suns}, can for instance be located either immediately after the noun (phrase) they modify, or deferred until after the verbal head dominating it -- which is to say that an alternative composition of our running example \textex{Opiate oceans poured there, litten by suns} would also be a grammatically valid construction, but not one we could ever hope to derive with our current machinery.%
 \footnote{Comma added for naturality but (as far as my English is concerned) the sentence remains grammatical even without it.}
 One could of course attept to cop out of the problem by just introducing ad-hoc raised forms for movable parts, one per distinct position they can be found at. The repercussions of such a move would soon, however, prove catastrophic.
 On the one hand, the once reliably concise lexicon would become overpopulated by endless variations on the same theme: each expansion point of a lexical type would percolate into all other lexical items it interacts with (either as consumers or producers thereof), the effect cascading at progressively larger lexical neighborhoods, until (if ever) an eventual equilibrium is reached.
 On the other hand, raised types obfuscate the functional relations and constituency structures we have worked so hard to reveal and incorporate, virtually beating the very purpose of the logic.
-Relaxing the structural constraints of the logic to globally allow movement and/or rebracketing is no good either. 
+Relaxing the structural constraints of the logic to globally allow movement and/or rebracketing is no good either.
 Spurious ambiguity would be the least of our concerns as we would be faced with \textit{overgeneration}, i.e. the unwelcome ability to derive proofs that have no correspondence to correct linguistic structures whatsoever, leading us back to square zero.
-If you have not skipped any parts yet, your reward should now manifest as a premonition of what is to come: modalities to the rescue!
+If you have not skipped any parts yet, your reward should now manifest as an unwavering faith for a solution, and a premonition of what is to come: modalities to the rescue!
 
-%Ever since pioneering work integrated them 
-%Modalities play an integral role in the modern type-logical toolkit~\cite{moortgat1997categorial,moortgat1999constants}.
+Ever since their original integration with the vanilla multiplicative toolkit (the pioneer being none other than my \#1 supervisor!), modalities have played an indispensable role in the history and development of type-logical grammars~\cite{moortgat1996multimodal}.
+They find use as either licensors or licensees of structural rewrites, now in the form of movement and rebacketing of words and phrases.
+Figure~\ref{subfigure:control:movement} revisits the running example, this time accounting for the presence of a (hypothetical) movable postnominal modifier via the rules of Figure~\ref{figure:modal_structural_rules}.
+To make the hypothesis movable, we need to instantiate it as a box -- for the pure function contained therein to be applicable, the box needs to be removed, enclosing the hypothesis in angular brackets, which in turn license its structural extraction to the rightmost edge of the assumptions.
+At that point, we need to eliminate the bracketed variable with a term of the corresponding diamond type.
+For this to work, we need to make the tiniest of modifications to our lexicon so as to get access to our saught-after diamond:
+\[
+	\w{litten} \qquad :: \qquad \diamond\Box (\np\divleft\np)\divright\pp
+\]
+Intuitively, the new type requests a prepositional phrase complement to the right, after the consumption of which it produces a movable postnominal modifier that can penetrate constituent phrase boundaries to the left.
+Equipped with it, we can derive both the local versions hinted at earlier, and their discontinuous variations; see Figure~\ref{subfigure:control:substitution} for a proof of concept.%
+\footnote{Get it? It's an actual \textit{proof}.} 
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{1\textwidth}
+		\[
+			\infer[\rulestyle{mix}_{\diamond}]{((\w{opiate}\sbind\w{oceans})\sbind(\w{poured}\sbind\w{there}))\sbind\bracket{\term{x_i}} \vdash \s}{
+				\infer[\divleft E]{((\w{opiate}\sbind\w{oceans})\sbind\bracket{\term{x_i}})\sbind(\w{poured}\sbind\w{there}) \vdash \s}{
+					\infer[\divleft E]{(\w{opiate}\sbind\w{oceans})\sbind\bracket{\term{x_i}} \vdash \np}{
+						\infer*{\w{opiate}\sbind\w{oceans} \vdash \np}{}
+						&
+						\infer[\Box E]{\bracket{\term{x_i}} \vdash \np\divleft\np}{
+							\infer[\Ax]{\term{x_i}: \Box (\np\divleft\np)}{}
+						}
+					}
+					&
+					\infer*{\w{poured}\sbind\w{there} \vdash \np\divleft\s}{}
+				}
+			}
+		\]
+		\caption{Derivation using a hypothetical postnominal modifier..}
+		\label{subfigure:control:movement}
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}{1\textwidth}
+	\centering
+		\[
+			\infer[\diamond E]{((\w{opiate}\sbind\w{oceans})\sbind(\w{poured}\sbind\w{there}))\sbind(\w{litten}\sbind(\w{by}\sbind\w{suns})) \vdash \s}{
+				\infer*{((\dots)\sbind(\dots))\sbind\bracket{\term{x_i}} \vdash \s}{\text{(\subref{subfigure:control:movement})}}
+				&
+				\infer*{\w{litten}\sbind(\w{by}\sbind\w{suns}) \vdash \diamond\Box(\np\divleft\np)}{}
+			}
+		\]
+		\caption{..before substituting the hypothesis for its material instance.}
+		\label{subfigure:control:substitution}
+	\end{subfigure}
+	\caption{Long distance postnominal modification.}
+	\label{figure:todo}
+\end{figure}
+
+
+This methodology is in fact adopted from~\citet{moortgat1999constants}, where it finds similar use in dealing with the grammatical ambivalence of relativizers like \textex{that} or \textex{which}.
+Bound relative clauses headed by complementizers like the above contain a subordinate sentence with a \textit{gap}, which can vary in its position.
+Let's make things unnecessarily convoluted for the sake of clich{\'e}d self-referentialism by considering the relative clause \textex{which can very in its position} of the previous sentence.
+There, the subordinate clause \textex{\_ can vary in its position} contains a gap in the subject position, which the head \textex{a gap} occupies implicitly.
+This is not the case in the last relative clause \textex{which the head \textex{gap} occupies implicitly}, whose subordinate clause \textex{the head \textex{gap} occupies \_ implicitly} contains a non-peripheral (nested) gap in direct object position.
+What a mess! 
+The subject-relative case can easily be dealt with in a pure Lambek grammar, as the gap hypothesis occurs adjacent to the verb phrase, but
+the same cannot be said for the object-relative case, whose structurally free gap seems to pose a challenge.
+The solution comes in the form of two distinct type assignments for the relativizer, one per grammatical role fulfilled:
+\begin{align*}
+	\w{that} &:: (\np\divright\np)\divright(\np\divleft\s) \tag{subj-rel}\\
+	\w{that} &:: (\np\divright\np)\divright(\s\divright\diamond\Box \np ) \tag{obj-rel}
+\end{align*}
+The second version launches a mobile \np[s] hypothesis via the same diamond-box pattern employed earlier.
+Its use in deriving 
+
+
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{1\textwidth}
+		\smaller
+		\[
+			\infer[\rulestyle{ass}_{\diamond} (x2)]{((\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind(\w{behold}))\sbind\bracket{\term{x_i}}\vdash \s}{
+				\infer[\divleft E]{(\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind(\w{behold}\sbind\bracket{\term{x_i}}))\vdash \s}{
+					\infer*{\w{the}\sbind\w{eye} \vdash \np}{}
+					&
+					\infer[\divright E]{\w{may}\sbind(\w{never}\sbind(\w{behold}\sbind\bracket{\term{x_i}})) \vdash \np\divleft\s}{
+						\infer[\Lex]{\w{may} : \gtype{aux}}{}
+						&
+						\infer[\divright E]{\w{never}\sbind(\w{behold}\sbind\bracket{\term{x_i}}) \vdash \np\divleft\s}{
+							\infer[\Lex]{\w{never}:\smallgtype{adv}_{\divright}}{}
+							&
+							\infer[\divright E]{\w{behold}\sbind{\bracket{\term{x_i}}} \vdash \np\divleft\s}{
+								\infer[\Lex]{\w{behold}: \gtype[l]{tv}}{}
+								&
+								\infer[\Box E]{\bracket{\term{x_i}} \vdash \np}{
+									\infer[\Ax]{\term{x_i} : \Box \np}{}
+								}
+							}
+						}
+					}
+				}
+			}
+		\]
+		\caption{\todo}
+		\label{subfigure:lovecraft_rel_clause:movement}
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}{1\textwidth}
+		\smaller
+		\[
+			\infer[\divright E]{\w{that}\sbind(((\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind(\w{behold}))) \vdash \np\divleft\np}{
+				\infer[\Lex]{\w{that} : (\np\divleft\np)\divright(\s\divright\diamond\Box\np)}{}
+				&
+				\hspace{-15pt}\infer[\divright I]{((\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind(\w{behold})) \vdash \s\divright\diamond\Box\np}{
+					\infer[\diamond E]{((\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind(\w{behold}))\sbind\term{x_j} \vdash \s}{
+						\infer*{((\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind(\w{behold}))\sbind\bracket{\term{x_i}}\vdash \s}{}
+						&
+						\infer[\Ax]{\term{x_j}: \diamond\Box \np}{}
+					}
+				}
+			}
+		\]
+		\caption{\todo}
+		\label{}
+	\end{subfigure}
+	\caption{\todo}
+	\label{figure:lovecract_rel_clause}
+\end{figure}
+
+
+%\cite{moortgat1999constants}
+
+%Their original 
+%Ever since their initial integration with the multiplicative 
+
+%~\cite{moortgat1997categorial,moortgat1999constants}.
 %Pioneering work would  ~\cite{moortgat1995multimodal,kurtonina1997structural}
 
-% should probably foresee what what comes next: the time of the modalities is finally at hand.
-%Opting for the cop out option
-
-
+% linearity
 % typing tension, type ambiguity
 % no ex nihilo
 % OVERGENERATION => M
 % big correspondence table
 % lexicalism
-% ss
-
+% proof net
 
 %\begin{table}
 %	\centering

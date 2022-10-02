@@ -3,46 +3,48 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: introduction.aux
 The style file: abbrvnat.bst
 Database file #1: bibliography.bib
+Warning--I didn't find a database entry for "danos1989"
+Warning--empty journal in morrill1994type
 Warning--there's a number but no series in troelstra2000basic
-You've used 26 entries,
+You've used 29 entries,
             2773 wiz_defined-function locations,
-            761 strings with 8014 characters,
-and the built_in function-call counts, 10958 in all, are:
-= -- 1068
-> -- 314
-< -- 39
-+ -- 119
-- -- 93
-* -- 693
-:= -- 1603
-add.period$ -- 87
-call.type$ -- 26
-change.case$ -- 104
-chr.to.int$ -- 26
-cite$ -- 53
-duplicate$ -- 618
-empty$ -- 1073
-format.name$ -- 128
-if$ -- 2409
+            779 strings with 8447 characters,
+and the built_in function-call counts, 12021 in all, are:
+= -- 1164
+> -- 348
+< -- 42
++ -- 132
+- -- 103
+* -- 759
+:= -- 1771
+add.period$ -- 97
+call.type$ -- 29
+change.case$ -- 117
+chr.to.int$ -- 29
+cite$ -- 60
+duplicate$ -- 681
+empty$ -- 1184
+format.name$ -- 141
+if$ -- 2634
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 30
-newline$ -- 140
-num.names$ -- 104
-pop$ -- 240
+missing$ -- 33
+newline$ -- 155
+num.names$ -- 118
+pop$ -- 270
 preamble$ -- 1
-purify$ -- 82
+purify$ -- 91
 quote$ -- 0
-skip$ -- 446
+skip$ -- 483
 stack$ -- 0
-substring$ -- 587
-swap$ -- 110
+substring$ -- 618
+swap$ -- 112
 text.length$ -- 13
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 266
-warning$ -- 1
-while$ -- 130
+type$ -- 299
+warning$ -- 2
+while$ -- 142
 width$ -- 0
-write$ -- 353
-(There was 1 warning)
+write$ -- 391
+(There were 3 warnings)

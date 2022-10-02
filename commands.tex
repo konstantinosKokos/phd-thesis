@@ -63,6 +63,7 @@
 %				lengths and spacings
 \newcommand{\smallsep}{1.5em}
 \newcommand{\midsep}{2em}
+\usepackage[nodisplayskipstretch]{setspace}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %				tabular settings
@@ -81,12 +82,12 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					lingu examples
-\newcommand{\textex}[1]{``#1''}
+\newcommand{\textex}[1]{``\textit{#1}''}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                  term / type / rule macros
 \newcommand{\smallprop}[1]{	\ensuremath{\textsc{\uppercase{\normalfont\textsc{#1}}}}}
-\newcommand{\prop}[1]{\ensuremath{\vnorm{}\smallprop{#1}}}
+\newcommand{\prop}[1]{\ensuremath{\vnorm{\smallprop{#1}}}}
 \newcommand{\smallterm}[1]{\ensuremath{\mathsf{#1}}}
 \newcommand{\term}[1]{\smallterm{#1}}
 \newcommand{\propcon}{\ensuremath{\mathsf{Prop}_0}}
@@ -114,14 +115,14 @@
 %					grammar shortcuts
 \newcommand{\w}[1]{\text{#1}}
 \newcommand{\smallgtype}[1]{\ensuremath{\textsc{\lowercase{\normalfont\textsc{#1}}}}}
-\newcommand{\gtype}[2]{%
+\newcommand{\gtype}[2][l]{%
 	\ifthenelse
 		{\equal{#1}{s}}%
 		{\smallgtype{#2}}%
-		{\ensuremath{\vnorm{}\smallgtype{#2}}}%
+		{\ensuremath{\vnorm{\smallgtype{#2}}}}%
 }
-\newcommand{\subcat}[3]{\gtype{#1}{#2}\textsubscript{#3}}
-\newcommand{\s}[1][]{\gtype{#1}{s}}
+\newcommand{\subcat}[3]{\gtype[#1]{#2}\textsubscript{#3}}
+\newcommand{\s}[1][]{\gtype[#1]{s}}
 \newcommand{\smalls}{\s[s]}
 \newcommand{\smain}[1][]{\subcat{#1}{\smalls}{}}
 \newcommand{\smallsmain}{\smain[s]}
@@ -129,11 +130,11 @@
 \newcommand{\smallsvi}{\svi[s]}
 \newcommand{\ssub}[1][]{\subcat{#1}{\s}{sub}}
 \newcommand{\smallssub}{\ssub[s]}
-\newcommand{\np}[1][]{\gtype{#1}{np}}
+\newcommand{\np}[1][]{\gtype[#1]{np}}
 \newcommand{\smallnp}{\np[s]}
-\newcommand{\n}[1][]{\gtype{#1}{n}}
+\newcommand{\n}[1][]{\gtype[#1]{n}}
 \newcommand{\smalln}{\n[s]}
-\newcommand{\pp}[1][]{\gtype{#1}{pp}}
+\newcommand{\pp}[1][]{\gtype[#1]{pp}}
 \newcommand{\smallpp}{\pp[s]}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -179,6 +180,6 @@
 %                  proofnet stuff
 \newcommand{\pprop}[1]{	\ensuremath{\smallprop{#1}^{+}}}
 \newcommand{\nprop}[1]{	\ensuremath{\smallprop{#1}^{-}}}
-\newcommand{\vnorm}[1]{	\vphantom{S^x}{#1}}
+\newcommand{\vnorm}[1]{\vphantom{A_x}{#1}}
 \newcommand{\parlink}{\raisebox{\depth}{\scalebox{-1}[-1]{$\with$}}}
 \newcommand{\sbind}{\ensuremath{\cdot}}

@@ -23,28 +23,28 @@
 \contentsline {subsection}{\numberline {2.1}Linear Types}{15}{subsection.1.2.1}%
 \contentsline {subsubsection}{\numberline {2.1.1}Proof \& Term Reductions}{16}{subsubsection.1.2.1.1}%
 \contentsline {subsection}{\numberline {2.2}Proof Nets}{17}{subsection.1.2.2}%
-\contentsline {paragraph}{Traversing $\textbf {ILL}_{\scalebox {1}[1]{\ensuremath {\multimap }}}$ Nets}{20}{paragraph*.27}%
+\contentsline {paragraph}{Traversing $\textbf {ILL}_{\scalebox {1}[1]{\ensuremath {\multimap }}}$ Nets}{21}{paragraph*.27}%
 \contentsline {paragraph}{Axiom Links and Where to Find Them}{21}{paragraph*.28}%
 \contentsline {section}{\numberline {3}Lambek Calculi}{23}{section.1.3}%
 \contentsline {subsection}{\numberline {3.1}Dropping Commutativity}{23}{subsection.1.3.1}%
 \contentsline {paragraph}{Proof \& Term Reductions}{25}{paragraph*.32}%
-\contentsline {subsection}{\numberline {3.2}Dropping Associativity}{25}{subsection.1.3.2}%
-\contentsline {paragraph}{Proof \& Term Reductions}{27}{paragraph*.35}%
+\contentsline {subsection}{\numberline {3.2}Dropping Associativity}{26}{subsection.1.3.2}%
+\contentsline {paragraph}{Proof \& Term Reductions}{26}{paragraph*.35}%
 \contentsline {subsection}{\numberline {3.3}The Full Landscape}{27}{subsection.1.3.3}%
 \contentsline {section}{\numberline {4}Restoring Control}{27}{section.1.4}%
-\contentsline {subsection}{\numberline {4.1}The Logic of Modalities}{28}{subsection.1.4.1}%
+\contentsline {subsection}{\numberline {4.1}The Logic of Modalities}{29}{subsection.1.4.1}%
 \contentsline {paragraph}{Proof \& Term Reductions}{30}{paragraph*.38}%
-\contentsline {paragraph}{A Digression on Modal Terms}{30}{paragraph*.40}%
-\contentsline {paragraph}{Properties}{32}{paragraph*.41}%
+\contentsline {paragraph}{A Digression on Modal Terms}{31}{paragraph*.41}%
+\contentsline {paragraph}{Properties}{32}{paragraph*.42}%
 \contentsline {subsection}{\numberline {4.2}Structural Reasoning}{32}{subsection.1.4.2}%
 \contentsline {section}{\numberline {5}The Linguistic Perspective}{35}{section.1.5}%
 \contentsline {subsection}{\numberline {5.1}Type-Logical Grammars}{36}{subsection.1.5.1}%
-\contentsline {subsubsection}{\numberline {5.1.1}Test}{39}{subsubsection.1.5.1.1}%
-\contentsline {subsection}{\numberline {5.2}Abstract Categorial Grammars}{39}{subsection.1.5.2}%
-\contentsline {subsection}{\numberline {5.3}Other Formalisms}{39}{subsection.1.5.3}%
-\contentsline {schapter}{Chapter Bibliography\markboth {\MakeUppercase {Chapter Bibliography}}{\MakeUppercase {Chapter Bibliography}}}{41}{subsection.1.5.3}%
+\contentsline {subsubsection}{\numberline {5.1.1}Test}{40}{subsubsection.1.5.1.1}%
+\contentsline {subsection}{\numberline {5.2}Abstract Categorial Grammars}{40}{subsection.1.5.2}%
+\contentsline {subsection}{\numberline {5.3}Other Formalisms}{40}{subsection.1.5.3}%
+\contentsline {schapter}{Chapter Bibliography\markboth {\MakeUppercase {Chapter Bibliography}}{\MakeUppercase {Chapter Bibliography}}}{43}{subsection.1.5.3}%
 \gdef \the@ipfilectr {}
 \gdef \the@ipfilectr {@-3}
-\contentsline {chapter}{\numberline {II}Chapter 2: Title Pending}{43}{chapter.2}%
-\contentsline {schapter}{Chapter Bibliography\markboth {\MakeUppercase {Chapter Bibliography}}{\MakeUppercase {Chapter Bibliography}}}{45}{chapter.2}%
+\contentsline {chapter}{\numberline {II}Chapter 2: Title Pending}{47}{chapter.2}%
+\contentsline {schapter}{Chapter Bibliography\markboth {\MakeUppercase {Chapter Bibliography}}{\MakeUppercase {Chapter Bibliography}}}{49}{chapter.2}%
 \gdef \the@ipfilectr {}

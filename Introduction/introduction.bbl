@@ -1,4 +1,4 @@
-\begin{thebibliography}{26}
+\begin{thebibliography}{29}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -101,6 +101,12 @@ P.~Martin-L{\"o}f.
 \newblock In \emph{Studies in Logic and the Foundations of Mathematics}, volume
   104, pages 153--175. Elsevier, 1982.
 
+\bibitem[Moortgat(1996)]{moortgat1996multimodal}
+M.~Moortgat.
+\newblock Multimodal linguistic inference.
+\newblock \emph{Journal of Logic, Language and Information}, 5\penalty0
+  (3):\penalty0 349--385, 1996.
+
 \bibitem[Moortgat(1997)]{moortgat1997categorial}
 M.~Moortgat.
 \newblock Categorial type logics.
@@ -112,6 +118,18 @@ M.~Moortgat.
 \newblock Constants of grammatical reasoning.
 \newblock \emph{Constraints and resources in natural language syntax and
   semantics}, pages 195--219, 1999.
+
+\bibitem[Moortgat(2014)]{sep-typelogical-grammar}
+M.~Moortgat.
+\newblock {Typelogical Grammar}.
+\newblock In E.~N. Zalta, editor, \emph{The {Stanford} Encyclopedia of
+  Philosophy}. Metaphysics Research Lab, Stanford University, {S}pring 2014
+  edition, 2014.
+
+\bibitem[Morrill(1994)]{morrill1994type}
+G.~Morrill.
+\newblock Type logical grammar: Categorial logic of signs.
+\newblock 1994.
 
 \bibitem[Murawski and Ong(2000)]{murawski2000dominator}
 A.~S. Murawski and C.-H. Ong.
