@@ -1,4 +1,4 @@
-\begin{thebibliography}{29}
+\begin{thebibliography}{31}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -56,6 +56,12 @@ P.~de~Groote.
   permutation-conversions.
 \newblock In \emph{International Conference on Rewriting Techniques and
   Applications}, pages 45--59. Springer, 1999.
+
+\bibitem[Girard(1972)]{girard1972interpretation}
+J.-Y. Girard.
+\newblock \emph{Interpr{\'e}tation fonctionnelle et {\'e}limination des
+  coupures de l'arithm{\'e}tique d'ordre sup{\'e}rieur}.
+\newblock PhD thesis, {\'E}diteur inconnu, 1972.
 
 \bibitem[Girard(1987)]{girard1987linear}
 J.-Y. Girard.
@@ -146,6 +152,11 @@ B.~C. Pierce.
 D.~Prawitz.
 \newblock A proof-theoretical study.
 \newblock \emph{Uppsala: Almqvist \& Wilkselll}, 1965.
+
+\bibitem[Reynolds(1974)]{reynolds1974towards}
+J.~C. Reynolds.
+\newblock Towards a theory of type structure.
+\newblock In \emph{Programming Symposium}, pages 408--425. Springer, 1974.
 
 \bibitem[Russell(1908)]{russel1908}
 B.~Russell.

@@ -17,7 +17,7 @@
 \usepackage{lipsum}  
 \usepackage{ifthen}
 \usepackage{hyperref}
-
+\usepackage{qtree}[center]
 
 \newcommand{\todo}{\textcolor{red}{todo}}
 
@@ -45,7 +45,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                  tikz horror
 \usepackage{tikz}
-\usetikzlibrary{calc}
+\usetikzlibrary{fit,positioning,arrows,automata,shapes,backgrounds,calc}
+\usepackage{tikz-qtree}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                  chapter / section formatting
@@ -57,7 +59,15 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					toc
-\setcounter{tocdepth}{2}
+\usepackage[titles]{tocloft}
+%%%\renewcommand{\cftdot}{\_}
+\renewcommand*{\cftsecindent}{1.5em} 		
+\renewcommand*{\cftsecnumwidth}{1em} 
+\renewcommand*{\cftsubsecnumwidth}{1.5em} % increase space for Roman numerals
+\renewcommand*{\cftsubsecindent}{2.5em} 		% reduce indent of subsubsection titles 
+\renewcommand*{\cftsubsubsecnumwidth}{2.5em} % increase space for Roman numerals
+\renewcommand*{\cftsubsubsecindent}{4em} % reduce indent of subsubsection titles 
+\setcounter{tocdepth}{3}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %				lengths and spacings
