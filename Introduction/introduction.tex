@@ -1632,7 +1632,7 @@ In their original purpose as envisaged by Lambek, his calculi would find use as 
 In a natural language setting, the linear base of the Lambek calculi is naturally equated to the resource sensitivity of grammar: words play a single grammatical role in the phrases they help form -- there's no ignoring or reusing items at will.
 There, the original Lambek calculus $\LC$ would be the logic of \textit{strings}; it can faithfully portray the generation of natural language utterances, where arbitrary reordering is a destructive process that ruins coherence.
 Its stricter version $\NL$ would instead be the logic of \textit{constituency trees}; on top of word order, it further specifies constituency structure, allowing a distinction between different syntactic analyses of the same surface form.
-Type-logical grammars extend the Curry-Howard correspondence with a new axis, that of natural language; the way points of interest transfer across that axis is presented in Table~\ref{table:CHC-lang}.
+Type-logical grammars extend the Curry-Howard correspondence with a new axis, that of natural language; the transference of points of interest across that axis is presented in Table~\ref{table:CHC-lang}.
 
 \begin{table}
 	\centering
@@ -1665,9 +1665,11 @@ Adverbs would also be endomorphisms, except this time higher-order -- \linebreak
 	\centering
 	\begin{tabularx}{0.99\textwidth}{@{}r@{\quad::\quad}l}
 		eye											& $\smalln$\\
-		oceans, suns, deeps	, dolphins, sea-nymphs	& $\smallnp$\\
+		\multicolumn{1}{@{}r@{\quad\hphantom{::}\quad}}{oceans, suns, deeps	, dolphins}				
+													& \multicolumn{1}{l}{}\\
+		sea-nymphs, whirlpools						& $\smallnp$\\
 		the											& $\smallnp\divright\smalln$\\
-		opiate, strange, unrememberable			& $\smallnp\divright\smallnp$\\
+		opiate, strange, unrememberable, their		& $\smallnp\divright\smallnp$\\
 		poured 										& $\smallgtype{itv} := \smallnp\divleft\smalls$\\
 		behold										& $\smallgtype{tv} :=(\smallnp\divleft\smalls)\divright\smallnp$\\
 		there 										& $\smallgtype{adv}_{\divleft} := (\smallnp\divleft\smalls)\divleft(\smallnp\divleft\smalls)$\\
@@ -1681,41 +1683,87 @@ Adverbs would also be endomorphisms, except this time higher-order -- \linebreak
 \end{figure}
 
 \begin{figure}
-	\begin{subfigure}{1\textwidth}
-	\[
-		\infer[\divleft E]{(\w{opiate}\sbind\w{oceans})\sbind(\w{poured}\sbind\w{there}) \vdash \s}{
-			\infer[\divright E]{\w{opiate}\sbind\w{oceans} \vdash \np}{
-				\infer[\Lex]{\w{opiate} : \np\divright\np}{}
-				&
-				\infer[\Lex]{\w{oceans}: \np}{}
-			}
-			&
-			\infer[\divleft E]{\w{poured}\sbind\w{there} \vdash \np\divleft\s}{
-				\infer[\Lex]{\w{poured}: \np\divleft\s}{}
-				&
-				\infer[\Lex]{\w{there}: \gtype{adv}_{\divleft}}{}
-			}
-		}
-	\]
-	\caption{Derivation for \textex{Opiate oceans poured there}.}
-	\label{subfigure:opiate_oceans_poured_there}
+		\begin{subfigure}{0.5\textwidth}
+		\smaller
+			\[
+				\infer[\divright E]{\w{strange}\sbind\w{dolphins} \vdash \np}{
+					\infer[\Lex]{\w{strange}\vdash \np\divright\np}{}
+					&
+					\infer[\Lex]{\w{dolphins}\vdash \np}{}
+				}
+			\]
+			\caption{Derivation for \textex{strange dolphins}.}
+			\label{subfigure:strange_dolphins}
+		\end{subfigure}%
+		\begin{subfigure}{0.5\textwidth}
+		\smaller
+			\[
+				\infer[\divright E]{\w{the}\sbind\w{eye} \vdash \np}{
+					\infer[\Lex]{\w{the}\vdash \np\divright\n}{}
+					&
+					\infer[\Lex]{\w{eye}\vdash \n}{}
+				}
+			\]
+			\caption{Derivation for \textex{the eye}.}
+			\label{subfigure:the_eye}
+		\end{subfigure}\\[\midsep]
+		\begin{subfigure}{1\textwidth}
+			\smaller
+			\[
+				\infer[\divright E]{\w{litten}\sbind(\w{by}\sbind\w{suns}) \vdash \np\divleft\np}{
+					\infer[\Lex]{\w{litten} : (\np\divleft\np)\divright\pp }{}
+					&
+					\infer[\divright E]{\w{by}\sbind\w{suns} \vdash \pp}{
+						\infer[\Lex]{\w{by}: \pp\divright\np}{}
+						&
+						\infer[\Lex]{\w{suns}: \np}{}
+					}
+				}
+			\]
+			\caption{Derivation for \textex{litten by suns}.}
+			\label{subfigure:litten_by_suns}
+		\end{subfigure}\\[\midsep]
+		\begin{subfigure}{1\textwidth}
+			\smaller
+			\[
+				\infer[\divleft E]{\w{sea-nymphs}\sbind(\w{of}\sbind(\w{unrememberable}\sbind\w{deeps}))\vdash \np}{
+					\infer[\Lex]{\w{sea-nymphs}: \np}{}
+					&
+					\infer[\divright E]{\w{of}\sbind(\w{unrememberable}\sbind\w{deeps}) \vdash \np\divleft\np}{
+						\infer[\Lex]{\w{of}: (\np\divleft\np)\divright\np}{}
+						&
+						\infer[\divright E]{\w{unrememberable}\sbind\w{deeps} \vdash \np}{
+							\infer[\Lex]{\w{unremeberable}: \np\divright\np}{}
+							&
+							\infer[\Lex]{\w{deeps}: \np}{}
+						}
+					}
+				}
+			\]
+			\caption{Derivation for \textex{sea-nymphs of unrememberable deeps}.}
+			\label{subfigure:sea-nymphs of unrememberable deeps}
 	\end{subfigure}\\[\midsep]
 	\begin{subfigure}{1\textwidth}
-	\[
-		\infer[\divright E]{\w{litten}\sbind(\w{by}\sbind\w{suns}) \vdash \np\divleft\np}{
-			\infer[\Lex]{\w{litten} : (\np\divleft\np)\divright\pp }{}
-			&
-			\infer[\divright E]{\w{by}\sbind\w{suns} \vdash \pp}{
-				\infer[\Lex]{\w{by}: \pp\divright\np}{}
+		\smaller
+		\[
+			\infer[\divleft E]{(\w{opiate}\sbind\w{oceans})\sbind(\w{poured}\sbind\w{there}) \vdash \s}{
+				\infer[\divright E]{\w{opiate}\sbind\w{oceans} \vdash \np}{
+					\infer[\Lex]{\w{opiate} : \np\divright\np}{}
+					&
+					\infer[\Lex]{\w{oceans}: \np}{}
+				}
 				&
-				\infer[\Lex]{\w{suns}: \np}{}
+				\infer[\divleft E]{\w{poured}\sbind\w{there} \vdash \np\divleft\s}{
+					\infer[\Lex]{\w{poured}: \np\divleft\s}{}
+					&
+					\infer[\Lex]{\w{there}: \gtype{adv}_{\divleft}}{}
+				}
 			}
-		}
-	\]
-	\caption{Derivation for \textex{litten by suns}.}
-	\label{subfigure:litten_by_suns}
+		\]
+		\caption{Derivation for \textex{Opiate oceans poured there}.}
+		\label{subfigure:opiate_oceans_poured_there}
 	\end{subfigure}
-	\caption{Example applicative derivations in \NL{}.}
+	\caption{Deriving simple multiplicative phrases in $\NL$.}
 	\label{figure:nl_applicative_examples}
 \end{figure}
 
@@ -1723,27 +1771,25 @@ Linguistic reasoning is not done ex nihilo -- formulas like the above are suppli
 This does not exclude the option of utilizing hypotheticals instantiated by the axiom rule $\Ax$ -- hypothetical reasoning lives, in fact, at the core of the type-logical inferential process, as we will soon see.
 It means, rather, that our building blocks will for the most part be \textit{lexical constants}, proof objects that behave just like variables, except they are neither wantonly typed nor amenable to function abstraction.
 To convey the difference between the two, we will instantiate the latter with a seemingly new rule of inference, $\Lex$, which simply performs lexical lookup, i.e. pulls a word's type from the lexicon.
-For demonstration purposes, we will employ the miniature mock-up of Figure~\ref{figure:toy_lambek_lexicon}, with the aid of which we can at last derive our very first linguistic derivations!
 
-The purely appicative examples of Figure~\ref{figure:nl_applicative_examples} should be straightforward to decipher.
-The two proofs of~\ref{subfigure:opiate_oceans_poured_there} and~\ref{subfigure:litten_by_suns} can be combined to yield a derivation for the phrase \textex{Opiate oceans litten by suns poured there}.
-Though, if someone were to put this to the test and really attempt to proceed with the derivation, they would soon find themselves at a crossroads regarding which of the two nominal modifiers to apply first.
-The choice of $\NL$ over $\LC$ implies that the two priorities of application reflect in as many distinct judgements, each with its own proof, that differ in the bracketing structure of the composite $\np$ they contain:
-\begin{center}
-\begin{tabularx}{0.9\textwidth}{@{}ccc@{}}
-	$\w{opiate}\sbind(\w{oceans}\sbind(\w{litten}\sbind(\dots)))$ & vs. & $(\w{opiate}\sbind\w{oceans})\sbind(\w{litten}\sbind(\dots))$
-\end{tabularx}
-\end{center}
-This is an admittedly stretched case of \textit{derivational ambiguity}, a situation where from the same lexical assignments one can obtain multiple syntactic analyses, which may correspond to equinumerous semantic interpretations (more on that in a bit).
-If the derivations were to be derived in the associative calculus $\LC$, the ambiguity would have been \textit{spurious}, as both would lead to a structurally identical judgement.
-Derivational ambiguity is not necessarily bad, provided the divergence in the proofs constructed is linguistically meaningful.%
-\footnote{Just think of all the different things you could do with pijamas, elephants, telescopes, etc.}
-This is not the case for spurious ambiguity, as it introduces undesirable (and uninterpretable) redundancy, at the dismay of parsers (or mostly their designers).
+The internet guide \textit{how to write a dissertation} I have consulted suggests that it is important to set clear goals and stick to them.
+It seems like sound advice, so what we are going to do next is use the type-logical framework and attempt to eventually analyze a non-contrived example  for demonstration purposes.
+The following looks like a fitting match:
+\begin{quotation}
+\textex{Opiate oceans poured there, litten by suns that the eye may never behold, and having in their whirlpools strange dolphins and sea-nymphs of unrememberable deeps.}
+\begin{flushright} H.P. Lovecraft (1938), \textit{Azathoth}, in \textit{Leaves (2)}\end{flushright}
+\end{quotation}
+Let us pave the way towards this ambitious goal with the miniature mock-up lexicon of Figure~\ref{figure:toy_lambek_lexicon}, and see just how far it can get us.
 
-Despite their elegance and formal appeal, grammars relying purely on Lambek calculi form suffer from an aversion to anomalies like discontinuities and long-distance dependencies, which natural languages tend to exhibit at a striking degree.
-Participial phrases used as post-nominal adjectives, like the example of Figure~\ref{subfigure:litten_by_suns}, can for instance be located either immediately after the noun (phrase) they modify, or deferred until after the verbal head dominating it -- which is to say that an alternative composition of our running example \textex{Opiate oceans poured there, litten by suns} would also be a grammatically valid construction, but not one we could ever hope to derive with our current machinery.%
-\footnote{Comma added for naturality but (as far as my English is concerned) the sentence remains grammatical even without it.}
-One could of course attept to cop out of the problem by just introducing ad-hoc raised forms for movable parts, one per distinct position they can be found at. The repercussions of such a move would soon, however, prove catastrophic.
+Figure~\ref{figure:nl_applicative_examples} presents derivations for parts of the goal phrase, and our very first linguistic examples (!) -- their applicative nature should make them straightforward to decipher.
+The two proofs of~\ref{subfigure:opiate_oceans_poured_there} and~\ref{subfigure:litten_by_suns} can be combined to yield a derivation for the phrase \textex{Opiate oceans litten by suns poured there} -- close, but not quite there.
+The participial \textex{litten}, which acts here as a postnominal modifier, has the special property of being able to position itself either immediately after the noun phrase \textex{opiate oceans} it modifies, or deferred until after the verbal head \textex{poured} has made an appearance.
+Attempting to produce a derivation for the original version seems like a dead-end enterprise, though.
+We are not to blame for this incompetence: the problem is with the grammar -- we could never hope to capture this behavior with our current machinery.
+Despite their elegance and formal appeal, grammars relying purely on Lambek calculi suffer from an aversion to anomalies like discontinuities and long-distance dependencies, which natural languages tend to exhibit at a striking degree.
+
+One could of course attept to cop out of the problem by just introducing ad-hoc raised forms for movable parts, one per distinct position they can be found at. 
+The repercussions of such a move would soon, however, prove catastrophic.
 On the one hand, the once reliably concise lexicon would become overpopulated by endless variations on the same theme: each expansion point of a lexical type would percolate into all other lexical items it interacts with (either as consumers or producers thereof), the effect cascading at progressively larger lexical neighborhoods, until (if ever) an eventual equilibrium is reached.
 On the other hand, raised types obfuscate the functional relations and constituency structures we have worked so hard to reveal and incorporate, virtually beating the very purpose of the logic.
 Relaxing the structural constraints of the logic to globally allow movement and/or rebracketing is no good either.
@@ -1753,7 +1799,7 @@ If you have not skipped any parts yet, your reward should now manifest as an unw
 \subsubsection{The Role of Modalities}
 Ever since their original integration with the vanilla multiplicative toolkit (the pioneer being none other than my \#1 supervisor!), modalities have played an indispensable role in the history and development of type-logical grammars~\cite{moortgat1996multimodal}.
 They find use as either licensors or licensees of structural rewrites, now in the form of movement and rebacketing of words and phrases.
-Figure~\ref{subfigure:control:movement} revisits the running example, this time accounting for the presence of a (hypothetical) movable postnominal modifier via the rules of Figure~\ref{figure:modal_structural_rules}.
+Figure~\ref{figure:lovecract_rel_clause} progresses our agenda by accounting for the presence of a (hypothetical) movable postnominal modifier via the rules of Figure~\ref{figure:modal_structural_rules}.
 To make the hypothesis movable, we need to instantiate it as a box -- for the pure function contained therein to be applicable, the box needs to be removed, enclosing the hypothesis in angular brackets, which in turn license its structural extraction to the rightmost edge of the assumptions via the $\rulestyle{mix}_{\diamond}$ rule.
 At that point, we need to eliminate the bracketed variable with a term of the corresponding diamond type.
 For this to work, we need to make the tiniest of modifications to our lexicon so as to get access to our saught-after diamond:
@@ -1761,12 +1807,13 @@ For this to work, we need to make the tiniest of modifications to our lexicon so
 	\w{litten} \qquad :: \qquad \diamond\Box (\np\divleft\np)\divright\pp
 \]
 Intuitively, the new type requests a prepositional phrase complement to the right, after the consumption of which it produces a movable postnominal modifier that can penetrate constituent phrase boundaries to the left.
-Equipped with it, we can derive both the local versions hinted at earlier, and their discontinuous variations; see Figure~\ref{subfigure:control:substitution} for a proof of concept.%
+Equipped with it, we can derive both the local versions hinted at earlier, and their discontinuous variations; see Figure~\ref{figure:lovecraft_postnominal} for a proof of concept.%
 \footnote{Get it? It's an actual \textit{proof}.} 
 
 \begin{figure}
 	\centering
 	\begin{subfigure}{1\textwidth}
+		\smaller
 		\[
 			\infer[\rulestyle{mix}_{\diamond}]{((\w{opiate}\sbind\w{oceans})\sbind(\w{poured}\sbind\w{there}))\sbind\bracket{\term{x_i}} \vdash \s}{
 				\infer[\divleft E]{((\w{opiate}\sbind\w{oceans})\sbind\bracket{\term{x_i}})\sbind(\w{poured}\sbind\w{there}) \vdash \s}{
@@ -1787,18 +1834,27 @@ Equipped with it, we can derive both the local versions hinted at earlier, and t
 	\end{subfigure}\\[\midsep]
 	\begin{subfigure}{1\textwidth}
 	\centering
+		\smaller
 		\[
 			\infer[\diamond E]{((\w{opiate}\sbind\w{oceans})\sbind(\w{poured}\sbind\w{there}))\sbind(\w{litten}\sbind(\w{by}\sbind\w{suns})) \vdash \s}{
-				\infer*{((\dots)\sbind(\dots))\sbind\bracket{\term{x_i}} \vdash \s}{\text{(\subref{subfigure:control:movement})}}
+				\infer{((\dots)\sbind(\dots))\sbind\bracket{\term{x_i}} \vdash \s}{\text{(\ref{subfigure:control:movement})}}
 				&
-				\infer*{\w{litten}\sbind(\w{by}\sbind\w{suns}) \vdash \diamond\Box(\np\divleft\np)}{}
+				\infer[\divright E]{\w{litten}\sbind(\w{by}\sbind\w{suns}) \vdash \diamond\Box(\np\divleft\np)}{
+					\infer[\Lex]{\w{litten} : \diamond\Box(\np\divleft\np)\divright\pp }{}
+					&
+					\infer[\divright E]{\w{by}\sbind\w{suns} \vdash \pp}{
+						\infer[\Lex]{\w{by}: \pp\divright\np}{}
+						&
+						\infer[\Lex]{\w{suns}: \np}{}
+					}
+				}
 			}
 		\]
 		\caption{..before substituting the hypothesis for its material instance.}
 		\label{subfigure:control:substitution}
 	\end{subfigure}
-	\caption{Deriving long distance postnominal modification.}
-	\label{figure:todo}
+	\caption{Deriving long-distance postnominal modification.}
+	\label{figure:lovecraft_postnominal}
 \end{figure}
 
 
@@ -1816,10 +1872,7 @@ The solution comes in the form of two distinct type assignments for the relativi
 	\w{that} &:: (\np\divright\np)\divright(\s\divright\diamond\Box \np ) \tag{obj-rel}
 \end{align*}
 The second version launches a mobile \np[s] hypothesis via the same diamond-box pattern showcased earlier.
-The proof of Figure~\ref{figure:lovecract_rel_clause} employs this typing in combination with the $\rulestyle{ass}_{\diamond}$ rule to derive the object-relative clause \textex{that the eye may never behold}.
-%%With this last example, we are now in possession of all the knowledge necessary to tackle some less contrived samples from real prose, like \textex{Opiate oceans poured there, litten by suns that the eye may never behold}%
-%\footnote{H.P. Lovecraft (1938), \textit{Azathoth}, in \textit{Leaves (2)}}
-%-- this is left 
+The proof of Figure~\ref{figure:lovecract_rel_clause} employs this typing in combination with the $\rulestyle{ass}_{\diamond}$ rule to derive the object-relative clause \textex{that the eye may never behold} -- we can use it to modify the \textex{suns} of Figure~\ref{figure:lovecract_rel_clause}, bringing us one step closer to success.
 
 \begin{figure}
 	\centering
@@ -1830,7 +1883,7 @@ The proof of Figure~\ref{figure:lovecract_rel_clause} employs this typing in com
 				\infer[\rulestyle{ass}_{\diamond}]{(\w{the}\sbind\w{eye})\sbind((\w{may}\sbind(\w{never}\sbind\w{behold}))\sbind\bracket{\term{x_i}})\vdash \s}{
 					\infer[\rulestyle{ass}_{\diamond}]{(\w{the}\sbind\w{eye})\sbind(\w{may}\sbind((\w{never}\sbind\w{behold})\sbind\bracket{\term{x_i}}))\vdash \s}{
 						\infer[\divleft E]{(\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind(\w{behold}\sbind\bracket{\term{x_i}})))\vdash \s}{
-							\infer*{\w{the}\sbind\w{eye} \vdash \np}{}
+							\infer{\w{the}\sbind\w{eye} \vdash \np}{\text{(\ref{subfigure:the_eye})}}
 							&
 							\infer[\divright E]{\w{may}\sbind(\w{never}\sbind(\w{behold}\sbind\bracket{\term{x_i}})) \vdash \np\divleft\s}{
 								\infer[\Lex]{\w{may} : \gtype{aux}}{}
@@ -1854,16 +1907,16 @@ The proof of Figure~\ref{figure:lovecract_rel_clause} employs this typing in com
 		\]
 		\caption{Extracting a hypothetical direct object..}
 		\label{subfigure:lovecraft_rel_clause:movement}
-	\end{subfigure}\\[\midsep]
+	\end{subfigure}\\[\smallsep]
 	\begin{subfigure}{1\textwidth}
 		\smaller
 		\[
 			\infer[\divright E]{\w{that}\sbind((\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind\w{behold}))) \vdash \np\divleft\np}{
 				\infer[\Lex]{\w{that} : (\np\divleft\np)\divright(\s\divright\diamond\Box\np)}{}
 				&
-				\hspace{-15pt}\infer[\divright I]{(\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind\w{behold})) \vdash \s\divright\diamond\Box\np}{
+				\hspace{-10pt}\infer[\divright I]{(\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind\w{behold})) \vdash \s\divright\diamond\Box\np}{
 					\infer[\diamond E]{((\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind\w{behold})))\sbind\term{x_j}\vdash \s}{
-						\infer*{((\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind\w{behold})))\sbind\bracket{\term{x_i}}\vdash \s}{}
+						\infer{((\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind\w{behold})))\sbind\bracket{\term{x_i}}\vdash \s}{\text{(\ref{subfigure:lovecraft_rel_clause:movement})}}
 						&
 						\infer[\Ax]{\term{x_j}: \diamond\Box \np}{}
 					}
@@ -1881,19 +1934,30 @@ The proof of Figure~\ref{figure:lovecract_rel_clause} employs this typing in com
 The analysis just performed illustrated the necessity of (at least) two distinct types for the same string \textex{that}, hinting at the fact that the lexicon is \textit{not a function} from words to types, but rather a \textit{relation} between them.
 One, more opinionated than I, might argue that each type is mapped to a distinct lexical item (one per relativization type), and that the identification between their strings is a mere coincidence, an idiosyncracy of the language, or anyway irrelevant; even if a string is multi-typed, each type is a witness to a unique latent word hiding behind it.
 Of different effect but similar flavor would be the line of defense that appeals to null syntax, a covert process that can conditionally nominalize infinitives, determine plural nouns, relativize gerunds or do any sort of thing, really; a word is never multi-typed, but ad-hoc type conversions can take place out of the blue.
-Even under premises as radical as the above, occassions of type undeterminism are all but rare; the reality of optional arguments and non-trivial argument order variations alone suffice to convince us of the issue at hand: \textit{lexical type ambiguity} is a real phenomenon, and one that is here to stay.
+Even under premises as radical as the above, occassions of type undeterminism are all but rare.
+Consider for instance the verb \textex{to have}, whose FrameNet entry (for the possessive meaning) is specified as having mandatory owner and possession semantic arguments (corresponding to syntactic subject and direct object), but also any combination of depictive, duration, explanation, manner and temporal optional complements, in various orders~\cite{baker1998berkeley} -- each variation necessarily expressed with a distinct type.
+In our case, we need the type:
+\begin{align*}
+	\w{having} &:: (\diamond\Box(\np\divleft\np)\divright\np)\divright\pp
+\end{align*}
+for a gerund that requisits first a prepositional complement phrase and then an object noun phrase (i.e. \textit{having somewhere something}) to act as a movable postnominal modifier (an argument permutation that FrameNet does not even contain an example of!).
 
+The reality of optional arguments and non-trivial argument order variations alone should suffice to convince us of the issue at hand: \textit{lexical type ambiguity} is a real phenomenon, and one that is here to stay.
 Having acknowledged that, the question shifts to how we deal with it.
-From a theoretical perspective, we can incorporate the question of type choice into our proof-machinery via the additive conjunction $\with$ of $\ILL$, which is essentially recovering the functional nature of our lexicon, with type assignments taking the form $\smallprop{A}_1 \with (\smallprop{A}_2 \with (\smallprop{A}_3 \dots (\smallprop{A}_{n-1}\with\smallprop{A}_{n})))$, with the subscript enumerating the possible instantiation choices in the context of a single sentence.
-Under this regime, the lexical assignment rule $\Lex$ would need to be followed by a sequence of projections to isolate the desired type, contributing little other than excessive verbosity.
+From a theoretical perspective, we can incorporate the question of type choice into our proof-machinery via the additive conjunction $\with$ of $\ILL$, which is essentially recovering the functional nature of our lexicon, with type assignments reformulated as nested choices:
+\[
+ \smallprop{A}_1 \with (\smallprop{A}_2 \with (\smallprop{A}_3 \dots (\smallprop{A}_{n-1}\with\smallprop{A}_{n})))
+\]
+and the subscript enumerating the possible instantiations in the context of a single sentence.
+Under this regime, the lexical assignment rule $\Lex$ would need to be followed by a sequence of projections to isolate the desired type, contributing little other than excessive verbosity.%
 \footnote{
-A more ambitious usecase could allow the \textit{simultaneous} derivation of multiple unique analyses, and the incorporation of derivational ambiguity arising out of lexical choice as a first class citizen of the proof theory that resides \textit{within} it rather than in the meta-theory above it.
+A more ambitious usecase could allow the \textit{simultaneous} derivation of multiple unique analyses, and the incorporation of derivational ambiguity arising out of lexical choice as a first class citizen of the proof theory -- a proof object that resides \textit{within} it rather than a notion in the meta-theory \textit{above} it.
 The repercussions of this would be magnificent for semantic applications, but no concrete results that I am aware of were ever produced in that direction.}
 Given the limited use we would have for all this ``proof waste'', we will stick with the current formulation of the $\Lex$ rule -- if it helps us sleep better at night, we can imagine it as a shorthand notation for the correct sequence of projections requested by the current analysis, the construction of which we have delegated to a silent and omnipotent oracle.
 Be at rest knowing that this oracle will be temporary and for presentation purposes only; we will address its demystification later on.
 
 The ambiguity problem is exacerbated and pushed to the limit by function words enacting context-dependent chameleon roles.
-Coordinators are the main culprit; they can bind together pairs of (almost) arbitrary types to produce an instance of the conjoined pair, a complex item of the same type.
+Coordinators are the main culprit; they can bind together pairs of the same (almost) arbitrary type to produce an instance of the conjoined pair, a complex phrase of the same type.
 We will write $(\chi\divleft\chi)\divright\chi$ to denote the coordinator type pattern parameterized over the \textit{type variable} $\chi$, which can be instantiated as any type of our type grammar.%
 \footnote{
 This is in fact an exemplar of \textit{parametric polymorphism}, which is properly formalized in second-order intuitionistic logic and its type-equivalent System F~\cite{girard1972interpretation, reynolds1974towards}. There, we write:
@@ -1906,9 +1970,78 @@ $\infer[\Pi E]{\Gamma, \Delta \vdash \term{M~\prop{B}}: \sigma_{[\alpha\mapsto\s
 \end{center}
 to denote terms abstracting over types $\Lambda \alpha.M$ and types quantified over types $\Pi \alpha.\sigma$.
 In this notation, a coordinator would be a quantification of type $\Pi\chi.(\chi\divleft\chi)\divright\chi$, that when reduced against arbitrary type $\smallprop{A}$ would yield $(\smallprop{A}\divleft\smallprop{A})\divright\smallprop{A}$.
+Other than this unique occurrence of polymorphism, second order term and type constructions are an overkill to our purposes here, relegating this comment to footnote status.
 }
 
+Armed with this last trick, we are now in possession of all the knowledge necessary to finally tackle the full derivation.
+First, we must instantiate the polymorphic coordinator once by substituting $\chi$ for $\np[s]$ to derive the noun phrase conjunction \textex{strange dolphins and sea-nymphs of unremememberable deeps}, as portrayed in Figure~\ref{subfigure:strange_dolphins_and_sea_nymphs}.
+This, together with our freshly typed \textex{having}, allows the derivation of the mobile postnominal modifier \textex{having in their whirlpools strange dolphins and sea-nymphs of unrememberable deeps}, as in Figure~\ref{subfigure:having_in_their_whirlpools}.
+At this point, we must employ another instance of the polymorphic coordinator, this time substituting $\chi$ for $\diamond\Box (\np\divleft\np[s])$ -- this opens the door to the derivation of the structurally free complex postnominal modifier \textex{litten by suns that the eye may never behold and having in their whirlpools strange dolphins and sea-nymphs of unrememberable deeps}, which can apply to the nested \textex{suns} in the same fashion as the proof of Figure~\ref{figure:lovecraft_postnominal}.
+At long last, we are rewarded with a type-checking and syntactically faithful analysis of the full sentence (and a check mark on \textit{how to write a dissertation}).
+Collaging these last bits together is left as an exercise to the motivated reader, for fear of repetition sterilizing the quotation of its beauty.
 
+\begin{figure}
+	\begin{subfigure}{1\textwidth}
+		\smaller[2]
+			\[
+				\infer[\divleft E]{\gamma := (\w{strange}\sbind\w{dolphins})\sbind(\w{and}\sbind(\w{sea-nymphs}\sbind(\w{of}\sbind(\w{unrememberable}\sbind\w{deeps}))))\vdash \np}{
+					\infer{\w{strange}\sbind\w{dolphins} \vdash \np}{\text{(\ref{subfigure:strange_dolphins})}}
+					&
+					\infer[\divright E]{\w{and}\sbind(\w{sea-nymphs}\sbind(\w{of}\sbind(\w{unrememberable}\sbind\w{deeps}))) \vdash \np\divleft\np}{
+						\hspace{-2pt}
+						\infer[\Lex]{\w{and}: (\np\divleft\np)\divright\np}{}
+						&
+						\infer{\w{sea-nymphs}\sbind(\w{of}\sbind(\w{unrememberable}\sbind\w{deeps}))\vdash \np}{\text{(\ref{subfigure:sea-nymphs of unrememberable deeps})}}
+					}
+				}
+			\]
+			\caption{Deriving noun-phrase coordination..}
+			\label{subfigure:strange_dolphins_and_sea_nymphs}
+	\end{subfigure}
+	\begin{subfigure}{1\textwidth}
+		\smaller[2]
+		\[
+			\infer[\divright E]{(\w{having}\sbind(\w{in}\sbind(\w{their}\sbind\w{whirlpools})))\sbind\gamma) \vdash \diamond\Box(\np\divleft\np)}{
+				\infer[\divright E]{\w{having}\sbind(\w{in}\sbind(\w{their}\sbind\w{whirlpools})) \vdash \diamond\Box(\np\divleft\np)\divright\np}{
+					\infer[\Lex]{\w{having}: (\diamond\Box(\np\divleft\np)\divright\np)\divright\pp}{}
+					&
+					\infer[\divright E]{\w{in}\sbind(\w{their}\sbind\w{whirlpools}) \vdash \pp}{
+						\infer[\Lex]{\w{in}: \pp\divright\np}{}
+						&
+						\infer[\divright E]{\w{their}\sbind\w{whirlpools} \vdash \np}{
+							\infer[\Lex]{\w{their}: \np\divright\np}{}
+							&
+							\infer[\Lex]{\w{whirlpools}: \np}{}
+						}
+					}
+				}
+				&
+				\hspace{-10pt}
+				\infer{\gamma \vdash \np}{\text{(\ref{subfigure:strange_dolphins_and_sea_nymphs})}}
+			}
+		\]
+		\caption{..and using it to construct yet another postnominal modifier.}
+		\label{subfigure:having_in_their_whirlpools}
+	\end{subfigure}
+	\caption{Filling in the missing bits.}
+	\label{figure:lovecraft_coord}
+\end{figure}
+
+\subsubsection{Intricacies of Linguistic Proof Search}
+
+
+%Though, if someone were to put this to the test and really attempt to proceed with the derivation, they would soon find themselves at a crossroads regarding which of the two nominal modifiers to apply first.
+%The choice of $\NL$ over $\LC$ implies that the two priorities of application reflect in as many distinct judgements, each with its own proof, that differ in the bracketing structure of the composite $\np$ they contain:
+%\begin{center}
+%\begin{tabularx}{0.9\textwidth}{@{}ccc@{}}
+%	$\w{opiate}\sbind(\w{oceans}\sbind(\w{litten}\sbind(\dots)))$ & vs. & $(\w{opiate}\sbind\w{oceans})\sbind(\w{litten}\sbind(\dots))$
+%\end{tabularx}
+%\end{center}
+%This is an admittedly stretched case of \textit{derivational ambiguity}, a situation where from the same lexical assignments one can obtain multiple syntactic analyses, which may correspond to equinumerous semantic interpretations (more on that in a bit).
+%If the derivations were to be derived in the associative calculus $\LC$, the ambiguity would have been \textit{spurious}, as both would lead to a structurally identical judgement.
+%Derivational ambiguity is not necessarily bad, provided the divergence in the proofs constructed is linguistically meaningful.%
+%\footnote{Just think of all the different things you could do with pijamas, elephants, telescopes, etc.}
+%This is not the case for spurious ambiguity, as it introduces undesirable (and uninterpretable) redundancy, at the dismay of parsers (or mostly their designers).
 
 \subsubsection{Syntax-Semantics Interface}
 

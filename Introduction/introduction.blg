@@ -5,45 +5,45 @@ The style file: abbrvnat.bst
 Database file #1: bibliography.bib
 Warning--empty journal in morrill1994type
 Warning--there's a number but no series in troelstra2000basic
-You've used 31 entries,
+You've used 32 entries,
             2773 wiz_defined-function locations,
-            788 strings with 8695 characters,
-and the built_in function-call counts, 12819 in all, are:
-= -- 1246
-> -- 368
+            793 strings with 8885 characters,
+and the built_in function-call counts, 13262 in all, are:
+= -- 1280
+> -- 398
 < -- 45
-+ -- 140
-- -- 109
-* -- 803
-:= -- 1889
-add.period$ -- 104
-call.type$ -- 31
-change.case$ -- 124
-chr.to.int$ -- 31
-cite$ -- 64
-duplicate$ -- 729
-empty$ -- 1259
-format.name$ -- 149
-if$ -- 2812
++ -- 150
+- -- 118
+* -- 838
+:= -- 1956
+add.period$ -- 107
+call.type$ -- 32
+change.case$ -- 130
+chr.to.int$ -- 32
+cite$ -- 66
+duplicate$ -- 753
+empty$ -- 1300
+format.name$ -- 159
+if$ -- 2906
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 34
-newline$ -- 165
-num.names$ -- 126
-pop$ -- 288
+missing$ -- 35
+newline$ -- 170
+num.names$ -- 130
+pop$ -- 304
 preamble$ -- 1
-purify$ -- 97
+purify$ -- 102
 quote$ -- 0
-skip$ -- 519
+skip$ -- 534
 stack$ -- 0
-substring$ -- 654
-swap$ -- 124
+substring$ -- 656
+swap$ -- 126
 text.length$ -- 14
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 321
+type$ -- 332
 warning$ -- 2
-while$ -- 151
+while$ -- 154
 width$ -- 0
-write$ -- 418
+write$ -- 430
 (There were 2 warnings)
