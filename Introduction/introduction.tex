@@ -20,7 +20,7 @@ Put even more plainly, it suggests that valid proofs in such logics constitute i
 The repercussions of this discovery were enormous, and are more tangible today than ever before; type systems comprised of higher-order $\lambda$-calculi and their logics provide the theoretical foundations for modern programming languages and proof assistants (this last fact is both important and interesting, but won't concern us much presently).
 
 In a more niche (but equally beautiful) fragment of the academic world, and in parallel to the above developments, applied logicians and formally inclined linguists have been demonstrating a stunning perserverance in their self-imposed quest of modeling natural language syntax and semantics, making do only with the vocabulary provided by formal logics.
-The modern incarnation of this noble endeavour is due to Jim Lambek, who was the first to point out that the grammaticality of a natural language utterance can be equated to provability in a certain logic (or type inhabitation, if one is to borrow the terminology of constructive type theories), if the grammar (a collection of empirical linguistic rules) were to be treated as a substructural logic (a collection of formal mathematical rules).
+This noble endeavour is as old as it gets, but its modern incarnation is due to Jim Lambek, who was the first to point out that the grammaticality of a natural language utterance can be equated to provability in a certain logic (or type inhabitation, if one is to borrow the terminology of constructive type theories), if the grammar (a collection of empirical linguistic rules) were to be treated as a substructural logic (a collection of formal mathematical rules).
 Funnily enough, the kind of logics Lambek would employ for his purposes would be exactly those at the interesection of intuitionistic and linear logic, the latter only made formally explicit in a breakthrough paper by Jean-Yves Girard almost three decades later.
 By that time, Richard Montague had already come up with the fantastically novel idea of seeing no distinction between formal and natural languages, single-handedly birthing and popularizing the field of formal semantics (which would chiefly invole semantic computations using $\lambda$-calculus notation), thus fulfilling Gottlob Frege's long-prophesized principle of compositionality, which would once and for all put the Chomskian tradition to rest\footnote{In some corners of the world, this part of the prophecy is yet to transpire.}, ushering linguistics into a new era.
 With the benefit of posterity, it would be tempting for us to act smart and exclaim that Lambek and Montague's ideas were remarkably aligned. 
@@ -31,7 +31,7 @@ The culmination point for this interest was type-logical grammars (or categorial
 
 In this chapter, we will isolate some key concepts from this frantic timeline and expound a bit on their details.
 Other than reinvented notation or perhaps some fresh example, no novel contributions are to be found here; the intention is merely to establish some common grounds before we get to proceed. 
-If confident in your knowledge of the subject matter, \texttt{goto} Chapter~\ref{chapter:chapter_2}.
+If confident in your knowledge of the subject matter, \texttt{goto} Chapter~\ref{chapter:chapter_2}, but at your own risk.
 
 \subsubsection*{Key References}
 
@@ -60,12 +60,12 @@ Focusing on the disjunction-free fragment of the logic, we have a tiny recursive
 \footnote{The full logic also includes disjunctive formulas, but we will skip them from this presentation as they are of little interest to us. For brevity, we will from now on use intuitionistic logic to refer to its disjunction-free fragment.}
 Given some finite set of \textit{propositional constants} (or \textit{atomic formulas}) \propcon{}, and \prop{A}, \prop{B}, \prop{C} arbitrary well-formed propositions, the language of propositions in Backus-Naur form is inductively defined as:
 \begin{equation}
-\prop{A}, \prop{B}, \prop{C} ::= p \ | \ \prop{A} \to \prop{B} \ | \ \prop{A} \times \prop{B} 
-\tag{$\IL_{\to, \times}$}
+\prop{A}, \prop{B}, \prop{C} ::= p \ | \ \prop{A} \ii \\prop{B} \ | \ \prop{A} \times \prop{B} 
+\tag{$\IL_{\ii, \times}$}
 \label{grammar:IL}
 \end{equation}
 where $p \in \propcon{}$.
-Propositions are therefore closed under the two binary \textit{logical connectives} $\to$ and $\times$; we call the first an \textit{implication}, and the second a \textit{conjunction}. 
+Propositions are therefore closed under the two binary \textit{logical connectives} $\ii$ and $\times$; we call the first an \textit{implication}, and the second a \textit{conjunction}. 
 A \textit{complex} proposition is any proposition that is not a member of \propcon{}, and its \textit{primary} (or main) connective is the last logical connective used when writing it down according to the grammar~\ref{grammar:IL}.
 
 Besides propositions, we have \textit{structures}. 
@@ -94,8 +94,8 @@ Figure~\ref{subfigure:intuitionistic_logic_rules:logical} presents the logical r
 The first rule, the axiom of identity $\Ax$, contains no premises and asserts the reflexivity of the provability operator $\vdash$. 
 It states that from a proposition $\smallprop{A}$ one can infer, guess what, that very proposition.
 The remaining logical rules come in pairs, one per logical connective.
-The elimination of the implication (or modus ponens) states that, given a proof of a proposition $\smallprop A \to \prop B$ from assumptions $\Gamma$ and a proof of proposition $\smallprop{A}$ from assumptions $\Delta$, one can join the two to derive a proposition $\smallprop{B}$.
-Dually, the introduction of the implication (or \textit{deduction theorem}) states that from a proof of a proposition \prop{B} given assumptions $\Gamma, \smallprop{A}$, one can use $\Gamma$ alone to derive an implicational proposition $\smallprop A \to \smallprop B$.
+The elimination of the implication (or modus ponens) states that, given a proof of a proposition $\smallprop A \ii \prop B$ from assumptions $\Gamma$ and a proof of proposition $\smallprop{A}$ from assumptions $\Delta$, one can join the two to derive a proposition $\smallprop{B}$.
+Dually, the introduction of the implication (or \textit{deduction theorem}) states that from a proof of a proposition \prop{B} given assumptions $\Gamma, \smallprop{A}$, one can use $\Gamma$ alone to derive an implicational proposition $\smallprop A \ii \smallprop B$.
 In a similar manner, the elimination of the conjunction $\times E $ states that, given a proof of a proposition $\smallprop A \times \smallprop B$ from assumptions $\Gamma$, and a proof that the triplet $\Delta, \smallprop A, \smallprop B$ allows us to derive a proposition $\smallprop C$, one could well use $\Gamma$ together with $\Delta$ to derive $\prop C$ directly.
 And dually again, the introduction of the conjunction $\times I$ permits us to join two unrelated proofs, one of $\smallprop A$ from $\Gamma$ and one of $\smallprop B$ from $\Delta$ into a single proof, that of their product $\smallprop A \times \smallprop B$, from $\Gamma$ joined with $\Delta$.
 
@@ -108,7 +108,7 @@ The weakening rule $\Weakening{}$ states that if we were able to derive a propos
 Conversely, the contraction rule $\Contraction{}$ states that if we needed some assumption structure containing two instances of a proposition $\smallprop{A}$ to derive a proposition $\smallprop{B}$, we could also make do with just one instance of it, discarding the other without remorse.
 
 A \textit{proof}, finally, is a heterogeneous variadic tree.
-At its root, it has a judgement, guaranteed to be derivable (provided we did not mess up somewhere).
+At its root, it has a judgement, guaranteed to be derivable (provided we did not mess up somewhere), called its \textit{endsequent}.
 Its branches are themselves proofs, fused together by a rule -- the number of premises being the local tree's arity.
 At its leaves, it has identity axioms -- the smallest kind of proof.
 
@@ -118,9 +118,9 @@ At its leaves, it has identity axioms -- the smallest kind of proof.
 		\centering
 		\begin{tabularx}{0.7\textwidth}{@{}C@{\qquad}C@{}}
 		\multicolumn{2}{@{}c@{}}{$\infer[\Ax]{\prop A \vdash \prop A}{}$}\\[\smallsep]
-		$\infer[\to E]{\Gamma, \Delta \vdash \prop B}{\Gamma \vdash \prop A \to \prop B & \Delta \vdash \prop B}$ 
+		$\infer[\ii E]{\Gamma, \Delta \vdash \prop B}{\Gamma \vdash \prop A \ii \prop B & \Delta \vdash \prop B}$ 
 		& 
-		$\infer[\to I]{\Gamma \vdash \prop A \to \prop B}{\Gamma, \prop A \vdash \prop B}$\\[\smallsep]
+		$\infer[\ii I]{\Gamma \vdash \prop A \ii \prop B}{\Gamma, \prop A \vdash \prop B}$\\[\smallsep]
 		$\infer[\times E]{\Gamma,\Delta \vdash \prop C}{\Gamma \vdash \prop A \times \prop B & \Delta, \prop A , \prop B \vdash \prop C}$ 
 		&
 		$\infer[\times I]{\Gamma, \Delta \vdash \prop A \times \prop B}{\Gamma \vdash \prop A & \Delta \vdash \prop B}$
@@ -139,7 +139,7 @@ At its leaves, it has identity axioms -- the smallest kind of proof.
 		\caption{Structural rules.}
 		\label{subfigure:intuitionistic_logic_rules:structural}
 	\end{subfigure}
-	\caption{Intuitionistic Logic $\IL_{\to,\times}$.}
+	\caption{Intuitionistic Logic $\IL_{\ii,\times}$.}
 	\label{figure:intuitioistic_logic_rules}
 \end{figure}
 
@@ -166,8 +166,8 @@ Note the use of horizontal dots at the axiom leaves, denoting simultaneous subst
 \begin{figure}
 	\centering
 	\begin{tabularx}{0.9\textwidth}{@{}c@{~}c@{~}c@{}}
-	$\infer[\to E]{\Gamma, \Delta \vdash \prop{B}}{
-	\infer[\to I]{\Gamma \vdash \prop{A} \to \prop{B}}{
+	$\infer[\ii E]{\Gamma, \Delta \vdash \prop{B}}{
+	\infer[\ii I]{\Gamma \vdash \prop{A} \ii \prop{B}}{
 		\infer*[]{\Gamma, \prop{A} \vdash \prop{B}}{
 			\infer[]{\Gamma, \prop{A} \dots \vdash \prop{B}}{
 					\infer*[s]{}{\dots & \infer[\Ax]{\prop{A} \vdash \prop{A}}{}}
@@ -246,7 +246,7 @@ The Curry-Howard correspondence asserts an equivalence between the above present
 It was first formulated by Haskell Curry in the 30s before being independently rediscovered by William Alvin Howard and Nicolas Goveert de Bruijn in the 60s~\cite{curry1934functionality,de1983automath,howard1980formulae}.
 The entry point for such an approach is to interpret propositions as \textit{types} of a minimal functional programming language (a perhaps more aptly named alternative to the Curry-Howard correspondence is the \textit{propositions-as-types interpretation}).
 In that sense, the set of propositional constants \propcon{} becomes the programming language's basic set of \textit{primitive} types (think of them as built-ins).
-Implicational formulas $\prop A \to \prop B$ are read as \textit{function} types, and conjunction formulas are read as \textit{tuple} (or cartesian product) types.
+Implicational formulas $\prop A \ii \prop B$ are read as \textit{function} types, and conjunction formulas are read as \textit{tuple} (or cartesian product) types.
 From now we will use formulas, propositions and types interchangeably.
 Following along the correspondence allows us to selectively speak about individual, named instances of propositions -- we call these \textit{terms}.
 The simplest kind of term is a \textit{variable}, corresponding to a hypothesis in the proof tree.
@@ -265,9 +265,9 @@ i.e. rather than a sequence of formulas, we have a sequence of distinct variable
 	\centering
 	\begin{tabularx}{0.975\textwidth}{@{}C@{~}C@{}}
 		\multicolumn{2}{@{}c@{}}{$\infer[\Ax]{\term{x_i} : \prop A \vdash \term{x_i} : \prop A}{}$}\\[2em]
-		$\infer[\to E]{\Gamma, \Delta \vdash \term{s~t} : \prop B}{\Gamma \vdash \term{s} : \prop A \to \prop B & \Delta \vdash \term{t} : \prop B}$ 
+		$\infer[\ii E]{\Gamma, \Delta \vdash \term{s~t} : \prop B}{\Gamma \vdash \term{s} : \prop A \ii \prop B & \Delta \vdash \term{t} : \prop B}$ 
 		& 
-		$\infer[\to I]{\Gamma \vdash \term{\lambda x_i.s} : \prop A \to \prop B}{\Gamma, \term{x_i}: \prop A \vdash \term{s}:\prop B}$\\[2em]
+		$\infer[\ii I]{\Gamma \vdash \term{\lambda x_i.s} : \prop A \ii \prop B}{\Gamma, \term{x_i}: \prop A \vdash \term{s}:\prop B}$\\[2em]
 		$\infer[\times E]
 			{\Gamma,\Delta \vdash
 			 \cterm{case \term{s} of (\term{x_i}, \term{x_j}) in \term{t}} 
@@ -292,12 +292,12 @@ i.e. rather than a sequence of formulas, we have a sequence of distinct variable
 \end{figure}
 
 Inspecting Figure~\ref{figure:simple_type_theory}, things for the most part look good.
-The implication elimination rule $\to E$ provides us with a composite term $\term{s~t}$ that denotes the function application of \textit{functor} \smallterm{s} on \textit{argument} \smallterm{t}.
+The implication elimination rule $\ii E$ provides us with a composite term $\term{s~t}$ that denotes the function application of \textit{functor} \smallterm{s} on \textit{argument} \smallterm{t}.
 Function application is left-associative: $\term{s~t~u}$ is the bracket-economic presentation of $(\term{s~t})~\term{u}$ -- we have no choice but to use brackets if want to instead denote $\term{s}~(\term{t~u})$.
-The dual rule, $\to I$, allows us to create (so-called anonymous) functions by deriving a result \smallterm{s} dependent on some hypothesized argument \term{x_i} which is then \textit{abstracted} over as \smallterm{\lambda x_i.s}.
+The dual rule, $\ii I$, allows us to create (so-called anonymous) functions by deriving a result \smallterm{s} dependent on some hypothesized argument \term{x_i} which is then \textit{abstracted} over as \smallterm{\lambda x_i.s}.
 Any occurrence of \smallterm{x_i} within \term{s} is then \textit{bound} by the abstraction; variables that do not have a binding abstraction are called \textit{free}.
 The conjunction introduction $\times I$ allows us to create tuple objects \smallterm{(s, t)} through their parts \smallterm{s} and \smallterm{t}.
-Its dual, $\to E$, gives us the option to identify the two coordinates of a tuple \smallterm{s} with variables \smallterm{x_i} and \smallterm{x_j}, when the latter are hypothesized assumptions for deriving some program \smallterm{t}.
+Its dual, $\ii E$, gives us the option to identify the two coordinates of a tuple \smallterm{s} with variables \smallterm{x_i} and \smallterm{x_j}, when the latter are hypothesized assumptions for deriving some program \smallterm{t}.
 If our assumptions are not in order, blocking the applicability of some rule, we can put them back where they belong with $\Exchange{}$.
 With $\Contraction{}$ we can pretend to be using two different instances \smallterm{x_i} and \smallterm{x_j} of the same type before identifying the two as a single object \term{x_i} in term \term{s} with term \term{t}'');
 note here the meta-notation for \textit{variable substitution}, $\smallterm{s}_{[\smallterm{x_i} \mapsto \smallterm{t}]}$, which reads as ``replace any occurrence of variable \term{x_i}.
@@ -400,7 +400,7 @@ Intuitively, we can think of negative formulas as being in argument position (co
 	\toprule
 	\multirow{2}{*}{$\prop{A} \times \prop{B}$} 	& $+$ & $+$ & $+$\\
 													& $-$ & $-$ & $-$\\[0.5em]
-	\multirow{2}{*}{$\prop{A} \to \prop{B}$}		& $+$ & $-$ & $+$\\
+	\multirow{2}{*}{$\prop{A} \ii \prop{B}$}		& $+$ & $-$ & $+$\\
 													& $-$ & $+$ & $-$
 	\end{tabularx}
 	\caption{Polarity induction.}
@@ -409,15 +409,15 @@ Intuitively, we can think of negative formulas as being in argument position (co
 
 
 \paragraph{Type Raising}
-Type raising $\smallprop{A} \vdash (\smallprop{A} \to \smallprop{C}) \to \smallprop{C}$ is a derivable theorem of intuitionistic logic presented in Figure~\ref{figure:type_raising}. 
-It states that for \smallprop{A}, \smallprop{C} arbitrary propositions, from \smallprop{A} one can derive its raised form $\smallprop{A} \to \smallprop{C}$.
-The converse, i.e. type lowering, is not true: $ (\smallprop{A} \to \smallprop{C}) \to \smallprop{C} \nvdash \smallprop{A}$.
+Type raising $\smallprop{A} \vdash (\smallprop{A} \ii \smallprop{C}) \ii \smallprop{C}$ is a derivable theorem of intuitionistic logic presented in Figure~\ref{figure:type_raising}. 
+It states that for \smallprop{A}, \smallprop{C} arbitrary propositions, from \smallprop{A} one can derive its raised form $\smallprop{A} \ii \smallprop{C}$.
+The converse, i.e. type lowering, is not true: $ (\smallprop{A} \ii \smallprop{C}) \ii \smallprop{C} \nvdash \smallprop{A}$.
 
 \begin{figure}
 	\[
-		\infer[\to I]{\term{x_1}: \prop{A} \vdash \term{\lambda x_0.x_0~x_1}: (\prop{A} \to \prop{C}) \to \prop{C}}{
-			\infer[\to E]{\term{x_0}: \prop{A} \to \prop{C}, \term{x_1}: \prop{A} \vdash \term{x_0~x_1}: \prop{C}}{
-				\infer[\Ax]{\term{x_0}: \prop{A} \to \prop{C} \vdash \term{x_0}: \prop{A} \to \prop{C}}{}
+		\infer[\ii I]{\term{x_1}: \prop{A} \vdash \term{\lambda x_0.x_0~x_1}: (\prop{A} \ii \prop{C}) \ii \prop{C}}{
+			\infer[\ii E]{\term{x_0}: \prop{A} \ii \prop{C}, \term{x_1}: \prop{A} \vdash \term{x_0~x_1}: \prop{C}}{
+				\infer[\Ax]{\term{x_0}: \prop{A} \ii \prop{C} \vdash \term{x_0}: \prop{A} \ii \prop{C}}{}
 				&
 				\infer[\Ax]{\term{x_1}: \prop{A} \vdash \term{x_1}: \prop{A}}{}
 			}
@@ -427,17 +427,17 @@ The converse, i.e. type lowering, is not true: $ (\smallprop{A} \to \smallprop{C
 	\label{figure:type_raising}
 \end{figure}
 
-\paragraph{Function Order} The implication-only fragment of the logic includes $\to$ as its sole logical connective.
+\paragraph{Function Order} The implication-only fragment of the logic includes $\ii$ as its sole logical connective.
 The resulting type theory is one that deals only with functions; for its types, we can define their order $\mathcal{O}$ as follows:
 \begin{align*}
 \mathcal{O}(p) & := 0 \tag{$p \in \propcon{}$} \\
-\mathcal{O}(\prop{A} \to \prop{B}) & := \mathrm{max}(\mathcal{O}(\prop{A}) + 1, \mathcal{O}(\prop{B}))\\
+\mathcal{O}(\prop{A} \ii \prop{B}) & := \mathrm{max}(\mathcal{O}(\prop{A}) + 1, \mathcal{O}(\prop{B}))\\
 \end{align*}
 Types whose order is above 1 are called \textit{higher-order} types; they denote functions that accept functions as their arguments.
 
 \paragraph{Notational Shorthands}
-The verbosity of term-decorated proofs can get cumbersome in the long run, and does not play well with the horizontal margins enforced by the template imposed on writer and reader alike.
-It is probably inevitable that at some point proofs will need a smaller font size to fit in a page (or, worse yet, some neck-breaking rotations of the orientation plane), but in a futile attempt to postpone such emergency measures, we will occasionally make use of a shorthand notation for natural deduction proofs that avoids repetition, at the cost of maybe requiring some extra time to parse.
+The verbosity of term-decorated proofs can get cumbersome in the long run, and does not play well with the unforgiving horizontal margins enforced by the template imposed on writer and reader alike.
+It is probably inevitable that at some point proofs will need a smaller font size to fit in a page (or, worse yet, some neck-breaking rotations of the orientation plane), but in a futile attempt to postpone such emergency measures, we will occasionally make use of a shorthand notation for natural deduction proofs that avoids repetition, at the cost of maybe requiring some extra time to visually parse.
 %We will rewrite axioms as follows:
 In this notation, axioms will be rewritten as follows:
 \[
@@ -448,12 +448,12 @@ We will always provide type declarations for derived terms (right of the turnsti
 The examples of the next paragraph (and many of the ones to follow) will use this alternative notation.
 
 \paragraph{Currying}
-A product type occurring in the argument position of an implication is interderivable with a longer implication where its coordinates are sequentialized: $(\smallprop{A}\times\smallprop{B}) \to \smallprop{C} \dashv \vdash \smallprop{A} \to \smallprop{B} \to \smallprop{C}$.
+A product type occurring in the argument position of an implication is interderivable with a longer implication where its coordinates are sequentialized: $(\smallprop{A}\times\smallprop{B}) \ii \smallprop{C} \dashv \vdash \smallprop{A} \ii \smallprop{B} \ii \smallprop{C}$.
 The forward direction is called currying, and the backward uncurrying; you can find a proof for each in Figure~\ref{figure:curry_uncurry}.
 Having proven that once, we can reuse that proof for deriving implicational equivalents from conjunctions (including nested ones, provided they occur as arguments to an implication).
 Combined with type raising, this trick is interesting, as it permits us to indirectly argue about product types as higher-order implications, even in presentations of the theory that do not include an explicit product (and thus avoid the issues related to its elimination), e.g. we have:
 \[
-	\prop{A} \times \prop{B} \vdash ((\prop{A} \times \prop{B}) \to \prop{C}) \to \prop{C} \dashv \vdash (\prop{A} \to \prop{B} \to \prop{C}) \to \prop{C}
+	\prop{A} \times \prop{B} \vdash ((\prop{A} \times \prop{B}) \ii \prop{C}) \ii \prop{C} \dashv \vdash (\prop{A} \ii \prop{B} \ii \prop{C}) \ii \prop{C}
 \]
 Keep a mental note.
 
@@ -461,9 +461,9 @@ Keep a mental note.
 	\centering
 	\begin{subfigure}{1\textwidth}
 		\[
-		\infer[\to I (x2)]{\term{x_0} \vdash \term{\lambda x_1x_2.x_0~(\term{x_1},\term{x_2})}: \prop{A} \to \prop{B} \to \prop{C}}{
-			\infer[\to E]{\term{x_0}, \term{x_1}, \term{x_2} \vdash \term{x_0}~(\term{x_1}, \term{x_2}): \prop{C}}{
-				\infer[\Ax]{\term{x_0}: (\prop{A} \times \prop{B}) \to \prop{C}}{}
+		\infer[\ii I (x2)]{\term{x_0} \vdash \term{\lambda x_1x_2.x_0~(\term{x_1},\term{x_2})}: \prop{A} \ii \prop{B} \ii \prop{C}}{
+			\infer[\ii E]{\term{x_0}, \term{x_1}, \term{x_2} \vdash \term{x_0}~(\term{x_1}, \term{x_2}): \prop{C}}{
+				\infer[\Ax]{\term{x_0}: (\prop{A} \times \prop{B}) \ii \prop{C}}{}
 				&
 				\infer[\times I]{ \term{x_1}, \term{x_2} \vdash (\term{x_1},\term{x_2}): \prop{A} \times \prop{B}}{
 					\infer[\Ax]{\term{x_1}: \prop{A}}{}
@@ -478,14 +478,14 @@ Keep a mental note.
 	\end{subfigure}\\[\midsep]
 	\begin{subfigure}{1\textwidth}
 		\[
-			\infer[\to I]{\term{x_1} \vdash \term{\lambda x_0.}\cterm{case \term{x_0} of (\term{x_2}, \term{x_3}) in \term{x_1~x_2~x_3}}:(\prop{A} \times \prop{B})\to \prop{C}}{
+			\infer[\ii I]{\term{x_1} \vdash \term{\lambda x_0.}\cterm{case \term{x_0} of (\term{x_2}, \term{x_3}) in \term{x_1~x_2~x_3}}:(\prop{A} \times \prop{B})\ii \prop{C}}{
 				\infer[\Exchange{}]{\term{x_1}, \term{x_0}  \vdash \cterm{case \term{x_0} of (\term{x_2}, \term{x_3}) in \term{x_1~x_2~x_3}}:\prop{C}}{
 					\infer[\times E]{\term{x_0}, \term{x_1} \vdash \cterm{case \term{x_0} of (\term{x_2}, \term{x_3}) in \term{x_1~x_2~x_3}}:\prop{C}}{
 						\infer[\Ax]{\term{x_0}: \prop{A} \times \prop{B}}{}
 						&
-						\infer[\to E]{\term{x_1}, \term{x_2}, \term{x_3} \vdash \term{x_1~x_2~x_3}: \prop{C}}{
-							\infer[\to E]{\term{x_1}, \term{x_2} \vdash \term{x_1~x_2}: \prop{B} \to \prop{C}}{
-								\infer[\Ax]{\term{x_1}: \prop{A} \to \prop{B} \to \prop{C}}{}
+						\infer[\ii E]{\term{x_1}, \term{x_2}, \term{x_3} \vdash \term{x_1~x_2~x_3}: \prop{C}}{
+							\infer[\ii E]{\term{x_1}, \term{x_2} \vdash \term{x_1~x_2}: \prop{B} \ii \prop{C}}{
+								\infer[\Ax]{\term{x_1}: \prop{A} \ii \prop{B} \ii \prop{C}}{}
 								&
 								\infer[\Ax]{\term{x_2}: \prop{A}}{}
 							}
@@ -537,7 +537,7 @@ For the fragment of interest to us, the type grammar becomes:
 \label{grammar:ILL}
 \end{equation}
 There is not really much we have to do to manipulate these new types, other than a slight cognitive rewiring.
-We will note first that the meaning of the implication arrow changes from material implication to transformation process; i.e. where we previously had $\smallprop{A} \to \smallprop{B}$ to denote that \smallprop{B} logically follows from \smallprop{A}, we will now have $\smallprop{A} \li \smallprop{B}$ to denote an irreversible process that transforms a single \smallprop{A} into a single \smallprop{B}, consuming the former in the process (we can think of this as a perfect chemical reaction).
+We will note first that the meaning of the implication arrow changes from material implication to transformation process; i.e. where we previously had $\smallprop{A} \ii \smallprop{B}$ to denote that \smallprop{B} logically follows from \smallprop{A}, we will now have $\smallprop{A} \li \smallprop{B}$ to denote an irreversible process that transforms a single \smallprop{A} into a single \smallprop{B}, consuming the former in the process (we can think of this as a perfect chemical reaction).
 The new, weird-looking arrow of linear implication is read as lolli(pop) due to its suggestive appearance.\footnote{If trying to typeset it yourself, DO NOT duckduckgo for ``lolli in latex''. It can be found as \texttt{\textbackslash multimap}. You are welcome.}
 Conjunction $\times$ is now separated into two distinct operators, the multiplicative $\otimes$ and the additive $\with$. 
 The first denotes a linear tuple, and $\smallprop{A} \otimes \smallprop{B}$ is read as \textit{both} \prop{A} \textit{and} \prop{B}.
@@ -597,7 +597,7 @@ Let us also point out that in the case of the implication introduction rule $\li
 
 \subsubsection{Proof \& Term Reductions}
 The notions of proof and term equivalence discussed in the previous section hold also for linear logic.
-Proof normalization looks almost identical to before in the case of $\to$ and $\times$ (substituting of course for $\li$ and $\otimes$).
+Proof normalization looks almost identical to before in the case of $\ii$ and $\times$ (substituting of course for $\li$ and $\otimes$).
 The key difference lies in the absence of horizontal dots and unnamed vertical dots (since the \Contraction{} rule is no more, meaning that there can only be a single occurrence of each axiom replaced with a proof).
 The extra connective $\with$ introduces its own two redexes (one per eliminator); the reduction of the first projection is shown in Figure~\ref{figure:linear_proof_reductions}. 
 Its reading is straightforward: if one were to use $\Gamma$ to independently derive \smallprop{A} and \smallprop{B} along two parallel proofs, proceed by constructing a choice between the two, and then also make that choice (favoring either), there was never any need for the other in the first place.
@@ -1103,7 +1103,7 @@ The notation $\Gamma\ctx{\Delta}$ now denotes that $\Delta$ is a \textit{subtree
 	\label{figure:non_assoc_lambek_rules}
 \end{figure}
 
-The syntax of the isomorphic $\lambda$-calculus is identical to before, except this time we use $\nappright$ and $\nappleft$ to notationally differentiate with the non-associative application (not unlike how we replaced the intuitionistic implication $\to$ with its linear counterpart $\li$ earlier).
+The syntax of the isomorphic $\lambda$-calculus is identical to before, except this time we use $\nappright$ and $\nappleft$ to notationally differentiate with the non-associative application (not unlike how we replaced the intuitionistic implication $\ii$ with its linear counterpart $\li$ earlier).
 The new structural constraint on the introduction of a directed implication can be intuititively translated to a constraint on the applicability of an abstraction.
 Namely, the variable to abstract over needs to occur at the top-most level of a function application in the term's inductive body.%
 \footnote{Abusing terminology, here by inductive body we mean the term itself (if it's an implicative one), the term's inner body (if it's a sequence of abstractions), the left or right coordinate (if it's a product), or the nested body on which substitution is performed (if it's a deconstructed product).}
@@ -1156,7 +1156,8 @@ From an epistemic perspective, the less structural equivalences we take for gran
 In the best case, if it just so happens that the kind of structures we want to investigate overlaps \textit{fully} with the kind of structures our logic can explicitly reason about, the distinction between theorem and non-theorem becomes a refinement rather than a loss of expressivity.
 From a more pragmatic perspective, more structural constraints means easier proof search, and less theorems means faster exhaustion of possibilities.
 To make the scale of the combinatorics tangible, reflect for a second on this.
-A single judgement of $n$ hypotheses in $\NL$ is but one of the Catalan number of bracketings $C(n)$ it would be syntactically undistinguishable from in $\LC$, each one of which in turn is but one of the factorially many permutations $n!$ it would be equivalent to in $\LP$.\footnote{Boom.}
+A single judgement of $n$ hypotheses in $\NL$ is but one of the Catalan number of bracketings $C(n)$ it would be syntactically undistinguishable from in $\LC$, each one of which in turn is but one of the factorially many permutations $n!$ it would be equivalent to in $\LP$.%
+\footnote{Boom, goes the combinatorial explosion.}
 The point to take home is that proof search becomes decidedly easier in the absence of syntactic equivalences, so perhaps a double-edged sword would have made for a better analogy than a bill.
 
 The defeatist attitude here would be to just accept the trade-off between expressivity and complexity, weep for the theorems forever lost, take our victory and walk away.
@@ -1772,21 +1773,22 @@ This does not exclude the option of utilizing hypotheticals instantiated by the 
 It means, rather, that our building blocks will for the most part be \textit{lexical constants}, proof objects that behave just like variables, except they are neither wantonly typed nor amenable to function abstraction.
 To convey the difference between the two, we will instantiate the latter with a seemingly new rule of inference, $\Lex$, which simply performs lexical lookup, i.e. pulls a word's type from the lexicon.
 
-The internet guide \textit{how to write a dissertation} I have consulted suggests that it is important to set clear goals and stick to them.
-It seems like sound advice, so what we are going to do next is use the type-logical framework and attempt to eventually analyze a non-contrived example  for demonstration purposes.
+The internet guide \textit{how to write a dissertation} I am consulting insists it is important to set clear goals and stick to them.
+It seems like sound advice, so we are going to do just that, and attempt to demonstrate the analysis of a non-contrived example in the type-logical framework.
 The following looks like a fitting match:
 \begin{quotation}
 \textex{Opiate oceans poured there, litten by suns that the eye may never behold, and having in their whirlpools strange dolphins and sea-nymphs of unrememberable deeps.}
-\begin{flushright} H.P. Lovecraft (1938), \textit{Azathoth}, in \textit{Leaves (2)}\end{flushright}
+\begin{flushright} H.P. Lovecraft, \textit{Azathoth}  (1938). In \textit{Leaves (2).}\end{flushright}
 \end{quotation}
 Let us pave the way towards this ambitious goal with the miniature mock-up lexicon of Figure~\ref{figure:toy_lambek_lexicon}, and see just how far it can get us.
 
 Figure~\ref{figure:nl_applicative_examples} presents derivations for parts of the goal phrase, and our very first linguistic examples (!) -- their applicative nature should make them straightforward to decipher.
-The two proofs of~\ref{subfigure:opiate_oceans_poured_there} and~\ref{subfigure:litten_by_suns} can be combined to yield a derivation for the phrase \textex{Opiate oceans litten by suns poured there} -- close, but not quite there.
+The two proofs of~\ref{subfigure:opiate_oceans_poured_there} and~\ref{subfigure:litten_by_suns} can readily be combined to yield a derivation for the phrase \textex{Opiate oceans litten by suns poured there}. 
+Close, but not quite there...
 The participial \textex{litten}, which acts here as a postnominal modifier, has the special property of being able to position itself either immediately after the noun phrase \textex{opiate oceans} it modifies, or deferred until after the verbal head \textex{poured} has made an appearance.
 Attempting to produce a derivation for the original version seems like a dead-end enterprise, though.
-We are not to blame for this incompetence: the problem is with the grammar -- we could never hope to capture this behavior with our current machinery.
-Despite their elegance and formal appeal, grammars relying purely on Lambek calculi suffer from an aversion to anomalies like discontinuities and long-distance dependencies, which natural languages tend to exhibit at a striking degree.
+We are not to blame for this incompetence: the problem lies with the grammar -- we could never hope to capture this behavior with our current machinery.
+Despite their elegance and formal appeal, grammars relying purely on Lambek calculi suffer from an aversion to anomalies like discontinuities and long-distance dependencies, which natural languages tend to exhibit at an unfortunately striking degree.
 
 One could of course attept to cop out of the problem by just introducing ad-hoc raised forms for movable parts, one per distinct position they can be found at. 
 The repercussions of such a move would soon, however, prove catastrophic.
@@ -1868,11 +1870,11 @@ The subject-relative case can easily be dealt with in a pure Lambek grammar, as 
 the same cannot be said for the object-relative case, whose structurally free gap seems to pose a challenge.
 The solution comes in the form of two distinct type assignments for the relativizer, one per grammatical role fulfilled:
 \begin{align*}
-	\w{that} &:: (\np\divright\np)\divright(\np\divleft\s) \tag{subj-rel}\\
-	\w{that} &:: (\np\divright\np)\divright(\s\divright\diamond\Box \np ) \tag{obj-rel}
+	\w{that} &:: (\np\divleft\np)\divright(\np\divleft\s) \tag{subj-rel}\\
+	\w{that} &:: (\np\divleft\np)\divright(\s\divright\diamond\Box \np ) \tag{obj-rel}
 \end{align*}
 The second version launches a mobile \np[s] hypothesis via the same diamond-box pattern showcased earlier.
-The proof of Figure~\ref{figure:lovecract_rel_clause} employs this typing in combination with the $\rulestyle{ass}_{\diamond}$ rule to derive the object-relative clause \textex{that the eye may never behold} -- we can use it to modify the \textex{suns} of Figure~\ref{figure:lovecract_rel_clause}, bringing us one step closer to success.
+The proof of Figure~\ref{figure:lovecract_rel_clause} employs this typing in combination with the $\rulestyle{ass}_{\diamond}$ rule to derive the object-relative clause \textex{that the eye may never behold} -- we can now use it to modify the \textex{suns} of Figure~\ref{figure:lovecract_rel_clause}, bringing us one step closer to success.
 
 \begin{figure}
 	\centering
@@ -2027,21 +2029,30 @@ Collaging these last bits together is left as an exercise to the motivated reade
 	\label{figure:lovecraft_coord}
 \end{figure}
 
-\subsubsection{Intricacies of Linguistic Proof Search}
+\subsubsection{Subtleties of Proof Search}
+The last sentence was merely a test to weed out the uncommited.
+Of those that passed it and attempted to really proceed with the derivation, the observant ones should have found themselves at multiple crossroads regarding the order of applying the numerous modifiers in the sentence -- a matter carefully concealed in the derivations presented so far.
+The choice of $\NL$ over $\LC$ implies that scope assigned to competing modifiers should reflect in a corresponding judgement that differs to the rest in the bracketing structure of its antecedents (and of course the proof justifying it).
+The following endsequents are all valid alternatives provable with the lexical types of Figure~\ref{subfigure:strange_dolphins_and_sea_nymphs}:
 
+{\smaller
+\begin{enumerate}
+\item $\w{strange}\sbind(\w{dolphins}\sbind(\w{and}\sbind(\w{sea-nymphs}\sbind(\w{of}\sbind(\w{unrememberable}\sbind\w{deeps})))))$
+\item $\w{strange}\sbind((\w{dolphins}\sbind(\w{and}\sbind\w{sea-nymphs}))\sbind(\w{of}\sbind(\w{unrememberable}\sbind\w{deeps})))$
+\item $(\w{strange}\sbind(\w{dolphins}\sbind(\w{and}\sbind\w{sea-nymphs})))\sbind(\w{of}\sbind(\w{unrememberable}\sbind\w{deeps}))$
+\item $((\w{strange}\sbind\w{dolphins})\sbind(\w{and}\sbind\w{sea-nymphs}))\sbind(\w{of}\sbind(\w{unrememberable}\sbind\w{deeps}))$
+\item $(\w{strange}\sbind\w{dolphins})\sbind(\w{and}\sbind(\w{sea-nymphs}\sbind(\w{of}\sbind(\w{unrememberable}\sbind\w{deeps})))))$
+\end{enumerate}
+}
+This is an admittedly stretched case of \textit{derivational ambiguity}, a situation where from the same lexical assignments one can obtain multiple syntactic analyses, which may correspond to equinumerous subtly or drastically diverging semantic interpretations (more on that in a bit).
+If the underlying proofs were to be produced in the associative calculus $\LC$, the ambiguity would have been \textit{spurious}, as all would lead to a structurally identical (bracketless) judgement.
+Derivational ambiguity is not necessarily bad, provided the divergence in the proofs constructed is linguistically meaningful.%
+\footnote{Just think of all the different things you could do with pijamas, elephants, telescopes, etc.}
+This is not the case for spurious ambiguity, as it introduces undesirable (and uninterpretable) redundancy, at the dismay of parsers (or mostly their designers).
+What is, however, worth noting is the structural discrepancy between what we see (a flat sequence) and what we want to parse into (a binary branching tree).
+Even though constituency structure is de facto acknowledged by linguistic theory, it is a latent mental construct revealed through (or assigned by) the parsing process, rather than an observable feature of text that we can assume as a given.
+The connotation of this is that even though backwards proof search in $\NL$ may find use in \textit{verifying} the plausibility of a type-assigned, pre-bracketed phrase, forward search is necessary in \textit{eliciting} a type and a bracketing structure from a phrase. 
 
-%Though, if someone were to put this to the test and really attempt to proceed with the derivation, they would soon find themselves at a crossroads regarding which of the two nominal modifiers to apply first.
-%The choice of $\NL$ over $\LC$ implies that the two priorities of application reflect in as many distinct judgements, each with its own proof, that differ in the bracketing structure of the composite $\np$ they contain:
-%\begin{center}
-%\begin{tabularx}{0.9\textwidth}{@{}ccc@{}}
-%	$\w{opiate}\sbind(\w{oceans}\sbind(\w{litten}\sbind(\dots)))$ & vs. & $(\w{opiate}\sbind\w{oceans})\sbind(\w{litten}\sbind(\dots))$
-%\end{tabularx}
-%\end{center}
-%This is an admittedly stretched case of \textit{derivational ambiguity}, a situation where from the same lexical assignments one can obtain multiple syntactic analyses, which may correspond to equinumerous semantic interpretations (more on that in a bit).
-%If the derivations were to be derived in the associative calculus $\LC$, the ambiguity would have been \textit{spurious}, as both would lead to a structurally identical judgement.
-%Derivational ambiguity is not necessarily bad, provided the divergence in the proofs constructed is linguistically meaningful.%
-%\footnote{Just think of all the different things you could do with pijamas, elephants, telescopes, etc.}
-%This is not the case for spurious ambiguity, as it introduces undesirable (and uninterpretable) redundancy, at the dismay of parsers (or mostly their designers).
 
 \subsubsection{Syntax-Semantics Interface}
 
