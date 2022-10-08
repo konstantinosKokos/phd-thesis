@@ -92,8 +92,6 @@
 	\vspace{14pt}}
 }
 
-\newcommand{\copyleft}{\reflectbox{\copyright}}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					lingu examples
 \newcommand{\textex}[1]{``\textit{#1}''}
@@ -125,6 +123,10 @@
 \newcommand{\nappright}{\ensuremath{\blacktriangleleft}}
 \newcommand{\nappleft}{	\ensuremath{\blacktriangleright}}
 \newcommand{\adbmal}{\scalebox{-1}[1]{\ensuremath{\lambda}}}
+\newcommand{\types}{\ensuremath{\mathcal{T}}}
+\newcommand{\terms}{\ensuremath{\mathcal{L}}}
+\newcommand{\cons}{\ensuremath{\mathcal{C}}}
+\newcommand{\vars}{\ensuremath{\mathcal{V}}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					grammar shortcuts
@@ -190,6 +192,7 @@
 \newcommand{\NL}{\logic{NL}}
 \newcommand{\NLP}{\logic{NLP}}
 \newcommand{\LP}{\logic{LP}}
+\newcommand{\hm}[1]{\ensuremath{\lceil{#1}\rceil}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                  proofnet stuff
@@ -198,3 +201,10 @@
 \newcommand{\vnorm}[1]{\vphantom{A_x}{#1}}
 \newcommand{\parlink}{\raisebox{\depth}{\scalebox{-1}[-1]{$\with$}}}
 \newcommand{\sbind}{\ensuremath{\cdot}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					shortcuts
+\newcommand{\copyleft}{\reflectbox{\copyright}}
+\newcommand{\greek}[1]{\mathrm{#1}}
+\newcommand{\Tau}{\greek{T}}

@@ -19,9 +19,10 @@ Put even more plainly, it suggests that valid proofs in such logics constitute i
 The repercussions of this discovery were enormous, and are more tangible today than ever before; type systems comprised of higher-order $\lambda$-calculi and their logics provide the theoretical foundations for modern programming languages and proof assistants (this last fact is both important and interesting, but won't concern us much presently).
 
 In a more niche (but equally beautiful) fragment of the academic world, and in parallel to the above developments, applied logicians and formally inclined linguists have been demonstrating a stunning perserverance in their self-imposed quest of modeling natural language syntax and semantics, making do only with the vocabulary provided by formal logics.
-This noble endeavour is as old as it gets, but its modern incarnation is due to Jim Lambek, who was the first to point out that the grammaticality of a natural language utterance can be equated to provability in a certain logic (or type inhabitation, if one is to borrow the terminology of constructive type theories), if the grammar (a collection of empirical linguistic rules) were to be treated as a substructural logic (a collection of formal mathematical rules).
+This noble endeavour traces its origins back to Aristotle, but its modern incarnation is due to Jim Lambek, who was the first to point out that the grammaticality of a natural language utterance can be equated to provability in a certain logic (or type inhabitation, if one is to borrow the terminology of constructive type theories), if the grammar (a collection of empirical linguistic rules) were to be treated as a substructural logic (a collection of formal mathematical rules).
 Funnily enough, the kind of logics Lambek would employ for his purposes would be exactly those at the interesection of intuitionistic and linear logic, the latter only made formally explicit in a breakthrough paper by Jean-Yves Girard almost three decades later.
-By that time, Richard Montague had already come up with the fantastically novel idea of seeing no distinction between formal and natural languages, single-handedly birthing and popularizing the field of formal semantics (which would chiefly invole semantic computations using $\lambda$-calculus notation), thus fulfilling Gottlob Frege's long-prophesized principle of compositionality, which would once and for all put the Chomskian tradition to rest\footnote{In some corners of the world, this part of the prophecy is yet to transpire.}, ushering linguistics into a new era.
+By that time, Richard Montague had already come up with the fantastically novel idea of seeing no distinction between formal and natural languages, single-handedly birthing and popularizing the field of formal semantics (which would chiefly invole semantic computations using $\lambda$-calculus notation).
+With this, he fulfilled Gottlob Frege's long-prophesized principle of compositionality, which would once and for all put the Chomskian tradition to rest\footnote{In some corners of the world, this part of the prophecy is yet to transpire.}, ushering linguistics into a new era.
 With the benefit of posterity, it would be tempting for us to act smart and exclaim that Lambek and Montague's ideas were remarkably aligned. 
 In reality, it took another couple of decades for someone to notice.
 The credit is due to Johan van Benthem, who basically pointed out that Lambek's calculi make for the perfect syntactic machinery for Montague's program, seeing as they admit the Curry-Howard correspondence, and are therefore able to drive semantic composition virtually for free (in fact one could go as far as to say that they are the only kind of machinery that can accomplish such a feat without being riddled with ad-hoc transformations).
@@ -408,15 +409,14 @@ Intuitively, we can think of negative formulas as being in argument position (co
 
 
 \paragraph{Type Raising}
-Type raising $\smallprop{A} \vdash (\smallprop{A} \ii \smallprop{C}) \ii \smallprop{C}$ is a derivable theorem of intuitionistic logic presented in Figure~\ref{figure:type_raising}. 
-It states that for \smallprop{A}, \smallprop{C} arbitrary propositions, from \smallprop{A} one can derive its raised form $\smallprop{A} \ii \smallprop{C}$.
-The converse, i.e. type lowering, is not true: $ (\smallprop{A} \ii \smallprop{C}) \ii \smallprop{C} \nvdash \smallprop{A}$.
-
+Type raising $\smallprop{A} \vdash (\smallprop{A} \ii \smallprop{B}) \ii \smallprop{B}$ is a derivable theorem of intuitionistic logic presented in Figure~\ref{figure:type_raising}. 
+It states that for \smallprop{A}, \smallprop{B} arbitrary propositions, from \smallprop{A} one can derive its raised form $\smallprop{A} \ii \smallprop{B}$.
+The converse, i.e. type lowering, is not true: $(\smallprop{A} \ii \smallprop{B}) \ii \smallprop{B} \nvdash \smallprop{A}$.
 \begin{figure}
 	\[
-		\infer[\ii I]{\term{x_1}: \prop{A} \vdash \term{\lambda x_0.x_0~x_1}: (\prop{A} \ii \prop{C}) \ii \prop{C}}{
-			\infer[\ii E]{\term{x_0}: \prop{A} \ii \prop{C}, \term{x_1}: \prop{A} \vdash \term{x_0~x_1}: \prop{C}}{
-				\infer[\Ax]{\term{x_0}: \prop{A} \ii \prop{C} \vdash \term{x_0}: \prop{A} \ii \prop{C}}{}
+		\infer[\ii I]{\term{x_1}: \prop{A} \vdash \term{\lambda x_0.x_0~x_1}: (\prop{A} \ii \prop{B}) \ii \prop{B}}{
+			\infer[\ii E]{\term{x_0}: \prop{A} \ii \prop{B}, \term{x_1}: \prop{A} \vdash \term{x_0~x_1}: \prop{B}}{
+				\infer[\Ax]{\term{x_0}: \prop{A} \ii \prop{B} \vdash \term{x_0}: \prop{A} \ii \prop{B}}{}
 				&
 				\infer[\Ax]{\term{x_1}: \prop{A} \vdash \term{x_1}: \prop{A}}{}
 			}
@@ -1621,12 +1621,13 @@ The most encompassing way of defining a categorial grammar is thus best accompli
 A categorial grammar is tied to a (usually substructural) logic, commonly a choice from the ones reviewed so far.
 The choice of logic is part personal preference, but is usually motivated by the degree of alignment between the options under consideration and the characteristics of the target language -- a factor that also comes into play is also the trade-off between expressivity and complexity.
 On the basis of the chosen logic, a categorial grammar has a \textit{lexicon}; a mapping from primitive linguistic entries (i.e. words) to formulas of that logic.
-Their dependence on a lexicon grants categorial grammars their \textit{strongly lexicalized} title -- as the adage goes, words carry their combinatorics on their sleeves.
+Their dependence on a lexicon grants categorial grammars their \textit{strongly lexicalized} title -- as the slogan goes, words carry their combinatorics on their sleeves.
 With these two components in hand, compiling composite structures for complex linguistic entries (i.e. parsing) becomes a process of formal deduction dictated by the interplay between the types of the participating atomic elements, and the rules of inference the logic is equipped with.
 Categorial grammars are a staple of the linguistic tradition and a focal point for practitioners, logicians and linguists alike. 
 In this section we will examine some of their main strands, with a special emphasis on two spiritual progenitors of the unique flavor that is to be developed and presented later in this thesis.
 
 \subsection{Type-Logical Grammars}
+\label{subsection:typelogical}
 The earliest take at a categorial grammar are the AB grammars attributed to Kazimierz Adjukiewicz~\cite{ajdukiewicz1935syntaktische} and Yehoshua Bar-Hillel~\cite{bar1953quasi}, but it was Jim Lambek that raised the existing notation and operations into the glory of a fully-fledged type theory.
 In their original purpose as envisaged by Lambek, his calculi would find use as \textit{grammar logics}, i.e. universal systems of \textit{grammatical} computation -- a perspective adopted and advanced into what has presently come to be known as type-logical grammars~\cite{morrill1994type,moortgat1997categorial,sep-typelogical-grammar}.
 In a natural language setting, the linear base of the Lambek calculi is naturally equated to the resource sensitivity of grammar: words play a single grammatical role in the phrases they help form -- there's no ignoring or reusing items at will.
@@ -1775,10 +1776,10 @@ To convey the difference between the two, we will instantiate the latter with a 
 The internet guide \textit{how to write a dissertation} I am consulting insists it is important to set clear goals and stick to them.
 It seems like sound advice, so we are going to do just that, and attempt to demonstrate the analysis of a non-contrived example in the type-logical framework.
 The following looks like a fitting match:
-\begin{quotation}
+\begin{quote}
 \textex{Opiate oceans poured there, litten by suns that the eye may never behold, and having in their whirlpools strange dolphins and sea-nymphs of unrememberable deeps.}
 \begin{flushright} H.P. Lovecraft, \textit{Azathoth}  (1938). In \textit{Leaves (2).}\end{flushright}
-\end{quotation}
+\end{quote}
 Let us pave the way towards this ambitious goal with the miniature mock-up lexicon of Figure~\ref{figure:toy_lambek_lexicon}, and see just how far it can get us.
 
 Figure~\ref{figure:nl_applicative_examples} presents derivations for parts of the goal phrase, and our very first linguistic examples (!) -- their applicative nature should make them straightforward to decipher.
@@ -1802,8 +1803,8 @@ Ever since their original integration with the vanilla multiplicative toolkit (t
 They find use as either licensors or licensees of structural rewrites, now in the form of movement and rebacketing of words and phrases.
 Figure~\ref{figure:lovecract_rel_clause} progresses our agenda by accounting for the presence of a (hypothetical) movable postnominal modifier via the rules of Figure~\ref{figure:modal_structural_rules}.
 To make the hypothesis movable, we need to instantiate it as a box -- for the pure function contained therein to be applicable, the box needs to be removed, enclosing the hypothesis in angular brackets, which in turn license its structural extraction to the rightmost edge of the assumptions via the $\rulestyle{mix}_{\diamond}$ rule.
-At that point, we need to eliminate the bracketed variable with a term of the corresponding diamond type.
-For this to work, we need to make the tiniest of modifications to our lexicon so as to get access to our saught-after diamond:
+At that point, we need to eliminate the bracketed variable with a term of the corresponding type, plus a diamond.
+For this to work, we need to make the tiniest of modifications to our lexicon so as to get access to the saught-after diamond:
 \[
 	\w{litten} \qquad :: \qquad \diamond\Box (\np\divleft\np)\divright\pp
 \]
@@ -1859,7 +1860,7 @@ Equipped with it, we can derive both the local versions hinted at earlier, and t
 \end{figure}
 
 
-This methodology is in fact adopted from~\citet{moortgat1999constants}, where it finds similar use in dealing with the grammatical ambivalence of relativizers like \textex{that} or \textex{which}.
+This methodology is in fact adopted from \citet{moortgat1999constants}, where it finds similar use in dealing with the grammatical ambivalence of relativizers like \textex{that} or \textex{which}.
 Bound relative clauses headed by complementizers like the above contain a subordinate sentence with a \textit{gap}, which can vary in its position.
 Let's make things unnecessarily convoluted for the sake of clich{\'e}d self-referentialism by considering the relative clause \textex{which can very in its position} of the previous sentence.
 There, the subordinate clause \textex{$\o$ can vary in its position} contains a gap in the subject position, which the head \textex{a gap} occupies implicitly.
@@ -1936,7 +1937,7 @@ The analysis just performed illustrated the necessity of (at least) two distinct
 One, more opinionated than I, might argue that each type is mapped to a distinct lexical item (one per relativization type), and that the identification between their strings is a mere coincidence, an idiosyncracy of the language, or anyway irrelevant; even if a string is multi-typed, each type is a witness to a unique latent word hiding behind it.
 Of different effect but similar flavor would be the line of defense that appeals to null syntax, a covert process that can conditionally nominalize infinitives, determine plural nouns, relativize gerunds or do any sort of thing, really; a word is never multi-typed, but ad-hoc type conversions can take place out of the blue.
 Even under premises as radical as the above, occassions of type undeterminism are all but rare.
-Consider for instance the verb \textex{to have}, whose FrameNet entry (for the possessive meaning) is specified as having mandatory owner and possession semantic arguments (corresponding to syntactic subject and direct object), but also any combination of depictive, duration, explanation, manner and temporal optional complements, in various orders~\cite{baker1998berkeley} -- each variation necessarily expressed with a distinct type.
+Consider for instance the verb \textex{to have}, whose FrameNet entry (for the possessive meaning alone) is specified as having mandatory owner and possession semantic arguments (corresponding to syntactic subject and direct object), but also any combination of depictive, duration, explanation, manner and temporal optional complements, in various orders~\cite{baker1998berkeley} -- each variation necessarily expressed with a distinct type.
 In our case, we need the type:
 \begin{align*}
 	\w{having} &:: (\diamond\Box(\np\divleft\np)\divright\np)\divright\pp
@@ -1949,7 +1950,7 @@ From a theoretical perspective, we can incorporate the question of type choice i
 \[
  \smallprop{A}_1 \with (\smallprop{A}_2 \with (\smallprop{A}_3 \dots (\smallprop{A}_{n-1}\with\smallprop{A}_{n})))
 \]
-and the subscript enumerating the possible instantiations in the context of a single sentence.
+and the subscript enumerating each of the possible instantiations in the context of a single sentence.
 Under this regime, the lexical assignment rule $\Lex$ would need to be followed by a sequence of projections to isolate the desired type, contributing little other than excessive verbosity.%
 \footnote{
 A more ambitious usecase could allow the \textit{simultaneous} derivation of multiple unique analyses, and the incorporation of derivational ambiguity arising out of lexical choice as a first class citizen of the proof theory -- a proof object that resides \textit{within} it rather than a notion in the meta-theory \textit{above} it.
@@ -2052,11 +2053,135 @@ What is, however, worth noting is the structural discrepancy between what we see
 Even though constituency structure is de facto acknowledged by linguistic theory, it is a latent mental construct revealed through (or assigned by) the parsing process, rather than an observable feature of text that we can assume as a given.
 The connotation of this is that even though backwards proof search in $\NL$ may find use in \textit{verifying} the plausibility of a type-assigned, pre-bracketed phrase, forward search is necessary in \textit{eliciting} a type and a bracketing structure from a phrase. 
 
-
 \subsubsection{Syntax-Semantics Interface}
+The game played so far, challenging as it may be, might prove dull to someone indifferent to syntax or its type-theoretic formulation; we will attempt to fix that by expanding our target crowd to semanticists and Montagovian grammarians, who are said to recite daily before beditme:
+\begin{quote}
+I fail to see any interest in syntax except as a preliminary to semantics.~\cite{montague1970universal}
+\end{quote}
 
+\paragraph{Montague's Insights}
+A full exposition to Montague grammar is beyond the scope of this thesis, but a brief introduction to some of its foundations will go a long way in helping us perceive its relevance to the type-logical approach.
+Richard Montague was disillusioned with the tackling of natural language semantics at the time, which he found formally inadequate and lacking the elegance of contemporary approaches to mathematical syntax.
+He saught to fill this gap by arguing that formal and natural languages are morally indistinguishable -- different instantiations of the same theory -- and advocating their treatment in just the same way.
+Influenced by his own background on modal logic and the highly influential work of Saul Kripke on possible world semantics~\cite{kripke1963semantical}, the machinery he thought was best fit for the task at hand was a model theoretic semantics axiomatized on the basis of set theory and higher-order logic; his work is marked with heavy use of $\lambda$ notation, the adoption of which by today's working linguist is largely attributed to him.
+
+Revolutionary as it may have been at the time, this semantic machinery and its antiquated details are largely irrelevant to this work.
+What is of prime interest, though, is Montague's treatment of the passage between syntax and semantics.
+In his view, if syntax is an algebra describing the process of synthesizing a grammatically passable sentence, semantics is another algebra providing a logical recipe for evaluating that sentence's truth-validity.
+The two systems are viewed as distinct, but not independent: they are connected by a unidirectional transformation that preserves and transports (certain aspects of) the structure of the former into the latter, in other words a \textit{homomorphism}.
+The slogan ``syntax is an algebra, semantics is an algebra and meaning is a homomorphism between them'' summarizes this notion~\cite{janssen2014foundations}.
+The gracefulness of this statement is easy to miss. 
+It proclaims that the semantic expression assigned to complex linguistic entries mimics (or is at least informed by) the structural form of their syntactic analyses.
+This perspective actuates the ideal of compositionality, a concept passed down by Gottlob Frege and summarized as stating that the meaning of a complex expression is computable on the basis of its primitive expressions and the rules that dictate their combination~\cite{partee1984compositionality}.
+
+\paragraph{The Type-Logical View}
+Let's appropriate this view and translate it to the type-logical setup, as done in \citet{van1988semantics}.
+Here, syntax is a type theory: a logic whose rules rules are equated to term rewrite instructions, and proofs to programs.
+Semantics can also be a type theory; one with its own types and terms, potentially more expressive and certainly unriddled by (some of) the structural constraints of grammar.
+The meaning interpretation would then be a homomorphism that translates syntactic proofs and programs to corresponding semantic ones -- a translation from one constructive logic to another.
+Its design would need to follow the rule-to-rule approach, according to which every syntactic construction will have its homomorphic image in the target system~\cite{bach1976extension}.
+This viewpoint is quite open-ended and admits a whole lot of creative liberty with respect to the the nature of the target system and the details of the translations.
+The only constraint imposed is the only one that matters: the high-level principle of compositionality needs to hold, i.e. the function-argument structure specified by syntax need to be carried through to the semantics.
+
+Interestingly, the approach permits a division of labour between syntax, semantics and everything in between: the end-to-end translation can be decomposed into a sequence of homomorphisms, each intermediate step explicating an additional layer of added expressivity (or fortfeited structure) and singling out a subset of the desiderata towards the end-target.
+A natural first stop would be that of $\ILL_{\li}$ as a \textit{derivational semantics} logic: it captures the function-argument structures prescribed by the syntactic proof and respects its no-reuse principle, but without the semantically void headaches of order and bracketing structures, or that of the rules manipulating them. 
+\begin{center}
+\begin{tikzpicture}
+	\node	(ss)  at (0, 0.5) 	{Surface Syntax};
+	\node[outer sep=10pt]	(nlp) at (0, 0) 	{$\Sigma := \logic{NL}_{\diamond,\Box}$};
+	\node	(ss)  at (6, 0.5) 	{Derivational Semantics};
+	\node[outer sep=10pt]  	(ill) at (6, 0) 	{$\Tau := \ILL_{\li}$};
+	\draw[->] (nlp) -- node[above] {$\hm{.}$}  (ill) ;
+\end{tikzpicture}
+\end{center}
+
+To make things concrete, let's consider this in the context of the source logic $\Sigma$ being identified with the instantiation of $\NL_{\diamond,\Box}$ of the previous section, and the target logic $\Tau$ being its $\ILL_{\li}$ mirror image.
+We will denote with $\propcon^X$ the set of atomic types, of which $\types^X$ the inductive closure of well-formed types, and $\cons^X$ and $\vars^{X}$ the sets of constants (words) and variables, of which $\terms^X$ the inductive closure $\lambda$ of well-formed terms, using the superscript $X := \Sigma \ | \ \Tau$ to distinguish between the two logics.
+The homomorphism $\hm{.}$ operates on proofs, i.e. typed terms, and thus does double duty: it transforms both terms and types of $\Sigma$ to corresponding terms and types of $\Tau$.
+It is handy, then, to define it on the basis of two components $\langle \eta, \theta \rangle$, where $\eta : \types^{\Sigma} \to \types^{\Tau}$ and $\theta: \terms^{\Sigma} \to \terms^{\Tau}$, such that $\hm{\smallterm{s}: \smallprop{A}} = \theta({\smallterm{s}}) : \eta({\smallprop{A}})$, where the typing relation at the right-hand side of the equation must hold (i.e. the two maps mutually respect derivability).
+On the type level, $\eta$ must specify a pointwise mapping $\eta_0$ from the propositional constants $\propcon^{\Sigma}$ of the source logic to types $\types^{\Tau}$ of the target logic.
+In our case, we will consider this a bijection from $\propcon^{\Sigma}$ to $\propcon^{\Tau}$, such that $\eta_0(p) \mapsto p$ (i.e. instantiating $\propcon^{\Tau}$ as a literal copy of $\propcon^{\Sigma}$).
+Then, to extend $\eta_0$ to $\eta$ we need to specify its action on complex types, where it essentially forgets the unary modalities and removes the directionality of the implications:
+\begin{table}[ht]
+	\centering
+	\begin{tabularx}{0.51\textwidth}{@{}c@{\quad$\mapsto$\quad}c@{}}
+		\multicolumn{1}{@{}c}{$\types^{\Sigma}$} & \multicolumn{1}{c@{}}{$\types^{\Tau}$}\\
+		\toprule
+		$p \in \propcon^{\Sigma}$							& $\eta_0(p) := p \in \propcon^{\Tau}$\\
+		$\smallprop{A}\divleft\smallprop{B}$,		
+		$\smallprop{B}\divright\smallprop{A}$				& $\eta(\smallprop{A})\li\eta(\smallprop{B})$\\
+		$\diamond\smallprop{A}$, 	$\Box\smallprop{A}$		& $\eta(\smallprop{A})$
+	\end{tabularx}
+	\caption{Inductive definition of $\eta$.}
+	\label{todo}
+\end{table}
+
+\noindent In the exact same vein, $\theta$ pointwise sends constants and variables to their copycat images, and is then inductively defined on complex terms, where it casts directional applications and abstractions to undirectional ones, drops modal decorations and performs the simplified substitution prescribed by the $\diamond E$ rule:
+\begin{table}[ht]
+	\centering
+	\begin{tabularx}{0.52\textwidth}{@{}c@{\quad$\mapsto$\quad}c@{}}
+		\multicolumn{1}{@{}c}{$\terms^{\Sigma}$} & \multicolumn{1}{c@{}}{$\terms^{\Tau}$}\\
+		\toprule
+		$\w{c} \in \cons^{\Sigma}$							& $\theta_0(\w{c}) := \w{c} \in \cons^{\Tau}$\\
+		$\smallterm{x_i} \in \vars^{\Sigma}$				& $\theta_0(\smallterm{x_i}) := \smallterm{x} \in\vars^{\Tau}$\\
+		$\smallterm{s}\nappright\smallterm{t}$, 		
+		$\smallterm{t}\nappleft\smallterm{s}$				& $\theta(\smallterm{s})~\theta(\smallterm{t})$\\
+		$\lambda\smallterm{x_i}.s$,
+		$\adbmal\smallterm{x_i}.s$							& $\lambda\theta(\smallterm{x_i}).\theta(\smallterm{s})$\\
+		$\diaintro \smallterm{s}$, 
+		$\boxintro \smallterm{s}$, 
+		$\boxelim \smallterm{s}$							& $\theta(\smallterm{s})$\\
+		$\caseof{\diaelim \smallterm{t}}{\smallterm{x_i}}{\smallterm{s}}$
+															& $\theta(\smallterm{s})_{[\theta(\smallterm{x_i}) \mapsto \theta(\smallterm{t})]}$
+	\end{tabularx}
+	\caption{Inductive definition of $\theta$.}
+	\label{todo}
+\end{table}
+
+If this navigation between syntactic and semantic theories would be a naval voyage, the Curry-Howard isomorphism would be its North Star.
+Syntactic proofs are equated to syntactic terms, on which our homomorphism can be applied to yield derivational semantics terms, in turn equatable to derivational semantics proofs.
+This might seem like a lot of work to simply ``forget'' syntax, but it showcases how one can step up the computational hierarchy of substructural logics in order to attain access to more expressive semantics.
+Note also that such a path is merely a suggestion and not an imperative; a more ambitious line of though could maintain that word order variations (and the structural rules licensing them) can carry semantic cues which, albeit subtle, need to be upheld in the compositional meaning translation (see for instance \citet{duarte2022quantum} for some exotic interpretations of the control modalities).
+
+\paragraph{The Role of the Lexicon}
+The sentiments of the previous paragraph could be met with some skepticism.
+A critical eye might argue that semantic interactions not already manifested in the syntax may never be born of this process, and thus wonder whether this added expressivity can serve any real purpose or offer any tangible benefits.
+To dispel such doubts, we need to keep in mind that derivational terms refrain from specifying \textit{lexical meaning}, i.e. they treat lexical items as black boxes, from a semantic perspective.
+Opening these black boxes would reveal flat entries (i.e. term constants) in the case of words providing meaning \textit{ingredients}, as opposed to structurally rich entries (i.e. complex terms with internal structure) in the case of words providing meaning \textit{recipes}.%
+\footnote{This distinction is usually paralleled with the linguistic distinction between \textit{content} and \textit{function} words, but commiting to this being the case is an unecessary restriction. Depending on the end-target semantics logic and the granularity of the semantic lexicon, content words might still be assigned complex term structure -- a common trick, for instance, in delivering dependent type semantics; see \citet{chatzikyriakidis2020formal} for an overview of recent developments.}
+Structurally rich lexical entries can utilize \textit{any} term constructor made available by the semantic logic; crucially, this includes constructors that escape the narrow borders of the homomorphic codomain (i.e. do not have a syntactic origin).
+Of course, such terms are still bound by the promise to obay the type dictated by the homomorphic translation of their original syntactic type, and must also be derivable theorems of the semantic logic they live in.
+Increasing expressivity therefore may indeed not in itself add to the function-argument structures inherited by syntax, but provides the tools necessary for complex lexical semantic actions to take effect as needed.
+
+A case in point is the coordinator \textex{and} conjoining the two modifiers of the previous section: \textex{litten by \dots \textbf{and} having in \dots}.
+Each conjunct fulfills a descriptive filter that intersects the properties of its argument with the properties attributed by its internal meaning.
+That is, of all objects of type $\smallprop{NP}$, the first modifier withdraws all but those lit by unseeable suns, wheres the second one withdraws all but those with weird entities in their whirlpools.
+For the full conjunction to have the intended meaning, i.e. evoke the image of exclusively this subset of oceans characterized by both the above properties, the coordinator would need to enact the role of a portable implementation of function composition
+$\lambda \smallterm{x_1x_2x_3.x_1~(x_2~x_3)}$, so as to allow the iteration of the intersective modifiers.%
+\footnote{Before anyone gets angry: I am not pitching some provocative theory of conjunction semantics here -- just trying to make a point.}
+Even though no non-standard term constructors are to be found in this recipe, it is nontheless \textit{not} a theorem of the source logic, as function composition is not derivable in $\NL$.
+A further passage from $\ILL$ to $\IL$ would give access to non-linear semantics, permitting the resource duplication necessary for resolving ellipses, etc.
+% its argument would need to be distributed along both its constituents.
+%Such a task involves resource duplication, which is clearly beyond the abilities of our derivational logic, pointing towards a need for 
+%The problem dissolves in a non-linear semantic domain, where \textex{and} could be assigned the semantic term
+%\[
+%	\lambda x_1^{e\ii e}x_2^{e\ii e}x_3^{e}.(x_1~x_3) \wedge (x_2~x_3)
+%\]
+%Upon however conducting another passage to $\IL_{\ii}$
+%Each conjunct has an intersective meaning by attributing to \textex{opiate oceans}
+%, where each conjunct fulfills a descriptive role.
+%For the  reading to be extracted, \textex{and} must be seen as supplying a
+
+% case in point
+
+
+% loop back to montague semantics
+% possibility of using bracketing order semantics
+% continuations
+% role of the lexicon
+ 
+%We will focusprovide a brief introduction focusing on the key aspects of interest.
 % proof net
-% actual example
 % syntax-semantics
 % lexical semantics
 
@@ -2080,6 +2205,7 @@ The connotation of this is that even though backwards proof search in $\NL$ may 
 %\end{table}
 
 \subsection{Abstract Categorial Grammars}
+\label{subsection:ACG}
 
 \subsection{Other Formalisms}
 
