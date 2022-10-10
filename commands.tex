@@ -98,7 +98,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                  term / type / rule macros
-\newcommand{\smallprop}[1]{	\ensuremath{\textsc{\uppercase{\normalfont\textsc{#1}}}}}
+\newcommand{\smallprop}[1]{	\ensuremath{\normalfont\textsc{\lowercase{#1}}}}
 \newcommand{\prop}[1]{\ensuremath{\vnorm{\smallprop{#1}}}}
 \newcommand{\smallterm}[1]{\ensuremath{\mathsf{#1}}}
 \newcommand{\term}[1]{\smallterm{#1}}
@@ -123,10 +123,10 @@
 \newcommand{\nappright}{\ensuremath{\blacktriangleleft}}
 \newcommand{\nappleft}{	\ensuremath{\blacktriangleright}}
 \newcommand{\adbmal}{\scalebox{-1}[1]{\ensuremath{\lambda}}}
-\newcommand{\types}{\ensuremath{\mathcal{T}}}
-\newcommand{\terms}{\ensuremath{\mathcal{L}}}
-\newcommand{\cons}{\ensuremath{\mathcal{C}}}
-\newcommand{\vars}{\ensuremath{\mathcal{V}}}
+\newcommand{\types}{\ensuremath{\mathcal{U}}}
+\newcommand{\terms}{\ensuremath{\smallterm{Terms}}}
+\newcommand{\cons}{\ensuremath{\smallterm{Cons}}}
+\newcommand{\vars}{\ensuremath{\smallterm{Vars}}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					grammar shortcuts

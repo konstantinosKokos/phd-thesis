@@ -60,7 +60,7 @@ Focusing on the disjunction-free fragment of the logic, we have a tiny recursive
 \footnote{The full logic also includes disjunctive formulas, but we will skip them from this presentation as they are of little interest to us. For brevity, we will from now on use intuitionistic logic to refer to its disjunction-free fragment.}
 Given some finite set of \textit{propositional constants} (or \textit{atomic formulas}) \propcon{}, and \prop{A}, \prop{B}, \prop{C} arbitrary well-formed propositions, the language of propositions in Backus-Naur form is inductively defined as:
 \begin{equation}
-\prop{A}, \prop{B}, \prop{C} ::= p \ | \ \prop{A} \ii \\prop{B} \ | \ \prop{A} \times \prop{B} 
+\prop{A}, \prop{B}, \prop{C} ::= p \ | \ \prop{A} \ii \prop{B} \ | \ \prop{A} \times \prop{B} 
 \tag{$\IL_{\ii, \times}$}
 \label{grammar:IL}
 \end{equation}
@@ -864,15 +864,15 @@ Regardless of what it might have been, we cannot reasonably anticipate there to 
 	$
 	}
 	};
-	\node[focus] (ak) at (0.5875, 1.125) {};
-	\node[focus] (am) at (3.785,  1.125) {};
+	\node[focus] (ak) at (0.51, 1.125) {};
+	\node[focus] (am) at (3.5,  1.125) {};
 	\draw[link, <-] (ak) to[bend left=45] (am); %$(am.north)$);
-	\node[focus] (bl1) at	(1.475, 1.125) {};
-	\node[focus] (bl2) at (2.5, 0.525) {};
+	\node[focus] (bl1) at	(1.35, 1.125) {};
+	\node[focus] (bl2) at (2.35, 0.525) {};
 	\draw[link, ->] (bl1) -- (bl2);
-	\node[focus] (bi) at (-3.475, 0.525) {};
-	\node[focus] (cj1) at (-2.55, 0.525) {};
-	\node[focus] (cj2) at (0.65, -0.075) {};	
+	\node[focus] (bi) at (-3.3, 0.525) {};
+	\node[focus] (cj1) at (-2.5, 0.525) {};
+	\node[focus] (cj2) at (0.6, -0.075) {};	
 	\draw[link, <-] (bi) to[bend left=60] (bl2);
 	\draw[link, ->] (cj1) -- (cj2);
 	\end{tikzpicture}
@@ -1181,7 +1181,7 @@ or (ii) the monotonic behavior of its parts:
 \begin{center}
 	\begin{tabularx}{0.35\textwidth}{@{}ccc@{}}
 		$\prop{A} \vdash \prop{B}$ & $\implies$ & $\diamond \prop{A}\vdash \diamond\prop{B}$\\
-		$\prop{A} \vdash \prop{B}$ & $\implies$ & $ \Box{A}\vdash \Box\prop{B}$\\
+		$\prop{A} \vdash \prop{B}$ & $\implies$ & $ \Box{\prop{A}}\vdash \Box\prop{B}$\\
 	\end{tabularx}
 \end{center}
 and the adjointness of their compositions, where $\diamond\Box(\_)$ is an \textit{interior} and $\Box\diamond(\_)$ a \textit{closure} operator:
@@ -2089,17 +2089,23 @@ A natural first stop would be that of $\ILL_{\li}$ as a \textit{derivational sem
 \begin{tikzpicture}
 	\node	(ss)  at (0, 0.5) 	{Surface Syntax};
 	\node[outer sep=10pt]	(nlp) at (0, 0) 	{$\Sigma := \logic{NL}_{\diamond,\Box}$};
-	\node	(ss)  at (6, 0.5) 	{Derivational Semantics};
-	\node[outer sep=10pt]  	(ill) at (6, 0) 	{$\Tau := \ILL_{\li}$};
+	\node	(ss)  at (4.75, 0.5) 	{Derivational Semantics};
+	\node[outer sep=10pt]  	(ill) at (4.75, 0) 	{$\Tau := \ILL_{\li}$};
 	\draw[->] (nlp) -- node[above] {$\hm{.}$}  (ill) ;
+	\node[outer sep=10pt] (target) at (9, 0)	{$?$};
+	\node	(ts)  at (9, 0.5) 	{Target Semantics};
+	\draw[->, dotted, thick] (ill) --  (target) ;
 \end{tikzpicture}
 \end{center}
 
-To make things concrete, let's consider this in the context of the source logic $\Sigma$ being identified with the instantiation of $\NL_{\diamond,\Box}$ of the previous section, and the target logic $\Tau$ being its $\ILL_{\li}$ mirror image.
-We will denote with $\propcon^X$ the set of atomic types, of which $\types^X$ the inductive closure of well-formed types, and $\cons^X$ and $\vars^{X}$ the sets of constants (words) and variables, of which $\terms^X$ the inductive closure $\lambda$ of well-formed terms, using the superscript $X := \Sigma \ | \ \Tau$ to distinguish between the two logics.
+To make things concrete, let's consider this in the context of the source logic $\Sigma$ being identified with the instantiation of $\NL_{\diamond,\Box}$ of the previous section, and the intermediate logic $\Tau$ being its $\ILL_{\li}$ mirror image.
+Using the superscript $X := \Sigma \ | \ \Tau$ to distinguish between the two logics,
+we will denote with $\propcon^X$ the set of atomic types of X, and $\types^X$ its type universe, i.e. the inductive closure of types under type operators.
+Similarly, we will denote with $\cons^{X}$ its set of constants, $\vars^{X}$ its set of variable names, and $\terms^{X}$ its well-formed terms, i.e. the inductive closure of terms under term operators.
+
 The homomorphism $\hm{.}$ operates on proofs, i.e. typed terms, and thus does double duty: it transforms both terms and types of $\Sigma$ to corresponding terms and types of $\Tau$.
 It is handy, then, to define it on the basis of two components $\langle \eta, \theta \rangle$, where $\eta : \types^{\Sigma} \to \types^{\Tau}$ and $\theta: \terms^{\Sigma} \to \terms^{\Tau}$, such that $\hm{\smallterm{s}: \smallprop{A}} = \theta({\smallterm{s}}) : \eta({\smallprop{A}})$, where the typing relation at the right-hand side of the equation must hold (i.e. the two maps mutually respect derivability).
-On the type level, $\eta$ must specify a pointwise mapping $\eta_0$ from the propositional constants $\propcon^{\Sigma}$ of the source logic to types $\types^{\Tau}$ of the target logic.
+On the type level, $\eta$ must specify a pointwise mapping $\eta_0$ from the propositional constants $\propcon^{\Sigma}$ of the source logic to types $\types^{\Tau}$ of the intermediate logic.
 In our case, we will consider this a bijection from $\propcon^{\Sigma}$ to $\propcon^{\Tau}$, such that $\eta_0(p) \mapsto p$ (i.e. instantiating $\propcon^{\Tau}$ as a literal copy of $\propcon^{\Sigma}$).
 Then, to extend $\eta_0$ to $\eta$ we need to specify its action on complex types, where it essentially forgets the unary modalities and removes the directionality of the implications:
 \begin{table}[ht]
@@ -2123,7 +2129,7 @@ Then, to extend $\eta_0$ to $\eta$ we need to specify its action on complex type
 		\multicolumn{1}{@{}c}{$\terms^{\Sigma}$} & \multicolumn{1}{c@{}}{$\terms^{\Tau}$}\\
 		\toprule
 		$\w{c} \in \cons^{\Sigma}$							& $\theta_0(\w{c}) := \w{c} \in \cons^{\Tau}$\\
-		$\smallterm{x_i} \in \vars^{\Sigma}$				& $\theta_0(\smallterm{x_i}) := \smallterm{x} \in\vars^{\Tau}$\\
+		$\smallterm{x_i} \in \vars^{\Sigma}$				& $\theta_0(\smallterm{x_i}) := \smallterm{x_i} \in\vars^{\Tau}$\\
 		$\smallterm{s}\nappright\smallterm{t}$, 		
 		$\smallterm{t}\nappleft\smallterm{s}$				& $\theta(\smallterm{s})~\theta(\smallterm{t})$\\
 		$\lambda\smallterm{x_i}.s$,
@@ -2138,7 +2144,7 @@ Then, to extend $\eta_0$ to $\eta$ we need to specify its action on complex type
 	\label{todo}
 \end{table}
 
-If this navigation between syntactic and semantic theories would be a naval voyage, the Curry-Howard isomorphism would be its North Star.
+To this navigation between syntactic and semantic theories, the Curry-Howard isomorphism is the North Star.
 Syntactic proofs are equated to syntactic terms, on which our homomorphism can be applied to yield derivational semantics terms, in turn equatable to derivational semantics proofs.
 This might seem like a lot of work to simply ``forget'' syntax, but it showcases how one can step up the computational hierarchy of substructural logics in order to attain access to more expressive semantics.
 Note also that such a path is merely a suggestion and not an imperative; a more ambitious line of though could maintain that word order variations (and the structural rules licensing them) can carry semantic cues which, albeit subtle, need to be upheld in the compositional meaning translation (see for instance \citet{duarte2022quantum} for some exotic interpretations of the control modalities).
@@ -2154,58 +2160,76 @@ Of course, such terms are still bound by the promise to obay the type dictated b
 Increasing expressivity therefore may indeed not in itself add to the function-argument structures inherited by syntax, but provides the tools necessary for complex lexical semantic actions to take effect as needed.
 
 A case in point is the coordinator \textex{and} conjoining the two modifiers of the previous section: \textex{litten by \dots \textbf{and} having in \dots}.
-Each conjunct fulfills a descriptive filter that intersects the properties of its argument with the properties attributed by its internal meaning.
-That is, of all objects of type $\smallprop{NP}$, the first modifier withdraws all but those lit by unseeable suns, wheres the second one withdraws all but those with weird entities in their whirlpools.
-For the full conjunction to have the intended meaning, i.e. evoke the image of exclusively this subset of oceans characterized by both the above properties, the coordinator would need to enact the role of a portable implementation of function composition
-$\lambda \smallterm{x_1x_2x_3.x_1~(x_2~x_3)}$, so as to allow the iteration of the intersective modifiers.%
+Each individual conjunct fulfills a descriptive filter that intersects the properties of its argument with the properties attributed by its internal meaning.
+That is, of all objects of type $\smallprop{NP}$, the first modifier withdraws all but those lit by unseeable suns, whereas the second one withdraws all but those with weird entities in their whirlpools.
+For the full conjunction to have the intended meaning, i.e. evoke the image of exclusively this subset of oceans characterized by both the above properties, the coordinator would need to enact the role of a portable implementation of function composition:
+\[
+\lambda \smallterm{x_1x_2x_3.x_1~(x_2~x_3)} :: (\smallprop{np}\li \smallprop{np})\li(\smallprop{np}\li \smallprop{np})\li\smallprop{np}\li\smallprop{np}
+\]
+so as to allow the iteration of the intersective modifiers.%
 \footnote{Before anyone gets angry: I am not pitching some provocative theory of conjunction semantics here -- just trying to make a point.}
 Even though no non-standard term constructors are to be found in this recipe, it is nontheless \textit{not} a theorem of the source logic, as function composition is not derivable in $\NL$.
-A further passage from $\ILL$ to $\IL$ would give access to non-linear semantics, permitting the resource duplication necessary for resolving ellipses, etc.
-% its argument would need to be distributed along both its constituents.
-%Such a task involves resource duplication, which is clearly beyond the abilities of our derivational logic, pointing towards a need for 
-%The problem dissolves in a non-linear semantic domain, where \textex{and} could be assigned the semantic term
-%\[
-%	\lambda x_1^{e\ii e}x_2^{e\ii e}x_3^{e}.(x_1~x_3) \wedge (x_2~x_3)
-%\]
-%Upon however conducting another passage to $\IL_{\ii}$
-%Each conjunct has an intersective meaning by attributing to \textex{opiate oceans}
-%, where each conjunct fulfills a descriptive role.
-%For the  reading to be extracted, \textex{and} must be seen as supplying a
-
-% case in point
-
-
+In a set-theoretic semantics domain unbound by linearity constraints, another (perhaps more reasonable) translation might make use of an added operator $\wedge : * \to * \to *$ for set-theoretic intersection, to deliver the recipe:
+\[
+\lambda \smallterm{x_1x_2x_3.(x_1~x_3)\wedge(x_2~x_3)} :: (*\ii *)\ii(*\ii *)\ii * \ii *
+\]
+for $*$ an arbitrary set, substituted here by the interpretation target of $\smallprop{NP}$.
 % loop back to montague semantics
-% possibility of using bracketing order semantics
 % continuations
-% role of the lexicon
- 
-%We will focusprovide a brief introduction focusing on the key aspects of interest.
 % proof net
-% syntax-semantics
-% lexical semantics
-
-%\begin{table}
-%	\centering
-%	\begin{tabularx}{0.8\textwidth}{@{}CC@{}}
-%	\textbf{Logic}			& \textbf{Computer Science}\\
-%	\toprule
-%	Propositional Constant	& Base Type\\
-%	Logical Connectives 	& Type Constructors\\
-%	Implication				& Function Type\\
-%	Conjunction				& Product Type\\
-%	Axiom					& Variable\\
-%	Introduction Rule		& Constructor Pattern\\
-%	Elimination Rule		& Destructor Pattern\\
-%	Proof Normalization		& Computation\\
-%	Provability				& Type Inhabitation	 
-%	\end{tabularx}
-%	\caption{The Curry-Howard correspondence in tabular form.}
-%	\label{table:CHC}
-%\end{table}
 
 \subsection{Abstract Categorial Grammars}
 \label{subsection:ACG}
+Type-logical grammars are syntax-first, where by syntax we mean the latent process that forms grammatically correct sentences abiding to the linear order precedence and constituency restrictions imposed by the language.
+Another view on syntax is put forth by~\citet{curry1961some}, who stipulates that syntax is a two-layered hierarchy.
+In Curry's terms, the sort of syntax we have so far been modeling is \textit{tectogrammar}.
+in contrast, \textit{phenogrammar} is a deeper underlying process; one concerned solely with interpretation domains and function-argument scopes, that pays no heed to the concrete surface realization of a sentence -- exactly what we previously dubbed the derivational semantics.
+The question here is not one of the legitimacy of this distinction, but rather one of its operationalization.
+In the standard pipeline, to which the type-logical setup is no exception, the parameterization places phenogrammar at the topmost generating position, and obtains tectogrammar by homomorphically transforming the phenogrammatic parse.
+The inverse modeling is adopted by abstract categorial grammars~\cite{de2001towards} and the contemporary, closely related lambda grammars~\cite{muskens2001lambda}.
+These are tectogrammar-first formalisms that make extensive use of $\ILL_{\li}$ and the Curry-Howard isomoprhism to obtain tectogrammatical realizations and concrete semantics via homomorphic translations of the phenogrammatic parse.
+\begin{center}
+\begin{tikzpicture}
+	\node (ds)		at (0, 1.5)		{Phenogrammar};
+	\node (dsl)		at (0, 1)		{$\Sigma := \ILL_{\li}$};
+	\node (ss)		at (-4.5, 0)		{Tectogrammar};
+	\node (ssl)		at (-4.5, -0.5)	{$\Tau := \ILL_{\li}$};
+	\node (ls)		at (4.5, 0)		{Semantics};
+	\node (lsl)		at (4.5, -0.5)	{?};
+	\draw[->] (dsl) -- node[above] {$\hm{.}$}  (ss) ;
+	\draw[->,dotted,thick] (dsl) --	(ls) ;
+\end{tikzpicture}
+\end{center}
+
+Its original definition has an abstract categorial grammar consist of two instantiations $\Sigma$, $\Tau$ of $\ILL_{\li}$, and a map between them.
+The source instantiation $\Sigma$ provides a set of base types $\propcon^{\Sigma}$, and the so-called \textit{abstract vocabulary}: a set of \textit{abstract constants} $\cons^{\Sigma}$, each assigned a type from $\types^{\Sigma}$.
+The target instantation $\Tau$ provides another set of base types $\propcon^{\Tau}$, and constants $\cons^{\Tau}$ with types from $\types^{\Tau}$, called the \textit{object vocabulary}.
+The map between them is once again a homomomorphism $\hm{.}$, defined on the basis of $\langle \eta_0, \theta_0\rangle$.
+Not unlike before, $\eta_0$ is seen as implementing a mapping $\propcon^{\Sigma} \to \types^{\Tau}$, and $\theta_0$ a mapping $\cons^{\Sigma}\to \terms^{\Tau}$, both pointwise defined.
+Their homomorphic extension is trivially obtained by recursively defining their actions on implicational types, function terms and $\lambda$ abstractions, where they simply mimic the source type- and term- structure.
+
+Abstract categorial grammars are an elegant tool that has found extensive use as a meta-language for the formalization of formal languages.%
+\footnote{Funny that formal languages would benefit from formalization, you might think. If you're having trouble parsing this, consider that formal languages are essentially ad-hoc rules on strings; formalization is giving these rules the type-theoretic treatment they deserve and need, to \textit{really} become formal.}
+They are characterized by two measures of complexity: the maximal order of source constants' types, and the maximal order of the codomain of $\eta_0$;
+the two together constitute the grammar's \textit{class}.
+
+%$
+%	\mathrm{max}\left(\mathcal{O}(\smallprop{A}) \ | \ \smallterm{c}: \smallprop{A} \in \cons^{\Sigma}\right)
+%$
+%$
+%	\mathrm{max}\left(\eta_0(p) \ | \ p \in \propcon^{\Sigma} \right)
+%$
+
+%This can be used to 
+%Embedding each member of the Chomsky hierarchy into an abstract categoral grammar equivalent reveals an interesting pattern: the grammar's complexity 
+%It turns out that embedding the Chomsky hierarchy in 
+
+%Abstract categorial grammars stand out from the rest of the categorial family in not being lexicalized by default.
+%The conceptual separation between lexicon and rules no longer holds: rules are fixed to the ones supplied by $\ILL_{\li}$, but inference is largely guided by the abstract constants.
+%Abstract constants may contain lexical items that make their way to the final derivation, or simply compositional recipes that leave no imprint whatsoever.
+
+% elegant in modeling formal grammars, meta-language, computational hierarchy
+% bulky for real linguistic applications, all the weight on the lexicon
 
 \subsection{Other Formalisms}
 
