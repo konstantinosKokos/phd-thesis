@@ -1870,65 +1870,78 @@ The subject-relative case can easily be dealt with in a pure Lambek grammar, as 
 the same cannot be said for the object-relative case, whose structurally free gap seems to pose a challenge.
 The solution comes in the form of two distinct type assignments for the relativizer, one per grammatical role fulfilled:
 \begin{align*}
-	\w{that} &:: (\np\divleft\np)\divright(\np\divleft\s) \tag{subj-rel}\\
-	\w{that} &:: (\np\divleft\np)\divright(\s\divright\diamond\Box \np ) \tag{obj-rel}
+	\w{that} &:: \subcat{l}{rel}{s} := (\np\divleft\np)\divright(\np\divleft\s) \tag{subj-rel}\\
+	\w{that} &:: \subcat{l}{rel}{o} := (\np\divleft\np)\divright(\s\divright\diamond\Box \np ) \tag{obj-rel}
 \end{align*}
 The second version launches a mobile \np[s] hypothesis via the same diamond-box pattern showcased earlier.
-The proof of Figure~\ref{figure:lovecract_rel_clause} employs this typing in combination with the $\rulestyle{ass}_{\diamond}$ rule to derive the object-relative clause \textex{that the eye may never behold} -- we can now use it to modify the \textex{suns} of Figure~\ref{figure:lovecract_rel_clause}, bringing us one step closer to success.
+The proof of Figure~\ref{figure:lovecract_rel_clause} employs this typing in combination with the $\rulestyle{ass}_{\diamond}$ rule to derive the object-relative clause \textex{that the eye may never behold}, which applied to \textex{suns} and combined with the proof of Figure~\ref{figure:lovecraft_postnominal} yields the correct form of the postnominal modifier \textex{opiate oceans poured there, litten by suns that the eye may never behold}, bringing us one step closer to success.
 
-\begin{figure}
+\begin{figure}[ht]
 	\centering
 	\begin{subfigure}{1\textwidth}
 		\smaller
 		\[
-						\infer[\rulestyle{ass}_{\diamond}]{((\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind\w{behold})))\sbind\bracket{\term{x_i}}\vdash \s}{
-				\infer[\rulestyle{ass}_{\diamond}]{(\w{the}\sbind\w{eye})\sbind((\w{may}\sbind(\w{never}\sbind\w{behold}))\sbind\bracket{\term{x_i}})\vdash \s}{
-					\infer[\rulestyle{ass}_{\diamond}]{(\w{the}\sbind\w{eye})\sbind(\w{may}\sbind((\w{never}\sbind\w{behold})\sbind\bracket{\term{x_i}}))\vdash \s}{
-						\infer[\divleft E]{(\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind(\w{behold}\sbind\bracket{\term{x_i}})))\vdash \s}{
-							\infer{\w{the}\sbind\w{eye} \vdash \np}{\text{(\ref{subfigure:the_eye})}}
-							&
-							\infer[\divright E]{\w{may}\sbind(\w{never}\sbind(\w{behold}\sbind\bracket{\term{x_i}})) \vdash \np\divleft\s}{
-								\infer[\Lex]{\w{may} : \gtype{aux}}{}
-								&
-								\infer[\divright E]{\w{never}\sbind(\w{behold}\sbind\bracket{\term{x_i}}) \vdash \np\divleft\s}{
-									\infer[\Lex]{\w{never}:\smallgtype{adv}_{\divright}}{}
-									&
-									\infer[\divright E]{\w{behold}\sbind{\bracket{\term{x_i}}} \vdash \np\divleft\s}{
-										\infer[\Lex]{\w{behold}: \gtype[l]{tv}}{}
-										&
-										\infer[\Box E]{\bracket{\term{x_i}} \vdash \np}{
-											\infer[\Ax]{\term{x_i} : \Box \np}{}
+			\infer[\divright E]{\gamma := \w{that}\sbind((\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind\w{behold}))) \vdash \np\divleft\np}{
+				\infer[\Lex]{\w{that} : \subcat{l}{rel}{o}}{}
+				&
+				\hspace{-40pt}\infer[\divright I]{(\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind\w{behold})) \vdash \s\divright\diamond\Box\np}{
+						\infer[\diamond E]{((\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind\w{behold})))\sbind\term{x_j}\vdash \s}{
+							\infer[\rulestyle{ass}_{\diamond}]{((\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind\w{behold})))\sbind\bracket{\term{x_i}}\vdash \s}{
+								\infer[\rulestyle{ass}_{\diamond}]{(\w{the}\sbind\w{eye})\sbind((\w{may}\sbind(\w{never}\sbind\w{behold}))\sbind\bracket{\term{x_i}})\vdash \s}{
+									\infer[\rulestyle{ass}_{\diamond}]{(\w{the}\sbind\w{eye})\sbind(\w{may}\sbind((\w{never}\sbind\w{behold})\sbind\bracket{\term{x_i}}))\vdash \s}{
+										\infer[\divleft E]{(\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind(\w{behold}\sbind\bracket{\term{x_i}})))\vdash \s}{
+											\infer{\w{the}\sbind\w{eye} \vdash \np}{\text{(\ref{subfigure:the_eye})}}
+											&
+											\infer[\divright E]{\w{may}\sbind(\w{never}\sbind(\w{behold}\sbind\bracket{\term{x_i}})) \vdash \np\divleft\s}{
+												\infer[\Lex]{\w{may} : \gtype{aux}}{}
+												&
+												\infer[\divright E]{\w{never}\sbind(\w{behold}\sbind\bracket{\term{x_i}}) \vdash \np\divleft\s}{
+													\infer[\Lex]{\w{never}:\smallgtype{adv}_{\divright}}{}
+													&
+													\infer[\divright E]{\w{behold}\sbind{\bracket{\term{x_i}}} \vdash \np\divleft\s}{
+														\infer[\Lex]{\w{behold}: \gtype[l]{tv}}{}
+														&
+														\infer[\Box E]{\bracket{\term{x_i}} \vdash \np}{
+															\infer[\Ax]{\term{x_i} : \Box \np}{}
+														}
+													}
+												}
+											}
 										}
 									}
 								}
-							}
+							}						
+							&
+							\hspace{-52pt}
+							\infer[\Ax]{\term{x_j}: \diamond\Box \np}{}
 						}
 					}
 				}
-			}
 		\]
-		\caption{Extracting a hypothetical direct object..}
-		\label{subfigure:lovecraft_rel_clause:movement}
+		\caption{Deriving an object-relative clause..}
+		\label{subfigure:lovecraft_rel_clause:rc}
 	\end{subfigure}\\[\smallsep]
 	\begin{subfigure}{1\textwidth}
 		\smaller
 		\[
-			\infer[\divright E]{\w{that}\sbind((\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind\w{behold}))) \vdash \np\divleft\np}{
-				\infer[\Lex]{\w{that} : (\np\divleft\np)\divright(\s\divright\diamond\Box\np)}{}
+			\infer[\divright E]{\w{litten}\sbind(\w{by}\sbind(\w{suns}\sbind\w{that}\sbind((\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind\w{behold}))))) \vdash \diamond\Box(\np\divleft\np)}{
+				\infer[\Lex]{\w{litten} : \diamond\Box(\np\divleft\np)\divright\pp}{}
 				&
-				\hspace{-10pt}\infer[\divright I]{(\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind\w{behold})) \vdash \s\divright\diamond\Box\np}{
-					\infer[\diamond E]{((\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind\w{behold})))\sbind\term{x_j}\vdash \s}{
-						\infer{((\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind\w{behold})))\sbind\bracket{\term{x_i}}\vdash \s}{\text{(\ref{subfigure:lovecraft_rel_clause:movement})}}
+				\infer[\divright E]{\w{by}\sbind(\w{suns}\sbind\gamma) \vdash \pp}{
+					\infer[\Lex]{\w{by} : \pp \divright \np}{}
+					&
+					\infer[\divleft E]{\w{suns}\sbind\gamma \vdash \np}{
+						\infer[\Lex]{\w{suns}: \np}{}
 						&
-						\infer[\Ax]{\term{x_j}: \diamond\Box \np}{}
+						\infer{\gamma \vdash \np\divleft\np}{}
 					}
 				}
 			}
 		\]
-		\caption{..before abstracting over the bracketed hypothesis and applying the relativizer.}
-		\label{subfigure:lovecraft_rel_clause:substitution}
+		\caption{..and using it to derive the full long-distance postnominal modifier.}
+		\label{subfigure:lovecraft_rel_clause:suns}
 	\end{subfigure}
-	\caption{Deriving an object-relative clause.}
+	\caption{The object-relative clause in action.}
 	\label{figure:lovecract_rel_clause}
 \end{figure}
 
@@ -1986,7 +1999,7 @@ Collaging these last bits together is left as an exercise to the motivated reade
 	\begin{subfigure}{1\textwidth}
 		\smaller[2]
 			\[
-				\infer[\divleft E]{\gamma := (\w{strange}\sbind\w{dolphins})\sbind(\w{and}\sbind(\w{sea-nymphs}\sbind(\w{of}\sbind(\w{unrememberable}\sbind\w{deeps}))))\vdash \np}{
+				\infer[\divleft E]{\delta := (\w{strange}\sbind\w{dolphins})\sbind(\w{and}\sbind(\w{sea-nymphs}\sbind(\w{of}\sbind(\w{unrememberable}\sbind\w{deeps}))))\vdash \np}{
 					\infer{\w{strange}\sbind\w{dolphins} \vdash \np}{\text{(\ref{subfigure:strange_dolphins})}}
 					&
 					\infer[\divright E]{\w{and}\sbind(\w{sea-nymphs}\sbind(\w{of}\sbind(\w{unrememberable}\sbind\w{deeps}))) \vdash \np\divleft\np}{
@@ -2003,7 +2016,7 @@ Collaging these last bits together is left as an exercise to the motivated reade
 	\begin{subfigure}{1\textwidth}
 		\smaller[2]
 		\[
-			\infer[\divright E]{(\w{having}\sbind(\w{in}\sbind(\w{their}\sbind\w{whirlpools})))\sbind\gamma) \vdash \diamond\Box(\np\divleft\np)}{
+			\infer[\divright E]{(\w{having}\sbind(\w{in}\sbind(\w{their}\sbind\w{whirlpools})))\sbind\delta) \vdash \diamond\Box(\np\divleft\np)}{
 				\infer[\divright E]{\w{having}\sbind(\w{in}\sbind(\w{their}\sbind\w{whirlpools})) \vdash \diamond\Box(\np\divleft\np)\divright\np}{
 					\infer[\Lex]{\w{having}: (\diamond\Box(\np\divleft\np)\divright\np)\divright\pp}{}
 					&
@@ -2019,7 +2032,7 @@ Collaging these last bits together is left as an exercise to the motivated reade
 				}
 				&
 				\hspace{-10pt}
-				\infer{\gamma \vdash \np}{\text{(\ref{subfigure:strange_dolphins_and_sea_nymphs})}}
+				\infer{\delta \vdash \np}{\text{(\ref{subfigure:strange_dolphins_and_sea_nymphs})}}
 			}
 		\]
 		\caption{..and using it to construct yet another postnominal modifier.}
@@ -2085,6 +2098,12 @@ The only constraint imposed is the only one that matters: the high-level princip
 
 Interestingly, the approach permits a division of labour between syntax, semantics and everything in between: the end-to-end translation can be decomposed into a sequence of homomorphisms, each intermediate step explicating an additional layer of added expressivity (or fortfeited structure) and singling out a subset of the desiderata towards the end-target.
 A natural first stop would be that of $\ILL_{\li}$ as a \textit{derivational semantics} logic: it captures the function-argument structures prescribed by the syntactic proof and respects its no-reuse principle, but without the semantically void headaches of order and bracketing structures, or that of the rules manipulating them. 
+
+To make things concrete, let's consider this in the context of the source logic $\Sigma$ being identified with the instantiation of $\NL_{\diamond,\Box}$ of the previous section, and the intermediate logic $\Tau$ being its $\ILL_{\li}$ mirror image.
+Using the superscript $X := \Sigma \ | \ \Tau$ to distinguish between the two logics,
+we will denote with $\propcon^X$ the set of atomic types of X, and $\types^X$ its type universe, i.e. the inductive closure of types under type operators.
+Similarly, we will denote with $\cons^{X}$ its set of constants, $\vars^{X}$ its set of variable names, and $\terms^{X}$ its well-formed terms, i.e. the inductive closure of terms under term operators.
+
 \begin{center}
 \begin{tikzpicture}
 	\node	(ss)  at (0, 0.5) 	{Surface Syntax};
@@ -2098,18 +2117,12 @@ A natural first stop would be that of $\ILL_{\li}$ as a \textit{derivational sem
 \end{tikzpicture}
 \end{center}
 
-To make things concrete, let's consider this in the context of the source logic $\Sigma$ being identified with the instantiation of $\NL_{\diamond,\Box}$ of the previous section, and the intermediate logic $\Tau$ being its $\ILL_{\li}$ mirror image.
-Using the superscript $X := \Sigma \ | \ \Tau$ to distinguish between the two logics,
-we will denote with $\propcon^X$ the set of atomic types of X, and $\types^X$ its type universe, i.e. the inductive closure of types under type operators.
-Similarly, we will denote with $\cons^{X}$ its set of constants, $\vars^{X}$ its set of variable names, and $\terms^{X}$ its well-formed terms, i.e. the inductive closure of terms under term operators.
-
 The homomorphism $\hm{.}$ operates on proofs, i.e. typed terms, and thus does double duty: it transforms both terms and types of $\Sigma$ to corresponding terms and types of $\Tau$.
 It is handy, then, to define it on the basis of two components $\langle \eta, \theta \rangle$, where $\eta : \types^{\Sigma} \to \types^{\Tau}$ and $\theta: \terms^{\Sigma} \to \terms^{\Tau}$, such that $\hm{\smallterm{s}: \smallprop{A}} = \theta({\smallterm{s}}) : \eta({\smallprop{A}})$, where the typing relation at the right-hand side of the equation must hold (i.e. the two maps mutually respect derivability).
 On the type level, $\eta$ must specify a pointwise mapping $\eta_0$ from the propositional constants $\propcon^{\Sigma}$ of the source logic to types $\types^{\Tau}$ of the intermediate logic.
 In our case, we will consider this a bijection from $\propcon^{\Sigma}$ to $\propcon^{\Tau}$, such that $\eta_0(p) \mapsto p$ (i.e. instantiating $\propcon^{\Tau}$ as a literal copy of $\propcon^{\Sigma}$).
 Then, to extend $\eta_0$ to $\eta$ we need to specify its action on complex types, where it essentially forgets the unary modalities and removes the directionality of the implications:
-\begin{table}[ht]
-	\centering
+\begin{center}
 	\begin{tabularx}{0.51\textwidth}{@{}c@{\quad$\mapsto$\quad}c@{}}
 		\multicolumn{1}{@{}c}{$\types^{\Sigma}$} & \multicolumn{1}{c@{}}{$\types^{\Tau}$}\\
 		\toprule
@@ -2118,13 +2131,9 @@ Then, to extend $\eta_0$ to $\eta$ we need to specify its action on complex type
 		$\smallprop{B}\divright\smallprop{A}$				& $\eta(\smallprop{A})\li\eta(\smallprop{B})$\\
 		$\diamond\smallprop{A}$, 	$\Box\smallprop{A}$		& $\eta(\smallprop{A})$
 	\end{tabularx}
-	\caption{Inductive definition of $\eta$.}
-	\label{todo}
-\end{table}
-
-\noindent In the exact same vein, $\theta$ pointwise sends constants and variables to their copycat images, and is then inductively defined on complex terms, where it casts directional applications and abstractions to undirectional ones, drops modal decorations and performs the simplified substitution prescribed by the $\diamond E$ rule:
-\begin{table}[ht]
-	\centering
+\end{center}
+In the exact same vein, $\theta$ pointwise sends constants and variables to their copycat images, and is then inductively defined on complex terms, where it casts directional applications and abstractions to undirectional ones, drops modal decorations and performs the simplified substitution prescribed by the $\diamond E$ rule:
+\begin{center}
 	\begin{tabularx}{0.52\textwidth}{@{}c@{\quad$\mapsto$\quad}c@{}}
 		\multicolumn{1}{@{}c}{$\terms^{\Sigma}$} & \multicolumn{1}{c@{}}{$\terms^{\Tau}$}\\
 		\toprule
@@ -2140,11 +2149,13 @@ Then, to extend $\eta_0$ to $\eta$ we need to specify its action on complex type
 		$\caseof{\diaelim \smallterm{t}}{\smallterm{x_i}}{\smallterm{s}}$
 															& $\theta(\smallterm{s})_{[\theta(\smallterm{x_i}) \mapsto \theta(\smallterm{t})]}$
 	\end{tabularx}
-	\caption{Inductive definition of $\theta$.}
-	\label{todo}
-\end{table}
+\end{center}
+As an example, applying $\hm{.}$ to the proof of Figure~\ref{figure:lovecract_rel_clause} yields the derivational term:
+\[
+\term{litten~(by~(that~(\lambda x_i.(may~(never~(behold~x_i)))~(the~eye)))~(suns))} : \prop{np}\li\prop{np}
+\]
 
-To this navigation between syntactic and semantic theories, the Curry-Howard isomorphism is the North Star.
+In this navigation between syntactic and semantic theories, the Curry-\linebreak Howard isomorphism serves as our North Star.
 Syntactic proofs are equated to syntactic terms, on which our homomorphism can be applied to yield derivational semantics terms, in turn equatable to derivational semantics proofs.
 This might seem like a lot of work to simply ``forget'' syntax, but it showcases how one can step up the computational hierarchy of substructural logics in order to attain access to more expressive semantics.
 Note also that such a path is merely a suggestion and not an imperative; a more ambitious line of though could maintain that word order variations (and the structural rules licensing them) can carry semantic cues which, albeit subtle, need to be upheld in the compositional meaning translation (see for instance \citet{duarte2022quantum} for some exotic interpretations of the control modalities).
@@ -2180,18 +2191,22 @@ for $*$ an arbitrary set, substituted here by the interpretation target of $\sma
 
 \subsection{Abstract Categorial Grammars}
 \label{subsection:ACG}
-Type-logical grammars are syntax-first, where by syntax we mean the latent process that forms grammatically correct sentences abiding to the linear order precedence and constituency restrictions imposed by the language.
-Another view on syntax is put forth by~\citet{curry1961some}, who stipulates that syntax is a two-layered hierarchy.
-In Curry's terms, the sort of syntax we have so far been modeling is \textit{tectogrammar}.
-in contrast, \textit{phenogrammar} is a deeper underlying process; one concerned solely with interpretation domains and function-argument scopes, that pays no heed to the concrete surface realization of a sentence -- exactly what we previously dubbed the derivational semantics.
-The question here is not one of the legitimacy of this distinction, but rather one of its operationalization.
-In the standard pipeline, to which the type-logical setup is no exception, the parameterization places phenogrammar at the topmost generating position, and obtains tectogrammar by homomorphically transforming the phenogrammatic parse.
-The inverse modeling is adopted by abstract categorial grammars~\cite{de2001towards} and the contemporary, closely related lambda grammars~\cite{muskens2001lambda}.
-These are tectogrammar-first formalisms that make extensive use of $\ILL_{\li}$ and the Curry-Howard isomoprhism to obtain tectogrammatical realizations and concrete semantics via homomorphic translations of the phenogrammatic parse.
+The computational pipeline of the previous section is of sequential form; at its origin point is the syntactic calculus, from which derivational and then lexical semantics are iteratively obtained.
+In that sense, type-logical grammars are syntax first, where syntax is meant to convey the hidden process that forms grammatically correct sentences.
+This is not incompatible with the view of \citet{curry1961some}, who stipulated a two-layered hierarchy of grammaticality criteria.
+The deep layer, called \textit{tectogrammar}, is one concerned solely with the well-typedness of grammatical function domains and the validity of their interpretations.
+The shallow layer, called \textit{phenogrammar}, is where tectogrammatical proofs are transformed and cast to surface forms that abide by the linear order precedence and constituency restrictions imposed by the language.
+There is no question of the legitimacy of this distinction: it should be clear that phenogrammar, in Curry's terms, is our syntactic logic, and tectogrammar is what we earlier referred to as derivational semantics.
+The type-logical operationalization can be seen as Aristotelian in nature (or parsing-oriented).
+It follows the path from observable evidence to latent variables: the surface string is perceived as the yield of a shallow proof, from which a deep proof is extracted.
+
+The inverse operationalization, more Platonic in nature (or generation-oriented), follows the opposite path: it places phenogrammar at the top of the generative process, and models the information flow from deep and abstract to shallow and concrete.
+This perspective is adopted by abstract categorial grammars~\cite{de2001towards} and their contemporary and closely related lambda grammars~\cite{muskens2001lambda}.
+Both are tectogrammar-first formalisms that make extensive use of $\ILL_{\li}$ and the Curry-Howard isomoprhism to obtain tectogrammatical realizations and concrete semantics via homomorphic translations of the phenogrammatic parse.
 \begin{center}
 \begin{tikzpicture}
-	\node (ds)		at (0, 1.5)		{Phenogrammar};
-	\node (dsl)		at (0, 1)		{$\Sigma := \ILL_{\li}$};
+	\node (ds)		at (0, 2)		{Phenogrammar};
+	\node (dsl)		at (0, 1.5)		{$\Sigma := \ILL_{\li}$};
 	\node (ss)		at (-4.5, 0)		{Tectogrammar};
 	\node (ssl)		at (-4.5, -0.5)	{$\Tau := \ILL_{\li}$};
 	\node (ls)		at (4.5, 0)		{Semantics};
@@ -2201,35 +2216,39 @@ These are tectogrammar-first formalisms that make extensive use of $\ILL_{\li}$ 
 \end{tikzpicture}
 \end{center}
 
-Its original definition has an abstract categorial grammar consist of two instantiations $\Sigma$, $\Tau$ of $\ILL_{\li}$, and a map between them.
+The focal point will be abstract categorial grammars, as they are closer in spirit to what is to come later.
+In its original definition, an abstract categoral grammar consist of two instantiations $\Sigma$, $\Tau$ of $\ILL_{\li}$, and a map between them.
 The source instantiation $\Sigma$ provides a set of base types $\propcon^{\Sigma}$, and the so-called \textit{abstract vocabulary}: a set of \textit{abstract constants} $\cons^{\Sigma}$, each assigned a type from $\types^{\Sigma}$.
 The target instantation $\Tau$ provides another set of base types $\propcon^{\Tau}$, and constants $\cons^{\Tau}$ with types from $\types^{\Tau}$, called the \textit{object vocabulary}.
 The map between them is once again a homomomorphism $\hm{.}$, defined on the basis of $\langle \eta_0, \theta_0\rangle$.
 Not unlike before, $\eta_0$ is seen as implementing a mapping $\propcon^{\Sigma} \to \types^{\Tau}$, and $\theta_0$ a mapping $\cons^{\Sigma}\to \terms^{\Tau}$, both pointwise defined.
 Their homomorphic extension is trivially obtained by recursively defining their actions on implicational types, function terms and $\lambda$ abstractions, where they simply mimic the source type- and term- structure.
+This formulation lends itself nicely to the notion of \textit{grammar composition}, if one is to use the object logic of a grammar as the abstract logic of another.
 
-Abstract categorial grammars are an elegant tool that has found extensive use as a meta-language for the formalization of formal languages.%
-\footnote{Funny that formal languages would benefit from formalization, you might think. If you're having trouble parsing this, consider that formal languages are essentially ad-hoc rules on strings; formalization is giving these rules the type-theoretic treatment they deserve and need, to \textit{really} become formal.}
-They are characterized by two measures of complexity: the maximal order of source constants' types, and the maximal order of the codomain of $\eta_0$;
-the two together constitute the grammar's \textit{class}.
+Each grammar is accompanied by two \textit{languages}; the abstract language, i.e. the set of terms of a \textit{distinguished} type $\smallprop{s}\in \propcon^{\Sigma}$ derivable in the source logic, and the object language, i.e. the set of object terms the abstract language maps into.
+For the phenogrammar to tectogrammar picture to be made evident, the distinguished type needs to be mapped to the string type $\smallprop{s} \mapsto \mathtt{str}$, forcing terms of the object language to evaluate to strings.%
+\footnote{Note that, despite appearances, $\mathtt{str}$ is a first-order type $*\li *$ ($*$ some arbitrary primitive) so as to permit the view of string concatenation as function composition:
+\[
++ := \lambda x_1^{\mathtt{str}}x_2^{\mathtt{str}}x_3^{*}.x_1~(x_2~x_3)
+\]}
 
-%$
-%	\mathrm{max}\left(\mathcal{O}(\smallprop{A}) \ | \ \smallterm{c}: \smallprop{A} \in \cons^{\Sigma}\right)
-%$
-%$
-%	\mathrm{max}\left(\eta_0(p) \ | \ p \in \propcon^{\Sigma} \right)
-%$
+Abstract categorial grammars are characterized by two measures of complexity: the maximal order of source constants' types, and the maximal order of the codomain of $\eta_0$.
+The two together constitute the grammar's \textit{class}, which concisely describes the sort of languages the grammar can model.
+This can prove effective in revealing a more granular stratification underlying the Chomsky hierarchy of formal grammars, when the latter are embedded into abstract categorial equivalents; as such, the framework has found extensive use as a meta-language for the study and formalization of formal grammars (see for instance \citet{de2004expressive}).%
+\footnote{There is a certain irony in formal grammars requiring or benefiting from formalization. If you're having trouble parsing this, consider that formal languages are essentially ad-hoc rules on strings; by formalization we mean giving these rules the type-theoretic treatment they deserve.}
 
-%This can be used to 
-%Embedding each member of the Chomsky hierarchy into an abstract categoral grammar equivalent reveals an interesting pattern: the grammar's complexity 
-%It turns out that embedding the Chomsky hierarchy in 
+Despite their elegance and objective success in the meta-theoretical world, abstract categorial grammars have not fared as well with linguistic applications, in large part due to their computationally costly nature.
+On the one hand, they stand out from the rest of the categorial family in not being lexicalized by default.
+The conceptual separation between lexicon and rules no longer holds: rules are fixed to the ones supplied by $\ILL_{\li}$, but inference is largely guided by the abstract constants.
+Abstract constants may contain lexical items that make their way to the final (object) derivation, or simply compositional recipes that leave no imprint whatsoever.
+At the same time, the framework is overly reliant on the constant map $\theta_0$ for the translation into the object language to take effect.
+Even in the lexicalized setup, every word (abstract constant) needs to be assigned both an abstract type and a unique object term for every phenogrammatic behavior it exhibits; two lexical dimensions, compared to the one of vanilla categorial grammars -- gone is the adage of words carrying their combinatorics on their sleeves.
+What's worse, words triggering higher-order tectogrammatic phenomena will then need object translations of an even higher order for their surface forms, making the design and population of the translation $\hm{.}$ practically impossible.
 
-%Abstract categorial grammars stand out from the rest of the categorial family in not being lexicalized by default.
-%The conceptual separation between lexicon and rules no longer holds: rules are fixed to the ones supplied by $\ILL_{\li}$, but inference is largely guided by the abstract constants.
-%Abstract constants may contain lexical items that make their way to the final derivation, or simply compositional recipes that leave no imprint whatsoever.
+% blocking overgeneration?
+% enforcing grammaticality
+% shortcuts flat, beats the purpose
 
-% elegant in modeling formal grammars, meta-language, computational hierarchy
-% bulky for real linguistic applications, all the weight on the lexicon
 
 \subsection{Other Formalisms}
 
@@ -2238,5 +2257,3 @@ the two together constitute the grammar's \textit{class}.
 
 \bibliographystyle{abbrvnat}
 \bibliography{bibliography}
-
-
