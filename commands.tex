@@ -18,6 +18,7 @@
 \usepackage{ifthen}
 \usepackage{hyperref}
 \usepackage{qtree}[center]
+\usepackage{calc}
 
 \newcommand{\todo}{\textcolor{red}{todo}}
 
@@ -127,6 +128,11 @@
 \newcommand{\terms}{\ensuremath{\smallterm{Terms}}}
 \newcommand{\cons}{\ensuremath{\smallterm{Cons}}}
 \newcommand{\vars}{\ensuremath{\smallterm{Vars}}}
+\newcommand{\str}[1]{\smallterm{\sslash #1\sslash}}
+\newcommand{\varx}{\smallterm{x_i}}
+\newcommand{\vary}{\smallterm{x_j}}
+\newcommand{\varz}{\smallterm{x_k}}
+\newcommand{\varw}{\smallterm{x_l}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					grammar shortcuts
@@ -208,3 +214,7 @@
 \newcommand{\copyleft}{\reflectbox{\copyright}}
 \newcommand{\greek}[1]{\mathrm{#1}}
 \newcommand{\Tau}{\greek{T}}
+\newcommand{\bred}{\overset{\beta}{\leadsto}}
+\newcommand{\bredstar}{\overset{\beta *}{\leadsto}}
+\newcommand{\qqquad}{\quad\qquad}
+\newcommand{\qqqquad}{\qquad\qquad}

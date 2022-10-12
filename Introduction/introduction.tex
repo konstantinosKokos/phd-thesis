@@ -254,7 +254,7 @@ Each logical rule is identified with a programming pattern: the axiom rule is va
 The question of whether a logical proposition is provable translates to the question of whether the corresponding type is inhabited; i.e. whether an object of such a type can be created -- we will refer to the latter as a \textit{well-formed} term.
 
 Rather than present a grammar of terms and later ground it in the logic, we will instead simply revisit the rules we established just above, now adorning each with a term rewrite instruction -- the result is a tiny yet still elegant and expressive type theory, presented in Figure~\ref{figure:simple_type_theory}.
-Given an enumerable set $\mathcal{V}$ of unique names for indexed variables, with elements \term{x_i}, and denoting arbitrary but well-formed terms with \term{s}, \term{t}, \term{u}, we will use $\term{s}: \prop{A}$ (or $\term{s}^{\smallprop{A}}$) to indicate that term \term{s} is of type \prop{A}.
+Given an enumerable set $\mathcal{V}$ of unique names for indexed variables, with elements \{\term{x_i, x_j, x_k, x_l, \dots}\}, and denoting arbitrary but well-formed terms with \term{s}, \term{t}, \term{u}, we will use $\term{s}: \prop{A}$ (or $\term{s}^{\smallprop{A}}$) to indicate that term \term{s} is of type \prop{A}.
 Assumptions $\Gamma$, $\Delta$ will now denote a \textit{typing environment}:
 \[
 \term x_1 : \prop  A_1 ,~ \term x_2 : \prop A_2 \dots ~ \term x_n : \prop A_n
@@ -264,28 +264,28 @@ i.e. rather than a sequence of formulas, we have a sequence of distinct variable
 \begin{figure}
 	\centering
 	\begin{tabularx}{0.975\textwidth}{@{}C@{~}C@{}}
-		\multicolumn{2}{@{}c@{}}{$\infer[\Ax]{\term{x_i} : \prop A \vdash \term{x_i} : \prop A}{}$}\\[2em]
+		\multicolumn{2}{@{}c@{}}{$\infer[\Ax]{\term{x_i } : \prop A \vdash \term{x_i } : \prop A}{}$}\\[2em]
 		$\infer[\ii E]{\Gamma, \Delta \vdash \term{s~t} : \prop B}{\Gamma \vdash \term{s} : \prop A \ii \prop B & \Delta \vdash \term{t} : \prop B}$ 
 		& 
-		$\infer[\ii I]{\Gamma \vdash \term{\lambda x_i.s} : \prop A \ii \prop B}{\Gamma, \term{x_i}: \prop A \vdash \term{s}:\prop B}$\\[2em]
+		$\infer[\ii I]{\Gamma \vdash \term{\lambda x_i .s} : \prop A \ii \prop B}{\Gamma, \term{x_i }: \prop A \vdash \term{s}:\prop B}$\\[2em]
 		$\infer[\times E]
 			{\Gamma,\Delta \vdash
-			 \cterm{case \term{s} of (\term{x_i}, \term{x_j}) in \term{t}} 
+			 \cterm{case \term{s} of (\term{x_i }, \term{x_j}) in \term{t}} 
 			 : \prop{C}}
 			{\Gamma \vdash \term{s}: \prop A \times \prop B & 
-			\Delta, \term{x_i}: \prop A , \term{x_j}: \prop B \vdash \term{t}: \prop{C}}$ 
+			\Delta, \term{x_i }: \prop A , \term{x_j}: \prop B \vdash \term{t}: \prop{C}}$ 
 		&
 		$\infer[\times I]
 			{\Gamma, \Delta \vdash \cterm{(\term{s}, \term{t})}: \prop{A} \times \prop{B}}
 			{\Gamma \vdash \term{s}: \prop{A} & \Delta \vdash \term{t}:\prop{B}}$\\[\smallsep]
 		\multicolumn{2}{@{}c@{}}{$\infer[\Exchange{}]{\Delta, \Gamma \vdash \term{s}: \prop{A}}{\Gamma, \Delta \vdash \term{s}: \prop{A}}$}\\[2em]
 		$\infer[\Weakening{}]
-			{\Gamma, \term{x_i}: \prop{A} \vdash \term{s}: \prop{B}}
+			{\Gamma, \term{x_i }: \prop{A} \vdash \term{s}: \prop{B}}
 			{\Gamma \vdash \term{s}:\prop{B}} $ 
 		&
 		$\infer[\Contraction{}]
-			{\Gamma, \term{x_k}: \prop{A} \vdash \term{s}_{[\term{x_i} \mapsto \term{x_k}, \term{x_j} \mapsto \term{x_k}]}:\prop{B}}
-			{\Gamma,  \term{x_i}: \prop{A}, \term{x_j}: \prop{A} \vdash \term{s}: \prop{B}}$
+			{\Gamma, \term{x_k}: \prop{A} \vdash \term{s}_{[\term{x_i } \mapsto \term{x_k}, \term{x_j} \mapsto \term{x_k}]}:\prop{B}}
+			{\Gamma,  \term{x_i }: \prop{A}, \term{x_j}: \prop{A} \vdash \term{s}: \prop{B}}$
 		\end{tabularx}
 	\caption{Simple type theory.}
 	\label{figure:simple_type_theory}
@@ -294,13 +294,13 @@ i.e. rather than a sequence of formulas, we have a sequence of distinct variable
 Inspecting Figure~\ref{figure:simple_type_theory}, things for the most part look good.
 The implication elimination rule $\ii E$ provides us with a composite term $\term{s~t}$ that denotes the function application of \textit{functor} \smallterm{s} on \textit{argument} \smallterm{t}.
 Function application is left-associative: $\term{s~t~u}$ is the bracket-economic presentation of $(\term{s~t})~\term{u}$ -- we have no choice but to use brackets if want to instead denote $\term{s}~(\term{t~u})$.
-The dual rule, $\ii I$, allows us to create (so-called anonymous) functions by deriving a result \smallterm{s} dependent on some hypothesized argument \term{x_i} which is then \textit{abstracted} over as \smallterm{\lambda x_i.s}.
-Any occurrence of \smallterm{x_i} within \term{s} is then \textit{bound} by the abstraction; variables that do not have a binding abstraction are called \textit{free}.
+The dual rule, $\ii I$, allows us to create (so-called anonymous) functions by deriving a result \smallterm{s} dependent on some hypothesized argument \term{x_i } which is then \textit{abstracted} over as \smallterm{\lambda x_i .s}.
+Any occurrence of \smallterm{x_i } within \term{s} is then \textit{bound} by the abstraction; variables that do not have a binding abstraction are called \textit{free}.
 The conjunction introduction $\times I$ allows us to create tuple objects \smallterm{(s, t)} through their parts \smallterm{s} and \smallterm{t}.
-Its dual, $\ii E$, gives us the option to identify the two coordinates of a tuple \smallterm{s} with variables \smallterm{x_i} and \smallterm{x_j}, when the latter are hypothesized assumptions for deriving some program \smallterm{t}.
+Its dual, $\ii E$, gives us the option to identify the two coordinates of a tuple \smallterm{s} with variables \smallterm{x_i } and \smallterm{x_j}, when the latter are hypothesized assumptions for deriving some program \smallterm{t}.
 If our assumptions are not in order, blocking the applicability of some rule, we can put them back where they belong with $\Exchange{}$.
-With $\Contraction{}$ we can pretend to be using two different instances \smallterm{x_i} and \smallterm{x_j} of the same type before identifying the two as a single object \term{x_i} in term \term{s} with term \term{t}'');
-note here the meta-notation for \textit{variable substitution}, $\smallterm{s}_{[\smallterm{x_i} \mapsto \smallterm{t}]}$, which reads as ``replace any occurrence of variable \term{x_i}.
+With $\Contraction{}$ we can pretend to be using two different instances \smallterm{x_i } and \smallterm{x_j} of the same type before identifying the two as a single object \term{x_i } in term \term{s} with term \term{t}'');
+note here the meta-notation for \textit{variable substitution}, $\smallterm{s}_{[\smallterm{x_i } \mapsto \smallterm{t}]}$, which reads as ``replace any occurrence of variable \term{x_i }.
 And finally, we can introduce throwaway variables into our typing environment with $\Weakening{}$ (arguably useful for creating things like constant functions).
 
 There's just a few catches to beware of.
@@ -309,21 +309,21 @@ The second has to do with do with the $\Exchange{}$ rule.
 The careful reader might notice that the rule leaves no imprint on the term level, meaning we cannot distinguish between a program where variables were a priori provided in the correct order, and one where they were shuffled into position later on.
 This is justifiable if one is to treat the rule as a syntactic bureaucracy that has no real semantic effect, i.e. if we consider the two proofs as equivalent, following along the commuting conversions mentioned earlier (supporting the idea that in this type theory, asssumptions are multisets rather than sequences).
 A slightly more perverse problem arises out of the product elimination rule $\times E$.
-The rule posits that two assumptions $\smallterm{x_i}: \smallprop{A}$ and $\smallterm{x_j}: \smallprop{B}$ can be substituted by a single (derived) term of their product type $\smallterm{s}: \smallprop{A}\times\smallprop{B}$. 
+The rule posits that two assumptions $\smallterm{x_i }: \smallprop{A}$ and $\smallterm{x_j}: \smallprop{B}$ can be substituted by a single (derived) term of their product type $\smallterm{s}: \smallprop{A}\times\smallprop{B}$. 
 Choosing different depths within the proof tree upon which to perform this substitution will yield distinct terms (because indeed they represent distinct sequences of computation); whether there's any merit in distinguishing between the two is, however, debatable.
 Finally, whereas other rules can be read as syntactic operations on terms, (this presentation of) the $\Contraction{}$ rule contains meta-notation that is not part of the term syntax itself.
-That is to say, $\smallterm{s}_{[\smallterm{x_i} \mapsto \smallterm{t}]}$ is \textit{not} a valid term -- even if the result of the operation it denotes is.
+That is to say, $\smallterm{s}_{[\smallterm{x_i } \mapsto \smallterm{t}]}$ is \textit{not} a valid term -- even if the result of the operation it denotes is.
 Generally speaking, substitution of objects for others of the same type is (modulo variable shadowing) an admissible property of the type system.
 Mixing syntax and meta-syntax in the same system is a dirty trick we will sporadically employ; this surely invites some trouble, but conscious use of it can be worth it, since it significantly simplifies presentation.
 
 \subsubsection{Term Equivalences}
 There exist three kinds of equivalence relations between terms, each given an identifying greek letter.\footnote{The denotational significance of these letters I have yet to understand -- legend has it that it only starts making sense after having written your 10th compiler from scratch.}
 
-\paragraph{$\alpha$ conversion} is a semantically null rewrite obtained by renaming variables according to the substitution meta-notation $\smallterm{s}_{[\smallterm{x_i} \mapsto \smallterm{x_j}]}$ described above. 
+\paragraph{$\alpha$ conversion} is a semantically null rewrite obtained by renaming variables according to the substitution meta-notation $\smallterm{s}_{[\smallterm{x_i } \mapsto \smallterm{x_j}]}$ described above. 
 Despite seeming innocuous at a first glance, $\alpha$ conversion is an evil and dangerous operation that needs to be applied with extreme caution so as to avoid variable capture, i.e. substituting a variable's name with one that is already in use.  
 Two terms are $\alpha$ equivalent if we can rewrite one into the other using just $\alpha$ conversions, e.g.
 \[
-	\lambda x_i.x_i^{\smallprop{A}} \overset{\alpha}{\equiv} \lambda x_j.x_j^{\smallprop{A}}
+	\lambda x_i .x_i ^{\smallprop{A}} \overset{\alpha}{\equiv} \lambda x_j.x_j^{\smallprop{A}}
 \]
 Standardizing variable naming, e.g. according to the distance between variables and their respective binders, alleviates the effort required to check for $\alpha$ equivalence by casting it to simple syntactic equality (string matching).
 
@@ -331,8 +331,8 @@ Standardizing variable naming, e.g. according to the distance between variables 
 The term rewrites we have so far inspected were either provided by specific rules, or were notational overhead due to the denominational ambiguity of variables.
 Aside from the above, our type system provides two minimal computation steps that tell us how to reduce expressions that involve the deconstruction of a just-constructed type:
 \begin{align*}
-(\term{\lambda x_i.s})~\term{t} & \overset{\beta}{\leadsto} \term{s}_{[\term{x_i} \mapsto \term{t}]}\\
-\cterm{case (\term{s}, \term{t}) of (\term{x_i}, \term{x_j}) in \term{u}} & \overset{\beta}{\leadsto} \term{u_{[\term{s} \mapsto \term{x_i}, \term{t} \mapsto \term{x_j}]}}
+(\term{\lambda x_i .s})~\term{t} & \overset{\beta}{\leadsto} \term{s}_{[\term{x_i } \mapsto \term{t}]}\\
+\cterm{case (\term{s}, \term{t}) of (\term{x_i }, \term{x_j}) in \term{u}} & \bred \term{u_{[\term{s} \mapsto \term{x_i }, \term{t} \mapsto \term{x_j}]}}
 \end{align*}
 
 A term on which no $\beta$ reductions can be applied is said to be in $\beta$-normal form.
@@ -351,8 +351,8 @@ We refer to the simplification of an expanded form as $\eta$ reduction, which is
 The reverse process is an $\eta$ expansion: $\eta$ long forms witness the completeness of atomic propositions, which posits that any derivable statement $\Gamma \vdash \smallprop{A}$ can be converted to an alternative form $\Gamma' \vdash \smallprop{A}$, where $\Gamma'$ consists only of atomic propositions~\cite{troelstra2000basic}.
 Both expansion and reduction are facets of $\eta$ conversion -- the equivalence relation enacted by this conversion is called $\eta$ equivalence.
 \begin{align*}
-	\term{\lambda x_i.s~x_i} & \overset{\eta}{\equiv} \term{s}\\
-	\cterm{(case \term{s} of (\term{x_i},\term{x_j}) in \term{x_i}, case \term{s} of (\term{x_k},\term{x_l}) in \term{x_l})} & \overset{\eta}{\equiv} \term{s}
+	\term{\lambda x_i .s~x_i } & \overset{\eta}{\equiv} \term{s}\\
+	\cterm{(case \term{s} of (\term{x_i },\term{x_j}) in \term{x_i }, case \term{s} of (\term{x_k},\term{x_l}) in \term{x_l})} & \overset{\eta}{\equiv} \term{s}
 \end{align*}
 
 
@@ -440,7 +440,7 @@ It is probably inevitable that at some point proofs will need a smaller font siz
 %We will rewrite axioms as follows:
 In this notation, axioms will be rewritten as follows:
 \[
-\infer[\Ax]{\term{x_i}: \prop{A} \vdash \term{x_i}: \prop{A}}{} \quad \raisebox{7pt}{$\equiv$} \quad \infer[\Ax]{\term{x_i}:\prop{A}}{}
+\infer[\Ax]{\term{x_i }: \prop{A} \vdash \term{x_i }: \prop{A}}{} \quad \raisebox{7pt}{$\equiv$} \quad \infer[\Ax]{\term{x_i }:\prop{A}}{}
 \]
 And assumptions will appear without type assignments (if uncertain of what some variable's type is, just trace it back to its axiom). 
 We will always provide type declarations for derived terms (right of the turnstile).
@@ -549,20 +549,20 @@ For the sake of homogeneity and explicitness, \Exchange{} still makes an appeara
 
 Notationally, the absence of non-linear intuitionistic terms allows us to freely reuse our prior term notation without fear of ambiguity.
 We have three new term patterns: $\langle \smallterm{s}, \smallterm{t} \rangle$ to denote the choice between proof terms $\smallterm{s}$ and $\smallterm{t}$ (contrast to the linear tuple $(\smallterm{s}, \smallterm{t})$), and $\cterm{fst}(\_)$ and $\cterm{snd}(\_)$ to denote the first and second projections.
-Let us also point out that in the case of the implication introduction rule $\li I$, no redundant variables means that \smallterm{x_i} must now appear free once in the abstraction body \smallterm{s} -- in other words, we have no way of syntactically instantiating constant functions.
+Let us also point out that in the case of the implication introduction rule $\li I$, no redundant variables means that \smallterm{x_i } must now appear free once in the abstraction body \smallterm{s} -- in other words, we have no way of syntactically instantiating constant functions.
 
 \begin{figure}
 	\centering
 	\begin{subfigure}{1\textwidth}
 		\centering
 		\begin{tabularx}{0.95\textwidth}{@{}C@{~}C@{\qquad}C@{}}
-		\multicolumn{3}{@{}c@{}}{$\infer[\Ax]{\term{x_i}: \prop A \vdash \term{x_i}: \prop A}{}$}\\[2em]
+		\multicolumn{3}{@{}c@{}}{$\infer[\Ax]{\term{x_i }: \prop A \vdash \term{x_i }: \prop A}{}$}\\[2em]
 		\multicolumn{2}{@{}c}{
 		$\infer[\li E]{\Gamma, \Delta \vdash \term{s~t}: \prop B}{\Gamma \vdash \term{s}: \prop A \li \prop B & \Delta \vdash \term{t}: \prop{A}}$}
 		& 
-		$\infer[\li I]{\Gamma \vdash \term{\lambda x_i.s}: \prop A \li \prop B}{\Gamma, \term{x_i}: \prop A \vdash \term{s}: \prop B}$\\[\smallsep]
+		$\infer[\li I]{\Gamma \vdash \term{\lambda x_i .s}: \prop A \li \prop B}{\Gamma, \term{x_i }: \prop A \vdash \term{s}: \prop B}$\\[\smallsep]
 		\multicolumn{2}{@{}c}{
-		$\infer[\otimes E]{\Gamma,\Delta \vdash \cterm{case \smallterm{s} of (\smallterm{x_i}, \smallterm{x_j}) in \smallterm{t}}: \prop C}{\Gamma \vdash \term{s}: \prop A \otimes \prop B & \Delta, \term{x_i}: \prop A , \term{x_j}: \prop B \vdash \term{t}: \prop C}$}
+		$\infer[\otimes E]{\Gamma,\Delta \vdash \cterm{case \smallterm{s} of (\smallterm{x_i }, \smallterm{x_j}) in \smallterm{t}}: \prop C}{\Gamma \vdash \term{s}: \prop A \otimes \prop B & \Delta, \term{x_i }: \prop A , \term{x_j}: \prop B \vdash \term{t}: \prop C}$}
 		&
 		$\infer[\otimes I]{\Gamma, \Delta \vdash (\term{s}, \term{t}): \prop A \otimes \prop B}{\Gamma \vdash \term{s}: \prop A & \Delta \vdash \term{t}: \prop B}$\\[\smallsep]
 		$
@@ -602,10 +602,10 @@ The extra connective $\with$ introduces its own two redexes (one per eliminator)
 Its reading is straightforward: if one were to use $\Gamma$ to independently derive \smallprop{A} and \smallprop{B} along two parallel proofs, proceed by constructing a choice between the two, and then also make that choice (favoring either), there was never any need for the other in the first place.
 The equivalent term reduction steps this time around are:
 \begin{align*}
-(\term{\lambda x_i.s})~\term{t} & \overset{\beta}{\leadsto} \term{s}_{[\term{x_i} \mapsto \term{t}]}\\
-\cterm{case (\smallterm{s}, \smallterm{t}) of (\smallterm{x_i}, \smallterm{x_j}) in \smallterm{u}} & \overset{\beta}{\leadsto} \term{u_{[\term{s} \mapsto \term{x_i}, \term{t} \mapsto \term{x_j}]}}\\
-\cterm{fst}(\langle\term{s},\term{t}\rangle) & \overset{\beta}{\leadsto} \term{s}\\
-\cterm{snd}(\langle\term{s},\term{t}\rangle) & \overset{\beta}{\leadsto} \term{t}\\
+(\term{\lambda x_i .s})~\term{t} & \bred \term{s}_{[\term{x_i } \mapsto \term{t}]}\\
+\cterm{case (\smallterm{s}, \smallterm{t}) of (\smallterm{x_i }, \smallterm{x_j}) in \smallterm{u}} & \bred \term{u_{[\term{s} \mapsto \term{x_i }, \term{t} \mapsto \term{x_j}]}}\\
+\cterm{fst}(\langle\term{s},\term{t}\rangle) & \bred \term{s}\\
+\cterm{snd}(\langle\term{s},\term{t}\rangle) & \bred \term{t}\\
 \end{align*}
 
 
@@ -839,11 +839,11 @@ Regardless of what it might have been, we cannot reasonably anticipate there to 
 	\centering
 	\begin{tikzpicture}[
 		   focus/.style={rectangle, thick, draw, minimum size=15pt},
-		   link/.style={thick}
+		   link/.style={thick, dashed}
 	]
 	\node[inner sep=0pt, outer sep=0pt] (bg) at (0,0) 
 	{
-	\textcolor{gray!120}{
+	\textcolor{gray!80}{
 	$
 		\infer[\Exchange]{\nprop{A}_k\li\pprop{B}_l, \nprop{B}_i\li\pprop{C}_j \vdash \pprop{A}_m \li \nprop{C}_j}{
 			\infer[\li I]{\nprop{B}_i\li\pprop{C}_j, \pprop{A}_k\li\pprop{B}_l \vdash  \pprop{A}_m \li \nprop{C}_j}{
@@ -865,13 +865,13 @@ Regardless of what it might have been, we cannot reasonably anticipate there to 
 	}
 	};
 	\node[focus] (ak) at (0.51, 1.125) {};
-	\node[focus] (am) at (3.5,  1.125) {};
+	\node[focus] (am) at (3.55,  1.125) {};
 	\draw[link, <-] (ak) to[bend left=45] (am); %$(am.north)$);
 	\node[focus] (bl1) at	(1.35, 1.125) {};
 	\node[focus] (bl2) at (2.35, 0.525) {};
 	\draw[link, ->] (bl1) -- (bl2);
 	\node[focus] (bi) at (-3.3, 0.525) {};
-	\node[focus] (cj1) at (-2.5, 0.525) {};
+	\node[focus] (cj1) at (-2.45, 0.525) {};
 	\node[focus] (cj2) at (0.6, -0.075) {};	
 	\draw[link, <-] (bi) to[bend left=60] (bl2);
 	\draw[link, ->] (cj1) -- (cj2);
@@ -950,17 +950,17 @@ This also serves to better illustrate a remark made earlier: the rule can be app
 \begin{figure}
 	\centering
 	\begin{tabularx}{0.975\textwidth}{@{}CC@{}}
-		\multicolumn{2}{@{}c@{}}{$\infer[\Ax]{\term{x_i}: \prop A \vdash \term{x_i}: \prop A}{}$}\\[2em]
+		\multicolumn{2}{@{}c@{}}{$\infer[\Ax]{\term{x_i }: \prop A \vdash \term{x_i }: \prop A}{}$}\\[2em]
 		$\infer[\divright E]{\Gamma, \Delta \vdash \term{s}\appright\term{t}: \prop B}{\Gamma \vdash  \term{s}: \prop{B} \divright \prop{A} & \Delta \vdash \term{t}: \prop{A}}$
 		& 
-		$\infer[\divright I]{\Gamma \vdash \term{\lambda x_i.s}: \prop{B} \divright \prop{A}}{\Gamma, \term{x_i}: \prop A \vdash \term{s}: \prop{B}}$\\[2em]
+		$\infer[\divright I]{\Gamma \vdash \term{\lambda x_i .s}: \prop{B} \divright \prop{A}}{\Gamma, \term{x_i }: \prop A \vdash \term{s}: \prop{B}}$\\[2em]
 		$\infer[\divleft E]{\Gamma, \Delta \vdash \term{s}\appleft\term{t}:\prop B}{\Gamma \vdash \term{s}:\prop A & \Delta \vdash \term{t}:\prop{A}\divleft\prop{B}}$
 		& 
-		$\infer[\divleft I]{\Gamma \vdash \term{\adbmal x_i.s}: \prop A \divleft \prop B}{\term{x_i}: \prop A, \Gamma \vdash \term{s}: \prop B}$\\[2em]
-		$\infer[\otimes E]{\Delta\ctx{\Gamma} \vdash \cterm{case \term{s} of \term{(x_i, x_j)} in \term{t}}: \prop C}{
+		$\infer[\divleft I]{\Gamma \vdash \term{\adbmal x_i .s}: \prop A \divleft \prop B}{\term{x_i }: \prop A, \Gamma \vdash \term{s}: \prop B}$\\[2em]
+		$\infer[\otimes E]{\Delta\ctx{\Gamma} \vdash \cterm{case \term{s} of \term{(x_i , x_j)} in \term{t}}: \prop C}{
 			\Gamma \vdash \term{s}: \prop{A}\otimes\prop{B}
 			&
-			\Delta\ctx{\term{x_i}: \prop A, \term{x_j}: \prop{B}}  \vdash \term{t}: \prop C}$
+			\Delta\ctx{\term{x_i }: \prop A, \term{x_j}: \prop{B}}  \vdash \term{t}: \prop C}$
 		&
 		$\infer[\otimes I]{\Gamma,\Delta \vdash \term{(s,t)}: \prop A \otimes \prop B}{\Gamma \vdash \term{s}: \prop A & \Delta \vdash \term{t}: \prop B}$\\[2em]
 	\end{tabularx}
@@ -979,9 +979,9 @@ The only addition is the symmetric version of the familiar implicational redex.
 For the redex of the product, the substituted $\smallprop{A}$ and $\smallprop{B}$ hypotheses are now wrapped on both sides by a context $\Theta$, following the formulation of $\otimes E$.
 The corresponding term reductions are:
 \begin{align*}
-(\term{\lambda x_i.s})~\term{t} & \overset{\beta}{\leadsto} \term{s}_{[\term{x_i} \mapsto \term{t}]}\\
-\term{t}~(\term{\adbmal x_i.s}) & \overset{\beta}{\leadsto} \term{s}_{[\term{x_i} \mapsto \term{t}]}\\
-\cterm{case (\smallterm{s}, \smallterm{t}) of (\smallterm{x_i}, \smallterm{x_j}) in \smallterm{u}} & \overset{\beta}{\leadsto} \term{u_{[\term{s} \mapsto \term{x_i}, \term{t} \mapsto \term{x_j}]}}\\
+(\term{\lambda x_i .s})~\term{t} & \bred \term{s}_{[\term{x_i } \mapsto \term{t}]}\\
+\term{t}~(\term{\adbmal x_i .s}) & \bred \term{s}_{[\term{x_i } \mapsto \term{t}]}\\
+\cterm{case (\smallterm{s}, \smallterm{t}) of (\smallterm{x_i }, \smallterm{x_j}) in \smallterm{u}} & \bred \term{u_{[\term{s} \mapsto \term{x_i }, \term{t} \mapsto \term{x_j}]}}\\
 \end{align*}
 
 \begin{figure}
@@ -1084,17 +1084,17 @@ The notation $\Gamma\ctx{\Delta}$ now denotes that $\Delta$ is a \textit{subtree
 \begin{figure}
 	\centering
 	\begin{tabularx}{0.99\textwidth}{@{}CC@{}}
-		\multicolumn{2}{@{}c@{}}{$\infer[\Ax]{\term{x_i}: \prop A \vdash \term{x_i}: \prop A}{}$}\\[2em]
+		\multicolumn{2}{@{}c@{}}{$\infer[\Ax]{\term{x_i }: \prop A \vdash \term{x_i }: \prop A}{}$}\\[2em]
 		$\infer[\divright E]{(\Gamma \sbind \Delta) \vdash \term{s}\nappright\term{t}: \prop B}{\Gamma \vdash \term{s}: \prop{B} \divright \prop{A} & \Delta \vdash \term{t}: \prop{A}}$
 		& 
-		$\infer[\divright I]{\Gamma \vdash \term{\lambda x_i.s}: \prop{B} \divright \prop{A}}{(\Gamma \sbind \term{x_i}: \prop A) \vdash \term{s}:\prop B}$\\[2em]
+		$\infer[\divright I]{\Gamma \vdash \term{\lambda x_i .s}: \prop{B} \divright \prop{A}}{(\Gamma \sbind \term{x_i }: \prop A) \vdash \term{s}:\prop B}$\\[2em]
 		$\infer[\divleft E]{(\Gamma \sbind \Delta) \vdash \term{s}\nappleft\term{t}:\prop B}{\Gamma \vdash \term{s}: \prop A & \Delta \vdash \term{t}: \prop{A}\divleft\prop{B}}$
 		& 
-		$\infer[\divleft I]{\Gamma \vdash \term{\adbmal x_i.s}: \prop A \divleft \prop B}{(\term{x_i}: \prop A \sbind \Gamma) \vdash  \term{s}:\prop B}$\\[2em]
-		$\infer[\otimes E]{\Delta\ctx{\Gamma} \vdash \cterm{case \term{s} of \term{(x_i, x_j)} in \term{t}}: \prop C}{
+		$\infer[\divleft I]{\Gamma \vdash \term{\adbmal x_i .s}: \prop A \divleft \prop B}{(\term{x_i }: \prop A \sbind \Gamma) \vdash  \term{s}:\prop B}$\\[2em]
+		$\infer[\otimes E]{\Delta\ctx{\Gamma} \vdash \cterm{case \term{s} of \term{(x_i , x_j)} in \term{t}}: \prop C}{
 			\Gamma \vdash \term{s}: \prop{A}\otimes\prop{B}
 			&
-			\Delta\ctx{(\term{x_i}: \prop A, \term{x_j}: \prop{B})}  \vdash \term{t}: \prop C}$
+			\Delta\ctx{(\term{x_i }: \prop A, \term{x_j}: \prop{B})}  \vdash \term{t}: \prop C}$
 		&
 		$\infer[\otimes I]{\Gamma,\Delta \vdash \term{(s,t)}: \prop A \otimes \prop B}{\Gamma \vdash \term{s}: \prop A & \Delta \vdash \term{t}: \prop B}$
 	\end{tabularx}
@@ -1203,8 +1203,8 @@ and the adjointness of their compositions, where $\diamond\Box(\_)$ is an \texti
 			\bracket{\Gamma} \vdash \term{s}:\prop{A}
 		}$
 		\\[\smallsep]
-		$\infer[\diamond E]{\Gamma\ctx{\Delta} \vdash \cterm{case \term{\diaelim t} of \term{x_i} in \term{s}}: \prop{B}}{
-			\Gamma\ctx{\bracket{\term{x_i}:\prop{A}}}\vdash\term{s}:\prop{B}
+		$\infer[\diamond E]{\Gamma\ctx{\Delta} \vdash \cterm{case \term{\diaelim t} of \term{x_i } in \term{s}}: \prop{B}}{
+			\Gamma\ctx{\bracket{\term{x_i }:\prop{A}}}\vdash\term{s}:\prop{B}
 			&
 			\Delta \vdash \term{t}:\diamond\prop{A}
 		}
@@ -1236,8 +1236,8 @@ Rules are adorned with term rewrite instructions in the propositions as types st
 The mnemonic is now two-dimensional: upward triangles denote introduction and downward ones elimination, whereas black triangles are for the box, white ones for the diamond.
 Term constructions for the single-premise rules are uncomplicated: each type operation just leaves the corresponding term footprint.
 This is not the case for the $\diamond E$ rule, which requires some attention:
-the structural substitution of $\bracket{\smallprop{A}}$ for $\Delta$ necessitates a case construct that calls for a term substitution of the variable $\smallterm{x_i}$ for $\diaelim\smallterm{t}$.
-Note that the free variables of the resulting expression ($\caseof{\diaelim t}{x_i}{s}$) are the union of the free variables of \smallterm{t} and those of \smallterm{s} except for \smallterm{x_i}, which becomes \textit{bound} by the case construct.
+the structural substitution of $\bracket{\smallprop{A}}$ for $\Delta$ necessitates a case construct that calls for a term substitution of the variable $\smallterm{x_i }$ for $\diaelim\smallterm{t}$.
+Note that the free variables of the resulting expression ($\caseof{\diaelim t}{x_i }{s}$) are the union of the free variables of \smallterm{t} and those of \smallterm{s} except for \smallterm{x_i }, which becomes \textit{bound} by the case construct.
 
 \subsubsection{Proof \& Term Reductions}
 \begin{figure}
@@ -1280,8 +1280,8 @@ The first one is trivial: it just says that a sequential application of $\Box I$
 The second one proposes that if a $\diamond I$ is the last rule to have been applied on the substitution branch $t$ of the $\diamond E$ rule, it would make sense to simply plug proof $t$ in place of the proposition $\smallprop{A}$ hypothesized in the other  branch $s$.
 On the term level, these rules correspond to computations:
 \begin{align*}
-\boxelim \boxintro \term{s} & \overset{\beta}{\leadsto} \term{s}\\
-\cterm{case \term{\diaelim \diaintro t} of \term{x} in \term{s}} & \overset{\beta}{\leadsto} \term{s}_{[\term{x} \mapsto \term{t}]}
+\boxelim \boxintro \term{s} & \bred \term{s}\\
+\cterm{case \term{\diaelim \diaintro t} of \term{x} in \term{s}} & \bred \term{s}_{[\term{x} \mapsto \term{t}]}
 \end{align*}
 
 The dual direction of $\eta$ equivalences also holds -- since these are not as frequently encountered as the more pedestrian implication and product equivalences, we explictly present them in Figure~\ref{figure:modal_eta_reductions}.
@@ -1289,7 +1289,7 @@ The term equivalences they materialize are:
 \begin{align*}
 \boxintro \boxelim \term{s} & \overset{\eta}{\equiv} \term{s}\\
 \cterm{case \term{\diaelim{s}} of \term{x} in \term{\diaintro{x}}} & \overset{\eta}{\equiv} \term{s}
-%\cterm{case \term{\diaelim \diaintro t} of \term{x} in \term{s}} & \overset{\beta}{\leadsto} \term{s}_{[\termt{x} \mapsto \term{t}]}
+%\cterm{case \term{\diaelim \diaintro t} of \term{x} in \term{s}} & \bred \term{s}_{[\termt{x} \mapsto \term{t}]}
 \end{align*}
 
 \begin{figure}
@@ -1329,19 +1329,19 @@ For the modally savvy, the term rewrites attributed to the modal rules might see
 A more common presentation employs the simpler meta-syntax notation of term substitution.
 For instance, $\diamond E$ can often be spotted in the wild as:
 \[
-	\infer[\diamond E]{\Gamma\ctx{\Delta} \vdash \term{s}_{[\term{x_i}\mapsto\term{\diaelim t}]}: \prop{B}}{
-		\Gamma\ctx{\bracket{\term{x_i}:\prop{A}}}\vdash\term{s}:\prop{B}
+	\infer[\diamond E]{\Gamma\ctx{\Delta} \vdash \term{s}_{[\term{x_i }\mapsto\term{\diaelim t}]}: \prop{B}}{
+		\Gamma\ctx{\bracket{\term{x_i }:\prop{A}}}\vdash\term{s}:\prop{B}
 		&
 		\Delta \vdash \term{t}:\diamond\prop{A}
 	}
 \]
-In this disguise, the rule is again seen as realizing a retroactive substitution of $\smallterm{x_i}$ with $\smallterm{\diaelim t}$, except this time around the substitution is \textit{actually} performed, resulting in less cumbersome terms being carried around.
+In this disguise, the rule is again seen as realizing a retroactive substitution of $\smallterm{x_i }$ with $\smallterm{\diaelim t}$, except this time around the substitution is \textit{actually} performed, resulting in less cumbersome terms being carried around.
 
 Opting for this alternative notation has, however, a number of negative consequences.
 The more superficial one is that the main term connective does not take scope at the outermost layer of rule's yield, but rather nested arbitrarily deeply within it, unlike its better behaved version.
 From a proof-theoretic perspective, normalization is now baked directly into the theory, as the term yield of the rule exactly coincides with its $\beta$ reduced form.
 At the same time, all rule permutations boil down to having the exact same reduction, i.e. multiple previously distinct terms are conflated into a single representation.
-This establishes an impicit syntactic equivalence on proofs that claims that the exact position of the $\diamond E$ rule is \textit{syntactically irrelevant} (so long of course as the same variable $\smallterm{x_i}$ is substituted by the same term $\smallterm{\diaelim t}$).
+This establishes an impicit syntactic equivalence on proofs that claims that the exact position of the $\diamond E$ rule is \textit{syntactically irrelevant} (so long of course as the same variable $\smallterm{x_i }$ is substituted by the same term $\smallterm{\diaelim t}$).
 Finally, the shorthand version hides variables; hypotheses that would be bound by the case construct are instead erased and forgotten, obfuscating the term-to-proof correspondence.
 All these are perhaps minor points not worth taking too seriously, but for one concerned with concrete implementation the extra merit of notational simplicity comes at the cost of equality checking become way more tedious.
 With this in mind (and in a rare moment of excessive formal zeal), we will exercise some self restraint and avoid indulging in the convenience of this version.
@@ -1364,9 +1364,9 @@ Figure~\ref{figure:modal_triple_laws} presents proofs of the above in both direc
 	\centering
 	\begin{subfigure}{1\textwidth}
 		\[
-			\infer[\diamond E]{\term{x_j}: \diamond \prop{A} \vdash  \cterm{case \term{\diaelim x_j} of \term{x_i} in \term{s}}: \diamond \prop{B}}{
-					\infer[\diamond I]{\bracket{\term{x_i}: \prop{A}} \vdash \diaintro \term{s}: \diamond \prop{B}}{
-						\infer*[s]{\term{x_i}: \prop{A} \vdash \term{s}: \prop{B}}{}
+			\infer[\diamond E]{\term{x_j}: \diamond \prop{A} \vdash  \cterm{case \term{\diaelim x_j} of \term{x_i } in \term{s}}: \diamond \prop{B}}{
+					\infer[\diamond I]{\bracket{\term{x_i }: \prop{A}} \vdash \diaintro \term{s}: \diamond \prop{B}}{
+						\infer*[s]{\term{x_i }: \prop{A} \vdash \term{s}: \prop{B}}{}
 					}
 					&
 					\infer[\Ax]{\term{x_j}: \diamond \prop{A} \vdash \term{x_j}: \diamond \prop{A}}{}
@@ -1377,10 +1377,10 @@ Figure~\ref{figure:modal_triple_laws} presents proofs of the above in both direc
 	\end{subfigure}\\[\midsep]
 	\begin{subfigure}{1\textwidth}
 		\[
-			\infer[\Box I]{\term{x_j}: \Box \prop{A} \vdash \boxintro{((\term{\lambda x_i.s})~\term{\boxelim x_j}}:\Box \prop{B}}{
-				\infer[\li E]{\bracket{\term{x_j}: \Box \prop{A}} \vdash (\term{\lambda x_i.s})~\term{\boxelim x_j}: \prop{B}}{
-					\infer[\li I]{\vdash \term{\lambda x_i.s}: \prop{A} \li\prop{B}}{
-						\infer*[s]{\term{x_i}: \prop{A} \vdash \term{s}: \prop{B}}{}
+			\infer[\Box I]{\term{x_j}: \Box \prop{A} \vdash \boxintro{((\term{\lambda x_i .s})~\term{\boxelim x_j}}:\Box \prop{B}}{
+				\infer[\li E]{\bracket{\term{x_j}: \Box \prop{A}} \vdash (\term{\lambda x_i .s})~\term{\boxelim x_j}: \prop{B}}{
+					\infer[\li I]{\vdash \term{\lambda x_i .s}: \prop{A} \li\prop{B}}{
+						\infer*[s]{\term{x_i }: \prop{A} \vdash \term{s}: \prop{B}}{}
 					}
 					&
 					\infer[\Box E]{\bracket{\term{x_j}: \Box \prop{A}} \vdash \boxelim\term{x_j}:\prop{A}}{	
@@ -1405,9 +1405,9 @@ Figure~\ref{figure:modal_triple_laws} presents proofs of the above in both direc
 	\end{subfigure}%
 	\begin{subfigure}{0.5\textwidth}
 		\[
-		\infer[\diamond E]{\Gamma \vdash \cterm{case \term{\diaelim{s}} of \term{x_i} in \term{\boxelim x_i}}: \prop{A}}{
-						\infer[\Box E]{\bracket{\term{x_i}: \Box \prop{A}}\vdash \boxelim\term{x_i}:\prop{A}}{
-							\infer[\Ax]{\term{x_i}: \Box\prop{A} \vdash \term{x_i}: \Box\prop{A}}{}
+		\infer[\diamond E]{\Gamma \vdash \cterm{case \term{\diaelim{s}} of \term{x_i } in \term{\boxelim x_i }}: \prop{A}}{
+						\infer[\Box E]{\bracket{\term{x_i }: \Box \prop{A}}\vdash \boxelim\term{x_i }:\prop{A}}{
+							\infer[\Ax]{\term{x_i }: \Box\prop{A} \vdash \term{x_i }: \Box\prop{A}}{}
 						}
 						&
 						\infer*[s]{\Gamma\vdash \term{s}: \diamond \Box \prop{A}}{}
@@ -1418,9 +1418,9 @@ Figure~\ref{figure:modal_triple_laws} presents proofs of the above in both direc
 	\end{subfigure}\\[\midsep]
 	\begin{subfigure}{1\textwidth}
 		\[
-			\infer[\diamond E]{\term{x_j}: \diamond \prop{A} \vdash \caseof{\diaelim x_j}{x_i}{s}:\prop{B}}{
-				\infer[\Box E]{\bracket{\term{x_i}: \prop{A}} \vdash \boxelim\term{s}: \prop{B}}{
-					\infer*[s]{\term{x_i}: \prop{A} \vdash \term{s}: \Box\prop{B}}{}
+			\infer[\diamond E]{\term{x_j}: \diamond \prop{A} \vdash \caseof{\diaelim x_j}{x_i }{s}:\prop{B}}{
+				\infer[\Box E]{\bracket{\term{x_i }: \prop{A}} \vdash \boxelim\term{s}: \prop{B}}{
+					\infer*[s]{\term{x_i }: \prop{A} \vdash \term{s}: \Box\prop{B}}{}
 				}
 				&
 				\infer[\Ax]{\term{x_j}: \diamond \prop{A} \vdash \term{x_j}: \diamond \prop{A}}{}
@@ -1431,10 +1431,10 @@ Figure~\ref{figure:modal_triple_laws} presents proofs of the above in both direc
 	\end{subfigure}\\[\midsep]
 	\begin{subfigure}{1\textwidth}
 		\[
-			\infer[\Box I]{\term{x_j}: \diamond \prop{A} \vdash \boxintro(\caseof{\diaelim \diaintro x_j}{x_i}{\lambda x_i.s}): \prop{B}}{
-				\infer[\diamond E]{\bracket{\term{x_j}: \prop{A}} \vdash \caseof{\diaelim \diaintro x_j}{x_i}{\lambda x_i.s}: \prop{B}}{
-					\infer[\li I]{\vdash \term{\lambda x_i.s}: \diamond\prop{A} \li \prop{B}}{
-						\infer*[s]{\term{x_i}: \diamond\prop{A} \vdash \term{s}: \prop{B}}{}
+			\infer[\Box I]{\term{x_j}: \diamond \prop{A} \vdash \boxintro(\caseof{\diaelim \diaintro x_j}{x_i }{\lambda x_i .s}): \prop{B}}{
+				\infer[\diamond E]{\bracket{\term{x_j}: \prop{A}} \vdash \caseof{\diaelim \diaintro x_j}{x_i }{\lambda x_i .s}: \prop{B}}{
+					\infer[\li I]{\vdash \term{\lambda x_i .s}: \diamond\prop{A} \li \prop{B}}{
+						\infer*[s]{\term{x_i }: \diamond\prop{A} \vdash \term{s}: \prop{B}}{}
 					}
 					&
 					\infer[\diamond I]{\bracket{\term{x_j}: \prop{A}} \vdash \term{\diaintro x_j}: \diamond \prop{A}}{
@@ -1454,10 +1454,10 @@ Figure~\ref{figure:modal_triple_laws} presents proofs of the above in both direc
 	\centering
 	\begin{subfigure}{1\textwidth}
 		\[
-			\infer[\Box I]{\term{x_j}: \Box\diamond\Box\prop{A} \vdash \boxintro(\caseof{\diaelim \boxelim x_j}{x_i}{\boxelim{x_i}}): \Box\prop{A}}{
-				\infer[\diamond E]{\bracket{\term{x_j}: \Box\diamond \prop{A}} \vdash \caseof{\diaelim \boxelim x_j}{x_i}{\boxelim{x_i}}: \prop{A}}{
-					\infer[\Box E]{\bracket{\term{x_i}: \Box \prop{A}} \vdash \term{\boxelim x_i}:\prop{A}}{
-						\infer[\Ax]{\term{x_i}: \Box\prop{A} \vdash \term{x_i}: \Box\prop{A}}{}
+			\infer[\Box I]{\term{x_j}: \Box\diamond\Box\prop{A} \vdash \boxintro(\caseof{\diaelim \boxelim x_j}{x_i }{\boxelim{x_i }}): \Box\prop{A}}{
+				\infer[\diamond E]{\bracket{\term{x_j}: \Box\diamond \prop{A}} \vdash \caseof{\diaelim \boxelim x_j}{x_i }{\boxelim{x_i }}: \prop{A}}{
+					\infer[\Box E]{\bracket{\term{x_i }: \Box \prop{A}} \vdash \term{\boxelim x_i }:\prop{A}}{
+						\infer[\Ax]{\term{x_i }: \Box\prop{A} \vdash \term{x_i }: \Box\prop{A}}{}
 					}
 					&
 					\infer[\Box E]{\bracket{\term{x_j}:\Box\diamond\Box\prop{A}} \vdash \term{\boxelim x_j}:\diamond\Box\prop{A}}{
@@ -1471,9 +1471,9 @@ Figure~\ref{figure:modal_triple_laws} presents proofs of the above in both direc
 	\end{subfigure}\\[\midsep]
 	\begin{subfigure}{1\textwidth}
 		\[
-			\infer[\Box I]{\term{x_i}:\Box\prop{A} \vdash \boxintro\diaintro\term{x_i}:\Box\diamond\Box\prop{A}}{
-				\infer[\diamond I]{\bracket{\term{x_i}: \Box\prop{A}} \vdash \diaintro\term{x_i}:\diamond\Box\prop{A}}{
-					\infer[\Ax]{\term{x_i}:\Box\prop{A}\vdash \term{x_i}:\Box\prop{A}}{}
+			\infer[\Box I]{\term{x_i }:\Box\prop{A} \vdash \boxintro\diaintro\term{x_i }:\Box\diamond\Box\prop{A}}{
+				\infer[\diamond I]{\bracket{\term{x_i }: \Box\prop{A}} \vdash \diaintro\term{x_i }:\diamond\Box\prop{A}}{
+					\infer[\Ax]{\term{x_i }:\Box\prop{A}\vdash \term{x_i }:\Box\prop{A}}{}
 				}
 			}
 		\]
@@ -1482,9 +1482,9 @@ Figure~\ref{figure:modal_triple_laws} presents proofs of the above in both direc
 	\end{subfigure}\\[\midsep]
 	\begin{subfigure}{1\textwidth}
 		\[
-			\infer[\diamond E]{\term{x_j}:\diamond\Box\diamond\prop{A} \vdash \caseof{\diaelim x_j}{x_i}{\boxelim x_i}: \diamond\prop{A}}{
-				\infer[\Box E]{\bracket{\term{x_i}: \Box\diamond\prop{A}} \vdash \boxelim\term{x_i}: \diamond\prop{A}}{
-					\infer[\Ax]{\term{x_i}: \Box\diamond\prop{A} \vdash \term{x_i}: \Box\diamond\prop{A}}{}
+			\infer[\diamond E]{\term{x_j}:\diamond\Box\diamond\prop{A} \vdash \caseof{\diaelim x_j}{x_i }{\boxelim x_i }: \diamond\prop{A}}{
+				\infer[\Box E]{\bracket{\term{x_i }: \Box\diamond\prop{A}} \vdash \boxelim\term{x_i }: \diamond\prop{A}}{
+					\infer[\Ax]{\term{x_i }: \Box\diamond\prop{A} \vdash \term{x_i }: \Box\diamond\prop{A}}{}
 				}
 				&
 				\infer[\Ax]{\term{x_j}: \diamond\Box\diamond\prop{A} \vdash \term{x_j}: \diamond\Box\diamond\prop{A}}{}
@@ -1495,9 +1495,9 @@ Figure~\ref{figure:modal_triple_laws} presents proofs of the above in both direc
 	\end{subfigure}\\[\midsep]
 	\begin{subfigure}{1\textwidth}
 		\[
-			\infer[\diamond E]{\term{x_j}: \diamond \prop{A} \vdash \caseof{\diaelim x_j}{x_i}{\diaintro\boxintro\diaintro x_i}:\diamond\Box\diamond\prop{A}}{
-				\infer[\diamond I]{\bracket{\term{x_i}:\prop{A}} \vdash \diaintro\boxintro\diaintro\term{x_i}:\diamond\Box\diamond\prop{A}}{
-					\infer*[\text{\ref{subfigure:modal_properties:closure}}]{\term{x_i}: \prop{A} \vdash \boxintro\diaintro\term{x_i}: \Box\diamond\prop{A}}{}
+			\infer[\diamond E]{\term{x_j}: \diamond \prop{A} \vdash \caseof{\diaelim x_j}{x_i }{\diaintro\boxintro\diaintro x_i }:\diamond\Box\diamond\prop{A}}{
+				\infer[\diamond I]{\bracket{\term{x_i }:\prop{A}} \vdash \diaintro\boxintro\diaintro\term{x_i }:\diamond\Box\diamond\prop{A}}{
+					\infer*[\text{\ref{subfigure:modal_properties:closure}}]{\term{x_i }: \prop{A} \vdash \boxintro\diaintro\term{x_i }: \Box\diamond\prop{A}}{}
 				}
 				&
 				\infer[\Ax]{\term{x_j}: \diamond \prop{A} \vdash \term{x_j}:\diamond\prop{A}}{}
@@ -1662,7 +1662,7 @@ It follows that a transitive phrase or copula would then be of type $(\smallnp\d
 In the same vein, determiner phrases consume right-adjacent nouns and lift them to noun phrases $\smallnp\divright\smalln$, whereas prenominal adjectives are noun phrase (or noun) endomorphisms modifying them but keeping their type intact, $\smallnp\divright\smallnp$ (and the other way around for postnominal use).
 Adverbs would also be endomorphisms, except this time higher-order -- \linebreak$(\smallnp\divright\smallnp)\divright(\smallnp\divright\smallnp)$ for adjectival and $(\smallnp\divleft\smalls)\divleft(\smallnp\divleft\smalls)$ for verbal modification, respectively.
 
-\begin{figure}
+\begin{table}
 	\centering
 	\begin{tabularx}{0.99\textwidth}{@{}r@{\quad::\quad}l}
 		eye											& $\smalln$\\
@@ -1675,13 +1675,12 @@ Adverbs would also be endomorphisms, except this time higher-order -- \linebreak
 		behold										& $\smallgtype{tv} :=(\smallnp\divleft\smalls)\divright\smallnp$\\
 		there 										& $\smallgtype{adv}_{\divleft} := (\smallnp\divleft\smalls)\divleft(\smallnp\divleft\smalls)$\\
 		never										& $\smallgtype{adv}_{\divright} := (\smallnp\divleft\smalls)\divright(\smallnp\divleft\smalls))$\\
-		by, in										& $\pp\divright\np$\\
 		litten 										& $(\smallnp\divleft\smallnp)\divright\smallpp$\\
 		may											& $\smallgtype{aux} := (\smallnp\divleft\smalls)\divright(\smallnp\divleft\smalls))$
 	\end{tabularx}
 	\caption{Toy lovecraftian lexicon of pure Lambek types.}
-	\label{figure:toy_lambek_lexicon}
-\end{figure}
+	\label{table:toy_lambek_lexicon}
+\end{table}
 
 \begin{figure}
 		\begin{subfigure}{0.5\textwidth}
@@ -1780,12 +1779,12 @@ The following looks like a fitting match:
 \textex{Opiate oceans poured there, litten by suns that the eye may never behold, and having in their whirlpools strange dolphins and sea-nymphs of unrememberable deeps.}
 \begin{flushright} H.P. Lovecraft, \textit{Azathoth}  (1938). In \textit{Leaves (2).}\end{flushright}
 \end{quote}
-Let us pave the way towards this ambitious goal with the miniature mock-up lexicon of Figure~\ref{figure:toy_lambek_lexicon}, and see just how far it can get us.
+Let us pave the way towards this ambitious goal with the miniature mock-up lexicon of Table~\ref{table:toy_lambek_lexicon}, and see just how far it can get us.
 
 Figure~\ref{figure:nl_applicative_examples} presents derivations for parts of the goal phrase, and our very first linguistic examples (!) -- their applicative nature should make them straightforward to decipher.
 The two proofs of~\ref{subfigure:opiate_oceans_poured_there} and~\ref{subfigure:litten_by_suns} can readily be combined to yield a derivation for the phrase \textex{Opiate oceans litten by suns poured there}. 
 Close, but not quite there...
-The participial \textex{litten}, which acts here as a postnominal modifier, has the special property of being able to position itself either immediately after the noun phrase \textex{opiate oceans} it modifies, or deferred until after the verbal head \textex{poured} has made an appearance.
+The participial \textex{litten}, which acts here as a postnominal modifier, has the special property of being able to position itself either immediately after the noun phrase \textex{opiate oceans} it modifies, or deferred until after the matrix head \textex{poured} has made an appearance (with any adverbials attached to it).
 Attempting to produce a derivation for the original version seems like a dead-end enterprise, though.
 We are not to blame for this incompetence: the problem lies with the grammar -- we could never hope to capture this behavior with our current machinery.
 Despite their elegance and formal appeal, grammars relying purely on Lambek calculi suffer from an aversion to anomalies like discontinuities and long-distance dependencies, which natural languages tend to exhibit at an unfortunately striking degree.
@@ -1817,13 +1816,13 @@ Equipped with it, we can derive both the local versions hinted at earlier, and t
 	\begin{subfigure}{1\textwidth}
 		\smaller
 		\[
-			\infer[\rulestyle{mix}_{\diamond}]{((\w{opiate}\sbind\w{oceans})\sbind(\w{poured}\sbind\w{there}))\sbind\bracket{\term{x_i}} \vdash \s}{
-				\infer[\divleft E]{((\w{opiate}\sbind\w{oceans})\sbind\bracket{\term{x_i}})\sbind(\w{poured}\sbind\w{there}) \vdash \s}{
-					\infer[\divleft E]{(\w{opiate}\sbind\w{oceans})\sbind\bracket{\term{x_i}} \vdash \np}{
+			\infer[\rulestyle{mix}_{\diamond}]{((\w{opiate}\sbind\w{oceans})\sbind(\w{poured}\sbind\w{there}))\sbind\bracket{\term{x_i }} \vdash \s}{
+				\infer[\divleft E]{((\w{opiate}\sbind\w{oceans})\sbind\bracket{\term{x_i }})\sbind(\w{poured}\sbind\w{there}) \vdash \s}{
+					\infer[\divleft E]{(\w{opiate}\sbind\w{oceans})\sbind\bracket{\term{x_i }} \vdash \np}{
 						\infer*{\w{opiate}\sbind\w{oceans} \vdash \np}{}
 						&
-						\infer[\Box E]{\bracket{\term{x_i}} \vdash \np\divleft\np}{
-							\infer[\Ax]{\term{x_i}: \Box (\np\divleft\np)}{}
+						\infer[\Box E]{\bracket{\term{x_i }} \vdash \np\divleft\np}{
+							\infer[\Ax]{\term{x_i }: \Box (\np\divleft\np)}{}
 						}
 					}
 					&
@@ -1839,7 +1838,7 @@ Equipped with it, we can derive both the local versions hinted at earlier, and t
 		\smaller
 		\[
 			\infer[\diamond E]{((\w{opiate}\sbind\w{oceans})\sbind(\w{poured}\sbind\w{there}))\sbind(\w{litten}\sbind(\w{by}\sbind\w{suns})) \vdash \s}{
-				\infer{((\dots)\sbind(\dots))\sbind\bracket{\term{x_i}} \vdash \s}{\text{(\ref{subfigure:control:movement})}}
+				\infer{((\dots)\sbind(\dots))\sbind\bracket{\term{x_i }} \vdash \s}{\text{(\ref{subfigure:control:movement})}}
 				&
 				\infer[\divright E]{\w{litten}\sbind(\w{by}\sbind\w{suns}) \vdash \diamond\Box(\np\divleft\np)}{
 					\infer[\Lex]{\w{litten} : \diamond\Box(\np\divleft\np)\divright\pp }{}
@@ -1886,23 +1885,23 @@ The proof of Figure~\ref{figure:lovecract_rel_clause} employs this typing in com
 				&
 				\hspace{-40pt}\infer[\divright I]{(\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind\w{behold})) \vdash \s\divright\diamond\Box\np}{
 						\infer[\diamond E]{((\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind\w{behold})))\sbind\term{x_j}\vdash \s}{
-							\infer[\rulestyle{ass}_{\diamond}]{((\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind\w{behold})))\sbind\bracket{\term{x_i}}\vdash \s}{
-								\infer[\rulestyle{ass}_{\diamond}]{(\w{the}\sbind\w{eye})\sbind((\w{may}\sbind(\w{never}\sbind\w{behold}))\sbind\bracket{\term{x_i}})\vdash \s}{
-									\infer[\rulestyle{ass}_{\diamond}]{(\w{the}\sbind\w{eye})\sbind(\w{may}\sbind((\w{never}\sbind\w{behold})\sbind\bracket{\term{x_i}}))\vdash \s}{
-										\infer[\divleft E]{(\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind(\w{behold}\sbind\bracket{\term{x_i}})))\vdash \s}{
+							\infer[\rulestyle{ass}_{\diamond}]{((\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind\w{behold})))\sbind\bracket{\term{x_i }}\vdash \s}{
+								\infer[\rulestyle{ass}_{\diamond}]{(\w{the}\sbind\w{eye})\sbind((\w{may}\sbind(\w{never}\sbind\w{behold}))\sbind\bracket{\term{x_i }})\vdash \s}{
+									\infer[\rulestyle{ass}_{\diamond}]{(\w{the}\sbind\w{eye})\sbind(\w{may}\sbind((\w{never}\sbind\w{behold})\sbind\bracket{\term{x_i }}))\vdash \s}{
+										\infer[\divleft E]{(\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind(\w{behold}\sbind\bracket{\term{x_i }})))\vdash \s}{
 											\infer{\w{the}\sbind\w{eye} \vdash \np}{\text{(\ref{subfigure:the_eye})}}
 											&
-											\infer[\divright E]{\w{may}\sbind(\w{never}\sbind(\w{behold}\sbind\bracket{\term{x_i}})) \vdash \np\divleft\s}{
+											\infer[\divright E]{\w{may}\sbind(\w{never}\sbind(\w{behold}\sbind\bracket{\term{x_i }})) \vdash \np\divleft\s}{
 												\infer[\Lex]{\w{may} : \gtype{aux}}{}
 												&
-												\infer[\divright E]{\w{never}\sbind(\w{behold}\sbind\bracket{\term{x_i}}) \vdash \np\divleft\s}{
+												\infer[\divright E]{\w{never}\sbind(\w{behold}\sbind\bracket{\term{x_i }}) \vdash \np\divleft\s}{
 													\infer[\Lex]{\w{never}:\smallgtype{adv}_{\divright}}{}
 													&
-													\infer[\divright E]{\w{behold}\sbind{\bracket{\term{x_i}}} \vdash \np\divleft\s}{
+													\infer[\divright E]{\w{behold}\sbind{\bracket{\term{x_i }}} \vdash \np\divleft\s}{
 														\infer[\Lex]{\w{behold}: \gtype[l]{tv}}{}
 														&
-														\infer[\Box E]{\bracket{\term{x_i}} \vdash \np}{
-															\infer[\Ax]{\term{x_i} : \Box \np}{}
+														\infer[\Box E]{\bracket{\term{x_i }} \vdash \np}{
+															\infer[\Ax]{\term{x_i } : \Box \np}{}
 														}
 													}
 												}
@@ -1991,7 +1990,7 @@ Other than this unique occurrence of polymorphism, second order term and type co
 Armed with this last trick, we are now in possession of all the knowledge necessary to finally tackle the full derivation.
 First, we must instantiate the polymorphic coordinator once by substituting $\chi$ for $\np[s]$ to derive the noun phrase conjunction \textex{strange dolphins and sea-nymphs of unremememberable deeps}, as portrayed in Figure~\ref{subfigure:strange_dolphins_and_sea_nymphs}.
 This, together with our freshly typed \textex{having}, allows the derivation of the mobile postnominal modifier \textex{having in their whirlpools strange dolphins and sea-nymphs of unrememberable deeps}, as in Figure~\ref{subfigure:having_in_their_whirlpools}.
-At this point, we must employ another instance of the polymorphic coordinator, this time substituting $\chi$ for $\diamond\Box (\np\divleft\np[s])$ -- this opens the door to the derivation of the structurally free complex postnominal modifier \textex{litten by suns that the eye may never behold and having in their whirlpools strange dolphins and sea-nymphs of unrememberable deeps}, which can apply to the nested \textex{suns} in the same fashion as the proof of Figure~\ref{figure:lovecraft_postnominal}.
+At this point, we must employ another instance of the polymorphic coordinator, this time substituting $\chi$ for $\diamond\Box (\np\divleft\np[s])$ -- this opens the door to the derivation of the structurally free complex postnominal modifier \textex{litten by suns that the eye may never behold and having in their whirlpools strange dolphins and sea-nymphs of unrememberable deeps}, which can apply to the nested \textex{opiate oceans} in the same fashion as the proof of Figure~\ref{figure:lovecraft_postnominal}.
 At long last, we are rewarded with a type-checking and syntactically faithful analysis of the full sentence (and a check mark on \textit{how to write a dissertation}).
 Collaging these last bits together is left as an exercise to the motivated reader, for fear of repetition sterilizing the quotation of its beauty.
 
@@ -2121,7 +2120,14 @@ The homomorphism $\hm{.}$ operates on proofs, i.e. typed terms, and thus does do
 It is handy, then, to define it on the basis of two components $\langle \eta, \theta \rangle$, where $\eta : \types^{\Sigma} \to \types^{\Tau}$ and $\theta: \terms^{\Sigma} \to \terms^{\Tau}$, such that $\hm{\smallterm{s}: \smallprop{A}} = \theta({\smallterm{s}}) : \eta({\smallprop{A}})$, where the typing relation at the right-hand side of the equation must hold (i.e. the two maps mutually respect derivability).
 On the type level, $\eta$ must specify a pointwise mapping $\eta_0$ from the propositional constants $\propcon^{\Sigma}$ of the source logic to types $\types^{\Tau}$ of the intermediate logic.
 In our case, we will consider this a bijection from $\propcon^{\Sigma}$ to $\propcon^{\Tau}$, such that $\eta_0(p) \mapsto p$ (i.e. instantiating $\propcon^{\Tau}$ as a literal copy of $\propcon^{\Sigma}$).
-Then, to extend $\eta_0$ to $\eta$ we need to specify its action on complex types, where it essentially forgets the unary modalities and removes the directionality of the implications:
+Then, to extend $\eta_0$ to $\eta$ we need to specify its action on complex types, where it essentially forgets the unary modalities and removes the directionality of the implications, as shown in Table~\ref{table:eta_nl}.
+In the exact same vein, $\theta$ pointwise sends constants and variables to their copycat images, and is then inductively defined on complex terms, where it casts directional applications and abstractions to undirectional ones, drops modal decorations and performs the simplified substitution prescribed by the $\diamond E$ rule, as shown in Table~\ref{table:theta_nl}.
+As an example, applying $\hm{.}$ to the proof of Figure~\ref{figure:lovecract_rel_clause} should yield the derivational term:
+\begin{equation}\label{equation:litten_derterm}
+\term{litten~(by~(that~(\lambda x_i .(may~(never~(behold~x_i )))~(the~eye)))~(suns))} : \prop{np}\li\prop{np}
+\end{equation}
+
+\begin{table}[ht]
 \begin{center}
 	\begin{tabularx}{0.51\textwidth}{@{}c@{\quad$\mapsto$\quad}c@{}}
 		\multicolumn{1}{@{}c}{$\types^{\Sigma}$} & \multicolumn{1}{c@{}}{$\types^{\Tau}$}\\
@@ -2131,29 +2137,32 @@ Then, to extend $\eta_0$ to $\eta$ we need to specify its action on complex type
 		$\smallprop{B}\divright\smallprop{A}$				& $\eta(\smallprop{A})\li\eta(\smallprop{B})$\\
 		$\diamond\smallprop{A}$, 	$\Box\smallprop{A}$		& $\eta(\smallprop{A})$
 	\end{tabularx}
+	\caption{Translating $\NL_{\diamond,\Box}$ types to $\ILL_{\li}$.}
+	\label{table:eta_nl}
 \end{center}
-In the exact same vein, $\theta$ pointwise sends constants and variables to their copycat images, and is then inductively defined on complex terms, where it casts directional applications and abstractions to undirectional ones, drops modal decorations and performs the simplified substitution prescribed by the $\diamond E$ rule:
+\end{table}
+
+\begin{table}[ht]
 \begin{center}
 	\begin{tabularx}{0.52\textwidth}{@{}c@{\quad$\mapsto$\quad}c@{}}
 		\multicolumn{1}{@{}c}{$\terms^{\Sigma}$} & \multicolumn{1}{c@{}}{$\terms^{\Tau}$}\\
 		\toprule
 		$\w{c} \in \cons^{\Sigma}$							& $\theta_0(\w{c}) := \w{c} \in \cons^{\Tau}$\\
-		$\smallterm{x_i} \in \vars^{\Sigma}$				& $\theta_0(\smallterm{x_i}) := \smallterm{x_i} \in\vars^{\Tau}$\\
+		$\smallterm{x_i } \in \vars^{\Sigma}$				& $\theta_0(\smallterm{x_i }) := \smallterm{x_i } \in\vars^{\Tau}$\\
 		$\smallterm{s}\nappright\smallterm{t}$, 		
 		$\smallterm{t}\nappleft\smallterm{s}$				& $\theta(\smallterm{s})~\theta(\smallterm{t})$\\
-		$\lambda\smallterm{x_i}.s$,
-		$\adbmal\smallterm{x_i}.s$							& $\lambda\theta(\smallterm{x_i}).\theta(\smallterm{s})$\\
+		$\lambda\smallterm{x_i }.s$,
+		$\adbmal\smallterm{x_i }.s$							& $\lambda\theta(\smallterm{x_i }).\theta(\smallterm{s})$\\
 		$\diaintro \smallterm{s}$, 
 		$\boxintro \smallterm{s}$, 
 		$\boxelim \smallterm{s}$							& $\theta(\smallterm{s})$\\
-		$\caseof{\diaelim \smallterm{t}}{\smallterm{x_i}}{\smallterm{s}}$
-															& $\theta(\smallterm{s})_{[\theta(\smallterm{x_i}) \mapsto \theta(\smallterm{t})]}$
+		$\caseof{\diaelim \smallterm{t}}{\smallterm{x_i }}{\smallterm{s}}$
+															& $\theta(\smallterm{s})_{[\theta(\smallterm{x_i }) \mapsto \theta(\smallterm{t})]}$
 	\end{tabularx}
+	\caption{Translating $\NL_{\diamond,\Box}$ terms to $\ILL_{\li}$.}
+	\label{table:theta_nl}
 \end{center}
-As an example, applying $\hm{.}$ to the proof of Figure~\ref{figure:lovecract_rel_clause} yields the derivational term:
-\[
-\term{litten~(by~(that~(\lambda x_i.(may~(never~(behold~x_i)))~(the~eye)))~(suns))} : \prop{np}\li\prop{np}
-\]
+\end{table}
 
 In this navigation between syntactic and semantic theories, the Curry-\linebreak Howard isomorphism serves as our North Star.
 Syntactic proofs are equated to syntactic terms, on which our homomorphism can be applied to yield derivational semantics terms, in turn equatable to derivational semantics proofs.
@@ -2185,24 +2194,22 @@ In a set-theoretic semantics domain unbound by linearity constraints, another (p
 \lambda \smallterm{x_1x_2x_3.(x_1~x_3)\wedge(x_2~x_3)} :: (*\ii *)\ii(*\ii *)\ii * \ii *
 \]
 for $*$ an arbitrary set, substituted here by the interpretation target of $\smallprop{NP}$.
-% loop back to montague semantics
+
 % continuations
 % proof net
 
 \subsection{Abstract Categorial Grammars}
 \label{subsection:ACG}
-The computational pipeline of the previous section is of sequential form; at its origin point is the syntactic calculus, from which derivational and then lexical semantics are iteratively obtained.
-In that sense, type-logical grammars are syntax first, where syntax is meant to convey the hidden process that forms grammatically correct sentences.
-This is not incompatible with the view of \citet{curry1961some}, who stipulated a two-layered hierarchy of grammaticality criteria.
-The deep layer, called \textit{tectogrammar}, is one concerned solely with the well-typedness of grammatical function domains and the validity of their interpretations.
-The shallow layer, called \textit{phenogrammar}, is where tectogrammatical proofs are transformed and cast to surface forms that abide by the linear order precedence and constituency restrictions imposed by the language.
-There is no question of the legitimacy of this distinction: it should be clear that phenogrammar, in Curry's terms, is our syntactic logic, and tectogrammar is what we earlier referred to as derivational semantics.
-The type-logical operationalization can be seen as Aristotelian in nature (or parsing-oriented).
-It follows the path from observable evidence to latent variables: the surface string is perceived as the yield of a shallow proof, from which a deep proof is extracted.
-
-The inverse operationalization, more Platonic in nature (or generation-oriented), follows the opposite path: it places phenogrammar at the top of the generative process, and models the information flow from deep and abstract to shallow and concrete.
-This perspective is adopted by abstract categorial grammars~\cite{de2001towards} and their contemporary and closely related lambda grammars~\cite{muskens2001lambda}.
-Both are tectogrammar-first formalisms that make extensive use of $\ILL_{\li}$ and the Curry-Howard isomoprhism to obtain tectogrammatical realizations and concrete semantics via homomorphic translations of the phenogrammatic parse.
+So far, we have been predisposed to treating syntax as the hidden process that forms grammatically correct sentences.
+It is insightful to contrast this treatment with the view of \citet{curry1961some}, who thought of syntax as a two-layered hierarchy of grammaticality criteria.
+The deep layer, called \textit{tectogrammar}, would be concerned solely with the well-typedness of grammatical function domains and the validity of their interpretations.
+The shallow layer, called \textit{phenogrammar}, would be where tectogrammatical proofs are transformed and cast to surface forms that abide by the linear order and constituency restrictions imposed by the language.
+Type-logical grammars pose no challenge to the legitimacy of this distinction: it should be clear that phenogrammar, in Curry's terms, is our syntactic logic, and tectogrammar is what we earlier referred to as derivational semantics.
+In being tectogrammar-first, they diverge, however, in its operationalization.
+The computational pipeline they propose is sequential in nature, and follows the Aristotelian path from observable evidence to latent variables: the surface string is perceived as the yield of a (shallow) syntactic proof, from which a deep semantic proof is extracted.
+The operationalization closer to Curry would be inverted, placing phenogrammar at the top of the generative process, and following the Platonic information flow from deep and abstract to shallow and concrete.
+This perspective is embodied by abstract categorial grammars~\cite{de2001towards} and their contemporary and closely related lambda grammars~\cite{muskens2001lambda}.
+Both are tectogrammar-first formalisms that make use of $\ILL_{\li}$ and the Curry-Howard isomoprhism to obtain phenogrammatic realizations via homomorphic translations of the tectogrammatic parse.
 \begin{center}
 \begin{tikzpicture}
 	\node (ds)		at (0, 2)		{Phenogrammar};
@@ -2216,7 +2223,7 @@ Both are tectogrammar-first formalisms that make extensive use of $\ILL_{\li}$ a
 \end{tikzpicture}
 \end{center}
 
-The focal point will be abstract categorial grammars, as they are closer in spirit to what is to come later.
+The focus of our presentation will be on abstract categorial grammars, as they are closer in spirit to what is to come later.
 In its original definition, an abstract categoral grammar consist of two instantiations $\Sigma$, $\Tau$ of $\ILL_{\li}$, and a map between them.
 The source instantiation $\Sigma$ provides a set of base types $\propcon^{\Sigma}$, and the so-called \textit{abstract vocabulary}: a set of \textit{abstract constants} $\cons^{\Sigma}$, each assigned a type from $\types^{\Sigma}$.
 The target instantation $\Tau$ provides another set of base types $\propcon^{\Tau}$, and constants $\cons^{\Tau}$ with types from $\types^{\Tau}$, called the \textit{object vocabulary}.
@@ -2224,31 +2231,89 @@ The map between them is once again a homomomorphism $\hm{.}$, defined on the bas
 Not unlike before, $\eta_0$ is seen as implementing a mapping $\propcon^{\Sigma} \to \types^{\Tau}$, and $\theta_0$ a mapping $\cons^{\Sigma}\to \terms^{\Tau}$, both pointwise defined.
 Their homomorphic extension is trivially obtained by recursively defining their actions on implicational types, function terms and $\lambda$ abstractions, where they simply mimic the source type- and term- structure.
 This formulation lends itself nicely to the notion of \textit{grammar composition}, if one is to use the object logic of a grammar as the abstract logic of another.
-
 Each grammar is accompanied by two \textit{languages}; the abstract language, i.e. the set of terms of a \textit{distinguished} type $\smallprop{s}\in \propcon^{\Sigma}$ derivable in the source logic, and the object language, i.e. the set of object terms the abstract language maps into.
-For the phenogrammar to tectogrammar picture to be made evident, the distinguished type needs to be mapped to the string type $\smallprop{s} \mapsto \mathtt{str}$, forcing terms of the object language to evaluate to strings.%
-\footnote{Note that, despite appearances, $\mathtt{str}$ is a first-order type $*\li *$ ($*$ some arbitrary primitive) so as to permit the view of string concatenation as function composition:
+For the phenogrammar to tectogrammar picture to be made evident, the distinguished type needs to be mapped to the functional string type $\smallprop{s} \mapsto \mathtt{str}$, forcing terms of the object language to evaluate to strings.
+Note that, despite appearances, $\mathtt{str}$ is a first-order type $*\li *$ (where $*$ some arbitrary primitive) so as to permit the view of string concatenation as function composition:
 \[
-+ := \lambda x_1^{\mathtt{str}}x_2^{\mathtt{str}}x_3^{*}.x_1~(x_2~x_3)
-\]}
++ := \lambda \term{x_1^{\mathtt{str}}x_2^{\mathtt{str}}x_3^{*}.x_1~(x_2~x_3)}
+\]
 
 Abstract categorial grammars are characterized by two measures of complexity: the maximal order of source constants' types, and the maximal order of the codomain of $\eta_0$.
 The two together constitute the grammar's \textit{class}, which concisely describes the sort of languages the grammar can model.
 This can prove effective in revealing a more granular stratification underlying the Chomsky hierarchy of formal grammars, when the latter are embedded into abstract categorial equivalents; as such, the framework has found extensive use as a meta-language for the study and formalization of formal grammars (see for instance \citet{de2004expressive}).%
 \footnote{There is a certain irony in formal grammars requiring or benefiting from formalization. If you're having trouble parsing this, consider that formal languages are essentially ad-hoc rules on strings; by formalization we mean giving these rules the type-theoretic treatment they deserve.}
 
-Despite their elegance and objective success in the meta-theoretical world, abstract categorial grammars have not fared as well with linguistic applications, in large part due to their computationally costly nature.
-On the one hand, they stand out from the rest of the categorial family in not being lexicalized by default.
-The conceptual separation between lexicon and rules no longer holds: rules are fixed to the ones supplied by $\ILL_{\li}$, but inference is largely guided by the abstract constants.
-Abstract constants may contain lexical items that make their way to the final (object) derivation, or simply compositional recipes that leave no imprint whatsoever.
-At the same time, the framework is overly reliant on the constant map $\theta_0$ for the translation into the object language to take effect.
-Even in the lexicalized setup, every word (abstract constant) needs to be assigned both an abstract type and a unique object term for every phenogrammatic behavior it exhibits; two lexical dimensions, compared to the one of vanilla categorial grammars -- gone is the adage of words carrying their combinatorics on their sleeves.
-What's worse, words triggering higher-order tectogrammatic phenomena will then need object translations of an even higher order for their surface forms, making the design and population of the translation $\hm{.}$ practically impossible.
+As a more down-to-earth example, let us sketch the outlines of an abstract categorial grammar tasked with the production of an end-to-end linguistic example.
+First, we need to specify our two logics $\Sigma$ and $\Tau$.
+For efficacy and simplicity, we can have $\Sigma$ coincide with the derivational semantics logic of the previous section.
+The object logic $\Tau$, being responsible for the surface materialization of our derivational proofs, will need to be a logic of strings, and is thus populated by a single atomic type $\propcon^{\Tau} := \{ * \}$; all abstract atoms are then sent to $\mathtt{str}$, the alias of $* \li *$.
+For each word, we will need an abstract constant $\w{c} \in \cons^{\Sigma}$, and a corresponding object constant $\str{c} :: \mathtt{str} \in \cons^{\Tau}$, denoting the word's string form. 
+Abstract constants will be sent to object terms via $\theta_0$, each of which must contain a single occurence of a term constant, in order to respect lexicalism and resource transparency.
+The story is summarized in Table~\ref{table:toy_acg_lexicon}.
+Object types are ommitted for brevity -- simply substitute all atoms of the corresponding abstract types with $\mathtt{str}$ to obtain them.
 
-% blocking overgeneration?
-% enforcing grammaticality
-% shortcuts flat, beats the purpose
+\begin{table}
+	\centering
+	\begin{tabularx}{0.85\textwidth}{@{}ccC@{}}
+		Abstract Constant							& Abstract Type										& Object Term\\
+		\toprule
+		eye											& $\smalln$											& \str{eye}	\\
+		suns										& $\smallnp$										& \str{suns} \\
+		oceans										& $\smallnp$										& \str{ocreans} \\
+		the											& $\smalln\li\smallnp$								& $\smallterm{\lambda x_i.\str{the}+x_i}$\\
+		opiate										& $\smallnp\li\smallnp$								& $\smallterm{\lambda x_i.\str{opiate}+x_i }$\\
+		poured										& $\smallnp\li\smalls$								& $\smallterm{\lambda x_i.x_i + \str{poured}}$\\
+		behold										& $\smallnp\li\smallnp\li\smalls$					& $\smallterm{\lambda x_ix_j.x_j+\str{behold}+x_i }$\\
+		there										& $(\smallnp\li\smalls)\li\smallnp\li\smalls$		& $\smallterm{\lambda x_i x_j.(x_i~x_j) + \str{there}}$\\
+		never										& $(\smallnp\li\smalls)\li\smallnp\li\smalls$		& $\smallterm{\lambda x_i x_j.\str{never}+(x_i ~x_j)}$\\
+		may											& $(\smallnp\li\smalls)\li\smallnp\li\smalls$		& $\smallterm{\lambda x_i x_j.\str{may}+(x_i ~x_j)}$\\
+		by											& $\np\li\pp$										& $\smallterm{\lambda x_i.\str{by}+ x_i}$\\
+		litten 										& $\smallpp\li\smallnp\li\smallnp$					& $\smallterm{\lambda x_ix_j.x_j + \str{litten}+ x_i}$\\
+		that										& $(\smallnp\li\smalls)\li\smallnp\li\smallnp$		& $\smallterm{\lambda x_ix_j. x_j + \str{that} + x_i(\o)}$
+	\end{tabularx}
+	\caption{Abstract categorial grammar lexicon following the types of Table~\ref{table:toy_lambek_lexicon}.}
+	\label{table:toy_acg_lexicon}
+\end{table}
 
+Applying the homomorphic translation to the derivational terms \ref{equation:litten_derterm} already proves quite an endeavour; twelve reduction steps later, we are presented with a seemingly reasonable output (function-argument brackets substituted with indendation for legibility):
+\begin{align*}
+& 			\hm{\term{litten~(by~(that~(\lambda x_i .(may~(never~(behold~x_i )))~(the~eye)))~(suns))}} \\
+= \ 
+&							(\lambda x_ix_j.x_j + \str{litten}+ x_i) \\
+&\quad								(\lambda x_k.\str{by}+ x_k)\\
+&\qquad									(\lambda x_lx_m. x_m + \str{that} + x_l(\o))\\
+&\qqquad								(\lambda x_n. \\
+&\qqquad\quad										(\lambda x_o x_p.\str{may}+(x_o ~x_p))\\
+&\qqquad\qquad											(\lambda x_q x_r.\str{never}+(x_q~x_r))\\
+&\qqquad\qqquad												(\lambda x_sx_t.x_t+\str{behold}+x_s)\\
+&\qqquad\qqqquad												x_n \\
+&\qqquad												((\lambda x_u.\str{the}+x_u)~\str{eye})\\
+&\quad									\str{suns}\\
+\bredstar \ & \term{\lambda x_i.x_i + \str{litten}\str{by}\str{suns}\str{that}\str{the}\str{eye}\str{may}\str{never}\str{behold}}\\
+=: & \	\smallterm{s}
+\end{align*}
+Upon closer inspection, though, several issues pop up.
+A natural question to ask first is what could possibly ever make this specific source term acceptable, but the tectogrammatically erroneous subject-abstraction below not?
+\[
+(*) \ \term{litten~(by~(that~(\lambda x_i .(may~(never~(behold~(the~eye) )))~x_i))~(suns))}
+\]
+What's more, the end-term $\smallterm{s}$ is of type $\mathtt{str}\li\mathtt{str}$, making it an ill-fit for the discontinuous application to the \textit{substring} \str{opiate}\str{oceans} nested within \str{opiate}\str{oceans}\str{poured}\str{there}.
+For the tectogrammatical form to surface correctly, we would need to alter the derivational proof by either including non-lexical abstract constants, or adjusting the derivational recipe with functional black magic.
+This not particularly hard to accomplish:
+%\begin{align*}
+%	\smallterm{s} &\Longrightarrow \smallterm{\lambda x_i.x_i~\smallterm{s}}\\
+%	\smallterm{poured~there~(opiate~oceans)} &\Longrightarrow \smallterm{\lambda x_j.x_j~(poured~there~(opiate~oceans))}\\
+%\end{align*}
+
+%Despite their elegance and objective success in the meta-theoretical world, abstract categorial grammars have not fared as well with linguistic applications, in part due to their computationally costly nature.
+%On the one hand, they stand out from the rest of the categorial family in not being lexicalized by default.
+%The conceptual separation between lexicon and rules no longer holds: rules are fixed to the ones supplied by $\ILL_{\li}$, but inference is largely guided by the abstract constants.
+%Abstract constants may contain lexical items that make their way to the final (object) derivation, or simply compositional recipes that leave no imprint whatsoever.
+%At the same time, the framework is overly reliant on the constant map $\theta_0$ for the translation into the object language to take effect.
+%Even in the lexicalized setup, every word (abstract constant) needs to be assigned both an abstract type and a unique object term for every phenogrammatic behavior it exhibits; two lexical dimensions, compared to the one of vanilla categorial grammars.
+%Enforcing grammaticality while blocking overgeneration of the object language similarly requires a careful finetuning of both the abstract language and the translation, in parallel --  gone is the adage of words carrying their combinatorics on their sleeves. 
+%What's worse, words triggering higher-order tectogrammatic phenomena will then need object translations of an even higher order for their surface forms, making the design and population of the translation $\hm{.}$ practically impossible.
+%This last part could in principle be partially mitigated by flattening complex syntactic phenomena into lower-order (alias) types in the source domain, and outsourcing their expansion to a parallel grammar for concrete semantics -- this is less of a solution and more of a deferral, though.
 
 \subsection{Other Formalisms}
 
