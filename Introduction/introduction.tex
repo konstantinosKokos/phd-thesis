@@ -341,7 +341,7 @@ Two terms are $\beta$ equivalent to one another if they both reduce to the same 
 
 If you are at this point getting a feeling of deja vu, rest assured this is not on you; we have indeed gone through this before, last time around with proofs rather than terms.
 If one were to replicate the above term reductions with their corresponding proofs, they would end up exactly with the proof reduction patterns of Figure~\ref{figure:intuitionistic_proof_reduction}.
-I will spare you the theatrics of faking surprise at this fact, but if this not something you were exposed to previously, take a moment here to marvel at the realization that proof normalization is in fact computation.
+I will spare you the theatrics of faking surprise at this fact, but if this not something you were exposed to previously, take a moment here to marvel at the realization that proof normalization is in reality ``just'' computation.
 This ground-shattering discovery lies at the essence of the Curry-Howard correspondence.
 
 \paragraph{$\eta$ conversion}
@@ -1799,7 +1799,7 @@ If you have not skipped any parts yet, your reward should now manifest as an unw
 
 \subsubsection{The Role of Modalities}
 Ever since their original integration with the vanilla multiplicative toolkit (the pioneer being none other than my \#1 supervisor!), modalities have played an indispensable role in the history and development of type-logical grammars~\cite{moortgat1996multimodal}.
-They find use as either licensors or licensees of structural rewrites, now in the form of movement and rebacketing of words and phrases.
+They find use as either licensors or licensees of structural rewrites, now in the form of movement and rebracketing of words and phrases.
 Figure~\ref{figure:lovecract_rel_clause} progresses our agenda by accounting for the presence of a (hypothetical) movable postnominal modifier via the rules of Figure~\ref{figure:modal_structural_rules}.
 To make the hypothesis movable, we need to instantiate it as a box -- for the pure function contained therein to be applicable, the box needs to be removed, enclosing the hypothesis in angular brackets, which in turn license its structural extraction to the rightmost edge of the assumptions via the $\rulestyle{mix}_{\diamond}$ rule.
 At that point, we need to eliminate the bracketed variable with a term of the corresponding type, plus a diamond.
@@ -1949,7 +1949,7 @@ The analysis just performed illustrated the necessity of (at least) two distinct
 One, more opinionated than I, might argue that each type is mapped to a distinct lexical item (one per relativization type), and that the identification between their strings is a mere coincidence, an idiosyncracy of the language, or anyway irrelevant; even if a string is multi-typed, each type is a witness to a unique latent word hiding behind it.
 Of different effect but similar flavor would be the line of defense that appeals to null syntax, a covert process that can conditionally nominalize infinitives, determine plural nouns, relativize gerunds or do any sort of thing, really; a word is never multi-typed, but ad-hoc type conversions can take place out of the blue.
 Even under premises as radical as the above, occassions of type undeterminism are all but rare.
-Consider for instance the verb \textex{to have}, whose FrameNet entry (for the possessive meaning alone) is specified as having mandatory owner and possession semantic arguments (corresponding to syntactic subject and direct object), but also any combination of depictive, duration, explanation, manner and temporal optional complements, in various orders~\cite{baker1998berkeley} -- each variation necessarily expressed with a distinct type.
+Consider for instance the verb \textex{to have}, whose argument structure for the possessive meaning alone) is specified (according to its FrameNet entry~\cite{baker1998berkeley}) as having mandatory owner and possession semantic arguments (corresponding to syntactic subject and direct object), but also any combination of depictive, duration, explanation, manner and temporal optional complements, in various orders -- each variation necessarily expressed with a distinct type.
 In our case, we need the type:
 \begin{align*}
 	\w{having} &:: (\diamond\Box(\np\divleft\np)\divright\np)\divright\pp
@@ -2088,7 +2088,7 @@ This perspective actuates the ideal of compositionality, a concept passed down b
 
 \paragraph{The Type-Logical View}
 Let's appropriate this view and translate it to the type-logical setup, as done in \citet{van1988semantics}.
-Here, syntax is a type theory: a logic whose rules rules are equated to term rewrite instructions, and proofs to programs.
+Here, syntax is a type theory: a logic whose rules are equated to term rewrite instructions, and proofs to programs.
 Semantics can also be a type theory; one with its own types and terms, potentially more expressive and certainly unriddled by (some of) the structural constraints of grammar.
 The meaning interpretation would then be a homomorphism that translates syntactic proofs and programs to corresponding semantic ones -- a translation from one constructive logic to another.
 Its design would need to follow the rule-to-rule approach, according to which every syntactic construction will have its homomorphic image in the target system~\cite{bach1976extension}.
@@ -2103,18 +2103,21 @@ Using the superscript $X := \Sigma \ | \ \Tau$ to distinguish between the two lo
 we will denote with $\propcon^X$ the set of atomic types of X, and $\types^X$ its type universe, i.e. the inductive closure of types under type operators.
 Similarly, we will denote with $\cons^{X}$ its set of constants, $\vars^{X}$ its set of variable names, and $\terms^{X}$ its well-formed terms, i.e. the inductive closure of terms under term operators.
 
-\begin{center}
-\begin{tikzpicture}
-	\node	(ss)  at (0, 0.5) 	{Surface Syntax};
-	\node[outer sep=10pt]	(nlp) at (0, 0) 	{$\Sigma := \logic{NL}_{\diamond,\Box}$};
-	\node	(ss)  at (4.75, 0.5) 	{Derivational Semantics};
-	\node[outer sep=10pt]  	(ill) at (4.75, 0) 	{$\Tau := \ILL_{\li}$};
-	\draw[->] (nlp) -- node[above] {$\hm{.}$}  (ill) ;
-	\node[outer sep=10pt] (target) at (9, 0)	{$?$};
-	\node	(ts)  at (9, 0.5) 	{Target Semantics};
-	\draw[->, dotted, thick] (ill) --  (target) ;
-\end{tikzpicture}
-\end{center}
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\node	(ss)  at (0, 0.5) 	{Surface Syntax};
+		\node[outer sep=5pt]	(nlp) at (0, 0) 	{$\Sigma := \logic{NL}_{\diamond,\Box}$};
+		\node	(ds)  at (4.75, 0.5) 	{Derivational Semantics};
+		\node[outer sep=10pt]  	(ill) at (4.75, 0) 	{$\Tau := \ILL_{\li}$};
+		\draw[->] (nlp) -- node[above] {$\hm{.}$}  (ill) ;
+		\node[outer sep=5pt] (target) at (9, 0)	{$?$};
+		\node	(ts)  at (9, 0.5) 	{Target Semantics};
+		\draw[->, dotted, thick] (ill) --  (target) ;
+	\end{tikzpicture}
+	\caption{The syntax-semantics interface in the type-logical setting.}
+	\label{figure:synsemtlg}
+\end{figure}
 
 The homomorphism $\hm{.}$ operates on proofs, i.e. typed terms, and thus does double duty: it transforms both terms and types of $\Sigma$ to corresponding terms and types of $\Tau$.
 It is handy, then, to define it on the basis of two components $\langle \eta, \theta \rangle$, where $\eta : \types^{\Sigma} \to \types^{\Tau}$ and $\theta: \terms^{\Sigma} \to \terms^{\Tau}$, such that $\hm{\smallterm{s}: \smallprop{A}} = \theta({\smallterm{s}}) : \eta({\smallprop{A}})$, where the typing relation at the right-hand side of the equation must hold (i.e. the two maps mutually respect derivability).
@@ -2205,26 +2208,30 @@ It is insightful to contrast this treatment with the view of \citet{curry1961som
 The deep layer, called \textit{tectogrammar}, would be concerned solely with the well-typedness of grammatical function domains and the validity of their interpretations.
 The shallow layer, called \textit{phenogrammar}, would be where tectogrammatical proofs are transformed and cast to surface forms that abide by the linear order and constituency restrictions imposed by the language.
 Type-logical grammars pose no challenge to the legitimacy of this distinction: it should be clear that phenogrammar, in Curry's terms, is our syntactic logic, and tectogrammar is what we earlier referred to as derivational semantics.
-In being tectogrammar-first, they diverge, however, in its operationalization.
+In being tectogrammar-first, however, they diverge in its operationalization.
 The computational pipeline they propose is sequential in nature, and follows the Aristotelian path from observable evidence to latent variables: the surface string is perceived as the yield of a (shallow) syntactic proof, from which a deep semantic proof is extracted.
 The operationalization closer to Curry would be inverted, placing phenogrammar at the top of the generative process, and following the Platonic information flow from deep and abstract to shallow and concrete.
 This perspective is embodied by abstract categorial grammars~\cite{de2001towards} and their contemporary and closely related lambda grammars~\cite{muskens2001lambda}.
 Both are tectogrammar-first formalisms that make use of $\ILL_{\li}$ and the Curry-Howard isomoprhism to obtain phenogrammatic realizations via homomorphic translations of the tectogrammatic parse.
-\begin{center}
-\begin{tikzpicture}
-	\node (ds)		at (0, 2)		{Phenogrammar};
-	\node (dsl)		at (0, 1.5)		{$\Sigma := \ILL_{\li}$};
-	\node (ss)		at (-4.5, 0)		{Tectogrammar};
-	\node (ssl)		at (-4.5, -0.5)	{$\Tau := \ILL_{\li}$};
-	\node (ls)		at (4.5, 0)		{Semantics};
-	\node (lsl)		at (4.5, -0.5)	{?};
-	\draw[->] (dsl) -- node[above] {$\hm{.}$}  (ss) ;
-	\draw[->,dotted,thick] (dsl) --	(ls) ;
-\end{tikzpicture}
-\end{center}
+
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\node (ds)		at (0, 2)		{Phenogrammar};
+		\node (dsl)		at (0, 1.5)		{$\Sigma := \ILL_{\li}$};
+		\node (ss)		at (-4.5, 0)		{Tectogrammar};
+		\node (ssl)		at (-4.5, -0.5)	{$\Tau := \ILL_{\li}$};
+		\node (ls)		at (4.5, 0)		{Semantics};
+		\node (lsl)		at (4.5, -0.5)	{?};
+		\draw[->] (dsl) -- node[above] {$\hm{.}$}  (ss) ;
+		\draw[->,dotted,thick] (dsl) --	(ls) ;
+	\end{tikzpicture}
+	\caption{The syntax-semantics interface in the abstract categorial setting.}
+	\label{figure:synsemacg}
+\end{figure}
 
 The focus of our presentation will be on abstract categorial grammars, as they are closer in spirit to what is to come later.
-In its original definition, an abstract categoral grammar consist of two instantiations $\Sigma$, $\Tau$ of $\ILL_{\li}$, and a map between them.
+In its original definition, an abstract categoral grammar consists of two instantiations $\Sigma$, $\Tau$ of $\ILL_{\li}$, and a map between them.
 The source instantiation $\Sigma$ provides a set of base types $\propcon^{\Sigma}$, and the so-called \textit{abstract vocabulary}: a set of \textit{abstract constants} $\cons^{\Sigma}$, each assigned a type from $\types^{\Sigma}$.
 The target instantation $\Tau$ provides another set of base types $\propcon^{\Tau}$, and constants $\cons^{\Tau}$ with types from $\types^{\Tau}$, called the \textit{object vocabulary}.
 The map between them is once again a homomomorphism $\hm{.}$, defined on the basis of $\langle \eta_0, \theta_0\rangle$.
@@ -2238,19 +2245,37 @@ Note that, despite appearances, $\mathtt{str}$ is a first-order type $*\li *$ (w
 + := \lambda \term{x_1^{\mathtt{str}}x_2^{\mathtt{str}}x_3^{*}.x_1~(x_2~x_3)}
 \]
 
+\subsubsection{Artificial Languages}
 Abstract categorial grammars are characterized by two measures of complexity: the maximal order of source constants' types, and the maximal order of the codomain of $\eta_0$.
 The two together constitute the grammar's \textit{class}, which concisely describes the sort of languages the grammar can model.
 This can prove effective in revealing a more granular stratification underlying the Chomsky hierarchy of formal grammars, when the latter are embedded into abstract categorial equivalents; as such, the framework has found extensive use as a meta-language for the study and formalization of formal grammars (see for instance \citet{de2004expressive}).%
 \footnote{There is a certain irony in formal grammars requiring or benefiting from formalization. If you're having trouble parsing this, consider that formal languages are essentially ad-hoc rules on strings; by formalization we mean giving these rules the type-theoretic treatment they deserve.}
 
-As a more down-to-earth example, let us sketch the outlines of an abstract categorial grammar tasked with the production of an end-to-end linguistic example.
-First, we need to specify our two logics $\Sigma$ and $\Tau$.
-For efficacy and simplicity, we can have $\Sigma$ coincide with the derivational semantics logic of the previous section.
-The object logic $\Tau$, being responsible for the surface materialization of our derivational proofs, will need to be a logic of strings, and is thus populated by a single atomic type $\propcon^{\Tau} := \{ * \}$; all abstract atoms are then sent to $\mathtt{str}$, the alias of $* \li *$.
+\todo
+% go wild with CFG of types
+
+\subsubsection{Human Languages}
+Despite their elegance and objective success in the meta-theoretical world, abstract categorial grammars have not fared as well with linguistic applications, in part due to their computationally intractable nature.
+On the one hand, they stand out from the rest of the categorial family in not being lexicalized by default.
+The conceptual separation between lexicon and rules no longer holds: rules are fixed to the ones supplied by $\ILL_{\li}$, but inference is largely guided by the abstract constants.
+Abstract constants may contain lexical items that make their way to the final (object) derivation, or simply compositional recipes that leave no imprint whatsoever.
+At the same time, the framework is overly reliant on the constant map $\theta_0$ for the translation into the object language to take effect.
+Even in the lexicalized setup where the abstract lexicon is populated by words and words only, every abstract constant needs to be assigned both an abstract type and a unique object term for every phenogrammatic behavior it exhibits; two lexical dimensions, compared to the one of vanilla categorial grammars.
+Enforcing grammaticality while blocking overgeneration of the object language similarly requires a careful, parallel finetuning of both the abstract language and the translation --  gone is the adage of words carrying their combinatorics on their sleeves. 
+What's worse, words triggering higher-order tectogrammatic phenomena will then need object translations of an even higher order for their surface forms, making the design and population of the translation $\hm{.}$ practically impossible.
+This part could in principle be partially mitigated by flattening complex syntactic phenomena into lower-order (alias) types in the source domain, and outsourcing their expansion to a parallel grammar for concrete semantics -- this is less of a solution and more of a deferral, though.
+Last but not least, it is unclear how to procure an abstract proof object from the \textit{evaluated} yield of its object translation (i.e. the string form we are most likely encounter in the open) using traditional proof-theoretic disciplines -- the two layers of function-argument structures (abstract- and object- level) and their interacting reductions would unnerve even the sturdiest of parsers (or so it seems).
+
+As an artificial yet illustrative and down-to-earth example, let us sketch the outlines of an abstract categorial grammar tasked with the production of an end-to-end linguistic example.
+First item on the agenda is the specification of our two logics $\Sigma$ and $\Tau$.
+For efficacy and simplicity, we can have $\Sigma$ coincide with the derivational semantics logic of the previous section, inheriting its terms and types for free.
+Doing so requires of course that we assume some high-level equivalence between the representations of what used to be abstract semantics before, and what now we call deep syntax -- let's naively take this for granted.
+The object logic $\Tau$, being responsible for the surface materialization of our derivational proofs, will need to be a logic of strings and is thus populated by a single atomic type $\propcon^{\Tau} = \{ *\}$; all abstract atoms atoms are then sent to $\mathtt{str}$, the type alias of $* \li *$ .
 For each word, we will need an abstract constant $\w{c} \in \cons^{\Sigma}$, and a corresponding object constant $\str{c} :: \mathtt{str} \in \cons^{\Tau}$, denoting the word's string form. 
-Abstract constants will be sent to object terms via $\theta_0$, each of which must contain a single occurence of a term constant, in order to respect lexicalism and resource transparency.
-The story is summarized in Table~\ref{table:toy_acg_lexicon}.
-Object types are ommitted for brevity -- simply substitute all atoms of the corresponding abstract types with $\mathtt{str}$ to obtain them.
+Abstract constants will be sent to object terms via $\theta_0$, each of which must contain a single occurence of a term constant, in order to preserve lexicalism and respect lexical transparency.
+Worth a special mention is the fact that the tectogrammatic image of words assigns them syntactic recipes, as they carry their own $\lambda$ terms.
+The story is summarized in Table~\ref{table:toy_acg_lexicon} (object types are ommitted for brevity -- simply substitute all atoms of the corresponding abstract types with $\mathtt{str}$ to obtain them).
+The highest order source type is $2$, and the order of all atomic type translations is $1$, making the complexity class of the grammar $(2, 1)$.
 
 \begin{table}
 	\centering
@@ -2275,45 +2300,40 @@ Object types are ommitted for brevity -- simply substitute all atoms of the corr
 	\label{table:toy_acg_lexicon}
 \end{table}
 
-Applying the homomorphic translation to the derivational terms \ref{equation:litten_derterm} already proves quite an endeavour; twelve reduction steps later, we are presented with a seemingly reasonable output (function-argument brackets substituted with indendation for legibility):
-\begin{align*}
-& 			\hm{\term{litten~(by~(that~(\lambda x_i .(may~(never~(behold~x_i )))~(the~eye)))~(suns))}} \\
-= \ 
-&							(\lambda x_ix_j.x_j + \str{litten}+ x_i) \\
-&\quad								(\lambda x_k.\str{by}+ x_k)\\
-&\qquad									(\lambda x_lx_m. x_m + \str{that} + x_l(\o))\\
-&\qqquad								(\lambda x_n. \\
-&\qqquad\quad										(\lambda x_o x_p.\str{may}+(x_o ~x_p))\\
-&\qqquad\qquad											(\lambda x_q x_r.\str{never}+(x_q~x_r))\\
-&\qqquad\qqquad												(\lambda x_sx_t.x_t+\str{behold}+x_s)\\
-&\qqquad\qqqquad												x_n \\
-&\qqquad												((\lambda x_u.\str{the}+x_u)~\str{eye})\\
-&\quad									\str{suns}\\
-\bredstar \ & \term{\lambda x_i.x_i + \str{litten}\str{by}\str{suns}\str{that}\str{the}\str{eye}\str{may}\str{never}\str{behold}}\\
-=: & \	\smallterm{s}
-\end{align*}
-Upon closer inspection, though, several issues pop up.
-A natural question to ask first is what could possibly ever make this specific source term acceptable, but the tectogrammatically erroneous subject-abstraction below not?
-\[
-(*) \ \term{litten~(by~(that~(\lambda x_i .(may~(never~(behold~(the~eye) )))~x_i))~(suns))}
-\]
-What's more, the end-term $\smallterm{s}$ is of type $\mathtt{str}\li\mathtt{str}$, making it an ill-fit for the discontinuous application to the \textit{substring} \str{opiate}\str{oceans} nested within \str{opiate}\str{oceans}\str{poured}\str{there}.
-For the tectogrammatical form to surface correctly, we would need to alter the derivational proof by either including non-lexical abstract constants, or adjusting the derivational recipe with functional black magic.
-This not particularly hard to accomplish:
-%\begin{align*}
-%	\smallterm{s} &\Longrightarrow \smallterm{\lambda x_i.x_i~\smallterm{s}}\\
-%	\smallterm{poured~there~(opiate~oceans)} &\Longrightarrow \smallterm{\lambda x_j.x_j~(poured~there~(opiate~oceans))}\\
-%\end{align*}
+Figure~\ref{figure:acg_derivation} shows the application of the homomorphic translation to the derivational term (\ref{equation:litten_derterm}) inspected earlier (source function-argument brackets substituted with indendation levels for legibility).
+This already proves quite an endeavour; twelve reduction steps later, we are presented with a seemingly reasonable output.
+Upon closer inspection, though, an issue pops up: the end-term $\smallterm{s}$ is of type $\mathtt{str}\li\mathtt{str}$, making it an ill-fit for the discontinuous application to the \textit{substring} \str{opiate}\str{oceans}, which we expect to find nested within the main clause \str{opiate}\str{oceans}\str{poured}\str{there}.
+For the tectogrammatical form to be able surface correctly, some drastic adjustments are necessary.
+We could alter the derivational proof by including non-lexical abstract constants, or refine the source types to impose (or enable) structural variation, but either option would be undermining the cohesion between deep syntax and semantics we started from.
+The only alternative that does not resort to contaminating the original term -- abstract and pure -- with vulgar restrictions of form would be to lift the complexity of the interpretation and design it anew.
 
-%Despite their elegance and objective success in the meta-theoretical world, abstract categorial grammars have not fared as well with linguistic applications, in part due to their computationally costly nature.
-%On the one hand, they stand out from the rest of the categorial family in not being lexicalized by default.
-%The conceptual separation between lexicon and rules no longer holds: rules are fixed to the ones supplied by $\ILL_{\li}$, but inference is largely guided by the abstract constants.
-%Abstract constants may contain lexical items that make their way to the final (object) derivation, or simply compositional recipes that leave no imprint whatsoever.
-%At the same time, the framework is overly reliant on the constant map $\theta_0$ for the translation into the object language to take effect.
-%Even in the lexicalized setup, every word (abstract constant) needs to be assigned both an abstract type and a unique object term for every phenogrammatic behavior it exhibits; two lexical dimensions, compared to the one of vanilla categorial grammars.
-%Enforcing grammaticality while blocking overgeneration of the object language similarly requires a careful finetuning of both the abstract language and the translation, in parallel --  gone is the adage of words carrying their combinatorics on their sleeves. 
-%What's worse, words triggering higher-order tectogrammatic phenomena will then need object translations of an even higher order for their surface forms, making the design and population of the translation $\hm{.}$ practically impossible.
-%This last part could in principle be partially mitigated by flattening complex syntactic phenomena into lower-order (alias) types in the source domain, and outsourcing their expansion to a parallel grammar for concrete semantics -- this is less of a solution and more of a deferral, though.
+It seems therefore that the appealing simplicity and elegance of the tectogrammatic logic is counterbalanced by an increasingy bulky and cumbersome transition to the (equally simple, yet far less elegant) phenogrammatic logic.
+The problem is of course more pronounced for natural languages, which overstep the strict confines of their formal counterparts.
+If only we had a way to keep just the good part of a type-driven and semantically transparent deep syntax, without having to get involved with all the tedious labour of its surface materialization or the translation to it...
+Spoiler alert: we will in a bit.
+
+
+\begin{figure}
+	{\smaller
+	\begin{align*}
+	& 			\hm{\term{litten~(by~(that~(\lambda x_i .(may~(never~(behold~x_i )))~(the~eye)))~(suns))}} \\
+	= \ 
+	&							(\lambda x_ix_j.x_j + \str{litten}+ x_i) \\
+	&\quad								(\lambda x_k.\str{by}+ x_k)\\
+	&\qquad									(\lambda x_lx_m. x_m + \str{that} + x_l(\o))\\
+	&\qqquad								(\lambda x_n. \\
+	&\qqquad\quad										(\lambda x_o x_p.\str{may}+(x_o ~x_p))\\
+	&\qqquad\qquad											(\lambda x_q x_r.\str{never}+(x_q~x_r))\\
+	&\qqquad\qqquad												(\lambda x_sx_t.x_t+\str{behold}+x_s)\\
+	&\qqquad\qqqquad												x_n \\
+	&\qqquad												((\lambda x_u.\str{the}+x_u)~\str{eye})\\
+	&\quad									\str{suns}\\
+	\bredstar \ & \term{\lambda x_i.x_i + \str{litten}\str{by}\str{suns}\str{that}\str{the}\str{eye}\str{may}\str{never}\str{behold}}\str{\o}
+	\end{align*}
+	}
+	\caption{Homomorphic translation of derivational term~(\ref{equation:litten_derterm}) according to Table~\ref{table:toy_acg_lexicon}.}
+	\label{figure:acg_derivation}
+\end{figure}
 
 \subsection{Other Formalisms}
 
