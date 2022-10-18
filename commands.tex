@@ -10,6 +10,7 @@
 \usepackage{multirow}
 \usepackage{makecell}
 \usepackage{palatino}
+\usepackage{mathpazo}
 \renewcommand{\baselinestretch}{1} 
 \usepackage{graphicx}
 \usepackage{xparse}
@@ -19,6 +20,7 @@
 \usepackage{hyperref}
 \usepackage{qtree}[center]
 \usepackage{calc}
+\usepackage[bb=pazo]{mathalpha}
 
 \newcommand{\todo}{\textcolor{red}{todo}}
 
@@ -96,10 +98,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					lingu examples
 \newcommand{\textex}[1]{``\textit{#1}''}
+\newcommand{\gap}{\underline{\hphantom{X}}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                  term / type / rule macros
-\newcommand{\smallprop}[1]{	\ensuremath{\normalfont\textsc{\lowercase{#1}}}}
+\newcommand{\lam}{\mathnormal{\lambda}}
+\newcommand{\smallprop}[1]{	\ensuremath{\normalfont\textsc{#1}}}
 \newcommand{\prop}[1]{\ensuremath{\vnorm{\smallprop{#1}}}}
 \newcommand{\smallterm}[1]{\ensuremath{\mathsf{#1}}}
 \newcommand{\term}[1]{\smallterm{#1}}
@@ -128,16 +132,20 @@
 \newcommand{\terms}{\ensuremath{\smallterm{Terms}}}
 \newcommand{\cons}{\ensuremath{\smallterm{Cons}}}
 \newcommand{\vars}{\ensuremath{\smallterm{Vars}}}
-\newcommand{\str}[1]{\smallterm{\sslash #1\sslash}}
-\newcommand{\varx}{\smallterm{x_i}}
-\newcommand{\vary}{\smallterm{x_j}}
-\newcommand{\varz}{\smallterm{x_k}}
-\newcommand{\varw}{\smallterm{x_l}}
+\newcommand{\str}[1]{\smallterm{\sslash{#1}\sslash}}
+\newcommand{\Var}[1]{\smallterm{x}_{\mathnormal{#1}}}
+\newcommand{\vari}{\Var{i}}
+\newcommand{\varj}{\Var{j}}
+\newcommand{\vark}{\Var{k}}
+\newcommand{\varl}{\Var{l}}
+\newcommand{\varm}{\Var{m}}
+\newcommand{\varn}{\Var{n}}
+\newcommand{\varo}{\Var{o}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					grammar shortcuts
 \newcommand{\w}[1]{\text{#1}}
-\newcommand{\smallgtype}[1]{\ensuremath{\textsc{\lowercase{\normalfont\textsc{#1}}}}}
+\newcommand{\smallgtype}[1]{\ensuremath{\textsc{\normalfont\textsc{#1}}}}
 \newcommand{\gtype}[2][l]{%
 	\ifthenelse
 		{\equal{#1}{s}}%
@@ -159,6 +167,8 @@
 \newcommand{\smalln}{\n[s]}
 \newcommand{\pp}[1][]{\gtype[#1]{pp}}
 \newcommand{\smallpp}{\pp[s]}
+\newcommand{\type}[1][]{\gtype[#1]{Type}}
+\newcommand{\base}[1][]{\gtype[#1]{Base}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					type modalities
