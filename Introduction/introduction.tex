@@ -11,7 +11,7 @@ Intuitionism, with Luitzen Egbertus Jan Brouwer as its forefather, would challen
 What it would claim, instead, is that mathematics is but a subjective process of construction that abides by some rules of inference, which, internally consistent as they may be, hold no reflection of deeper truth or meaning.
 In practice, intuitionists would reject the law of the excluded middle (an essential tool for Hilbert's school of formalists) and argue that for a proof to be considered valid, it has to provide concrete instructions for the construction of the object it claims to prove.
 The dispute went on for a couple of decades, its flame carried on by the respective students of the two rivals.
-Logic, intrigue, conflict, fame, no \LaTeX{} errors..  these truly were the years to be an active mathematician.
+Logic, intrigue, conflict, fame, no \LaTeX{} errors...  these truly were the years to be an active mathematician.
 Eventually, in a critical moment of clarity and inspiration, and tired by the ongoing drama, Kurt G\"odel, with his famous incompleteness theorem, would declare Hilbert's program unattainable, thus putting a violent end to the line of formalist heathens, and paving the way for the true revolution that was to come.
 This is in reference, of course, to the biggest discovery of the last century\footnote{In proof theory, at least.}, made independently (using wildly different words every time) by various mathematicians and logicians spanning different timelines.
 Put plainly, what is now known as the Curry-Howard correspondence establishes a syntactic equivalence between deductive systems in intuitionistic brands of logic and corresponding computational systems, called $\lam$-calculi.
@@ -1761,7 +1761,7 @@ Adverbs would also be endomorphisms, except this time higher-order -- \linebreak
 
 Linguistic reasoning is not done \textit{ex nihilo} -- formulas like the above are supplied by and grounded in the lexicon. 
 This does not exclude the option of utilizing hypotheticals instantiated by the axiom rule $\Ax$ -- hypothetical reasoning lives, in fact, at the core of the type-logical inferential process, as we will soon see.
-It means, rather, that our building blocks will for the most part be \textit{lexical constants}, proof objects that behave just like variables, except they are neither wantonly typed nor amenable to function abstraction.
+It means, rather, that our building blocks will for the most part be \textit{lexical constants}, proof objects that behave just like variables, except they are neither wantonly typed nor amenable to abstraction.
 To convey the difference between the two, we will instantiate the latter with a seemingly new rule of inference, $\Lex$, which simply performs lexical lookup, i.e. pulls a word's type from the lexicon.
 
 The internet guide \textit{how to write a dissertation} I am consulting insists it is important to set clear goals and stick to them.
@@ -1773,9 +1773,9 @@ The following looks like a fitting match:
 \end{quote}
 Let's pave the way towards this ambitious goal with the miniature mock-up lexicon of Table~\ref{table:toy_lambek_lexicon}, and see just how far it can get us.
 
-Figure~\ref{figure:nl_applicative_examples} presents derivations for parts of the goal phrase, and our very first linguistic examples (!) -- their applicative nature should make them straightforward to decipher.
+Figure~\ref{figure:nl_applicative_examples} presents derivations for parts of the goal phrase, and our very first linguistic examples (!) -- the absence of abstractions should make them straightforward to decipher.
 The two proofs of~\ref{subfigure:opiate_oceans_poured_there} and~\ref{subfigure:litten_by_suns} can readily be combined to yield a derivation for the phrase \textex{Opiate oceans litten by suns poured there}. 
-Close, but not quite there..
+Close, but not quite there...
 The participial \textex{litten}, which acts here as a postnominal modifier, has the special property of being able to position itself either immediately after the noun phrase \textex{opiate oceans} it modifies, or deferred until after the matrix head \textex{poured} has made an appearance (with any adverbials attached to it).
 Attempting to produce a derivation for the original version seems like a dead-end enterprise, though.
 We are not to blame for this incompetence: the problem lies with the grammar -- we could never hope to capture this behavior with our current machinery.
@@ -1790,7 +1790,7 @@ Spurious ambiguity would be the least of our concerns as we would be faced with 
 If you have not skipped any parts yet, your reward should now manifest as an unwavering faith for a solution, and a premonition of what is to come: modalities to the rescue!
 
 \subsubsection{The Role of Modalities}
-Ever since their original integration with the vanilla multiplicative toolkit (the pioneer being none other than my \#1 supervisor!), modalities have played an indispensable role in the history and development of type-logical grammars~\cite{moortgat1996multimodal}.
+Ever since their original integration with the vanilla multiplicative toolkit, (the early pioneer being none other than my \#1 supervisor!) modalities have played an indispensable role in the history and development of type-logical grammars~\cite{hendriks1995ellipsis, moortgat1996multimodal,kurtonina1997structural,moortgat1997categorial,vermaat1999controlling}.
 They find use as either licensors or licensees of structural rewrites, now in the form of movement and rebracketing of words and phrases.
 Figure~\ref{figure:lovecract_rel_clause} progresses our agenda by accounting for the presence of a (hypothetical) movable postnominal modifier via the rules of Figure~\ref{figure:modal_structural_rules}.
 To make the hypothesis movable, we need to instantiate it as a box -- for the pure function contained therein to be applicable, the box needs to be removed, enclosing the hypothesis in angular brackets, which in turn license its structural extraction to the rightmost edge of the assumptions via the $\rulestyle{mix}_{\diamond}$ rule.
@@ -1822,7 +1822,7 @@ Equipped with it, we can derive both the local versions hinted at earlier, and t
 				}
 			}
 		\]
-		\caption{Extracting a hypothetical postnominal modifier..}
+		\caption{Extracting a hypothetical postnominal modifier...}
 		\label{subfigure:control:movement}
 	\end{subfigure}\\[\midsep]
 	\begin{subfigure}{1\textwidth}
@@ -1843,7 +1843,7 @@ Equipped with it, we can derive both the local versions hinted at earlier, and t
 				}
 			}
 		\]
-		\caption{..before substituting the hypothesis for its material instance.}
+		\caption{...before substituting the hypothesis for its material instance.}
 		\label{subfigure:control:substitution}
 	\end{subfigure}
 	\caption{Deriving long-distance postnominal modification with the aid of type assignment~(\ref{equation:litten}).}
@@ -1909,7 +1909,7 @@ The proof of Figure~\ref{figure:lovecract_rel_clause} employs this typing in com
 					}
 				}
 		\]
-		\caption{Deriving an object-relative clause..}
+		\caption{Deriving an object-relative clause...}
 		\label{subfigure:lovecraft_rel_clause:rc}
 	\end{subfigure}\\[\smallsep]
 	\begin{subfigure}{1\textwidth}
@@ -1929,7 +1929,7 @@ The proof of Figure~\ref{figure:lovecract_rel_clause} employs this typing in com
 				}
 			}
 		\]
-		\caption{..and using it to derive the full long-distance postnominal modifier.}
+		\caption{...and using it to derive the full long-distance postnominal modifier.}
 		\label{subfigure:lovecraft_rel_clause:suns}
 	\end{subfigure}
 	\caption{An object-relative clause in action, prompted by type assignment~(\ref{equation:objrel}).}
@@ -2005,7 +2005,7 @@ Collaging these last bits together is left as an exercise to the motivated reade
 					}
 				}
 			\]
-			\caption{Deriving noun-phrase coordination..}
+			\caption{Deriving noun-phrase coordination...}
 			\label{subfigure:strange_dolphins_and_sea_nymphs}
 	\end{subfigure}
 	\begin{subfigure}{1\textwidth}
@@ -2030,7 +2030,7 @@ Collaging these last bits together is left as an exercise to the motivated reade
 				\infer{\delta \vdash \np}{\text{(\ref{subfigure:strange_dolphins_and_sea_nymphs})}}
 			}
 		\]
-		\caption{..and using it to construct yet another postnominal modifier.}
+		\caption{...and using it to construct yet another postnominal modifier.}
 		\label{subfigure:having_in_their_whirlpools}
 	\end{subfigure}
 	\caption{Filling in the missing bits using the polymorphic type~(\ref{equation:polymorphic_nl_crd}).}
@@ -2083,7 +2083,7 @@ It proclaims that the semantic expression assigned to complex linguistic entries
 This perspective actuates the ideal of compositionality, a concept passed down by Gottlob Frege and summarized as stating that the meaning of a complex expression is computable on the basis of its primitive expressions and the rules that dictate their combination~\cite{partee1984compositionality}.
 
 \paragraph{The Type-Logical View}
-Let's appropriate this view and translate it to the type-logical setup, as done in \citet{van1988semantics}.
+Let's appropriate this view and translate it to the type-logical setup, as done by \citet{van1988semantics}.
 Here, syntax is a type theory: a logic whose rules are equated to term rewrite instructions, and proofs to programs.
 Semantics can also be a type theory; one with its own types and terms, potentially more expressive and certainly unriddled by (some of) the structural constraints of grammar.
 The meaning interpretation would then be a homomorphism that translates syntactic proofs and programs to corresponding semantic ones -- a translation from one constructive logic to another.
@@ -2166,14 +2166,14 @@ As an example, applying $\hm{.}$ to the proof of Figure~\ref{figure:lovecract_re
 In this navigation between syntactic and semantic theories, the Curry-\linebreak Howard isomorphism serves as our North Star.
 Syntactic proofs are equated to syntactic terms, on which our homomorphism can be applied to yield derivational semantics terms, in turn equatable to derivational semantics proofs.
 This might seem like a lot of work to simply ``forget'' syntax, but it showcases how one can step up the computational hierarchy of substructural logics in order to attain access to more expressive semantics.
-Note also that such a path is merely a suggestion and not an imperative; a more ambitious line of though could maintain that word order variations (and the structural rules licensing them) can carry semantic cues which, albeit subtle, need to be upheld in the compositional meaning translation (see for instance \citet{duarte2022quantum} for some exotic interpretations of the control modalities).
+Note also that such a path is merely a suggestion and not an imperative; a more ambitious line of though could maintain that word order variations (and the structural rules licensing them) can carry semantic cues which, albeit subtle, need to be upheld in the compositional meaning translation (see for instance  the contemporary work of \citet{duarte2022quantum} for some exotic interpretations of the control modalities).
 
 \paragraph{The Role of the Lexicon}
 The sentiments of the previous paragraph could be met with some skepticism.
 A critical eye might argue that semantic interactions not already manifested in the syntax may never be born of this process, and thus wonder whether this added expressivity can serve any real purpose or offer any tangible benefits.
 To dispel such doubts, we need to keep in mind that derivational terms refrain from specifying \textit{lexical meaning}, i.e. they treat lexical items as black boxes, from a semantic perspective.
 Opening these black boxes would reveal flat entries (i.e. term constants) in the case of words providing meaning \textit{ingredients}, as opposed to structurally rich entries (i.e. complex terms with internal structure) in the case of words providing meaning \textit{recipes}.%
-\footnote{This distinction is usually paralleled with the linguistic distinction between \textit{content} and \textit{function} words, but commiting to this being the case is an unecessary restriction. Depending on the end-target semantics logic and the granularity of the semantic lexicon, content words might still be assigned complex term structure -- a common trick, for instance, in delivering dependent type semantics; see \citet{chatzikyriakidis2020formal} for an overview of recent developments.}
+\footnote{This distinction is usually paralleled with the linguistic distinction between \textit{content} and \textit{function} words, but commiting to this being the case is an unecessary restriction. Depending on the end-target semantics logic and the granularity of the semantic lexicon, content words might still be assigned complex term structure -- a common trick, for instance, in delivering dependent type semantics; see the book of \citet{chatzikyriakidis2020formal} for an overview of recent developments.}
 Structurally rich lexical entries can utilize \textit{any} term constructor made available by the semantic logic; crucially, this includes constructors that escape the narrow borders of the homomorphic codomain (i.e. do not have a syntactic origin).
 Of course, such terms are still bound by the promise to obay the type dictated by the homomorphic translation of their original syntactic type, and must also be derivable theorems of the semantic logic they live in.
 Increasing expressivity therefore may indeed not in itself add to the function-argument structures inherited by syntax, but provides the tools necessary for complex lexical semantic actions to take effect as needed.
@@ -2241,7 +2241,7 @@ Note that, despite appearances, $\mathtt{str}$ is a first-order type $*\li *$ (w
 \subsubsection{Artificial Languages}
 Abstract categorial grammars are characterized by two measures of complexity: the maximal order of source constants' types, and the maximal order of the codomain of $\eta_0$.
 The two together constitute the grammar's \textit{class}, which concisely describes the sort of languages the grammar can model.
-This can prove effective in revealing a more granular stratification underlying the Chomsky hierarchy of formal grammars, when the latter are embedded into abstract categorial equivalents; as such, the framework has found extensive use as a meta-language for the study and formalization of formal grammars (see for instance \citet{de2004expressive}).%
+This can prove effective in revealing a more granular stratification underlying the Chomsky hierarchy of formal grammars, when the latter are embedded into abstract categorial equivalents; as such, the framework has found extensive use as a meta-language for the study and formalization of formal grammars (as done by \citet{de2004expressive}, \textit{inter alia}).
 \footnote{There is a certain irony in formal grammars requiring or benefiting from formalization. If you're having trouble parsing this, consider that formal languages are essentially ad-hoc rules on strings; by formalization we mean giving these rules the type-theoretic treatment they deserve.}
 
 To see this in practice, let's have some meta-fun pretty-printing the types of $\logic{(N)L}_{\diamond, \Box}$ by modeling their type formation rules (which constitute a context-free grammar) using an abstract categorial grammar.
@@ -2317,7 +2317,7 @@ The above -- all of type $\mathtt{str}$, and underlined to distinguish from func
 	\label{figure:litten_acg_der}
 \end{figure}
 
-Figure~\ref{figure:litten_acg_der} presents the simple applicative construction of the type previously assigned to \textex{litten}, $\diamond\Box (\np[s]\divleft\np[s])\divright\pp[s]$ (contexts are intentionally left empty and axioms replaced by abstract constants for brevity).
+Figure~\ref{figure:litten_acg_der} presents the construction of the type previously assigned to \textex{litten}, $\diamond\Box (\np[s]\divleft\np[s])\divright\pp[s]$ (contexts are intentionally left empty and axioms replaced by abstract constants for brevity).
 Applying the homomorphic translation to its abstract yields a printout in the form of the object term below (source function-argument brackets substituted with indendation levels for legibility):
 \begin{equation}
 	{
@@ -2339,20 +2339,21 @@ Applying the homomorphic translation to its abstract yields a printout in the fo
 	\end{aligned}
 	}
 \end{equation}
-Six reduction steps later and.. voil\`{a} -- our pretty printer works!
+Six reduction steps later and... voil\`{a} -- our pretty printer works!
 The maximal order of the abstract constants is 1, and the maximal order of the translation is 2, making our grammar's complexity class (1, 2), a proper subset of the (2,2) that encapsulates context free grammars.
 
 \subsubsection{Human Languages}
-Elegant and successful as they might be in the meta-theoretical world, abstract categorial grammars have not fared as well with linguistic applications, in part due to their computationally intractable nature.
+Elegant and successful as they might be in the meta-theoretical world, abstract categorial grammars have not fared as well with linguistic applications, in large part due to their computationally intractable nature.
 On the one hand, they stand out from the rest of the categorial family in not being lexicalized by default.
 The conceptual separation between lexicon and rules no longer holds: rules are fixed to the ones supplied by $\ILL_{\li}$, but inference is largely guided by the abstract constants.
 Abstract constants may contain lexical items that make their way to the final (object) derivation, or simply compositional recipes that leave no imprint whatsoever.
 At the same time, the framework is overly reliant on the constant map $\theta_0$ (defined on a per-item basis) for the translation into the object language to take effect.
 Even in the lexicalized setup where the abstract lexicon is populated by words and words only, every abstract constant needs to be assigned both an abstract type and a unique object term for every phenogrammatic behavior it exhibits; two lexical dimensions, compared to the one of vanilla categorial grammars.
 Enforcing grammaticality while blocking overgeneration of the object language similarly requires a careful, parallel finetuning of both the abstract language and the translation --  gone is the adage of words carrying their combinatorics on their sleeves. 
-What's worse, words triggering higher-order tectogrammatic phenomena will then need object translations of an even higher order for their surface forms, making the design and population of the translation $\hm{.}$ practically impossible.
+What's worse, words triggering higher-order tectogrammatic phenomena will then need object translations of an even higher order for their surface forms, making the design and population of a strict tectogrammatic translation $\hm{.}$ practically unfeasible.
 This part could in principle be partially mitigated by flattening complex syntactic phenomena into lower-order (alias) types in the source domain, and outsourcing their expansion to a parallel grammar for concrete semantics -- this is less of a solution and more of a deferral, though.
-Last but not least, it is unclear how to procure an abstract proof object from the \textit{evaluated} yield of its object translation (i.e. the string form we are most likely encounter in the open) using traditional proof-theoretic disciplines -- the two layers of function-argument structures (abstract- and object- level) and their interacting reductions would unnerve even the sturdiest of parsers (or so it seems).
+Beyond issues of practicality, there are also foundational problems at stake, as resorting to a lexical enumeration of phenogrammatic forms evidences inability to perform linguistic generalization -- what \citet{moot2014hybrid} calls a problem of \textit{descriptive inadequacy} revolving around \textit{any} abstract replacement to a Lambek higher-order type.
+Last but not least, it is hard to imagine an abstract categrial grammar in action: it is unclear how to procure an abstract proof object from the \textit{evaluated} yield of its object translation (i.e. the string form we are most likely encounter in the open) using traditional proof-theoretic disciplines -- the two layers of function-argument structures (abstract- and object- level) and their interacting reductions would unnerve even the sturdiest of parsers (or so it seems).
 
 \begin{table}
 	\centering
@@ -2413,28 +2414,49 @@ For the tectogrammatical form to be able surface correctly, some drastic adjustm
 We could alter the derivational proof by including non-lexical abstract constants, or refine the source types to impose (or enable) structural variation, but either option would be undermining the cohesion between deep syntax and semantics we started from.
 The only alternative that does not resort to contaminating the original term -- abstract and pure -- with vulgar restrictions of form would be to lift the complexity of the interpretation and design it anew.
 
-It seems therefore that the appealing simplicity and elegance of the tectogrammatic logic is counterbalanced by an increasingy bulky and cumbersome transition to the (equally simple, yet far less elegant) phenogrammatic logic (see also \citet{moot2014hybrid} for an extended discussion).
-The problem is of course more pronounced for natural languages, which overstep the strict confines of their formal counterparts.
+It seems therefore that the appealing simplicity and elegance of the tectogrammatic logic is counterbalanced by an increasingy bulky and cumbersome transition to the (equally simple, yet far less elegant) phenogrammatic logic.
+The problem is of course more pronounced for natural languages, which overstep the strict confines of their formal counterparts~\cite{moot2014hybrid}.
 If only we had a way to keep just the good part of a type-driven and semantically transparent deep syntax, without having to get involved with all the tedious labour of its surface materialization or the translation to it...
 Spoiler alert: we will in a bit.
 
 \subsection{Other Formalisms}
-Type-logical grammars and abstract categorial grammars have monopolized our interest, yet are not the only members of the categorial grammar family.
+Type-logical and abstract categorial grammars have monopolized our interest, yet are not the only members of the categorial grammar family.
 For the sake of completeness and impartiality, we will briefly discuss two other major flavors and contrast them to the ones so far presented.
 
+\subsubsection{Combinatory Categorial Grammars}
+A deviant from the categorial tradition are the broadly adopted combinatory categorial grammars~\cite{ades1982order,szabolcsi1989bound, steedman2022combinatory}.
+These stray from the norm by rejecting the very idea of the syntactic variable (and with it, hypothetical reasoning), citing reasons of cognitive plausibility and parsing complexity.
+Obviously, a categorial grammar stripped of hypothetical reasoning would not amount to much on its own: it would only be able to resolve syntactically flat sentences.
+To regain some of the lost expressivity (ideally, exactly and only as much as needed), combinatory categorial grammars incorporate a collection of rules lent from the combinatory logic of~\citet{curry1958combinatory}, albeit in restricted form.
+The first such rule is morpholexical in nature; it allows lexical items to raise their types once, before administering them to the syntactic derivation, forcing a flip in the local function-argument structure and allowing different semantic scopes to take effect as/when needed.
+The remaining rules are essentially four instances of function composition -- one for each unique pair of directional implications considered.
+The absence of hypothetical reasoning means that these are no longer derivable theorems of some underlying type theory, but ad-hoc schemata, fixed a priori to fit their designated purpose.
+To counteract overgeneration, these rules are made available only to a pre-defined subset of the sum of lexical types, empirically specified.
+With respect to the interface, a combinatory derivaton can be cast into a semantic $\lam$ term the usual way; by assigning to each rule a corresponding term constructor.
+Note, however, that this procedure is a non-invertible \textit{transformation} rather than an isomorphic correspondence; the purity of the Curry-Howard correspondence is lost, traded away for the aforementioned decrease in parsing complexity.
+
+In spite of their (non-minor) differences, the agendas of multimodal type-logical grammars and combinatory categorial grammars are quite aligned, at least at a high level: they both stipulate the presence of syntactic universals that guide structure formation, utilize them as a pathway to semantics a l\`{a} Montague, and acknowledge the need for language-specific syntactic fine-tuning; one exercising proof-theoretic control via unary type operators and structural rules, the other controlling the applicability of the so-called combinatory rules via lexical adjustment.
+For better or worse, combinatory categorial grammars have taken the lion's share of the practitioners' focus: they boast a vast expanse of tools and annotated corpora across languages that far exceeds that of their less popular siblings -- to the point where the term categorial grammars has become an almost synonym of combinatory categorial grammars.%
+\footnote{At least if one is to consider the reviewers I get assigned a reliable statistical sample of the NLP population.}
+I hope but have no expectation that, by its end, this thesis will have slightly adjusted the scales towards a healthier epistemological pluralism.
+
 \subsubsection{Hybrid Type-Logical Grammars}
-In the strange region between type-logical grammars and abstract categorial grammars lives the beast of hybrid type-logical grammars.
-Originally proposed in~\citet{kubota2012gapping}, hybrid type-logical grammars utilize a combination of the slash and backslash of traditional Lambek Calculi and the non-directional linear implication to give birth to a type grammar that combines the merits of both approaches while suffering the restrictions of neither.
+In the lands between type-logical and their abstract siblings, there lives the strangeness of hybrid type-logical grammars.
+Originally proposed by~\citet{kubota2012gapping}, hybrid type-logical grammars utilize a combination of the two slashes of traditional Lambek Calculi with the non-directional linear implication, to give birth to a type grammar that combines the good aspects of both approaches while purportedly suffering the restrictions of neither.
 The types of a hybrid type-logical grammar are the result of two stages of induction.
 The first stage creates standard Lambek types, as in~(\ref{equation:LC}).
 The second stage is of the form 
 \begin{equation}
 	\prop{a}, \prop{b}, \prop{c} := \prop{l} \ | \ \prop{a} \li \prop{b}
 \end{equation}
-\todo
-
-\subsubsection{Combinatory Categorial Grammars}
-
+where $\smallprop{l}$ a valid Lambek type.
+The term calculus of hybrid type-logical grammars requires a translation of logical types into so-called \textit{prosodic} types $\smallprop{st}$ (for structure or string), such that all stage 1 (Lambek) types are sent to $\smallprop{st}$, and stage 2 types are inductively translated as (higher-order) functions over $\smallprop{st}$. 
+The term constructors assigned to the elimination (resp. introduction) of the Lambek connectives is that of structure concatenation (resp. separation), whereas the term constructors assigned to the linear connective are standard function application and variable abstraction.
+The marriage of these two layers of abstraction in the same term calculus might seem unorthodox or at least aesthetically displeasing, but is not without merit.
+Concetenative terms allow the framework to relax the lexical pressure of an abstract categorial grammar by preserving the canonical categorial grammar treatment of local syntactic phenomena.
+Applicative terms constitute localized and controlled bursts of ad-hoc expressivity that can exceptionally allow the derivation of higher-order and non-local phenomena normally inacessible to the OG Lambek calculi.
+Hybrid type-logical grammars are a relatively new addition to the family, and are subject to ongoing research, both from the linguistic and the proof-theoretic perspective~\cite{kubota2020type,moot2022logical}.
+As to why one would choose this setup over alternatives, your guess is as good as mine; hybrid proponents proclaim the system less obscure and more fit for linguistic applications~\cite{kubota2020type} -- external validation is still pending.
 
 
 \section{Key References \& Further Reading}
