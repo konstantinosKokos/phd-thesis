@@ -13,14 +13,14 @@
 \usepackage{mathpazo}
 \renewcommand{\baselinestretch}{1} 
 \usepackage{graphicx}
-\usepackage{xparse}
 \usepackage{calc}
 \usepackage{lipsum}  
 \usepackage{ifthen}
 \usepackage{hyperref}
-\usepackage{qtree}[center]
+%\usepackage{tree}[center]
 \usepackage{calc}
 \usepackage[bb=pazo]{mathalpha}
+\usepackage{enumitem}
 
 \newcommand{\todo}{\textcolor{red}{todo}}
 
@@ -39,8 +39,11 @@
 %}
 %\renewcommand{\thebibliography}{\section{TEST}}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%					enum
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					itemize/enum
+\setlist[itemize]{leftmargin=*}
+\setlist[enumerate]{leftmargin=*}
 \renewcommand{\theenumi}{\roman{enumi}}%
 
 
@@ -216,7 +219,7 @@
 \newcommand{\nprop}[1]{	\ensuremath{\smallprop{#1}^{-}}}
 \newcommand{\vnorm}[1]{\vphantom{A_x}{#1}}
 \newcommand{\parlink}{\raisebox{\depth}{\scalebox{-1}[-1]{$\with$}}}
-\newcommand{\sbind}{\ensuremath{\cdot}}
+\newcommand{\sbind}{\ensuremath{\mkern-0.5mu\cdot\mkern-0.5mu }}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -228,3 +231,8 @@
 \newcommand{\bredstar}{\overset{\beta *}{\leadsto}}
 \newcommand{\qqquad}{\quad\qquad}
 \newcommand{\qqqquad}{\qquad\qquad}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					hyphenations
+\hyphenation{con-sti-tu-en-cy}
