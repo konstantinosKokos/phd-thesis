@@ -50,7 +50,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 					footnotes
 \usepackage[perpage]{footmisc}
-\interfootnotelinepenalty=1000
+\interfootnotelinepenalty=10000
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                  tikz horror
@@ -93,10 +93,13 @@
 
 \newcommand{\chapabstract}[1]{
 	\vspace{-14pt}
-	{\flushright\small
-	\textit{#1}\\
-	\vspace{14pt}}
-}
+	{\small
+	\textit{
+	\hfill\begin{tabular}[t]{@{}l@{}}
+	#1
+	\end{tabular}}
+	\vspace{14pt}
+}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					lingu examples
