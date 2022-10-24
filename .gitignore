@@ -1,7 +1,7 @@
 *
-!*/*.tex
+!/*.tex
+!/*.bib
 !*.pdf
 !*.cls
 !*.clo
-!*/*.bib
 !.gitignore
