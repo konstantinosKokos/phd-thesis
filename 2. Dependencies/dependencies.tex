@@ -28,10 +28,8 @@ Viewed from within, these phrases may be rich in internal structure, but keep it
 Viewed externally (i.e. in the context of a wider phrase that contains them), they are indivisible units, or at least for the purposes of phrasal composition.
 Phrases are inventorized according to their syntactic \textit{categories}.
 If one so wishes, they can for the most part replace a phrase for another of the same category, with no effect to grammaticality or local structure, which suggests they are functionally indiscernible.
-% \todo clarity
-% us -> as, i.e. -> e.g.
-For instance, the underlined phrases are interchanged among the examples below, keeping the outermost phrasal structure intact, despite their wildly different internal structures%
-\footnote{Sourced from H.P. Lovecraft, \textit{Celepha\"{i}s}  (1922). In \textit{The Rainbow, vol. 2.}}:
+The examples below testify to this%
+\footnote{Sourced from H.P. Lovecraft, \textit{Celepha\"{i}s}  (1922). In \textit{The Rainbow, vol. 2.}}; the underlined phrases can be freely interchanged -- despite their wildly different internal structures, substituting one for another has no effect on the outer sentential structure:
 
 {\smaller%
 \begin{enumerate}
@@ -112,7 +110,7 @@ claiming that one of the ways to make a verb phrase $VP$ involves concatenating 
 		\caption{Tree-formatted Lambek derivation.}
 		\label{subfigure:lambektree}
 	\end{subfigure}\hfill
-	\caption{A phrase-structure grammar parse tree (left) contrasted with a Lambek abstract syntax tree (right).}
+	\caption{A phrase-structure grammar parse tree (\subref{subfigure:cfgtree}) contrasted with a Lambek abstract syntax tree (\subref{subfigure:lambektree}).}
 	\label{figure:cfgvslambek}
 \end{figure}
 
@@ -211,8 +209,74 @@ There's a plethora of example cases.
 Quantifiers, for instance, are inarguably functions over the objects they quantify, yet they exactly obey the morphosyntactic characteristics prescribed by these objects (i.e. grammatical gender, case, number, etc.), evidencing that the latter are in fact the heads -- a clear violation of the predicate/head alignment.
 A similar argument can be made for determiners and, more broadly speaking, any element that is syntactically optional but semantically loaded, i.e. adjectival and adverbial modifiers.
 
-\todo
-This observation gives rise to a ... added dimension (2 with direct)
+This observation gives rise to a binary subcategorization of a binary predicate structure; in dependency grammar terms, it is either:
+\begin{enumerate}
+	\item an application of a head to its \textit{complement}, or
+	\item an applicaiton of an \textit{adjunct} to its head
+\end{enumerate}
+The vanilla categorial vocabulary does not suffice to capture this extra dimension of function application -- a problem also also noticed by the intellectuals of proto-categorial civilizations, as archeological excavations reveal.
+In an unpublished manuscript, \citet{moortgat1991heads} propose a two-dimensional implicational type operator and corresponding residuation laws: the first binary dimension is reserved for the usual left- vs. right- application distinction, whereas the second binary dimension specifies whether the head occurs to the left or to the right; the result is four unique ways of building up an implication.
+Congruent with the with the substructural fashion of revealing structure that was once hidden, this division brings forth a two-valued structural binder, allowing the corresponding logic $\logic{DNL}$ to reason about \textit{headed} binary trees.
+The authors refrain from commiting to a specific linguistic application, but, translated into our dependency grammar terminology, their proposal can be schematically summarized by Figure~\ref{figure:heads_and_phrases}.
+Another concrete application is presented by~\citet{hendriks1997logic}, who employs \logic{DNL} to account for prosodic structures of intonation.
+
+\begin{figure}
+	\centering
+	\begin{tabularx}{0.75\textwidth}{@{}cXc@{}}
+	\begin{tikzpicture}[level distance=60pt, sibling distance=30pt,
+						t/.style={text height=1.5ex, text depth=.25ex, rectangle, outer sep=0pt}, node distance=10pt]
+	\Tree [.{$\prop{b}$} \edge[ultra thick] node[midway,left,t]{$\textit{head}$}; {$\prop{b}\divright_l\prop{a}$} \edge node[midway,right,t]{$\textit{complement}$}; {$\prop{a}$} ]
+	\end{tikzpicture}
+	&
+	&
+	\begin{tikzpicture}[level distance=60pt, sibling distance=30pt,
+						t/.style={text height=1.5ex, text depth=.25ex, rectangle, outer sep=0pt}, node distance=10pt]
+	\Tree [.{$\prop{B}$} \edge node[midway,left,t]{$\textit{complement}$}; {$\prop{a}$} \edge[ultra thick] node[midway,right,t]{$\textit{head}$}; {$\prop{a}\divleft_r\prop{b}$} ]
+	\end{tikzpicture}\\[\smallsep]
+	\begin{tikzpicture}[level distance=60pt, sibling distance=30pt,
+						t/.style={text height=1.5ex, text depth=.25ex, rectangle, outer sep=0pt}, node distance=10pt]
+	\Tree [.{$\prop{b}$} \edge[ultra thick] node[midway,left,t]{$\textit{head}$}; {$\prop{a}$} \edge node[midway,right,t]{$\textit{adjunct}$}; {$\prop{a}\divleft_l\prop{b}$} ]
+	\end{tikzpicture}
+	&
+	&
+	\begin{tikzpicture}[level distance=60pt, sibling distance=30pt,
+						t/.style={text height=1.5ex, text depth=.25ex, rectangle, outer sep=0pt}, node distance=10pt]
+	\Tree [.{$\prop{b}$} \edge node[midway,left,t]{$\textit{adjunct}$}; {$\prop{b}\divright_r\prop{a}$} \edge[ultra thick] node[midway,right,t]{$\textit{head}$}; {$\prop{a}$} ]
+	\end{tikzpicture}\\
+	\end{tabularx}
+	\caption{The four implications of \logic{DNL}.}
+	\label{figure:heads_and_phrases}
+\end{figure}
+
+\subsection{Modal Dependents}
+As an alternative to introducing implicational (and by residuation, product) variants, we can instead opt for a modal decomposition~\cite{kurtonina1997structural}.
+In this approach, a uniform implicational operator would combine with a modal marking to produce the specialized (here: head-aware) variant.
+The standard route would have us mark the head -- we will instead mark the dependent.
+More than a petty act of rejection to establishment, this shall provide us with the means to further differentiate dependents according to the exact grammatical slots they occupy -- after all, there's quite a few different dependency labels, but only the one head.
+
+The first distinction we need to make has been sufficiently motivated by now: complements versus adjuncts.
+Starting with the former, such a decomposition would look as follows:
+\begin{align}
+	\prop{b} \divright_l \prop{a} \ \equiv \ \prop{b} \divright \diamond \prop{a} \\
+	\prop{a} \divleft_r \prop{b} \ \equiv \ \diamond  \prop{a} \divleft \prop{b}
+\end{align}
+The translation is straightforward: functors in head position will only consume their complements after having \textit{assigned} them a diamond type (i.e. via the $\diamond I$ rule of Figure~\ref{figure:modal_logical}).
+%In the latter case things are slightly more obscure; now the entire functor corresponds to the dependent, therefore adjuncts will need to \textit{project} their dependencies 
+%there, we need to follow the dual path, putting the entire functor under the scope of a box:
+%\begin{align}
+%	\prop{b} \divright_r \prop{a} \ \equiv \ \Box(\prop{b} \divright \prop{a}) \\
+%	\prop{a} \divleft_l \prop{b} \ \equiv \ \Box (  \prop{a} \divleft \prop{b})
+%\end{align}
+
+%For the time being, let's inspect the effect this decoration would have to a proof.
+%The effect of this is an elegant and universal treatment of dependency demarcation that finds its way both to the antecedent structure of a judgement, and its term imprint;
+
+%\subsection{Grammatical Functions}
+
+
+
+%Vanilla categorial grammars are ill-equipped to capture this extra dimension of function 
+%This extra dimensiontt is not naturally present 
 %Archeological excavations reveal that the first 
 
 \bibliographystyle{abbrvnat}
