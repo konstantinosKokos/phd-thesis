@@ -28,7 +28,7 @@
 % 					bibliography horror
 \usepackage{natbib}
 \bibliographystyle{abbrvnat}
-\setcitestyle{authoryear,open={[},close={]},aysep={, }, citesep={; }, yysep={; }}
+\setcitestyle{semicolon,open={[},close={]},aysep={, }, yysep={; }}
 \renewcommand{\cite}{\citep}
 
 \usepackage{chapterbib}
@@ -194,6 +194,12 @@
 \newcommand{\modaltypescale}[1]{\mathpalette\domodaltypescale{#1}\relax}
 \renewcommand{\diamond}{\modaltypescale{\diamondsuit}}
 \renewcommand{\Box}{\modaltypescale{\boxempty}}
+\newcommand{\dep}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\deps}{\ensuremath{\dep{Deps}}}
+\newcommand{\ddia}[1]{\diamond_{\scalebox{0.66}{\dep{\smaller{#1}}}}}
+\newcommand{\dbox}[1]{\Box_{\dep{#1}}}
+\newcommand{\dbra}[2]{\bracket{#1}^{\scalebox{0.66}{\dep{#2}}}}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                  term modalities
 \makeatletter

@@ -20,7 +20,7 @@ In this chapter we will focus our efforts into bridging this gap between these t
 We will motivate the incorporation of dependency relations into the categorial vocabulary by repurposing existing, well-studied tools that remain faithful to the formal logic and type theory roots the previous chapter has established.
 
 \section{Phrase vs. Dependency Structure}
-Before we get to theorycrafting, it would be useful to try and clarify what exactly is meant by constituency- and dependency-structure, and what the distinctions between the two are.
+Before we get to theorycrafting, it would be useful to try and clarify what exactly is meant by constituency- and dependency-structure, and how the two differ.
 
 \subsection{Phrase Structure Grammars}
 Phrase structure grammars build on the observation that certain phrases seem to act as rigid and independent chunks, sometimes referred to as \textit{constituents}. 
@@ -116,9 +116,9 @@ claiming that one of the ways to make a verb phrase $VP$ involves concatenating 
 
 Even though context-free grammars are no longer seriously considered in the linguistic world, they have directly influenced most early attempts at grammar design -- and by extension, their later successors and refinements.
 Notational evidence of this past are more than noticeable today, ranging from the wide adoption of tree-style notation for syntactic analyses to the conceptual syncretism of constituency grammars and phrase structure ones.
-More up-to-date frameworks expand upon the barebones context-free backend with niceties like a distinction between functional dominance and linear precedence, added rules that manipulate movement and discontuinity, the proclamation of a single category as the \textit{head} of a production rule (or subtree), feature markings that carry semantic, morphological or phonological information, incorporation of dependency information, etc.~\cite[\textit{inter alia}]{gazdar1985generalized,jacobson1987phrase,pollard1994head,dalrymple2001lexical}.
+More up-to-date frameworks expand upon the barebones context-free backend with niceties like a separation of functional dominance and linear precedence, added rules that manipulate movement and discontuinity, the proclamation of a single category as the \textit{head} of a production rule (or subtree), feature markings that carry semantic, morphological or phonological information, incorporation of dependency information, etc.~\cite[\textit{inter alia}]{gazdar1985generalized,jacobson1987phrase,pollard1994head,dalrymple2001lexical}.
 
-To our ill fortune, the field of formal syntax is actually an informal mess, more akin to a mine field rather than an academic one; it's best if I don't overextend myself here, in order to avoid setting off unseen traps or causing easily avoidable confusion.
+To our ill fortune, the field of formal syntax is actually an informal mess, more akin to a mine field rather than an academic one; it's best if I tread carefully and refrain from overextending myself here, in order to avoid setting off unseen traps or causing easily avoidable confusion.
 The point I want to make is that the focal center of the above formalisms is the \textit{phrase} and its structure -- as such, they are all referred to as phrase structure grammars, regardless of whatever extra fluff they carry or what their expressive capacity is.
 In that broader sense of the term, and removing any implicit connotations of intellectual lineage, categorial grammars can also be conceived as phrase-centric.
 Pure Lambek systems, for one, also explicate how phrases are combined, adhere to hierarchical forms similar to those of context-free grammars (except beautifully, see Figure~\ref{subfigure:lambektree}), and have the exact same expressive capacity~\cite{pentus1993lambek}.
@@ -130,23 +130,28 @@ Note that in reality, categorial derivations in the type-theoretic tradition res
 Long story short, even without extensions to the logical core for managing discontuinity, calling deductive parsing constituency parsing would obviously not be doing the former justice; yet despite their methodological and theoretical divergences, their end yield is comparable -- the antecedent structures of Figures~\ref{figure:nl_applicative_examples} to~\ref{figure:lovecraft_coord} testify that the former may in fact be seen as subsuming the latter.
 
 \subsection{Dependency Grammars}
-The constituency tradition has co-evolved along the opposing view of dependency grammars~\cite[\textit{inter alia}]{sgall1986meaning,mel1988dependency,sleator1995parsing}.
+The constituency tradition has co-evolved along the opposing view of dependency grammars~\cite[\textit{inter alia}]{tesniere2015elements,sgall1986meaning,mel1988dependency,sleator1995parsing}.
 Dependency grammars reject the binary phrasal division that constituency grammars abide by, and instead adopt a flatter structural form, the only unit of which is the word.
 Words are connected with one another by dependency arcs, i.e. directed edges between word pairs.
 Each word can have arbitrarily many outgoing edges (dependents), but only a single incoming edge (head) -- the exception is the root word which has no head of its own (i.e. the head of the matrix clause).
-This articulation of a distinction between heads and dependents is central to dependency grammar.
-In a semantically-oriented extension, edges can be assigned an extra direction that needs not agree with the syntactic one, pointing instead from semantic predicate to semantic argument~\cite{mel2003levels}.
 A word is said to directy dominate its dependents, and indirectly dominate all words its dependents dominate (directly or otherwise) -- e.g. the root indirectly dominates every other word in the sentence.
+This distinction between head and dependent is central to dependency grammars; broadly speaking, heads can be thought of as the words that decide the syntactic functionality of the collection of words (for fear of calling it a phrase) they indirectly dominate.
 The dependency structure of a sentence is once more a tree, with words now as both terminal and non-terminal nodes, glued together with dependency relations.
 A dependency tree is uncostrained by adjacency and word order: edges can penetrate or fly over other edges.
 This perspective is computationally appealing due to its simplicity and uniformity, as it allows a dependency grammar to argue about languages with wildly diverging syntactic and typological properties while remaining virtually unchanged.
 For the exact same reasons, it can also be seen as concealing -- it sacrifices any potential of targeted analysis in the pedestal of universality.
+Finally, the semantically inclined might find a two-directional extension of dependency arcs enticing.
+In that setup, the added direction (which needs not agree with that of syntactic dominance) is devoted to semantic information flow, pointing from semantic predicates%
+	\footnote{Apparently also an overloaded term. I will only ever use this in the strictly logical sense.}
+ to semantic arguments~\cite{mel2003levels}.
 
-A dependency grammar that has gained significant traction over the last decade is the framework of universal dependencies~\cite{10.1162/coli_a_00402}, boasting a vast multi-lingual collection of treebanks~\cite{nivre2020universal} and tools.
-In the universal dependencies framework, dependency relations are labeled according to their grammatical function, allowing the distinction of a words' dependents according to the grammatical role they fulfill.
+A dependency grammar that has gained significant traction over the last decade is the framework of universal dependencies~\cite{10.1162/coli_a_00402}, claiming a broad collection of multi-lingual treebanks~\cite{nivre2020universal} and tools.
+In universal dependencies, words are usually assigned a label pulled from a rudimentary set of part of speech tags and lexical identifiers andm more importantly, dependency relations are also labeled according to their grammatical function, allowing the distinction of a words' dependents according to the grammatical role they fulfill.
 Grammatical roles are typologically and thematically informed, and are inventorized with language universality as the prime goal.
-From a semantic point-of-view, these roles can also be seen as specifying whether semantic flow is co- or contra-directional to syntactic flow, i.e. whether a dependency marks a complement (where syntactic head and semantic predicate coincide) or an adjunct (where the syntactic head is the semantic argument of its syntactic dependent).
-On top of the labeled arcs, words are usually assigned a label pulled from a rudimentary set of part of speech tags and lexical identifiers.
+This inventorization upholds no semantic promises, but is not inconsistent with the aforementioned semantic view either.
+To obtain a semantic transcription of the dependency tree, one needs only specify whether the semantic flow of each grammatical role is co- or contra- directional to the edge's syntactic flow, i.e. whether the arc marks its dependent as a \textit{complement} (where syntactic head and semantic predicate coincide) or an \textit{adjunct} (where the syntactic head is the semantic argument to its syntactic dependent)%
+	\footnote{Universal dependencies, a staunch pacifist, carefully and vocally refuses to make this claim, as complements and adjuncts are largely language-particular syntactic constructs and a notorious point of debate~\cite{haspelmath2014arguments}.
+	I would like to believe I am not trespassing here, either -- as will be made clearer in a bit, I employ the two terms in a purely semantic fashion.}.
 
 \begin{figure}
 	\centering
@@ -189,35 +194,36 @@ Grammatical functions can then be thought of as being implicit, having been inte
 For instance we do intuitively know that the Lambek transitive verb $(\np[s]\divleft\s[s])\divright\np[s]$ requires an \textit{object} $\np[s]$ to the right and a \textit{subject} $\np[s]$ to the left -- marking them as such is perhaps redundant, since the verbal meaning recipe places each syntactic argument into a distinct semantic slot.
 The binary bracketing structure is irrevocably lost, but this loss can be deemed as inconsequential if we ``flatten'' functor-induced phrasal boundaries by considering them only at these intermediary points where all of their arguments (however many) have been applied.
 It is not much further we can get with this mediatory role, though.
-No concession from the categorial side would be able to justify the absence of higher-order phenomena in a dependency graph,
-and no concession from the dependency side could make peace with the absence of a head vs. predicate distinction of an applicative natural deduction proof.
+No concession from the categorial side would be able to justify the underspecification of higher-order phenomena in a dependency graph,
+and no concession from the dependency side could make peace with the omission of the concept of headedness in an applicative natural deduction proof.
 
 
 \section{Modalities for Dependency Demarcation}
 In our new quest, we will seek to design a type logic that subsumes and rises above both phrase structure grammars and dependency grammars.
 As we saw in the previous section, the bar is not set particularly high for the first kind; the Lambek calculus can already do more than well enough.
 The challenge then is to integrate the added values of a dependency grammar in a type-theoretic framework.
-There's two elements we are missing; distinguishing between syntactic heads and semantic predicates, and marking words and phrases according to their grammatical roles within some wider context.
+There's two elements we are missing; distinguishing between syntactic heads and syntactic/semantic predicates, and marking words and phrases according to their grammatical roles within some wider context.
 
 \subsection{Two Dimensional Predicates}
-Categorial grammars are inherently and by design biased towards predicate structures, which is what after all makes them appealing for semantic use.
-Each phrase can be iteratively split apart into two subphrases (not necessarily contiguous), where one provides a syntactic function, and the other the argument thereof.
-Note that this distinction does not preclude the possibility that the argument itself has the shape of a function -- no assumption is made on the form of either subphrase's type, other than the two being compatible.
-Higher-order syntactic phenomena in fact require that an incomplete phrase (i.e. a function) is supplied as the argument to another (i.e. a higher-order function, a function over functions).
-But what constitutes a syntactic function in a local domain needs not always be the syntactic head of that domain.
+Categorial grammars are inherently and by design biased towards predicate structures, primarily syntactic, but simultaneously also semantic; if one is to believe the story of Section~\ref{subsubsection:ssi_tlg}, no distinction can be made between the two.
+Each phrase can be iteratively split apart into two subphrases (not necessarily contiguous), where one provides a functor, and the other the argument thereof.
+Note that this distinction does not preclude the possibility that the argument itself has a functional type -- no assumption is made on the form of either subphrase's type, other than the two being compatible.
+But what assumes the role of the functor in a local domain needs not always be the syntactic head of that domain.
 There's a plethora of example cases.
-Quantifiers, for instance, are inarguably functions over the objects they quantify, yet they exactly obey the morphosyntactic characteristics prescribed by these objects (i.e. grammatical gender, case, number, etc.), evidencing that the latter are in fact the heads -- a clear violation of the predicate/head alignment.
-A similar argument can be made for determiners and, more broadly speaking, any element that is syntactically optional but semantically loaded, i.e. adjectival and adverbial modifiers.
+Quantifiers, for one, are inarguably predicates over the objects they quantify, yet they exactly obey the morphosyntactic characteristics prescribed by these objects (i.e. grammatical gender, case, number, etc.), evidencing that the latter are in fact the heads -- a clear violation of any alignment between syntactic predicate and syntactic head we could ever hypothesize. 
+A similar argument can be made for determiners and, more broadly speaking, any phrasal element that takes functional precedence without being the syntactically prominent part of its phrase, e.g. adjectival and adverbial modifiers.
 
-This observation gives rise to a binary subcategorization of a binary predicate structure; in dependency grammar terms, it is either:
+This observation gives rise to a binary subcategorization of a binary predicate structure; to establish some risky terminology, it is either:
 \begin{enumerate}
 	\item an application of a head to its \textit{complement}, or
-	\item an applicaiton of an \textit{adjunct} to its head
+	\item an application of an \textit{adjunct} to its head
 \end{enumerate}
+where the distinction between complement and adjunct is made solely on the basis of their functional relation to the head.
+
 The vanilla categorial vocabulary does not suffice to capture this extra dimension of function application -- a problem also also noticed by the intellectuals of proto-categorial civilizations, as archeological excavations reveal.
 In an unpublished manuscript, \citet{moortgat1991heads} propose a two-dimensional implicational type operator and corresponding residuation laws: the first binary dimension is reserved for the usual left- vs. right- application distinction, whereas the second binary dimension specifies whether the head occurs to the left or to the right; the result is four unique ways of building up an implication.
 Congruent with the with the substructural fashion of revealing structure that was once hidden, this division brings forth a two-valued structural binder, allowing the corresponding logic $\logic{DNL}$ to reason about \textit{headed} binary trees.
-The authors refrain from commiting to a specific linguistic application, but, translated into our dependency grammar terminology, their proposal can be schematically summarized by Figure~\ref{figure:heads_and_phrases}.
+The authors refrain from commiting to a specific linguistic application, but, translated into our terminology, their proposal can be schematically summarized by Figure~\ref{figure:heads_and_phrases}.
 Another concrete application is presented by~\citet{hendriks1997logic}, who employs \logic{DNL} to account for prosodic structures of intonation.
 
 \begin{figure}
@@ -249,29 +255,82 @@ Another concrete application is presented by~\citet{hendriks1997logic}, who empl
 \end{figure}
 
 \subsection{Modal Dependents}
-As an alternative to introducing implicational (and by residuation, product) variants, we can instead opt for a modal decomposition~\cite{kurtonina1997structural}.
-In this approach, a uniform implicational operator would combine with a modal marking to produce the specialized (here: head-aware) variant.
-The standard route would have us mark the head -- we will instead mark the dependent.
+As an alternative to introducing implicational (and by residuation, product) variants, we can instead opt for the more fashionable modal decomposition approach~\cite{kurtonina1997structural}.
+The allows us to view a specialized (here: head-aware) implicational variant as a composition of its uniform base with a unary modality.
+The standard route would have use the modality to mark the head -- we will instead mark the dependent.
 More than a petty act of rejection to establishment, this shall provide us with the means to further differentiate dependents according to the exact grammatical slots they occupy -- after all, there's quite a few different dependency labels, but only the one head.
 
+\subsubsection{Complements vs. Adjuncts}
 The first distinction we need to make has been sufficiently motivated by now: complements versus adjuncts.
-Starting with the former, such a decomposition would look as follows:
+In the complement case, such a decomposition would look as follows:
 \begin{align}
 	\prop{b} \divright_l \prop{a} \ \equiv \ \prop{b} \divright \diamond \prop{a} \\
 	\prop{a} \divleft_r \prop{b} \ \equiv \ \diamond  \prop{a} \divleft \prop{b}
 \end{align}
-The translation is straightforward: functors in head position will only consume their complements after having \textit{assigned} them a diamond type (i.e. via the $\diamond I$ rule of Figure~\ref{figure:modal_logical}).
-%In the latter case things are slightly more obscure; now the entire functor corresponds to the dependent, therefore adjuncts will need to \textit{project} their dependencies 
-%there, we need to follow the dual path, putting the entire functor under the scope of a box:
-%\begin{align}
-%	\prop{b} \divright_r \prop{a} \ \equiv \ \Box(\prop{b} \divright \prop{a}) \\
-%	\prop{a} \divleft_l \prop{b} \ \equiv \ \Box (  \prop{a} \divleft \prop{b})
-%\end{align}
+The translation is straightforward: predicates in head position are functors requiring the same arguments as they would before, except now under a diamond.
+In that sense, they \textit{assign} diamonds to their complements by necessitating an application of the $\diamond I$ rule of Figure~\ref{figure:modal_logical} prior to the function application.
+Recalling the structural imprint of the rule, this results in an extra layer of bracketing structure the delimits complement phrases and isolates them from the their surroundings.
 
-%For the time being, let's inspect the effect this decoration would have to a proof.
-%The effect of this is an elegant and universal treatment of dependency demarcation that finds its way both to the antecedent structure of a judgement, and its term imprint;
+The adjunct case is slightly more obscure.
+Following the directives of the previous paragraph, we need to mark the dependent -- this time a predicate in non head position -- in a way such that its application on its argument leaves a bracketing imprint on the structure of the former rather than the latter.
+After some thought, the solution manifests in the form of a box:
+\begin{align}
+	\prop{b} \divright_r \prop{a} \ \equiv \ \Box (\prop{b} \divright \prop{a}) \\
+	\prop{a} \divleft_l \prop{b} \ \equiv \ \Box (\prop{a} \divleft \prop{b})
+\end{align}
+The translation is not much different: adjuncts are predicates wrapped by a box.
+To reveal the pure function contained therein and allow a proof to progress, we need to invoke the $\Box E$ rule of Figure~\ref{figure:modal_logical}, the structural effect being a bracketing structure that now delimits adjunct phrases.
 
-%\subsection{Grammatical Functions}
+There is symmetry between the above two cases.
+The task of imposing dependency structure is always upon the functional predicate (and its type).
+Head predicates mark their complements, whereas adjunct predicates mark themselves.
+In either case, it is the dependent structure that gets the brackets.
+The duality of predicate structure, captured by the innate distinction between function and argument of the applicative categorial backend.
+The duality of syntactic headedness, mirrored in the duality of the unary modalities.
+Type-checking in both dimensions.
+
+\subsubsection{Grammatical Functions}
+We are on a streak; why stop here?
+Universal dependencies go the extra mile of subspecifying dependents according to the specific grammatical roles they play, i.e. beyond the two-dimensional grammar logic we just presented.
+Extending the type system accordingly is trivial.
+Rather than have a single diamond and box, we can consider a usecase where modalities denote a \textit{family} of unary residuals, i.e. a set of pairs, each labeled according to a single, unique dependency label.
+This leads to a generalized multimodal type system containing modal pairs:
+\begin{equation}
+\{(\diamond_d, \Box_d) \ | \ {d \in \deps} \} 
+\end{equation}
+where \deps{} the full set of dependency labels made available to each specific instantiation of the theory.
+The generalization extends to corresponding multi-labeled term rewrites and structural brackets, as detailed in Section~\ref{subsec:modal_logic}.
+Note, however, that the residuation properties and normalization routines apply only between diamonds and boxes of the \textit{same label} -- no interaction between mismatched types and terms is stipulated.
+The edge case of \deps{} being a singleton set collapses to the previous exposition (whereby the need for labeling is obviated).
+
+\begin{figure}
+	{\smaller
+	\[
+		\infer[\divleft E]{\dbra{\w{he}}{su},\w{beheld},\dbra{\dbra{\w{the}}{det} , \w{city}}{obj}}{
+			\infer[\ddia{su} I]{\dbra{\w{he}}{su} \vdash \ddia{su}\np}{
+				\infer[\Lex]{\w{he} : \np}{}
+			}
+			&
+			\infer[\divright E]{\w{beheld},\dbra{\dbra{\w{the}}{det} , \w{city}}{obj}}{
+				\infer[\Lex]{\w{beheld}: (\ddia{su}\np\divleft\s)\divright\ddia{obj}\np}{}
+			}
+			&
+			\infer[\ddia{obj} I]{\dbra{\dbra{\w{the}}{det} , \w{city}}{obj}}{
+				\infer[\divright E]{\dbra{\w{the}}{det} , \w{city} \vdash \np}{
+					\infer[\dbox{det} E]{\dbra{\w{the}}{det} \vdash \n\divright\np}{
+						\infer[\Lex]{\w{the}: \dbox{det}(\n \divright\np)}{}
+					}
+					&
+					\infer[\Lex]{\w{city}: \n}{}
+					}
+				}
+			}
+	\]
+	}
+	\caption{\todo}
+	\label{figure:first_dl_derivation}
+\end{figure}
+
 
 
 
