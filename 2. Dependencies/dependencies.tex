@@ -205,7 +205,7 @@ The challenge then is to integrate the added values of a dependency grammar in a
 There's two elements we are missing; distinguishing between syntactic heads and syntactic/semantic predicates, and marking words and phrases according to their grammatical roles within some wider context.
 
 \subsection{Two Dimensional Predicates}
-Categorial grammars are inherently and by design biased towards predicate structures, primarily syntactic, but simultaneously also semantic; if one is to believe the story of Section~\ref{subsubsection:ssi_tlg}, no distinction can be made between the two.
+Categorial grammars are inherently and by design biased towards predicate structures, primarily syntactic, but simultaneously also semantic (if one is to believe the story of Section~\ref{subsubsection:ssi_tlg}, no distinction can be made between the two).
 Each phrase can be iteratively split apart into two subphrases (not necessarily contiguous), where one provides a functor, and the other the argument thereof.
 Note that this distinction does not preclude the possibility that the argument itself has a functional type -- no assumption is made on the form of either subphrase's type, other than the two being compatible.
 But what assumes the role of the functor in a local domain needs not always be the syntactic head of that domain.
@@ -222,32 +222,32 @@ where the distinction between complement and adjunct is made solely on the basis
 
 The vanilla categorial vocabulary does not suffice to capture this extra dimension of function application -- a problem also also noticed by the intellectuals of proto-categorial civilizations, as archeological excavations reveal.
 In an unpublished manuscript, \citet{moortgat1991heads} propose a two-dimensional implicational type operator and corresponding residuation laws: the first binary dimension is reserved for the usual left- vs. right- application distinction, whereas the second binary dimension specifies whether the head occurs to the left or to the right; the result is four unique ways of building up an implication.
-Congruent with the with the substructural fashion of revealing structure that was once hidden, this division brings forth a two-valued structural binder, allowing the corresponding logic $\logic{DNL}$ to reason about \textit{headed} binary trees.
+Congruent with the substructural trend of revealing structure that was once hidden, this division brings forth a two-valued structural binder, allowing the corresponding logic $\logic{DNL}$ to reason about \textit{headed} binary trees.
 The authors refrain from commiting to a specific linguistic application, but, translated into our terminology, their proposal can be schematically summarized by Figure~\ref{figure:heads_and_phrases}.
-Another concrete application is presented by~\citet{hendriks1997logic}, who employs \logic{DNL} to account for prosodic structures of intonation.
+Further away from syntax, ~\citet{hendriks1997logic} employs \logic{DNL} to account for prosodic intonation structures, where the head is assigned to vocally prominent elements.
 
 \begin{figure}
 	\centering
-	\begin{tabularx}{0.75\textwidth}{@{}cXc@{}}
+	\begin{tabularx}{0.7\textwidth}{@{}lXr@{}}
 	\begin{tikzpicture}[level distance=60pt, sibling distance=30pt,
 						t/.style={text height=1.5ex, text depth=.25ex, rectangle, outer sep=0pt}, node distance=10pt]
-	\Tree [.{$\prop{b}$} \edge[ultra thick] node[midway,left,t]{$\textit{head}$}; {$\prop{b}\divright_l\prop{a}$} \edge node[midway,right,t]{$\textit{complement}$}; {$\prop{a}$} ]
+	\Tree [.{$\prop{b}$} \edge[head] node[midway,left,t]{$\textit{head}$}; {$\prop{b}\divright_l\prop{a}$} \edge node[midway,right,t]{$\textit{complement}$}; {$\prop{a}$} ]
 	\end{tikzpicture}
 	&
 	&
 	\begin{tikzpicture}[level distance=60pt, sibling distance=30pt,
 						t/.style={text height=1.5ex, text depth=.25ex, rectangle, outer sep=0pt}, node distance=10pt]
-	\Tree [.{$\prop{B}$} \edge node[midway,left,t]{$\textit{complement}$}; {$\prop{a}$} \edge[ultra thick] node[midway,right,t]{$\textit{head}$}; {$\prop{a}\divleft_r\prop{b}$} ]
+	\Tree [.{$\prop{b}$} \edge node[midway,left,t]{$\textit{complement}$}; {$\prop{a}$} \edge[head] node[midway,right,t]{$\textit{head}$}; {$\prop{a}\divleft_r\prop{b}$} ]
 	\end{tikzpicture}\\[\smallsep]
 	\begin{tikzpicture}[level distance=60pt, sibling distance=30pt,
 						t/.style={text height=1.5ex, text depth=.25ex, rectangle, outer sep=0pt}, node distance=10pt]
-	\Tree [.{$\prop{b}$} \edge[ultra thick] node[midway,left,t]{$\textit{head}$}; {$\prop{a}$} \edge node[midway,right,t]{$\textit{adjunct}$}; {$\prop{a}\divleft_l\prop{b}$} ]
+	\Tree [.{$\prop{b}$} \edge[head] node[midway,left,t]{$\textit{head}$}; {$\prop{a}$} \edge node[midway,right,t]{$\textit{adjunct}$}; {$\prop{a}\divleft_l\prop{b}$} ]
 	\end{tikzpicture}
 	&
 	&
 	\begin{tikzpicture}[level distance=60pt, sibling distance=30pt,
 						t/.style={text height=1.5ex, text depth=.25ex, rectangle, outer sep=0pt}, node distance=10pt]
-	\Tree [.{$\prop{b}$} \edge node[midway,left,t]{$\textit{adjunct}$}; {$\prop{b}\divright_r\prop{a}$} \edge[ultra thick] node[midway,right,t]{$\textit{head}$}; {$\prop{a}$} ]
+	\Tree [.{$\prop{b}$} \edge node[midway,left,t]{$\textit{adjunct}$}; {$\prop{b}\divright_r\prop{a}$} \edge[head] node[midway,right,t]{$\textit{head}$}; {$\prop{a}$} ]
 	\end{tikzpicture}\\
 	\end{tabularx}
 	\caption{The four implications of \logic{DNL}.}
@@ -261,7 +261,7 @@ The standard route would have use the modality to mark the head -- we will inste
 More than a petty act of rejection to establishment, this shall provide us with the means to further differentiate dependents according to the exact grammatical slots they occupy -- after all, there's quite a few different dependency labels, but only the one head.
 
 \subsubsection{Complements vs. Adjuncts}
-The first distinction we need to make has been sufficiently motivated by now: complements versus adjuncts.
+Sticking to our risky agenda, the first distinction we need to make is that of complements versus adjuncts.
 In the complement case, such a decomposition would look as follows:
 \begin{align}
 	\prop{b} \divright_l \prop{a} \ \equiv \ \prop{b} \divright \diamond \prop{a} \\
@@ -269,74 +269,159 @@ In the complement case, such a decomposition would look as follows:
 \end{align}
 The translation is straightforward: predicates in head position are functors requiring the same arguments as they would before, except now under a diamond.
 In that sense, they \textit{assign} diamonds to their complements by necessitating an application of the $\diamond I$ rule of Figure~\ref{figure:modal_logical} prior to the function application.
-Recalling the structural imprint of the rule, this results in an extra layer of bracketing structure the delimits complement phrases and isolates them from the their surroundings.
+Recalling the structural imprint of the rule, this results in an extra layer of bracketing structure the delimits complement phrases and isolates them from their surroundings.
 
 The adjunct case is slightly more obscure.
 Following the directives of the previous paragraph, we need to mark the dependent -- this time a predicate in non head position -- in a way such that its application on its argument leaves a bracketing imprint on the structure of the former rather than the latter.
-After some thought, the solution manifests in the form of a box:
+The solution manifests in the form of a box:
 \begin{align}
 	\prop{b} \divright_r \prop{a} \ \equiv \ \Box (\prop{b} \divright \prop{a}) \\
 	\prop{a} \divleft_l \prop{b} \ \equiv \ \Box (\prop{a} \divleft \prop{b})
 \end{align}
 The translation is not much different: adjuncts are predicates wrapped by a box.
-To reveal the pure function contained therein and allow a proof to progress, we need to invoke the $\Box E$ rule of Figure~\ref{figure:modal_logical}, the structural effect being a bracketing structure that now delimits adjunct phrases.
+To reveal the pure function contained therein and allow a proof to progress, we need to invoke the $\Box E$ rule of Figure~\ref{figure:modal_logical}, the effect being a bracketing structure that now delimits adjunct phrases.
 
 There is symmetry between the above two cases.
-The task of imposing dependency structure is always upon the functional predicate (and its type).
-Head predicates mark their complements, whereas adjunct predicates mark themselves.
-In either case, it is the dependent structure that gets the brackets.
-The duality of predicate structure, captured by the innate distinction between function and argument of the applicative categorial backend.
-The duality of syntactic headedness, mirrored in the duality of the unary modalities.
-Type-checking in both dimensions.
+The task of imposing dependency structure is always upon the functional predicate and its type.
+Head predicates mark their complements, whereas adjunct predicates mark themselves; in either case, it is the dependent structure that gets the brackets.
+The duality of predicate structure is thus mirrored in the innate distinction between function and argument of the applicative categorial backend, whereas the duality of syntactic headedness is captured by the unary modalities; type-checking in both dimensions.
 
 \subsubsection{Grammatical Functions}
-We are on a streak; why stop here?
-Universal dependencies go the extra mile of subspecifying dependents according to the specific grammatical roles they play, i.e. beyond the two-dimensional grammar logic we just presented.
-Extending the type system accordingly is trivial.
-Rather than have a single diamond and box, we can consider a usecase where modalities denote a \textit{family} of unary residuals, i.e. a set of pairs, each labeled according to a single, unique dependency label.
-This leads to a generalized multimodal type system containing modal pairs:
+Let's take this a bit further.
+Universal dependencies may make no adjunct vs. complement distinction, but they go the extra mile of subspecifying dependents according to the exact grammatical roles they play.
+Extending our grammar logic accordingly is trivial.
+Rather than have a single diamond and box, we can consider a usecase where modalities are a \textit{family} of unary residuals, i.e. a set of pairs, each labeled according to a single, unique dependency label.
+The generalization is a multimodal type system consisting of modal pairs:
 \begin{equation}
-\{(\diamond_d, \Box_d) \ | \ {d \in \deps} \} 
+\{(\ddia{d}, \dbox{d}) \ | \ {\dep{d} \in \deps} \} 
 \end{equation}
-where \deps{} the full set of dependency labels made available to each specific instantiation of the theory.
-The generalization extends to corresponding multi-labeled term rewrites and structural brackets, as detailed in Section~\ref{subsec:modal_logic}.
-Note, however, that the residuation properties and normalization routines apply only between diamonds and boxes of the \textit{same label} -- no interaction between mismatched types and terms is stipulated.
-The edge case of \deps{} being a singleton set collapses to the previous exposition (whereby the need for labeling is obviated).
+where \deps{} the full set of dependency labels made available to each specific instantiation of the theory%
+\footnote{Note that the label set can vary depending on the designer's end goal; grammatical functions is just one of the possibilities.
+	The setup is also more than compatible with frame semantics, where event-specific semantic structures (\textit{frames}) are evoked by lexicalized syntactic heads to assign semantic/thematic roles to their dependents (\textit{frame elements})~\cite{fillmore1976frame}.}%
+.
+The edge case of \deps{} being a singleton set collapses to the previous exposition (whereby explicit labeling is redundant).
+
+Each instance of a labeled modality will now come with its own introduction and elimination rules.
+Concomitantly, both the term calculus and the bracketing structures are extended with multiple labels; the modal rewrites and unary brackets of Section~\ref{subsec:modal_logic} are now differentiated on the basis of the dependency label that induced them.
+Unlike before, the structural effect is not a means to the end of structural reasoning, but the very purpose of the dependency modalities -- as such, they are not necessarily associated with any structural rules (even though nothing precludes the possibility -- it might even be reasonable to condition each dependency or combinations thereof to a unique set of structural irregularities, as we will see in a bit).
+Note, also, that the residuation properties and normalization routines apply only between diamonds and boxes of the \textit{same label} -- no interaction between mismatched types and terms is stipulated.
+
+
+\subsection{Inference with Dependency-Enhanced Types}
+Logical inference in the setup envisaged here is not dissimilar conceptually to the standard type-logical pipeline of Section~\ref{subsection:typelogical}, but there's some crucial differences that require explication, plus a few critical gotchas to beware of.
+
+\subsubsection{Initial Lexical Adjustments}
+For starters, functors previously involved with simple applicative phenomena will now need to abide to either of the type patterns below:
+\begin{equation}\label{equation:dependency_functors}
+	\prop{a}, \prop{b} := \ddia{d}\prop{a} \divleft \prop{b} \ | \ \prop{b}\divright \ddia{d}\prop{a} \ | \  \dbox{d}(\prop{a}\divleft\prop{b}) \ | \ \dbox{d}(\prop{b} \divright \prop{a}) 
+\end{equation}
+For these dependency-enhanced types to appear and take effect, the lexicon needs to be adjusted accordingly.
+
+It is the lexicon's first duty then to discriminate between head and non-head functors by decorating them or their arguments with the appropriate modalities.
+An intransitive, for instance, would now be typed as $\ddia{su}\np[s]\divleft\s[s]$ -- to produce a sentence, the type demands to its left not just any noun phrase, but rather one marked as a subject.
+The story is no different with more than one complements -- i.e. a transitive would be $(\ddia{su}\np[s]\divleft\s[s])\divright\ddia{obj}\np[s]$, and so on.
+A determiner, however, would be typed as $\dbox{det}(\np[s]\divright\n[s])$ -- it recognizes the right-adjacent noun as its head, but still takes functional precedence over it, licensing the function application by dropping its determiner box.
+Similarly, a prenominal modifier would be typed as $\dbox{mod}(\np[s]\divleft\np[s])$ -- to apply to its unmarked head, the type would need first liberate itself of its box, being a modifying adjunct.
+
+Atomic type assignments will remain for the most part unchanged, as propositional constants are necessarily complements (or heads of a singleton phrase, to be pedantic) and their grammatical role cannot be decided a priori, anticipating a phrasal head to enforce it instead.
+Plural nouns like the \textex{dolphins} and \textex{whirlpools} of Table~\ref{table:toy_lambek_lexicon}, for instance, would still be typed as $\np[s]$ -- there's no telling in advance whether they will occur as subjects, direct objects or something else.
+Exceptionally for words whose morphological characteristics already confine them to a single possible grammatical role, we can consider an alternative typing that restricts them to exclusively that grammatical role.
+The straightforward thing to do would be to lexically mark them with a diamond -- e.g. for the nominative version of the third person singular personal pronoun, \textex{he}, we might assign the type $\ddia{su}\np[s]$, denoting it must necessarily occur in subject position.
+However, this would create a structural assymetry between a nominal \textit{assigned} the subject role via the $\ddia{su} I$ rule (inducing corresponding brackets) versus the pronoun \textit{carrying} the subject role (and thus remaining bracket-free).
+To break this asymmetry, a better alternative would be to use a lexical assignment that rests on the \textit{closure} operator of (\ref{equation:closure}) instead, i.e. $\dbox{su}\ddia{su}\np[s]$.
+Now for the verbal head to find its subject-marked argument, the pronoun would need to reveal its diamond via the $\dbox{su} E$ rule, independently bracketing \textit{itself} in the process, while excluding any potential for grammatical misuse.
+
+\subsubsection{Dependencies and Structural Reasoning}
+\paragraph{Lambek vs. Lambek (vs. van Benthem)}
+The next thing to consider is how the inclusion of dependency modalities alters the structural core of each base logic.
+In any case, modalities induce a multi-labeled unary bracketing structure.
+For the non-associative $\NL$, the result is trees of mixed but consistent arity -- our subclassing of functors in~(\ref{equation:dependency_functors}) means that each binary branch (imposed by a function/argument structure) will contain a normal branch that corresponds to the local head \textit{phrase} and a distinguished unary branch that labels the non-head phrase -- brackets and parentheses galore.
+Opting for the more traditional associative base of $\LC$ changes the scenery to one of shorter, wider and less exucerbant trees.
+Since the vanilla structure is now just a sequence, treeness is imposed solely by the modal brackets; the result is a variadic but uniform tree structure, where each subtree contains a single local head  \textit{word} and multiple dependent phrases, each of them in turn wrapped under a unary branch (or simply just having its edge labeled, to make things easier to the eye).
+This visual paradigm also applies to the even laxer $\NLP$ -- the difference being that the yield of each local tree is recursively equivalent under bracket-preserving permutation, i.e. commutativity now holds between constituent phrases (subtrees) rather than words (terminal nodes).
+
+The above points hint to the fact that dependency modalities introduce structural constraints that may (to some extent) obviate the need for a strict structural binder.
+From the linguistic perspective, $\LC$ seems to hit the sweet spot -- it has constituents live happily together in horizontal (not strictly binary) clusters upon lush trees, with each constitutent given a role to fulfill.
+The systematic ordering of arguments according to their obliqueness order is made redundant by their labeling; the positional explication of $\NL$ is replaced by the denominational explication of the modal brackets.
+What's more, headedness is not proliferated among functionally incomplete constituents, i.e. each complete phrase (read: one typed as a propositional constant) is flat among its arguments, requiring only a single head and implicitly disallowing heads from being phrases in themselves (in line with the mandates of dependency grammars).
+Figure~\ref{figure:first_dl_derivation} presents a simple first example to illustrate the point.
 
 \begin{figure}
-	{\smaller
-	\[
-		\infer[\divleft E]{\dbra{\w{he}}{su},\w{beheld},\dbra{\dbra{\w{the}}{det} , \w{city}}{obj}}{
-			\infer[\ddia{su} I]{\dbra{\w{he}}{su} \vdash \ddia{su}\np}{
-				\infer[\Lex]{\w{he} : \np}{}
-			}
-			&
-			\infer[\divright E]{\w{beheld},\dbra{\dbra{\w{the}}{det} , \w{city}}{obj}}{
-				\infer[\Lex]{\w{beheld}: (\ddia{su}\np\divleft\s)\divright\ddia{obj}\np}{}
-			}
-			&
-			\infer[\ddia{obj} I]{\dbra{\dbra{\w{the}}{det} , \w{city}}{obj}}{
-				\infer[\divright E]{\dbra{\w{the}}{det} , \w{city} \vdash \np}{
-					\infer[\dbox{det} E]{\dbra{\w{the}}{det} \vdash \n\divright\np}{
-						\infer[\Lex]{\w{the}: \dbox{det}(\n \divright\np)}{}
-					}
+	\begin{subfigure}{1\textwidth}
+		{\smaller
+		\[
+			\infer[\divleft E]{\dbra{\w{he}}{su},\w{beheld},\dbra{\dbra{\w{the}}{det} , \w{city}}{obj} \vdash \s}{
+				\infer[\dbox{su} E]{\dbra{\w{he}}{su} \vdash \ddia{su}\np}{
+					\infer[\Lex]{\w{he} : \dbox{su}\ddia{su}\np}{}
+				}
+				&
+				\infer[\divright E]{\w{beheld},\dbra{\dbra{\w{the}}{det} , \w{city}}{obj} \vdash \ddia{su}\np\divleft\s}{
+					\infer[\Lex]{\w{beheld}: (\ddia{su}\np\divleft\s)\divright\ddia{obj}\np}{}
 					&
-					\infer[\Lex]{\w{city}: \n}{}
+					\infer[\ddia{obj} I]{\dbra{\dbra{\w{the}}{det} , \w{city}}{obj} \vdash \ddia{obj}\np}{
+						\infer[\divright E]{\dbra{\w{the}}{det} , \w{city} \vdash \np}{
+							\infer[\dbox{det} E]{\dbra{\w{the}}{det} \vdash \n\divright\np}{
+								\infer[\Lex]{\w{the}: \dbox{det}(\n \divright\np)}{}
+							}
+							&
+							\infer[\Lex]{\w{city}: \n}{}
+							}
+						}
 					}
 				}
-			}
-	\]
-	}
-	\caption{\todo}
+		\]
+		}
+		\caption{Simple applicative derivation in dependency-enhanced $\LC$.}
+		\label{subfigure:first_dl_derivation_proof}
+	\end{subfigure}
+	\begin{subfigure}{1\textwidth}
+		\centering
+		\begin{tikzpicture}[
+				t/.style={text height=1.5ex, text depth=.25ex, rectangle, outer sep=0pt},
+				o/.style={text height=1.5ex, text depth=.25ex, rectangle, outer sep=5pt, inner sep=0pt}]
+			\node (s) 				at (0, 0) {\s};
+			\node[t] (beheld)		[below=30pt of s] {\w{beheld}};
+			\node[t] (he)			[left=48.3pt of beheld] {\w{he}};
+			\node[t] (np)			[right=48.3pt of beheld] {\np};
+			\node[t] (the)			[below left=30pt and 7.08pt of np] {\w{the}};
+			\node[t] (city)			[below right=30pt and 7.08pt of np] {\w{city}};
+			\draw (s.south) edge[head] (beheld);
+			\draw (s.south) edge[unary] node[midway,left,o] {\textit{su}} (he);
+			\draw (s.south) edge[unary] node[midway,right,o] {\textit{obj}} (np);
+			\draw (np.south) edge[unary] node[midway,left,o] {\textit{det}} (the);
+			\draw (np.south) edge[head] (city);
+		\end{tikzpicture}
+		\caption{Corresponding tree structure, read off the antecedent. As before, heavy edges denote heads, and double edges telescope unary branching (now labeled).}
+		\label{subfigure:first_dl_derivation_tree}
+	\end{subfigure}
+	\caption{The structural effect of dependency-enhanced functors.}
 	\label{figure:first_dl_derivation}
 \end{figure}
 
+How about $\NLP$ though?
+We have so far dismissed the syntactic utility of the logic as being overly permissive, presenting it as meaningful only from a semantic perspective.
+With dependency brackets in the picture, the explosive combinatorics of global commutatitivity are somewhat tamed; it is now allowed only within the context of subtrees.
+In programming language terms, this can be paralleled to a tree-shaped variable scoping strategy, where scopes are identified by their names (unary labels) and those of their ancestors, and the order of variable declaration is irrelevant, but the nestedness of embedded trees is not.
+From a linguistic perspective, this would be akin to a natural language that exhibits quasi-free local word order but makes heavy use of overt morphological case marking.
 
+This is still not very realistic, but presents an interesting opportunity.
+Rather than commit to commutativity in general, we are invited to step into the crossroads between the two logics, employing $\LC$ as the global base while inventorizing scrambling- and topicalization- like behaviors on the basis of structural postulates informed by dependency roles.
+Utilizing the unary brackets, we can repurpose the notion of context to denote subtrees (despite being in an associative calculus!), obtaining the means to formulate rules like:
+\begin{equation}\label{equation:fronting}
+	\infer[\text{obj-top}]
+		{\Gamma\ctx{\dbra{\dbra{\Phi}{obj},\Delta}{d}} \vdash \prop{a}}
+		{\Gamma\ctx{\dbra{\Delta, \dbra{\Phi}{obj}}{d}} \vdash \prop{a}}
+\end{equation}
+which can be read as saying that an object can be preposed within its local \dep{d}-labeled clause, if one such is nested within $\Gamma$%
+	\footnote{In reality, we would also need to mark complete clauses to remove the possibility of premature shuffling and accidental overgeneration, but this can be trivially accomplished by boxing the phrasal end-result, e.g. $\ddia{su}\np[s]\divleft\dbox{cl}{\s[s]}$ for an intransitive, where \dep{cl} would mark a complete clause and assume the role of \dep{d} in (\ref{equation:fronting}).}.	
+This should in principle simplify the categorial treatment of such phenomena: one can always start with a canonical derivation, e.g. one where all arguments are in their expected positions, and proceed by shuffling them around given the structural rule inventory.
+As a bonus, adorning these rules with non-void term rewrites would allow them to upkeep their relevance for pragmatics.
+If this sounds exciting, I am sorry to disappoint, but this is not a research avenue we will be presently pursuing.
+If it doesn't, all for the better; we have another beast to face.
 
+\paragraph{Crossing Boundaries}
 
-%Vanilla categorial grammars are ill-equipped to capture this extra dimension of function 
-%This extra dimensiontt is not naturally present 
-%Archeological excavations reveal that the first 
+\subsection{Dependencies-Semantics Interface}
 
 \bibliographystyle{abbrvnat}
 \bibliography{bibliography}

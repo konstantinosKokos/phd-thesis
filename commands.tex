@@ -58,6 +58,10 @@
 \usepackage{tikz}
 \usetikzlibrary{fit,positioning,arrows,automata,shapes,backgrounds,calc}
 \usepackage{tikz-qtree}
+\tikzset{
+	unary/.style={thin,double},
+	head/.style={ultra thick}
+}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -197,7 +201,7 @@
 \newcommand{\dep}[1]{\ensuremath{\mathsf{#1}}}
 \newcommand{\deps}{\ensuremath{\dep{Deps}}}
 \newcommand{\ddia}[1]{\diamond_{\scalebox{0.66}{\dep{\smaller{#1}}}}}
-\newcommand{\dbox}[1]{\Box_{\dep{#1}}}
+\newcommand{\dbox}[1]{\Box_{\scalebox{0.66}{\dep{\smaller{#1}}}}}
 \newcommand{\dbra}[2]{\bracket{#1}^{\scalebox{0.66}{\dep{#2}}}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

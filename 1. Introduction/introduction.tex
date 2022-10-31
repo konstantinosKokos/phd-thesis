@@ -3,7 +3,7 @@
 
 \chapabstract{``In the beginning there was the Word, and the Word had a type.''}
 
-Our story begins with the (over-ambitious, in hindsight) ravings of one of the world's most well-renowned mathematicians, David Hilbert. 
+Our story begins with the (over-ambitious, in hindsight) musings of one of the world's most well-renowned mathematicians, David Hilbert. 
 Unhappy with the numerous paradoxes and inconsistencies of mathematics at the end of the 19th century, Hilbert would postulate the existence and advocate the formulation of a finite set of axiomatic rules, which, when put together, would give rise to the most well-behaved system known to [wo]mankind, capable of acting as a universal meta-theory for all mathematics, in the process absolving all mathematicians of their sins.
 The idea was of course appealing and gained traction, not the least due to Hilbert's influence over the field (and his will to exercise it).
 As with all ideas that generate traction, however, it was not long before a cultural counter-movement would develop.
@@ -312,7 +312,7 @@ Choosing different depths within the proof tree upon which to perform this subst
 Finally, whereas other rules can be read as syntactic operations on terms, (this presentation of) the $\Contraction{}$ rule contains meta-notation that is not part of the term syntax itself.
 That is to say, $\smallterm{s}_{[\smallterm{\vari } \mapsto \smallterm{t}]}$ is \textit{not} a valid term -- even if the result of the operation it denotes is.
 Generally speaking, substitution of objects for others of the same type is (modulo variable shadowing) an admissible property of the type system.
-Mixing syntax and meta-syntax in the same system is a dirty trick we will sporadically employ; this surely invites some trouble, but conscious use of it can be worth it, since it significantly simplifies presentation.
+Mixing syntax and meta-syntax in the same system is a dirty but useful trick people sporadically employ; this surely invites some trouble, but conscious use of it can be worth it, since it significantly simplifies presentation.
 
 \subsubsection{Term Equivalences}
 There exist three kinds of equivalence relations between terms, each given an identifying Greek letter.\footnote{The denotational significance of these letters I have yet to understand -- legend has it that it only starts making sense after having written your 10th compiler from scratch.}
@@ -441,7 +441,7 @@ The verbosity of term-decorated proofs can get cumbersome in the long run, and d
 It is probably inevitable that at some point proofs will need a smaller font size to fit in a page (or, worse yet, some neck-breaking rotations of the orientation plane), but in a futile attempt to postpone such emergency measures, we will occasionally make use of a shorthand notation for natural deduction proofs that avoids repetition, at the cost of maybe requiring some extra time to visually parse.
 In this notation, axioms will be rewritten as follows:
 \[
-\infer[\Ax]{\term{\vari }: \prop{a} \vdash \term{\vari }: \prop{a}}{} \quad \raisebox{7pt}{$\equiv$} \quad \infer[\Ax]{\term{\vari }:\prop{a}}{}
+\infer[\Ax]{\term{\vari }: \prop{a} \vdash \term{\vari }: \prop{a}}{} \quad \raisebox{7pt}{$=:$} \quad \infer[\Ax]{\term{\vari }:\prop{a}}{}
 \]
 And assumptions will appear without type assignments (if uncertain of what some variable's type is, just trace it back to its axiom). 
 We will always provide type declarations for derived terms (right of the turnstile).
@@ -1183,8 +1183,8 @@ or (ii) the monotonic behavior of its parts:
 \end{align}
 and the adjointness of their compositions, where $\diamond\Box(\_)$ is an \textit{interior} and $\Box\diamond(\_)$ a \textit{closure} operator:
 \begin{align}
-		\Gamma \vdash \prop{a} 				& \implies \Gamma \vdash \Box\diamond\prop{a}\\
-		\Gamma \vdash \diamond\Box\prop{a} & \implies \Gamma \vdash \prop{a}
+		\Gamma \vdash \prop{a} 				& \implies \Gamma \vdash \Box\diamond\prop{a} \label{equation:closure}\\
+		\Gamma \vdash \diamond\Box\prop{a} & \implies \Gamma \vdash \prop{a} \label{equation:interior}
 \end{align}
 
 \begin{figure}
@@ -1541,7 +1541,7 @@ In domains where even finer control is needed, one can consider indexed families
 	\begin{subfigure}{1\textwidth}
 		\centering
 		\begin{tabularx}{0.99\textwidth}{@{}cccXccc@{}}
-		\begin{tikzpicture}[unary/.style={thick,dashed}]
+		\begin{tikzpicture}
 		\draw node[rectangle, minimum width=50pt,draw=black, minimum height=110pt,dotted,thick,label={$\Gamma$}] (x) at (-0.1,-1.5) {};
 		\Tree 
 			[ 
@@ -1549,30 +1549,26 @@ In domains where even finer control is needed, one can consider indexed families
 					{$\Delta$}
 					{$\Theta$}
 				]
-				[
-					\edge[unary]; {$\Phi$}
-				]
+				\edge[unary]; {$\Phi$}
 			]
 		\end{tikzpicture}
 		&
 		\raisebox{60pt}{$\xleftarrow{\rulestyle{ass}_{\diamond}}$}
 		&
-		\begin{tikzpicture}[unary/.style={thick,dashed}]
+		\begin{tikzpicture}
 		\draw node[rectangle, minimum width=50pt,draw=black, minimum height=110pt,dotted,thick,label={$\Gamma$}] (x) at (0.1,-1.5) {};
 		\Tree 
-			[.{}
+			[
 				[.{$\Delta$} ] 
 				[
 					{$\Theta$}
-					[\edge[unary];
-						{$\Phi$}
-					]
+					\edge[unary]; {$\Phi$}
 				]
 			]
 		\end{tikzpicture}
 		&
 		&
-		\begin{tikzpicture}[unary/.style={thick,dashed}]
+		\begin{tikzpicture}
 		\draw node[rectangle, minimum width=50pt,draw=black, minimum height=110pt,dotted,thick,label={$\Gamma$}] (x) at (-0.1,-1.5) {};
 		\Tree
 			[
@@ -1580,29 +1576,25 @@ In domains where even finer control is needed, one can consider indexed families
 					{$\Delta$}
 					{$\Phi$}
 				]
-				[\edge[unary];
-					{$\Theta$}
-				]
+				\edge[unary]; {$\Theta$}
 			]
 		\end{tikzpicture}
 		&
 		\raisebox{60pt}{$\xleftarrow{\rulestyle{mix}_{\diamond}}$}
 		&
-		\begin{tikzpicture}[unary/.style={thick,dashed}]
+		\begin{tikzpicture}
 		\draw node[rectangle, minimum width=50pt,draw=black, minimum height=110pt,dotted,thick,label={$\Gamma$}] (x) at (-0.1,-1.5) {};
 		\Tree
 			[
 				[
 					{$\Delta$}
-					[\edge[unary];
-						{$\Theta$}
-					]
+					\edge[unary]; {$\Theta$}
 				]
 				{$\Phi$}
 			]
 		\end{tikzpicture}
 		\end{tabularx}
-		\caption{Corresponding tree transformations.}
+		\caption{Corresponding tree transformations. Double edges denote bracketed substructures.}
 		\label{subfigure:modal_structural_rules:trees}
 	\end{subfigure}
 	\caption{Controlled associativity/commutativity.}	
@@ -2187,7 +2179,8 @@ A case in point is the coordinator \textex{and} conjoining the two modifiers of 
 Each individual conjunct fulfills a descriptive filter that intersects the properties of its argument with the properties attributed by its internal meaning.
 That is, of all objects of type $*$ (where $*$ an arbitrary type, denoting the interpretation target of $\smallprop{np}$), the first modifier withdraws all but those lit by unseeable suns, whereas the second one withdraws all but those with weird entities in their whirlpools.
 For the full conjunction to have the intended meaning, i.e. evoke the image of exclusively this subset of oceans characterized by both the above properties, the coordinator would need to enact the role of a portable implementation of function composition%
-\footnote{Before anyone gets angry: I am not pitching some provocative theory of conjunction semantics here -- just trying to make a point.} as in Figure~\ref{figure:funcomp}, so as to allow the iteration of the intersective modifiers:
+	\footnote{Before anyone gets angry: I am neither pitching some provocative theory of conjunction semantics here,  nor secretly advocating for the dot-combinator -- just trying to make a point.} 
+as in Figure~\ref{figure:funcomp}, so as to allow the iteration of the intersective modifiers:
 \begin{equation}\label{equation:funcomp}
 \lam \smallterm{\Var{0}\Var{1}\Var{2}.\Var{0}~(\Var{1}~\Var{2})} :: (*\li *)\li(*\li *)\li * \li *
 \end{equation}
