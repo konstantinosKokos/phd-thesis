@@ -241,7 +241,7 @@ Note the use of horizontal dots at the axiom leaves, denoting simultaneous subst
 
 \subsection{The Curry-Howard Correspondence}
 The Curry-Howard correspondence asserts an equivalence between the above presentation of the logic in natural deduction, and a system of computation known as the $\lam$-calculus.
-It was first formulated by Haskell Curry in the 30s before being independently rediscovered by William Alvin Howard and Nicolas Goveert de Bruijn in the 60s~\cite{curry1934functionality,de1983automath,howard1980formulae}.
+It was first formulated by Haskell Curry in the 30s before being independently rediscovered by William Alvin Howard and Nicolaas Govert de Bruijn in the 60s~\cite{curry1934functionality,de1983automath,howard1980formulae}.
 The entry point for such an approach is to interpret propositions as \textit{types} of a minimal functional programming language (a perhaps more aptly named alternative to the Curry-Howard correspondence is the \textit{propositions-as-types interpretation}).
 In that sense, the set of propositional constants \propcon{} becomes the programming language's basic set of \textit{primitive} types (think of them as built-ins).
 Implicational formulas $\smallprop{a} \ii \smallprop{b}$ are read as \textit{function} types, and conjunction formulas are read as \textit{tuple} (or cartesian product) types.
@@ -1237,6 +1237,7 @@ Note that the free variables of the resulting expression ($\caseof{\diaelim t}{\
 
 \subsubsection{Proof \& Term Reductions}
 \begin{figure}
+	\begin{subfigure}{1\textwidth}
 	\centering
 		\begin{tabularx}{0.85\textwidth}{@{}ccc@{}}
 		$\infer[\Box E]{\bracket{\Gamma} \vdash \prop{a}}{
@@ -1268,27 +1269,9 @@ Note that the free variables of the resulting expression ($\caseof{\diaelim t}{\
 		$
 		\end{tabularx}
 		\caption{Modal $\beta$ redexes.}
-		\label{figure:modal_beta_reductions}
-\end{figure}
-
-The proof patterns of Figure~\ref{figure:modal_beta_reductions} exhibit introduction elimination chains of modal operators, and thus constitute $\beta$ redexes subject to normalization.
-The first one is trivial: it just says that a sequential application of $\Box I$ followed by $\Box E$ can be safely excised.
-The second one proposes that if a $\diamond I$ is the last rule to have been applied on the substitution branch $t$ of the $\diamond E$ rule, it would make sense to simply plug proof $t$ in place of the proposition $\smallprop{A}$ hypothesized in the other  branch $s$.
-On the term level, these rules correspond to computations:
-\begin{align}
-\boxelim \boxintro \term{s} & \bred \term{s}\\
-\cterm{case \term{\diaelim \diaintro t} of \term{x} in \term{s}} & \bred \term{s}_{[\term{x} \mapsto \term{t}]}
-\end{align}
-
-The dual direction of $\eta$ equivalences also holds -- since these are discovered in the literature less frequently than the more pedestrian implication and product equivalences, we explictly present them in Figure~\ref{figure:modal_eta_reductions}.
-The term equivalences they materialize are:
-\begin{align}
-\boxintro \boxelim \term{s} & \overset{\eta}{\equiv} \term{s}\\
-\cterm{case \term{\diaelim{s}} of \term{x} in \term{\diaintro{x}}} & \overset{\eta}{\equiv} \term{s}
-%\cterm{case \term{\diaelim \diaintro t} of \term{x} in \term{s}} & \bred \term{s}_{[\termt{x} \mapsto \term{t}]}
-\end{align}
-
-\begin{figure}
+		\label{subfigure:modal_beta_reductions}
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}{1\textwidth}
 	\centering
 		\begin{tabularx}{0.8\textwidth}{@{}ccc@{}}
 			$\infer[\Box I]{\Gamma \vdash \Box\prop{a}}{
@@ -1316,9 +1299,28 @@ The term equivalences they materialize are:
 			$
 		\end{tabularx}
 	\caption{Modal $\eta$ redexes.}
-	\label{figure:modal_eta_reductions}
+	\label{subfigure:modal_eta_reductions}
+	\end{subfigure}
+	\caption{Modal redexes}
+	\label{figure:modal_reductions}
 \end{figure}
 
+The proof patterns of Figure~\ref{subfigure:modal_beta_reductions} exhibit introduction elimination chains of modal operators, and thus constitute $\beta$ redexes subject to normalization.
+The first one is trivial: it just says that a sequential application of $\Box I$ followed by $\Box E$ can be safely excised.
+The second one proposes that if a $\diamond I$ is the last rule to have been applied on the substitution branch $t$ of the $\diamond E$ rule, it would make sense to simply plug proof $t$ in place of the proposition $\smallprop{A}$ hypothesized in the other  branch $s$.
+On the term level, these rules correspond to computations:
+\begin{align}
+\boxelim \boxintro \term{s} & \bred \term{s}\\
+\cterm{case \term{\diaelim \diaintro t} of \term{x} in \term{s}} & \bred \term{s}_{[\term{x} \mapsto \term{t}]}
+\end{align}
+
+The dual direction of $\eta$ equivalences also holds -- since these are discovered in the literature less frequently than the more pedestrian implication and product equivalences, we explictly present them in Figure~\ref{subfigure:modal_eta_reductions}.
+The term equivalences they materialize are:
+\begin{align}
+\boxintro \boxelim \term{s} & \overset{\eta}{\equiv} \term{s}\\
+\cterm{case \term{\diaelim{s}} of \term{x} in \term{\diaintro{x}}} & \overset{\eta}{\equiv} \term{s}
+%\cterm{case \term{\diaelim \diaintro t} of \term{x} in \term{s}} & \bred \term{s}_{[\termt{x} \mapsto \term{t}]}
+\end{align}
 
 \subsubsection{A Digression on Modal Terms}
 For the modally savvy, the term rewrites attributed to the modal rules might seem unorthodox.
@@ -1343,18 +1345,6 @@ All these are perhaps minor points not worth taking too seriously, but for one c
 With this in mind (and in a rare moment of excessive formal zeal), we will exercise some self restraint and avoid indulging in the convenience of this version.
 
 \subsubsection{Properties}
-Situating our unary operators within the modal logic zoo is no trivial endeavour (especially if you, like me, have had limited exposure to it before).
-They are best characterized by the properties they satisfy, so inspecting them should shed some light on their proof-theoretic behavior (as a bonus, it will also help us get better acquainted with the kind of term rewrites their rules prescribe).
-Figure~\ref{figure:modal_properties:residuation} presents the proof transformations equivalent to the properties foretold:
- (\subref{subfigure:modal_properties:diamond_mono}) and (\subref{subfigure:modal_properties:box_mono}) for monotonicity, (\subref{subfigure:modal_properties:closure}) and (\subref{subfigure:modal_properties:interior}) for composition, and (\subref{subfigure:modal_properties:residuation:1}) and (\subref{subfigure:modal_properties:residuation:2}) for the two directions of the residuation law.
- 
-Worth a special mention are also the so-called triple laws:
-\begin{align}
-	\diamond\prop{a} \dashv\vdash \diamond\Box\diamond\prop{a}\\
-	\Box\prop{a} \dashv\vdash \Box\diamond\Box\prop{a}
-\end{align}
-which can be intuitively read as claiming that prepending an already modal type with (one or more) diamond-box pairs in alteration has no real effect, as these can unconditionally cancel out or be expanded into.
-Figure~\ref{figure:modal_triple_laws} presents proofs of the above in both directions.
 
 \begin{figure}
 	\centering
@@ -1446,6 +1436,20 @@ Figure~\ref{figure:modal_triple_laws} presents proofs of the above in both direc
 	\label{figure:modal_properties:residuation}
 \end{figure}
 
+Situating our unary operators within the modal logic zoo is no trivial endeavour (especially if you, like me, have had limited exposure to it before).
+They are best characterized by the properties they satisfy, so inspecting them should shed some light on their proof-theoretic behavior (as a bonus, it will also help us get better acquainted with the kind of term rewrites their rules prescribe).
+Figure~\ref{figure:modal_properties:residuation} presents the proof transformations equivalent to the properties foretold:
+ (\subref{subfigure:modal_properties:diamond_mono}) and (\subref{subfigure:modal_properties:box_mono}) for monotonicity, (\subref{subfigure:modal_properties:closure}) and (\subref{subfigure:modal_properties:interior}) for composition, and (\subref{subfigure:modal_properties:residuation:1}) and (\subref{subfigure:modal_properties:residuation:2}) for the two directions of the residuation law.
+ 
+Worth a special mention are also the so-called triple laws:
+\begin{align}
+	\diamond\prop{a} \dashv\vdash \diamond\Box\diamond\prop{a}\\
+	\Box\prop{a} \dashv\vdash \Box\diamond\Box\prop{a}
+\end{align}
+which can be intuitively read as claiming that prepending an already modal type with (one or more) diamond-box pairs in alteration has no real effect, as these can unconditionally cancel out or be expanded into.
+Figure~\ref{figure:modal_triple_laws} presents proofs of the above in both directions.
+
+
 \begin{figure}
 	\centering
 	\begin{subfigure}{1\textwidth}
@@ -1507,16 +1511,6 @@ Figure~\ref{figure:modal_triple_laws} presents proofs of the above in both direc
 \end{figure}
 
 \subsection{Structural Reasoning}
-This detour may have proven lengthy, but has hopefully helped us acquire a first taste for modalities.
-We now know how to introduce and eliminate them and what the effect of doing so is on the antecedent structure, and got a first glimpse of their properties, the term rewrites they prescribe and the type inequalities (in the form of unidirectional derivations) they give rise to.
-The question then becomes how to actually use them for the task at hand, namely disciplined traversal between substructural logics.
-Structural reasoning is accomplished via structural postulates, rules of inference that enact commutativity and associativity (or combinations thereof), except in a controlled fashion.
-These are permissible only under strict conditions on the substructures constituent to the antecedent structure -- this is exactly where the new kind of structures will prove useful.
-There is no fixed vocabulary of structural rules, as they are intended for application-specific finetuning of a universal logical core, so we are free to design and populate it according to our own needs.
-Prime examples and standard items for consideration include the controlled associativity and mixed associativity-commutativity rules of Figure~\ref{subfigure:modal_structural_rules:rules} (and the corresponding tree transformations of Figure~\ref{subfigure:modal_structural_rules:trees}, if you have a disdain for brackets).
-The first rule $\rulestyle{ass}_{\diamond}$ allows a unary branch $\bracket{\Phi}$ to escape its bind to its neighbour $\Theta$, forcing it to associate to the structure $\Delta$ to its left instead.
-The second one $\rulestyle{mix}_{\diamond}$ allows a unary $\bracket{\Theta}$ to swap position with its right-adjacent neighbor $\Phi$, disassociating from its left neighbour $\Delta$ in the process.
-In domains where even finer control is needed, one can consider indexed families of (possibly interacting) modalities, each with their own structural brackets and rulesets.
 
 \begin{figure}
 	\centering
@@ -1597,9 +1591,21 @@ In domains where even finer control is needed, one can consider indexed families
 		\caption{Corresponding tree transformations. Double edges denote bracketed substructures.}
 		\label{subfigure:modal_structural_rules:trees}
 	\end{subfigure}
-	\caption{Controlled associativity/commutativity.}	
+	\caption{Controlled associativity/mixed commutativity.}	
 	\label{figure:modal_structural_rules}
 \end{figure} 
+
+
+This detour may have proven lengthy, but has hopefully helped us acquire a first taste for modalities.
+We now know how to introduce and eliminate them and what the effect of doing so is on the antecedent structure, and got a first glimpse of their properties, the term rewrites they prescribe and the type inequalities (in the form of unidirectional derivations) they give rise to.
+The question then becomes how to actually use them for the task at hand, namely disciplined traversal between substructural logics.
+Structural reasoning is accomplished via structural postulates, rules of inference that enact commutativity and associativity (or combinations thereof), except in a controlled fashion.
+These are permissible only under strict conditions on the substructures constituent to the antecedent structure -- this is exactly where the new kind of structures will prove useful.
+There is no fixed vocabulary of structural rules, as they are intended for application-specific finetuning of a universal logical core, so we are free to design and populate it according to our own needs.
+Prime examples and standard items for consideration include the controlled associativity and mixed associativity-commutativity rules of Figure~\ref{subfigure:modal_structural_rules:rules} (and the corresponding tree transformations of Figure~\ref{subfigure:modal_structural_rules:trees}, if you have a disdain for brackets).
+The first rule $\rulestyle{ass}_{\diamond}$ allows a unary branch $\bracket{\Phi}$ to escape its bind to its neighbour $\Theta$, forcing it to associate to the structure $\Delta$ to its left instead.
+The second one $\rulestyle{mix}_{\diamond}$ allows a unary $\bracket{\Theta}$ to swap position with its right-adjacent neighbor $\Phi$, disassociating from its left neighbour $\Delta$ in the process.
+In domains where even finer control is needed, one can consider indexed families of (interacting) modalities, each with their own structural brackets and rulesets.
 
 \section{The Linguistic Perspective}\label{section:linguistics}
 Despite their presentation having intentionally been left vague and abstract, the ideas explored so far have been a keystone element of computer science, from its inception until recent modernity.
@@ -1653,19 +1659,19 @@ Adverbs would also be endomorphisms, except this time higher-order -- \linebreak
 
 \begin{table}
 	\centering
-	\begin{tabularx}{0.99\textwidth}{@{}r@{\quad::\quad}l}
+	\begin{tabularx}{0.99\textwidth}{@{}r@{\quad::\quad}ll}
 		eye											& $\smalln$\\
 		\multicolumn{1}{@{}r@{\quad\hphantom{::}\quad}}{oceans, suns, deeps	, dolphins}				
-													& \multicolumn{1}{l}{}\\
-		sea-nymphs, whirlpools						& $\smallnp$\\
-		the											& $\smallnp\divright\smalln$\\
-		opiate, strange, unrememberable, their		& $\smallnp\divright\smallnp$\\
-		poured 										& $\smallgtype{itv} := \smallnp\divleft\smalls$\\
-		behold										& $\smallgtype{tv} :=(\smallnp\divleft\smalls)\divright\smallnp$\\
-		there 										& $\smallgtype{adv}_{\divleft} := (\smallnp\divleft\smalls)\divleft(\smallnp\divleft\smalls)$\\
-		never										& $\smallgtype{adv}_{\divright} := (\smallnp\divleft\smalls)\divright(\smallnp\divleft\smalls))$\\
-		litten 										& $(\smallnp\divleft\smallnp)\divright\smallpp$\\
-		may											& $\smallgtype{aux} := (\smallnp\divleft\smalls)\divright(\smallnp\divleft\smalls))$
+													& \multicolumn{2}{@{}l}{}\\
+		sea-nymphs, whirlpools						& \multicolumn{2}{@{}l}{$\smallnp$}\\
+		the											& \multicolumn{2}{@{}l}{$\smallnp\divright\smalln$}\\
+		opiate, strange, unrememberable, their		& \multicolumn{2}{@{}l}{$\smallnp\divright\smallnp$}\\
+		poured 										& $\smallgtype{itv}$ & $:= \smallnp\divleft\smalls$\\
+		behold										& $\smallgtype{tv}$ &  $:=(\smallnp\divleft\smalls)\divright\smallnp$\\
+		there 										& $\smallgtype{adv}_{\divleft}$ & $:= (\smallnp\divleft\smalls)\divleft(\smallnp\divleft\smalls)$\\
+		never										& $\smallgtype{adv}_{\divright}$ & $ := (\smallnp\divleft\smalls)\divright(\smallnp\divleft\smalls)$\\
+		litten 										& \multicolumn{2}{@{}l}{$(\smallnp\divleft\smallnp)\divright\smallpp$}\\
+		may											& $\smallgtype{aux}$ & $:= (\smallnp\divleft\smalls)\divright(\smallnp\divleft\smalls)$
 	\end{tabularx}
 	\caption{Toy lovecraftian lexicon of pure Lambek types.}
 	\label{table:toy_lambek_lexicon}
@@ -1849,7 +1855,7 @@ Equipped with it, we can derive both the local versions hinted at earlier, and t
 
 
 This methodology is in fact adopted from \citet{moortgat1999constants}, where it finds similar use in dealing with the grammatical ambivalence of relativizers like \textex{that} or \textex{which}.
-Bound relative clauses headed by complementizers like the above contain a subordinate sentence with a \textit{gap}, which can varj in its position.
+Bound relative clauses headed by complementizers like the above contain a subordinate sentence with a \textit{gap}, which can vary in its position.
 Let's make things unnecessarily convoluted for the sake of clich{\'e}d self-referentialism by considering the relative clause \textex{which can very in its position} of the previous sentence.
 There, the subordinate clause \textex{\gap{} can varj in its position} contains a gap in the subject position, which the head \textex{a gap} occupies implicitly.
 This is not the case in the last relative clause \textex{which the head \textex{gap} occupies implicitly}, whose subordinate clause \textex{the head \textex{gap} occupies \gap{} implicitly} contains a non-peripheral (nested) gap in direct object position.
@@ -1859,7 +1865,7 @@ the same cannot be said for the object-relative case, whose structurally free ga
 The solution comes in the form of two distinct type assignments for the relativizer, one per grammatical role fulfilled:
 \begin{align}
 	\w{that} &:: \subcat{l}{rel}{s} := (\np\divleft\np)\divright(\np\divleft\s)\\
-	\w{that} &:: \subcat{l}{rel}{o} := (\np\divleft\np)\divright(\s\divright\diamond\Box \np ) \label{equation:objrel}
+	\w{that} &:: \subcat{l}{rel}{o} := (\np\divleft\np)\divright(\s\divright\diamond\bx \np ) \label{equation:objrel}
 \end{align}
 The second version launches a mobile \np[s] hypothesis via the same diamond-box pattern showcased earlier.
 The proof of Figure~\ref{figure:lovecract_rel_clause} employs this typing in combination with the $\rulestyle{ass}_{\diamond}$ rule to derive the object-relative clause \textex{that the eye may never behold}, which applied to \textex{suns} and combined with the proof of Figure~\ref{figure:lovecraft_postnominal} yields the correct form of the postnominal modifier \textex{opiate oceans poured there, litten by suns that the eye may never behold}, bringing us one step closer to success.
@@ -1872,7 +1878,7 @@ The proof of Figure~\ref{figure:lovecract_rel_clause} employs this typing in com
 			\infer[\divright E]{\gamma := \w{that}\sbind((\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind\w{behold}))) \vdash \np\divleft\np}{
 				\infer[\Lex]{\w{that} : \subcat{l}{rel}{o}}{}
 				&
-				\hspace{-40pt}\infer[\divright I]{(\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind\w{behold})) \vdash \s\divright\diamond\Box\np}{
+				\hspace{-40pt}\infer[\divright I]{(\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind\w{behold})) \vdash \s\divright\diamond\bx\np}{
 						\infer[\diamond E]{((\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind\w{behold})))\sbind\term{\varj}\vdash \s}{
 							\infer[\rulestyle{ass}_{\diamond}]{((\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind\w{behold})))\sbind\bracket{\term{\vari }}\vdash \s}{
 								\infer[\rulestyle{ass}_{\diamond}]{(\w{the}\sbind\w{eye})\sbind((\w{may}\sbind(\w{never}\sbind\w{behold}))\sbind\bracket{\term{\vari }})\vdash \s}{
@@ -1889,8 +1895,8 @@ The proof of Figure~\ref{figure:lovecract_rel_clause} employs this typing in com
 													\infer[\divright E]{\w{behold}\sbind{\bracket{\term{\vari }}} \vdash \np\divleft\s}{
 														\infer[\Lex]{\w{behold}: \gtype[l]{tv}}{}
 														&
-														\infer[\Box E]{\bracket{\term{\vari }} \vdash \np}{
-															\infer[\Ax]{\term{\vari } : \Box \np}{}
+														\infer[\bx E]{\bracket{\term{\vari }} \vdash \np}{
+															\infer[\Ax]{\term{\vari } : \bx \np}{}
 														}
 													}
 												}
@@ -1901,7 +1907,7 @@ The proof of Figure~\ref{figure:lovecract_rel_clause} employs this typing in com
 							}						
 							&
 							\hspace{-52pt}
-							\infer[\Ax]{\term{\varj}: \diamond\Box \np}{}
+							\infer[\Ax]{\term{\varj}: \diamond\bx \np}{}
 						}
 					}
 				}
@@ -1912,8 +1918,8 @@ The proof of Figure~\ref{figure:lovecract_rel_clause} employs this typing in com
 	\begin{subfigure}{1\textwidth}
 		\smaller
 		\[
-			\infer[\divright E]{\w{litten}\sbind(\w{by}\sbind(\w{suns}\sbind(\w{that}\sbind((\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind\w{behold})))))) \vdash \diamond\Box(\np\divleft\np)}{
-				\infer[\Lex]{\w{litten} : \diamond\Box(\np\divleft\np)\divright\pp}{}
+			\infer[\divright E]{\w{litten}\sbind(\w{by}\sbind(\w{suns}\sbind(\w{that}\sbind((\w{the}\sbind\w{eye})\sbind(\w{may}\sbind(\w{never}\sbind\w{behold})))))) \vdash \diamond\bx(\np\divleft\np)}{
+				\infer[\Lex]{\w{litten} : \diamond\bx(\np\divleft\np)\divright\pp}{}
 				&
 				\infer[\divright E]{\w{by}\sbind(\w{suns}\sbind\gamma) \vdash \pp}{
 					\infer[\Lex]{\w{by} : \pp \divright \np}{}
@@ -1941,7 +1947,7 @@ Even under premises as radical as the above, occassions of type undeterminism ar
 Consider for instance the verb \textex{to have}, whose argument structure for the possessive meaning alone) is specified (according to its FrameNet entry~\cite{baker1998berkeley}) as having mandatory owner and possession semantic arguments (corresponding to syntactic subject and direct object), but also any combination of depictive, duration, explanation, manner and temporal optional complements, in various orders -- each variation necessarily expressed with a distinct type.
 In our case, we need the type:
 \begin{equation}
-	\w{having} :: (\diamond\Box(\np\divleft\np)\divright\np)\divright\pp
+	\w{having} :: (\diamond\bx(\np\divleft\np)\divright\np)\divright\pp
 \end{equation}
 for a gerund that requisits first a prepositional complement phrase and then an object noun phrase (i.e. \textit{having somewhere something}) to act as a movable postnominal modifier (an argument permutation that FrameNet does not even contain an example of!).
 
@@ -1983,7 +1989,7 @@ Other than this unique occurrence of polymorphism, second order term and type co
 Armed with this last trick, we are now in possession of all the knowledge necessary to finally tackle the full derivation.
 First, we must instantiate the polymorphic coordinator once by substituting $\chi$ for $\np[s]$ to derive the noun phrase conjunction \textex{strange dolphins and sea-nymphs of unremememberable deeps}, as portrayed in Figure~\ref{subfigure:strange_dolphins_and_sea_nymphs}.
 This, together with our freshly typed \textex{having}, allows the derivation of the mobile postnominal modifier \textex{having in their whirlpools strange dolphins and sea-nymphs of unrememberable deeps}, as in Figure~\ref{subfigure:having_in_their_whirlpools}.
-At this point, we must employ another instance of the polymorphic coordinator, this time substituting $\chi$ for $\diamond\Box (\np\divleft\np[s])$ -- this opens the door to the derivation of the structurally free complex postnominal modifier \textex{litten by suns that the eye may never behold and having in their whirlpools strange dolphins and sea-nymphs of unrememberable deeps}, which can apply to the nested \textex{opiate oceans} in the same fashion as the proof of Figure~\ref{figure:lovecraft_postnominal}.
+At this point, we must employ another instance of the polymorphic coordinator, this time substituting $\chi$ for $\diamond\bx (\np\divleft\np[s])$ -- this opens the door to the derivation of the structurally free complex postnominal modifier \textex{litten by suns that the eye may never behold and having in their whirlpools strange dolphins and sea-nymphs of unrememberable deeps}, which can apply to the nested \textex{opiate oceans} in the same fashion as the proof of Figure~\ref{figure:lovecraft_postnominal}.
 At long last, we are rewarded with a type-checking and syntactically faithful analysis of the full sentence (and a check mark on \textit{how to write a dissertation}).
 Collaging these last bits together is left as an exercise to the motivated reader, for fear of repetition sterilizing the quotation of its beauty.
 
@@ -2008,9 +2014,9 @@ Collaging these last bits together is left as an exercise to the motivated reade
 	\begin{subfigure}{1\textwidth}
 		\smaller[2]
 		\[
-			\infer[\divright E]{(\w{having}\sbind(\w{in}\sbind(\w{their}\sbind\w{whirlpools})))\sbind\delta) \vdash \diamond\Box(\np\divleft\np)}{
-				\infer[\divright E]{\w{having}\sbind(\w{in}\sbind(\w{their}\sbind\w{whirlpools})) \vdash \diamond\Box(\np\divleft\np)\divright\np}{
-					\infer[\Lex]{\w{having}: (\diamond\Box(\np\divleft\np)\divright\np)\divright\pp}{}
+			\infer[\divright E]{(\w{having}\sbind(\w{in}\sbind(\w{their}\sbind\w{whirlpools})))\sbind\delta) \vdash \diamond\bx(\np\divleft\np)}{
+				\infer[\divright E]{\w{having}\sbind(\w{in}\sbind(\w{their}\sbind\w{whirlpools})) \vdash \diamond\bx(\np\divleft\np)\divright\np}{
+					\infer[\Lex]{\w{having}: (\diamond\bx(\np\divleft\np)\divright\np)\divright\pp}{}
 					&
 					\infer[\divright E]{\w{in}\sbind(\w{their}\sbind\w{whirlpools}) \vdash \pp}{
 						\infer[\Lex]{\w{in}: \pp\divright\np}{}
@@ -2091,7 +2097,7 @@ The only constraint imposed is the only one that matters: the high-level princip
 Interestingly, the approach permits a division of labour between syntax, semantics and everything in between: the end-to-end translation can be decomposed into a sequence of homomorphisms, each intermediate step explicating an additional layer of added expressivity (or fortfeited structure) and singling out a subset of the desiderata towards the end-target.
 A natural first stop would be that of $\ILL_{\li}$ as a \textit{derivational semantics} logic: it captures the function/argument structures prescribed by the syntactic proof and respects its no-reuse principle, but without the semantically void headaches of order and bracketing structures, or that of the rules manipulating them. 
 
-To make things concrete, let's consider this in the context of the source logic $\Sigma$ being identified with the instantiation of $\NL_{\diamond,\Box}$ of the previous section, and the intermediate logic $\Tau$ being its $\ILL_{\li}$ mirror image.
+To make things concrete, let's consider this in the context of the source logic $\Sigma$ being identified with the instantiation of $\NL_{\diamond,\bx}$ of the previous section, and the intermediate logic $\Tau$ being its $\ILL_{\li}$ mirror image.
 Using the superscript $X := \Sigma \ | \ \Tau$ to distinguish between the two logics,
 we will denote with $\propcon^X$ the set of atomic types of X, and $\types^X$ its type universe, i.e. the inductive closure of types under type operators.
 Similarly, we will denote with $\cons^{X}$ its set of constants, $\vars^{X}$ its set of variable names, and $\terms^{X}$ its well-formed terms, i.e. the inductive closure of terms under term operators.
@@ -2100,7 +2106,7 @@ Similarly, we will denote with $\cons^{X}$ its set of constants, $\vars^{X}$ its
 	\centering
 	\begin{tikzpicture}
 		\node	(ss)  at (0, 0.5) 	{Surface Syntax};
-		\node[outer sep=5pt]	(nlp) at (0, 0) 	{$\Sigma := \logic{NL}_{\diamond,\Box}$};
+		\node[outer sep=5pt]	(nlp) at (0, 0) 	{$\Sigma := \logic{NL}_{\diamond,\bx}$};
 		\node	(ds)  at (4.75, 0.5) 	{Derivational Semantics};
 		\node[outer sep=10pt]  	(ill) at (4.75, 0) 	{$\Tau := \ILL_{\li}$};
 		\draw[->] (nlp) -- node[above] {$\hm{.}$}  (ill) ;
@@ -2131,9 +2137,9 @@ As an example, applying $\hm{.}$ to the proof of Figure~\ref{figure:lovecract_re
 		$p \in \propcon^{\Sigma}$							& $\eta_0(p) := p \in \propcon^{\Tau}$\\
 		$\smallprop{A}\divleft\smallprop{B}$,		
 		$\smallprop{B}\divright\smallprop{A}$				& $\eta(\smallprop{A})\li\eta(\smallprop{B})$\\
-		$\diamond\smallprop{A}$, 	$\Box\smallprop{A}$		& $\eta(\smallprop{A})$
+		$\diamond\smallprop{A}$, 	$\bx\smallprop{A}$		& $\eta(\smallprop{A})$
 	\end{tabularx}
-	\caption{Translating $\NL_{\diamond,\Box}$ types to $\ILL_{\li}$.}
+	\caption{Translating $\NL_{\diamond,\bx}$ types to $\ILL_{\li}$.}
 	\label{table:eta_nl}
 \end{center}
 \end{table}
@@ -2155,12 +2161,12 @@ As an example, applying $\hm{.}$ to the proof of Figure~\ref{figure:lovecract_re
 		$\caseof{\diaelim \smallterm{t}}{\smallterm{\vari }}{\smallterm{s}}$
 															& $\theta(\smallterm{s})_{[\theta(\smallterm{\vari }) \mapsto \theta(\smallterm{t})]}$
 	\end{tabularx}
-	\caption{Translating $\NL_{\diamond,\Box}$ terms to $\ILL_{\li}$.}
+	\caption{Translating $\NL_{\diamond,\bx}$ terms to $\ILL_{\li}$.}
 	\label{table:theta_nl}
 \end{center}
 \end{table}
 
-In this navigation between syntactic and semantic theories, the Curry-\linebreak Howard isomorphism serves as our North Star.
+With the Curry-Howard isomorphism as our guiding star, there's no peril in navigating between syntactic and semantic theories.
 Syntactic proofs are equated to syntactic terms, on which our homomorphism can be applied to yield derivational semantics terms, in turn equatable to derivational semantics proofs.
 This might seem like a lot of work to simply ``forget'' syntax, but it showcases how one can step up the computational hierarchy of substructural logics in order to attain access to more expressive semantics.
 Note also that such a path is merely a suggestion and not an imperative; a more ambitious line of though could maintain that word order variations (and the structural rules licensing them) can carry semantic cues which, albeit subtle, need to be upheld in the compositional meaning translation (see for instance  the contemporary work of \citet{duarte2022quantum} for some exotic interpretations of the control modalities).
@@ -2242,12 +2248,12 @@ The two together constitute the grammar's \textit{class}, which concisely descri
 This can prove effective in revealing a more granular stratification underlying the Chomsky hierarchy of formal grammars, when the latter are embedded into abstract categorial equivalents; as such, the framework has found extensive use as a meta-language for the study and formalization of formal grammars (as done by \citet{de2004expressive}, \textit{inter alia}).
 \footnote{There is a certain irony in formal grammars requiring or benefiting from formalization. If you're having trouble parsing this, consider that formal languages are essentially ad-hoc rules on strings; by formalization we mean giving these rules the type-theoretic treatment they deserve.}
 
-To see this in practice, let's have some meta-fun pretty-printing the types of $\logic{(N)L}_{\diamond, \Box}$ by modeling their type formation rules (which constitute a context-free grammar) using an abstract categorial grammar.
+To see this in practice, let's have some meta-fun pretty-printing the types of $\logic{(N)L}_{\diamond, \bx}$ by modeling their type formation rules (which constitute a context-free grammar) using an abstract categorial grammar.
 First item on the agenda is the specification of our two logics $\Sigma$ and $\Tau$.
 The source logic $\Sigma$ will provide the abstract backbone of the type grammar, containing a single base type, that of a well-formed ``type'' 
 $\propcon^{\Sigma} := \{ \type[s] \}$.
 The abstract vocabulary is then populated in Figure~\ref{figure:acg_nl_abstract_lex} by all abstract constants denoting base ``types''%
-\footnote{In hindsight, that might have been an unfortunate choice of term\textsuperscript{2} to overload.} and ``type'' constructors.
+\footnote{In hindsight, that might have been an unfortunate choice of term\textsuperscript{\thefootnote} to overload.} and ``type'' constructors.
 The target logic $\Tau$ will be our phenogrammatic printer tasked with translating abstract terms (``types'') to object terms (strings).
 We will need a single object base type  $\propcon^{\Tau} := \{ * \}$, such that $\eta_0$ 
 %such that $\mathtt{str}$ is the type alias of $*\li *$, to which $\type$ is sent by the type translation $\eta_0$.
@@ -2262,7 +2268,7 @@ The above -- all of type $\mathtt{str}$, and underlined to distinguish from func
 		&	\smallterm{ldiv} :: \type[s]\li\type[s]\li\type[s] \\
 		&	\smallterm{rdiv} :: \type[s]\li\type[s]\li\type[s] \}
 	\end{align*}
-	\caption{Abstract lexicon for the language of $\logic{(N)L}_{\diamond, \Box}$ types.}
+	\caption{Abstract lexicon for the language of $\logic{(N)L}_{\diamond, \bx}$ types.}
 	\label{figure:acg_nl_abstract_lex}
 \end{figure}
 
@@ -2276,7 +2282,7 @@ The above -- all of type $\mathtt{str}$, and underlined to distinguish from func
 		$\smallterm{pp}$							& $\underline{\smallprop{pp}}$\\
 		$\smallterm{s}$								& $\underline{\smallprop{s}}$\\
 		$\smallterm{dia}$							& $\smallterm{\lam  \vari.\underline{\diamond} + \varj}$\\		
-		$\smallterm{box}$							& $\smallterm{\lam  \vari.\underline{\Box} + \vark}$\\		
+		$\smallterm{box}$							& $\smallterm{\lam  \vari.\underline{\bx} + \vark}$\\		
 		$\smallterm{ldiv}$							& $\smallterm{\lam  \vari\varj.\underline{(} + \vari + \underline{\divleft} + \varj + \underline{)}}$\\
 		$\smallterm{rdiv}$							& $\smallterm{\lam  \vari\varj.\underline{(} + \varj + \underline{\divright} + \vari + \underline{)}}$
 	\end{tabularx}
@@ -2315,7 +2321,7 @@ The above -- all of type $\mathtt{str}$, and underlined to distinguish from func
 	\label{figure:litten_acg_der}
 \end{figure}
 
-Figure~\ref{figure:litten_acg_der} presents the construction of the type previously assigned to \textex{litten}, $\diamond\Box (\np[s]\divleft\np[s])\divright\pp[s]$ (contexts are intentionally left empty and axioms replaced by abstract constants for brevity).
+Figure~\ref{figure:litten_acg_der} presents the construction of the type previously assigned to \textex{litten}, $\diamond\bx (\np[s]\divleft\np[s])\divright\pp[s]$ (contexts are intentionally left empty and axioms replaced by abstract constants for brevity).
 Applying the homomorphic translation to its abstract yields a printout in the form of the object term below (source function/argument brackets substituted with indendation levels for legibility):
 \begin{equation}
 	{
@@ -2325,13 +2331,13 @@ Applying the homomorphic translation to its abstract yields a printout in the fo
 	&				\smallterm{\lam  \vari\varj.\underline{(} + \varj + \underline{\divright} + \vari + \underline{)}}\\
 	& \quad			\underline{\smallprop{pp}}\\
 	& \quad 		\smallterm{\lam  \vark.\underline{\diamond} + \vark}\\
-	& \qquad 		\smallterm{\lam  \varl.\underline{\Box} + \varl}\\
+	& \qquad 		\smallterm{\lam  \varl.\underline{\bx} + \varl}\\
 	& \qqquad		\smallterm{\lam  \Var{m}\Var{n}.\underline{(} + \Var{m} + \underline{\divleft} + \Var{n} + \underline{)}} \\
 	& \qqqquad		\underline{\smallprop{np}}\\
 	& \qqqquad		\underline{\smallprop{np}}\\
 	\bredstar \
 	&				\underline{(
-						\diamond \Box ( \np \divleft \np )
+						\diamond \bx ( \np \divleft \np )
 						\divright \pp[s] 
 						)}
 	\end{aligned}
@@ -2408,7 +2414,7 @@ The equation below shows the computation of the homomorphic translation to the d
 \end{equation}
 }%
 This already proves quite an endeavour; twelve reduction steps later, we are presented with a seemingly reasonable output.
-Upon closer inspection, though, an issue pops up: the end-term $\smallterm{s}$ is of type $\mathtt{str}\li\mathtt{str}$, making it an ill-fit for the discontinuous application to the \textit{substring} \str{opiate}\str{oceans}, which we expect to find nested within the main clause \str{opiate}\str{oceans}\str{poured}\str{there}.
+Upon closer inspection, though, an issue pops up: the end term is of type $\mathtt{str}\li\mathtt{str}$, making it an ill-fit for the discontinuous application to the \textit{substring} \str{opiate}\str{oceans}, which we expect to find nested within the main clause \str{opiate}\str{oceans}\str{poured}\str{there}.
 For the tectogrammatical form to be able surface correctly, some drastic adjustments are necessary.
 We could alter the derivational proof by including non-lexical abstract constants, or refine the source types to impose (or enable) structural variation, but either option would be undermining the cohesion between deep syntax and semantics we started from.
 The only alternative that does not resort to contaminating the original term -- abstract and pure -- with vulgar restrictions of form would be to lift the complexity of the interpretation and design it anew.

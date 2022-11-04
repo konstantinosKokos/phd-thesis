@@ -275,11 +275,11 @@ The adjunct case is slightly more obscure.
 Following the directives of the previous paragraph, we need to mark the dependent -- this time a predicate in non head position -- in a way such that its application on its argument leaves a bracketing imprint on the structure of the former rather than the latter.
 The solution manifests in the form of a box:
 \begin{align}
-	\prop{b} \divright_r \prop{a} \ \equiv \ \Box (\prop{b} \divright \prop{a}) \\
-	\prop{a} \divleft_l \prop{b} \ \equiv \ \Box (\prop{a} \divleft \prop{b})
+	\prop{b} \divright_r \prop{a} \ \equiv \ \bx (\prop{b} \divright \prop{a}) \\
+	\prop{a} \divleft_l \prop{b} \ \equiv \ \bx (\prop{a} \divleft \prop{b})
 \end{align}
 The translation is not much different: adjuncts are predicates wrapped by a box.
-To reveal the pure function contained therein and allow a proof to progress, we need to invoke the $\Box E$ rule of Figure~\ref{figure:modal_logical}, the effect being a bracketing structure that now delimits adjunct phrases.
+To reveal the pure function contained therein and allow a proof to progress, we need to invoke the $\bx E$ rule of Figure~\ref{figure:modal_logical}, the effect being a bracketing structure that now delimits adjunct phrases.
 
 There is symmetry between the above two cases.
 The task of imposing dependency structure is always upon the functional predicate and its type.
@@ -341,7 +341,7 @@ Since the vanilla structure is now just a sequence, treeness is imposed solely b
 This visual paradigm also applies to the even laxer $\NLP$ -- the difference being that the yield of each local tree is recursively equivalent under bracket-preserving permutation, i.e. commutativity now holds between constituent phrases (subtrees) rather than words (terminal nodes).
 
 The above points hint to the fact that dependency modalities introduce structural constraints that may (to some extent) obviate the need for a strict structural binder.
-From the linguistic perspective, $\LC$ seems to hit the sweet spot -- it has constituents live happily together in horizontal (not strictly binary) clusters upon lush trees, with each constitutent given a role to fulfill.
+From the linguistic perspective, $\LC$ seems to hit the sweet spot -- it has constituents live happily together in horizontal, non-binary clusters set upon lush trees, with each constitutent given a role to fulfill.
 The systematic ordering of arguments according to their obliqueness order is made redundant by their labeling; the positional explication of $\NL$ is replaced by the denominational explication of the modal brackets.
 What's more, headedness is not proliferated among functionally incomplete constituents, i.e. each complete phrase (read: one typed as a propositional constant) is flat among its arguments, requiring only a single head and implicitly disallowing heads from being phrases in themselves (in line with the mandates of dependency grammars).
 Figure~\ref{figure:first_dl_derivation} presents a simple first example to illustrate the point.
@@ -400,26 +400,206 @@ Figure~\ref{figure:first_dl_derivation} presents a simple first example to illus
 
 How about $\NLP$ though?
 We have so far dismissed the syntactic utility of the logic as being overly permissive, presenting it as meaningful only from a semantic perspective.
-With dependency brackets in the picture, the explosive combinatorics of global commutatitivity are somewhat tamed; it is now allowed only within the context of subtrees.
+With dependency brackets in the picture, the explosive combinatorics of global commutatitivity are somewhat tamed; it is now permitted only within the context of subtrees.
 In programming language terms, this can be paralleled to a tree-shaped variable scoping strategy, where scopes are identified by their names (unary labels) and those of their ancestors, and the order of variable declaration is irrelevant, but the nestedness of embedded trees is not.
-From a linguistic perspective, this would be akin to a natural language that exhibits quasi-free local word order but makes heavy use of overt morphological case marking.
+From a linguistic perspective, this would be akin to a natural language that exhibits quasi-free local word order but makes heavy use of overt morphological case marking to disambiguate.
 
 This is still not very realistic, but presents an interesting opportunity.
-Rather than commit to commutativity in general, we are invited to step into the crossroads between the two logics, employing $\LC$ as the global base while inventorizing scrambling- and topicalization- like behaviors on the basis of structural postulates informed by dependency roles.
-Utilizing the unary brackets, we can repurpose the notion of context to denote subtrees (despite being in an associative calculus!), obtaining the means to formulate rules like:
+Rather than commit to commutativity in general, we are invited to step into the crossroads between the two logics, employing $\LC$ as the global base while inventorizing commutative scrambling- and topicalization- like behaviors on the basis of structural postulates informed by dependency roles.
+Utilizing the now explicit boundaries of dependency domains, we can repurpose the notion of context to denote subtrees (despite being in an associative calculus!), obtaining the means to formulate rules like:
 \begin{equation}\label{equation:fronting}
 	\infer[\text{obj-top}]
 		{\Gamma\ctx{\dbra{\dbra{\Phi}{obj},\Delta}{d}} \vdash \prop{a}}
 		{\Gamma\ctx{\dbra{\Delta, \dbra{\Phi}{obj}}{d}} \vdash \prop{a}}
 \end{equation}
 which can be read as saying that an object can be preposed within its local \dep{d}-labeled clause, if one such is nested within $\Gamma$%
-	\footnote{In reality, we would also need to mark complete clauses to remove the possibility of premature shuffling and accidental overgeneration, but this can be trivially accomplished by boxing the phrasal end-result, e.g. $\ddia{su}\np[s]\divleft\dbox{cl}{\s[s]}$ for an intransitive, where \dep{cl} would mark a complete clause and assume the role of \dep{d} in (\ref{equation:fronting}).}.	
-This should in principle simplify the categorial treatment of such phenomena: one can always start with a canonical derivation, e.g. one where all arguments are in their expected positions, and proceed by shuffling them around given the structural rule inventory.
+	\footnote{In reality, we would need to mark complete clauses to remove the possibility of arbitrary shuffling and accidental overgeneration, but this can be trivially accomplished by boxing the phrasal end-result, e.g. $\ddia{su}\np[s]\divleft\dbox{cl}{\s[s]}$ for an intransitive, where \dep{cl} would mark a complete clause and assume the role of \dep{d} in (\ref{equation:fronting}).}.	
+In principle, this could simplify the categorial treatment of such phenomena: one can always start with a canonical derivation, e.g. one where all arguments are in their expected positions, and proceed by shuffling them around given the structural rule inventory.
 As a bonus, adorning these rules with non-void term rewrites would allow them to upkeep their relevance for pragmatics.
-If this sounds exciting, I am sorry to disappoint, but this is not a research avenue we will be presently pursuing.
-If it doesn't, all for the better; we have another beast to face.
+Exciting (or not) as this might sound, it was only ever meant to incentivize the use of dependency modalities; it won't be something we will be pursuing presently, for we have other kinds of beast to face.
 
 \paragraph{Crossing Boundaries}
+The structural rule format hinted at would be capable of dealing with the movement of phrases \textit{within} a dependency domain, conditionally relaxing the word order constraints of $\LC$.
+Yet it fails to provide any insights on how this could work in the case of structures that are misplaced not in terms of linear order but of nestedness level.
+That is, beyond the standard question of word order, dependency modalities import previously invisible structural brackets that can pose a challenge when it comes to traversing \textit{along} dependency domains -- a challenge external to the grammar's implicational core.
+To make this clearer, let us revisit the keystone achievement of the previous chapter, namely the derivation of the object-relative clause of Figure~\ref{subfigure:lovecraft_rel_clause:rc} (the phrase in question is \textex{that the eye may never behold}, in case you were confident enough to skip the chapter).
+Conforming to our routine, let's first adapt some of the lexical assignments of Table~\ref{table:toy_dep_lexicon} (and add a few new ones for good measure).
+
+\begin{table}
+	\centering
+	\begin{tabularx}{0.65\textwidth}{@{}r@{\quad::\quad}ll}
+		eye, city									& $\smalln$\\
+		walls, twilight								& $\smallnp$\\
+		high, sterile								& $\smallgtype{adj}_{\divright}$ & $:=\dbox{mod}(\smallnp\divright\smallnp)$\\
+		a, the										& $\smallgtype{det}$ & $:= \dbox{det}(\smallnp\divright\smalln)$\\
+		reigned										& $\smallgtype{itv}$ & $:=(\ddia{su}\smallnp\divleft\smalls)$\\
+		behold										& $\smallgtype{tv}$ & $:= \smallgtype{itv}\divright\ddia{obj}\smallnp$\\
+		never										& $\smallgtype{adv}_{\divright}$ & $:= \dbox{mod}(\smallgtype{itv}\divright\smallgtype{itv})$\\
+		may											& $\smallgtype{aux}$ & $:= \ddia{vc}\smallgtype{itv}\divright\smallgtype{itv}$
+%		that										& $\subcat{l}{rel}{o}$ & $:= \dbox{mod}(\np\divleft\np)\divright(\s\divright\ddia{obj} \np )$
+	\end{tabularx}
+	\caption{Dependency-enhanced lovecraftian lexicon.}
+	\label{table:toy_dep_lexicon}
+\end{table}
+
+The propositional constants for nouns $\n[s]$ and noun phrases $\np[s]$ are unmarked, plain and boring; let's not speak of them any further.
+The first-order types of the determiner $\smallgtype{det}$, adjectival modifier $\smallgtype{adj}_{\divright}$ and verbal types, $\smallgtype{itv}$ and $\smallgtype{tv}$, should by now also be familiar.
+The higher order types of the adverb and the modal auxiliary, $\smallgtype{adv}_{\divright}$ and $\smallgtype{aux}$, might, however, require some elucidation.
+Note, first, that despite seemingly divergent, the two types are identical when stripped of their modalities.
+This is perfectly in line with our agenda of revealing previously coalescent diversity.
+The negation \textex{never} functions like an adverbial adjunct: it is an endomorphism of an intransitive phrase that marks itself as a modifier in the process.
+The modal auxiliary \textex{may}, on the other hand, heads its local phrase by assigning to an intransitive dependent the role of a verbal complement, \dep{vc}.
+
+Next, we need to turn our attention to the relativizer -- let's first address the missing dependencies:
+\begin{equation}
+\dbox{mod}(\np\divleft\np)\divright\ddia{body}(\s\divright\ddia{obj}\np)\label{equation:deprel}
+\end{equation}
+The functor now states the following: it requires first a relative clause body, namely a sentence missing an object-marked noun phrase in its rightmost edge, in order to produce a postnominal adjectival phrase, i.e. a modifying adjunct.
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{0.99\textwidth}
+		\[
+			\infer[\Extraction]{\Gamma\ctx{\dbra{\Delta, \Phi}{d}, \dbra{\Theta}{x}} \vdash \prop{a}}{
+			\Gamma\ctx{\dbra{\Delta, \dbra{\Theta}{x}, \Phi}{d}} \vdash \prop{a}}
+		\]
+		\caption{Controlled extraction rule.}
+		\label{subfigure:extraction_rule}
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}{0.99\textwidth}
+		\centering
+		\begin{tabularx}{0.85\textwidth}{@{}cCc@{}}
+			\begin{tikzpicture}[
+				sibling distance=30pt, level distance=60pt, 
+				t/.style={text height=1.5ex, text depth=.25ex, rectangle, outer sep=0pt}]
+			\Tree
+				[
+					\edge[unary] node[left, midway] {\dep{d}};	
+						[\edge[roof, dashed]; \node[t] {\hphantom{123}$\Delta,\Phi$\hphantom{123}};]
+					\edge[unary] node[yshift={-7pt}, xshift={11pt}] {\dep{x}}; \node[t,xshift=0pt] {$\Theta$};
+				]
+			\end{tikzpicture}
+			&
+			\raisebox{60pt}{$\xleftarrow{\Extraction}$}
+			&
+			\begin{tikzpicture}[
+				sibling distance=7.5pt, level distance=40pt, 
+				t/.style={text height=1.5ex, text depth=.25ex, rectangle, outer sep=0pt}, node distance=10pt]
+			\tikzset{level 1/.style={level distance=33pt}}
+			\tikzset{level 2/.style={level distance=47pt}}
+			\tikzset{frontier/.style={distance from root=120pt}}
+			\Tree
+				[
+					\edge node[midway, right] {\dep{d}}; 
+					[
+						[
+							\edge[roof, dashed]; \node[t] {\hphantom{123}$\Delta$\hphantom{123}};
+						]
+						\edge[unary] node[midway, right] {\dep{x}}; \node[t, xshift={15pt}] {$\Theta$};
+						[
+							\edge[roof, dashed]; \node[t] {\hphantom{123}$\Phi$\hphantom{123}};
+						]
+					]
+				]
+			\end{tikzpicture}
+		\end{tabularx}
+		\caption{Corresponding tree transformation.}
+		\label{subfigure:extraction_tree}
+	\end{subfigure}
+	\caption{Controlled extraction in the dependency-bracketed setting.}
+	\label{figure:modal_dep_extraction}
+\end{figure}
+
+Naively, we would assume that the absence of binary bracketing structure in $\LC$ would allow us direct access to the gap within the relative clause body, counteracting the need for the control modalities of (\ref{equation:objrel}).
+But the gap is still enclosed, except this time under layers of impenetrable dependency domains!
+Seems like we need to reinstate control -- both kinds of modalities must be employed in tandem.
+Although in truth, the two do not really constitute distinct kinds per se: they only differ insofar as their linguistic purposes do.
+Nevertheless, it might be handy to make a notational distinction between them, just for the sake of reading comprehension.
+From now on, we will use filled symbols to denote control modalities (i.e. ones whose purposes are confined to rebracketing and movement), and white symbols to denote dependency modalities (i.e. ones whose purpose is linguistic annotation, and the brackets of which we expect to see in the antecedent of the proof's end yield).
+Even when having a single control pair, assigning it an explicit label \dep{x} is still useful, since it will allow us to tell its brackets apart from the rest.
+In this regime, our relativizer's type assignment becomes:
+\begin{equation}
+\text{that} :: \subcat{l}{rel}{o} := \dbox{mod}(\np\divleft\np)\divright\ddia{body}(\s\divright\dxdia{x}\dxbox{x}\ddia{obj}\np)
+\end{equation}
+which is faithful to both (\ref{equation:deprel}) and (\ref{equation:objrel}), as it conveys that the missing object is now \textit{movable}.
+
+
+\begin{figure}
+	\smaller[2]
+	\[
+		\infer[\divright E]{\w{that}, \dbra{\dbra{\w{the}}{det}, \w{eye}}{su}, \w{may}, \dbra{\dbra{\w{never}}{mod}, \w{behold}}{vc} \vdash \dbox{mod}(\np\divleft\np)}{
+			\infer[\Lex]{\w{that} :  \subcat{l}{rel}{o}}{}
+			&
+			\hspace{-50pt}
+			\infer[\ddia{body}I]{\dbra{\dbra{\w{the}}{det}, \w{eye}}{su}, \w{may}, \dbra{\dbra{\w{never}}{mod}, \w{behold}}{vc} \vdash \ddia{body}(\s\divright\ddia{obj}\np)}{
+				\infer[\divright I]{\dbra{\dbra{\w{the}}{det}, \w{eye}}{su}, \w{may}, \dbra{\dbra{\w{never}}{mod}, \w{behold}}{vc} \vdash \s\divright\ddia{obj}\np}{
+					\infer[\dxdia{x}E]{\dbra{\dbra{\w{the}}{det}, \w{eye}}{su}, \w{may}, \dbra{\dbra{\w{never}}{mod}, \w{behold}}{vc}, \varj \vdash \s}{
+						\infer[\divleft E]{\dbra{\dbra{\w{the}}{det}, \w{eye}}{su}, \w{may}, \dbra{\dbra{\w{never}}{mod}, \w{behold}}{vc}, \dbra{\vari}{x} \vdash \s}{
+							\infer*{\dbra{\dbra{\w{the}}{det}, \w{eye}}{su} \vdash \ddia{su}\np}{	}
+							&
+							\infer[\divright E]{\w{may}, \dbra{\dbra{\w{never}}{mod}, \w{behold}}{vc}, \dbra{\vari}{x} \vdash \gtype{itv}}{
+								\infer[\Lex]{\w{may} : \gtype{aux}}{}
+								&
+								\hspace{-25pt}\infer[\Extraction]{\dbra{\dbra{\w{never}}{mod}, \w{behold}}{vc}, \dbra{\vari}{x} \vdash \ddia{vc}\gtype{itv}}{
+									\infer[\ddia{vc}I]{\dbra{\dbra{\w{never}}{mod}, \w{behold}, \dbra{\vari}{x}}{vc} \vdash \ddia{vc}\gtype{itv}}{
+										\infer[\divright E]{\dbra{\w{never}}{mod}, \dbra{\vari}{x} \vdash \gtype{itv}}{
+											\infer[\dbox{mod}E]{\dbra{\w{never}}{mod} \vdash \gtype{itv}\divright\gtype{itv}}{
+												\infer[\Lex]{\w{never} : \gtype[l]{adv}_{\divright}}{}
+											}
+											&
+											\infer[\divright E]{\w{behold}, \dbra{\vari}{x} \vdash \gtype{itv}}{
+												\infer[\Lex]{\w{behold}: \gtype[l]{tv}}{}
+												&
+												\infer[\dxbox{x} E]{\dbra{\vari}{x} \vdash \ddia{obj} \np}{
+													\infer[\Ax]{\vari : \dxbox{x}\ddia{obj}\np}{}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						&
+						\hspace{-60pt}
+						\infer[\Ax]{\varj : \dxdia{x}\dxbox{x}\ddia{obj}\np}{}
+					}
+				}
+			}
+		}
+	\]
+	\caption{Dependency-enhanced adaptation of the proof of Figure~\ref{subfigure:lovecraft_rel_clause:rc}, exemplifying the interaction between dependency and control modalities.}
+	\label{figure:lovecraft_dep_rep_clause}
+\end{figure}
+
+
+Mobility, however, also means something different now.
+Taking inspiration from the established structural vocabulary (see Figure~\ref{figure:modal_structural_rules} if you need to jog your memory), we need to  to concoct a novel structural rule: one that allows the \textit{extraction} of a nested substructure under the appropriate bracketing conditions.
+The magical conconction is presented in Figure~\ref{subfigure:extraction_rule}.
+Within arbitrary context $\Gamma$, it looks for a \dep{d}-labelled unary tree enclosing a \dep{x}-labelled unary tree $\Theta$ wrapped by sequences $\Delta$ to the left and $\Phi$ to the right.
+There, it allows us to pull the $\Delta$ out, casting the outermost unary tree into a binary sequence and assigning \dep{d} to the concatenation of $\Delta$ and $\Phi$ alone. 
+If this makes little sense, see Figure~\ref{subfigure:extraction_tree} for a visual rendition.
+If still unclear, move your mental cursor four sentences back (this one included) and try again.
+
+Equipped with this missing bit of alchemical understanding, we're at long last able to produce analyses for some less contrived linguistic examples; Figure~\ref{figure:lovecraft_dep_rep_clause} presents the dependency-enhanced derivation we set out to deliver.
+Before we move on, though, some important observations are in order.
+First, the presentation makes an implicit quantification over the outer label, \dep{d} -- if we were to be really pedantic, we'd need a unique instantiation of that rule for each dependency (but not control!) modal label in the logic.
+On a less bureaucratic note, the contextual formulation of the rule carries the usual problem of complicating syntactic equality checking. 
+In practice, we can employ a strictly localized version, i.e. one where $\Gamma$ is an empty context (just a hole), which means that extractions need to be preemptively applied immediately after every bracketing operation, rather than deferred to the future.
+Finally, it is important to remember that the rule is supplementary to (and \textit{not} a substitute for) controlled associacitivity and/or commutativity: altering the linear order of substructures in $\LC$, or their binary brackets in $\NL$, still calls for different structural rules with possibly different control modalities that will need to coexist with the \Extraction{} rule for structures to find their intended positions.
+
+
+\paragraph{Ever higher order}
+The example just inspected hides a crucial wisdom: variable abstraction applies to variables -- \textit{not} complex structures thereof.
+Control modalities may impose transient bracketing structure upon hypotheses, temporarily hindering their abstraction, but it is always retroactively redacted with the $\diamond E$ rule (after all the necessary structural operations have taken effect).
+The bracketing imposed by dependency modalities, however, is built to last, posing a potential roadblock to hypothetical reasoning and higher-order types.
+Hypothetical complements are relatively easy to tackle: they just come packed with their diamonds at variable instantiation time%
+	\footnote{If careful enough, you'll notice that this is just the $\eta$-normalized version of hypothesizing a plain type, assigning it the desired dependency via the $\diamond I$ rule, and then performing a substitution of the bracketed variable for a logical equivalent via the $\diamond E$ rule -- consult Figure~\ref{subfigure:modal_eta_reductions} if unconvinced.}.
+Hypothetical adjuncts
+
+%% interior of higher order adjunction
+
+%% empty structures
+
 
 \subsection{Dependencies-Semantics Interface}
 

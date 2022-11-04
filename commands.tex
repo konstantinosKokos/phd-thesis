@@ -17,10 +17,12 @@
 \usepackage{lipsum}  
 \usepackage{ifthen}
 \usepackage{hyperref}
-%\usepackage{tree}[center]
 \usepackage{calc}
 \usepackage[bb=pazo]{mathalpha}
 \usepackage{enumitem}
+\DeclareSymbolFont{blah}{U}{jkpsyc}{m}{n}
+\DeclareMathSymbol{\vardiamondsuit}{\mathalpha}{blah}{113}
+
 
 \newcommand{\todo}{\textcolor{red}{todo}}
 
@@ -75,6 +77,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					toc
 \usepackage[titles]{tocloft}
+%\addcontentsline{TABLE}{chapter}{Contents}
 %%%\renewcommand{\cftdot}{\_}
 \renewcommand*{\cftsecindent}{1.5em} 		
 \renewcommand*{\cftsecnumwidth}{1em} 
@@ -130,6 +133,7 @@
 \newcommand{\Exchange}{\rulestyle{ex}}
 \newcommand{\Contraction}{\rulestyle{contr}}
 \newcommand{\Weakening}{\rulestyle{weak}}
+\newcommand{\Extraction}{\ensuremath{\rulestyle{extr}_{\xdiamond}}}
 \newcommand{\Lex}{\rulestyle{lex}}
 \newcommand{\Ax}{\rulestyle{id}}
 \newcommand{\ctx}[1]{\llbracket{#1}\rrbracket}
@@ -194,14 +198,23 @@
 }
 \makeatother
 
-\newcommand{\domodaltypescale}[2]{\raisebox{0.5\getfontdim{#1}}{\scalebox{0.9}{\ensuremath{#1#2}}}}
-\newcommand{\modaltypescale}[1]{\mathpalette\domodaltypescale{#1}\relax}
-\renewcommand{\diamond}{\modaltypescale{\diamondsuit}}
-\renewcommand{\Box}{\modaltypescale{\boxempty}}
+% ratio: 1.8/2.75
+\newcommand{\domodaldiamondscale}[2]{\raisebox{0.5\getfontdim{#1}}{\scalebox{0.9}{\ensuremath{#1#2}}}}
+\newcommand{\domodalboxscale}[2]{\raisebox{0.15\getfontdim{#1}}{\scalebox{0.85}{\ensuremath{#1#2}}}}
+\newcommand{\domodalxdiascale}[2]{\raisebox{0.2\getfontdim{#1}}{\scalebox{1.375}{\ensuremath{#1#2}}}}
+\newcommand{\modalxdiascale}[1]{\mathpalette\domodalxdiascale{#1}\relax}
+\newcommand{\modaldiamondscale}[1]{\mathpalette\domodaldiamondscale{#1}\relax}
+\newcommand{\modalboxscale}[1]{\mathpalette\domodalboxscale{#1}\relax}
+\renewcommand{\diamond}{\modaldiamondscale{\diamondsuit}}
+\newcommand{\xdiamond}{\modalxdiascale{\vardiamondsuit}}
+\newcommand{\bx}{\modalboxscale{\Box}}
+\newcommand{\xbx}{\modalboxscale{\blacksquare}}
 \newcommand{\dep}[1]{\ensuremath{\mathsf{#1}}}
 \newcommand{\deps}{\ensuremath{\dep{Deps}}}
 \newcommand{\ddia}[1]{\diamond_{\scalebox{0.66}{\dep{\smaller{#1}}}}}
-\newcommand{\dbox}[1]{\Box_{\scalebox{0.66}{\dep{\smaller{#1}}}}}
+\newcommand{\dxdia}[1]{\xdiamond_{\scalebox{0.66}{\dep{\smaller{#1}}}}}
+\newcommand{\dbox}[1]{\bx_{\scalebox{0.66}{\dep{\smaller{#1}}}}}
+\newcommand{\dxbox}[1]{\xbx_{\scalebox{0.66}{\dep{\smaller{#1}}}}}
 \newcommand{\dbra}[2]{\bracket{#1}^{\scalebox{0.66}{\dep{#2}}}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -251,3 +264,4 @@
 %					hyphenations
 \hyphenation{con-sti-tu-en-cy}
 \hyphenation{a-me-na-ble}
+\hyphenation{phra-ses}
