@@ -22,6 +22,7 @@
 \usepackage{enumitem}
 \DeclareSymbolFont{blah}{U}{jkpsyc}{m}{n}
 \DeclareMathSymbol{\vardiamondsuit}{\mathalpha}{blah}{113}
+\usepackage{algorithm2e}
 
 
 \newcommand{\todo}{\textcolor{red}{todo}}
@@ -211,6 +212,8 @@
 \newcommand{\xbx}{\modalboxscale{\blacksquare}}
 \newcommand{\dep}[1]{\ensuremath{\mathsf{#1}}}
 \newcommand{\deps}{\ensuremath{\dep{Deps}}}
+\newcommand{\adjuncts}{\ensuremath{\dep{Adjs}}}
+\newcommand{\complements}{\ensuremath{\dep{Comps}}}
 \newcommand{\ddia}[1]{\diamond_{\scalebox{0.66}{\dep{\smaller{#1}}}}}
 \newcommand{\dxdia}[1]{\xdiamond_{\scalebox{0.66}{\dep{\smaller{#1}}}}}
 \newcommand{\dbox}[1]{\bx_{\scalebox{0.66}{\dep{\smaller{#1}}}}}
@@ -262,6 +265,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					hyphenations
-\hyphenation{con-sti-tu-en-cy}
+\hyphenation{con-sti-tuen-cy}
 \hyphenation{a-me-na-ble}
 \hyphenation{phra-ses}
+\hyphenation{name-ly}

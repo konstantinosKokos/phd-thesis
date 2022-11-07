@@ -901,7 +901,7 @@ The added burden has the enormous benefit of yielding ``$\beta$ normalized'' lin
 Matching indices correspond exactly to the axiom links of Figure~\ref{subfigure:proof_structure_funcomp} -- the two representations are in fact equivalent.
 Now, we really do know how to freely move back and forth between the proof net and natural deduction presentation of proofs in $\ILL_{\li}$.
 
-The question then is, when should we use which?
+The question then is: when should we use which?
 The original intention of proof nets was to provide a compact, bureacracy-free representation of proofs that abstracts away from structural rules.
 In that sense, their strength is also their weakness; same as the $\lam$-terms they prescribe, they encode the semantically essential part of a proof, but hide structural subtleties that can prove hard to guess or recover.
 At the same time, performing search over proof nets is a horrible idea; the number of possible links we need to consider scales factorially with respect to the number of atoms in the proof frame, and checking whether a set of links is valid is in the best case linear.
@@ -2056,10 +2056,8 @@ The following endsequents are all valid alternatives provable with the lexical t
 \end{enumerate}
 }
 This is an admittedly stretched case of \textit{derivational ambiguity}, a situation where from the same lexical assignments one can obtain multiple syntactic analyses, which may correspond to equinumerous subtly or drastically diverging semantic interpretations (more on that in a bit).
-If the underlying proofs were to be produced in the associative calculus $\LC$, the ambiguity would have been \textit{spurious}, as all would lead to a structurally identical (bracketless) judgement.
 Derivational ambiguity is not necessarily bad, provided the divergence in the proofs constructed is linguistically meaningful.%
 \footnote{Just think of all the different things you could do with pijamas, elephants, telescopes, etc.}
-This is not the case for spurious ambiguity, as it introduces undesirable (and uninterpretable) redundancy, at the dismay of parsers (or mostly their designers).
 What is, however, worth noting is the structural discrepancy between what we see (a flat sequence) and what we want to parse into (a binary branching tree).
 Even though constituency structure is de facto acknowledged by linguistic theory, it is a latent mental construct revealed through (or assigned by) the parsing process, rather than an observable feature of text that we can assume as a given.
 The connotation of this is that even though backwards proof search in $\NL$ may find use in \textit{verifying} the plausibility of a type-assigned, pre-bracketed phrase, forward search is necessary in \textit{eliciting} a type and a bracketing structure from a phrase. 
@@ -2394,6 +2392,7 @@ The story is summarized in Table~\ref{table:toy_acg_lexicon} (object types are o
 
 
 The equation below shows the computation of the homomorphic translation to the derivational term (\ref{equation:litten_derterm}) inspected earlier.
+
 {\smaller
 \begin{equation}\label{equation:acg_pheno}
 	\begin{aligned}
