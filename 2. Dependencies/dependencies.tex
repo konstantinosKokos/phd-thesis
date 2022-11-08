@@ -12,9 +12,9 @@ The previous chapter initiated us into the history-rich world of substructural l
 Along the (artificially homogenized) story, we got to dip our toes into linguistic waters, where we saw these logics thrive and prosper, finding their place as the foundation for categorial grammars.
 The many flavours of categorial grammars all have a single common denominator: they treat syntax as a hierarchical structure that puts phrases together from small to big, starting from words and reaching up to the sentence, the imprint being a natural deduction tree (and perhaps a phrasal bracketing structure).
 This emphasis on the phrase, combined with the distinctive shape of the categorial parse, allows for a partial parallel to be drawn between categorial grammars and phrase structure grammars, despite their stark methodological and theoretical contrasts.
-These are rule-based systems that assign categories to phrases according to their syntactic function, and manipulate phrasal formation by specifying how their constituent parts combine -- the produce being a bracketing structure, commonly visualized in tree format.
+Phrase structure grammars are rule-based systems that assign categories to phrases according to their syntactic function, and manipulate phrasal formation by specifying how their constituent parts combine -- the produce being a bracketing structure, commonly visualized in tree format.
 
-A different approach to grammatical theory abandons constituency relation in favour of the dependency relation in its stead.
+A different approach to grammatical theory abandons the constituency relation, adopting the dependency relation in its stead.
 Dependency relations do not seem compatible with the categorial setup at a first glance: they are flat, and lack the notion of finite phrasal parts -- in showing no attachment to iterative phrasal division, they are also not obviously compositional.
 In this chapter we will focus our efforts into bridging this gap between these two perspectives, under a unified categorial grammar setup.
 We will motivate the incorporation of dependency relations into the categorial vocabulary by repurposing existing, well-studied tools that remain faithful to the formal logic and type theory roots the previous chapter has established.
@@ -130,6 +130,7 @@ Note that in reality, categorial derivations in the type-theoretic tradition res
 Long story short, even without extensions to the logical core for managing discontuinity, calling deductive parsing constituency parsing would obviously not be doing the former justice; yet despite their methodological and theoretical divergences, their end yield is comparable -- the antecedent structures of Figures~\ref{figure:nl_applicative_examples} to~\ref{figure:lovecraft_coord} testify that the former may in fact be seen as subsuming the latter.
 
 \subsection{Dependency Grammars}
+\label{subsection:dep_grammars}
 The constituency tradition has co-evolved along the opposing view of dependency grammars~\cite[\textit{inter alia}]{tesniere2015elements,sgall1986meaning,mel1988dependency,sleator1995parsing}.
 Dependency grammars reject the binary phrasal division that constituency grammars abide by, and instead adopt a flatter structural form, the only unit of which is the word.
 Words are connected with one another by dependency arcs, i.e. directed edges between word pairs.
@@ -220,7 +221,7 @@ This observation gives rise to a binary subcategorization of a binary predicate 
 \end{enumerate}
 where the distinction between complement and adjunct is made solely on the basis of their functional relation to the head.
 
-The vanilla categorial vocabulary does not suffice to capture this extra dimension of function application -- a problem also also noticed by the intellectuals of proto-categorial civilizations, as archeological excavations reveal.
+The vanilla categorial vocabulary does not suffice to capture this extra dimension of function application -- a problem also noticed by the intellectuals of proto-categorial civilizations, as archeological excavations reveal.
 In an unpublished manuscript, \citet{moortgat1991heads} propose a two-dimensional implicational type operator and corresponding residuation laws: the first binary dimension is reserved for the usual left- vs. right- application distinction, whereas the second binary dimension specifies whether the head occurs to the left or to the right; the result is four unique ways of building up an implication.
 Congruent with the substructural trend of revealing structure that was once hidden, this division brings forth a two-valued structural binder, allowing the corresponding logic $\logic{DNL}$ to reason about \textit{headed} binary trees.
 The authors refrain from commiting to a specific linguistic application, but, translated into our terminology, their proposal can be schematically summarized by Figure~\ref{figure:heads_and_phrases}.
@@ -432,7 +433,7 @@ Conforming to our routine, let's first adapt some of the lexical assignments of 
 		walls, twilight								& $\smallnp$\\
 		high, sterile								& $\smallgtype{adj}_{\divright}$ & $:=\dbox{mod}(\smallnp\divright\smallnp)$\\
 		a, the										& $\smallgtype{det}$ & $:= \dbox{det}(\smallnp\divright\smalln)$\\
-		reigned										& $\smallgtype{itv}$ & $:=(\ddia{su}\smallnp\divleft\smalls)$\\
+		reigned										& $\smallgtype{itv}$ & $:=\ddia{su}\smallnp\divleft\smalls$\\
 		behold										& $\smallgtype{tv}$ & $:= \smallgtype{itv}\divright\ddia{obj}\smallnp$\\
 		never										& $\smallgtype{adv}_{\divright}$ & $:= \dbox{mod}(\smallgtype{itv}\divright\smallgtype{itv})$\\
 		may											& $\smallgtype{aux}$ & $:= \ddia{vc}\smallgtype{itv}\divright\smallgtype{itv}$
@@ -657,9 +658,9 @@ This beast of a type plays the starring role in the derivation of Figure~\ref{fi
 		\smaller
 		\[
 			\infer[\!\divright E]{\w{where}, \dbra{\dbra{\dbra{\w{sterile}}{mod}, \w{twilight}}{su}, \w{reigned}}{body} \vdash \dbox{mod}(\np\divleft\np)}{
- 				\infer[\Lex]{\w{where} : \subcat{l}{rel}{loc}}{}
+ 				\infer[\!\!\Lex]{\w{where} : \subcat{l}{rel}{loc}}{}
 				&
-				\hspace{-7pt}
+				\hspace{-5pt}
 				\infer[\!\!\ddia{body}I]{\dbra{\dbra{\dbra{\w{sterile}}{mod}, \w{twilight}}{su}, \w{reigned}}{body} \vdash \ddia{body}(\s\divright(\ddia{mod}\dbox{mod}(\gtype{itv}\divleft\gtype{itv})))}{
 					\infer[\divright I]{\dbra{\dbra{\w{sterile}}{mod}, \w{twilight}}{su}, \w{reigned} \vdash \s\divright(\ddia{mod}\dbox{mod}(\gtype{itv}\divleft\gtype{itv}))}{
 						\infer[\divleft E]{\dbra{\dbra{\w{sterile}}{mod}, \w{twilight}}{su}, \w{reigned}, \varj \vdash \s}{
@@ -694,6 +695,8 @@ Same as before, we have to alter the typing of the gap by prepending a boundary 
 As the modal chains are no longer $\eta$ contractable, the gap will manifest as three distinct variables, sequentially substituting one another via $\diamond E$ rules, as shown in Figure~\ref{figure:higher_order_nested_dep}.
 The first substitution of $\vari$ for $\varj$ is responsible for removing the \dep{mod} brackets for \dep{x} ones, allowing any applications of the \Extraction{} rule in the telescoped subproof $s$.
 The bracketed variable will eventually be positioned at the outermost branch of the antecedent tree, at which point it can be substituted for $\vark$, the ``true'' variable of the gap.
+Don't give in to despair: this is peak complexity.
+With these type patterns at our disposal we should be able to tackle any linguistic phenomenon we might encounter from this point on.
 Note, finally, that complement and adjunct gaps are not that different to one another after all: they both mimic their corresponding lexical assignment (a plain type or a boxed functor, respectively), except prepended by a diamond of whichever dependency role they will assume and (if needed) a structural extraction licensor.
 
 
@@ -714,7 +717,7 @@ Note, finally, that complement and adjunct gaps are not that different to one an
 					}
 				}
 				&
-				\hspace{-20pt}
+				\hspace{-40pt}
 				\infer[\Ax]{\vark : \dxdia{x}\dxbox{x}\ddia{mod}\dbox{mod}(\gtype{itv}\divleft\gtype{itv})}{}
 			}
 		}
@@ -723,9 +726,11 @@ Note, finally, that complement and adjunct gaps are not that different to one an
 	\label{figure:higher_order_nested_dep}
 \end{figure}
 
-\subsection{Recovering Dependency Trees}
-With our tour of dependency-decorated structures complete, it is time for respite and reflection.
-Our ambition was to provide categorial type logics with the means necessary to argue about dependency relations, ideally subsuming dependency trees within the type logic's antecedent structures. 
+\subsection{Interfaces}
+With our tour of dependency-decorated proofs complete, it is time for respite and reflection.
+
+\subsubsection{Dependency Trees}
+Our first ambition was to provide categorial type logics with the means necessary to argue about dependency relations, ideally subsuming dependency trees within the logic's antecedent structures. 
 To claim our endeavour a success, we need to actually \textit{show} how these dependency trees can be extracted.
 
 Let' begin with some trivial observations.
@@ -733,6 +738,46 @@ In the domain of dependency annotated proofs, endsequents will contain neither v
 Collapsing any notion of structure imposed by the functional core (i.e. drop constituency and word order from the builtin structural binder, since dependency trees are agnostic to those), we end up with structures made exclusively of constants (terminal nodes), multisets of structures (unordered variadic branches) and dependency enclosed structures (unary branches).
 This typological description can be further refined by noticing that the non-zeroary tree operators alternate in turns: there's no chaining of unary brackets (each phrase is only assigned at most one dependency role), nor a multiset of multisets (as the simplified structural binder is flat).
 Finally, consider that each multiset will coincide with a dependency domain, containing exactly one (unmarked) head constant (necessarily a word), some $n$ adjuncts and some $m$ complements.
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{1\textwidth}
+		\centering
+		\begin{tikzpicture}[t/.style={text height=1.5ex, text depth=.25ex, rectangle, outer sep=0pt}, node distance=10pt]
+		\smaller
+		\node[t] (that)		at (0,0) {\w{that}};
+		\node[t] (the)		[right=10pt of that] {\w{the}};
+		\node[t] (eye)		[right=10pt of the] {\w{eye}};
+		\node[t] (may)		[right=10pt of eye] {\w{may}};
+		\node[t] (never)	[right=10pt of may] {\w{never}};
+		\node[t] (behold)	[right=10pt of never] {\w{behold}};
+		\path[->] (that) [bend left=75] edge node [above] {\smaller[2]{body}} (may);
+		\path[->] (may) [bend right=50] edge node [above] {\smaller[2]{su}} (eye);
+		\path[->] (eye) [bend right=50] edge node [above] {\smaller[2]{det}} (the);
+		\path[->] (may) [bend left=70] edge node [above] {\smaller[2]{vc}} (behold);
+		\path[->] (behold) [bend right=40] edge node [above] {\smaller[2]{mod}} (never);
+		\end{tikzpicture}
+		\caption{Dependency tree of $\ctx{\w{that}, \dbra{\dbra{\dbra{\w{the}}{det}, \w{eye}}{su}, \w{may}, \dbra{\dbra{\w{never}}{mod}, \w{behold}}{vc}}{body}}$.}
+		\label{subfigure:that_the_eye_may_never_behold_deps}
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}{1\textwidth}
+	\centering
+		\begin{tikzpicture}[t/.style={text height=1.5ex, text depth=.25ex, rectangle, outer sep=0pt}, node distance=10pt]
+		\smaller
+		\node[t] (where)		at (0,0) {\w{where}};
+		\node[t] (sterile)		[right=10pt of where] {\w{sterile}};
+		\node[t] (twilight)		[right=10pt of sterile] {\w{twilight}};
+		\node[t] (reigned)		[right=10pt of twilight] {\w{reigned}};
+		\path[->] (where) [bend left=55] edge node [above] {\smaller[2]{body}} (reigned);
+		\path[->] (reigned) [bend right=40] edge node [above] {\smaller[2]{su}} (twilight);
+		\path[->] (twilight) [bend right=40] edge node [above] {\smaller[2]{mod}} (sterile);
+		\end{tikzpicture}
+		\caption{Dependency tree of $\ctx{\w{where}, \dbra{\dbra{\dbra{\w{sterile}}{mod}, \w{twilight}}{su}, \w{reigned}}{body}}$.}
+		\label{subfigure:where_sterile_twilight_reigned_deps}
+	\end{subfigure}
+	\caption{Trees extracted from the derivations of Figures~\ref{figure:lovecraft_dep_rep_clause} (\subref{subfigure:that_the_eye_may_never_behold_deps}) and~\ref{figure:higher_order_dep} (\subref{subfigure:where_sterile_twilight_reigned_deps}).}
+	\label{figure:example_deps}
+\end{figure}
 
 With these in mind, we arrive at the following (modulo permutation) inductive definition of a dependency induced structure:
 \begin{equation}
@@ -742,7 +787,7 @@ With these in mind, we arrive at the following (modulo permutation) inductive de
 	\underbrace{\dbra{\Gamma_n}{d_n} \dots \dbra{\Gamma_{n + m - 1}}{d_{n + m -1}}}_{\text{complements}} \ 
 	\underbrace{\vphantom{\Gamma_0^a}\kappa}_{\text{head}} \
 \end{equation}
-Converting such a structure to a dependency tree akin to the one of Figure~\ref{figure:udparse} is pleasantly easy: just apply the function below to it (plug a ``root'' node and label to get things going)%
+Converting such a structure to a dependency tree akin to the one of Figure~\ref{figure:udparse} is pleasantly easy: just apply the function below to it (plug an invisible ``root'' node and label to get things going)%
 \footnote{For the more verbally inclined, we need to simply enter every dependency domain and establish an arc from the local head to (the head of) each of its dependents.}:
 \begin{align*}
 & \mathsf{deptree :: Struct \to Head \to \deps \to Set[Arc]}\\
@@ -757,40 +802,29 @@ Converting such a structure to a dependency tree akin to the one of Figure~\ref{
 			 \{ \mathsf{root} \xrightarrow{\mathsf{label}} \kappa \}
 			\cup \raisebox{0pt}[0pt]{$\bigcup\limits_{i=0}^{n+m-1}$}\{\mathsf{deptree} \ \Gamma_i \ \ \kappa \ \ d_i\}
 \end{align*}
+Figure~\ref{figure:example_deps} shows the function's yield applied to two of the section's example derivations.
+Given a partition of $\deps$ into adjuncts and complements, the conversion can trivially be extended with the bidirectional dependency arcs described in Section~\ref{subsection:dep_grammars}.
+Word order is also straightforward to capture, if we just keep the structural order provided by a non-commutative calculus intact.
+In any case, our efforts go to show that the general structure of a dependency tree can easily be captured by a dependency-enhanced type logic using the type assignment patterns discussed.
+Aligning the type logic to a specific flavour of a dependency grammar was never our main intention, but should be fairly easy to accomplish by reverse-engineering the annotational specifics of the target.
 
+\subsubsection{Semantics}
+The trees of Figure~\ref{figure:example_deps} leave something to be desired: by backpedaling towards dependency grammars, higher-order phenomena have been completely dismissed -- wasted are all our efforts to tame and manage the bracketing structures of hypotheses.
+Perhaps importing residuated modalities just for the sake of cracking some dull and flat dependency relations was an overkill after all?
+The answer is no.
+Antecedent bracketing structures is but the most superficial aspect of our grammar logic's proofs -- the function argument relations of the implicational core are retained, and in fact coexist with the dependency annotations (including higher-order ones) in the logic's term calculus, which we have been unjustly ignoring.
 
+The far richer type and term structure of the syntactic calculus creates, in turn, ample opportunity for the passage to semantics.
+We are of course still presented with the cautious option of simply forgetting about dependencies, retracting to the same dependency agnostic $\ILL$ we did earlier.
+The more radical path would have us preserve dependency type- and term- operators in the intermediate stop of derivational semantics%
+	\footnote{And thus necessarily also the extraction pair $\dxdia{x}$, $\dxbox{x}$.}
+in hope of them findind downstream applications later on.
+A first low hanging fruit would be the availability of richer type assignments in the lexical semantics domain, where previously identical function types become distinguishable by virtue of their modal decorations.
+These syntactic decorations can be translated to semantic type operators, lifting the target signature accordingly; dependents are delineated and identified based on their syntactic role, allowing a distinct semantic treatment for each of them, if desired.
+Even in the more modest setting of a non-inflated translation, modalities can help tell which of the (possibly many) combinations of semantic argument slots are occupied in a given construction, allowing the correct compositional recipe to be retrieved from the semantic lexicon.
+In the edge case, they open the possibility for a homomorphic translation that ``forgets'' parts of the implicational directives of the logic, relying instead on the source dependency markings for the construction of its semantic terms.
 
-%\begin{algorithm}[H]
-%\SetAlgoLined
-%\KwData{this text}
-%\KwResult{how to write algorithm with \LaTeX2e }
-%initialization\;
-%\While{not at end of this document}{
-%read current\;
-%\eIf{understand}{
-%go to next section\;
-%current section becomes this one\;
-%}{
-%go back to the beginning of current section\;
-%}
-%}
-%\caption{How to write algorithms}
-%\end{algorithm}
-
-%non-zeroary tree operators alternate in turns, i.e. there's no chaining of unaries or a multiset containing a multiset 
-%the non-zeroary tree operators tno chaining of unary operators 
-%non-zeroary tree constructors alternate in turns, i.e. a dependency structure will always contain a multiset or a constant
-%of the form (modulo permutation):
-
-%\begin{equation}
-%	\Gamma,  := \kappa \ | \ \dbra{\Gamma_1}{a}, \dots, \dbra{\Gamma_n}{a}
-%\end{equation}
-%structures made exclusively of words (terminal nodes), multisets (variadic branches) and dependency brackets (unary branches)
-%to enhance a categorial grammar logic with the means of arguing about dependency relations, ideally subsuming dependency trees within the proof theory's antecedent structures.
-%If we really were successful 
-% backtranslation
-
-\subsection{Dependencies-Semantics Interface}
+\section{\AE thel}
 
 \bibliographystyle{abbrvnat}
 \bibliography{bibliography}
