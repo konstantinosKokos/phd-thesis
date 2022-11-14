@@ -1626,7 +1626,7 @@ In their original purpose as envisaged by Lambek, his calculi would find use as 
 In a natural language setting, the linear base of the Lambek calculi is naturally equated to the resource sensitivity of grammar: words play a single grammatical role in the phrases they help form -- there's no ignoring or reusing items at will.
 There, the original Lambek calculus $\LC$ would be the logic of \textit{strings}; it can faithfully portray the generation of natural language utterances, where arbitrary reordering is a destructive process that ruins coherence.
 Its stricter version $\NL$ would instead be the logic of \textit{constituency trees}; on top of word order, it further specifies constituency structure, allowing a distinction between different syntactic analyses of the same surface form.
-Type-logical grammars extend the Curry-Howard correspondence with a new axis, that of natural language; the transference of points of interest across that axis is presented in Table~\ref{table:CHC-lang}; our motto shall from now on be \textex{Parsing as Deduction}.
+Type-logical grammars extend the Curry-Howard correspondence with a new axis, that of natural language; the transference of points of interest across that axis is presented in Table~\ref{table:CHC-lang}; our motto shall from now on be \textit{parsing as deduction}.
 
 \begin{table}
 	\centering
@@ -1754,7 +1754,7 @@ Adverbs would also be endomorphisms, except this time higher-order -- \linebreak
 				}
 			}
 		\]
-		\caption{Derivation for \textex{Opiate oceans poured there}.}
+		\caption{Derivation for \textex{opiate oceans poured there}.}
 		\label{subfigure:opiate_oceans_poured_there}
 	\end{subfigure}
 	\caption{Deriving simple multiplicative phrases in $\NL$.}
@@ -1776,7 +1776,7 @@ The following looks like a fitting match:
 Let's pave the way towards this ambitious goal with the miniature mock-up lexicon of Table~\ref{table:toy_lambek_lexicon}, and see just how far it can get us.
 
 Figure~\ref{figure:nl_applicative_examples} presents derivations for parts of the goal phrase, and our very first linguistic examples (!) -- their purely applicative nature should make them straightforward to decipher.
-The two proofs of~\ref{subfigure:opiate_oceans_poured_there} and~\ref{subfigure:litten_by_suns} can readily be combined to yield a derivation for the phrase \textex{Opiate oceans litten by suns poured there}. 
+The two proofs of~\ref{subfigure:opiate_oceans_poured_there} and~\ref{subfigure:litten_by_suns} can readily be combined to yield a derivation for the phrase \textex{opiate oceans litten by suns poured there}. 
 Close, but not quite there...
 The participial \textex{litten}, which acts here as a postnominal modifier, has the special property of being able to position itself either immediately after the noun phrase \textex{opiate oceans} it modifies, or deferred until after the matrix head \textex{poured} has made an appearance (with any adverbials attached to it).
 Attempting to produce a derivation for the original version seems like a dead-end enterprise, though.
@@ -1856,7 +1856,7 @@ Equipped with it, we can derive both the local versions hinted at earlier, and t
 This methodology is in fact adopted from \citet{moortgat1999constants}, where it finds similar use in dealing with the grammatical ambivalence of relativizers like \textex{that} or \textex{which}.
 Bound relative clauses headed by complementizers like the above contain a subordinate sentence with a \textit{gap}, which can vary in its position.
 Let's make things unnecessarily convoluted for the sake of clich{\'e}d self-referentialism by considering the relative clause \textex{which can very in its position} of the previous sentence.
-There, the subordinate clause \textex{\gap{} can varj in its position} contains a gap in the subject position, which the head \textex{a gap} occupies implicitly.
+There, the subordinate clause \textex{\gap{} can vary in its position} contains a gap in the subject position, which the head \textex{a gap} occupies implicitly.
 This is not the case in the last relative clause \textex{which the head \textex{gap} occupies implicitly}, whose subordinate clause \textex{the head \textex{gap} occupies \gap{} implicitly} contains a non-peripheral (nested) gap in direct object position.
 What a mess! 
 The subject-relative case can easily be dealt with in a pure Lambek grammar, as the gap hypothesis occurs adjacent to the verb phrase, but

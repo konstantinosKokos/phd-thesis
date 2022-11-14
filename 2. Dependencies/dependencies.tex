@@ -20,7 +20,7 @@ In this, chapter we will focus our efforts into bridging this gap between these 
 We will motivate the incorporation of dependency relations into the categorial vocabulary by repurposing existing and well-studied tools that remain faithful to the type theory roots the previous chapter has established (hint: it's the modalities).
 We will then discuss how their inclusion alters the structural paradigms of the previous chapter, and the opportunities and problems this change comes with.
 In a show of poise and confidence, we will finally put the framework straight to the test, using it as a formal logic within which we will (attempt to) ``prove'' a large scale corpus of real-world Dutch written sentences%
-	\footnote{\todo{}: contradiction}.
+	\footnote{That is, given the non-trivial assumption that Dutch actually is a real human language.}.
 This will give us the chance to evaluate the linguistic utility of the logic, while also shedding light on its parallel treatment of function-argument structures and dependency relations in several linguistically interesting constructions.
 As a bonus, we get to not just keep the proofs for our future endeavours, but also share them for the whole world to do with them as they please.
 
@@ -126,8 +126,8 @@ More up-to-date frameworks expand upon the barebones context-free backend with n
 To our ill fortune, the field of formal syntax is actually an informal mess, more akin to a mine field rather than an academic one; it's best if I tread carefully and refrain from overextending myself here, in order to avoid setting off unseen traps or causing easily avoidable confusion.
 The point I want to make is that the focal center of the above formalisms is the \textit{phrase} and its structure -- as such, they are all referred to as phrase structure grammars, regardless of whatever extra fluff they carry or what their expressive capacity is.
 In that broader sense of the term, and removing any implicit connotations of intellectual lineage, categorial grammars can also be conceived as phrase-centric.
-Pure Lambek systems, for one, also explicate how phrases are combined, adhere to hierarchical forms similar to those of context-free grammars (except beautifully, see Figure~\ref{subfigure:lambektree}), and have the exact same expressive capacity~\cite{pentus1993lambek}.
-They abstract away from the rule inventory by utilizing the smallest and purest set of rules possible -- those of function application and variable abstraction -- and internalize what used to be rule-imposed structure within the lexical categories themselves.
+Pure Lambek systems, for one, also explicate how phrases are combined, adhere to hierarchical forms similar to those of context-free grammars (except beautifully, see Figure~\ref{subfigure:lambektree}) and in fact have the same expressive capacity with respect to string formation (i.e. the two are \textit{weakly} equivalent)~\cite{pentus1993lambek}.
+Categorial grammars abstract away from the rule inventory by utilizing the smallest and purest set of rules possible -- those of function application and variable abstraction -- and internalize what used to be rule-imposed structure within the lexical categories themselves.
 Bracketing structure is now the footprint of function application, and the interface with semantics is naturalized by virtue of the Curry-Howard correspondence, as we saw earlier.
 Rather than a $VP$ category and rule~(\ref{equation:sfromnpvp}), we have the \textit{type} $\np[s]\divleft\s[s]$ -- transparent with respect to both its syntactic combinatorics and semantic function.
 Performing the function application on a left-adjacent \np[s] will then result to a local tree structure, not unlike the corresponding production rule -- see Figure~\ref{figure:cfgvslambek} for a comparison.
@@ -136,14 +136,14 @@ Long story short, even without extensions to the logical core for managing disco
 
 \subsection{Dependency Grammars}
 \label{subsection:dep_grammars}
-The constituency tradition has co-evolved along the opposing view of dependency grammars~\cite[\textit{inter alia}]{tesniere2015elements,sgall1986meaning,mel1988dependency,sleator1995parsing}.
+The constituency tradition has co-evolved along the opposing view of dependency grammars~\cite[\textit{inter alia}]{tesniere2015elements,gaifman1965dependency,sgall1986meaning,mel1988dependency,sleator1995parsing}.
 Dependency grammars reject the binary phrasal division that constituency grammars abide by, and instead adopt a flatter structural form, the only unit of which is the word.
 Words are connected with one another by dependency arcs, i.e. directed edges between word pairs.
 Each word can have arbitrarily many outgoing edges (dependents), but only a single incoming edge (head) -- the exception is the root word which has no head of its own (i.e. the head of the matrix clause).
 A word is said to directy dominate its dependents, and indirectly dominate all words its dependents dominate (directly or otherwise) -- e.g. the root indirectly dominates every other word in the sentence.
 This distinction between head and dependent is central to dependency grammars; broadly speaking, heads can be thought of as the words that decide the syntactic functionality of the collection of words (for fear of calling it a phrase) they indirectly dominate.
 The dependency structure of a sentence is once more a tree, with words now as both terminal and non-terminal nodes, glued together with dependency relations.
-A dependency tree is uncostrained by adjacency and word order: edges can penetrate or fly over other edges.
+A dependency tree is unconstrained by adjacency and word order: edges can fly over other edges; planarity is optionaly respected: an edge penetrating another edge to enter a nested domain is called \textit{non projective}.
 This perspective is computationally appealing due to its simplicity and uniformity, as it allows a dependency grammar to argue about languages with wildly diverging syntactic and typological properties while remaining virtually unchanged.
 For the exact same reasons, it can also be seen as concealing -- it sacrifices any potential of targeted analysis in the pedestal of universality.
 Finally, the semantically inclined might find a two-directional extension of dependency arcs enticing.
@@ -152,7 +152,7 @@ In that setup, the added direction (which needs not agree with that of syntactic
  to semantic arguments~\cite{mel2003levels}.
 
 A dependency grammar that has gained significant traction over the last decade is the framework of universal dependencies~\cite{10.1162/coli_a_00402}, claiming a broad collection of multi-lingual treebanks~\cite{nivre2020universal} and tools.
-In universal dependencies, words are usually assigned a label pulled from a rudimentary set of part of speech tags and lexical identifiers andm more importantly, dependency relations are also labeled according to their grammatical function, allowing the distinction of a words' dependents according to the grammatical role they fulfill.
+In universal dependencies, words are usually assigned a label pulled from a rudimentary set of part of speech tags and lexical identifiers and more importantly, dependency relations are also labeled according to their grammatical function, allowing the distinction of a words' dependents according to the grammatical role they fulfill.
 Grammatical roles are typologically and thematically informed, and are inventorized with language universality as the prime goal.
 This inventorization upholds no semantic promises, but is not inconsistent with the aforementioned semantic view either.
 To obtain a semantic transcription of the dependency tree, one needs only specify whether the semantic flow of each grammatical role is co- or contra- directional to the edge's syntactic flow, i.e. whether the arc marks its dependent as a \textit{complement} (where syntactic head and semantic predicate coincide) or an \textit{adjunct} (where the syntactic head is the semantic argument to its syntactic dependent)%
@@ -230,7 +230,7 @@ The vanilla categorial vocabulary does not suffice to capture this extra dimensi
 In an unpublished manuscript, \citet{moortgat1991heads} propose a two-dimensional implicational type operator and corresponding residuation laws: the first binary dimension is reserved for the usual left- vs. right- application distinction, whereas the second binary dimension specifies whether the head occurs to the left or to the right; the result is four unique ways of building up an implication.
 Congruent with the substructural trend of revealing structure that was once hidden, this division brings forth a two-valued structural binder, allowing the corresponding logic $\logic{DNL}$ to reason about \textit{headed} binary trees.
 The authors refrain from commiting to a specific linguistic application, but, translated into our terminology, their proposal can be schematically summarized by Figure~\ref{figure:heads_and_phrases}.
-Further away from syntax, ~\citet{hendriks1997logic} employs \logic{DNL} to account for prosodic intonation structures, where the head is assigned to vocally prominent elements.
+Further away from syntax, ~\citet{hendriks1997logic} employs \logic{DNL} to account for prosodic structures, where the head is assigned to intonationally prominent elements.
 
 \begin{figure}
 	\centering
@@ -277,7 +277,7 @@ The translation is straightforward: predicates in head position are functors req
 In that sense, they \textit{assign} diamonds to their complements by necessitating an application of the $\diamond I$ rule of Figure~\ref{figure:modal_logical} prior to the function application.
 Recalling the structural imprint of the rule, this results in an extra layer of bracketing structure the delimits complement phrases and isolates them from their surroundings.
 
-The adjunct case is slightly more obscure.
+The adjunct case may at first glance seem slightly more obscure.
 Following the directives of the previous paragraph, we need to mark the dependent -- this time a predicate in non head position -- in a way such that its application on its argument leaves a bracketing imprint on the structure of the former rather than the latter.
 The solution manifests in the form of a box:
 \begin{align}
@@ -327,7 +327,7 @@ It is the lexicon's first duty then to discriminate between head and non-head fu
 An intransitive, for instance, would now be typed as $\ddia{su}\np[s]\divleft\s[s]$ -- to produce a sentence, the type demands to its left not just any noun phrase, but rather one marked as a subject.
 The story is no different with more than one complements -- i.e. a transitive would be $(\ddia{su}\np[s]\divleft\s[s])\divright\ddia{obj}\np[s]$, and so on.
 A determiner, however, would be typed as $\dbox{det}(\np[s]\divright\n[s])$ -- it recognizes the right-adjacent noun as its head, but still takes functional precedence over it, licensing the function application by dropping its determiner box.
-Similarly, a prenominal modifier would be typed as $\dbox{mod}(\np[s]\divleft\np[s])$ -- to apply to its unmarked head, the type would need first liberate itself of its box, being a modifying adjunct.
+Similarly, a prenominal modifier would be typed as $\dbox{mod}(\np[s]\divright\np[s])$ -- to apply to its unmarked head, the type would need first liberate itself of its box, being a modifying adjunct.
 
 Atomic type assignments will remain for the most part unchanged, as propositional constants are necessarily complements (or heads of a singleton phrase, to be pedantic) and their grammatical role cannot be decided \textit{a priori}, anticipating a phrasal head to enforce it instead.
 Plural nouns like the \textex{dolphins} and \textex{whirlpools} of Table~\ref{table:toy_lambek_lexicon}, for instance, would still be typed as $\np[s]$ -- there's no telling in advance whether they will occur as subjects, direct objects or something else.
@@ -349,7 +349,8 @@ This visual paradigm also applies to the even laxer $\NLP$ -- the difference bei
 The above points hint to the fact that dependency modalities introduce structural constraints that may (to some extent) obviate the need for a strict structural binder.
 From the linguistic perspective, $\LC$ seems to hit the sweet spot -- it has constituents live happily together in horizontal, non-binary clusters set upon lush trees, with each constitutent given a role to fulfill.
 The systematic ordering of arguments according to their obliqueness order is made redundant by their labeling; the positional explication of $\NL$ is replaced by the denominational explication of the modal brackets.
-What's more, headedness is not proliferated among functionally incomplete constituents, i.e. each complete phrase (read: one typed as a propositional constant) is flat among its arguments, requiring only a single head and implicitly disallowing heads from being phrases in themselves (in line with the mandates of dependency grammars).
+What's more, headedness is not proliferated among functionally incomplete constituents, i.e. each complete phrase (read: one typed as a propositional constant) is flat among its arguments, requiring only a single head and implicitly disallowing heads from being phrases in themselves (in line with the mandates of dependency grammars). 
+The effect could be paralleled to a single argument functor that takes the n-ary product of all its arguments in at once, giving rise to a corresponding n-ary structural binder.
 Figure~\ref{figure:first_dl_derivation} presents a simple first example to illustrate the point.
 
 \begin{figure}
@@ -578,7 +579,7 @@ which is faithful to both (\ref{equation:deprel}) and (\ref{equation:objrel}), a
 
 
 Mobility, however, also means something different now.
-Taking inspiration from the established structural vocabulary (see Figure~\ref{figure:modal_structural_rules} if you need to jog your memory), we need to  to concoct a novel structural rule: one that allows the \textit{extraction} of a nested substructure under the appropriate bracketing conditions.
+Taking inspiration from the established structural vocabulary (see Figure~\ref{figure:modal_structural_rules} if you need to jog your memory), we need to concoct a novel structural rule: one that allows the \textit{extraction} of a nested substructure under the appropriate bracketing conditions.
 The magical conconction is presented in Figure~\ref{subfigure:extraction_rule}.
 Within arbitrary context $\Gamma$, it looks for a \dep{d}-labelled unary tree enclosing a \dep{x}-labelled unary tree $\Theta$ wrapped by sequences $\Delta$ to the left and $\Phi$ to the right.
 There, it allows us to pull the $\Delta$ out, casting the outermost unary tree into a binary sequence and assigning \dep{d} to the concatenation of $\Delta$ and $\Phi$ alone. 
@@ -629,7 +630,7 @@ Upon closer inspection, we can verify that this is in fact just the $\eta$ norma
 Hypothetical adjuncts are less forgiving.
 A hypothesized adjunct will seek to apply itself to some phrasal head, which is impossible unless it first drops its box.
 But in dropping its box, it becomes enclosed in structural dependency brackets that prohibit its eventual abstraction.
-We will need to once more resort the $\diamond E$ rule to remove , except this time it will be the interior combination of Figure~\ref{subfigure:modal_properties:interior} that we are invoking, not subject to $\eta$ contraction.
+We will need to once more resort to the $\diamond E$ rule to remove , except this time it will be the interior combination of Figure~\ref{subfigure:modal_properties:interior} that we are invoking, not subject to $\eta$ contraction.
 To see this in action, let us once more consider an excerpt from our go-to source: \textex{a city of high walls where sterile twilight reigned}%
 \footnote{H.P. Lovecraft, \textit{Azathoth} (1938). In \textit{Leaves} (2).}.
 The relative adverb \textex{where} heads yet another a relative clause, \textex{where sterile twilight reigned}, acting as a postnominal modifier to the noun phrase \textex{a city of high walls}.
@@ -830,23 +831,10 @@ Furthermore, dependents are delineated and identified by their syntactic roles, 
 Even in the modest setting of a non-inflated translation, modalities can help tell which of the (possibly many) combinations of semantic slots are occupied in a given construction, allowing the correct compositional recipe to be retrieved from the semantic lexicon.
 In the edge case, they open the possibility for a homomorphic translation that ``forgets'' parts of the implicational directives of the logic, relying instead on the source dependency markings for the construction of its semantic terms.
 
-\section{\AE thel}
-With our theorycrafting over, we have in our hands a descriptive model of syntactic and semantic composition, promising to capture dependency relations while keeping both its feet set firmly in type theory.
-Unfortunately, it is well attested by now that ``all models are wrong...''~\cite{doi:10.1080/01621459.1976.10480949}.
-Any promise of theoretical universality, cognitive plausibility, linguistic intrinsicness or what have you, would require some degree of handwaving and conjencturing that I am not comfortable with.
-What is undisputable, however, is the \textit{omniversality} of the $\lambda$ calculus~\cite{wadler2015propositions} -- we're at least certain that our modeling tools are not some ad hoc machinery designed to tackle a highly localized problem, but the one and only programming language ever worth writing. 
-Beyond our tooling, and having \textit{a priori} given up any ideation of truth, the only measure of success for our model is that of its utility (``...but some are useful'', ~\cite{doi:10.1080/01621459.1976.10480949}).
-This sets up a new research imperative: we must prove the model useful!
 
-``Oof, that's a hard one'', you might say, and you'll be right.
-Thankfully, there are two tried and tested ways to proceed. 
-The traditional way involves fiercely advocating the idea, bashing the competition at workshops and conferences, making bold claims and generating traction at any given chance, going all out on grant applications, eventually building a cult of personality, and finally resting on your laurels as the hype becomes self-sustainining and you find yourself being cited for papers you have contributed little to other than your name; at long last, utility affirmed by popular approval.
-This first methodology, sometimes called the \textit{scientific method}, is a rather involved and painstakingly long process that starts yielding profits in the long run.
-The modern way, more befitting the temporary and precarious contract of the mobile, adaptive, multi-purpose academic laborer, is a short-term investment: simply do everything you can do yourself within the timespan you're given and hope for the best.
-We'll go for this one.
+\section{Key References \& Further Reading}
+\todo
 
-This choice has some methodological repercussions.
-%Rather than let the theory be disseminated, criticized, adapted, error-corrected and returned to sender, we'll have to put it straight to the test.
 
 \bibliographystyle{abbrvnat}
 \bibliography{bibliography}

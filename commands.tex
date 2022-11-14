@@ -20,9 +20,11 @@
 \usepackage{calc}
 \usepackage[bb=pazo]{mathalpha}
 \usepackage{enumitem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					font black magic
 \DeclareSymbolFont{blah}{U}{jkpsyc}{m}{n}
 \DeclareMathSymbol{\vardiamondsuit}{\mathalpha}{blah}{113}
-\usepackage{algorithm2e}
 
 
 \newcommand{\todo}{\textcolor{red}{todo}}
@@ -36,12 +38,6 @@
 
 \usepackage{chapterbib}
 \renewcommand{\bibname}{Chapter Bibliography}
-%\newcommand{\bibsec}{%
-%	\section*{Chapter Bibliography}%
-%	\addcontentsline{toc}{section}{Chapter Bibliography}%
-%}
-%\renewcommand{\thebibliography}{\section{TEST}}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					itemize/enum
@@ -59,14 +55,17 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                  tikz horror
 \usepackage{tikz}
+\usepackage{pgfplots}
 \usetikzlibrary{fit,positioning,arrows,automata,shapes,backgrounds,
-				calc,ducks}
+				calc,external}
+\tikzexternalize[prefix=prebuilt/]
 \usepackage{tikz-qtree}
 \tikzset{
 	unary/.style={thin,double},
 	head/.style={ultra thick}
 }
 
+\pgfplotsset{width=1\textwidth}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                  chapter / section formatting
@@ -113,8 +112,9 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					lingu examples
-\newcommand{\textex}[1]{``\textit{#1}''}
-\newcommand{\gap}{\underline{\hphantom{X}}}
+\newcommand{\textex}[1]{\textit{#1}}
+\newcommand{\gap}{\_}
+\newcommand{\texttr}[2]{\textit{#1}~(`\textit{#2}')}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                  term / type / rule macros
