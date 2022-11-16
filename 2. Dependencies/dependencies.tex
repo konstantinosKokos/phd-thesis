@@ -2,10 +2,10 @@
 \label{chapter:chapter_2}
 
 \chapabstract{
-	``Predicates are functors,\\
+	Predicates are functors,\\
 	complements -- diamonds,\\
 	adjuncts -- boxes;\\
-	Everything a type.''
+	Everything a type.
 }
 
 The previous chapter initiated us into the history-rich world of substructural logics in the intuitionistic tradition.
@@ -18,11 +18,7 @@ Dependency relations do not seem compatible with the categorial setup at a first
 
 In this, chapter we will focus our efforts into bridging this gap between these two perspectives under a unified categorial grammar setup.
 We will motivate the incorporation of dependency relations into the categorial vocabulary by repurposing existing and well-studied tools that remain faithful to the type theory roots the previous chapter has established (hint: it's the modalities).
-We will then discuss how their inclusion alters the structural paradigms of the previous chapter, and the opportunities and problems this change comes with.
-In a show of poise and confidence, we will finally put the framework straight to the test, using it as a formal logic within which we will (attempt to) ``prove'' a large scale corpus of real-world Dutch written sentences%
-	\footnote{That is, given the non-trivial assumption that Dutch actually is a real human language.}.
-This will give us the chance to evaluate the linguistic utility of the logic, while also shedding light on its parallel treatment of function-argument structures and dependency relations in several linguistically interesting constructions.
-As a bonus, we get to not just keep the proofs for our future endeavours, but also share them for the whole world to do with them as they please.
+We will finally discuss how their inclusion alters the structural paradigms of the previous chapter, and the opportunities and problems this change comes with.
 
 \section{Phrase vs. Dependency Structure}
 Before we get to theorycrafting, it would be useful to try and clarify what exactly is meant by constituency- and dependency- structure, and how the two differ.
@@ -745,6 +741,35 @@ Collapsing any notion of structure imposed by the functional core (i.e. drop con
 This typological description can be further refined by noticing that the non-zeroary tree operators alternate in turns: there's no chaining of unary brackets (each phrase is only assigned at most one dependency role), nor a multiset of multisets (as the simplified structural binder is flat).
 Finally, consider that each multiset will coincide with a dependency domain, containing exactly one (unmarked) head constant (necessarily a word), some $n$ adjuncts and some $m$ complements.
 
+With these in mind, we arrive at the following (modulo permutation) inductive definition of a dependency induced structure:
+\begin{equation}
+	\Gamma
+		 	:=  
+ 	\underbrace{\dbra{\Gamma_0}{d_0} \dots \dbra{\Gamma_{n-1}}{d_{n-1}}}_{\text{adjuncts}} \ 
+	\underbrace{\dbra{\Gamma_n}{d_n} \dots \dbra{\Gamma_{n + m - 1}}{d_{n + m -1}}}_{\text{complements}} \ 
+	\underbrace{\vphantom{\Gamma_0^a}\kappa}_{\text{head}} \
+\end{equation}
+Converting such a structure to a dependency tree akin to the one of Figure~\ref{figure:udparse} is pleasantly easy: just apply the function below to it (plug an invisible ``root'' node and label to get things going)%
+\footnote{For the more verbally inclined, we need to simply enter every dependency domain and establish an arc from the local head to (the head of) each of its dependents.}:
+\begin{align*}
+& \mathsf{deptree :: Struct \to Head \to \deps \to Set[Arc]}\\
+& \mathsf{deptree} \ 
+			\left(\dbra{\Gamma_0}{d_0} \dots \dbra{\Gamma_{n + m - 1}}{d_{n + m -1}} \ 
+			\kappa\right)
+			\ 
+			\mathsf{root}
+			\ 
+			\mathsf{label} = \\
+& \quad	
+			 \{ \mathsf{root} \xrightarrow{\mathsf{label}} \kappa \}
+			\cup \raisebox{0pt}[0pt]{$\bigcup\limits_{i=0}^{n+m-1}$}\{\mathsf{deptree} \ \Gamma_i \ \ \kappa \ \ d_i\}
+\end{align*}
+Figure~\ref{figure:example_deps} shows the function's yield applied to two of the section's example derivations.
+Given a partition of $\deps$ into adjuncts and complements, the conversion can trivially be extended with the bidirectional dependency arcs described in Section~\ref{subsection:dep_grammars}.
+Word order is also straightforward to capture, if we just keep the structural order provided by a non-commutative calculus intact.
+In any case, our efforts go to show that the general structure of a dependency tree can easily be captured by a dependency-enhanced type logic using the type assignment patterns discussed.
+Aligning the type logic to a specific flavour of a dependency grammar was never our main intention, but should be fairly easy to accomplish by reverse-engineering the annotational specifics of the target: a task for future generations.
+
 \begin{figure}
 	\centering
 	\begin{subfigure}{1\textwidth}
@@ -784,35 +809,6 @@ Finally, consider that each multiset will coincide with a dependency domain, con
 	\caption{Trees extracted from the derivations of Figures~\ref{figure:lovecraft_dep_rep_clause} (\subref{subfigure:that_the_eye_may_never_behold_deps}) and~\ref{figure:higher_order_dep} (\subref{subfigure:where_sterile_twilight_reigned_deps}).}
 	\label{figure:example_deps}
 \end{figure}
-
-With these in mind, we arrive at the following (modulo permutation) inductive definition of a dependency induced structure:
-\begin{equation}
-	\Gamma
-		 	:=  
- 	\underbrace{\dbra{\Gamma_0}{d_0} \dots \dbra{\Gamma_{n-1}}{d_{n-1}}}_{\text{adjuncts}} \ 
-	\underbrace{\dbra{\Gamma_n}{d_n} \dots \dbra{\Gamma_{n + m - 1}}{d_{n + m -1}}}_{\text{complements}} \ 
-	\underbrace{\vphantom{\Gamma_0^a}\kappa}_{\text{head}} \
-\end{equation}
-Converting such a structure to a dependency tree akin to the one of Figure~\ref{figure:udparse} is pleasantly easy: just apply the function below to it (plug an invisible ``root'' node and label to get things going)%
-\footnote{For the more verbally inclined, we need to simply enter every dependency domain and establish an arc from the local head to (the head of) each of its dependents.}:
-\begin{align*}
-& \mathsf{deptree :: Struct \to Head \to \deps \to Set[Arc]}\\
-& \mathsf{deptree} \ 
-			\left(\dbra{\Gamma_0}{d_0} \dots \dbra{\Gamma_{n + m - 1}}{d_{n + m -1}} \ 
-			\kappa\right)
-			\ 
-			\mathsf{root}
-			\ 
-			\mathsf{label} = \\
-& \quad	
-			 \{ \mathsf{root} \xrightarrow{\mathsf{label}} \kappa \}
-			\cup \raisebox{0pt}[0pt]{$\bigcup\limits_{i=0}^{n+m-1}$}\{\mathsf{deptree} \ \Gamma_i \ \ \kappa \ \ d_i\}
-\end{align*}
-Figure~\ref{figure:example_deps} shows the function's yield applied to two of the section's example derivations.
-Given a partition of $\deps$ into adjuncts and complements, the conversion can trivially be extended with the bidirectional dependency arcs described in Section~\ref{subsection:dep_grammars}.
-Word order is also straightforward to capture, if we just keep the structural order provided by a non-commutative calculus intact.
-In any case, our efforts go to show that the general structure of a dependency tree can easily be captured by a dependency-enhanced type logic using the type assignment patterns discussed.
-Aligning the type logic to a specific flavour of a dependency grammar was never our main intention, but should be fairly easy to accomplish by reverse-engineering the annotational specifics of the target: a task for future generations.
 
 \subsubsection{Semantics}
 The trees of Figure~\ref{figure:example_deps} leave something to be desired: by backpedaling towards dependency grammars, higher-order phenomena have been completely dismissed -- wasted are all our efforts to tame and manage the bracketing structures of hypotheses.

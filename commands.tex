@@ -6,7 +6,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{stmaryrd}
-\usepackage{color}
+%\usepackage{color}
 \usepackage{multirow}
 \usepackage{makecell}
 \usepackage{palatino}
@@ -57,21 +57,24 @@
 \usepackage{tikz}
 \usepackage{pgfplots}
 \usetikzlibrary{fit,positioning,arrows,automata,shapes,backgrounds,
-				calc,external}
-\tikzexternalize[prefix=prebuilt/]
+				calc}
 \usepackage{tikz-qtree}
 \tikzset{
 	unary/.style={thin,double},
 	head/.style={ultra thick}
 }
 
-\pgfplotsset{width=1\textwidth}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					plots
+\pgfplotsset{width=0.8\textwidth, compat=1.9}
+\pgfplotsset{minor grid style={loosely dashed, ultra thin, gray!30}}
+\pgfplotsset{major grid style={dashed, gray!60}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                  chapter / section formatting
 \usepackage{chngcntr}
 \renewcommand{\thechapter}{\Roman{chapter}}
-%\renewcommand\thesubsubsection{\Alph{subsubsection}}
 \setcounter{secnumdepth}{3}
 \counterwithout{section}{chapter}
 
@@ -80,12 +83,14 @@
 \usepackage[titles]{tocloft}
 %\addcontentsline{TABLE}{chapter}{Contents}
 %%%\renewcommand{\cftdot}{\_}
-\renewcommand*{\cftsecindent}{1.5em} 		
-\renewcommand*{\cftsecnumwidth}{1em} 
-\renewcommand*{\cftsubsecnumwidth}{1.5em} % increase space for Roman numerals
-\renewcommand*{\cftsubsecindent}{2.5em} 		% reduce indent of subsubsection titles 
-\renewcommand*{\cftsubsubsecnumwidth}{2.5em} % increase space for Roman numerals
-\renewcommand*{\cftsubsubsecindent}{4em} % reduce indent of subsubsection titles 
+%\renewcommand{\cftsecpresnum}{\hfil}
+\renewcommand*{\cftsecindent}{0.5em} 			%		<--> SECNUM
+\renewcommand*{\cftsecnumwidth}{1.5em}			%		<-  SECNUM ->
+\renewcommand*{\cftsubsecindent}{2em} 			%		SECNUM <-->	SUBSECNUM
+\renewcommand*{\cftsubsecnumwidth}{2.5em} 		%		<-- SUBSECNUM -->
+\renewcommand*{\cftsubsubsecindent}{4.5em}		%		SUBSECNUM <--> SUBSUBSECNUM
+\renewcommand*{\cftsubsubsecnumwidth}{3.5em}
+
 \setcounter{tocdepth}{3}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -114,7 +119,13 @@
 %					lingu examples
 \newcommand{\textex}[1]{\textit{#1}}
 \newcommand{\gap}{\_}
-\newcommand{\texttr}[2]{\textit{#1}~(`\textit{#2}')}
+\newcommand{\texttr}[2]{\textit{#1}~`#2'}
+\makeatletter
+\def\new@fontshape{}
+\makeatother
+\usepackage{gb4e}
+\noautomath
+\newcommand{\abbrv}[1]{\textsc{#1}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                  term / type / rule macros
