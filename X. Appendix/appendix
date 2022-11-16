@@ -1,8 +1,0 @@
-\chapter{Appendix}
-\section*{Gloss Abbreviations}
-
-\begin{table}
-	\begin{tabularx}{@{}llXll@{}}
-	\textbf{Abbreviation} & Meaning & & \textbf{Abbreviation} & \textbf{Meaning}\\
-	\end{tabularx}
-\end{table}
