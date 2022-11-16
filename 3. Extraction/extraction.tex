@@ -1,0 +1,187 @@
+\chapter{Proof Extraction}
+\label{chapter:chapter_3}
+
+\chapabstract{\textit{What good is a program that only lives on paper?}}
+
+With our theorycrafting over, we have in our hands an uninstantiated descriptive model of syntactic and semantic composition, promising to capture dependency relations while keeping both its feet set firmly in type theory.
+Unfortunately, it is well attested by now that ``all models are wrong...''~\cite{doi:10.1080/01621459.1976.10480949}.
+Any promise of theoretical universality, cognitive plausibility, linguistic intrinsicness or what have you, would require some degree of handwaving and conjencturing that I am not comfortable with.
+What is undisputable, however, is the nobility of our goals and the purity of our tools: the \textit{omniversality} of the $\lambda$ calculus~\cite{wadler2015propositions} asserts that our modeling approach is not some ad hoc machinery designed to tackle a highly localized problem, but the one and only programming language ever worth writing. 
+Beyond purpose and methodology, and having \textit{a priori} given up any ideation of truth, the only measure of success for our model is that of its utility (``...but some are useful'', ~\cite{doi:10.1080/01621459.1976.10480949}).
+This sets up a new research imperative: we must prove the model useful!
+
+``Oof, that's a tricky one'', you might say, and you wouldn't be wrong.
+Thankfully, there are two tried and tested ways to proceed.
+The first is the way of the scholar, which requires a rare combination of high intellectual capacity, strong persuasive skills and a pinch of luck.
+It starts off with some profound abstract thinking, gradually overtaken by agressive campaigning: bashing the competition at workshops and conferences, making bold claims and generating traction at any chance given (optionally over social media platforms, for the modernists), eventually building a cult of personality, and finally resting on your laurels as the hype becomes self-sustainining; at long last, utility affirmed by popular approval.
+This path, sometimes called the scientific method, is a rather involved and painstakingly slow process, a high stakes gamble that only starts yielding profits in the long run; as such, it greatly benefits from the nourishment of a stable work environment.
+The alternative is the way of the engineer, a shorter term investment more befitting the modern paradigm of the mobile, adaptive, multi-purpose researcher.
+It requires only the acquirable skills of endurance and hardheadedness, and offers a recipe that's easier to follow: simply swing at it until it cracks.
+After a lot of obsessive iteration and self-correction (interchanged with the occasional feeling of despair and futility), utility will sooner or later be affirmed by cold, hard numbers.
+We'll go for this one.
+
+This choice has some methodological repercussions.
+Under more tranquil circumstances, we'd wait for the theory to be disseminated, criticized, adapted, error-corrected and returned to sender, before finally moving on; it being a theory of language, this would entail a thorough qualitative analysis of several kinds of linguistic phenomena, coupled with a theoretical investigation of what it can or cannot adequately capture.
+We are however in a compressed timeframe, forcing our hand into putting it straight to the test; the pragmatic approach is then to try and directly align it with real-world linguistic data at scale, and hope for the best.
+The process, called \textit{proof extraction}, revolves around ``proving''  some source corpus of syntactically annotated sentences via the design and application of an algorithm tasked with translating the existing annotation format into derivations of the target grammar.
+Proof extraction serves a ternary purpose.
+One, it gives us access to an uncompromisingly realistic testbed upon which we can immediately inspect and iteratively finetune the specifics of the grammar logic.
+Two, it fills in for a strict and impartial external critic in providing a quantitative evaluation regime -- at each point in time, we are able to measure the proportion of source analyses (and corresponding linguistic phenomena) the algorithm provides a (reasonable) output for.
+And three, the end-yield of this process has merit of its own; as a derived dataset, it is first a building block necessary for populating the computational toolshed of the theory, and also a public resource for the world to with as they please.
+
+\section{Preliminaries}
+
+\subsection{The Dutch Language}
+For our linguistic inquiries, the focus will be on Dutch.
+Other than being the language I was contractually obliged to conduct this research on, Dutch is an interesting specimen, the idiosyncracies of which have in the past proven quite a topic of debate for others, and a source of headaches for myself.
+I don't have any intention (or delusion of competence) to casually throw a detailed exposition of the Dutch grammar here, but a brief and superficial typological overview might help smooth the transition into the sections to follow.
+%Note that this is not going to spare us the headaches -- just deferring them to the near future, and giving us some time to prepare.
+
+But first things first.
+Dutch is a West Germanic language, spoken primarily in the Low Countries within Europe by some 25 million speakers.
+Owing to the Netherlands' nasty colonial history, Dutch has left a noticeable mark on the global linguistic atlas: it has played a primary role in the evolution of Afrikaans (with which it is somewhat mutually intelligible) and Indonesian, to a far lesser extent, while native Dutch speakers can be found in South America and the Dutch Carribean region.
+Demographics aside, the language is said to be one of the closest relatives of English and german, sharing many of their morphosyntactic characteristics.
+We'll go through some of those together.
+
+\subsubsection{The Noun Phrase}
+\paragraph{Nouns}
+Dutch nouns have three grammatical genders: the masculine, the feminine and the neuter, of which the first two (the non-neuter) are morphologically indistinguishable.
+There's two numbers, the singular and the plural, the latter constructed by the affixation of \textex{-en} or \textex{-s} -- the choice of which depends on the noun.
+Case markings are not overtly realized, except for some mostly frozen leftovers from the distant past -- their functionality has largely been replaced by word order constraints, with the indirect object (formerly in the dative) preceding the direct object (formerly in the accusative), and periphrastic constructions, with the preposition \texttr{aan}{to} used to indicate indirect objects, and \texttr{van}{of} to substitute the genitive.
+A cute peculiarity of Dutch is the strikingly common use of a productive diminutive form, denoting either small size or an affectionate disposition -- it can be accomplished by the affixation of usually \textex{-tje} or regionally \textex{-ke}, which turns the inflected noun neuter.
+
+% PERSONAL PRONOUNS
+
+\paragraph{Determiners}
+Determiners precede the noun and match its gender and number.
+There are two articles, the definite \textex{de}/\textex{het} (non-neuter/~neuter) with plural form \textex{de}, and the indefinite \textex{een}, which does not inflect for gender, and has no plural form (unlike its negative polarity counterpart \texttr{geen}{no} which remains invariant in both numbers).
+Possessive and demonstrative pronouns can also enact determiners, both uninflected (except for \texttr{ons}{our} which inflects like an indefinite adjective, see next paragraph).
+Demonstrative pronouns come in two flavours: the proximal \textex{deze/dit} (plural \textex{deze}) and the distal \textex{die/dat} (plural \textex{die}).
+
+\paragraph{Adjectives}
+Adjectives used as nominal modifiers usually find their place between the determiner and the head noun.
+They appear inflected with an \textex{-e} affix in all cases except for their idefinite use with a neuter noun (and some multiword frozen expression).
+The same form applies to nominalized adjectives, which can allow the ommission of a contextually implied noun, or be used independently as an abstract concept or quantifying property.
+An alternative inflection with a \textex{-s} affix marks the partitive use, when the adjective modifies an indefinite pronoun.
+
+
+\begin{exe}
+\ex
+\gll \textit{het} \textit{mooi-e} \textit{lied}\\
+\abbrv{art.def.n.sg} beautiful-\abbrv{def.n.sg} song\\
+\trans{`the beautiful song'}
+\ex
+\gll \textit{een} \textit{mooi} \textit{lied}\\
+\abbrv{art.indf.n.sg} beautiful song\\
+\trans{`a beautiful song'}
+\ex
+\gll \textit{de} \textit{klein-e} \textit{vogel}\\
+\abbrv{art.def.n-n.sg} small-\abbrv{def.n-n.sg} bird\\
+\trans{`the small bird'}
+\ex
+\gll \textit{een} \textit{klein} \textit{vogel-tje}\\
+\abbrv{art.indf.n.sg} small bird-\abbrv{dim}\\
+\trans{`a small birdie'}
+\ex
+\gll \textit{het} \textit{mooie} \textit{lied} \textit{van} \textit{een} \textit{klein} \textit{vogel-tje}\\
+... ... ... of ... ...\\
+\trans{`a small birdie's beautiful song'}
+\ex
+\gll \textit{iets} \textit{mooi-s}\\
+something beautiful-\abbrv{ptv}\\
+\trans{`something beautiful'}
+\end{exe}
+
+%\exg.\label{19b}Si-tak-i {ni}-pig-{an}-e.\\
+%NEG:1sg-want-FV 1sg-hit-{REC}-FV\\
+%`I don't want to fight.'
+%het lied van de vogel
+
+%Since I'm neither competent enough nor willing to provide a detailed exposition of the Dutch grammar here, we'll go for a brief typological overview instead -- it should hopefully ease the transition into the examples that are to follow later.
+%Dutch nouns can appear in the singular or plural numbers, and have three grammatical genders: masculine, feminine and neuter, with the first two in practice conflated.
+%Cases are for the most part discarded, except for personal pronouns and some mostly frozen leftovers from the language's past -- their functionality has been largely replaced by word order constraints and prepositional constructions.
+%Adjectives are preposed to their head nouns, and inflected to match their gender and number.
+%They can be nominalized or used as adverbs, wherein the latter case they remain uninflected.
+%Verbal conjugation distinguishes between two grammatical tenses, the non-past and the past, and three moods, the indicative, the subjunctive and the imperative, of which the first two are morpohologically conflated.
+%Aspectual flavours, passivization and an explicit future are accessible as productive constructions with modals.
+%Infinitival forms may occur nominalized, or in the trailing position of large verbal phrases.
+%There, they are dominated by modal or auxiliary verbs, which may enforce, optionally admit or completely disallow the preceding preposition \texttr{te}{to}, or the discontinuous \texttr{om ... te}{to}, the latter able to enclose complements and adjuncts.
+%Participles exist for both tenses, and may find use as adjectives or, for the present tense only, adverbs.
+%The verbal lexicon contains several items comprised of a preposition and a verbal stem, with usually a compositional meaning.
+%The stem is separated from its prepositional prefix when the verb heads a matrix clause, in which case the preposition is moved to the end of the phrase -- in all other cases, including the finite form in subordinate clauses, the two remain attached.
+%
+%By far the most fun aspect of Dutch is its word order.
+%Dutch word order is a fun puzzle
+%Typologically, it is an SOV language, but with a twist.
+%Exceptionally in main clauses, the verb is promoted to the second position (or the first position, for direct questions without an interrogative pronoun and imperative sentences), changing the matrix word order into SVO or even VSO, in the presence of a preverbal modifier.
+%Subordinate clauses are even more fun
+
+
+%\begin{figure}
+%	\begin{tikzpicture}
+%	\begin{semilogxaxis}[
+%	    title={Type Assignments/Occurrence Counts},
+%	    xlabel={Occurrence Count},
+%	    ylabel={Proportion of Type Assignments},
+%	    xmin=1, xmax=140000,
+%	    ymin=-0, ymax=1,
+%	    xtick={1,10,100,1000,10000, 100000},
+%	    legend pos=north west,
+%	    ymajorgrids=true,
+%		minor y tick num=1,
+%	    yminorgrids=true,
+%	    xmajorgrids=true,
+%	    xminorgrids=true,
+%	    axis line style={draw=none},
+%	    tick style={draw=none}
+%	]
+%	
+%	% types
+%	\addplot[black, const plot, dashdotdotted, thick]
+%		table[
+%	    mark=none,
+%	    x index=0,
+%	    y index=1,
+%	    col sep=comma,
+%	    ] {data/proportion_of_types_covered.dat};
+%	
+%	% assignments
+%	\addplot[black, const plot, dashed, thick]
+%		table[
+%	    mark=none,
+%	    x index=0,
+%	    y index=1,
+%	    col sep=comma,
+%	    ] {data/proportion_of_assignments_covered.dat};
+%	
+%	% sentences
+%	\addplot[black, const plot]
+%		table[
+%	    mark=none,
+%	    x index=0,
+%	    y index=1,
+%	    col sep=comma,
+%	    ] {data/proportion_of_sentences_covered.dat};
+%	    
+%	\end{semilogxaxis}
+%	\end{tikzpicture}
+%	\label{figure:plot:assignment_occurrence_ecdf}
+%\end{figure}
+
+%The SOV word order of subordinate clauses can at times be a major source of headaches.
+%For starters, Dutc relative pronouns
+%For starts, when the object position is occupied by a verbal complement, 
+% not a real language
+
+
+% motivate non-directionality
+
+%\subsection{Lassy}
+%quantitative evaluation regime  
+% quantitative evaluation regime 
+% switching over to a quantitative evaluation regime. 
+
+
+
+\bibliographystyle{abbrvnat}
+\bibliography{bibliography}
