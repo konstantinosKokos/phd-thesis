@@ -2252,8 +2252,7 @@ $\propcon^{\Sigma} := \{ \type[s] \}$.
 The abstract vocabulary is then populated in Figure~\ref{figure:acg_nl_abstract_lex} by all abstract constants denoting base ``types''%
 \footnote{In hindsight, that might have been an unfortunate choice of term\textsuperscript{\thefootnote} to overload.} and ``type'' constructors.
 The target logic $\Tau$ will be our phenogrammatic printer tasked with translating abstract terms (``types'') to object terms (strings).
-We will need a single object base type  $\propcon^{\Tau} := \{ * \}$, such that $\eta_0$ 
-%such that $\mathtt{str}$ is the type alias of $*\li *$, to which $\type$ is sent by the type translation $\eta_0$.
+We will need a single object base type  $\propcon^{\Tau} := \{ * \}$, such that $\eta_0(\type[s]) = \mathtt{str}$, the type alias of $*\li *$.
 Some auxiliary object constants are necessary before we proceed: opening and closing brackets, a diamond and a box the two implications, and a unique match for each unique \textit{constant} abstract constant (i.e. each abstract constant whose type is of order zero).
 The above -- all of type $\mathtt{str}$, and underlined to distinguish from functional symbols -- are used by the abstract constant translation $\theta_0$ defined in Table~\ref{table:nl_tg_acg}: base constructors are mapped to their corresponding string representations, the two unary modalities simply concatenate their symbol to their single argument, whereas the two implications infix their arguments with the a slash or backslash, and wrap the result under brackets.
 
@@ -2413,7 +2412,7 @@ The equation below shows the computation of the homomorphic translation to the d
 }%
 This already proves quite an endeavour; twelve reduction steps later, we are presented with a seemingly reasonable output.
 Upon closer inspection, though, an issue pops up: the end term is of type $\mathtt{str}\li\mathtt{str}$, making it an ill-fit for the discontinuous application to the \textit{substring} \str{opiate}\str{oceans}, which we expect to find nested within the main clause \str{opiate}\str{oceans}\str{poured}\str{there}.
-For the tectogrammatical form to be able surface correctly, some drastic adjustments are necessary.
+For the tectogrammatical form to be able to surface correctly, some drastic adjustments are necessary.
 We could alter the derivational proof by including non-lexical abstract constants, or refine the source types to impose (or enable) structural variation, but either option would be undermining the cohesion between deep syntax and semantics we started from.
 The only alternative that does not resort to contaminating the original term -- abstract and pure -- with vulgar restrictions of form would be to lift the complexity of the interpretation and design it anew.
 

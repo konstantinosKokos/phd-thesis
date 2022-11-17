@@ -363,8 +363,8 @@ Figure~\ref{figure:first_dl_derivation} presents a simple first example to illus
 					&
 					\infer[\ddia{obj} I]{\dbra{\dbra{\w{the}}{det} , \w{city}}{obj} \vdash \ddia{obj}\np}{
 						\infer[\divright E]{\dbra{\w{the}}{det} , \w{city} \vdash \np}{
-							\infer[\dbox{det} E]{\dbra{\w{the}}{det} \vdash \n\divright\np}{
-								\infer[\Lex]{\w{the}: \dbox{det}(\n \divright\np)}{}
+							\infer[\dbox{det} E]{\dbra{\w{the}}{det} \vdash \np\divright\n}{
+								\infer[\Lex]{\w{the}: \dbox{det}(\np \divright\n)}{}
 							}
 							&
 							\infer[\Lex]{\w{city}: \n}{}
@@ -585,6 +585,7 @@ If still unclear, move your mental cursor four sentences back (this one included
 Equipped with this missing bit of alchemical understanding, we're at long last able to produce analyses for some less contrived linguistic examples; Figure~\ref{figure:lovecraft_dep_rep_clause} presents the dependency-enhanced derivation we set out to deliver.
 Before we move on, though, some important observations are in order.
 First, the presentation makes an implicit quantification over the outer label, \dep{d} -- if we were to be really pedantic, we'd need a unique instantiation of that rule for each dependency (but not control!) modal label in the logic.
+Beyond a bookkeeping obligation, this parameterization can also be to our advantage: it allows us to directly control which of the dependency domains allow extraction, and which do not.
 On a less bureaucratic note, the contextual formulation of the rule carries the usual problem of complicating syntactic equality checking. 
 In practice, we can employ a strictly localized version, i.e. one where $\Gamma$ is an empty context (just a hole), which means that extractions need to be preemptively applied immediately after every bracketing operation, rather than deferred to the future.
 Finally, it is important to remember that the rule is supplementary to (and \textit{not} a substitute for) controlled associacitivity and/or commutativity: altering the linear order of substructures in $\LC$, or their binary brackets in $\NL$, still calls for different structural rules with possibly different control modalities that will need to coexist with the \Extraction{} rule for structures to find their intended positions.
