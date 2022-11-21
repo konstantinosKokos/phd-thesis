@@ -15,9 +15,9 @@ Thankfully, there are two tried and tested ways to proceed.
 The first is the way of the scholar, which requires a rare combination of high intellectual capacity, strong persuasive skills and a pinch of luck.
 It starts off with some profound abstract thinking, gradually overtaken by agressive campaigning: bashing the competition at workshops and conferences, making bold claims and generating traction at any chance given (optionally over social media platforms, for the modernists), eventually building a cult of personality, and finally resting on your laurels as the hype becomes self-sustainining; at long last, utility affirmed by popular approval.
 This path, sometimes called the scientific method, is a rather involved and painstakingly slow process, a high stakes gamble that only starts yielding profits in the long run; as such, it greatly benefits from the nourishment of a stable work environment.
-The alternative is the way of the engineer, a shorter term investment more befitting the modern paradigm of the mobile, adaptive, multi-purpose researcher.
-It requires only the acquirable skills of endurance and hardheadedness, and offers a recipe that's easier to follow: simply swing at it until it cracks.
-After a lot of obsessive iteration and self-correction (interchanged with the occasional feeling of despair and futility), utility will sooner or later be affirmed by cold, hard numbers.
+More befitting the modern paradigm of the mobile, adaptive, multi-purpose researcher is the alternative path, the way of the engineer.
+A shorter term investment, it requires only the acquirable skills of endurance and hardheadedness, and offers a recipe that's easier to follow: simply swing at it until it cracks.
+After a lot of obsessive iteration and self-correction (interchanged with the occasional feeling of despair), (f)utility will sooner or later be affirmed by cold, hard numbers.
 We'll go for this one.
 
 This choice has some methodological repercussions.
@@ -27,7 +27,8 @@ The process, called \textit{proof extraction}, revolves around ``proving''  some
 Proof extraction serves a ternary purpose.
 One, it gives us access to an uncompromisingly realistic testbed upon which we can immediately inspect and iteratively finetune the specifics of the grammar logic.
 Two, it fills in for a strict and impartial external critic in providing a quantitative evaluation regime -- at each point in time, we are able to measure the proportion of source analyses (and corresponding linguistic phenomena) the algorithm provides a (reasonable) output for.
-And three, the end-yield of this process has merit of its own; as a derived dataset, it is first a building block necessary for populating the computational toolshed of the theory, and also a public resource for the world to with as they please.
+And three, the end-yield of this process has merit of its own.
+As a derived dataset, it is first a building block necessary for populating the computational toolshed of the theory, and also a public resource for the world to with as they please.
 
 \section{Preliminaries}
 
@@ -35,82 +36,167 @@ And three, the end-yield of this process has merit of its own; as a derived data
 For our linguistic inquiries, the focus will be on Dutch.
 Other than being the language I was contractually obliged to conduct this research on, Dutch is an interesting specimen, the idiosyncracies of which have in the past proven quite a topic of debate for others, and a source of headaches for myself.
 I don't have any intention (or delusion of competence) to casually throw a detailed exposition of the Dutch grammar here, but a brief and superficial typological overview might help smooth the transition into the what is to come.
-%Note that this is not going to spare us the headaches -- just deferring them to the near future, and giving us some time to prepare.
+If the section has the opposite effect to the one intended, know that I'll hold no grudge if you skip ahead.
 
 But first things first.
 Dutch is a West Germanic language, spoken primarily in the Low Countries within Europe by some 25 million speakers.
-Owing to the Netherlands' nasty colonial history, Dutch has left a noticeable mark on the global linguistic atlas: it has played a primary role in the evolution of Afrikaans (with which it is somewhat mutually intelligible) and Indonesian, to a far lesser extent, while native Dutch speakers can be found as far as South America and the Dutch Carribean region.
-Demographics aside, the language is said to be one of the closest relatives of English and german, sharing many of their morphosyntactic characteristics -- we'll go through some of those together.
-The abbrevations in the glosses to follow are industry standard; you can find their transcriptions in Table~\ref{table:gloss_abbreviations} of Appendix~\ref{sec:abbrevations}.
+Owing to the Netherlands' nasty colonial history, Dutch has left a noticeable mark on the global linguistic atlas: it has played a primary role in the evolution of Afrikaans and, to a far lesser extent, Indonesian, while native Dutch speakers can be found as far as South America and the Dutch Carribean region.
+Demographics aside, the language is said to be one of the closest relatives of English and German, sharing many of their morphosyntactic characteristics -- we'll go through some of those together.
+The abbrevations in the glosses to follow are industry standard, you can find their transcriptions in Table~\ref{table:gloss_abbreviations} of Appendix~\ref{sec:abbrevations}.
+Any internal inconsistencies are deliberate: I am trying to gloss only those features relevant to the local discussion.
 
 \subsubsection{The Noun Phrase}
 \paragraph{Nouns}
-Dutch nouns have three grammatical genders: the masculine, the feminine and the neuter, of which the first two (the nonneuter) are morphologically indistinguishable.
-There's two numbers, the singular and the plural, the latter constructed by the affixation of \textex{-en} or \textex{-s} -- the choice of which depends on the noun (Gloss~\ref{gloss:genitive}).
-Case markings are not overtly realized, except for some mostly frozen leftovers from the distant past -- their functionality has largely been replaced by word order constraints, with the indirect object (formerly in the dative) preceding the direct object (formerly in the accusative), and periphrastic constructions, with the preposition \texttr{aan}{to} used to indicate indirect objects, and \texttr{van}{of} to substitute the genitive (Gloss~\ref{gloss:genitive}).
-A cute peculiarity of Dutch is the strikingly common use of a productive diminutive form, denoting either small size or an affectionate disposition -- it is accomplished by the affixation of \textex{-tje} or regionally \textex{-ke}, which turns the inflected noun neuter (Gloss~\ref{gloss:diminutive}).
-
-\paragraph{Determiners}
-Determiners precede the noun and match its gender and number.
-There are two articles: the definite \textex{de}/\textex{het} (nonneuter/~neuter) with plural form \textex{de}, and the indefinite \textex{een}, which does not inflect for gender, and has no plural form (Glosses~\ref{gloss:simple_np}, \ref{gloss:adjective_definite_n}, \ref{gloss:superlative}, \ref{gloss:adjective_definite_nn}, \ref{gloss:diminutive}{} and \ref{gloss:adjp}).
-Indefinite pronouns can be used to convey universal or existential quantification and negation, materializing as substitutes for determiners (e.g. \texttr{alles}{all}, \texttr{sommige}{some}, \texttr{geen}{no}, etc., Gloss~\ref{gloss:adjp}), or as stand-alones (e.g. \texttr{iets}{something}, \texttr{niets}{nothing}, etc.).
-Possessive and demonstrative pronouns can also enact determiners, both uninflected (except for the first person plural \textex{ons} which inflects like an indefinite adjective, see next paragraph).
-Demonstrative pronouns come in two major flavours: the proximal \textex{deze/dit} (plural \textex{deze}) and the distal \textex{die/dat} (plural \textex{die}).
-The last two do double duty as relative pronouns -- more on that later.
-When used to substitute (rather than determine) a noun in a copula, each variant reverts to its neuter singular form. 
-
-\paragraph{Adjectives}
-Adjectives used as nominal modifiers find their place between the determiner and the head noun.
-They appear inflected with an \textex{-e} affix in all cases except for their idefinite use with a neuter noun (Glosses~\ref{gloss:adjective_definite_n} and \ref{gloss:adjective_definite_nn}).
-The same affix applies to nominalized adjectives, which can allow the ommission of a contextually implied noun, or be used independently as an abstract concept or a quantifying property.
-An alternative inflection with a \textex{-s} affix marks the partitive use, when the adjective modifies an indefinite pronoun (Gloss~\ref{gloss:partitive}).
-The language provides acccess to a comparative and a superlative form, via the affixes \textex{-er} and \textex{-ste} respectively, or periphrastically with \texttr{meer}{more} and \texttr{meest}{most} (Gloss~\ref{gloss:superlative}).
-%Complex adjectival phrases constructed with the aid of prepositions commonly occur immediately after the noun phrase they modify (Gloss~\ref{gloss:adjp}).
-
+Dutch nouns have three grammatical genders: the masculine, the feminine and the neuter.
+The masculine and feminine genders are morphologically indistinguishable -- telling them apart is done on the basis of the lexicon alone.
+\begin{exe}
+\ex\label{gloss:genders}
+\begin{xlist}
+\ex
+\gll \textit{de} \textit{aard}\\
+the earth(\abbrv{m})\\
+\ex
+\gll \textit{de} \textit{zee}\\
+the sea(\abbrv{f})\\
+\ex
+\gll \textit{het} \textit{bos}\\
+the forest(\abbrv{n})\\
+\end{xlist}
+\end{exe}
+There's two numbers, the singular and the plural, the latter constructed with the aid of the suffix \textex{-en} or rarely \textex{-s}, depending on the noun.
 \begin{exe}
 \ex 
 \begin{xlist}
-\ex\label{gloss:simple_np}
-\gll \textit{een} \textit{mooi} \textit{lied}\\
-\abbrv{det.indf} beautiful song\\
-\trans{`a beautiful song'}
-\ex\label{gloss:adjective_definite_n}
-\gll \textit{het} \textit{mooi-e} \textit{lied}\\
-\abbrv{det.def.n.sg} beautiful-\abbrv{def} song\\
-\trans{`the beautiful song'}
-\ex\label{gloss:superlative}
-\gll \textit{het} \textit{mooi-ste} \textit{lied}\\
-\abbrv{det.def.n.sg} beautiful-\abbrv{sup} song\\
-\trans{`the most beautiful song'}
-\ex\label{gloss:partitive}
-\gll \textit{iets} \textit{mooi-s}\\
-something beautiful-\abbrv{ptv}\\
-\trans{`something beautiful'}
-\ex\label{gloss:adjective_definite_nn}
-\gll \textit{de} \textit{klein-e} \textit{vogel}\\
-\abbrv{det.def.nn.sg} small-\abbrv{def} bird\\
-\trans{`the small bird'}
-\ex\label{gloss:diminutive}
-\gll \textit{een} \textit{klein} \textit{vogel-tje}\\
-\abbrv{det.indf} small bird-\abbrv{dim}\\
-\trans{`a small birdie'}
-\ex\label{gloss:genitive}
-\gll \textit{de} \textit{mooi-e} \textit{lied-eren} \textit{van} \textit{vogel-s}\\
-\abbrv{det.def.n.pl} beautiful-\abbrv{def} song-\abbrv{pl} of bird-\abbrv{pl}\\
-\trans{`the beautiful songs of birds'}
-%\ex\label{gloss:adjp}
-%\gll \textit{geen} \textit{lied} \textit{op} \textit{een} \textit{dod-e} \textit{planeet}\\
-%\abbrv{det.neg.indf} song on \abbrv{det.indf} dead-\abbrv{indf.nn} planet\\
-%\trans{`no song on a dead planet'}
+\ex
+\gll \textit{de} \textit{zeven} \textit{zee-\"{e}n}\\
+the seven sea-\abbrv{pl}\\
+\glt{`the seven seas'}
+\ex
+\gll \textit{de} \textit{trekvogel-s}\\
+the  migratory.bird-\abbrv{pl}\\
+\glt{`the migratory birds'}
+\end{xlist}
+\end{exe}
+Case markings are not overtly realized, except for some mostly frozen leftovers from the distant past -- their functionality has largely been replaced by word order constraints, with the indirect object (formerly in the dative) preceding the direct object (formerly in the accusative), and periphrastic constructions, with the preposition \texttr{aan}{to} used to indicate indirect objects (see Gloss~\ref{gloss:ido} later on), and \texttr{van}{of} to substitute the genitive.
+\begin{exe}
+\ex
+\gll \textit{het} \textit{oog} \textit{van} \textit{de} \textit{geest}\\
+the eye of the mind\\
+\glt{`the mind's eye'}
+\end{exe}
+A cute peculiarity of Dutch is the strikingly common use of a productive diminutive form, denoting either small size or an affectionate disposition -- diminutives are formed with the suffix \textex{-tje} or regionally \textex{-ke}, and are always neuter (notice the gender change of Gloss~\ref{gloss:gender_change}).
+
+\paragraph{Determiners}
+Determiners precede the noun and match its gender and number.
+There are two articles: the definite, and the indefinite.
+The definite has two singular forms \textex{de}/\textex{het} (non-neuter/neuter) and a single plural \textex{de}. 
+Non-neuter forms are used for both masculine and feminine (refer back to Gloss~\ref{gloss:genders}).
+\begin{exe}
+\ex\label{gloss:gender_change}
+\begin{xlist}
+\ex
+\gll de klein-e vogel\\
+the(\abbrv{nn.sg}) small-\abbrv{def} bird\\
+\glt{`the small bird'}
+\ex
+\gll het klein-e vogel-tje\\
+the(\abbrv{n.sg}) small-\abbrv{def} bird-\abbrv{dim}\\
+\glt{`the small birdie'}
+\end{xlist}
+\end{exe}
+The indefinite \textex{een} is gender-agnostic, and has no plural form.
+\begin{exe}
+\ex
+\begin{xlist}
+\ex\label{gloss:indef_adj_sg_n}
+\gll een donker lied\\
+a dark song\\
+\glt{`a dark song'}
+\ex 
+\gll donker-e lied-eren\\
+dark-\abbrv{pl} song-\abbrv{pl}\\
+\glt{`dark songs'}
+\end{xlist}
+\end{exe}
+Indefinite pronouns can be used to convey universal or existential quantification and negation, materializing as substitutes for determiners (e.g. \texttr{alles}{all}, \texttr{sommige}{some}, \texttr{geen}{no}, etc.), or as stand-alones (e.g. \texttr{iets}{something}, \texttr{niets}{nothing}, etc.).
+\begin{exe}
+\ex
+\gll Alle mensen willen iets, sommige willen alles.\\
+all people want something some want everything\\
+\glt{`All people want something, some want everything.'}
+\end{exe}
+Possessive and demonstrative pronouns can also enact determiners, both uninflected (except for the first person plural \textex{ons} which inflects like an indefinite adjective, see next paragraph).
+\begin{exe}
+\ex
+\gll De eend is mijn favoriet vogel.\\
+the duck is my favorite bird\\
+\glt{`The duck is my favorite bird.'}
+\ex\label{gloss:ido}
+\gll Het bos is onz-e tempel.\\
+the forest is our-\abbrv{def} temple\\
+\glt{`The forest is our temple.'}
+\end{exe}
+Demonstrative pronouns come in two major flavours: the proximal \textex{deze/dit} (plural \textex{deze}) and the distal \textex{die/dat} (plural \textex{die}).
+The last two do double duty as relative pronouns -- more on that later.
+When used to substitute (rather than determine) a noun in a copula, each variant reverts to its neuter singular form.
+\begin{exe}
+\ex
+\begin{xlist}
+\ex
+\gll Deze bergen zijn hoog.\\
+these(\abbrv{pl}) mountains are tall\\
+\glt{`These mountains are tall.'}
+\ex
+\gll Dit zijn mijn bergen.\\
+this(\abbrv{n}) are my mountains\\
+\glt{'These are my mountains.'}
 \end{xlist}
 \end{exe}
 
+\paragraph{Adjectives}
+Adjectives used as nominal modifiers find their place between the determiner and the head noun.
+They appear inflected with an \textex{-e} affix in all cases except for the idefinite use with a neuter singular noun (refer back to Gloss~\ref{gloss:indef_adj_sg_n}, contrast with \ref{gloss:gender_change}).
+The same affix applies to nominalized adjectives, which can allow the ommission of a contextually implied noun, or be used independently as an abstract concept or a quantifying property.
+\begin{exe}
+\ex
+\gll dood aan het heilig-e\\
+death to the holy-\abbrv{nmlz}\\
+\glt{`death to the holy'}
+\ex
+\gll De zachtmoedig-en zullen niets be\"{e}rven.\\
+the meek-\abbrv{nmlz.pl} shall nothing inherit(\abbrv{inf})\\
+\glt{`The meek shall inherit nothing.'}
+\end{exe}
+An alternative inflection with a \textex{-s} affix marks the partitive use, when the adjective modifies an indefinite pronoun.
+\begin{exe}
+\ex
+\gll iets ernstigs-s\\
+something grave-\abbrv{ptv}\\
+\glt{`something grave'}
+\end{exe}
+The language provides acccess to a comparative and a superlative form, via the affixes \textex{-er} and \textex{-ste} respectively, or periphrastically with \texttr{meer}{more} and \texttr{meest}{most}.
+\begin{exe}
+\ex
+\gll \textit{het} \textit{donker-ste} \textit{lied}\\
+the(\abbrv{n.sg}) dark-\abbrv{sup} song\\
+\glt{`the darkest song'}
+\end{exe}
+
 \paragraph{Personal Pronouns}
-Noun phrases can be substituted by personal pronouns, which in Dutch are morphologically marked for case.
+Noun phrases can be substituted by personal pronouns, which in Dutch are morphologically marked for case and gender.
 The nominative is used for the subject position, the genitive corresponds to the possessive determiners discussed earlier, and the accussative is used to denote objects.
+\begin{exe}
+\ex
+\gll Ik zie een vreemde man in de spiegel.\\
+I(\abbrv{nom}) see a strange man in the mirror\\
+\glt{`I see a strange man in the mirror.'}
+\ex
+\gll Hij merkt mij op.\\
+he(\abbrv{nom}) perceives me(\abbrv{acc}) on\\
+\glt{`He notices me.'}
+\end{exe}
 A dative form is sometimes exceptionally used for indirect objects in the third person plural.
-The third person singular has three distinct forms corresponding to grammatical gender; 
-depending on the regional variation, nouns must be referred to by their correct gender, or simply by the neuter (in which case the masculine and feminine forms are reserved for animates).
+Depending on the regional variation, personal pronouns must match the grammatical gender of the noun they refer to, or simply default to the neuter (reserving the masculine and feminine forms for animates).
 Third person singulars are also interchangeable with the appropriate demonstratives.
 Personal pronouns come in two variants: the stressed (emphatic) and the unstressed (standard).
 
@@ -123,194 +209,238 @@ Aspectual flavours, passivization and an explicit future are accessible as produ
 
 \paragraph{Participles}
 Participles exist for both tenses, and have a multitude of uses.
-The present participle is formed by affixing \textex{-de}, and is commonly employed as an duration-denoting adjective or adverb, always inflected in the first case, and optionally in the second (Gloss~\ref{gloss:prs_ptcp}).
+The present participle is formed by affixing \textex{-de}, and is commonly employed as an duration-denoting adjective or adverb, always inflected in the first case, and optionally in the second.
+\begin{exe}
+\ex
+\gll de zweven-de vrouw\\
+the levitate-\abbrv{prs.ptcp} woman\\
+\glt{`the levitating woman'}
+\end{exe}
 Rarely, it can be used as a complement to the auxiliary \texttr{zijn}{to be} to produce a kind of present continuous.
 Present participles of transitives can attach to the end of their object nouns, appearing as fused compounds.
 The past participle is more versatile.
-Regular past participles are formed by prefixing \textex{ge-} to the verbal stem (terms and conditions may apply) and substituting the infinitival suffix for either \textex{-t}, \textex{-d} or nothing, depending on the stem's last phoneme.
+Regular past participles are formed by prefixing \textex{ge-} to the verbal stem (morphophonological terms and conditions may apply) and substituting the infinitival suffix for either \textex{-t}, \textex{-d} or nothing, depending on the stem's last phoneme.
 Like the present participle, it can be used as an adjective, denoting now a completed event.
+\begin{exe}
+\ex
+\gll beelden met ge-sloten ogen\\
+images with \abbrv{pst.ptcp}-close eyes\\
+\glt{`closed eye visuals'}
+\end{exe}
 Combined with with the modal \texttr{hebben}{to have} (or exceptionally \textex{zijn} for unaccusatives and verbs of movement), it produces the perfect tense.
-Combined with the modals \texttr{worden}{to become} and \texttr{zijn}{to be}, it produces the passive voice and its perfect tense (Gloss~\ref{gloss:pst_ptcp}).
+\begin{exe}
+\ex
+\end{exe}
+Combined with the modals \texttr{worden}{to become} and \texttr{zijn}{to be}, it produces the passive voice and its perfect tense.
+%\todo
+%\begin{exe}
+%\ex
+%\gll Ge-zegen-d zijn de on-ge-bog-en\\
+%\abbrv{pst.ptcp}-bless-\abbrv{pst.ptcp} are the \abbrv{neg}-\abbrv{pst.ptcp}-bow-\abbrv{nmlz.pl}\\
+%\glt{`Blessed are the unbowed.'}
+%\end{exe}
 
 \paragraph{Infinitives}
 Infinitival forms commonly occur as the verbal complements of a modal, auxiliary or perception verb.
-Depending on the modal, the preposition \texttr{te}{to}, or the discontinuous alternatives \texttr{om/aan ... te}{to}, may be either necessary, optionally admissible or completely disallowed -- if one does manifest, it precedes the infinitive.
-The discontinuous variants are not interchangeable and are only selected for by specific verbs -- they can enclose linguistic material, like the infinitive's object or any adverbs modifying it.
+\begin{exe}
+\ex
+\gll Ik wil slapen.\\
+I want sleep(\abbrv{inf})\\
+\glt{`I want to sleep.'}
+\end{exe}
+Depending on the modal, the preposition \texttr{te}{to}, or the discontinuous \texttr{om ... te}{to}, may be either necessary, optionally admissible or completely disallowed -- if one does manifest, it precedes the infinitive.
+\begin{exe}
+\ex
+\gll Ik probeer te schrijven.\\
+I try to write(\abbrv{inf})\\
+\glt{`I try to write.'}
+\end{exe}
+The discontinuous variant is only selected for by specific verbs -- it can enclose linguistic material, like the infinitive's object or any adverbs modifying it.
+\begin{exe}
+\ex
+\gll Ik dwing mezelf om wat te schrijven.\\
+I force myself \_ something to write(\abbrv{inf})\\
+\glt{`I force myself to write something.'}
+\end{exe}
 An infinitive directly following \textex{aan het} can combine with \textex{zijn} to construct the continuous aspect, in either the present or the past tense.
+\begin{exe}
+\ex
+\gll Ik ben aan het schrijven.\\
+I am in the write(\abbrv{inf})\\
+\glt{`I am writing.'}
+\end{exe}
 Infinitives are also often nominalized, the resulting nominals being singular neuters.
+\begin{exe}
+\ex
+\gll Het schrijven is pijnlijk.\\
+The write(\abbrv{inf}) is painful\\
+\glt{`The writing is painful.'}
+\end{exe}
 
 \paragraph{Separable Verbs} 
 The verbal lexicon contains several compound items comprised of a preposition and a verbal stem, usually with a compositional meaning.
-The stem is separated from its prepositional prefix when the verb heads a matrix clause, in which case the preposition is moved to the end of the clause -- in all other cases, including the finite form in subordinate clauses, the two remain attached (Gloss~\ref{gloss:svp}).
-When inflecting for the perfect, the prefix applies to the stem (i.e. after the preposition, see Gloss~\ref{gloss:pst_ptcp}).
+The stem is separated from its prepositional prefix when the verb heads a matrix clause, in which case the preposition is moved to the end of the clause -- in all other cases, including the finite form in subordinate clauses, the two remain attached.
+When inflecting for the perfect, the prefix applies to the stem (i.e. after the preposition).
 
 \subsubsection{The Sentence}
 By far the most fun aspect of Dutch is its absolutely wild sentential word order.
 
 \paragraph{Main Clauses}
-Dutch main clauses emanate a false sense of safety, coming off as SVO at first glance (Gloss~\ref{gloss:simple_smain}).
-The truth is far more sinister -- the verb placed there only by exception, abiding by the V2 rule that has it appear second for matrix clauses only.
+The main clauses inspected so far emanate a false sense of safety, coming off as SVO at first glance, with participles used for the passive voice and the perfect tense pushed to the right edge of the clause.
+The truth is far more sinister -- the verb is placed there only by exception, abiding by the V2 rule that has it appear second for matrix clauses only.
 The effect becomes apparent when employing a preverbal adverb -- in Gloss~\ref{gloss:simple_smain_v2}, both the subject and its predicate complement follow the verb in a VSO pattern.
-Participles used for the passive the perfect tense are pushed to the end of the matrix clause (Glosses~\ref{gloss:prs_ptcp} and \ref{gloss:pst_ptcp}).
 
 \paragraph{Questions and Imperatives}
 When it comes to questions, things look familiar again.
 Line in English, wh-questions begin with an interrogative pronoun or adverb (e.g. \texttr{wie}{who}, \texttr{waar}{where}, \texttr{welk}{which}, \texttr{waarom}{why} etc.), which is immediately followed by the conjugated verb (Gloss~\ref{gloss:simple_whq}).
-In direct questions without an interrogative, as well as personal positive commands, the verb is placed first (Glosses~\ref{gloss:simple_sv1_q} and \ref{gloss:simple_sv1_imp}).
+In direct questions without an interrogative, as well as positive imperatives, the verb is placed first (Glosses~\ref{gloss:simple_sv1_q} and \ref{gloss:simple_sv1_imp}).
 In negative imperative sentences and impersonal commands, the infinitival is placed last.
 
 \begin{exe}
 \ex
 \begin{xlist}
 \ex\label{gloss:simple_smain}
-\gll \textit{Frans} \textit{verkoop-t} \textit{kaas.}\\
+\gll Frans verkoop-t kaas.\\
 Frans sell-\abbrv{prs.3sg} cheese\\
-\trans{`Frans sells cheese.'}
+\glt{`Frans sells cheese.'}
 \ex\label{gloss:simple_smain_v2}
-\gll \textit{Morgen} \textit{verkoop-t} \textit{Frans} \textit{kaas.}\\
+\gll Morgen verkoop-t Frans kaas.\\
 tomorrow sell-\abbrv{prs.3sg} Frans cheese\\
-\trans{`Frans will sell cheese tomorrow.'}
+\glt{`Frans will sell cheese tomorrow.'}
 \ex\label{gloss:simple_sv1_q}
-\gll \textit{Verkoop-t} \textit{Frans} \textit{kaas?}\\
+\gll Verkoop-t Frans kaas?\\
 sell-\abbrv{prs.3sg} Frans cheese\\
-\trans{`Does Frans sell cheese?'}
+\glt{`Does Frans sell cheese?'}
 \ex\label{gloss:simple_whq}
-\gll \textit{Wie} \textit{verkoop-t} \textit{kaas?}\\
+\gll Wie verkoop-t kaas?\\
 who sell-\abbrv{prs.3sg} cheese\\
-\trans{`Who sells cheese?'}
+\glt{`Who sells cheese?'}
 \ex\label{gloss:simple_sv1_imp}
-\gll \textit{Verkoop} \textit{kaas!}\\
+\gll Verkoop kaas!\\
 sell(\abbrv{imp}) cheese\\
-\trans{`Sell cheese!'}
+\glt{`Sell cheese!'}
 \end{xlist}
 \end{exe}
 
-\begin{exe}
-\ex
-\begin{xlist}
-\ex\label{gloss:prs_ptcp}
-\gll \textit{De} \textit{spelen-de} \textit{mens} \textit{heeft} \textit{zijn} \textit{huis} \textit{in} \textit{brand} \textit{ge-stoken.}\\
-the play-\abbrv{prs.ptcp} man has his house in fire \abbrv{pst.ptcp}-put\\
-\trans{`The playing man has set his house on fire.'}
-\ex\label{gloss:svp}
-\gll \textit{Het} \textit{huis} \textit{brand-t} \textit{af}.\\
-the {house} {burn}-\abbrv{prs.3sg} down\\
-\trans{`The house burns down.'}
-\ex\label{gloss:pst_ptcp}
-\gll \textit{Het} \textit{huis} \textit{is} \textit{af\textlangle ge\textrangle brand.}\\
-the {house} {is} \textlangle\abbrv{pst.ptcp}\textrangle{burn}\\
-\trans{`The house has burnt down.'}
-\end{xlist}
-\end{exe}
 
 \paragraph{Subordinate Clauses}
 Subordinate clauses is where things really get interesting.
 Unaffected by the V2 rule, the word order turns out to be SOV; this affects indirect questions, verbal complements and relative clauses alike.
-Indirect questions are straightforward -- modulo the word order permutation, they match their direct counterparts (Gloss~\ref{gloss:embedded_q}).
-Infinitives in non-nested verbal complements are likewise just pushed to the end of their clause (Gloss~\ref{gloss:simple_vc}).
-Relative clauses are instigated by relative adverbs and pronouns.
-Interestingly, the language does not make an overt distinction between an object- and a subject- relative pronoun; combined with the SOV word order, and the absence of case markings, the effect is that the two relative clause types end up having the exact same surface form when the grammatical gender of the antecedent noun and the non-gap embedded argument are the same -- contrast the two examples of Gloss~\ref{gloss:rc_ambiguity}.
+Indirect questions are straightforward -- modulo the word order permutation, they match their direct counterparts.
 \begin{exe}
 \ex\label{gloss:embedded_q}
-\gll \textit{Weet} \textit{je} \textit{wie} \textit{kaas} \textit{verkoopt?}\\
-know you who cheese sell-\abbrv{prs.3sg}\\
-\trans{`Do you know who sells cheese?'}
+\gll Weet je wie kaas verkoopt?\\
+know you who cheese sells\\
+\glt{`Do you know who sells cheese?'}
+\end{exe}
+Infinitives in non-nested verbal complements are likewise just pushed to the end of their clause.
+\begin{exe}
 \ex\label{gloss:simple_vc}
-\gll \textit{Frans} \textit{wil} \textit{koopman} \textit{worden}\\
+\gll Frans wil koopman worden.\\
 Frans wants merchant be(\abbrv{inf})\\
-\trans{`Frans wants to be a merchant'}
+\glt{`Frans wants to be a merchant.'}
+\end{exe}
+Relative clauses are instigated by relative adverbs and pronouns.
+Interestingly, the language does not make an overt distinction between an object- and a subject- relative pronoun; combined with the SOV word order, and the absence of case markings, the effect is that the two relative clause types end up having the exact same surface form when the grammatical gender of the antecedent noun and the non-gap embedded argument are the same -- contrast the two sentences below.
+\begin{exe}
 \ex\label{gloss:rc_ambiguity}
 \begin{xlist}
 \ex
-\gll \textit{het} \textit{huis} \textit{dat} \textit{vuur} \textit{opslok-t}\\
-the house(\abbrv{n}) that(\abbrv{n}) fire(\abbrv{n}) consume-\abbrv{prs.3sg}\\
-\trans{
+\gll het geheim dat een bos verbergt\\
+the secret(\abbrv{n}) that a forest(\abbrv{n}) hides\\
+\glt{
 \begin{enumerate}[topsep=0pt]
-	\item (\#) `the house that consumes fire'
-	\item `the house that fire consumes'
+	\item `the secret the hides a forest'
+	\item `the secret that a forest hides'
 \end{enumerate}}
 \ex
-\gll \textit{het} \textit{huis} \textit{dat} \textit{de} \textit{man} \textit{in} \textit{brand} \textit{steekt}\\
-the house(\abbrv{n}) that(\abbrv{n}) the man(\abbrv{nn}) in fire puts\\
-\trans{`the house that the man sets on fire'}
+\gll de kerk die vuur opslokt\\
+the church(\abbrv{nn}) that(\abbrv{nn}) vuur(\abbrv{n}) consumes\\
+\glt{`the church that fire consumes'}
 \end{xlist}
 \end{exe}
 
-The SOV order means that the chaining of verbs requiring non-finite complements inadvertently leads to verb clusters, i.e. collections of two or more verbs situated within the dependent clause and adjacent to one another.
+The SOV order means that the chaining of verbs requiring non-finite complements inadvertently leads to \textit{verb clusters}, i.e. collections of two or more verbs situated within the dependent clause and adjacent to one another.
 Verb clusters are marked by their inability to accommodate non-verbal material, and may follow a number of different word orders, which don't necessarily abide by the order of selectional dominance.
 The question of which factors influence the grammaticality of word order variations  is a hot potato and a topic of active research for decades -- to make matters worse, these factors tend to differ between regional variations of the language%
 	\footnote{As a fun trivia,  out of the 6 possible orderings of 3-verb clusters, 4 to 5 were found admissible by Dutch speakers depending on the construction~\cite{3vc}.}.
 What follows are some simplified common observations -- the interested reader should find the thesis of~\citet{augustinus2015complement} a good entry point towards more detailed discussions.
 
 For starters, bare infinitives usually follow their governor -- but: this is not necessarily the case for clusters of 2 verbs where the finite verb is a modal.
-The first two  below depict the canonical and ``inverted'' word orders; the third example is ungrammaticaul due to the adjective \textex{naamloos} interrupting the cluster:
+The first two  below depict the canonical and ``inverted'' word orders; the third example is ungrammaticaul due to the adjective \textex{naamloos} interrupting the cluster.
 \begin{exe}
 \ex\label{gloss:rusten_zal}
 \begin{xlist}
 \ex
-\gll \textit{waar} \textit{ik} \textit{naamloos} \textit{zal} \textit{rusten}\\
-where I nameless will rest(\abbrv{inf})\\
+\gll ... waar ik naamloos zal rusten\\
+.... where I nameless will rest(\abbrv{inf})\\
 \ex
-\gll \textit{waar} \textit{ik} \textit{naamloos} \textit{rusten} \textit{zal}\footnotemark\\
-where I nameless rest(\abbrv{inf}) will\\
-\trans{`where I will rest nameless'}
-\footnotetext{Pulled from Jan Campert's \textit{Het lied der achttien dooden} (1943).}
-\ex[*]{\textit{waar} \textit{ik} \textit{zal} \textit{naamloos} \textit{rusten}}
+\gll ... waar ik naamloos rusten zal\\
+... where I nameless rest(\abbrv{inf}) will\\
+\glt{`... where I will rest nameless'}
+\ex[*]{\textit{... waar ik zal naamloos rusten}}
 \end{xlist}
 \end{exe}
-Past participles used in the formation of the perfect or passive may occur either to the left or the right of the tense auxiliaries \textex{hebben} and \textex{zijn}, leading to either a German- or English- like construction:
+Past participles used in the formation of the perfect or passive may occur either to the left or the right of the tense auxiliaries \textex{hebben} and \textex{zijn}, leading to either a German- or English- like construction.
 \begin{exe}
 \ex\label{gloss:green_vs_red}
 \begin{xlist}
 \ex
-\gll \textit{omdat} \textit{ik} \textit{de} \textit{eend} \textit{ge-zien} \textit{heb}\\
-because I the duck \abbrv{pst.ptcp}-see have\\
+\gll ... omdat ik de eend ge-zien heb\\
+... because I the duck \abbrv{pst.ptcp}-see have\\
 \ex
-\gll \textit{omdat} \textit{ik} \textit{de} \textit{eend} \textit{heb} \textit{ge-zien}\\
-because I the duck have \abbrv{pst.ptcp}-see\\
-\trans{`because I have seen the duck'}
+\gll ... omdat ik de eend heb ge-zien\\
+... because I the duck have \abbrv{pst.ptcp}-see\\
+\glt{`... because I have seen the duck'}
 \end{xlist}
 \end{exe}
-This gets complicated by the so-called IPP (\textit{Infinitivus Pro Participio}) effect, where a participle that selects for an infinitive changes to an infinitive itself, creating a cluster in the process -- once more, whether this substitution is mandatory, optional or altogether impossible is lexically decided (Gloss~\ref{gloss:ipp}).
+This gets complicated by the so-called IPP (\textit{Infinitivus Pro Participio}) effect, where a participle that selects for an infinitive changes to an infinitive itself, creating a cluster in the process -- once more, whether this substitution is mandatory, optional or altogether impossible is lexically decided.
 \begin{exe}
 \ex\label{gloss:ipp}
 \begin{xlist}
 \ex 
-\gll \textit{Ik} \textit{heb} \textit{de} \textit{eend} \textit{ge-zien.}\\
+\gll Ik heb de eend ge-zien.\\
 I have the duck \abbrv{pst.ptcp}-see\\
-\trans{`I have seen the duck.'}
+\glt{`I have seen the duck.'}
 \ex
-\gll \textit{Ik} \textit{heb} \textit{de} \textit{eend} \textit{zien} \textit{vliegen.}\\
+\gll Ik heb de eend zien vliegen.\\
 I have the duck see(\abbrv{inf}) fly(\abbrv{inf})\\
-\trans{`I have seen the duck fly.'}
+\glt{`I have seen the duck fly.'}
 \ex\label{gloss:ipp_tv}
-\gll \textit{Ik} \textit{heb} \textit{de} \textit{eend} \textit{een} \textit{nest} \textit{zien} \textit{maken.}\\
+\gll Ik heb de eend een nest zien maken.\\
 I have the duck a nest see(\abbrv{inf}) make(\abbrv{inf})\\
-\trans{`I have seen the duck make a nest.'}
+\glt{`I have seen the duck make a nest.'}
 \end{xlist}
 \end{exe}
 Next, the infinitival head of a dependent clause may be forced to occur directly after the verb dominating it, if the latter belongs to a closed set of so-called \textit{raising} verbs (i.e. the raiser is infixed between the infinitive to the right, and the infinitive's non-verbal arguments to the left).
 These include modals like \texttr{willen}{to want} and \texttr{moeten}{must}, perception verbs like \texttr{horen}{to hear} and \texttr{zien}{to see}, and some nondescript verbs like \texttr{doen}{to do} and \texttr{laten}{to let}.
 As before, they can be subcategorized as obligatory raisers and optional ones.
-Yet other verbs like \texttr{verplichten}{to forbid} select not a bare infinitive but a \textex{te}-marked infinitival phrase, which they leave intact at the end of the clause -- a phenomenon known as \textit{extraposition}.
-The twist is that the intersection of extraposition verbs and raising verbs is non-empty -- \texttr{proberen}{to try}, for instance, can behave as either:
 \begin{exe}
+\ex
+\gll Ik denk dat ik iemand hoor naderen\\
+I think that I someone hear approach(\abbrv{inf})\\
+\glt{`I think I hear someone approaching.'}
+\end{exe}
+Yet other verbs like \texttr{verplichten}{to forbid} select not a bare infinitive but a \textex{te}-marked infinitival phrase, which they leave intact at the end of the clause -- a phenomenon known as \textit{extraposition}.
+The twist is that the intersection of extraposition verbs and raising verbs is non-empty -- \texttr{proberen}{to try}, for instance, can behave as either.
+
+\goodbreak\begin{exe}
 \ex\label{gloss:vr_vs_xpos}
 \begin{xlist}
 \ex
 \gll \textit{Ik} \textit{denk} \textit{dat} \textit{hij} \textit{probeert} \textit{iets} \textit{te} \textit{zeggen}.\\
-I think that he tries something to say\\
+I think that he tries something to say(\abbrv{inf})\\
 \ex
 \gll \textit{Ik} \textit{denk} \textit{dat} \textit{hij} \textit{iets} \textit{probeert} \textit{te} \textit{zeggen}.\\
-I think that he something tries to say\\
-\trans{`I think that he is trying to say something'}
+I think that he something tries to say(\abbrv{inf})\\
+\glt{`I think that he is trying to say something'}
 \end{xlist}
 \end{exe}
 
 Typology aside, Dutch verb clusters have been a favorite topic of debate for formal grammarians for a while now, since their construction requires expressive capacity beyond what a context-free grammar can offer, and thus brinking an end to any delusion that human languages are context-free%
 	\footnote{Or, depending on the reader, that Dutch is a human language.}%
 ~\cite[\textit{inter alia}]{huybregts1984weak,shieber1985evidence}.
-The impenetrable nature of verb clusters means that participating verbs may often be forced to detach from their arguments, or worse yet become stranded from them by the infixation of another verb in between -- in the dependency grammar paradigm, these discontinuities materialize as non-projective (or cross-serial) dependencies -- see Figure~\ref{figure:xdep_udparse} for an example.
+The impenetrable nature of verb clusters means that verbs that partake in their construction may often be forced to detach from their arguments, or worse yet become stranded from them by the infixation of another verb in between -- in the dependency grammar paradigm, these discontinuities materialize as non-projective (or cross-serial) dependencies -- see Figure~\ref{figure:xdep_udparse} for an example.
 
 \begin{figure}
 	\centering
@@ -338,8 +468,15 @@ The impenetrable nature of verb clusters means that participating verbs may ofte
 \end{figure}
 
 \paragraph{Adverbs}
-When not appearing in the emphatic first position, adverbs must occur after definite objects and before indefinite ones.
-A special class of adverbs are the counterpart of demonstrative pronouns.
+When not appearing in the emphatic first position, adverbs must occur after definite objects and before indefinite ones
+\begin{exe}
+\ex
+\gll Vrouwen wijzen de onderdrukker in Koerdistan al jaren resoluut af.\\
+women reject\\
+\trans{`Women staunchly reject the oppressor for years in Kurdistan.'}
+\end{exe}
+
+%A special class of adverbs are the counterpart of demonstrative pronouns.
 %, called pronominals, are formed by the merger of a preposition and the
 
 \paragraph{Conjunction}

@@ -127,8 +127,19 @@
 \noautomath
 \newcommand{\abbrv}[1]{\textsc{#1}}
 \let\eachwordtwo=\small
+\let\eachwordone=\textit
 \counterwithin{xnumi}{chapter}
 \exewidth{(1.234)}
+\def\glt{\nobreak\vskip.01\baselineskip}
+
+\makeatletter
+\newcommand{\nolistbreak}{%
+  \let\oldpar\par\def\par{\oldpar\nobreak}% Any \par issues a \nobreak
+  \@nobreaktrue% Don't break with first \item
+}
+\makeatletter
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                  term / type / rule macros
