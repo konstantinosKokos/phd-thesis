@@ -144,16 +144,16 @@ This perspective is computationally appealing due to its simplicity and uniformi
 For the exact same reasons, it can also be seen as concealing -- it sacrifices any potential of targeted analysis in the pedestal of universality.
 Finally, the semantically inclined might find a two-directional extension of dependency arcs enticing.
 In that setup, the added direction (which needs not agree with that of syntactic dominance) is devoted to semantic information flow, pointing from semantic predicates%
-	\footnote{Apparently also an overloaded term. I will only ever use this in the strictly logical sense.}
- to semantic arguments~\cite{mel2003levels}.
+	\footnote{Apparently also an overloaded term. I will only ever use this in the strictly logical sense.},
+to semantic arguments~\cite{mel2003levels}.
 
 A dependency grammar that has gained significant traction over the last decade is the framework of universal dependencies~\cite{10.1162/coli_a_00402}, claiming a broad collection of multi-lingual treebanks~\cite{nivre2020universal} and tools.
 In universal dependencies, words are usually assigned a label pulled from a rudimentary set of part of speech tags and lexical identifiers and more importantly, dependency relations are also labeled according to their grammatical function, allowing the distinction of a words' dependents according to the grammatical role they fulfill.
 Grammatical roles are typologically and thematically informed, and are inventorized with language universality as the prime goal.
 This inventorization upholds no semantic promises, but is not inconsistent with the aforementioned semantic view either.
-To obtain a semantic transcription of the dependency tree, one needs only specify whether the semantic flow of each grammatical role is co- or contra- directional to the edge's syntactic flow, i.e. whether the arc marks its dependent as a \textit{complement} (where syntactic head and semantic predicate coincide) or an \textit{adjunct} (where the syntactic head is the semantic argument to its syntactic dependent)%
+To obtain a semantic transcription of the dependency tree, one needs only specify whether the semantic flow of each grammatical role is co- or contra- directional to the edge's syntactic flow, i.e. whether the arc marks its dependent as a \textit{complement} (where syntactic head and semantic predicate coincide) or an \textit{adjunct} (where the syntactic head is the semantic argument to its syntactic dependent).%
 	\footnote{Universal dependencies, a staunch pacifist, carefully and vocally refuses to make this claim, as complements and adjuncts are largely language-particular syntactic constructs and a notorious point of debate~\cite{haspelmath2014arguments}.
-	I would like to believe I am not trespassing here, either -- as will be made clearer in a bit, I employ the two terms in a purely semantic fashion.}.
+	I would like to believe I am not trespassing here, either -- as will be made clearer in a bit, I employ the two terms in a purely semantic fashion.}
 
 \begin{figure}
 	\centering
@@ -191,7 +191,7 @@ Figure~\ref{figure:udparse} shows an example dependency parse.
 Unlike before, we can not claim any semblance to the proofs that have occupied us thus far.
 At a first glance, dependency grammars have little in common with categorial grammars -- structures are no longer binary nor made out of phrases, the axis of grammatical functions is competely new, and there seems to be little there reminiscent of the notions of induction and composition.
 Though on closer inspection and armed with some goodwill, we can recover from some of these divergences if we make a few concessions from both sides.
-We can start by treating any collection of words rooted in the same ancestor in the dependency graph as a constituent phrase, albeit possibly discontinuous -- the result will give as at least some partial overlap with the categorial directive.
+We can start by treating any collection of words rooted in the same ancestor in the dependency graph as a constituent phrase, albeit possibly discontinuous -- the result will give us at least some partial overlap with the categorial directive.
 Grammatical functions can then be thought of as being implicit, having been internalized in their positioning within a functor.
 For instance we do intuitively know that the Lambek transitive verb $(\np[s]\divleft\s[s])\divright\np[s]$ requires an \textit{object} $\np[s]$ to the right and a \textit{subject} $\np[s]$ to the left -- marking them as such is perhaps redundant, since the verbal meaning recipe places each syntactic argument into a distinct semantic slot.
 The binary bracketing structure is irrevocably lost, but this loss can be deemed as inconsequential if we ``flatten'' functor-induced phrasal boundaries by considering them only at these intermediary points where all of their arguments (however many) have been applied.
@@ -226,7 +226,7 @@ The vanilla categorial vocabulary does not suffice to capture this extra dimensi
 In an unpublished manuscript, \citet{moortgat1991heads} propose a two-dimensional implicational type operator and corresponding residuation laws: the first binary dimension is reserved for the usual left- vs. right- application distinction, whereas the second binary dimension specifies whether the head occurs to the left or to the right; the result is four unique ways of building up an implication.
 Congruent with the substructural trend of revealing structure that was once hidden, this division brings forth a two-valued structural binder, allowing the corresponding logic $\logic{DNL}$ to reason about \textit{headed} binary trees.
 The authors refrain from commiting to a specific linguistic application, but, translated into our terminology, their proposal can be schematically summarized by Figure~\ref{figure:heads_and_phrases}.
-Further away from syntax, ~\citet{hendriks1997logic} employs \logic{DNL} to account for prosodic structures, where the head is assigned to intonationally prominent elements.
+Further away from syntax, \citet{hendriks1997logic} employs \logic{DNL} to account for prosodic structures, where the head is assigned to intonationally prominent elements.
 
 \begin{figure}
 	\centering
@@ -297,10 +297,9 @@ The generalization is a multimodal type system consisting of modal pairs:
 \begin{equation}
 \{(\ddia{d}, \dbox{d}) \ | \ {\dep{d} \in \deps} \} 
 \end{equation}
-where \deps{} the full set of dependency labels made available to each specific instantiation of the theory%
+where \deps{} the full set of dependency labels made available to each specific instantiation of the theory.%
 \footnote{Note that the label set can vary depending on the designer's end goal; grammatical functions is just one of the possibilities.
 	The setup is also more than compatible with frame semantics, where event-specific semantic structures (\textit{frames}) are evoked by lexicalized syntactic heads to assign semantic/thematic roles to their dependents (\textit{frame elements})~\cite{fillmore1976frame}.}%
-.
 The edge case of \deps{} being a singleton set collapses to the previous exposition (whereby explicit labeling is redundant).
 
 Each instance of a labeled modality will now come with its own introduction and elimination rules.
@@ -415,8 +414,8 @@ Utilizing the now explicit boundaries of dependency domains, we can repurpose th
 		{\Gamma\ctx{\dbra{\dbra{\Phi}{obj},\Delta}{d}} \vdash \prop{a}}
 		{\Gamma\ctx{\dbra{\Delta, \dbra{\Phi}{obj}}{d}} \vdash \prop{a}}
 \end{equation}
-which can be read as saying that an object can be preposed within its local \dep{d}-labeled clause, if one such is nested within $\Gamma$%
-	\footnote{In reality, we would need to mark complete clauses to remove the possibility of arbitrary shuffling and accidental overgeneration, but this can be trivially accomplished by boxing the phrasal end-result, e.g. $\ddia{su}\np[s]\divleft\dbox{cl}{\s[s]}$ for an intransitive, where \dep{cl} would mark a complete clause and assume the role of \dep{d} in (\ref{equation:fronting}).}.	
+which can be read as saying that an object can be preposed within its local \dep{d}-labeled clause, if one such is nested within $\Gamma$.%
+	\footnote{In reality, we would need to mark complete clauses to remove the possibility of arbitrary shuffling and accidental overgeneration, but this can be trivially accomplished by boxing the phrasal end-result, e.g. $\ddia{su}\np[s]\divleft\dbox{cl}{\s[s]}$ for an intransitive, where \dep{cl} would mark a complete clause and assume the role of \dep{d} in (\ref{equation:fronting}).}
 In principle, this could simplify the categorial treatment of such phenomena: one can always start with a canonical derivation, e.g. one where all arguments are in their expected positions, and proceed by shuffling them around given the structural rule inventory.
 As a bonus, adorning these rules with non-void term rewrites would allow them to upkeep their relevance for pragmatics.
 Exciting (or not) as this might sound, it was only ever meant to incentivize the use of dependency modalities; it won't be something we will be pursuing presently, for we have another kind of beast to face.
@@ -750,8 +749,8 @@ With these in mind, we arrive at the following (modulo permutation) inductive de
 	\underbrace{\dbra{\Gamma_n}{d_n} \dots \dbra{\Gamma_{n + m - 1}}{d_{n + m -1}}}_{\text{complements}} \ 
 	\underbrace{\vphantom{\Gamma_0^a}\kappa}_{\text{head}} \
 \end{equation}
-Converting such a structure to a dependency tree akin to the one of Figure~\ref{figure:udparse} is pleasantly easy: just apply the function below to it (plug an invisible ``root'' node and label to get things going)%
-\footnote{For the more verbally inclined, we need to simply enter every dependency domain and establish an arc from the local head to (the head of) each of its dependents.}:
+Converting such a structure to a dependency tree akin to the one of Figure~\ref{figure:udparse} is pleasantly easy: just apply the function below to it (plug an invisible ``root'' node and label to get things going).%
+\footnote{For the more verbally inclined, we need to simply enter every dependency domain and establish an arc from the local head to (the head of) each of its dependents.}
 \begin{align*}
 & \mathsf{deptree :: Struct \to Head \to \deps \to Set[Arc]}\\
 & \mathsf{deptree} \ 
@@ -830,7 +829,17 @@ In the edge case, they open the possibility for a homomorphic translation that `
 
 
 \section{Key References \& Further Reading}
-\todo
+The chapter has presented novel work, assembled and expanded from streamlined bits and pieces of earlier published drafts.
+The good news is you're reading the most extensive overview available at the time of writing.
+The bad news is I don't have much references for you -- if it's any consolation, there's still two more chapters to go.
+Of work not included in this chapter or the ones to come, the one by \citet{rouss} has dependency modalities play a key role in the annotation and generation of complex verb clusters with subtle semantic dependencies, the recursive nature of which seems to break the omnipotence attributed to neural language models.
+For a less avant-garde reading, I'd like to draw your attention to this chapter's historical roots, namely the manuscript of \citet{moortgat1991heads}.
+If unsated you crave for more modalities-as-dependencies, you have the option of either writing something yourself or waiting until someone else does.\footnote{Calling it now, next big development in Moortgat et al. [2051].}
+
+More broadly and outside their use as dependency markers, unary modalities have long now been a tempting way to encode linguistic features -- see \citet{moa} and \citet{10.7551/mitpress/6169.003.0012,johnson1999resource}, for instance.
+Further away from our niche territories, the relation between dependency grammars and lexicalism is extensively analyzed by \citet{kuhlmann2010dependency}, who asks (and answers) the question of which formal grammars induce what kind of dependency structures.
+On a relevant note, the slightly disheveled categorial dependency grammars make for an attempt to provide a categorial treatment of dependency structure, where the arcs and their labels are themselves the grammar's propositional constants~\cite{dekhtyar2015categorial}.
+For even more general literature on constituency grammars, dependency grammars or instantiations thereof, I will unfortunately have to direct you towards your favorite web search engine.
 
 
 \bibliographystyle{abbrvnat}

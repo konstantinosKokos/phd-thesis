@@ -23,7 +23,7 @@ We'll go for this one.
 This choice has some methodological repercussions.
 Under more tranquil circumstances, we'd wait for the theory to be disseminated, criticized, adapted, error-corrected and returned to sender, before finally moving on; it being a theory of language, this would entail a thorough qualitative analysis of several kinds of linguistic phenomena, coupled with a theoretical investigation of what it can or cannot adequately capture.
 We are however in a compressed timeframe, forcing our hand into putting it straight to the test; the pragmatic approach is then to try and directly align it with real-world linguistic data at scale, and hope for the best.
-The process, called \textit{proof extraction}, revolves around ``proving''  some source corpus of syntactically annotated sentences via the design and application of an algorithm tasked with translating the existing annotation format into derivations of the target grammar.
+The process, called \textit{proof extraction}, revolves around ``proving''  some source corpus of syntactically annotated sentences via the design and application of an algorithm tasked with translating the existing annotation format into derivations of the target grammar -- in our case, a grammar of dependency-enhanced semantic compositionality.
 Proof extraction serves a ternary purpose.
 One, it gives us access to an uncompromisingly realistic testbed upon which we can immediately inspect and iteratively finetune the specifics of the grammar logic.
 Two, it fills in for a strict and impartial external critic in providing a quantitative evaluation regime -- at each point in time, we are able to measure the proportion of source analyses (and corresponding linguistic phenomena) the algorithm provides a (reasonable) output for.
@@ -31,7 +31,6 @@ And three, the end-yield of this process has merit of its own.
 As a derived dataset, it is first a building block necessary for populating the computational toolshed of the theory, and also a public resource for the world to with as they please.
 
 \section{Preliminaries}
-
 \subsection{The Dutch Language}
 For our linguistic inquiries, the focus will be on Dutch.
 Other than being the language I was contractually obliged to conduct this research on, Dutch is an interesting specimen, the idiosyncracies of which have in the past proven quite a topic of debate for others, and a source of headaches for myself.
@@ -232,13 +231,6 @@ Combined with with the modal \texttr{hebben}{to have} (or exceptionally \textex{
 \ex
 \end{exe}
 Combined with the modals \texttr{worden}{to become} and \texttr{zijn}{to be}, it produces the passive voice and its perfect tense.
-%\todo
-%\begin{exe}
-%\ex
-%\gll Ge-zegen-d zijn de on-ge-bog-en\\
-%\abbrv{pst.ptcp}-bless-\abbrv{pst.ptcp} are the \abbrv{neg}-\abbrv{pst.ptcp}-bow-\abbrv{nmlz.pl}\\
-%\glt{`Blessed are the unbowed.'}
-%\end{exe}
 
 \paragraph{Infinitives}
 Infinitival forms commonly occur as the verbal complements of a modal, auxiliary or perception verb.
@@ -290,9 +282,10 @@ The main clauses inspected so far emanate a false sense of safety, coming off as
 The truth is far more sinister -- the verb is placed there only by exception, abiding by the V2 rule that has it appear second for matrix clauses only.
 The effect becomes apparent when employing a preverbal adverb -- in Gloss~\ref{gloss:simple_smain_v2}, both the subject and its predicate complement follow the verb in a VSO pattern.
 
+
 \paragraph{Questions and Imperatives}
 When it comes to questions, things look familiar again.
-Line in English, wh-questions begin with an interrogative pronoun or adverb (e.g. \texttr{wie}{who}, \texttr{waar}{where}, \texttr{welk}{which}, \texttr{waarom}{why} etc.), which is immediately followed by the conjugated verb (Gloss~\ref{gloss:simple_whq}).
+Line in English, wh-questions begin with an interrogative pronoun or adverb (e.g. \texttr{wie}{who}, \texttr{wat}{what}, \texttr{welk}{which}, \texttr{waarom}{why} etc.), which is immediately followed by the conjugated verb (Gloss~\ref{gloss:simple_whq}).
 In direct questions without an interrogative, as well as positive imperatives, the verb is placed first (Glosses~\ref{gloss:simple_sv1_q} and \ref{gloss:simple_sv1_imp}).
 In negative imperative sentences and impersonal commands, the infinitival is placed last.
 
@@ -321,7 +314,6 @@ sell(\abbrv{imp}) cheese\\
 \glt{`Sell cheese!'}
 \end{xlist}
 \end{exe}
-
 
 \paragraph{Subordinate Clauses}
 Subordinate clauses is where things really get interesting.
@@ -362,8 +354,8 @@ the church(\abbrv{nn}) that(\abbrv{nn}) vuur(\abbrv{n}) consumes\\
 
 The SOV order means that the chaining of verbs requiring non-finite complements inadvertently leads to \textit{verb clusters}, i.e. collections of two or more verbs situated within the dependent clause and adjacent to one another.
 Verb clusters are marked by their inability to accommodate non-verbal material, and may follow a number of different word orders, which don't necessarily abide by the order of selectional dominance.
-The question of which factors influence the grammaticality of word order variations  is a hot potato and a topic of active research for decades -- to make matters worse, these factors tend to differ between regional variations of the language%
-	\footnote{As a fun trivia,  out of the 6 possible orderings of 3-verb clusters, 4 to 5 were found admissible by Dutch speakers depending on the construction~\cite{3vc}.}.
+The question of which factors influence the grammaticality of word order variations  is a hot potato and a topic of active research for decades -- to make matters worse, these factors tend to differ between regional variations of the language.%
+	\footnote{As a fun trivia,  out of the 6 possible orderings of 3-verb clusters, 4 to 5 were found admissible by Dutch speakers depending on the construction~\cite{3vc}.}
 What follows are some simplified common observations -- the interested reader should find the thesis of~\citet{augustinus2015complement} a good entry point towards more detailed discussions.
 
 For starters, bare infinitives usually follow their governor -- but: this is not necessarily the case for clusters of 2 verbs where the finite verb is a modal.
@@ -437,9 +429,8 @@ I think that he something tries to say(\abbrv{inf})\\
 \end{xlist}
 \end{exe}
 
-Typology aside, Dutch verb clusters have been a favorite topic of debate for formal grammarians for a while now, since their construction requires expressive capacity beyond what a context-free grammar can offer, and thus brinking an end to any delusion that human languages are context-free%
+Typology aside, Dutch verb clusters have been a favorite topic of debate for formal grammarians for a while now, since their construction requires expressive capacity beyond what a context-free grammar can offer, and thus brinking an end to any delusion that human languages are context-free~\cite[\textit{inter alia}]{huybregts1984weak,shieber1985evidence}.%
 	\footnote{Or, depending on the reader, that Dutch is a human language.}%
-~\cite[\textit{inter alia}]{huybregts1984weak,shieber1985evidence}.
 The impenetrable nature of verb clusters means that verbs that partake in their construction may often be forced to detach from their arguments, or worse yet become stranded from them by the infixation of another verb in between -- in the dependency grammar paradigm, these discontinuities materialize as non-projective (or cross-serial) dependencies -- see Figure~\ref{figure:xdep_udparse} for an example.
 
 \begin{figure}
@@ -468,28 +459,74 @@ The impenetrable nature of verb clusters means that verbs that partake in their 
 \end{figure}
 
 \paragraph{Adverbs}
-When not appearing in the emphatic first position, adverbs must occur after definite objects and before indefinite ones
+Last item on the agenda are adverbs, commonly enacted by uninflected adjectives.
+When not appearing in the emphatic first position, adverbial phrases must occur after definite objects and before indefinite ones, their internal order following a time-manner-location pattern.
 \begin{exe}
 \ex
-\gll Vrouwen wijzen de onderdrukker in Koerdistan al jaren resoluut af.\\
-women reject\\
-\trans{`Women staunchly reject the oppressor for years in Kurdistan.'}
+\gll Turkse varkens doden momenteel laf burgers in Koerdistan.\\
+Turkish pigs kill currently coward(\abbrv{adv}) civilians in Kurdistan\\
+\glt{`Turkish pigs are cowardly killing civilians in Kurdistan right now.'}
+\end{exe}
+Adverbial counterparts to pronouns make for locative adverbs (i.e. \textex{dit} becomes \texttr{hier}{here}, \textex{dat} becomes \texttr{daar}{there}, \textex{wat} becomes \texttr{waar}{where}, etc.). 
+Unique among them is \textex{er} from the singular neuter personal pronoun \textex{het}, which finds use as an unstressed locative or a subject-filler for an impersonal passive.
+\begin{exe}
+\ex
+\gll Er is geen zaken doen op een dode planeet.\\
+there is no business make(\abbrv{inf}) on a dead planet\\
+\glt{`There is no business on a dead planet.'}
+\end{exe}
+When a preposition would apply to a singular neuter pronoun, the adverbial form is commonly employed instead; their positions are inverted, and if they end up adjacent they become fused, giving rise to a so-called  pronominal adverb.
+Pronominal adverbs are common in Dutch, and find use as interrogative adverbs or relative pronouns.
+\begin{exe}
+\ex
+\begin{xlist}
+\ex[*]{\textit{Wat prat je over?}}
+\ex
+\gll Waar praat je over?\\
+what talk you about\\
+\ex
+\gll Waarover praat je?\\
+what.about talk you\\
+\glt{`What are you talking about?'}
+\ex
+\gll We praten erover.\\
+we speak it.about\\
+\glt{`We are talking about it.'}
+\end{xlist}
 \end{exe}
 
-%A special class of adverbs are the counterpart of demonstrative pronouns.
-%, called pronominals, are formed by the merger of a preposition and the
 
-\paragraph{Conjunction}
+\subsection{Parsing vs. Parsing}
+With this lengthy detour over, we arrive at some painful truths: if there's any message to take home, it's the sheer amount of complexity inherent in a natural language grammar.
+Nominals come with a ton of morphosyntactic rules, exposing the fact that there's no syntactic entity as simple and unmarked as the idealized \np[s] we have extensively utilized in earlier chapters.
+The erroneous ommission or addition of as much as an inflectional marking suffices to turn a phrase ungrammatical.
+The same issue pesters verbal morphology -- combining a verb with its potential arguments requires solving a number of constraints relating to number and person (let aside any notions of semantic compatibility).
+To see these constraints solved on the type level is not out of the question; it is in fact something modalities may prove useful in~\cite{moa} -- it is, however, a problem in its own right.
+But these concerns are trivial compared to the monumental intricacies laid down by word order constraints.
+For a language like Dutch, devising the type assignments and structural rules that exactly allow the word permutations admissible by the language is a tremendous undertaking that requires navigating a complex network of layered rules and exceptions subject to regional variety.
 
-% more examples, at better spots
-% doesnt make life easier!
-% participating verbs
+That is not to say that such endeavours are without merit; a formalism that presents itself as syntactic in nature yet fails to provide a general and transparent account of morphosyntactic and word order constraints wouldn't be particularly honest.
+The above remarks bring forth, however, a question of priorities, and by implication put us at a juncture point.
+We have on the one hand the option to pursue the Lambekian holy grail: the design of a substructural type system, the proof search over which should amount to a decision procedure capable of telling sentence and non-sentence apart.
+Put in practical terms, we'd settle for nothing less than perfect alignment with the Dutch grammar -- just enough expressivity to ensure no overgeneration, no undergeneration and thorough tackling of any and all sorts of syntactic ambiguities.
+The other option is perhaps more sober -- depending on our end-goals, we can check our ambitions to a more realistic level.
+A focus on sentence formation, for instance, would justify some morphological concessions.
+But since the focus is on semantics, we're given the chance for a much more radical leap: we can also skip word order altogether.
 
-% ADVERBS?
-% PRONOMINAL
-% CONJUNCTION
-
-
+Now this might be met with some scepticism, but put down your pitchforks and let me explain.
+In the type-logical setup, we'd follow the schema of Figure~\ref{figure:synsemtlg}: start from a strict syntactic logic, and then strip it down to its bare essentials to cast it into a logic of derivational semantics, the bare essentials in our case being linear implication and the dependency modalities.
+With derivational semantics being itself the point of interest, why take the hard route instead of just going there directly?
+This is somewhat akin to the abstract categorial grammar route of Figure~\ref{figure:synsemacg}, which would have us start from a tectogrammatic logic, and transition to phenogrammar via a morphism (here left unimplemented).
+A perhaps less stretch operationalization would involve a two-stage inferential setup, the first stage being the phase of logical meaning assembly, followed by a higher-level phase of structural reorganization and reordering (here we'll gladly call it quits after the first).
+Put bluntly, this option allows us to sneak our way out of having to reason about the non-compositional aspects of syntax.%
+	\footnote{An atonement to the ghost of Montague, returned to claim his dues.}
+Obviously this alters the scope of our endeavours.
+Before any regrettable accusations are thrown, consider that we need not be apologetic for the elephant in the room, namely overgeneration.
+$\NLP_{\ddia, \bx}$ is \textit{not} intended to be the logic you put in generation mode, and its proof theory is \textit{not} Lambek's decision process.
+Rather, its an adequately expressive formalism that can capture the duality of function-argument structures and dependency annotations we set out to capture.
+The problem is more practical than theoretical: who is going to hand us these deep syntactic proofs if not for the syntax-semantics morphism?
+Suffice it to say this requires adopting a new notion of parsing (still well under the deductive paradigm) -- that of associating a well-formed input with the correct tectogrammatic analysis.
+How exactly this is to be done doesn't need to concern us for now -- we'll cross that bridge when we get to it.
 
 
 %\begin{figure}
@@ -554,7 +591,6 @@ women reject\\
 % CITE AUGUSTINUS!!
 
 
-\nocite{augustinus2015complement}
 
 \bibliographystyle{abbrvnat}
 \bibliography{bibliography}
