@@ -191,12 +191,12 @@ Figure~\ref{figure:udparse} shows an example dependency parse.
 Unlike before, we can not claim any semblance to the proofs that have occupied us thus far.
 At a first glance, dependency grammars have little in common with categorial grammars -- structures are no longer binary nor made out of phrases, the axis of grammatical functions is competely new, and there seems to be little there reminiscent of the notions of induction and composition.
 Though on closer inspection and armed with some goodwill, we can recover from some of these divergences if we make a few concessions from both sides.
-We can start by treating any collection of words rooted in the same ancestor in the dependency graph as a constituent phrase, albeit possibly discontinuous -- the result will give us at least some partial overlap with the categorial directive.
+We can start by treating any collection of words rooted in the same ancestor in the dependency tree as a constituent phrase, albeit possibly discontinuous -- the result will give us at least some partial overlap with the categorial directive.
 Grammatical functions can then be thought of as being implicit, having been internalized in their positioning within a functor.
 For instance we do intuitively know that the Lambek transitive verb $(\np[s]\divleft\s[s])\divright\np[s]$ requires an \textit{object} $\np[s]$ to the right and a \textit{subject} $\np[s]$ to the left -- marking them as such is perhaps redundant, since the verbal meaning recipe places each syntactic argument into a distinct semantic slot.
 The binary bracketing structure is irrevocably lost, but this loss can be deemed as inconsequential if we ``flatten'' functor-induced phrasal boundaries by considering them only at these intermediary points where all of their arguments (however many) have been applied.
 It is not much further we can get with this mediatory role, though.
-No concession from the categorial side would be able to justify the underspecification of higher-order phenomena in a dependency graph,
+No concession from the categorial side would be able to justify the underspecification of higher-order phenomena in a dependency tree,
 and no concession from the dependency side could make peace with the omission of the concept of headedness in an applicative natural deduction proof.
 
 
@@ -840,7 +840,6 @@ More broadly and outside their use as dependency markers, unary modalities have 
 Further away from our niche territories, the relation between dependency grammars and lexicalism is extensively analyzed by \citet{kuhlmann2010dependency}, who asks (and answers) the question of which formal grammars induce what kind of dependency structures.
 On a relevant note, the slightly disheveled categorial dependency grammars make for an attempt to provide a categorial treatment of dependency structure, where the arcs and their labels are themselves the grammar's propositional constants~\cite{dekhtyar2015categorial}.
 For even more general literature on constituency grammars, dependency grammars or instantiations thereof, I will unfortunately have to direct you towards your favorite web search engine.
-
 
 \bibliographystyle{abbrvnat}
 \bibliography{bibliography}

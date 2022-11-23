@@ -23,7 +23,7 @@ We'll go for this one.
 This choice has some methodological repercussions.
 Under more tranquil circumstances, we'd wait for the theory to be disseminated, criticized, adapted, error-corrected and returned to sender, before finally moving on; it being a theory of language, this would entail a thorough qualitative analysis of several kinds of linguistic phenomena, coupled with a theoretical investigation of what it can or cannot adequately capture.
 We are however in a compressed timeframe, forcing our hand into putting it straight to the test; the pragmatic approach is then to try and directly align it with real-world linguistic data at scale, and hope for the best.
-The process, called \textit{proof extraction}, revolves around ``proving''  some source corpus of syntactically annotated sentences via the design and application of an algorithm tasked with translating the existing annotation format into derivations of the target grammar -- in our case, a grammar of dependency-enhanced semantic compositionality.
+The process, called \textit{proof extraction}, revolves around ``proving''  some source corpus of syntactically annotated sentences via the design and application of an algorithm tasked with translating the existing annotation format into derivations of the target grammar -- in our case, a grammar of dependency-enhanced compositional assembly.
 Proof extraction serves a ternary purpose.
 One, it gives us access to an uncompromisingly realistic testbed upon which we can immediately inspect and iteratively finetune the specifics of the grammar logic.
 Two, it fills in for a strict and impartial external critic in providing a quantitative evaluation regime -- at each point in time, we are able to measure the proportion of source analyses (and corresponding linguistic phenomena) the algorithm provides a (reasonable) output for.
@@ -508,26 +508,127 @@ For a language like Dutch, devising the type assignments and structural rules th
 That is not to say that such endeavours are without merit; a formalism that presents itself as syntactic in nature yet fails to provide a general and transparent account of morphosyntactic and word order constraints wouldn't be particularly honest.
 The above remarks bring forth, however, a question of priorities, and by implication put us at a juncture point.
 We have on the one hand the option to pursue the Lambekian holy grail: the design of a substructural type system, the proof search over which should amount to a decision procedure capable of telling sentence and non-sentence apart.
-Put in practical terms, we'd settle for nothing less than perfect alignment with the Dutch grammar -- just enough expressivity to ensure no overgeneration, no undergeneration and thorough tackling of any and all sorts of syntactic ambiguities.
+Put in practical terms, we'd settle for nothing less than absolute alignment with the Dutch grammar; just enough expressivity to ensure no overgeneration, no undergeneration and a perfect resolution of any and all syntactic ambiguities.
 The other option is perhaps more sober -- depending on our end-goals, we can check our ambitions to a more realistic level.
 A focus on sentence formation, for instance, would justify some morphological concessions.
-But since the focus is on semantics, we're given the chance for a much more radical leap: we can also skip word order altogether.
+But since the focus here is on compositionality, we're given the chance for a much more radical leap: we can also skip word order altogether.
 
 Now this might be met with some scepticism, but put down your pitchforks and let me explain.
 In the type-logical setup, we'd follow the schema of Figure~\ref{figure:synsemtlg}: start from a strict syntactic logic, and then strip it down to its bare essentials to cast it into a logic of derivational semantics, the bare essentials in our case being linear implication and the dependency modalities.
 With derivational semantics being itself the point of interest, why take the hard route instead of just going there directly?
-This is somewhat akin to the abstract categorial grammar route of Figure~\ref{figure:synsemacg}, which would have us start from a tectogrammatic logic, and transition to phenogrammar via a morphism (here left unimplemented).
-A perhaps less stretch operationalization would involve a two-stage inferential setup, the first stage being the phase of logical meaning assembly, followed by a higher-level phase of structural reorganization and reordering (here we'll gladly call it quits after the first).
+This is somewhat akin to the abstract categorial grammar operationalization of Figure~\ref{figure:synsemacg}, which would have us start from a tectogrammatic logic, and transition to phenogrammar via a morphism (here left unimplemented).
+A perhaps less stretched operationalization would involve a two-stage inferential setup, the first stage being the phase of logical meaning assembly, followed by a higher-level phase of structural reorganization and reordering (here we'll call it quits immediately after the first).
 Put bluntly, this option allows us to sneak our way out of having to reason about the non-compositional aspects of syntax.%
 	\footnote{An atonement to the ghost of Montague, returned to claim his dues.}
 Obviously this alters the scope of our endeavours.
 Before any regrettable accusations are thrown, consider that we need not be apologetic for the elephant in the room, namely overgeneration.
 $\NLP_{\ddia, \bx}$ is \textit{not} intended to be the logic you put in generation mode, and its proof theory is \textit{not} Lambek's decision process.
-Rather, its an adequately expressive formalism that can capture the duality of function-argument structures and dependency annotations we set out to capture.
-The problem is more practical than theoretical: who is going to hand us these deep syntactic proofs if not for the syntax-semantics morphism?
-Suffice it to say this requires adopting a new notion of parsing (still well under the deductive paradigm) -- that of associating a well-formed input with the correct tectogrammatic analysis.
+Rather, its an adequately expressive formalism that can accommodate the duality of function-argument structures and dependency annotations we set out to capture.
+The problem is more practical than theoretical: who is going to hand us these deep syntactic proofs if not for the morphism that was promised?
+Suffice it to say this requires adopting a new notion of parsing (still well under the deductive paradigm): that of associating a well-formed input with the correct tectogrammatic analysis.
 How exactly this is to be done doesn't need to concern us for now -- we'll cross that bridge when we get to it.
 
+\subsection{Lassy}
+To facilitate the agenda just established, what we need next is a sizeable resource of syntactic annotations that are both high-quality and sufficiently compatible to our needs.
+Fortunately, the search is rather short -- the only candidate is also the perfect one: Lassy~\cite{van2013large}.
+
+Lassy consists of two annotated corpora, containing sentences paired with a single analysis.
+Analyses are provisioned by Alpino~\cite{van2006last}, a powerful parser that stands the test of time by combining a high quality handcrafted lexicon, a statistical feature disambiguation model and a sophisticated collection of phrase formation rules based on the HPSG framework~\cite{pollard1994head}.
+Alpino annotations are described as spanning three axes: a hierarchical one, answering which words form a phrase, a relational one, answering what the grammatical functions between words are, and a categorial one, answering what the syntactic labels of each word and phrase are.
+Unlike shallow dependency grammars, Alpino does not shy away from higher-order phenomena, formating annotations as dependency \textit{graphs} rather than trees by employing \textit{secondary} edges to represent words that assume multiple syntactic functions.
+Expanded into the equivalent tree by node duplication, the sentential structure is visualized as a tree of nodes connected by named edges.
+There's two types of nodes: material nodes represent words and phrases, whereas phantom nodes represent elided constituents -- every phantom node is associated to a material one.
+Material nodes are assigned a categorial label, either a part of speech tag (in the case of a terminal node representing a word) or a syntactic category (in the case of a non-terminal representing a phrase).%
+	\footnote{Terminal nodes are in fact assigned tags from two distinct sets: a simplified one (denoted \textbf{pos}) and an extended one (denoted \textbf{postag}). The latter in turns consist of a generic label (denoted \textbf{pt}) and a set of label-specific morphological values.
+	Consistent with our dismissal of morphological constraints, we use \textbf{pt} in what follows, but this is by no means a hard constraint -- a short discussion will follow later.}
+The categorial label of a phantom node may be retrieved by inspecting its material counterpart.
+Word order has no bearing on the tree structure -- the span of each material node in the sentence is just an attribute of the node.
+A material phrasal node connects to its constituents (themselves nodes of any kind) by virtue of directed edges labeled with grammatical functions.
+Modulo some exceptional cases, each phrasal node emits exactly one head-labeled edge, the rest being a combination of complements and adjuncts.
+An example analysis as provided by Lassy is shown in Figure~\ref{figure:example_lassy_tree}.%
+\footnote{For a detailed exposition of Lassy annotation guidelines, refer to \url{http://www.let.rug.nl/vannoord/Lassy/sa-man_lassy.pdf} (in Dutch).}
+
+Of the two corpora only the smallest one is of real interest.
+Lassy Small includes approximately 65\,000 sentences, amassing a total of almost 1 million words. 
+Its annotations have been manually checked, corrected and externally validated, with a reported 97.8\% of sentences correctly analyzed, and a 98.63\% of tokens correctly tagged -- neither perfect, but both more than good enough for our present needs.
+Its larger sibling favors quantity over quality -- it is more than 500 times the size, but an ill-fit for our endeavours, being the parser's unmodified output.
+
+The first three columns of Table~\ref{table:catset} present a summary of the categorial labels used, together with their occurrence ratios among material nodes of the same type.
+
+\begin{figure}
+	\includegraphics[width=1\textwidth]{./prebuilt/parse_example.pdf}
+	\lassycap
+		{WS-U-E-A-0000000013.p.37.s.1}
+		{Op dit moment wordt hard gewerkt in en rond Jeruzalem.}
+		{At the moment there is hard work being done in and around Jerusalem.}
+	\caption{Example Lassy graph. Note the identification of nodes 15 and 18 by a common index, marking the double use of \textex{Jeruzalem} as the direct object of prepositioal phrases 13 and 16.}
+	\label{figure:example_lassy_tree}
+\end{figure}
+
+\begin{table}
+\begin{tabularx}{1\textwidth}{@{}cccc@{}}
+      \textbf{Tag} & \textbf{Description} & \textbf{Frequency} (\%) & \textbf{Assigned Type}\\
+      \toprule
+      \multicolumn{3}{@{}c@{}}{Lexical POS Tags}\\ 
+%      \textit{adj} & Adjective & 7.3 & \type{adj}\\
+%      \textit{bw} & Adverb & 4.5 & \textsc{bw}\\
+%      \textit{let} & Punctuation & 11.2 & \textsc{let}\\
+%      \textit{lid} & Article & 10.7 & \textsc{lid}\\
+%      \textit{n} & Noun & 22.5 & \textsc{n}\\
+%      \textit{spec} & Special Token & 3.5 & \textsc{spec}\\
+%      \textit{tsw} & Interjection & $<$0.1 & \textsc{tsw}\\
+%      \textit{tw} & Numeral & 2.4 & \textsc{tw}\\
+%      \textit{vg} & Conjunction & 4.2 & \textsc{vg}\\
+%      \textit{vnw} & Pronoun & 6.5 & \textsc{vnw}\\
+%      \textit{vz} & Preposition & 13.7 & \textsc{vz}\\
+%      \textit{ww} & Verb & 13.2 & \textsc{ww}\\
+%      \midrule[0.005pt]
+%      \multicolumn{3}{c}{Phrasal Category Tags}\\
+%      \midrule[0.005pt]
+%      \textit{advp} & Adverbial Phrase & 0.6 & \textsc{adv}\\
+%      \textit{ahi} & Aan-Het Infinitive & $<$0.1 & \textsc{ahi}\\
+%      \textit{ap} & Adjectival Phrase & 2.1 & \textsc{ap}\\
+%      \textit{cp} & Complementizer Phrase & 3.3 & \textsc{cp}\\
+%      \textit{detp} & Determiner Phrase & 0.2 & \textsc{detp}\\
+%      \textit{inf} & Bare Infinitival Phrase & 4.7 & \textsc{inf}\\
+%      \textit{np} & Noun Phrase & 36.7 & \textsc{np}\\
+%      \textit{oti} & Om-Te Infinitive & 0.8 & \textsc{oti}\\
+%      \textit{pp} & Prepositional Phrase & 23.2 & \textsc{pp}\\
+%      \textit{ppart} & Past Participial Phrase & 4.2 & \textsc{ppart}\\
+%      \text{ppres} & Present Participial Phrase & 0.1 & \textsc{ppres}\\
+%      \textit{rel} & Relative Clause & 1.9 & \textsc{rel}\\
+%      \textit{smain} & SVO Clause & 4.7 & \textsc{smain}\\
+%      \textit{ssub} & SOV Clause & 0.8 & \textsc{ssub}\\
+%      \textit{sv1} & VSO Clause & $<$0.1& \textsc{sv1}\\
+%      \textit{svan} & Van Clause & $<$0.1 &\textsc{svan}\\
+%      \textit{ti} & Te Infinitive & 1.8 &\textsc{ti}\\
+%      \textit{whq} & Main WH-Q & 0.1 & \textsc{whq}\\
+%      \textit{whrel} & Free Relative & 0.2 &\textsc{whrel}\\
+%      \textit{whsub} & Subordinate WH-Q & 0.2 & \textsc{whsub}\\
+%      \textit{du} & Discourse Unit & 2.6 & N/A*\\
+%      \textit{mwu} & Multi-Word Unit & 5.9 & N/A*\\
+%      \textit{conj} & Conjunct & 5.7 & N/A*\\
+%      \midrule[0.005pt]
+\end{tabularx}
+\caption{\todo}
+\label{table:catset}
+\end{table}
+
+
+\section{Extraction Algorithm}
+The stage is set.
+We need to devise an algorithm that accepts trees like the one of Figure~\ref{figure:example_lassy_tree} and spits out proofs in $\NLP_{\diamond,\bx}$.
+For such an endeavour to be successful, we must first do our best to ensure that the tree is in fact compatible with the target logic, which is unfortunately not always the case.
+The first step is therefore to massage any rough edges with a series of non-trivial transformations aimed at fixing inconsistent formattings and underspecified annotations.
+
+\subsection{Transformations}
+Despite its admittedly high quality, Lassy has not been built with a strong focus towards compositionality.
+This reflects in several design decisions that de facto necessitate some global concessions and adaptations, and some local emergency measures, ranging from targeted transformations in the best case, to occassionally just giving up on a sample in the worst.
+
+\subsubsection{Non-Compositional Annotations}
+The biggest problem that we are faced with right off the boat is the abundance of generic, multi-purpose annotation schemes to convey non-compositional syntactic structure.
+These come in two flavours -- the sentential, and the phr
+%The full list of node labels employed by the corpus, paired with a brief explanation and an occurrence 
 
 %\begin{figure}
 %	\begin{tikzpicture}
@@ -579,16 +680,6 @@ How exactly this is to be done doesn't need to concern us for now -- we'll cross
 %	\end{tikzpicture}
 %	\label{figure:plot:assignment_occurrence_ecdf}
 %\end{figure}
-
-%The SOV word order of subordinate clauses can at times be a major source of headaches.
-%For starters, Dutc relative pronouns
-%For starts, when the object position is occupied by a verbal complement, 
-% not a real language
-
-
-% motivate non-directionality
-
-% CITE AUGUSTINUS!!
 
 
 
