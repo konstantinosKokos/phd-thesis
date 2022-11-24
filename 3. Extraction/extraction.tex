@@ -553,7 +553,8 @@ Lassy Small includes approximately 65\,000 sentences, amassing a total of almost
 Its annotations have been manually checked, corrected and externally validated, with a reported 97.8\% of sentences correctly analyzed, and a 98.63\% of tokens correctly tagged -- neither perfect, but both more than good enough for our present needs.
 Its larger sibling favors quantity over quality -- it is more than 500 times the size, but an ill-fit for our endeavours, being the parser's unmodified output.
 
-The first three columns of Table~\ref{table:catset} present a summary of the categorial labels used, together with their occurrence ratios among material nodes of the same type.
+Table~\ref{table:catset} and Table~\ref{table:depset} present aggregated summaries of the syntactic category tags and depedency labels used.%
+\footnote{Sourced from \url{http://nederbooms.ccl.kuleuven.be/eng/tags}.}
 
 \begin{figure}
 	\includegraphics[width=1\textwidth]{./prebuilt/parse_example.pdf}
@@ -566,52 +567,95 @@ The first three columns of Table~\ref{table:catset} present a summary of the cat
 \end{figure}
 
 \begin{table}
-\begin{tabularx}{1\textwidth}{@{}cccc@{}}
-      \textbf{Tag} & \textbf{Description} & \textbf{Frequency} (\%) & \textbf{Assigned Type}\\
-      \toprule
-      \multicolumn{3}{@{}c@{}}{Lexical POS Tags}\\ 
-%      \textit{adj} & Adjective & 7.3 & \type{adj}\\
-%      \textit{bw} & Adverb & 4.5 & \textsc{bw}\\
-%      \textit{let} & Punctuation & 11.2 & \textsc{let}\\
-%      \textit{lid} & Article & 10.7 & \textsc{lid}\\
-%      \textit{n} & Noun & 22.5 & \textsc{n}\\
-%      \textit{spec} & Special Token & 3.5 & \textsc{spec}\\
-%      \textit{tsw} & Interjection & $<$0.1 & \textsc{tsw}\\
-%      \textit{tw} & Numeral & 2.4 & \textsc{tw}\\
-%      \textit{vg} & Conjunction & 4.2 & \textsc{vg}\\
-%      \textit{vnw} & Pronoun & 6.5 & \textsc{vnw}\\
-%      \textit{vz} & Preposition & 13.7 & \textsc{vz}\\
-%      \textit{ww} & Verb & 13.2 & \textsc{ww}\\
-%      \midrule[0.005pt]
-%      \multicolumn{3}{c}{Phrasal Category Tags}\\
-%      \midrule[0.005pt]
-%      \textit{advp} & Adverbial Phrase & 0.6 & \textsc{adv}\\
-%      \textit{ahi} & Aan-Het Infinitive & $<$0.1 & \textsc{ahi}\\
-%      \textit{ap} & Adjectival Phrase & 2.1 & \textsc{ap}\\
-%      \textit{cp} & Complementizer Phrase & 3.3 & \textsc{cp}\\
-%      \textit{detp} & Determiner Phrase & 0.2 & \textsc{detp}\\
-%      \textit{inf} & Bare Infinitival Phrase & 4.7 & \textsc{inf}\\
-%      \textit{np} & Noun Phrase & 36.7 & \textsc{np}\\
-%      \textit{oti} & Om-Te Infinitive & 0.8 & \textsc{oti}\\
-%      \textit{pp} & Prepositional Phrase & 23.2 & \textsc{pp}\\
-%      \textit{ppart} & Past Participial Phrase & 4.2 & \textsc{ppart}\\
-%      \text{ppres} & Present Participial Phrase & 0.1 & \textsc{ppres}\\
-%      \textit{rel} & Relative Clause & 1.9 & \textsc{rel}\\
-%      \textit{smain} & SVO Clause & 4.7 & \textsc{smain}\\
-%      \textit{ssub} & SOV Clause & 0.8 & \textsc{ssub}\\
-%      \textit{sv1} & VSO Clause & $<$0.1& \textsc{sv1}\\
-%      \textit{svan} & Van Clause & $<$0.1 &\textsc{svan}\\
-%      \textit{ti} & Te Infinitive & 1.8 &\textsc{ti}\\
-%      \textit{whq} & Main WH-Q & 0.1 & \textsc{whq}\\
-%      \textit{whrel} & Free Relative & 0.2 &\textsc{whrel}\\
-%      \textit{whsub} & Subordinate WH-Q & 0.2 & \textsc{whsub}\\
-%      \textit{du} & Discourse Unit & 2.6 & N/A*\\
-%      \textit{mwu} & Multi-Word Unit & 5.9 & N/A*\\
-%      \textit{conj} & Conjunct & 5.7 & N/A*\\
-%      \midrule[0.005pt]
-\end{tabularx}
-\caption{\todo}
-\label{table:catset}
+	\centering
+	\begin{tabularx}{0.925\textwidth}{@{}cccc@{}}
+	      \textbf{Tag} & \textbf{Description} & \textbf{Frequency} (\%) & \textbf{Assigned Type}\\
+	      \toprule
+	      \multicolumn{4}{@{}c@{}}{Lassy Short POS Tags}\\
+	      \midrule[0.005pt]
+	      \textit{adj} & Adjective & 7.3 & \adj[s]\\
+	      \textit{bw} & Adverb & 4.5 & \bw[s]\\
+	      \textit{let} & Punctuation & 11.2 & \letter[s]\\
+	      \textit{lid} & Article & 10.7 & \lid[s]\\
+	      \textit{n} & Noun & 22.5 & \n[s]\\
+	      \textit{spec} & Special Token & 3.5 & \n[s]\\
+	      \textit{tsw} & Interjection & $<$0.1 & \tsw[s]\\
+	      \textit{tw} & Numeral & 2.4 & \tw[s]\\
+	      \textit{vg} & Conjunction & 4.2 & \vg[s]\\
+	      \textit{vnw} & Pronoun & 6.5 & \vnw[s]\\
+	      \textit{vz} & Preposition & 13.7 & \vz[s]\\
+	      \textit{ww} & Verb & 13.2 & \ww[s]\\
+	      \midrule[0.005pt]
+	      \multicolumn{4}{@{}c@{}}{Lassy Phrasal Categories}\\
+	      \midrule[0.005pt]
+	      \textit{advp} & Adverbial Phrase & 0.6 & \adv[s]\\
+	      \textit{ahi} & Aan-Het Infinitive & $<$0.1 & \ahi[s]\\
+	      \textit{ap} & Adjectival Phrase & 2.1 & \adjp[s]\\
+	      \textit{cp} & Complementizer Phrase & 3.3 & \cp[s]\\
+	      \textit{detp} & Determiner Phrase & 0.2 & \detp[s]\\
+	      \textit{inf} & Bare Infinitival Phrase & 4.7 & \infp[s]\\
+	      \textit{np} & Noun Phrase & 36.7 & \np[s]\\
+	      \textit{oti} & Om-Te Infinitive & 0.8 & \oti[s]\\
+	      \textit{pp} & Prepositional Phrase & 23.2 & \pp[s]\\
+	      \textit{ppart} & Past Participial Phrase & 4.2 & \ppart[s]\\
+	      \text{ppres} & Present Participial Phrase & 0.1 & \ppres[s]\\
+	      \textit{rel} & Relative Clause & 1.9 & \rel[s]\\
+	      \textit{smain} & SVO Clause & 4.7 & \smain[s]\\
+	      \textit{ssub} & SOV Clause & 0.8 & \ssub[s]\\
+	      \textit{sv1} & VSO Clause & $<$0.1& \svi[s]\\
+	      \textit{svan} & Van Clause & $<$0.1 & \svan[s]\\
+	      \textit{ti} & Te Infinitive & 1.8 & \ti[s]\\
+	      \textit{whq} & Main WH-Q & 0.1 & \whq[s]\\
+	      \textit{whrel} & Free Relative & 0.2 & \whrel[s]\\
+	      \textit{whsub} & Subordinate WH-Q & 0.2 & \whsub[s]\\
+	      \textit{du} & Discourse Unit & 2.6 & --\\
+	      \textit{mwu} & Multi-Word Unit & 5.9 & --\\
+	      \textit{conj} & Conjunct & 5.7 & --
+	\end{tabularx}
+	\caption{Lassy POS tags and phrasal category labels, and corresponding atomic types.}
+	\label{table:catset}
+\end{table}
+
+\begin{table}
+	\centering
+	\begin{tabularx}{0.925\textwidth}{@{}cccc@{}}
+	      \textbf{Label} & \textbf{Description} & \textbf{Frequency} (\%) & \textbf{Modality}\\
+	      \toprule
+	      \textit{app} & Apposition & 0.8 & $\dbox{app}$\\
+	      \textit{body} & WH-question Body & 0.1 & $\ddia{whbody}$\\
+	      \textit{body} & Relative Clause Body &0.1& $\ddia{relcl}$\\
+	      \textit{body} & Complementizer body & 2 & $\ddia{cmpbody}$\\
+	      \textit{cnj} & Conjunct &4.3& $\ddia{cnj}$\\
+	      \textit{crd} & Coordinator &1.9& --\\
+	      \textit{det} & Determiner &9.7& $\dbox{det}$\\
+	      \textit{dlink} & Discourse Link & 0.2 & --\\
+	      \textit{dp} & Discourse Part & 0.8 & --\\
+	      \textit{hd} & Phrasal Head & 27.8 &-- \\
+	      \textit{hdf} & Final Part of Circumposition & $<$0.1 & $\ddia{hdf}$\\
+	      \textit{ld} & Locative Complement &0.5& $\ddia{ld}$\\
+	      \textit{me} & Measure Complement &0.1& $\ddia{me}$\\
+	      \textit{mod} & Modifier &16.4& $\dbox{mod}$\\
+	      \textit{mwu} & Multi-word Part &5.1& --\\
+	      \textit{nucl} & Nuclear Clause &0.5& --\\
+	      \textit{obcomp} & Comparison Complement &0.1& $\ddia{obcomp}$\\      
+	      \textit{obj1} & Direct Object &10.8& $\ddia{obj1}$\\
+	      \textit{obj2} & Secondary Object &0.2& $\ddia{obj2}$\\
+	      \textit{pc} & Prepositional Complement &10.6& $\ddia{pc}$\\      
+	      \textit{pobj1} & Preliminary Direct Object &$<$0.1& $\ddia{pobj1}$\\      
+	      \textit{predc} & Predicative Complement &1.3& $\ddia{predc}$\\      
+	      \textit{predm} & Predicative Modifier &0.1& $\dbox{predm}$\\      
+	      \textit{sat} & Satellite &0.2& --\\
+	      \textit{se} & Obligatory Reflexive Object &0.7& $\ddia{se}$\\      
+	      \textit{su} & Subject &6.9& $\ddia{su}$\\
+	      \textit{sup} & Preliminary Subject &$<$0.1& $\ddia{sup}$\\
+	      \textit{svp} & Separable Verbal Participle &0.7& $\ddia{svp}$\\   
+	      \textit{vc} & Verbal Complement &2.8& $\ddia{vc}$\\
+	      \textit{tag} & Appendix &0.1& $\ddia{tag}$\\
+	      \textit{whd} & WH-question Head &0.1 & --\\
+	      \textit{rhd} & Relative Clause Head & 0.1 & --\\
+	\end{tabularx}
+	\caption{Lassy dependency labels, and corresponding modalities.}
+	\label{table:depset}
 \end{table}
 
 
@@ -619,16 +663,24 @@ The first three columns of Table~\ref{table:catset} present a summary of the cat
 The stage is set.
 We need to devise an algorithm that accepts trees like the one of Figure~\ref{figure:example_lassy_tree} and spits out proofs in $\NLP_{\diamond,\bx}$.
 For such an endeavour to be successful, we must first do our best to ensure that the tree is in fact compatible with the target logic, which is unfortunately not always the case.
-The first step is therefore to massage any rough edges with a series of non-trivial transformations aimed at fixing inconsistent formattings and underspecified annotations.
+The first step is therefore to massage any rough edges with a series of transformations aimed at fixing inconsistent formattings and underspecified annotations.
 
 \subsection{Transformations}
 Despite its admittedly high quality, Lassy has not been built with a strong focus towards compositionality.
 This reflects in several design decisions that de facto necessitate some global concessions and adaptations, and some local emergency measures, ranging from targeted transformations in the best case, to occassionally just giving up on a sample in the worst.
 
 \subsubsection{Non-Compositional Annotations}
-The biggest problem that we are faced with right off the boat is the abundance of generic, multi-purpose annotation schemes to convey non-compositional syntactic structure.
-These come in two flavours -- the sentential, and the phr
-%The full list of node labels employed by the corpus, paired with a brief explanation and an occurrence 
+The biggest problem that we are faced with right off the boat is the abundance of generic, multi-purpose annotation schemes to convey non-compositional or underanalyzed syntactic structures.
+These come in two flavours -- discourse level annotations, and multi-word phrases.
+
+\paragraph{Discourse Level Annotations}
+Discourse level annotations are materialized by dependencies \textit{dlink}, \textit{dpart}, \textit{nucl} and \textit{sat}, used in a catch-all fashion in place of an actual syntactic analysis.
+In the example of Figure~\ref{figure:du_mwp_example} the two sentences are analyzed as ``discourse parts'' of a single ``discourse unit'' rather than matrix clauses joined by the comma -- with some goodwill we could let that slide, but that same strategy is internally applied within the second sentence (apparently a ``discourse unit'' rather than a sentence), thus avoiding a proper justification for the elided verb. 
+Unfortunatey, there is no algorithmic way to mend these pretend annotations, in part due to their wildly general use, but mostly due to the fact they give us nothing to work with.
+This phenomenon is unpleasantly common; discourse level annotations sum up to about 2\% of the total dependency edges in the corpus, and are present in some 11\,700 samples, polluting a hard to ignore 18\% of the dataset.
+In order not to lose all the precious samples in their totality, rather than discard the entire tree we take the more conservative approach of simply pruning the problematic edges.
+The subtree underneath each cut is subsequently rooted independently, sprouting an array of smaller samples from the original
+%. and rooting the trees remaining underneath as independent samples.
 
 %\begin{figure}
 %	\begin{tikzpicture}
