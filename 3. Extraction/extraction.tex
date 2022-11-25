@@ -496,7 +496,7 @@ we speak it.about\\
 \end{exe}
 
 
-\subsection{Parsing vs. Parsing}
+\subsection{Parsing: Recognition vs. Discovery}
 With this lengthy detour over, we arrive at some painful truths: if there's any message to take home, it's the sheer amount of complexity inherent in a natural language grammar.
 Nominals come with a ton of morphosyntactic rules, exposing the fact that there's no syntactic entity as simple and unmarked as the idealized \np[s] we have extensively utilized in earlier chapters.
 The erroneous ommission or addition of as much as an inflectional marking suffices to turn a phrase ungrammatical.
@@ -552,8 +552,8 @@ Of the two corpora only the smallest one is of real interest.
 Lassy Small includes approximately 65\,000 sentences, amassing a total of almost 1 million words. 
 Its annotations have been manually checked, corrected and externally validated, with a reported 97.8\% of sentences correctly analyzed, and a 98.63\% of tokens correctly tagged -- neither perfect, but both more than good enough for our present needs.
 Its larger sibling favors quantity over quality -- it is more than 500 times the size, but an ill-fit for our endeavours, being the parser's unmodified output.
-
-Table~\ref{table:catset} and Table~\ref{table:depset} present aggregated summaries of the syntactic category tags and depedency labels used.%
+Table~\ref{table:catset} and Table~\ref{table:depset} present aggregated summaries of the syntactic category tags and depedency labels found in Lassy Small, together with their relative frequencies. 
+A breakdown of the corpus' contents is presented in Table~\ref{table:lassy_contents}.%
 \footnote{Sourced from \url{http://nederbooms.ccl.kuleuven.be/eng/tags}.}
 
 \begin{figure}
@@ -609,7 +609,7 @@ Table~\ref{table:catset} and Table~\ref{table:depset} present aggregated summari
 	      \textit{whrel} & Free Relative & 0.2 & \whrel[s]\\
 	      \textit{whsub} & Subordinate WH-Q & 0.2 & \whsub[s]\\
 	      \textit{du} & Discourse Unit & 2.6 & --\\
-	      \textit{mwu} & Multi-Word Unit & 5.9 & --\\
+	      \textit{mwu} & Multiword Unit & 5.9 & --\\
 	      \textit{conj} & Conjunct & 5.7 & --
 	\end{tabularx}
 	\caption{Lassy POS tags and phrasal category labels, and corresponding atomic types.}
@@ -635,7 +635,7 @@ Table~\ref{table:catset} and Table~\ref{table:depset} present aggregated summari
 	      \textit{ld} & Locative Complement &0.5& $\ddia{ld}$\\
 	      \textit{me} & Measure Complement &0.1& $\ddia{me}$\\
 	      \textit{mod} & Modifier &16.4& $\dbox{mod}$\\
-	      \textit{mwu} & Multi-word Part &5.1& --\\
+	      \textit{mwu} & Multiword Part &5.1& --\\
 	      \textit{nucl} & Nuclear Clause &0.5& --\\
 	      \textit{obcomp} & Comparison Complement &0.1& $\ddia{obcomp}$\\      
 	      \textit{obj1} & Direct Object &10.8& $\ddia{obj1}$\\
@@ -658,29 +658,166 @@ Table~\ref{table:catset} and Table~\ref{table:depset} present aggregated summari
 	\label{table:depset}
 \end{table}
 
+\begin{table}
+	\centering
+	\small
+	\begin{tabularx}{1\textwidth}{@{}ccccc@{}}
+	\textbf{Treebank} 	& \textbf{Contents}  & \textbf{Acronym} & \textbf{\# Sentences} & \textbf{\# Words}\\
+	\toprule
+	\textbf{DPC}		& Dutch Parallel Corpus 	& \fname{dpc} & {11\,716} 	& {193\,029}\\
+	\midrule
+	\textbf{Wikipedia} & Wikipedia Pages 			& \fname{wiki} & {7\,341} 	& {83\,360}\\
+	\midrule
+	\multirow{5}{*}{\textbf{WR-P-E}} 
+						& E-magazines				& \fname{WR-P-E-C} 			& \multirow{5}{*}{14\,420} & \multirow{5}{*}{232\,631}\\
+						& Newsletters				& \fname{WR-P-E-E}\\
+						& Teletext Pages			& \fname{WR-P-E-H}\\
+						& Web Sites					& \fname{WR-P-E-I}\\
+						& Wikipedia					& \fname{WR-P-E-J}\\
+	\midrule
+	\multirow{10}{*}{\textbf{WR-P-P}} 
+						& Books						& \fname{WR-P-P-B} 			& \multirow{10}{*}{17\,691} & \multirow{10}{*}{281\,424}\\
+						& Brochures					& \fname{WR-P-P-C}\\
+						& Guides \& Manuals		& \fname{WR-P-P-E}\\
+						& Legal Texts				& \fname{WR-P-P-F}\\
+						& Newspapers				& \fname{WR-P-P-G}\\
+						& Periodicals \& Magazines	& \fname{WR-P-P-H}\\
+						& Policy Documents			& \fname{WR-P-P-I}\\
+						& Proceedings				& \fname{WR-P-P-J}\\
+						& Reports					& \fname{WR-P-P-K}\\
+						& Surveys					& \fname{WR-P-P-L}\\
+	\midrule
+	\multirow{3}{*}{\textbf{WS-U}}
+						& Auto Cues					& \fname{WS-U-E-A}			& \multirow{3}{*}{14\,032} & \multirow{3}{*}{184\,611}\\
+						& News Scripts				& \fname{WS-U-T-A}\\
+						& Text for the Visually Impaired& \fname{WS-U-T-B}
+	\end{tabularx}
+	\caption{Breakdown of Lassy Small contents.}
+	\label{table:lassy_contents}
+\end{table}
 
-\section{Extraction Algorithm}
+\section{Extraction}
 The stage is set.
-We need to devise an algorithm that accepts trees like the one of Figure~\ref{figure:example_lassy_tree} and spits out proofs in $\NLP_{\diamond,\bx}$.
-For such an endeavour to be successful, we must first do our best to ensure that the tree is in fact compatible with the target logic, which is unfortunately not always the case.
-The first step is therefore to massage any rough edges with a series of transformations aimed at fixing inconsistent formattings and underspecified annotations.
+We need to devise an algorithm that accepts trees like the one of Figure~\ref{figure:example_lassy_tree} and spits out proofs of $\NLP_{\diamond,\bx}$.
+Following our prior discussions, some assumptions need to be met before we get to even contemplate our approach.
+First, we need a clear three-way partition of the set of dependency labels, so that each dependency relation marks either a head, a complement or an adjunct.
+Further, we require that each dependency domain has exactly one head.
+Finally, we must ensure that higher order phenomena reflected in secondary edges (or ghost nodes) are homogeneous so that they can be treated in a uniform way.
+Unfortunately, these requirements are not always met; our first step is therefore to massage any rough edges with a series of transformations aimed at (i) harmonizing the input trees with the target logic and (ii) fixing inconsistent formattings and underspecified or otherwise incompatible annotations.  
 
-\subsection{Transformations}
-Despite its admittedly high quality, Lassy has not been built with a strong focus towards compositionality.
+\subsection{Taming Lassy}
+Despite its admittedly high quality, Lassy has not been built with an inherent focus towards compositionality.
 This reflects in several design decisions that de facto necessitate some global concessions and adaptations, and some local emergency measures, ranging from targeted transformations in the best case, to occassionally just giving up on a sample in the worst.
 
 \subsubsection{Non-Compositional Annotations}
-The biggest problem that we are faced with right off the boat is the abundance of generic, multi-purpose annotation schemes to convey non-compositional or underanalyzed syntactic structures.
-These come in two flavours -- discourse level annotations, and multi-word phrases.
+The biggest problem that we are faced with right off the bat is the abundance of vague, general purpose annotation schemes to convey non-compositional structures.
+These come in two flavours -- discourse level annotations, and multiword phrases.
+
+\begin{figure}
+	\includegraphics[width=1\textwidth]{./prebuilt/du_mwp_example.pdf}
+	\lassycap
+		{wiki-4941.p.4.s.2.}
+		{De Eerste Wereldoorlog was voorbij, de wapenstilstand een feit.}
+		{The first world war was over, the armistice a fact.}
+	\caption{Example Lassy graph showcasing non-compositional annotations.}
+	\label{figure:du_mwp_example}
+\end{figure}
 
 \paragraph{Discourse Level Annotations}
 Discourse level annotations are materialized by dependencies \textit{dlink}, \textit{dpart}, \textit{nucl} and \textit{sat}, used in a catch-all fashion in place of an actual syntactic analysis.
-In the example of Figure~\ref{figure:du_mwp_example} the two sentences are analyzed as ``discourse parts'' of a single ``discourse unit'' rather than matrix clauses joined by the comma -- with some goodwill we could let that slide, but that same strategy is internally applied within the second sentence (apparently a ``discourse unit'' rather than a sentence), thus avoiding a proper justification for the elided verb. 
+In the example of Figure~\ref{figure:du_mwp_example} the two sentences are analyzed as ``discourse parts'' of a single ``discourse unit'' rather than matrix clauses conjoined by the comma -- with some goodwill we could let that slide, but that same strategy is internally applied within the second sentence (apparently a ``discourse unit'' rather than a sentence), thus avoiding a proper syntactic justification for the elided verb. 
 Unfortunatey, there is no algorithmic way to mend these pretend annotations, in part due to their wildly general use, but mostly due to the fact they give us nothing to work with.
 This phenomenon is unpleasantly common; discourse level annotations sum up to about 2\% of the total dependency edges in the corpus, and are present in some 11\,700 samples, polluting a hard to ignore 18\% of the dataset.
-In order not to lose all the precious samples in their totality, rather than discard the entire tree we take the more conservative approach of simply pruning the problematic edges.
-The subtree underneath each cut is subsequently rooted independently, sprouting an array of smaller samples from the original
-%. and rooting the trees remaining underneath as independent samples.
+In order not to lose all the precious samples in their totality and rather than discard the entire tree, we take the more conservative approach of simply pruning the problematic edges.
+The subtree underneath each cut is subsequently rooted as an independent sample, sprouting an array of smaller samples from the larger unusuable original; in the example under scrutiny, we end up with three samples rooted at nodes 3, 12 and 15.
+Albeit being a sensible solution in terms of data preservation, this has the unavoidable downside of \textit{a priori} breaking the alignment between the source corpus and the collection of proofs to be.
+In order to facilitate some level of back-and-forth matching, the new samples inherit the identifier of their origin and are distinguished by the suffixation of an added index.
+
+The pruning might sound easy on paper but proves tricky in certain regards.
+Lassy by default provides no annotations for punctuation symbols, which are instead attached to a conventional ``top'' node with an unlabeled edge.
+By truncating trees naively, we'd be dropping punctuation that might either be necessary for a sentence or phrase to remain grammatical or prove useful in the provision of a proper derivation.
+Internal commas, for instance, could be the key to constructing a conjunction, whereas final punctuation might be crucial in deciding the phrasal type, motivating their reinstation.
+Including internal and right-adjacent punctuation only, however, carries the risk of upholding only one end of circumfixing punctuations like parentheses or brackets, accidentally turning a phrase ungrammatical.
+The heuristic solution is to iteratively expand a truncated subtree by attaching any internal or peripheral punctuation marks, excluding opening brackets from the right edge and closing brackets and sentence-final punctuation from the left edge.
+To homogenize trees (truncated or otherwise), punctuations are displaced from the ``top'' node to the top-most node that carries an actual syntactic category label -- the latter serves as the new tree's root.
+
+The next issue to address is the potential disconnect between a ghost node and its material counterpart as a result of pruning.
+To avoid trees with floating nodes, we check whether ghosts in the pruned tree can access their material counterparts.
+When that is not the case, the ghost node is substituted by a copy of the material node, and, in the event of it being a phrasal node, the entire tree that lies underneath it.
+The process is repeated (to circumvent the possibility of adding a new floating node when fixing the first) until a fixpoint is reached.
+The result is the possibile duplication of lingustic material among different prunings (i.e. a subtree that occurred once in the original Lassy sample can sometimes be found in more than one of the processed samples procured therefrom).
+
+\paragraph{Multiword Phrases}
+Another common pain point is the prominence of multiword phrases annotations, indicated in Lassy by the \textit{mwu} dependency.
+Multiword expressions are a pervasive pest from the shadowy realms between lexicon and syntax.
+They can be categorized as being either morphosyntactically fixed or (partially) productive expressions that deviate from the expected compositional meaning, or just compositional expressions that have an idiosyncratic frequency.
+In all but the first case and regardless of their semantic use, they are not necessarily without internal structure.
+The criteria of what constitutes a multiword phrase and what doesn't are somewhat muddy, subjective and not clearly motivated.
+The example of Figure~\ref{figure:du_mwp_example} claims that \texttr{Eerste Wereldoorlog}{first world.war} is one, for instance -- eliciting the questions of whether expressions like the \textex{third/current/last/next world war} are also instances of a multiword phrase, and, if so, where the line is drawn (if at all).
+Anyway, multiword expressions are bad, but what's really bad is how overindulgent Lassy is with their use, which feels more like a free pass at disclaiming any responsibility of actually providing an analysis: a preposterous 5.9\% of all composite phrases are labeled as being multiword expressions.
+
+Multiword phrases are not an impassable roadblock; they can be tackled by relaxing the lexicalist word-to-type restriction, i.e. allowing entries in the lexical dictionary to be arbitrary strings rather than words.
+This is indeed the approach we'll follow, but only after having salvaged however many of the missing annotations as we can.
+Doing so is in our best interest: it will reduce the lexicon's load and provide us with a collection of annotations that are easier to generalize from.
+Generating structure out of thin air is of course impossible, but several existing patterns are amenable to an automatic reannotation.
+
+A first filter can tell us whether a word is a numeral or measure by inspecting its part of speech assignment.
+Two numerals separated by a coordinator make for a complex numeral, in which case a new tree can be instantiated, with the coordinator and the two numerals as its daughters; the first marked as a coordinator, the other two as conjuncts.
+A numeral, complex or singleton, adjacent to a quantity denoting noun (like \texttr{paar}{pair}, \texttr{honderd}{hundred}, \texttr{duizend}{thousand}, etc.), a unit of measurement (like \texttr{kilo}{kilogram}, \texttr{eur}{euro}, etc.) is cast into a modifier, and the noun is cast into a head.
+In a similar vein, a tiny parser is employed to analyze expressions of time and date; it follows a binarization scheme that assigns headedness to the more general part of a datetime expression (i.e. year over month over day), and analyzes the rest as a modifier with internal structure; an example is presented in Figure~\ref{subfigure:mwu:datetime}.
+
+On the lexical side of things, some expressions tend to default to a multiword annotation despite not being one -- clearly an artifact of Alpino's rule-based parser that was never corrected in the manual verification stage.
+These are for the most part prepositional phrases (like \texttr{ten noorden van}{north of}, \texttr{met uitzondering van}{except for}, etc.), which are caught and reanalyzed by having the genitive-substitute \textex{van} attach to the modified noun (as consistently done otherwise throughout Lassy), which the remainder of the expression consumes as a direct object.
+More problematic is the occasional mischaracterization of the interrogative \texttr{wat voor}{what kind of}, where the preposition \texttr{voor}{for} is analyzed as part of a multiword expression together with a ghost node coindexed with the pronoun \texttr{wat}{what}.
+These are also caught and corrected, as in the example of Figure~\ref{subfigure:mwu:watvoor}; the preposition is reannotated as being the head of a prepositional phrase selecting for a direct object, that being the afforementioned ghost node.
+Other, less severe, cases include the mislabeling of nationality adjectives (like \texttr{afrikaans}{Afrikan}, \texttr{europees}{european}, etc.), which are recast as modifiers of the noun they were merged with.
+
+For the sake of consistency, punctuations analyzed as multiword parts (presumably so as not to break phrasal contiguity) are instead pushed to the topmost root.
+These minor changes suffice to cut down the frequency of multiword expressions to a more manageable 4.5\% (an overall reduction of 25\%).
+
+\begin{figure}
+	\begin{subfigure}{1\textwidth}
+	\begin{subfigure}[b]{0.55\textwidth}
+		\includegraphics[width=1\textwidth]{./prebuilt/date_before.pdf}
+	\end{subfigure}%
+	\begin{subfigure}[b]{0.45\textwidth}
+			\includegraphics[width=1\textwidth]{./prebuilt/date_after.pdf}
+	\end{subfigure}\\[\smallsep]
+	\lassycap
+		{WR-P-P-I-0000000242.p.16.s.2~\textnormal{(excerpt)}}
+		{...16-21 oktober 2005...}
+		{...16-21 October 2005...}
+	\caption{Date expression containing a range.}
+	\label{subfigure:mwu:datetime}
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}{1\textwidth}
+	\begin{subfigure}[b]{0.5\textwidth}
+		\includegraphics[width=1\textwidth]{./prebuilt/watvoor_before.pdf}
+	\end{subfigure}%
+	\begin{subfigure}[b]{0.5\textwidth}
+			\includegraphics[width=1\textwidth]{./prebuilt/watvoor_after.pdf}
+	\end{subfigure}\\[\smallsep]
+	\lassycap
+		{WR-P-P-H-0000000039.p.8.s.3~\textnormal{(excerpt)}}
+		{wat voor keuze heb je?}
+		{what kind of choice do you have?}
+	\caption{Erroneously analyzed interrogative.}
+	\label{subfigure:mwu:watvoor}
+	\end{subfigure}\\[\midsep]
+	\caption{Before (left) and after (right) photos of automatically reannotated multiword expressions.}
+	\label{figure:mwu_transformations}
+\end{figure}
+%
+%unit of measurement (e.g. \texttr{uur}{o'clock}, , a currency or a 
+%change the coordinator's edge label to \textit{crd}, and 
+%We look for multiword phrases the last element of which is a unit of measurement, 
+
+%, and this is the approach we'll follow.
+
+
+
+
+
 
 %\begin{figure}
 %	\begin{tikzpicture}
@@ -733,6 +870,7 @@ The subtree underneath each cut is subsequently rooted independently, sprouting 
 %	\label{figure:plot:assignment_occurrence_ecdf}
 %\end{figure}
 
+\nocite{macken2011dutch}
 
 
 \bibliographystyle{abbrvnat}
