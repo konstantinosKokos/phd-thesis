@@ -119,7 +119,7 @@
 %					lingu examples
 \newcommand{\textex}[1]{\textit{#1}}
 \newcommand{\gap}{\_}
-\newcommand{\texttr}[2]{\textit{#1}~`#2'}
+\newcommand{\texttr}[2]{\textit{#1} `#2'}
 \makeatletter
 \def\new@fontshape{}
 \makeatother
@@ -173,6 +173,7 @@
 \newcommand{\types}{\ensuremath{\mathcal{U}}}
 \newcommand{\terms}{\ensuremath{\smallterm{Terms}}}
 \newcommand{\cons}{\ensuremath{\smallterm{Cons}}}
+\newcommand{\con}[1]{\smallterm{c}_{\mathnormal{#1}}}
 \newcommand{\vars}{\ensuremath{\smallterm{Vars}}}
 \newcommand{\str}[1]{\smallterm{\sslash{#1}\sslash}}
 \newcommand{\Var}[1]{\smallterm{x}_{\mathnormal{#1}}}
@@ -257,9 +258,9 @@
 \makeatother
 
 % ratio: 1.8/2.75
-\newcommand{\domodaldiamondscale}[2]{\raisebox{0.5\getfontdim{#1}}{\scalebox{0.9}{\ensuremath{#1#2}}}}
+\newcommand{\domodaldiamondscale}[2]{\raisebox{0.175\getfontdim{#1}}{\scalebox{0.9}{\ensuremath{#1#2}}}}
 \newcommand{\domodalboxscale}[2]{\raisebox{0.15\getfontdim{#1}}{\scalebox{0.85}{\ensuremath{#1#2}}}}
-\newcommand{\domodalxdiascale}[2]{\raisebox{0.2\getfontdim{#1}}{\scalebox{1.375}{\ensuremath{#1#2}}}}
+\newcommand{\domodalxdiascale}[2]{\raisebox{0\getfontdim{#1}}{\scalebox{1.375}{\ensuremath{#1#2}}}}
 \newcommand{\modalxdiascale}[1]{\mathpalette\domodalxdiascale{#1}\relax}
 \newcommand{\modaldiamondscale}[1]{\mathpalette\domodaldiamondscale{#1}\relax}
 \newcommand{\modalboxscale}[1]{\mathpalette\domodalboxscale{#1}\relax}
@@ -283,10 +284,10 @@
 \newcommand{\domodaltermscale}[2]{\raisebox{0.25\getfontdim{#1}}{\scalebox{0.85}{\ensuremath{#1#2}}}}
 \makeatother
 \newcommand{\modaltermscale}[1]{\mathpalette\domodaltermscale{#1}\relax}
-\newcommand{\boxelim}{\modaltermscale{\blacktriangledown}}
-\newcommand{\boxintro}{{\modaltermscale{\blacktriangle}}}
-\newcommand{\diaelim}{\modaltermscale{\triangledown}}
-\newcommand{\diaintro}{\modaltermscale{\vartriangle}}
+\newcommand{\boxelim}[1][]{\modaltermscale{\blacktriangledown}{\dep{#1}}}
+\newcommand{\boxintro}[1]{{\modaltermscale{\blacktriangle}}{\dep{#1}}}
+\newcommand{\diaelim}[1][]{\modaltermscale{\triangledown}{\dep{#1}}}
+\newcommand{\diaintro}[1][]{\modaltermscale{\vartriangle}{\dep{#1}}}
 \newcommand{\caseof}[3]{\cterm{case \term{#1} of \term{#2} in \term{#3}}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -298,6 +299,7 @@
 \newcommand{\NL}{\logic{NL}}
 \newcommand{\NLP}{\logic{NLP}}
 \newcommand{\LP}{\logic{LP}}
+\newcommand{\NLPplus}{\ensuremath{\NLP_{\diamond,\bx}}}
 \newcommand{\hm}[1]{\ensuremath{\lceil{#1}\rceil}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -325,6 +327,17 @@
 	\toprule
 	\textex{#2}\\
 	`#3'\\
+	\bottomrule
+	\end{tabularx}	
+}
+\newcommand{\aethelcap}[4]{
+	\smaller
+	\begin{tabularx}{1\textwidth}{@{}l@{}}
+	\multicolumn{1}{@{}C@{}}{\fname{#1}}\\
+	\toprule
+	\textex{#2}\\
+	`#3'\\
+	{#4}\\
 	\bottomrule
 	\end{tabularx}	
 }

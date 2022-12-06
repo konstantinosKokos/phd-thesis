@@ -254,7 +254,7 @@ Rather than present a grammar of terms and later ground it in the logic, we will
 Given an infinite but enumerable set $\vars$ consisting of (unique names for) indexed variables with elements \{\term{\vari, \varj, \vark, \varl, \dots}\}, and denoting arbitrary but well-formed terms with \smallterm{s}, \smallterm{t}, \smallterm{u}, we will use $\smallterm{s}: \smallprop{a}$ (or $\smallterm{s}^{\smallprop{A}}$) to indicate that term \smallterm{s} is of type \smallprop{a}.
 Assumptions $\Gamma$, $\Delta$ will now denote a \textit{typing environment}:
 \begin{equation}
-\Var{1} : \prop a_1 ,~  \Var{2} : \prop a_2 \dots ~ \Var{n} : \prop a_n
+\varj : \prop a_1 ,~  \vark : \prop a_2 \dots ~ \Var{n} : \prop a_n
 \end{equation}
 i.e. rather than a sequence of formulas, we have a sequence of distinct variables, each of a specific type, and a judgement $\Gamma \vdash \term{s} : \prop{b}$ will now denote the derivation of a term \term{s} of type \prop{b} out of such an environment.
 
@@ -267,8 +267,7 @@ i.e. rather than a sequence of formulas, we have a sequence of distinct variable
 		$\infer[\ii I]{\Gamma \vdash \term{\lam \vari .s} : \prop a \ii \prop{b}}{\Gamma, \term{\vari }: \prop{a} \vdash \term{s}:\prop{b}}$\\[2em]
 		$\infer[\times E]
 			{\Gamma,\Delta \vdash
-			 \cterm{case \term{s} of (\term{\vari }, \term{\varj}) in \term{t}} 
-			 : \prop{c}}
+			\caseof{s}{\vari}{t}: \prop{c}}
 			{\Gamma \vdash \term{s}: \prop{a} \times \prop{b} & 
 			\Delta, \term{\vari }: \prop{a} , \term{\varj}: \prop{b} \vdash \term{t}: \prop{c}}$ 
 		&
@@ -329,7 +328,7 @@ The term rewrites we have so far inspected were either provided by specific rule
 Aside from the above, our type system provides two minimal computation steps that tell us how to reduce expressions that involve the deconstruction of a just-constructed type:
 \begin{align}
 (\term{\lam \vari .s})~\term{t} & \overset{\beta}{\leadsto} \term{s}_{[\term{\vari } \mapsto \term{t}]}\\
-\cterm{case (\term{s}, \term{t}) of (\term{\vari }, \term{\varj}) in \term{u}} & \bred \term{u_{[\term{s} \mapsto \term{\vari }, \term{t} \mapsto \term{\varj}]}}
+\caseof{(s, t)}{(\vari, \varj)}{u} & \bred \term{u_{[\term{s} \mapsto \term{\vari }, \term{t} \mapsto \term{\varj}]}}
 \end{align}
 
 A term on which no $\beta$ reductions can be applied is said to be in $\beta$-normal form.
@@ -349,7 +348,7 @@ the reverse process is an $\eta$ expansion.
 Both directions are facets of $\eta$ conversion -- the equivalence relation enacted by this conversion is called $\eta$ equivalence.
 \begin{align}
 	\term{\lam \vari .s~\vari } & \overset{\eta}{\equiv} \term{s}\\
-	\cterm{(case \term{s} of (\term{\vari },\term{\varj}) in \term{\vari }, case \term{s} of (\term{\vark},\term{\varl}) in \term{\varl})} & \overset{\eta}{\equiv} \term{s}
+	(\caseof{s}{(\vari, \varj)}{\vari}, \caseof{s}{(\vark,\varl)}{\varl}) & \overset{\eta}{\equiv} \term{s}
 \end{align}
 
 
@@ -412,11 +411,11 @@ It states that for \smallprop{A}, \smallprop{B} arbitrary propositions, from \sm
 The converse, i.e. type lowering, is not true: $(\pprop{A} \ii \nprop{B}) \ii \pprop{B} \nvdash \nprop{A}$.
 \begin{figure}
 	\[
-		\infer[\ii I]{\term{\Var{1}}: \prop{a} \vdash \term{\lam \Var{0}.\Var{0}~\Var{1}}: (\prop{a} \ii \prop{b}) \ii \prop{b}}{
-			\infer[\ii E]{\term{\Var{0}}: \prop{a} \ii \prop{b}, \term{\Var{1}}: \prop{a} \vdash \term{\Var{0}~\Var{1}}: \prop{b}}{
-				\infer[\Ax]{\term{\Var{0}}: \prop{a} \ii \prop{b} \vdash \term{\Var{0}}: \prop{a} \ii \prop{b}}{}
+		\infer[\ii I]{\varj: \prop{a} \vdash \term{\lam \vari.\vari~\varj}: (\prop{a} \ii \prop{b}) \ii \prop{b}}{
+			\infer[\ii E]{\term{\vari}: \prop{a} \ii \prop{b}, \term{\varj}: \prop{a} \vdash \term{\vari~\varj}: \prop{b}}{
+				\infer[\Ax]{\term{\vari}: \prop{a} \ii \prop{b} \vdash \term{\vari}: \prop{a} \ii \prop{b}}{}
 				&
-				\infer[\Ax]{\term{\Var{1}}: \prop{a} \vdash \term{\Var{1}}: \prop{a}}{}
+				\infer[\Ax]{\term{\varj}: \prop{a} \vdash \term{\varj}: \prop{a}}{}
 			}
 		}
 	\]
@@ -460,14 +459,14 @@ Keep a mental note.
 	\centering
 	\begin{subfigure}{1\textwidth}
 		\[
-		\infer[\ii I (x2)]{\term{\Var{0}} \vdash \term{\lam \Var{1}\Var{2}.\Var{0}~(\term{\Var{1}},\term{\Var{2}})}: \prop{a} \ii \prop{b} \ii \prop{c}}{
-			\infer[\ii E]{\term{\Var{0}}, \term{\Var{1}}, \term{\Var{2}} \vdash \term{\Var{0}}~(\term{\Var{1}}, \term{\Var{2}}): \prop{c}}{
-				\infer[\Ax]{\term{\Var{0}}: (\prop{a} \times \prop{b}) \ii \prop{c}}{}
+		\infer[\ii I (x2)]{\vari \vdash \lam \varj\vark.\vari~(\varj, \vark): \prop{a} \ii \prop{b} \ii \prop{c}}{
+			\infer[\ii E]{\vari, \varj, \vark \vdash \vari~(\varj, \vark): \prop{c}}{
+				\infer[\Ax]{\vari: (\prop{a} \times \prop{b}) \ii \prop{c}}{}
 				&
-				\infer[\times I]{ \term{\Var{1}}, \term{\Var{2}} \vdash (\term{\Var{1}},\term{\Var{2}}): \prop{a} \times \prop{b}}{
-					\infer[\Ax]{\term{\Var{1}}: \prop{a}}{}
+				\infer[\times I]{\varj, \vark \vdash (\varj, \vark): \prop{a} \times \prop{b}}{
+					\infer[\Ax]{\varj: \prop{a}}{}
 					&			
-					\infer[\Ax]{\term{\Var{2}}: \prop{b}}{}
+					\infer[\Ax]{\vark: \prop{b}}{}
 				}
 			}
 		}
@@ -477,19 +476,19 @@ Keep a mental note.
 	\end{subfigure}\\[\midsep]
 	\begin{subfigure}{1\textwidth}
 		\[
-			\infer[\ii I]{\term{\Var{1}} \vdash \term{\lam \Var{0}.}\cterm{case \term{\Var{0}} of (\term{\Var{2}}, \term{x_3}) in \term{\Var{1}~\Var{2}~x_3}}:(\prop{a} \times \prop{b})\ii \prop{c}}{
-				\infer[\Exchange{}]{\term{\Var{1}}, \term{\Var{0}}  \vdash \cterm{case \term{\Var{0}} of (\term{\Var{2}}, \term{x_3}) in \term{\Var{1}~\Var{2}~x_3}}:\prop{c}}{
-					\infer[\times E]{\term{\Var{0}}, \term{\Var{1}} \vdash \cterm{case \term{\Var{0}} of (\term{\Var{2}}, \term{x_3}) in \term{\Var{1}~\Var{2}~x_3}}:\prop{c}}{
-						\infer[\Ax]{\term{\Var{0}}: \prop{a} \times \prop{b}}{}
+			\infer[\ii I]{\varj \vdash \term{\lam \vari.}\caseof{\vari}{(\varj,\vark)}{\varj~\vark~\varl}:(\prop{a} \times \prop{b})\ii \prop{c}}{
+				\infer[\Exchange{}]{\varj, \vari  \vdash \caseof{\vari}{(\varj,\vark)}{\varj~\vark~\varl}:\prop{c}}{
+					\infer[\times E]{\vari, \varj \vdash \caseof{\vari}{(\varj,\vark)}{\varj~\vark~\varl}:\prop{c}}{
+						\infer[\Ax]{\vari: \prop{a} \times \prop{b}}{}
 						&
-						\infer[\ii E]{\term{\Var{1}}, \term{\Var{2}}, \term{x_3} \vdash \term{\Var{1}~\Var{2}~x_3}: \prop{c}}{
-							\infer[\ii E]{\term{\Var{1}}, \term{\Var{2}} \vdash \term{\Var{1}~\Var{2}}: \prop{b} \ii \prop{c}}{
-								\infer[\Ax]{\term{\Var{1}}: \prop{a} \ii \prop{b} \ii \prop{c}}{}
+						\infer[\ii E]{\varj, \vark, \varl \vdash \term{\varj~\vark~x_3}: \prop{c}}{
+							\infer[\ii E]{\varj, \vark \vdash \term{\varj~\vark}: \prop{b} \ii \prop{c}}{
+								\infer[\Ax]{\varj: \prop{a} \ii \prop{b} \ii \prop{c}}{}
 								&
-								\infer[\Ax]{\term{\Var{2}}: \prop{a}}{}
+								\infer[\Ax]{\vark: \prop{a}}{}
 							}
 							&
-							\infer[\Ax]{\term{x_3}: \prop{b}}{}
+							\infer[\Ax]{\varl: \prop{b}}{}
 						}
 					}
 				}
@@ -702,15 +701,15 @@ We will consider the natural deduction proof of linear function composition of F
 
 \begin{figure}
 	\[
-		\infer[\Exchange]{\term{\Var{0}}, \term{\Var{1}} \vdash \term{\lam \Var{2}.\Var{1}~(\Var{0}~\Var{2})}: \prop{a} \li \prop{c}}{
-			\infer[\li I]{\term{\Var{1}}, \term{\Var{0}} \vdash \term{\lam \Var{2}.\Var{1}~(\Var{0}~\Var{2})}: \prop{a} \li \prop{c}}{
-				\infer[\li E]{\term{\Var{1}}, \term{\Var{0}}, \term{\Var{2}} \vdash \term{\Var{2}~(\Var{1}~\Var{0})}: \prop{a} \li \prop{c}}{
-					\infer[\Ax]{\term{\Var{1}}:\prop{b}\li\prop{c}}{}
+		\infer[\Exchange]{\term{\vari}, \term{\varj} \vdash \term{\lam \vark.\varj~(\vari~\vark)}: \prop{a} \li \prop{c}}{
+			\infer[\li I]{\term{\varj}, \term{\vari} \vdash \term{\lam \vark.\varj~(\vari~\vark)}: \prop{a} \li \prop{c}}{
+				\infer[\li E]{\term{\varj}, \term{\vari}, \term{\vark} \vdash \term{\vark~(\varj~\vari)}: \prop{a} \li \prop{c}}{
+					\infer[\Ax]{\term{\varj}:\prop{b}\li\prop{c}}{}
 					&
-					\infer[\li E]{\term{\Var{0}}, \term{\Var{2}} \vdash \term{\Var{0}~\Var{2}}: \prop{b}}{
-						\infer[\Ax]{\term{\Var{0}}: \prop{a}\li\prop{b}}{}
+					\infer[\li E]{\term{\vari}, \term{\vark} \vdash \term{\vari~\vark}: \prop{b}}{
+						\infer[\Ax]{\term{\vari}: \prop{a}\li\prop{b}}{}
 						&
-						\infer[\Ax]{\term{\Var{2}}: \prop{a}}{}
+						\infer[\Ax]{\term{\vark}: \prop{a}}{}
 					}
 				}
 			}
@@ -739,19 +738,19 @@ An arrangement of the decomposition trees of all formulas as they occur within a
 		\node (li) 	at (0, 0) {$\vnorm{\li}$};
 		\draw (li) -- (A1);
 		\draw (li) -- (B1);
-		\node (x0)	at (0, -0.5)	{$\term{\Var{0}}$};
+		\node (x0)	at (0, -0.5)	{$\term{\vari}$};
 		%%%
 		\node (B2)	at (2.33, 1) {$\vnorm{\nprop{B}}$};
 		\node (C1)	at (3.66, 1) {$\vnorm{\pprop{C}}$};
 		\node (li2) 	at (3, 0) {$\vnorm{\li}$};
 		\draw (li2) -- (B2);
 		\draw (li2) -- (C1);
-		\node (x1)	at (3, -0.5)	{$\term{\Var{1}}$};
+		\node (x1)	at (3, -0.5)	{$\term{\varj}$};
 		%%%
 		\node (A2)	at (5.33, 1) {$\vnorm{\pprop{A}}$};
 		\node (C2)	at (6.66, 1) {$\vnorm{\nprop{C}}$};
 		\node (li3) 	at (6, 0) {$\vnorm{\li}$};
-		\draw[dashed] (li3) -- (A2) node[midway, left]{$\term{\Var{2}}$};
+		\draw[dashed] (li3) -- (A2) node[midway, left]{$\term{\vark}$};
 		\draw (li3) -- (C2);
 	\end{tikzpicture}
 	\caption{Proof frame.}
@@ -765,19 +764,19 @@ An arrangement of the decomposition trees of all formulas as they occur within a
 		\node (li) 	at (0, 0) {$\vnorm{\li}$};
 		\draw (li) -- (A1);
 		\draw (li) -- (B1);
-		\node (x0)	at (0, -0.5)	{$\term{\Var{0}}$};
+		\node (x0)	at (0, -0.5)	{$\term{\vari}$};
 		%%%
 		\node (B2)	at (2.33, 1) {$\vnorm{\nprop{B}}$};
 		\node (C1)	at (3.66, 1) {$\vnorm{\pprop{C}}$};
 		\node (li2) 	at (3, 0) {$\vnorm{\li}$};
 		\draw (li2) -- (B2);
 		\draw (li2) -- (C1);
-		\node (x1)	at (3, -0.5)	{$\term{\Var{1}}$};
+		\node (x1)	at (3, -0.5)	{$\term{\varj}$};
 		%%%
 		\node (A2)	at (5.33, 1) {$\vnorm{\pprop{A}}$};
 		\node (C2)	at (6.66, 1) {$\vnorm{\nprop{C}}$};
 		\node (li3) 	at (6, 0) {$\vnorm{\li}$};
-		\draw[dashed] (li3) -- (A2) node[midway, left]{$\term{\Var{2}}$};
+		\draw[dashed] (li3) -- (A2) node[midway, left]{$\term{\vark}$};
 		\draw (li3) -- (C2);
 		\draw[->] (A1) -- ($(A1.north) + (0, 0.5)$) -- ($(A2.north) + (0, 0.5)$) -- (A2);
 		\draw[->] (B2) -- ($(B2.north) + (0, 0.25)$) -- ($(B1.north) + (0, 0.25)$) -- (B1);
@@ -819,11 +818,11 @@ When we encounter a positive implication, we will add  its negative (upward) bra
 Upon running out of positive nodes to visit, we will write down the variable label assigned to the positive tree's root, and then perform a negative traversal of each of the negative branches that live in our stack (i.e. we have encountered going down), in reverse order.
 We will start from the root of the formula tree occurring right of the turnstile (we know which one that is by the fact it has no variable label underneath it) in negative mode.
 
-In our case, this is a negative implication, the dashed line of which reads $\smallterm{\Var{2}}$, so we start by writing down $\smallterm{\lam \Var{2}. (\dots)}$. 
-We move on to \nprop{C}, which is a leaf, so we cross over to \pprop{C} and switch to positive mode. Going down, we encounter an implication as the positive root, and write down the positive tree's name, getting $\smallterm{\lam \Var{2}.\Var{1} (\dots)}$.
-We proceed in negatative mode to \nprop{B}, cross over to \pprop{B} and repeat the above, getting $\smallterm{\lam \Var{2}.\Var{1}~(\Var{0}~\dots)}$ before going into negative mode again.
-The final axiom link points us to \pprop{A}, which is its own root, named $\smallterm{\Var{2}}$.
-At this point, our traversal has transcribed the term $\smallterm{\lam \Var{2}.\Var{1}~(\Var{0}~\Var{2})}$ and we have ran out of paths to explore.
+In our case, this is a negative implication, the dashed line of which reads $\smallterm{\vark}$, so we start by writing down $\smallterm{\lam \vark. (\dots)}$. 
+We move on to \nprop{C}, which is a leaf, so we cross over to \pprop{C} and switch to positive mode. Going down, we encounter an implication as the positive root, and write down the positive tree's name, getting $\smallterm{\lam \vark.\varj (\dots)}$.
+We proceed in negatative mode to \nprop{B}, cross over to \pprop{B} and repeat the above, getting $\smallterm{\lam \vark.\varj~(\vari~\dots)}$ before going into negative mode again.
+The final axiom link points us to \pprop{A}, which is its own root, named $\smallterm{\vark}$.
+At this point, our traversal has transcribed the term $\smallterm{\lam \vark.\varj~(\vari~\vark)}$ and we have ran out of paths to explore.
 By now, all our nodes and edges have been visited, and our final term is both well-formed and identical to the one prescribed by the natural deduction proof of Figure~\ref{figure:funcomp}: a joyful outcome!
 If we consider ourselves bound to the permutation of assumptions dictated by the variable indices, the only thing we would need to do going backwards is guess the presence (and position) of the \Exchange{} rule.
 
@@ -889,7 +888,7 @@ Upon reaching the proof's conclusion, we get to merge all identifications establ
 Let's avoid any misteps here. The joining described is \textit{not} set-theoretic union. Rather, we first take the set-theoretic union, and then iteratively reduce the set by conflating all identifications that agree in at least one element, up to a fixpoint.
 For instance, joining $\{ i \leftrightarrow k\}$ and $\{ l\leftrightarrow i, j \leftrightarrow m\}$ yields $\{i \leftrightarrow k \leftrightarrow l, j \leftrightarrow m \}$. Such a situation could arise for example when attempting to find the axiom links of non $\beta$ normal proofs, like
 \[
-\term{\left(\lam \Var{0}.\Var{0}^{\prop{a}_i \li \prop{b}_j}~\Var{1}^{\prop{a}_k}\right)~\Var{2}^{\prop{a}_l \li \prop{b}_m}}
+\term{\left(\lam \vari.\vari^{\prop{a}_i \li \prop{b}_j}~\varj^{\prop{a}_k}\right)~\vark^{\prop{a}_l \li \prop{b}_m}}
 \]
 The added burden has the enormous benefit of yielding ``$\beta$ normalized'' links and resolving potential future headaches \textit{a priori}.
 }%
@@ -1169,31 +1168,31 @@ What if there was a way to keep our logic computationally tractable but with tem
 \subsection{The Logic of Modalities}\label{subsec:modal_logic}
 The answer comes in the form of unary \textit{modalities}, type-forming operators lent from modal logics, that allow navigation between logics of different structural properties.
 Unary modalities hold a key role in the presentation of full linear logic; there, a single operator $!$ (called \textit{bang}) would allow an embedding of intuitionistic (non-linear) propositions into the linear regime, essentially acting as a licensor of \Contraction{} and \Weakening{}.
-In our case, we will make do with two modalities from temporal logic, the diamond $\diamond$ and the box $\Box$.
+In our case, we will make do with two modalities from temporal logic, the diamond $\diamond$ and the box $\bx$.
 
 The two form a residuated pair, the properties of which can be formulated either (i) in the form of a type-level biconditional derivability relation:
 \begin{equation}
-		\diamond \prop{a} \vdash \prop{b}\text{ iff }\prop{a} \vdash \Box\prop{b}
+		\diamond \prop{a} \vdash \prop{b}\text{ iff }\prop{a} \vdash \bx\prop{b}
 \end{equation}
 or (ii) the monotonic behavior of its parts:
 \begin{align}
 		\prop{a} \vdash \prop{b} & \implies \diamond \prop{a}\vdash \diamond\prop{b}\\
-		\prop{a} \vdash \prop{b} & \implies \Box{\prop{a}}\vdash \Box\prop{b}
+		\prop{a} \vdash \prop{b} & \implies \bx{\prop{a}}\vdash \bx\prop{b}
 \end{align}
-and the adjointness of their compositions, where $\diamond\Box(\_)$ is an \textit{interior} and $\Box\diamond(\_)$ a \textit{closure} operator:
+and the adjointness of their compositions, where $\diamond\bx(\_)$ is an \textit{interior} and $\bx\diamond(\_)$ a \textit{closure} operator:
 \begin{align}
-		\Gamma \vdash \prop{a} 				& \implies \Gamma \vdash \Box\diamond\prop{a} \label{equation:closure}\\
-		\Gamma \vdash \diamond\Box\prop{a} & \implies \Gamma \vdash \prop{a} \label{equation:interior}
+		\Gamma \vdash \prop{a} 				& \implies \Gamma \vdash \bx\diamond\prop{a} \label{equation:closure}\\
+		\Gamma \vdash \diamond\bx\prop{a} & \implies \Gamma \vdash \prop{a} \label{equation:interior}
 \end{align}
 
 \begin{figure}
 	\centering
 	\begin{tabularx}{0.9875\textwidth}{@{}CC@{}}
-		$\infer[\Box E]{\bracket{\Gamma} \vdash \boxelim{\term{s}}: \prop{a}}{
-			\Gamma \vdash \term{s}: \Box\prop{a}
+		$\infer[\bx E]{\bracket{\Gamma} \vdash \boxelim{\term{s}}: \prop{a}}{
+			\Gamma \vdash \term{s}: \bx\prop{a}
 		}$
 		&
-		$\infer[\Box I]{\Gamma \vdash \boxintro{\term{s}}:\Box\prop{a}}{
+		$\infer[\bx I]{\Gamma \vdash \boxintro{\term{s}}:\bx\prop{a}}{
 			\bracket{\Gamma} \vdash \term{s}:\prop{a}
 		}$
 		\\[\smallsep]
@@ -1220,8 +1219,8 @@ Their incorporation adds a new kind of structure to the ones provided by the und
 \end{equation}
 
 Angular brackets denote unary tree branches that behave slightly different to the rest; they act as an impenetrable barrier that permits or hinders the introduction or elimination of modal connectives in a judgement.
-The box elimination rule $\Box E$ grants us the option of removing a logical box from the succedent of the premise (as long as it is its main connective), but encloses the premises in angular brackets in the process.
-Its introduction counterpart $\Box I$ does the exact opposite: it frees a judgement's assumptions from their brackets, but puts the succedent proposition under the scope of a box.
+The box elimination rule $\bx E$ grants us the option of removing a logical box from the succedent of the premise (as long as it is its main connective), but encloses the premises in angular brackets in the process.
+Its introduction counterpart $\bx I$ does the exact opposite: it frees a judgement's assumptions from their brackets, but puts the succedent proposition under the scope of a box.
 The diamond behaves just the other way around.
 Its introduction rule $\diamond I$ is straightforward: it offers the possibility of putting the succedent under the scope of a diamond, in exchange wrapping the antecedents with brackets.
 The elimination rule $\diamond E$ is more of a problem child, behaving akin to a unary product.
@@ -1239,8 +1238,8 @@ Note that the free variables of the resulting expression ($\caseof{\diaelim t}{\
 	\begin{subfigure}{1\textwidth}
 	\centering
 		\begin{tabularx}{0.85\textwidth}{@{}ccc@{}}
-		$\infer[\Box E]{\bracket{\Gamma} \vdash \prop{a}}{
-			\infer[\Box I]{\Gamma \vdash \Box \prop{a}}{
+		$\infer[\bx E]{\bracket{\Gamma} \vdash \prop{a}}{
+			\infer[\bx I]{\Gamma \vdash \bx \prop{a}}{
 				\infer*[s]{\bracket{\Gamma} \vdash  \prop{a}}{}
 			}
 		}
@@ -1273,16 +1272,16 @@ Note that the free variables of the resulting expression ($\caseof{\diaelim t}{\
 	\begin{subfigure}{1\textwidth}
 	\centering
 		\begin{tabularx}{0.8\textwidth}{@{}ccc@{}}
-			$\infer[\Box I]{\Gamma \vdash \Box\prop{a}}{
-			\infer[\Box E]{\bracket{\Gamma} \vdash \prop{a}}{
-					\infer*[s]{\Gamma \vdash  \Box\prop{a}}{}
+			$\infer[\bx I]{\Gamma \vdash \bx\prop{a}}{
+			\infer[\bx E]{\bracket{\Gamma} \vdash \prop{a}}{
+					\infer*[s]{\Gamma \vdash  \bx\prop{a}}{}
 				}
 			}
 			$
 			&
 			\raisebox{5pt}{$\equiv$}
 			&
-			$\infer*[s]{\Gamma \vdash \Box\prop{a}}{}
+			$\infer*[s]{\Gamma \vdash \bx\prop{a}}{}
 			$\\[\smallsep]
 			$\infer[\diamond E]{\Delta \vdash \diamond\prop{a}}{
 				\infer[\diamond I]{\bracket{\prop{a}}\vdash \diamond \prop{a}}{
@@ -1305,7 +1304,7 @@ Note that the free variables of the resulting expression ($\caseof{\diaelim t}{\
 \end{figure}
 
 The proof patterns of Figure~\ref{subfigure:modal_beta_reductions} exhibit introduction elimination chains of modal operators, and thus constitute $\beta$ redexes subject to normalization.
-The first one is trivial: it just says that a sequential application of $\Box I$ followed by $\Box E$ can be safely excised.
+The first one is trivial: it just says that a sequential application of $\bx I$ followed by $\bx E$ can be safely excised.
 The second one proposes that if a $\diamond I$ is the last rule to have been applied on the substitution branch $t$ of the $\diamond E$ rule, it would make sense to simply plug proof $t$ in place of the proposition $\smallprop{A}$ hypothesized in the other  branch $s$.
 On the term level, these rules correspond to computations:
 \begin{align}
@@ -1362,14 +1361,14 @@ With this in mind (and in a rare moment of excessive formal zeal), we will exerc
 	\end{subfigure}\\[\midsep]
 	\begin{subfigure}{1\textwidth}
 		\[
-			\infer[\Box I]{\term{\varj}: \Box \prop{a} \vdash \boxintro{(\term{\lam \vari .s})~\term{\boxelim \varj}}:\Box \prop{b}}{
-				\infer[\li E]{\bracket{\term{\varj}: \Box \prop{a}} \vdash (\term{\lam \vari .s})~\term{\boxelim \varj}: \prop{b}}{
+			\infer[\bx I]{\term{\varj}: \bx \prop{a} \vdash \boxintro{(\term{\lam \vari .s})~\term{\boxelim \varj}}:\bx \prop{b}}{
+				\infer[\li E]{\bracket{\term{\varj}: \bx \prop{a}} \vdash (\term{\lam \vari .s})~\term{\boxelim \varj}: \prop{b}}{
 					\infer[\li I]{\vdash \term{\lam \vari .s}: \prop{a} \li\prop{b}}{
 						\infer*[s]{\term{\vari }: \prop{a} \vdash \term{s}: \prop{b}}{}
 					}
 					&
-					\infer[\Box E]{\bracket{\term{\varj}: \Box \prop{a}} \vdash \boxelim\term{\varj}:\prop{a}}{	
-						\infer[\Ax]{\term{\varj}: \Box\prop{a} \vdash \term{\varj}: \Box\prop{a}}{}
+					\infer[\bx E]{\bracket{\term{\varj}: \bx \prop{a}} \vdash \boxelim\term{\varj}:\prop{a}}{	
+						\infer[\Ax]{\term{\varj}: \bx\prop{a} \vdash \term{\varj}: \bx\prop{a}}{}
 					}
 				}
 			}
@@ -1379,44 +1378,44 @@ With this in mind (and in a rare moment of excessive formal zeal), we will exerc
 	\end{subfigure}\\[\midsep]
 	\begin{subfigure}{0.4\textwidth}
 		\[
-		\infer[\Box I]{\Gamma \vdash \boxintro\diaintro\term{s}:\Box \diamond \prop{a}}{
+		\infer[\bx I]{\Gamma \vdash \boxintro\diaintro\term{s}:\bx \diamond \prop{a}}{
 			\infer[\diamond I]{\bracket{\Gamma} \vdash \diaintro\term{s}: \diamond \prop{a}}{
 				\infer*[s]{\Gamma \vdash \term{s}: \prop{a}}{}
 			}
 		}
 		\]
-		\caption{The closure $\diamond\Box(\_)$.}
+		\caption{The closure $\diamond\bx(\_)$.}
 		\label{subfigure:modal_properties:closure}
 	\end{subfigure}%
 	\begin{subfigure}{0.5\textwidth}
 		\[
 		\infer[\diamond E]{\Gamma \vdash \cterm{case \term{\diaelim{s}} of \term{\vari } in \term{\boxelim \vari }}: \prop{a}}{
-						\infer[\Box E]{\bracket{\term{\vari }: \Box \prop{a}}\vdash \boxelim\term{\vari }:\prop{a}}{
-							\infer[\Ax]{\term{\vari }: \Box\prop{a} \vdash \term{\vari }: \Box\prop{a}}{}
+						\infer[\bx E]{\bracket{\term{\vari }: \bx \prop{a}}\vdash \boxelim\term{\vari }:\prop{a}}{
+							\infer[\Ax]{\term{\vari }: \bx\prop{a} \vdash \term{\vari }: \bx\prop{a}}{}
 						}
 						&
-						\infer*[s]{\Gamma\vdash \term{s}: \diamond \Box \prop{a}}{}
+						\infer*[s]{\Gamma\vdash \term{s}: \diamond \bx \prop{a}}{}
 				}
 		\]
-		\caption{And the interior $\Box\diamond(\_)$.}
+		\caption{And the interior $\bx\diamond(\_)$.}
 		\label{subfigure:modal_properties:interior}
 	\end{subfigure}\\[\midsep]
 	\begin{subfigure}{1\textwidth}
 		\[
 			\infer[\diamond E]{\term{\varj}: \diamond \prop{a} \vdash \caseof{\diaelim \varj}{\vari }{s}:\prop{b}}{
-				\infer[\Box E]{\bracket{\term{\vari }: \prop{a}} \vdash \boxelim\term{s}: \prop{b}}{
-					\infer*[s]{\term{\vari }: \prop{a} \vdash \term{s}: \Box\prop{b}}{}
+				\infer[\bx E]{\bracket{\term{\vari }: \prop{a}} \vdash \boxelim\term{s}: \prop{b}}{
+					\infer*[s]{\term{\vari }: \prop{a} \vdash \term{s}: \bx\prop{b}}{}
 				}
 				&
 				\infer[\Ax]{\term{\varj}: \diamond \prop{a} \vdash \term{\varj}: \diamond \prop{a}}{}
 			}
 		\]
-	\caption{Residuation law: from $\smallprop{A} \vdash \Box\smallprop{B}$ to $\diamond\smallprop{A} \vdash \smallprop{B}$.}
+	\caption{Residuation law: from $\smallprop{A} \vdash \bx\smallprop{B}$ to $\diamond\smallprop{A} \vdash \smallprop{B}$.}
 	\label{subfigure:modal_properties:residuation:1}	
 	\end{subfigure}\\[\midsep]
 	\begin{subfigure}{1\textwidth}
 		\[
-			\infer[\Box I]{\term{\varj}: \diamond \prop{a} \vdash \boxintro(\caseof{\diaelim \diaintro \varj}{\vari }{\lam \vari .s}): \prop{b}}{
+			\infer[\bx I]{\term{\varj}: \diamond \prop{a} \vdash \boxintro(\caseof{\diaelim \diaintro \varj}{\vari }{\lam \vari .s}): \prop{b}}{
 				\infer[\diamond E]{\bracket{\term{\varj}: \prop{a}} \vdash \caseof{\diaelim \diaintro \varj}{\vari }{\lam \vari .s}: \prop{b}}{
 					\infer[\li I]{\vdash \term{\lam \vari .s}: \diamond\prop{a} \li \prop{b}}{
 						\infer*[s]{\term{\vari }: \diamond\prop{a} \vdash \term{s}: \prop{b}}{}
@@ -1442,8 +1441,8 @@ Figure~\ref{figure:modal_properties:residuation} presents the proof transformati
  
 Worth a special mention are also the so-called triple laws:
 \begin{align}
-	\diamond\prop{a} \dashv\vdash \diamond\Box\diamond\prop{a}\\
-	\Box\prop{a} \dashv\vdash \Box\diamond\Box\prop{a}
+	\diamond\prop{a} \dashv\vdash \diamond\bx\diamond\prop{a}\\
+	\bx\prop{a} \dashv\vdash \bx\diamond\bx\prop{a}
 \end{align}
 which can be intuitively read as claiming that prepending an already modal type with (one or more) diamond-box pairs in alteration has no real effect, as these can unconditionally cancel out or be expanded into.
 Figure~\ref{figure:modal_triple_laws} presents proofs of the above in both directions.
@@ -1453,56 +1452,56 @@ Figure~\ref{figure:modal_triple_laws} presents proofs of the above in both direc
 	\centering
 	\begin{subfigure}{1\textwidth}
 		\[
-			\infer[\Box I]{\term{\varj}: \Box\diamond\Box\prop{a} \vdash \boxintro(\caseof{\diaelim \boxelim \varj}{\vari }{\boxelim{\vari }}): \Box\prop{a}}{
-				\infer[\diamond E]{\bracket{\term{\varj}: \Box\diamond \prop{a}} \vdash \caseof{\diaelim \boxelim \varj}{\vari }{\boxelim{\vari }}: \prop{a}}{
-					\infer[\Box E]{\bracket{\term{\vari }: \Box \prop{a}} \vdash \term{\boxelim \vari }:\prop{a}}{
-						\infer[\Ax]{\term{\vari }: \Box\prop{a} \vdash \term{\vari }: \Box\prop{a}}{}
+			\infer[\bx I]{\term{\varj}: \bx\diamond\bx\prop{a} \vdash \boxintro(\caseof{\diaelim \boxelim \varj}{\vari }{\boxelim{\vari }}): \bx\prop{a}}{
+				\infer[\diamond E]{\bracket{\term{\varj}: \bx\diamond \prop{a}} \vdash \caseof{\diaelim \boxelim \varj}{\vari }{\boxelim{\vari }}: \prop{a}}{
+					\infer[\bx E]{\bracket{\term{\vari }: \bx \prop{a}} \vdash \term{\boxelim \vari }:\prop{a}}{
+						\infer[\Ax]{\term{\vari }: \bx\prop{a} \vdash \term{\vari }: \bx\prop{a}}{}
 					}
 					&
-					\infer[\Box E]{\bracket{\term{\varj}:\Box\diamond\Box\prop{a}} \vdash \term{\boxelim \varj}:\diamond\Box\prop{a}}{
-						\infer[\Ax]{\term{\varj}: \Box\diamond\Box\prop{a}\vdash\term{\varj}:\Box\diamond\Box\prop{a}}{}
+					\infer[\bx E]{\bracket{\term{\varj}:\bx\diamond\bx\prop{a}} \vdash \term{\boxelim \varj}:\diamond\bx\prop{a}}{
+						\infer[\Ax]{\term{\varj}: \bx\diamond\bx\prop{a}\vdash\term{\varj}:\bx\diamond\bx\prop{a}}{}
 					}
 				}
 			}
 		\]
-		\caption{Contraction of $\Box\diamond\Box(\_)$ to $\Box(\_)$.}
+		\caption{Contraction of $\bx\diamond\bx(\_)$ to $\bx(\_)$.}
 		\label{subfigure:triple_law:box_collapse}
 	\end{subfigure}\\[\midsep]
 	\begin{subfigure}{1\textwidth}
 		\[
-			\infer[\Box I]{\term{\vari }:\Box\prop{a} \vdash \boxintro\diaintro\term{\vari }:\Box\diamond\Box\prop{a}}{
-				\infer[\diamond I]{\bracket{\term{\vari }: \Box\prop{a}} \vdash \diaintro\term{\vari }:\diamond\Box\prop{a}}{
-					\infer[\Ax]{\term{\vari }:\Box\prop{a}\vdash \term{\vari }:\Box\prop{a}}{}
+			\infer[\bx I]{\term{\vari }:\bx\prop{a} \vdash \boxintro\diaintro\term{\vari }:\bx\diamond\bx\prop{a}}{
+				\infer[\diamond I]{\bracket{\term{\vari }: \bx\prop{a}} \vdash \diaintro\term{\vari }:\diamond\bx\prop{a}}{
+					\infer[\Ax]{\term{\vari }:\bx\prop{a}\vdash \term{\vari }:\bx\prop{a}}{}
 				}
 			}
 		\]
-		\caption{Expansion of $\Box(\_)$ to $\Box\diamond\Box(\_)$.}
+		\caption{Expansion of $\bx(\_)$ to $\bx\diamond\bx(\_)$.}
 		\label{subfigure:triple_law:box_expand}
 	\end{subfigure}\\[\midsep]
 	\begin{subfigure}{1\textwidth}
 		\[
-			\infer[\diamond E]{\term{\varj}:\diamond\Box\diamond\prop{a} \vdash \caseof{\diaelim \varj}{\vari }{\boxelim \vari }: \diamond\prop{a}}{
-				\infer[\Box E]{\bracket{\term{\vari }: \Box\diamond\prop{a}} \vdash \boxelim\term{\vari }: \diamond\prop{a}}{
-					\infer[\Ax]{\term{\vari }: \Box\diamond\prop{a} \vdash \term{\vari }: \Box\diamond\prop{a}}{}
+			\infer[\diamond E]{\term{\varj}:\diamond\bx\diamond\prop{a} \vdash \caseof{\diaelim \varj}{\vari }{\boxelim \vari }: \diamond\prop{a}}{
+				\infer[\bx E]{\bracket{\term{\vari }: \bx\diamond\prop{a}} \vdash \boxelim\term{\vari }: \diamond\prop{a}}{
+					\infer[\Ax]{\term{\vari }: \bx\diamond\prop{a} \vdash \term{\vari }: \bx\diamond\prop{a}}{}
 				}
 				&
-				\infer[\Ax]{\term{\varj}: \diamond\Box\diamond\prop{a} \vdash \term{\varj}: \diamond\Box\diamond\prop{a}}{}
+				\infer[\Ax]{\term{\varj}: \diamond\bx\diamond\prop{a} \vdash \term{\varj}: \diamond\bx\diamond\prop{a}}{}
 			}
 		\]
-		\caption{Contraction of $\diamond\Box\diamond(\_)$ to $\diamond(\_)$.}
+		\caption{Contraction of $\diamond\bx\diamond(\_)$ to $\diamond(\_)$.}
 		\label{subfigure:triple_law:diamond_collapse}
 	\end{subfigure}\\[\midsep]
 	\begin{subfigure}{1\textwidth}
 		\[
-			\infer[\diamond E]{\term{\varj}: \diamond \prop{a} \vdash \caseof{\diaelim \varj}{\vari }{\diaintro\boxintro\diaintro \vari }:\diamond\Box\diamond\prop{a}}{
-				\infer[\diamond I]{\bracket{\term{\vari }:\prop{a}} \vdash \diaintro\boxintro\diaintro\term{\vari }:\diamond\Box\diamond\prop{a}}{
-					\infer{\term{\vari }: \prop{a} \vdash \boxintro\diaintro\term{\vari }: \Box\diamond\prop{a}}{\text{(\ref{subfigure:modal_properties:closure})}}
+			\infer[\diamond E]{\term{\varj}: \diamond \prop{a} \vdash \caseof{\diaelim \varj}{\vari }{\diaintro\boxintro\diaintro \vari }:\diamond\bx\diamond\prop{a}}{
+				\infer[\diamond I]{\bracket{\term{\vari }:\prop{a}} \vdash \diaintro\boxintro\diaintro\term{\vari }:\diamond\bx\diamond\prop{a}}{
+					\infer{\term{\vari }: \prop{a} \vdash \boxintro\diaintro\term{\vari }: \bx\diamond\prop{a}}{\text{(\ref{subfigure:modal_properties:closure})}}
 				}
 				&
 				\infer[\Ax]{\term{\varj}: \diamond \prop{a} \vdash \term{\varj}:\diamond\prop{a}}{}
 			}
 		\]
-		\caption{Expansion of $\diamond(\_)$ to $\diamond\Box\diamond(\_)$.}
+		\caption{Expansion of $\diamond(\_)$ to $\diamond\bx\diamond(\_)$.}
 		\label{subfigure:triple_law:diamond_expand}
 	\end{subfigure}
 	\caption{The triple laws for the two modalities in both directions.}
@@ -1799,7 +1798,7 @@ To make the hypothesis movable, we need to instantiate it as a box -- for the pu
 At that point, we need to eliminate the bracketed variable with a term of the corresponding type, plus a diamond.
 For this to work, we need to make the tiniest of modifications to our lexicon so as to get access to the saught-after diamond:
 \begin{equation}\label{equation:litten}
-	\w{litten} \qquad :: \qquad \diamond\Box (\np[s]\divleft\np[s])\divright\pp[s]
+	\w{litten} \qquad :: \qquad \diamond\bx (\np[s]\divleft\np[s])\divright\pp[s]
 \end{equation}
 Intuitively, the new type requests a prepositional phrase complement to the right, after the consumption of which it produces a movable postnominal modifier that can penetrate constituent phrase boundaries to the left.
 Equipped with it, we can derive both the local versions hinted at earlier, and their discontinuous variations; see Figure~\ref{figure:lovecraft_postnominal} for a proof of concept.%
@@ -1815,8 +1814,8 @@ Equipped with it, we can derive both the local versions hinted at earlier, and t
 					\infer[\divleft E]{(\w{opiate}\sbind\w{oceans})\sbind\bracket{\term{\vari }} \vdash \np}{
 						\infer*{\w{opiate}\sbind\w{oceans} \vdash \np}{}
 						&
-						\infer[\Box E]{\bracket{\term{\vari }} \vdash \np\divleft\np}{
-							\infer[\Ax]{\term{\vari }: \Box (\np\divleft\np)}{}
+						\infer[\bx E]{\bracket{\term{\vari }} \vdash \np\divleft\np}{
+							\infer[\Ax]{\term{\vari }: \bx (\np\divleft\np)}{}
 						}
 					}
 					&
@@ -1834,8 +1833,8 @@ Equipped with it, we can derive both the local versions hinted at earlier, and t
 			\infer[\diamond E]{((\w{opiate}\sbind\w{oceans})\sbind(\w{poured}\sbind\w{there}))\sbind(\w{litten}\sbind(\w{by}\sbind\w{suns})) \vdash \s}{
 				\infer{((\dots)\sbind(\dots))\sbind\bracket{\term{\vari }} \vdash \s}{\text{(\ref{subfigure:control:movement})}}
 				&
-				\infer[\divright E]{\w{litten}\sbind(\w{by}\sbind\w{suns}) \vdash \diamond\Box(\np\divleft\np)}{
-					\infer[\Lex]{\w{litten} : \diamond\Box(\np\divleft\np)\divright\pp }{}
+				\infer[\divright E]{\w{litten}\sbind(\w{by}\sbind\w{suns}) \vdash \diamond\bx(\np\divleft\np)}{
+					\infer[\Lex]{\w{litten} : \diamond\bx(\np\divleft\np)\divright\pp }{}
 					&
 					\infer[\divright E]{\w{by}\sbind\w{suns} \vdash \pp}{
 						\infer[\Lex]{\w{by}: \pp\divright\np}{}
@@ -2185,12 +2184,12 @@ For the full conjunction to have the intended meaning, i.e. evoke the image of e
 	\footnote{Before anyone gets angry: I am neither pitching some provocative theory of conjunction semantics here,  nor secretly advocating for the dot-combinator -- just trying to make a point.} 
 as in Figure~\ref{figure:funcomp}, so as to allow the iteration of the intersective modifiers:
 \begin{equation}\label{equation:funcomp}
-\lam \smallterm{\Var{0}\Var{1}\Var{2}.\Var{0}~(\Var{1}~\Var{2})} :: (*\li *)\li(*\li *)\li * \li *
+\lam \smallterm{\vari\varj\vark.\vari~(\varj~\vark)} :: (*\li *)\li(*\li *)\li * \li *
 \end{equation}
 Even though no non-standard term constructors are to be found in this recipe, it is nontheless \textit{not} a theorem of the source logic, as function composition is not derivable in $\NL$.
 In a set-theoretic semantics domain unbound by linearity constraints, another (perhaps more reasonable) translation might make use of an added operator $\wedge : * \to * \to *$ for set-theoretic intersection ($*$ now an arbitrary set), to deliver the recipe:
 \begin{equation}
-\lam \smallterm{\Var{0}\Var{1}\Var{2}.(\Var{0}~\Var{2})\wedge(\Var{1}~\Var{2})} :: (*\ii *)\ii(*\ii *)\ii * \ii *
+\lam \smallterm{\vari\varj\vark.(\vari~\vark)\wedge(\varj~\vark)} :: (*\ii *)\ii(*\ii *)\ii * \ii *
 \end{equation}
 
 \subsection{Abstract Categorial Grammars}
@@ -2235,7 +2234,7 @@ Each grammar is accompanied by two \textit{languages}; the abstract language, i.
 For the phenogrammar to tectogrammar picture to be made evident, the distinguished type needs to be mapped to the functional string type $p_{d} \mapsto \mathtt{str}$, forcing terms of the object language to evaluate to strings.
 Note that, despite appearances, $\mathtt{str}$ is a first-order type $*\li *$ (where $*$ some arbitrary primitive) so as to permit the view of string concatenation as function composition, identical to~(\ref{equation:funcomp}):
 \begin{equation}
-+ := \lam \term{\Var{0}^{\mathtt{str}}\Var{1}^{\mathtt{str}}\Var{2}^{*}.\Var{0}~(\Var{1}~\Var{2})}
++ := \lam \term{\vari^{\mathtt{str}}\varj^{\mathtt{str}}\vark^{*}.\vari~(\varj~\vark)}
 \end{equation}
 
 

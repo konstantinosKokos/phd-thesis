@@ -1,7 +1,7 @@
 \chapter{Proof Extraction}
 \label{chapter:chapter_3}
 
-\chapabstract{\textit{What good is a program that only lives on paper?}}
+\chapabstract{\textit{A program that only lives on paper is not a program.}}
 
 With our theorycrafting over, we have in our hands an uninstantiated descriptive model of syntactic and semantic composition, promising to capture dependency relations while keeping both its feet set firmly in type theory.
 Unfortunately, it is well attested by now that ``all models are wrong...''~\cite{doi:10.1080/01621459.1976.10480949}.
@@ -501,8 +501,8 @@ With this lengthy detour over, we arrive at some painful truths: if there's any 
 Nominals come with a ton of morphosyntactic rules, exposing the fact that there's no syntactic entity as simple and unmarked as the idealized \np[s] we have extensively utilized in earlier chapters.
 The erroneous ommission or addition of as much as an inflectional marking suffices to turn a phrase ungrammatical.
 The same issue pesters verbal morphology -- combining a verb with its potential arguments requires solving a number of constraints relating to number and person (let aside any notions of semantic compatibility).
-To see these constraints solved on the type level is not out of the question; it is in fact something modalities may prove useful in~\cite{moa} -- it is, however, a problem in its own right.
-But these concerns are trivial compared to the monumental intricacies laid down by word order constraints.
+To see these constraints solved on the type level is not out of the question~\cite{pollard2004type} (modalities might in fact make for the perfect tool for the job, see \citet{moa}); it is, however, a problem in its own right.
+But all these concerns are trivial compared to the monumental intricacies laid down by word order constraints.
 For a language like Dutch, devising the type assignments and structural rules that exactly allow the word permutations admissible by the language is a tremendous undertaking that requires navigating a complex network of layered rules and exceptions subject to regional variety.
 
 That is not to say that such endeavours are without merit; a formalism that presents itself as syntactic in nature yet fails to provide a general and transparent account of morphosyntactic and word order constraints wouldn't be particularly honest.
@@ -523,7 +523,7 @@ Put bluntly, this option allows us to sneak our way out of having to reason abou
 Obviously this alters the scope of our endeavours.
 Before any regrettable accusations are thrown, consider that we need not be apologetic for the elephant in the room, namely overgeneration.
 $\NLP_{\ddia, \bx}$ is \textit{not} intended to be the logic you put in generation mode, and its proof theory is \textit{not} Lambek's decision process.
-Rather, its an adequately expressive formalism that can accommodate the duality of function-argument structures and dependency annotations we set out to capture.
+Rather, it is an adequately expressive formalism that can accommodate the duality of function-argument structures and dependency annotations we set out to capture.
 The problem is more practical than theoretical: who is going to hand us these deep syntactic proofs if not for the morphism that was promised?
 Suffice it to say this requires adopting a new notion of parsing (still well under the deductive paradigm): that of associating a well-formed input with the correct tectogrammatic analysis.
 How exactly this is to be done doesn't need to concern us for now -- we'll cross that bridge when we get to it.
@@ -535,29 +535,32 @@ Fortunately, the search is rather short -- the only candidate is also the perfec
 Lassy consists of two annotated corpora, containing sentences paired with a single analysis.
 Analyses are provisioned by Alpino~\cite{van2006last}, a powerful parser that stands the test of time by combining a high quality handcrafted lexicon, a statistical feature disambiguation model and a sophisticated collection of phrase formation rules based on the HPSG framework~\cite{pollard1994head}.
 Alpino annotations are described as spanning three axes: a hierarchical one, answering which words form a phrase, a relational one, answering what the grammatical functions between words are, and a categorial one, answering what the syntactic labels of each word and phrase are.
-Unlike shallow dependency grammars, Alpino does not shy away from higher-order phenomena, formating annotations as dependency \textit{graphs} rather than trees by employing \textit{secondary} edges to represent words that assume multiple syntactic functions.
-Expanded into the equivalent tree by node duplication, the sentential structure is visualized as a tree of nodes connected by named edges.
-There's two types of nodes: material nodes represent words and phrases, whereas phantom nodes represent elided constituents -- every phantom node is associated to a material one.
-Material nodes are assigned a categorial label, either a part of speech tag (in the case of a terminal node representing a word) or a syntactic category (in the case of a non-terminal representing a phrase).%
+Unlike shallow dependency grammars, Alpino does not shy away from higher-order phenomena: it serves annotations as dependency \textit{graphs} rather than trees by employing \textit{secondary} edges to represent words that assume multiple syntactic functions.
+Expanded into the equivalent tree by node duplication, the sentential structure is visualized as a tree of nodes connected by named edges (one incoming edge per node, except for the root which has none).
+In what follows, I will occasionally abuse terminology and call an Alpino/Lassy graph a tree, in reference to this expanded representation; it is important to remember this is distinct from the shallow dependency trees inspected earlier in the context of dependency grammars.
+
+There's two types of nodes: material nodes represent words and phrases, whereas phantom nodes represent elided constituents -- every phantom node is indexically associated to a material one.
+Material nodes are assigned a syntactic category label, either a lexical part of speech tag (in the case of a terminal node representing a word) or a phrasal category (in the case of a non-terminal representing a phrase).%
 	\footnote{Terminal nodes are in fact assigned tags from two distinct sets: a simplified one (denoted \textbf{pos}) and an extended one (denoted \textbf{postag}). The latter in turns consist of a generic label (denoted \textbf{pt}) and a set of label-specific morphological values.
 	Consistent with our dismissal of morphological constraints, we use \textbf{pt} in what follows, but this is by no means a hard constraint -- a short discussion will follow later.}
-The categorial label of a phantom node may be retrieved by inspecting its material counterpart.
-Word order has no bearing on the tree structure -- the span of each material node in the sentence is just an attribute of the node.
+The label of a phantom node may be retrieved by inspecting its material counterpart.
+Nodes can be told apart by their unique identifier, which differs even among nodes sharing the same index (i.e. index $\neq$ identifier).
+Word order has no bearing on the tree structure -- the span of each material node in the sentence is just an attribute of that node.
 A material phrasal node connects to its constituents (themselves nodes of any kind) by virtue of directed edges labeled with grammatical functions.
 Modulo some exceptional cases, each phrasal node emits exactly one head-labeled edge, the rest being a combination of complements and adjuncts.
 An example analysis as provided by Lassy is shown in Figure~\ref{figure:example_lassy_tree}.%
-\footnote{For a detailed exposition of Lassy annotation guidelines, refer to \url{http://www.let.rug.nl/vannoord/Lassy/sa-man_lassy.pdf} (in Dutch).}
 
 Of the two corpora only the smallest one is of real interest.
 Lassy Small includes approximately 65\,000 sentences, amassing a total of almost 1 million words. 
-Its annotations have been manually checked, corrected and externally validated, with a reported 97.8\% of sentences correctly analyzed, and a 98.63\% of tokens correctly tagged -- neither perfect, but both more than good enough for our present needs.
+Its annotations have been manually checked, corrected and externally validated, with a reported 97.8\% of sentences correctly analyzed, and a 98.63\% of tokens correctly tagged -- neither perfect, but both more than good enough for our present needs.%
+	\footnote{For a detailed exposition of Lassy annotation guidelines, refer to \url{http://www.let.rug.nl/vannoord/Lassy/sa-man_lassy.pdf} (in Dutch).}
 Its larger sibling favors quantity over quality -- it is more than 500 times the size, but an ill-fit for our endeavours, being the parser's unmodified output.
 Table~\ref{table:catset} and Table~\ref{table:depset} present aggregated summaries of the syntactic category tags and depedency labels found in Lassy Small, together with their relative frequencies. 
 A breakdown of the corpus' contents is presented in Table~\ref{table:lassy_contents}.%
 \footnote{Sourced from \url{http://nederbooms.ccl.kuleuven.be/eng/tags}.}
 
 \begin{figure}
-	\includegraphics[width=1\textwidth]{./prebuilt/parse_example.pdf}
+	\includegraphics[width=1\textwidth,trim={1.25cm 0 1.25cm 0}, clip]{./prebuilt/parse_example.pdf}
 	\lassycap
 		{WS-U-E-A-0000000013.p.37.s.1}
 		{Op dit moment wordt hard gewerkt in en rond Jeruzalem.}
@@ -578,7 +581,7 @@ A breakdown of the corpus' contents is presented in Table~\ref{table:lassy_conte
 	      \textit{let} & Punctuation & 11.2 & \letter[s]\\
 	      \textit{lid} & Article & 10.7 & \lid[s]\\
 	      \textit{n} & Noun & 22.5 & \n[s]\\
-	      \textit{spec} & Special Token & 3.5 & \n[s]\\
+	      \textit{spec} & Special Token & 3.5 & \np[s]\\
 	      \textit{tsw} & Interjection & $<$0.1 & \tsw[s]\\
 	      \textit{tw} & Numeral & 2.4 & \tw[s]\\
 	      \textit{vg} & Conjunction & 4.2 & \vg[s]\\
@@ -608,11 +611,11 @@ A breakdown of the corpus' contents is presented in Table~\ref{table:lassy_conte
 	      \textit{whq} & Main WH-Q & 0.1 & \whq[s]\\
 	      \textit{whrel} & Free Relative & 0.2 & \whrel[s]\\
 	      \textit{whsub} & Subordinate WH-Q & 0.2 & \whsub[s]\\
-	      \textit{du} & Discourse Unit & 2.6 & --\\
+	      \textcolor{gray}{\textit{du}} & \textcolor{gray}{Discourse Unit} & \textcolor{gray}{2.6} & \textcolor{gray}{n/a}\\
 	      \textit{mwu} & Multiword Unit & 5.9 & --\\
 	      \textit{conj} & Conjunct & 5.7 & --
 	\end{tabularx}
-	\caption{Lassy POS tags and phrasal category labels, and corresponding atomic types.}
+	\caption{Lassy POS tags and phrasal category labels, and corresponding atomic types. The \textit{du} category doesn't make its way to the extracted proofs, while \textit{mwu} and \textit{conj} don't have their own type.}
 	\label{table:catset}
 \end{table}
 
@@ -626,17 +629,18 @@ A breakdown of the corpus' contents is presented in Table~\ref{table:lassy_conte
 	      \textit{body} & Relative Clause Body &0.1& $\ddia{relcl}$\\
 	      \textit{body} & Complementizer body & 2 & $\ddia{cmpbody}$\\
 	      \textit{cnj} & Conjunct &4.3& $\ddia{cnj}$\\
-	      \textit{crd} & Coordinator &1.9& --\\
+	      \textit{crd} & Coordinator &1.8& --\\
+	      \textit{crd} & Second Element of Correlative 	& $<$0.1 & $\ddia{cor}$\\
 	      \textit{det} & Determiner &9.7& $\dbox{det}$\\
-	      \textit{dlink} & Discourse Link & 0.2 & --\\
-	      \textit{dp} & Discourse Part & 0.8 & --\\
-	      \textit{hd} & Phrasal Head & 27.8 &-- \\
+	      \textcolor{gray}{\textit{dlink}} & \textcolor{gray}{Discourse Link} & \textcolor{gray}{0.2} & \textcolor{gray}{n/a}\\
+	      \textcolor{gray}{\textit{dp}} & \textcolor{gray}{Discourse Part} & \textcolor{gray}{0.8} & \textcolor{gray}{n/a}\\
+	      \textit{hd} & Phrasal Head & 27.8 & -- \\
 	      \textit{hdf} & Final Part of Circumposition & $<$0.1 & $\ddia{hdf}$\\
 	      \textit{ld} & Locative Complement &0.5& $\ddia{ld}$\\
 	      \textit{me} & Measure Complement &0.1& $\ddia{me}$\\
 	      \textit{mod} & Modifier &16.4& $\dbox{mod}$\\
-	      \textit{mwu} & Multiword Part &5.1& --\\
-	      \textit{nucl} & Nuclear Clause &0.5& --\\
+	      \textcolor{gray}{\textit{mwu}} & \textcolor{gray}{Multiword Part} & \textcolor{gray}{5.1} & \textcolor{gray}{n/a}\\
+	      \textcolor{gray}{\textit{nucl}} & \textcolor{gray}{Nuclear Clause} &\textcolor{gray}{0.5}& \textcolor{gray}{n/a}\\
 	      \textit{obcomp} & Comparison Complement &0.1& $\ddia{obcomp}$\\      
 	      \textit{obj1} & Direct Object &10.8& $\ddia{obj1}$\\
 	      \textit{obj2} & Secondary Object &0.2& $\ddia{obj2}$\\
@@ -644,7 +648,7 @@ A breakdown of the corpus' contents is presented in Table~\ref{table:lassy_conte
 	      \textit{pobj1} & Preliminary Direct Object &$<$0.1& $\ddia{pobj1}$\\      
 	      \textit{predc} & Predicative Complement &1.3& $\ddia{predc}$\\      
 	      \textit{predm} & Predicative Modifier &0.1& $\dbox{predm}$\\      
-	      \textit{sat} & Satellite &0.2& --\\
+	      \textcolor{gray}{\textit{sat}} & \textcolor{gray}{Satellite} & \textcolor{gray}{0.2} & \textcolor{gray}{n/a}\\
 	      \textit{se} & Obligatory Reflexive Object &0.7& $\ddia{se}$\\      
 	      \textit{su} & Subject &6.9& $\ddia{su}$\\
 	      \textit{sup} & Preliminary Subject &$<$0.1& $\ddia{sup}$\\
@@ -654,7 +658,10 @@ A breakdown of the corpus' contents is presented in Table~\ref{table:lassy_conte
 	      \textit{whd} & WH-question Head &0.1 & --\\
 	      \textit{rhd} & Relative Clause Head & 0.1 & --\\
 	\end{tabularx}
-	\caption{Lassy dependency labels, and corresponding modalities.}
+	\caption{Lassy dependency labels, and corresponding modalities.
+	Grayed out dependencies don't make their way to the extrated proofs.
+	Heady dependencies don't get a modality.
+	}
 	\label{table:depset}
 \end{table}
 
@@ -696,27 +703,53 @@ A breakdown of the corpus' contents is presented in Table~\ref{table:lassy_conte
 	\label{table:lassy_contents}
 \end{table}
 
-\section{Extraction}
+\section{\AE thel}
 The stage is set.
 We need to devise an algorithm that accepts trees like the one of Figure~\ref{figure:example_lassy_tree} and spits out proofs of $\NLP_{\diamond,\bx}$.
 Following our prior discussions, some assumptions need to be met before we get to even contemplate our approach.
 First, we need a clear three-way partition of the set of dependency labels, so that each dependency relation marks either a head, a complement or an adjunct.
 Further, we require that each dependency domain has exactly one head.
 Finally, we must ensure that higher order phenomena reflected in secondary edges (or ghost nodes) are homogeneous so that they can be treated in a uniform way.
-Unfortunately, these requirements are not always met; our first step is therefore to massage any rough edges with a series of transformations aimed at (i) harmonizing the input trees with the target logic and (ii) fixing inconsistent formattings and underspecified or otherwise incompatible annotations.  
+Unfortunately, these requirements are not always met; our first step is therefore to massage any rough edges with a series of transformations aimed at (i) harmonizing the input trees with the target logic and (ii) fixing inconsistent formattings and underspecified or otherwise incompatible annotations. 
 
 \subsection{Taming Lassy}
-Despite its admittedly high quality, Lassy has not been built with an inherent focus towards compositionality.
-This reflects in several design decisions that de facto necessitate some global concessions and adaptations, and some local emergency measures, ranging from targeted transformations in the best case, to occassionally just giving up on a sample in the worst.
+\subsubsection{Edge Relabeling}
+A phrasal annotation canonically contains a single head, a collection of complements (no more than one of each), and a collection of adjuncts (with no restriction on their plurality), where verbal, nominal and sentential domains differ in the the labels they may contain.
+Deciding whether a dependency edge signifies a head, a complement or an adjunct requires little effort on our part, as the distinction has already been made.
+The Lassy annotation manual specifies labels \{\textit{hd}, \textit{rhd}, \textit{whd}, \textit{cmp}, \textit{crd}, \textit{dlink}\} as heads of various kinds, \{\textit{det}, \textit{mod}, \textit{app}, \textit{predm}\} as adjuncts, and \{\textit{body}, \textit{cnj}, \textit{hdf}, \textit{ld}, \textit{me}, \textit{obcomp}, \textit{obj1}, \textit{obj2}, \textit{pc}, \textit{pobj1}, \textit{predc}, \textit{se}, \textit{su}, \textit{sup}, \textit{svp}, \textit{vc}\} as complements.
+This is not a full partition of the set of dependency labels of Table~\ref{table:depset}, as several items fall in neither of the above bins -- more on that in a second.
+First, we'll take on the less severe problem of standardizing the labels already categorized.
+
+\paragraph{\textit{body}, but what kind of?}
+A minor problem appears in the reuse of the \textit{body} label in three different contexts: as the body of a wh-question, a relative clause, or a complementizer.
+This conflation is perfectly reasonable from Lassy's angle: in all three constructions, the head specifies the dependency (being either \textit{whd}, \textit{rhd} or \textit{cmp}) and selects for a subordinate clause with a gap that is practically agnostic to its external context.
+This scheme backfires in our setup, due to heads not carrying their own annotation but rather imposing one on their complements -- if we keep the \textit{body} relation as is, the three different types of head would be indistinguishable.
+Counteracting this is easy; we simply subcategorize the \textit{body} label according to the label of its head, giving rise to labels \textit{whbody}, \textit{relcl} and \textit{cmpbody}.
+This doesn't have any intended consequences on the interal structure and typing of the complement, as its contents still has no premonition as to what diamond it will eventually be assigned.
+
+\paragraph{\textit{det} or \textit{mod}?}
+Lassy is occassionally inconsistent with the use of the determiner \textit{det} and modifier \textit{mod} labels in the nominal domain, marking either as the other in various contexts.
+Examples include marking indefinite, demonstrative or possessive pronouns as modifiers, and, the other way around, marking numerals, names in genitive form, quantifiers and complex quantifying phrases as determiners -- but neither direction is strictly followed.
+These annotations can at times result in a phrase with multiple determiners.
+Despite determiners not being heads, the presence of multiple of them makes it hard to decide on a compositional structure as it poses the challenge of choosing one as the primary between them.
+To impose the restriction of a single determiner per nominal domain and to standardize (some of the) inconsistencies, we uniformly cast the former to determiners and the latter to modifiers, using simple lexical filtering.
+This results in a unique determiner per phrase (resolving constructions like \texttr{geen enkel}{no}, \texttr{de beide}{both}, etc.), and an elimination of complex determiner phrases.
+
+\paragraph{Nominal and Verbal Domains}
+Lassy uses the label \textit{hd} to refer to both the head of a matrix clause and to the head of a noun phrase.
+To distinguish between the two, we relabel heads co-occurring with a determiner to \textit{np-head}.
+This has no effect on our extracted types and proofs but shall help us formulate the extraction algorithm in a more transparent way.
 
 \subsubsection{Non-Compositional Annotations}
+Despite its admittedly high quality, Lassy has not been built with an inherent focus towards compositionality.
+This reflects in some not so uncommon exceptions to the canonical phrasal annotation that \textit{de facto} necessitate some global concessions and adaptations, and some local emergency measures, ranging from targeted transformations in the best case, to occassionally just giving up on a sample in the worst.
 The biggest problem that we are faced with right off the bat is the abundance of vague, general purpose annotation schemes to convey non-compositional structures.
 These come in two flavours -- discourse level annotations, and multiword phrases.
 
 \begin{figure}
-	\includegraphics[width=1\textwidth]{./prebuilt/du_mwp_example.pdf}
+	\includegraphics[width=1\textwidth,trim={1.25cm 0 1.25cm 0}, clip]{./prebuilt/du_mwp_example.pdf}
 	\lassycap
-		{wiki-4941.p.4.s.2.}
+		{wiki-4941.p.4.s.2}
 		{De Eerste Wereldoorlog was voorbij, de wapenstilstand een feit.}
 		{The first world war was over, the armistice a fact.}
 	\caption{Example Lassy graph showcasing non-compositional annotations.}
@@ -728,14 +761,14 @@ Discourse level annotations are materialized by dependencies \textit{dlink}, \te
 In the example of Figure~\ref{figure:du_mwp_example} the two sentences are analyzed as ``discourse parts'' of a single ``discourse unit'' rather than matrix clauses conjoined by the comma -- with some goodwill we could let that slide, but that same strategy is internally applied within the second sentence (apparently a ``discourse unit'' rather than a sentence), thus avoiding a proper syntactic justification for the elided verb. 
 Unfortunatey, there is no algorithmic way to mend these pretend annotations, in part due to their wildly general use, but mostly due to the fact they give us nothing to work with.
 This phenomenon is unpleasantly common; discourse level annotations sum up to about 2\% of the total dependency edges in the corpus, and are present in some 11\,700 samples, polluting a hard to ignore 18\% of the dataset.
-In order not to lose all the precious samples in their totality and rather than discard the entire tree, we take the more conservative approach of simply pruning the problematic edges.
+In order not to lose all the precious samples in their totality, we take the more conservative approach of simply pruning the problematic edges rather than discard the entire tree.
 The subtree underneath each cut is subsequently rooted as an independent sample, sprouting an array of smaller samples from the larger unusuable original; in the example under scrutiny, we end up with three samples rooted at nodes 3, 12 and 15.
 Albeit being a sensible solution in terms of data preservation, this has the unavoidable downside of \textit{a priori} breaking the alignment between the source corpus and the collection of proofs to be.
-In order to facilitate some level of back-and-forth matching, the new samples inherit the identifier of their origin and are distinguished by the suffixation of an added index.
+In order to facilitate some level of back-and-forth matching, the new samples inherit the sample name of their origin and are distinguished between one another by a suffix corresponding to the identifier of their root node.
 
 The pruning might sound easy on paper but proves tricky in certain regards.
 Lassy by default provides no annotations for punctuation symbols, which are instead attached to a conventional ``top'' node with an unlabeled edge.
-By truncating trees naively, we'd be dropping punctuation that might either be necessary for a sentence or phrase to remain grammatical or prove useful in the provision of a proper derivation.
+By truncating trees naively, we'd be dropping punctuation that might be necessary for a phrase to remain grammatical or otherwise prove useful in the provision of a proper derivation.
 Internal commas, for instance, could be the key to constructing a conjunction, whereas final punctuation might be crucial in deciding the phrasal type, motivating their reinstation.
 Including internal and right-adjacent punctuation only, however, carries the risk of upholding only one end of circumfixing punctuations like parentheses or brackets, accidentally turning a phrase ungrammatical.
 The heuristic solution is to iteratively expand a truncated subtree by attaching any internal or peripheral punctuation marks, excluding opening brackets from the right edge and closing brackets and sentence-final punctuation from the left edge.
@@ -747,10 +780,43 @@ When that is not the case, the ghost node is substituted by a copy of the materi
 The process is repeated (to circumvent the possibility of adding a new floating node when fixing the first) until a fixpoint is reached.
 The result is the possibile duplication of lingustic material among different prunings (i.e. a subtree that occurred once in the original Lassy sample can sometimes be found in more than one of the processed samples procured therefrom).
 
+\begin{figure}
+	\begin{subfigure}{1\textwidth}
+	\begin{subfigure}[b]{0.6\textwidth}
+		\includegraphics[width=1\textwidth,trim={1.25cm 0 1cm 0}]{./prebuilt/date_before.pdf}
+	\end{subfigure}%
+	\begin{subfigure}[b]{0.4\textwidth}
+			\includegraphics[width=1\textwidth,trim={1cm 0 1.25cm 0}]{./prebuilt/date_after.pdf}
+	\end{subfigure}\\[\smallsep]
+	\lassycap
+		{WR-P-P-I-0000000242.p.16.s.2~\textnormal{(excerpt)}}
+		{...op 9 en 10 maart...}
+		{...on March 9 and 10...}
+	\caption{Date expression containing a range.}
+	\label{subfigure:mwu:datetime}
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}{1\textwidth}
+	\begin{subfigure}[b]{0.5\textwidth}
+		\includegraphics[width=1\textwidth,trim={1.25cm 0 2cm 0}]{./prebuilt/watvoor_before.pdf}
+	\end{subfigure}%
+	\begin{subfigure}[b]{0.5\textwidth}
+			\includegraphics[width=1\textwidth,trim={2cm 0 1.25cm 0}]{./prebuilt/watvoor_after.pdf}
+	\end{subfigure}\\[\smallsep]
+	\lassycap
+		{WR-P-P-H-0000000039.p.8.s.3(6)}
+		{wat voor keuze heb je?}
+		{what kind of choice do you have?}
+	\caption{Erroneously analyzed interrogative.}
+	\label{subfigure:mwu:watvoor}
+	\end{subfigure}\\[\midsep]
+	\caption{Before (left) and after (right) photos of automatically reannotated multiword expressions.}
+	\label{figure:mwu_transformations}
+\end{figure}
+
 \paragraph{Multiword Phrases}
-Another common pain point is the prominence of multiword phrases annotations, indicated in Lassy by the \textit{mwu} dependency.
+Another common pain point is the prominence of multiword phrase annotations, indicated in Lassy by the \textit{mwu} dependency.
 Multiword expressions are a pervasive pest from the shadowy realms between lexicon and syntax.
-They can be categorized as being either morphosyntactically fixed or (partially) productive expressions that deviate from the expected compositional meaning, or just compositional expressions that have an idiosyncratic frequency.
+They can be categorized as being either (i) morphosyntactically fixed or (partially) productive expressions that deviate from the expected compositional meaning, or (ii) just compositional expressions that have an idiosyncratic frequency.
 In all but the first case and regardless of their semantic use, they are not necessarily without internal structure.
 The criteria of what constitutes a multiword phrase and what doesn't are somewhat muddy, subjective and not clearly motivated.
 The example of Figure~\ref{figure:du_mwp_example} claims that \texttr{Eerste Wereldoorlog}{first world.war} is one, for instance -- eliciting the questions of whether expressions like the \textex{third/current/last/next world war} are also instances of a multiword phrase, and, if so, where the line is drawn (if at all).
@@ -771,52 +837,253 @@ These are for the most part prepositional phrases (like \texttr{ten noorden van}
 More problematic is the occasional mischaracterization of the interrogative \texttr{wat voor}{what kind of}, where the preposition \texttr{voor}{for} is analyzed as part of a multiword expression together with a ghost node coindexed with the pronoun \texttr{wat}{what}.
 These are also caught and corrected, as in the example of Figure~\ref{subfigure:mwu:watvoor}; the preposition is reannotated as being the head of a prepositional phrase selecting for a direct object, that being the afforementioned ghost node.
 Other, less severe, cases include the mislabeling of nationality adjectives (like \texttr{afrikaans}{Afrikan}, \texttr{europees}{european}, etc.), which are recast as modifiers of the noun they were merged with.
+For consistency, punctuations originally analyzed as multiword parts (presumably so as not to break phrasal contiguity) are instead pushed to the topmost root.
 
-For the sake of consistency, punctuations analyzed as multiword parts (presumably so as not to break phrasal contiguity) are instead pushed to the topmost root.
 These minor changes suffice to cut down the frequency of multiword expressions to a more manageable 4.5\% (an overall reduction of 25\%).
+Unresolved expressions have their parts merged into a single node; the resulting node gets a new syntactic label, that being the most common part of speech tag of the merged units (with a bias towards \textit{n} or \textit{np}, if either is present in the parts).
+The goal is to contain the effect of multiword annotations within their own phrasal boundaries (i.e. to avoid functors higher in the tree from selecting for \smallgtype{mwu}-typed arguments).
+In the case of a multiword phrase consisting solely of ghost parts, the merged phrase also gets assigned an index and associating it to its material counterpart.
+
+\subsubsection{There Can Be Only One (Head)}
+Having dealt with structureless structures, the next thing to tackle are subtrees that fail to elect a single head, falling to civil war (when multiple nodes compete for the role) or rising to anarchy (when all relinquish it).
+Here, we'll need to assume the interventive role of a self-appointed stabilizing force, and take it upon ourselves to reinstate normalcy (read: we'll assign a single head of our own choice).
+The culprit behind both cases is always a conjunction, canonically containing a number of conjuncts (labeled \textit{cnj}) and a single coordinator (labeled \textit{crd}).
+Exceptionally, we may have an instance of a so-called \textit{correlative conjunction}, where two words jointly perform the role of the coordinator (e.g. \texttr{zowel ... als}{as much ... as}, etc.).
+We resolve this by changing the label of the second coordinator (in terms of left-to-right sentential precedence) to \textit{cor} (for correlative), which we will later treat as a complement.
+Otherwise in the second case we have an arrangement of conjuncts with no coordinator in between.
+In reality, the conjunction is licensed by a punctuation symbol (usually a comma, but sometimes a dash or an ampersand), which, being a punctuation, has gone under Lassy's radar.
+We heuristically resolve this by first locating any occurrence of a single punctuation infixed between headless conjuncts, relocating it to its rightful place, and assigning it a \textit{crd} label; see Figure~\ref{figure:p2crd} for an example.
 
 \begin{figure}
-	\begin{subfigure}{1\textwidth}
+	\begin{subfigure}[b]{0.475\textwidth}
+		\includegraphics[width=1\textwidth,trim={1.25cm 0 2.5cm 0}]{./prebuilt/p2crd_before.pdf}
+	\end{subfigure}%
+	\begin{subfigure}[b]{0.525\textwidth}
+			\includegraphics[width=1\textwidth,trim={2.5cm 0 1.25cm 0}]{./prebuilt/p2crd_after.pdf}
+	\end{subfigure}\\[\smallsep]
+	\lassycap
+		{WR-P-E-I-0000050381.p.1.s.704(2)}
+		{Alle strijd, alle leed voor niets geweest.}
+		{All the struggle, all the suffering were for nothing.}
+	\caption{Reannotating a headless conjunction.}
+	\label{figure:p2crd}
+\end{figure}
+
+\subsubsection{Phrasal Restructuring}
+Other than the incompatibilities detailed so far, some Lassy annotations are suboptimal for the target logic in specifying a phrasal structure that we want to treat differently than prescribed.
+Such cases are treated by automatically adjusting the phrasal structure to one we are happier with.
+Since these adjustments involve removing or establishing new subtrees and edges, we run the risk of accidentally removing the material tree that grounds a set of ghost nodes sharing the same index.
+As a safety measure, we first enforce the convention that the most shallow occurrence of a node should correspond to a material tree.
+
+\begin{figure}
 	\begin{subfigure}[b]{0.55\textwidth}
-		\includegraphics[width=1\textwidth]{./prebuilt/date_before.pdf}
+		\includegraphics[width=1\textwidth, trim={1.5cm 0 1.5cm 0}]{./prebuilt/ua_before.pdf}
 	\end{subfigure}%
 	\begin{subfigure}[b]{0.45\textwidth}
-			\includegraphics[width=1\textwidth]{./prebuilt/date_after.pdf}
+			\includegraphics[width=1\textwidth,trim={1.5cm 0 1.5cm 0}]{./prebuilt/ua_after.pdf}
 	\end{subfigure}\\[\smallsep]
 	\lassycap
-		{WR-P-P-I-0000000242.p.16.s.2~\textnormal{(excerpt)}}
-		{...16-21 oktober 2005...}
-		{...16-21 October 2005...}
-	\caption{Date expression containing a range.}
-	\label{subfigure:mwu:datetime}
-	\end{subfigure}\\[\midsep]
-	\begin{subfigure}{1\textwidth}
-	\begin{subfigure}[b]{0.5\textwidth}
-		\includegraphics[width=1\textwidth]{./prebuilt/watvoor_before.pdf}
-	\end{subfigure}%
-	\begin{subfigure}[b]{0.5\textwidth}
-			\includegraphics[width=1\textwidth]{./prebuilt/watvoor_after.pdf}
-	\end{subfigure}\\[\smallsep]
-	\lassycap
-		{WR-P-P-H-0000000039.p.8.s.3~\textnormal{(excerpt)}}
-		{wat voor keuze heb je?}
-		{what kind of choice do you have?}
-	\caption{Erroneously analyzed interrogative.}
-	\label{subfigure:mwu:watvoor}
-	\end{subfigure}\\[\midsep]
-	\caption{Before (left) and after (right) photos of automatically reannotated multiword expressions.}
-	\label{figure:mwu_transformations}
+		{dpc-gaz-001006-nl-sen.p.52.s.4(1)}
+		{Hiermee kan kostbare tijd gewonnen worden.}
+		{Precious time can be won with this.}
+	\caption{Removing the understood arguments from an infinitive and the participle nested within it.}
+	\label{figure:ua}
 \end{figure}
-%
-%unit of measurement (e.g. \texttr{uur}{o'clock}, , a currency or a 
-%change the coordinator's edge label to \textit{crd}, and 
-%We look for multiword phrases the last element of which is a unit of measurement, 
 
-%, and this is the approach we'll follow.
+\paragraph{(Mis)understood Arguments}
+Lassy treats the non-finite verbal forms (participles and infinitives) as verbal elements proper, selecting for all the arguments their finite counterparts would.
+Obviously, participles used for the passive or the perfect and infinitives in verbal complements cannot possibly find all these arguments, some being located in higher levels of the dependency graph.
+To resolve this, Lassy opts for establishing ghost nodes coindexed with the so-called understood argument.
+The more non-finites in the path between the one under scrutiny and the top level clause, the more ghost nodes are inserted.
+These nodes are purely semantic in nature, and no syntactic item allows for the consecutive duplication of material they call for.
+As such, they have no place in the compositional structure we seek to extract, and we have the moral right to cast them away.%
+	\footnote{Funnily, our recurring complaint with Lassy so far has been that it gives us too little. 
+	This time around, it gives us too much.}
+Concretely, we look for any edge with adependency label normally reserved for a nominal complement (i.e. \textit{su}, \textit{obj1}, \textit{obj2}, \textit{sup}, \textit{pobj}) pointing to a ghost node, such that any of its non-immediate ancestors is a sentential clause with an outgoing edge pointed to a node of the same index.
+Edges caught in our web are deleted, as are any nodes left floating; see Figure~\ref{figure:ua} for an example.
+This transformation incurs a loss of semantic coindexing, which anyway is irrelevant to us: it's up to lexical semantics entries to decide what arguments they have, how their slots are filled, and how these are propagated and updated down the sentence.
+Other than this coindexing, it will soon be made apparent that no meaningful function-argument structures are actually lost by this erasure.
+
+
+\begin{figure}
+	\begin{subfigure}[b]{0.523\textwidth}
+		\includegraphics[width=1\textwidth, trim={1.5cm 0 3cm 0}]{./prebuilt/prenom_before.pdf}
+	\end{subfigure}%
+	\begin{subfigure}[b]{0.477\textwidth}
+			\includegraphics[width=1\textwidth,trim={3cm 0 1.5cm 0}]{./prebuilt/prenom_after.pdf}
+	\end{subfigure}\\[\smallsep]
+	\lassycap
+		{WR-P-E-I-0000051928.p.1.s.140(1)}
+		{Palestina was een apart probleem.}
+		{Palestine was a separate problem.}
+	\caption{Inserting an intermediate layer for nominal modification.}
+	\label{figure:prenom}
+\end{figure}
+
+\paragraph{Modifier Scope}
+Unlike complements, adjuncts in Lassy are not limited to one occurrence per unique label.
+In other words, they are attached in parallel to the phrasal domain they are part of, rather than recursive paired in a binary fashion to the node they modify or determine.
+We managed to cheat our way around multiple determiners so as to avoid any conflicts of priority, but the same lexical strategy does not apply to modifiers.
+Since Lassy abstains from taking a stance on what the order of modifier attachment is, and sees no distinction between modifying a phrase or its head, we are forced to by and large adopt the same strategy.
+Exceptionally in the nominal domain, we have the option of imposing structure based on word order alone.
+That is, we can distinguish between a noun and a noun phrase modifier depending on where the modifier is located: a modifier that occurs before the determiner must modify the entire phrase, whereas a modifier that occurs between the determiner and the head noun must modify the noun alone; see Figure~\ref{figure:prenom} for an example.
+This simple heuristic is as as far as we can get, but it will help homogenize our extracted proofs and types by (i) aligning function application order and word order and (ii) alleviating any unecessary typing tension between \smallgtype{np} and \smallgtype{n} modifiers.
+
+\paragraph{Ellided Constituents}
+Other than non-finite verbal arguments, shared indexing is primarily employed by Lassy to indicate an omission of linguistic material in ellipses.
+The scheme Lassy employs presents the material version of a ``shared'' tree (be it a deep structure or a singleton node) in the first conjunct daughter of an elliptical conjunction, and a ghost copy of it in each subsequent sister.
+We alter this by pushing the material node to the top-level of the conjunction%
+		\footnote{In the case of nested conjunctions, we stop at the first node assigned the \textit{conj} syntactic category that is an ancestor of \textit{all} ghost nodes of the same index and dependency.}
+(i.e. as a sibling to all conjuncts), and substituting the gap left behind by a new ghost node of the appropriate index.
+This will facilitate the easier typing of conjunctions later on.
+
+\paragraph{Unary Pipes}
+The movements and erasures performed can sometimes lead to ``pipes'' of unary trees.
+We resolve these by removing any intermediate nodes and establishing a new edge from the source of the pipe to its end, inheriting the label of the edge that would previously appear first.
+
+\paragraph{Labelless Conjunctions}
+The \textit{conj} label, used as an umbrella category to classify all conjunctions, carries the same risk as the \textit{mwu} label, namely of polluting the functional type assignments of phrases outside the conjunction itself with a generic, multi-purpose argument type.
+We resolve this exactly like before, namely by conducting a majority voting over the categories of all conjunct siblings and propagating the elected category upwards to the conjunction node, prioritizing noun phrases over nouns over everything else in orderto account for nominalization.
+
+\paragraph{Raising Nouns}
+Bare nouns are assigned the \textit{n} part of speech regardless of whether they need (or occur with) a determiner to occupy a verbal argument position.
+To circumvent (to the extent possible) a combinatorial explosion of meaningless \smallgtype{n} and \smallgtype{np} argument variations, we alter the part of speech assignment of \textit{n} nodes that are not roofed under a \textit{np} from the former to the latter.
+As we will soon see, this will alter the type assignment of these nodes, in analogy to an implicit and contextual lexicalization of an explicit noun raising rule.
+
+
+% \todo : ad hoc transformations
+
+\subsection{Proving Lassy}
+With our transformations in place, the subdued corpus should be ripe for our proof extraction algorithm.
+
+\subsubsection{Proof Charming}
+The extraction is built around a tiny DSL written in Python, which allows one to formulate, represent and traverse valid proofs of \NLPplus.
+By invoking the DSL while traversing the dependency tree of a Lassy sample, the extraction algorithm dynamically constructs a natural deduction proof, translating tree patterns into meta-theoretical proof operations.
+Internalizing the syntactic validity assertions of \NLPplus{} is a costly procedure, both in terms of processing overhead and of maintainance effort required, especially considering how unconducive the language is to formal rigor.
+On the other hand, it serves to eliminate the need for asynchronously interfacing with some external checker, and provides a formal guarantee that whatever the extraction algorithm produces is \textit{correct by construction}: any syntactic missteps will be caught on the spot and raise an exception.
+As a bonus, the system can (and will) find use outside the scope of the extraction, as a representational intermediary for parsing and proof representation.
+Detailing the specifics behind the implementation shouldn't be our main concern here; it suffices to know it exists and runs as a constant safety belt in all that follows.
+If for whatever reason you enjoy watching people try to beat types into Python, you can take at a look at Appendix~\ref{sec:python_impl} (not for the faint of heart).
+
+\subsubsection{Parameters}
+We start by declaring our basic necessities.
+First, a translation table (or function) that maps part of speech tags and syntactic category labels to types, used to provide non-contextual type assignments to lexical nodes and phrases.
+The translation table currently in use is depicted in Table~\ref{table:catset}; it maps strictly to atomic types and takes most of the categorial labels at face value, mapping each of them to a unique image%
+\footnote{It basically just converts italics to smallcaps.}.
+Exceptionally, the \textit{spec} tag is cast into \smallgtype{np}, as the tag is (inconsistently) used as a generic annotation for places, persons, events and the like.
+The codomain of the translation is in our case coincident with our logic's set of propositional constants, $\propcon$.
+As hinted at earlier, the extraction is \textit{parametric} to this translation: the domain can be any of the sets of lexical tags Lassy provides access to, and the codomain is by no means restricted to atomic types.
+This allows an easy adaptation to morpologically informed types, or a transition to an expanded theory (e.g. one that includes subtyping, additional/other axes of modal decorations, etc.). 
+In principle, this can also allow a re-incorporation of implicit arguments for non-finite verbal forms, but doing so would not amount to much: as promised earlier, these are already trivially recoverable by a simple morphism (readily applicable on the extracted proofs) that sends non-finite forms to the desired complex types (immediate return on investment for taking source labels at face value).
+In any case, the translation induces a function $\mathsf{translate} :: \mathsf{Node} \to \mathsf{Type}$ that naively tells us for each node what type the translation table prescribes to its part of speech tag (if lexical), syntactic category (if phrasal) or the correspond translations of its material counterpart (if ghost).
+
+Then, we need an equivalence relation on the set of dependencies so as to partition it into heads, adjuncts $\adjuncts$ and complements $\complements$ -- each non-head dependency is translated into a modal label, the union of which (together with the extraction modality) forming the set of modalities $\deps$.
+For the set of dependencies, we also need a strict partial order, serving to impose an informal ordering of the arguments of a multi-argument functor.
+With this, we avoid the responsibility of having to explicitly argue about an equivalence between argument order variations of the same head function: each complement will have a distinct modal decoration that decides how strongly it is attracted to the end result, yielding a canonical form for all types we'd be faced with (given the uniqueness of complements restriction).
+This is reminiscent of the notion of a \textit{obliqueness hierarchy}~\cite{dowty1982grammatical}, which we can in fact use to produce some linguistically sensible types.
+From more to least oblique, we have: \textit{svp}\textgreater\textit{obcomp}\textgreater\textit{vc}\textgreater\textit{me}\textgreater\textit{ld}\textgreater\textit{hdf}\textgreater\textit{pc}\textgreater\textit{se}\textgreater\textit{obj2}\textgreater\textit{predc}\textgreater\textit{obj1} \textgreater\textit{pobj1}\textgreater\textit{su}\textgreater\textit{sup}.
+
+\subsubsection{Tree Patterns}
+The algorithm takes the form of a proof assignment function, responsible for casting a local tree structure into a corresponding natural deduction proof.
+The function is recursively called in a top-down fashion, its original input being the complete dependency tree and its endpoints being terminal nodes.
+Proofs assigned to lexical nodes will correspond to lexical type assignments, whereas proofs assigned to ghost nodes will be variable instantiations.
+Intermediate returns of the top-level function call will be the ``partial'' proofs of the corresponding subtrees.
+To apply the appropriate operation at each slice of the tree, the algorithm distinguishes between a number of structures on the basis of the outgoing dependencies present.
+Context may be propagated from a local layer to the layer underneath by providing the dependency label of the edge that led to the current tree, and (optionally) a type hint.
+In mathy font, we have:
+\begin{align*}
+\mathsf{prove} :: \mathsf{Tree} \to \mathsf{Type}^? \to {\deps}^? \to \mathsf{Proof}
+\end{align*}
+In the paragraphs to follow, we will inspect the tree structures most commonly encountered and discuss their treatment in high level terms (plus some language agnostic but serious looking pseudocode).
+For ease of communication, we will trace the algorithm in reverse, going from simpler constructions to more complex ones.
+Despite building proofs, we will at times use notation or terminology commonly reserved for terms/programs when both convenient and applicable, e.g. a variable will denote a proof containing a single $\Ax$ rule, and applying a proof to a proof will mean deriving a more complex proof via modus ponens -- do not be startled by this and remember your Curry-Howard.
+
+\paragraph{Terminal Nodes}
+Terminal nodes are easy-peasy.
+There's only three questions we have to ask, namely ``do we have a type hint?'', ``is the node a ghost?'' and ``was there a dependency label that got us here and, if so, was it either an adjunct or a complement?''.
+Ok, this is actually four questions but nonetheless.
+Any proof assignment we cook up must be uniquely identifiable with the node; we will use the node's identifier as the subscript of the instantiated variable or constant (we will from now on use indexing to tell constants apart, as strings do not make for trustworthy identifiers, i.e. $\con{i}$ for constant i).
+
+If we do have a type hint, we just return a new constant (if not a ghost) or variable (if ghost) of the hinted type.
+\begin{align*}
+\mathsf{prove} \ \mathsf{node}_i \ \smallgtype{a} \ \_ =  \vari:\smallgtype{a} \ \mathsf{if} \ (\mathsf{ghost} \ \mathsf{node}_i) \ \mathsf{else} \ \con{i}:\smallgtype{a}
+\end{align*}
+If we do not have a type hint, we must first map the syntactic category label of the node under scrutiny (or its material counterpart, if ghost) into a type using our translation table.
+If the node was lexical, we are done -- we need to just instantiate the type with the $\Lex$ rule.
+If it was a ghost, we must recall our discussion in Section~\ref{subsubsec:sreason_dep} (hypotheses come prepackaged with their modalities, you're welcome) and check whether a modality needs to be added -- a diamond (if we got here through a complement marking dependency), or a box (an adjunct marking one).
+If no label was present, or it was a heady one, we're good to go with the plain type.
+Either way, the type gets instantiated with the $\Ax$ rule.
+\begin{align*} 
+\mathsf{prove} \ \mathsf{node}_i \ \mathsf{none} \ \dep{dep}  &= \ \mathsf{prove} \ \mathsf{node}_i \ \ (\smallgtype{b} \ \mathsf{if} \ (\mathsf{ghost} \ \mathsf{node}_i) \ \mathsf{else} \ \smallgtype{a})\ \mathsf{none}\\
+\mathsf{where} \  \gtype{a} & \mapsfrom \mathsf{trans} \ \mathsf{node}_i \\
+\mathsf{and}\  \gtype{b} & \mapsfrom \ddia{dep}\smallgtype{a} \ \mathsf{if} \  \dep{dep} \in \complements \ \mathsf{else}
+\ \dbox{dep}\smallgtype{a} \ \mathsf{if} \  \dep{dep} \in \adjuncts \ \mathsf{else} \ \smallgtype{a}\\
+\end{align*}
+
+\paragraph{Non-Terminal Domains}
+In any non-terminal domain, we must first decide on the type of the current phrase.
+If a type hint was passed from above, we have no choice but to obey the oracle.
+If no hint was passed, we will translate the phrasal category of the current root into the appropriate top type.
+
+
+\begin{figure}
+	\includegraphics[width=1\textwidth, trim={1.5cm 0 1.5cm 0}]{./prebuilt/simple_extraction.pdf}
+	\aethelcap
+		{WR-P-E-I-0000041235.p.1.s.123(1)}
+		{Al het andere is afgeleid.}
+		{All the rest is derivative.}
+		{\smallterm{\con{7}~\diaintro{vc}(\con{10})}}
+	\caption{Simple finite clause extraction.}
+	\label{figure:simple_extraction}
+%	c7, 〈c10〉vc, 〈〈〈c4〉mod, c5〉mod, c6〉su ⊢ c7 ▵vc(c10) ▵su(▾mod(▾mod(c4) c5) c6) : SMAIN
+\end{figure}
+
+
+\paragraph{Simple Clauses}
+A simple verbal domain consists of a single head, some complements and (possibly) some adjuncts  -- we'll arrange them in corresponding bins, with complements sorted by their obliqueness hierarchy and adjuncts sorted by their order of appearance in the sentence.
+% this order does not apply to N->N
+First, we'll call $\mathsf{prove}$ on each argument tree, passing its corresponding dependency edge and no type hint as arguments.
+%From each proof we get back, we will inspect all hypotheses contained therein -- if any of these hypotheses shares the same index as the head of the clause, we will abstract over it.
+Each proof that does not correspond to an instance of the $\Ax$ rule, we will apply a diamond introduction over, to enforce the appropriate complement dependency (hypotheses are excluded due to \textit{already} being of the correct diamond type).
+By isolating the result types of the proofs extracted this way, we can infer the type of the phrasal head.
+We can thefore call $\mathsf{prove}$ on the head tree, passing no correspoding dependency edge but type hinting it as the curried function from the sequentialized arguments to the top type.
+In a dual fashion, we can call $\mathsf{prove}$ on each adjunct tree, type hinting it as the endomorphism of the top type, enclosed under a box of the corresponding dependency label.
+With this and that, we now have proofs for each subtree underneath us -- what remains to be done is fusing these proofs together.
+The way to go is simple: we need to left fold the head proof against its arguments, and then right fold the ``unboxed'' adjuncts to the result, careful to follow the correct order.
+Exceptionally to the above, nodes assigned the \textit{punct} tag are given a plain \smallgtype{punct} type that does not partake in the proof.
+
+Now, if your senses are telling you this looks too easy to be true, you're right.
+This simple setup already suffices to cover quite a lot of trees
+
+
+% example
+% too easy to be true
 
 
 
 
+%This functionality is encapsulated by the $\mathsf{make\_args}$ function.
+%\begin{align*} 
+%& \mathsf{make\_args} :: [(\dep{dep},\mathsf{Tree})] \to \mathsf{Node} \to \mathsf{Type}^? \to [\mathsf{Proof}]\\
+%& \mathsf{make\_args} \ \mathsf{comps} \ \mathsf{head} \ \mathsf{type^?} = \\
+%where & \mathsf{proofs} \ & \mapsfrom \ [\mathsf{prove} \ \mathsf{t}_i \ \mathsf{type}^? \ \mathsf{d}_i \ | \ (\mathsf{d}_i,\mathsf{t}_i) \in \mathsf{comps} ]
+%%& \mathsf{as} \ \mapsfrom 
+%\end{align*}
+%\mathsf{prove} \ (\mathsf{node}_i, 
+%		(\dep{hd},\mathsf{Tree}_j):
+%		(\dep{comp}_{k}, \mathsf{Tree}_k)...(\dep{adj}_m, \mathsf{Tree}_m):
+%		(\dep{adj}_j, \mathsf{Tree}_j)...(\dep{adj}_n, \mathsf{Tree}_n)
+%%(\dep{dep}_{j}, \mathsf{Tree}_{j}), \dots]
+%%\ \mathsf{none} \ \dep{dep}  &= \ \mathsf{prove} \ \mathsf{node}_i \ \ (\smallgtype{b} \ 
+
+
+\subsection{Measuring Proofs}
+
+%\begin{align*}
+%\mathsf{prove} \ (\mathsf{node}_i, 
+%					[\mathsf{node}_i \
+%%\ \smallgtype{a} \ \_ =  \vari:\smallgtype{a} \ \mathsf{if} \ (\mathsf{ghost} \ \mathsf{node}_i) \ \mathsf{else} \ \con{i}:\smallgtype{a}
+%\end{align*}
 
 
 %\begin{figure}
