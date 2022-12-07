@@ -30,6 +30,10 @@ Two, it fills in for a strict and impartial external critic in providing a quant
 And three, the end-yield of this process has merit of its own.
 As a derived dataset, it is first a building block necessary for populating the computational toolshed of the theory, and also a public resource for the world to with as they please.
 
+Before we get started, let me apologize for the gloomy mood that might permeate this chapter here and there.
+Proof extraction has been the most gruesome and iterated aspect of my PhD, its maintance and upkeep having an almost annual recurrence (with nothing festive about it).
+For the sake of scientific transparency, I have no choice other than to expose it in all its horrific details, but it might be that my fatigue of the topic occassionally reflects in a less-than-usually interesting prose.
+
 \section{Preliminaries}
 \subsection{The Dutch Language}
 For our linguistic inquiries, the focus will be on Dutch.
@@ -611,7 +615,7 @@ A breakdown of the corpus' contents is presented in Table~\ref{table:lassy_conte
 	      \textit{whq} & Main WH-Q & 0.1 & \whq[s]\\
 	      \textit{whrel} & Free Relative & 0.2 & \whrel[s]\\
 	      \textit{whsub} & Subordinate WH-Q & 0.2 & \whsub[s]\\
-	      \textcolor{gray}{\textit{du}} & \textcolor{gray}{Discourse Unit} & \textcolor{gray}{2.6} & \textcolor{gray}{n/a}\\
+	      \textcolor{gray}{\textit{du}} & \textcolor{gray}{Discourse Unit} & \textcolor{gray}{2.6} & \textcolor{gray}{{\small n/a}}\\
 	      \textit{mwu} & Multiword Unit & 5.9 & --\\
 	      \textit{conj} & Conjunct & 5.7 & --
 	\end{tabularx}
@@ -632,15 +636,15 @@ A breakdown of the corpus' contents is presented in Table~\ref{table:lassy_conte
 	      \textit{crd} & Coordinator &1.8& --\\
 	      \textit{crd} & Second Element of Correlative 	& $<$0.1 & $\ddia{cor}$\\
 	      \textit{det} & Determiner &9.7& $\dbox{det}$\\
-	      \textcolor{gray}{\textit{dlink}} & \textcolor{gray}{Discourse Link} & \textcolor{gray}{0.2} & \textcolor{gray}{n/a}\\
-	      \textcolor{gray}{\textit{dp}} & \textcolor{gray}{Discourse Part} & \textcolor{gray}{0.8} & \textcolor{gray}{n/a}\\
+	      \textcolor{gray}{\textit{dlink}} & \textcolor{gray}{Discourse Link} & \textcolor{gray}{0.2} & \textcolor{gray}{{\small n/a}}\\
+	      \textcolor{gray}{\textit{dp}} & \textcolor{gray}{Discourse Part} & \textcolor{gray}{0.8} & \textcolor{gray}{{\small n/a}}\\
 	      \textit{hd} & Phrasal Head & 27.8 & -- \\
 	      \textit{hdf} & Final Part of Circumposition & $<$0.1 & $\ddia{hdf}$\\
 	      \textit{ld} & Locative Complement &0.5& $\ddia{ld}$\\
 	      \textit{me} & Measure Complement &0.1& $\ddia{me}$\\
 	      \textit{mod} & Modifier &16.4& $\dbox{mod}$\\
-	      \textcolor{gray}{\textit{mwu}} & \textcolor{gray}{Multiword Part} & \textcolor{gray}{5.1} & \textcolor{gray}{n/a}\\
-	      \textcolor{gray}{\textit{nucl}} & \textcolor{gray}{Nuclear Clause} &\textcolor{gray}{0.5}& \textcolor{gray}{n/a}\\
+	      \textcolor{gray}{\textit{mwu}} & \textcolor{gray}{Multiword Part} & \textcolor{gray}{5.1} & \textcolor{gray}{{\small n/a}}\\
+	      \textcolor{gray}{\textit{nucl}} & \textcolor{gray}{Nuclear Clause} &\textcolor{gray}{0.5}& \textcolor{gray}{{\small n/a}}\\
 	      \textit{obcomp} & Comparison Complement &0.1& $\ddia{obcomp}$\\      
 	      \textit{obj1} & Direct Object &10.8& $\ddia{obj1}$\\
 	      \textit{obj2} & Secondary Object &0.2& $\ddia{obj2}$\\
@@ -648,7 +652,7 @@ A breakdown of the corpus' contents is presented in Table~\ref{table:lassy_conte
 	      \textit{pobj1} & Preliminary Direct Object &$<$0.1& $\ddia{pobj1}$\\      
 	      \textit{predc} & Predicative Complement &1.3& $\ddia{predc}$\\      
 	      \textit{predm} & Predicative Modifier &0.1& $\dbox{predm}$\\      
-	      \textcolor{gray}{\textit{sat}} & \textcolor{gray}{Satellite} & \textcolor{gray}{0.2} & \textcolor{gray}{n/a}\\
+	      \textcolor{gray}{\textit{sat}} & \textcolor{gray}{Satellite} & \textcolor{gray}{0.2} & \textcolor{gray}{{\small n/a}}\\
 	      \textit{se} & Obligatory Reflexive Object &0.7& $\ddia{se}$\\      
 	      \textit{su} & Subject &6.9& $\ddia{su}$\\
 	      \textit{sup} & Preliminary Subject &$<$0.1& $\ddia{sup}$\\
@@ -672,16 +676,19 @@ A breakdown of the corpus' contents is presented in Table~\ref{table:lassy_conte
 	\textbf{Treebank} 	& \textbf{Contents}  & \textbf{Acronym} & \textbf{\# Sentences} & \textbf{\# Words}\\
 	\toprule
 	\textbf{DPC}		& Dutch Parallel Corpus 	& \fname{dpc} & {11\,716} 	& {193\,029}\\
-	\midrule
+	\addlinespace
+	\addlinespace
 	\textbf{Wikipedia} & Wikipedia Pages 			& \fname{wiki} & {7\,341} 	& {83\,360}\\
-	\midrule
+	\addlinespace
+	\addlinespace
 	\multirow{5}{*}{\textbf{WR-P-E}} 
 						& E-magazines				& \fname{WR-P-E-C} 			& \multirow{5}{*}{14\,420} & \multirow{5}{*}{232\,631}\\
 						& Newsletters				& \fname{WR-P-E-E}\\
 						& Teletext Pages			& \fname{WR-P-E-H}\\
 						& Web Sites					& \fname{WR-P-E-I}\\
 						& Wikipedia					& \fname{WR-P-E-J}\\
-	\midrule
+	\addlinespace
+	\addlinespace
 	\multirow{10}{*}{\textbf{WR-P-P}} 
 						& Books						& \fname{WR-P-P-B} 			& \multirow{10}{*}{17\,691} & \multirow{10}{*}{281\,424}\\
 						& Brochures					& \fname{WR-P-P-C}\\
@@ -693,7 +700,8 @@ A breakdown of the corpus' contents is presented in Table~\ref{table:lassy_conte
 						& Proceedings				& \fname{WR-P-P-J}\\
 						& Reports					& \fname{WR-P-P-K}\\
 						& Surveys					& \fname{WR-P-P-L}\\
-	\midrule
+	\addlinespace
+	\addlinespace
 	\multirow{3}{*}{\textbf{WS-U}}
 						& Auto Cues					& \fname{WS-U-E-A}			& \multirow{3}{*}{14\,032} & \multirow{3}{*}{184\,611}\\
 						& News Scripts				& \fname{WS-U-T-A}\\
@@ -781,36 +789,39 @@ The process is repeated (to circumvent the possibility of adding a new floating 
 The result is the possibile duplication of lingustic material among different prunings (i.e. a subtree that occurred once in the original Lassy sample can sometimes be found in more than one of the processed samples procured therefrom).
 
 \begin{figure}
-	\begin{subfigure}{1\textwidth}
-	\begin{subfigure}[b]{0.6\textwidth}
-		\includegraphics[width=1\textwidth,trim={1.25cm 0 1cm 0}]{./prebuilt/date_before.pdf}
-	\end{subfigure}%
-	\begin{subfigure}[b]{0.4\textwidth}
-			\includegraphics[width=1\textwidth,trim={1cm 0 1.25cm 0}]{./prebuilt/date_after.pdf}
+	\centering
+	\begin{subfigure}[b]{0.65\textwidth}
+		\includegraphics[width=1\textwidth,trim={1.5cm 1.5cm 1.5cm 1.5cm}]{./prebuilt/date_before.pdf}
+		\caption{Before.}
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}[b]{0.55\textwidth}
+			\includegraphics[width=1\textwidth,trim={1.5cm 1.5cm 1.5cm 1.5cm}]{./prebuilt/date_after.pdf}
+			\caption{After.}
 	\end{subfigure}\\[\smallsep]
 	\lassycap
 		{WR-P-P-I-0000000242.p.16.s.2~\textnormal{(excerpt)}}
 		{...op 9 en 10 maart...}
 		{...on March 9 and 10...}
-	\caption{Date expression containing a range.}
-	\label{subfigure:mwu:datetime}
+	\caption{Reannotating a date expression containing a conjunction.}
+	\label{figure:mwu:datetime}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[b]{0.85\textwidth}
+		\includegraphics[width=1\textwidth,trim={1.5cm 1.5cm 1.5cm 1.5}]{./prebuilt/watvoor_before.pdf}
+		\caption{Before.}
 	\end{subfigure}\\[\midsep]
-	\begin{subfigure}{1\textwidth}
-	\begin{subfigure}[b]{0.5\textwidth}
-		\includegraphics[width=1\textwidth,trim={1.25cm 0 2cm 0}]{./prebuilt/watvoor_before.pdf}
-	\end{subfigure}%
-	\begin{subfigure}[b]{0.5\textwidth}
-			\includegraphics[width=1\textwidth,trim={2cm 0 1.25cm 0}]{./prebuilt/watvoor_after.pdf}
+	\begin{subfigure}[b]{0.75\textwidth}
+			\includegraphics[width=1\textwidth,trim={1.5cm 1.5cm 1.5cm 1.5cm}]{./prebuilt/watvoor_after.pdf}
+		\caption{Before.}
 	\end{subfigure}\\[\smallsep]
 	\lassycap
 		{WR-P-P-H-0000000039.p.8.s.3(6)}
 		{wat voor keuze heb je?}
 		{what kind of choice do you have?}
-	\caption{Erroneously analyzed interrogative.}
-	\label{subfigure:mwu:watvoor}
-	\end{subfigure}\\[\midsep]
-	\caption{Before (left) and after (right) photos of automatically reannotated multiword expressions.}
-	\label{figure:mwu_transformations}
+	\caption{Rennotating an erroneously analyzed interrogative.}
+	\label{figure:mwu:watvoor}
 \end{figure}
 
 \paragraph{Multiword Phrases}
@@ -830,12 +841,12 @@ Generating structure out of thin air is of course impossible, but several existi
 A first filter can tell us whether a word is a numeral or measure by inspecting its part of speech assignment.
 Two numerals separated by a coordinator make for a complex numeral, in which case a new tree can be instantiated, with the coordinator and the two numerals as its daughters; the first marked as a coordinator, the other two as conjuncts.
 A numeral, complex or singleton, adjacent to a quantity denoting noun (like \texttr{paar}{pair}, \texttr{honderd}{hundred}, \texttr{duizend}{thousand}, etc.), a unit of measurement (like \texttr{kilo}{kilogram}, \texttr{eur}{euro}, etc.) is cast into a modifier, and the noun is cast into a head.
-In a similar vein, a tiny parser is employed to analyze expressions of time and date; it follows a binarization scheme that assigns headedness to the more general part of a datetime expression (i.e. year over month over day), and analyzes the rest as a modifier with internal structure; an example is presented in Figure~\ref{subfigure:mwu:datetime}.
+In a similar vein, a tiny parser is employed to analyze expressions of time and date; it follows a binarization scheme that assigns headedness to the more general part of a datetime expression (i.e. year over month over day), and analyzes the rest as a modifier with internal structure; an example is presented in Figure~\ref{figure:mwu:datetime}.
 
 On the lexical side of things, some expressions tend to default to a multiword annotation despite not being one -- clearly an artifact of Alpino's rule-based parser that was never corrected in the manual verification stage.
 These are for the most part prepositional phrases (like \texttr{ten noorden van}{north of}, \texttr{met uitzondering van}{except for}, etc.), which are caught and reanalyzed by having the genitive-substitute \textex{van} attach to the modified noun (as consistently done otherwise throughout Lassy), which the remainder of the expression consumes as a direct object.
 More problematic is the occasional mischaracterization of the interrogative \texttr{wat voor}{what kind of}, where the preposition \texttr{voor}{for} is analyzed as part of a multiword expression together with a ghost node coindexed with the pronoun \texttr{wat}{what}.
-These are also caught and corrected, as in the example of Figure~\ref{subfigure:mwu:watvoor}; the preposition is reannotated as being the head of a prepositional phrase selecting for a direct object, that being the afforementioned ghost node.
+These are also caught and corrected, as in the example of Figure~\ref{figure:mwu:watvoor}; the preposition is reannotated as being the head of a prepositional phrase selecting for a direct object, that being the afforementioned ghost node.
 Other, less severe, cases include the mislabeling of nationality adjectives (like \texttr{afrikaans}{Afrikan}, \texttr{europees}{european}, etc.), which are recast as modifiers of the noun they were merged with.
 For consistency, punctuations originally analyzed as multiword parts (presumably so as not to break phrasal contiguity) are instead pushed to the topmost root.
 
@@ -855,11 +866,14 @@ In reality, the conjunction is licensed by a punctuation symbol (usually a comma
 We heuristically resolve this by first locating any occurrence of a single punctuation infixed between headless conjuncts, relocating it to its rightful place, and assigning it a \textit{crd} label; see Figure~\ref{figure:p2crd} for an example.
 
 \begin{figure}
-	\begin{subfigure}[b]{0.475\textwidth}
-		\includegraphics[width=1\textwidth,trim={1.25cm 0 2.5cm 0}]{./prebuilt/p2crd_before.pdf}
-	\end{subfigure}%
-	\begin{subfigure}[b]{0.525\textwidth}
-			\includegraphics[width=1\textwidth,trim={2.5cm 0 1.25cm 0}]{./prebuilt/p2crd_after.pdf}
+	\centering
+	\begin{subfigure}[b]{0.85\textwidth}
+		\includegraphics[width=1\textwidth,trim={1.5cm 1.5cm 1.5cm 1.5cm}]{./prebuilt/p2crd_before.pdf}
+		\caption{Before.}
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}[b]{0.85\textwidth}
+			\includegraphics[width=1\textwidth,trim={1.5cm 1.5cm 1.5cm 1.5cm}]{./prebuilt/p2crd_after.pdf}
+			\caption{After.}			
 	\end{subfigure}\\[\smallsep]
 	\lassycap
 		{WR-P-E-I-0000050381.p.1.s.704(2)}
@@ -876,11 +890,14 @@ Since these adjustments involve removing or establishing new subtrees and edges,
 As a safety measure, we first enforce the convention that the most shallow occurrence of a node should correspond to a material tree.
 
 \begin{figure}
-	\begin{subfigure}[b]{0.55\textwidth}
-		\includegraphics[width=1\textwidth, trim={1.5cm 0 1.5cm 0}]{./prebuilt/ua_before.pdf}
-	\end{subfigure}%
-	\begin{subfigure}[b]{0.45\textwidth}
-			\includegraphics[width=1\textwidth,trim={1.5cm 0 1.5cm 0}]{./prebuilt/ua_after.pdf}
+	\centering
+	\begin{subfigure}[b]{0.75\textwidth}
+		\includegraphics[width=1\textwidth, trim={1.5cm 1.5cm 1.5cm 1.5cm}]{./prebuilt/ua_before.pdf}
+		\caption{Before.}
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}[b]{0.75\textwidth}
+			\includegraphics[width=1\textwidth,trim={1.5cm 1.5cm 1.5cm 1.5cm}]{./prebuilt/ua_after.pdf}
+		\caption{After.}			
 	\end{subfigure}\\[\smallsep]
 	\lassycap
 		{dpc-gaz-001006-nl-sen.p.52.s.4(1)}
@@ -906,11 +923,14 @@ Other than this coindexing, it will soon be made apparent that no meaningful fun
 
 
 \begin{figure}
-	\begin{subfigure}[b]{0.523\textwidth}
-		\includegraphics[width=1\textwidth, trim={1.5cm 0 3cm 0}]{./prebuilt/prenom_before.pdf}
-	\end{subfigure}%
-	\begin{subfigure}[b]{0.477\textwidth}
-			\includegraphics[width=1\textwidth,trim={3cm 0 1.5cm 0}]{./prebuilt/prenom_after.pdf}
+	\centering
+	\begin{subfigure}[b]{0.75\textwidth}
+		\includegraphics[width=1\textwidth, trim={1.5cm 1.5cm 1.5cm 1.5cm}]{./prebuilt/prenom_before.pdf}
+		\caption{Before.}
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}[b]{0.75\textwidth}
+			\includegraphics[width=1\textwidth,trim={1.5cm 1.5cm 1.5cm 1.5cm}]{./prebuilt/prenom_after.pdf}
+		\caption{After.}
 	\end{subfigure}\\[\smallsep]
 	\lassycap
 		{WR-P-E-I-0000051928.p.1.s.140(1)}
@@ -973,11 +993,11 @@ The translation table currently in use is depicted in Table~\ref{table:catset}; 
 Exceptionally, the \textit{spec} tag is cast into \smallgtype{np}, as the tag is (inconsistently) used as a generic annotation for places, persons, events and the like.
 The codomain of the translation is in our case coincident with our logic's set of propositional constants, $\propcon$.
 As hinted at earlier, the extraction is \textit{parametric} to this translation: the domain can be any of the sets of lexical tags Lassy provides access to, and the codomain is by no means restricted to atomic types.
-This allows an easy adaptation to morpologically informed types, or a transition to an expanded theory (e.g. one that includes subtyping, additional/other axes of modal decorations, etc.). 
+This allows an easy adaptation to morpologically informed types, or a transition to an expanded theory (e.g. one that includes subtyping, additional axes of modal decorations, etc.). 
 In principle, this can also allow a re-incorporation of implicit arguments for non-finite verbal forms, but doing so would not amount to much: as promised earlier, these are already trivially recoverable by a simple morphism (readily applicable on the extracted proofs) that sends non-finite forms to the desired complex types (immediate return on investment for taking source labels at face value).
-In any case, the translation induces a function $\mathsf{translate} :: \mathsf{Node} \to \mathsf{Type}$ that naively tells us for each node what type the translation table prescribes to its part of speech tag (if lexical), syntactic category (if phrasal) or the correspond translations of its material counterpart (if ghost).
+In any case, the translation induces a function that naively tells us for each node what type the translation table prescribes to its part of speech tag (if lexical), syntactic category (if phrasal) or the correspond translations of its material counterpart (if ghost).
 
-Then, we need an equivalence relation on the set of dependencies so as to partition it into heads, adjuncts $\adjuncts$ and complements $\complements$ -- each non-head dependency is translated into a modal label, the union of which (together with the extraction modality) forming the set of modalities $\deps$.
+Then, we need an equivalence relation on the set of dependencies so as to partition it into heads, adjuncts and complements -- each non-head dependency is translated into a modal label, the union of which (together with the extraction modality) forming the set of modalities $\deps$.
 For the set of dependencies, we also need a strict partial order, serving to impose an informal ordering of the arguments of a multi-argument functor.
 With this, we avoid the responsibility of having to explicitly argue about an equivalence between argument order variations of the same head function: each complement will have a distinct modal decoration that decides how strongly it is attracted to the end result, yielding a canonical form for all types we'd be faced with (given the uniqueness of complements restriction).
 This is reminiscent of the notion of a \textit{obliqueness hierarchy}~\cite{dowty1982grammatical}, which we can in fact use to produce some linguistically sensible types.
@@ -990,11 +1010,11 @@ Proofs assigned to lexical nodes will correspond to lexical type assignments, wh
 Intermediate returns of the top-level function call will be the ``partial'' proofs of the corresponding subtrees.
 To apply the appropriate operation at each slice of the tree, the algorithm distinguishes between a number of structures on the basis of the outgoing dependencies present.
 Context may be propagated from a local layer to the layer underneath by providing the dependency label of the edge that led to the current tree, and (optionally) a type hint.
-In mathy font, we have:
+In mathy font, this would look something like:
 \begin{align*}
 \mathsf{prove} :: \mathsf{Tree} \to \mathsf{Type}^? \to {\deps}^? \to \mathsf{Proof}
 \end{align*}
-In the paragraphs to follow, we will inspect the tree structures most commonly encountered and discuss their treatment in high level terms (plus some language agnostic but serious looking pseudocode).
+In the paragraphs to follow, we will inspect the tree structures most commonly encountered and discuss their treatment in high level terms.
 For ease of communication, we will trace the algorithm in reverse, going from simpler constructions to more complex ones.
 Despite building proofs, we will at times use notation or terminology commonly reserved for terms/programs when both convenient and applicable, e.g. a variable will denote a proof containing a single $\Ax$ rule, and applying a proof to a proof will mean deriving a more complex proof via modus ponens -- do not be startled by this and remember your Curry-Howard.
 
@@ -1005,69 +1025,195 @@ Ok, this is actually four questions but nonetheless.
 Any proof assignment we cook up must be uniquely identifiable with the node; we will use the node's identifier as the subscript of the instantiated variable or constant (we will from now on use indexing to tell constants apart, as strings do not make for trustworthy identifiers, i.e. $\con{i}$ for constant i).
 
 If we do have a type hint, we just return a new constant (if not a ghost) or variable (if ghost) of the hinted type.
-\begin{align*}
-\mathsf{prove} \ \mathsf{node}_i \ \smallgtype{a} \ \_ =  \vari:\smallgtype{a} \ \mathsf{if} \ (\mathsf{ghost} \ \mathsf{node}_i) \ \mathsf{else} \ \con{i}:\smallgtype{a}
-\end{align*}
+%\begin{align*}
+%\mathsf{prove} \ \mathsf{node}_i \ \smallgtype{a} \ \_ =  \vari:\smallgtype{a} \ \mathsf{if} \ (\mathsf{ghost} \ \mathsf{node}_i) \ \mathsf{else} \ \con{i}:\smallgtype{a}
+%\end{align*}
 If we do not have a type hint, we must first map the syntactic category label of the node under scrutiny (or its material counterpart, if ghost) into a type using our translation table.
 If the node was lexical, we are done -- we need to just instantiate the type with the $\Lex$ rule.
-If it was a ghost, we must recall our discussion in Section~\ref{subsubsec:sreason_dep} (hypotheses come prepackaged with their modalities, you're welcome) and check whether a modality needs to be added -- a diamond (if we got here through a complement marking dependency), or a box (an adjunct marking one).
+If it was a ghost, we must recall our discussion in Section~\ref{subsubsection:sreason_dep}%
+	\footnote{Hypotheses come prepackaged with their modalities, you're welcome.}
+and check whether a modality needs to be added -- a diamond (if we got here through a complement marking dependency), or a box (an adjunct marking one).
 If no label was present, or it was a heady one, we're good to go with the plain type.
 Either way, the type gets instantiated with the $\Ax$ rule.
-\begin{align*} 
-\mathsf{prove} \ \mathsf{node}_i \ \mathsf{none} \ \dep{dep}  &= \ \mathsf{prove} \ \mathsf{node}_i \ \ (\smallgtype{b} \ \mathsf{if} \ (\mathsf{ghost} \ \mathsf{node}_i) \ \mathsf{else} \ \smallgtype{a})\ \mathsf{none}\\
-\mathsf{where} \  \gtype{a} & \mapsfrom \mathsf{trans} \ \mathsf{node}_i \\
-\mathsf{and}\  \gtype{b} & \mapsfrom \ddia{dep}\smallgtype{a} \ \mathsf{if} \  \dep{dep} \in \complements \ \mathsf{else}
-\ \dbox{dep}\smallgtype{a} \ \mathsf{if} \  \dep{dep} \in \adjuncts \ \mathsf{else} \ \smallgtype{a}\\
-\end{align*}
+%\begin{align*} 
+%\mathsf{prove} \ \mathsf{node}_i \ \mathsf{none} \ \dep{dep}  &= \ \mathsf{prove} \ \mathsf{node}_i \ \ (\smallgtype{b} \ \mathsf{if} \ (\mathsf{ghost} \ \mathsf{node}_i) \ \mathsf{else} \ \smallgtype{a})\ \mathsf{none}\\
+%\mathsf{where} \  \gtype{a} & \mapsfrom \mathsf{trans} \ \mathsf{node}_i \\
+%\gtype{b} & \mapsfrom \ddia{dep}\smallgtype{a} \ \mathsf{if} \  (\dep{dep} \in \complements) \ \mathsf{else}
+%\ \dbox{dep}\smallgtype{a} \ \mathsf{if} \  (\dep{dep} \in \adjuncts) \ \mathsf{else} \ \smallgtype{a}\\
+%\end{align*}
 
 \paragraph{Non-Terminal Domains}
 In any non-terminal domain, we must first decide on the type of the current phrase.
-If a type hint was passed from above, we have no choice but to obey the oracle.
+If a type hint was passed from above, we have no option other than to obey it.
 If no hint was passed, we will translate the phrasal category of the current root into the appropriate top type.
 
-
 \begin{figure}
-	\includegraphics[width=1\textwidth, trim={1.5cm 0 1.5cm 0}]{./prebuilt/simple_extraction.pdf}
+	\begin{subfigure}{1\textwidth}
+		\includegraphics[width=1\textwidth, trim={1.5cm 1.5cm 1.5cm 1.5cm}]{./prebuilt/simple_extraction.pdf}
+		\caption{Type-annotated sample.}
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}{1\textwidth}
+		\resizebox{1\textwidth}{!}{
+		\infer[\li E]
+			{\con{7},\dbra{\con{10}}{vc},\dbra{\dbra{\dbra{\con{4}}{mod},\con{5}}{mod},\con{6}}{su}\vdash \smain}
+			{
+			\infer[\li E]
+				{\con{7},\dbra{\con{10}}{vc}\vdash \ddia{su}\np\multimap \smain}
+				{
+				\infer[\Lex]
+					{\con{7}: \ddia{vc}\ww\multimap \ddia{su}\np\multimap \smain}
+					{}
+				&
+				\hspace{-5pt}
+				\infer[\ddia{vc} I]
+					{\dbra{\con{10}}{vc} \vdash \ddia{vc}\ww}
+					{
+					\infer[\Lex]
+						{\con{10}: \ww}
+						{}
+					}
+				}
+			&
+			\hspace{-105pt}
+			\infer[\ddia{su} I]
+				{\dbra{\dbra{\dbra{\con{4}}{mod},\con{5}}{mod},\con{6}}{su}\vdash \ddia{su}\np}
+				{
+				\infer[\li E]
+					{\dbra{\dbra{\con{4}}{mod},\con{5}}{mod},\con{6}\vdash \np}
+					{
+					\infer[\dbox{mod} E]
+						{\dbra{\dbra{\con{4}}{mod},\con{5}}{mod}\vdash \np\multimap \np}
+						{
+						\infer[\li E]
+							{\dbra{\con{4}}{mod},\con{5}\vdash \dbox{mod}(\np\multimap \np)}
+							{
+							\infer[\dbox{mod} E]
+								{\dbra{\con{4}}{mod}\vdash \dbox{mod}(\np\multimap \np)\multimap \dbox{mod}(\np\multimap \np)}
+								{
+								\infer[\Lex]
+									{\con{4}: \dbox{mod}(\dbox{mod}(\np\multimap \np)\multimap \dbox{mod}(\np\multimap \np))}
+									{}
+								}
+							&
+							\infer[\Lex]
+								{\con{5}: \dbox{mod}(\np\multimap \np)}
+								{}
+							}
+						}
+					&
+					\hspace{-55pt}
+					\infer[\Lex]
+						{\con{6}: \np}
+						{}
+					}
+				}
+			}
+		}
+		\caption{Assigned proof (unprocessed).}
+	\end{subfigure}\\[\midsep]
 	\aethelcap
 		{WR-P-E-I-0000041235.p.1.s.123(1)}
 		{Al het andere is afgeleid.}
 		{All the rest is derivative.}
-		{\smallterm{\con{7}~\diaintro{vc}(\con{10})}}
+		{\term{\con{7}~\diaintro{vc}(\con{10})~\diaintro{su}(\boxelim{mod}(\boxelim{mod}(\con{4})~\con{5})~\con{6})}}
 	\caption{Simple finite clause extraction.}
 	\label{figure:simple_extraction}
-%	c7, 〈c10〉vc, 〈〈〈c4〉mod, c5〉mod, c6〉su ⊢ c7 ▵vc(c10) ▵su(▾mod(▾mod(c4) c5) c6) : SMAIN
 \end{figure}
-
+%
 
 \paragraph{Simple Clauses}
 A simple verbal domain consists of a single head, some complements and (possibly) some adjuncts  -- we'll arrange them in corresponding bins, with complements sorted by their obliqueness hierarchy and adjuncts sorted by their order of appearance in the sentence.
-% this order does not apply to N->N
 First, we'll call $\mathsf{prove}$ on each argument tree, passing its corresponding dependency edge and no type hint as arguments.
-%From each proof we get back, we will inspect all hypotheses contained therein -- if any of these hypotheses shares the same index as the head of the clause, we will abstract over it.
 Each proof that does not correspond to an instance of the $\Ax$ rule, we will apply a diamond introduction over, to enforce the appropriate complement dependency (hypotheses are excluded due to \textit{already} being of the correct diamond type).
 By isolating the result types of the proofs extracted this way, we can infer the type of the phrasal head.
-We can thefore call $\mathsf{prove}$ on the head tree, passing no correspoding dependency edge but type hinting it as the curried function from the sequentialized arguments to the top type.
+We can thefore call $\mathsf{prove}$ on the head tree, passing no correspoding dependency edge, but type hinting it as the curried function from the sequentialized arguments to the top type.
 In a dual fashion, we can call $\mathsf{prove}$ on each adjunct tree, type hinting it as the endomorphism of the top type, enclosed under a box of the corresponding dependency label.
 With this and that, we now have proofs for each subtree underneath us -- what remains to be done is fusing these proofs together.
-The way to go is simple: we need to left fold the head proof against its arguments, and then right fold the ``unboxed'' adjuncts to the result, careful to follow the correct order.
+The way to go is simple: we need to left fold the head proof against its arguments, and then right fold the ``unboxed'' adjuncts to the result, careful to follow the correct order (unbox meaning literally applying the box elimination rule on each adjunct to reveal the enclosed endomorphism).
 Exceptionally to the above, nodes assigned the \textit{punct} tag are given a plain \smallgtype{punct} type that does not partake in the proof.
+This simple setup already suffices to cover quite a lot of trees with simple applicative phenomena, including higher order modifiers, like the example of Figure~\ref{figure:simple_extraction}.
+There, nodes 1, 2 and 10 obtains types $\smain[s]$, $\np[s]$ and $\ww[s]$ by simple translation, and 7 obtains the type $\ddia{vc}\ww[s]\li\ddia{su}\np[s]\li\smain[s]$, having 10 and 2 as complements (adorned with $\ddia{vc}$ and $\ddia{su}$ diamonds respectively) and 1 as the result.
+Node 2 forces the type $\dbox{mod}(\np[s]\li\np[s])$ to node 3 (as an adjunct with the \textit{mod} label), in turn forcing the type $\dbox{mod}(\dbox{mod}(\np[s]\li\np[s])\li\dbox{mod}(\np[s]\li\np[s]))$ to node 4 for the exact same reason. 
+Nodes 5 and 6 inherit the types of their mothers (3 and 2), having no complements.
+Within each domain, heads apply to their arguments and adjuncts drop their boxes to apply to the result.
 
-Now, if your senses are telling you this looks too easy to be true, you're right.
-This simple setup already suffices to cover quite a lot of trees
+\paragraph{\todo}
+Now, if you have a sneaking suspicion that this looks oddly easy, you're right.
+We have not yet made any attempt to cover cases of hypothetical reasoning triggered by relative clauses and wh-questions.
+The hypotheses in such phenomena have already been established by the ghost nodes underlying them -- all we need to do is know when to withdraw them.
+The criterion we'll follow applies to the proofs assigned to phrasal complements, and requires first that the phrasal head is indexed.
+If that is the case, it draws out all variables within the proof investigated, and filters those of them whose node shares the same index as the head.
+Variables caught are abstracted over before the diamond introduction rule is applied.
+Figure~\ref{figure:simple_abstraction} presents a concrete example: node 6 carries index 1 and looks for its complement in node 7.
+But node 7 contains $\Var{8}$, and node 8 has index 1 -- therefore, we must abstract the proof of node 7 over $\Var{8}$ before continuing with assigning it a diamond.
+
+\paragraph{\todo}
+But how can we even be certain that the abstraction is indeed possible?
+Recalling once more our discussion from Section~\ref{subsubsection:sreason_dep}%
+	\footnote{The variable may be free but it could lie inaccessible behind structural brackets, don't mention it.},
+we might end up attempting to perform an illegal abstraction, e.g. in the case of a hypothetical adjunct.
+To reproduce our strategy from Figure~\ref{figure:higher_order_dep}, we need to make the tiniest of adaptation to our ``unbox-and-apply'' scheme from earlier on.
 
 
-% example
-% too easy to be true
+%we must now retroactively regret our original type assignment and make the hypothesis extractable.
+%No big deal: when trying to ``unbox and apply'' 
+%No big deal: we substitute the original variable for an $\dep{x}$-marked equivalent (see Figure~\ref{figure:higher_order_nested_dep} to jog your memory) 
 
 
+\begin{figure}[htbp]
+	\begin{subfigure}{1\textwidth}
+		\includegraphics[width=1\textwidth, trim={1.5cm 1.5cm 1.5cm 1.5cm}]{./prebuilt/simple_abstraction.pdf}\\[\smallsep]
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}{1\textwidth}
+		\resizebox{1\textwidth}{!}{
+			\infer[\li E]{\dbra{\con{6},\dbra{\dbra{\con{9}}{mod},\con{10}}{relcl}}{mod},\con{4} \vdash \np}{
+				\infer[\dbox{mod} E]{\dbra{\con{6},\dbra{\dbra{\con{9}}{mod},\con{10}}{relcl}}{mod} \vdash (\np\li\np)}{
+					\infer[\li E]{\con{6},\dbra{\dbra{\con{9}}{mod},\con{10}}{relcl} \vdash \dbox{mod}(\np\li\np)}{
+						\infer[\Lex]{\con{6}: \ddia{relcl}(\ddia{su}\vnw\li\ssub)\li\dbox{mod}(\np\li\np)}{}
+						&
+						\hspace{-30pt}
+						\infer[\ddia{relcl} I]{\dbra{\dbra{\con{9}}{mod},\con{10}}{relcl} \vdash \ddia{relcl}(\ddia{su}\vnw\li\ssub)}{
+							\infer[\li I]{\dbra{\con{9}}{mod},\con{10} \vdash \ddia{su}\vnw\li\ssub}{
+								\infer[\li E]{\dbra{\con{9}}{mod},\con{10},\Var{8} \vdash \ssub}{
+									\infer[\dbox{mod} E]{\dbra{\con{9}}{mod}}{
+										\infer[\Lex]{\con{9} : \dbox{mod}(\ssub\li\ssub)}{}
+									}
+									&
+									\infer[\li E]{\con{10},\Var{8} \vdash \ssub}{
+										\infer[\Lex]{\con{10}: \ddia{su}\vnw\li\ssub}{}
+										&
+										\infer[\Ax]{\Var{8}: \ddia{su}\vnw}{}
+									}
+								}
+							}
+						}
+					}
+				}
+				&
+				\hspace{-50pt}
+				\infer[\Lex]{\con{4}: \np}{}
+			}
+		}
+	\end{subfigure}\\[\smallsep]
+	\aethelcap
+		{WS-U-E-A-0000000016.p.37.s.1(3)}
+		{Auto's die niet starten.}
+		{Cars that don't start.}
+		{\term{\boxelim{mod}(\con{6}~\diaintro{relcl}((\lam \Var{8}.\boxelim{mod}(\con{9})~(\con{10}~\Var{8}))))~\con{4}}}
+	\caption{Abstracting over a coindexed node.}
+	\label{figure:simple_abstraction}
+\end{figure}
 
-
-%This functionality is encapsulated by the $\mathsf{make\_args}$ function.
+%The functionalities is encapsulated by the $\mathsf{make\_args}$ function.
 %\begin{align*} 
-%& \mathsf{make\_args} :: [(\dep{dep},\mathsf{Tree})] \to \mathsf{Node} \to \mathsf{Type}^? \to [\mathsf{Proof}]\\
-%& \mathsf{make\_args} \ \mathsf{comps} \ \mathsf{head} \ \mathsf{type^?} = \\
-%where & \mathsf{proofs} \ & \mapsfrom \ [\mathsf{prove} \ \mathsf{t}_i \ \mathsf{type}^? \ \mathsf{d}_i \ | \ (\mathsf{d}_i,\mathsf{t}_i) \in \mathsf{comps} ]
-%%& \mathsf{as} \ \mapsfrom 
+%\mathsf{make\_args} & :: [(\dep{dep},\mathsf{Tree})] \to \mathsf{Node} \to \mathsf{Type}^? \to [\mathsf{Proof}]\\
+%\mathsf{make\_args} \ \mathsf{comps} \ \mathsf{head} \ \mathsf{type^?} & = [\mathsf{prove}' \ \mathsf{t}_i \ \mathsf{type}^? \ \mathsf{d}_i \ | \ (\mathsf{d}_i,\mathsf{t}_i) \in \mathsf{comps} ] \\
+%\mathsf{where} \ \mathsf{prove}' \ \mathsf{t}_i \ \mathsf{type}^? \ \mathsf{d}_i \  & \mapsfrom \ 
+%\mathsf{p}' \ \mathsf{if} \ (\mathsf{is\_var} \ \mathsf{p}') \ \mathsf{else} \ (\mathsf{\mathsf{add\_diamond} \ \mathsf{p}' \ \mathsf{d}_i})\\
+%\mathsf{p}' \ & \mapsfrom \ (\mathsf{abstract\_over} \ \mathsf{p} \ (\mathsf{indexed\_as} \ \mathsf{head}))\\
+%\mathsf{p} \ & \mapsfrom \ \mathsf{prove} \ \mathsf{t}_i \ \mathsf{type}^? \ \mathsf{d}_i
+%%(\mathsf{prove} \ \mathsf{t}_i \ \mathsf{type}^? \ \mathsf{d}_i)
+%%& \mathsf{as} \ \mapsfrom \ ppppppppppp
 %\end{align*}
 %\mathsf{prove} \ (\mathsf{node}_i, 
 %		(\dep{hd},\mathsf{Tree}_j):
