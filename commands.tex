@@ -268,8 +268,8 @@
 \newcommand{\xdiamond}{\modalxdiascale{\vardiamondsuit}}
 \newcommand{\bx}{\modalboxscale{\Box}}
 \newcommand{\xbx}{\modalboxscale{\blacksquare}}
-\newcommand{\dep}[1]{\ensuremath{\mathsf{#1}}}
-\newcommand{\deps}{\ensuremath{\dep{Deps}}}
+\newcommand{\dep}[1]{\ensuremath{\mathnormal{#1}}}
+\newcommand{\deps}{\ensuremath{\mathsf{Deps}}}
 \newcommand{\adjuncts}{\ensuremath{\dep{Adjs}}}
 \newcommand{\complements}{\ensuremath{\dep{Comps}}}
 \newcommand{\ddia}[1]{\diamond_{\scalebox{0.66}{\dep{\smaller{#1}}}}}
@@ -284,10 +284,13 @@
 \newcommand{\domodaltermscale}[2]{\raisebox{0.25\getfontdim{#1}}{\scalebox{0.85}{\ensuremath{#1#2}}}}
 \makeatother
 \newcommand{\modaltermscale}[1]{\mathpalette\domodaltermscale{#1}\relax}
-\newcommand{\boxelim}[1][]{\modaltermscale{\blacktriangledown}{\dep{#1}}}
-\newcommand{\boxintro}[1]{{\modaltermscale{\blacktriangle}}{\dep{#1}}}
-\newcommand{\diaelim}[1][]{\modaltermscale{\triangledown}{\dep{#1}}}
-\newcommand{\diaintro}[1][]{\modaltermscale{\vartriangle}{\dep{#1}}}
+\newcommand{\boxelim}{\modaltermscale{\blacktriangledown}}
+\newcommand{\dboxelim}[1]{\boxelim_\dep{#1}}
+\newcommand{\boxintro}{\modaltermscale{\blacktriangle}}
+\newcommand{\diaelim}{\modaltermscale{\triangledown}}
+\newcommand{\ddiaelim}[1]{\diaelim_\dep{#1}}
+\newcommand{\diaintro}{\modaltermscale{\vartriangle}}
+\newcommand{\ddiaintro}[1]{\diaintro_\dep{#1}}
 \newcommand{\caseof}[3]{\cterm{case \term{#1} of \term{#2} in \term{#3}}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -786,7 +786,7 @@ The next issue to address is the potential disconnect between a ghost node and i
 To avoid trees with floating nodes, we check whether ghosts in the pruned tree can access their material counterparts.
 When that is not the case, the ghost node is substituted by a copy of the material node, and, in the event of it being a phrasal node, the entire tree that lies underneath it.
 The process is repeated (to circumvent the possibility of adding a new floating node when fixing the first) until a fixpoint is reached.
-The result is the possibile duplication of lingustic material among different prunings (i.e. a subtree that occurred once in the original Lassy sample can sometimes be found in more than one of the processed samples procured therefrom).
+The result is the possibile duplication of lingustic material among different prunings (i.e. a subtree that occurred once in the original Lassy sample can sometimes be found in more than one of the processed samples).
 
 \begin{figure}
 	\centering
@@ -970,7 +970,6 @@ Bare nouns are assigned the \textit{n} part of speech regardless of whether they
 To circumvent (to the extent possible) a combinatorial explosion of meaningless \smallgtype{n} and \smallgtype{np} argument variations, we alter the part of speech assignment of \textit{n} nodes that are not roofed under a \textit{np} from the former to the latter.
 As we will soon see, this will alter the type assignment of these nodes, in analogy to an implicit and contextual lexicalization of an explicit noun raising rule.
 
-
 % \todo : ad hoc transformations
 
 \subsection{Proving Lassy}
@@ -1031,9 +1030,9 @@ If we do have a type hint, we just return a new constant (if not a ghost) or var
 If we do not have a type hint, we must first map the syntactic category label of the node under scrutiny (or its material counterpart, if ghost) into a type using our translation table.
 If the node was lexical, we are done -- we need to just instantiate the type with the $\Lex$ rule.
 If it was a ghost, we must recall our discussion in Section~\ref{subsubsection:sreason_dep}%
-	\footnote{Hypotheses come prepackaged with their modalities, you're welcome.}
+	\footnote{Hypotheses come prepackaged with their modalities -- you're welcome.}
 and check whether a modality needs to be added -- a diamond (if we got here through a complement marking dependency), or a box (an adjunct marking one).
-If no label was present, or it was a heady one, we're good to go with the plain type.
+If no label was present, or it was a heady one, we're free to stick with the plain type.
 Either way, the type gets instantiated with the $\Ax$ rule.
 %\begin{align*} 
 %\mathsf{prove} \ \mathsf{node}_i \ \mathsf{none} \ \dep{dep}  &= \ \mathsf{prove} \ \mathsf{node}_i \ \ (\smallgtype{b} \ \mathsf{if} \ (\mathsf{ghost} \ \mathsf{node}_i) \ \mathsf{else} \ \smallgtype{a})\ \mathsf{none}\\
@@ -1042,7 +1041,7 @@ Either way, the type gets instantiated with the $\Ax$ rule.
 %\ \dbox{dep}\smallgtype{a} \ \mathsf{if} \  (\dep{dep} \in \adjuncts) \ \mathsf{else} \ \smallgtype{a}\\
 %\end{align*}
 
-\paragraph{Non-Terminal Domains}
+\paragraph{Non-Terminal Trees}
 In any non-terminal domain, we must first decide on the type of the current phrase.
 If a type hint was passed from above, we have no option other than to obey it.
 If no hint was passed, we will translate the phrasal category of the current root into the appropriate top type.
@@ -1115,13 +1114,13 @@ If no hint was passed, we will translate the phrasal category of the current roo
 		{WR-P-E-I-0000041235.p.1.s.123(1)}
 		{Al het andere is afgeleid.}
 		{All the rest is derivative.}
-		{\term{\con{7}~\diaintro{vc}(\con{10})~\diaintro{su}(\boxelim{mod}(\boxelim{mod}(\con{4})~\con{5})~\con{6})}}
+		{\term{\con{7}~\ddiaintro{vc}\con{10}~\ddiaintro{su}(\dboxelim{mod}(\dboxelim{mod}\con{4}~\con{5})~\con{6})}}
 	\caption{Simple finite clause extraction.}
 	\label{figure:simple_extraction}
 \end{figure}
 %
 
-\paragraph{Simple Clauses}
+\paragraph{Matrix Clauses}
 A simple verbal domain consists of a single head, some complements and (possibly) some adjuncts  -- we'll arrange them in corresponding bins, with complements sorted by their obliqueness hierarchy and adjuncts sorted by their order of appearance in the sentence.
 First, we'll call $\mathsf{prove}$ on each argument tree, passing its corresponding dependency edge and no type hint as arguments.
 Each proof that does not correspond to an instance of the $\Ax$ rule, we will apply a diamond introduction over, to enforce the appropriate complement dependency (hypotheses are excluded due to \textit{already} being of the correct diamond type).
@@ -1129,38 +1128,20 @@ By isolating the result types of the proofs extracted this way, we can infer the
 We can thefore call $\mathsf{prove}$ on the head tree, passing no correspoding dependency edge, but type hinting it as the curried function from the sequentialized arguments to the top type.
 In a dual fashion, we can call $\mathsf{prove}$ on each adjunct tree, type hinting it as the endomorphism of the top type, enclosed under a box of the corresponding dependency label.
 With this and that, we now have proofs for each subtree underneath us -- what remains to be done is fusing these proofs together.
-The way to go is simple: we need to left fold the head proof against its arguments, and then right fold the ``unboxed'' adjuncts to the result, careful to follow the correct order (unbox meaning literally applying the box elimination rule on each adjunct to reveal the enclosed endomorphism).
+The way to go is simple: we need to first left fold the head's proof against the complements' proofs, and then apply the function composition of the ``unboxed'' adjuncts' proofs onto the result (unbox literally meaning using the box elimination rule to reveal the endomorphism enclosed within).
+Let's reiterate this for clarity.
+Each step of the initial fold will produce a ``shorter'' type, and, by the the time we run out of complements, the result's type will coincide with the top type.
+Each unboxed adjunct will be a function from the top type to itself -- their n-ary function composition will then still be the of the same type, meaning it can be directly applied to our intermediate result.
+At this point, we have each tree below exactly once (yay, linearity), and we have produced a proof of the type we were asked to (or the tree prescribed), meaning we're good to go.
 Exceptionally to the above, nodes assigned the \textit{punct} tag are given a plain \smallgtype{punct} type that does not partake in the proof.
-This simple setup already suffices to cover quite a lot of trees with simple applicative phenomena, including higher order modifiers, like the example of Figure~\ref{figure:simple_extraction}.
+
+This simple setup already suffices to cover quite a lot of trees with simple applicative phenomena, including higher order modifiers like in the example of Figure~\ref{figure:simple_extraction}.
 There, nodes 1, 2 and 10 obtains types $\smain[s]$, $\np[s]$ and $\ww[s]$ by simple translation, and 7 obtains the type $\ddia{vc}\ww[s]\li\ddia{su}\np[s]\li\smain[s]$, having 10 and 2 as complements (adorned with $\ddia{vc}$ and $\ddia{su}$ diamonds respectively) and 1 as the result.
 Node 2 forces the type $\dbox{mod}(\np[s]\li\np[s])$ to node 3 (as an adjunct with the \textit{mod} label), in turn forcing the type $\dbox{mod}(\dbox{mod}(\np[s]\li\np[s])\li\dbox{mod}(\np[s]\li\np[s]))$ to node 4 for the exact same reason. 
 Nodes 5 and 6 inherit the types of their mothers (3 and 2), having no complements.
 Within each domain, heads apply to their arguments and adjuncts drop their boxes to apply to the result.
 
-\paragraph{\todo}
-Now, if you have a sneaking suspicion that this looks oddly easy, you're right.
-We have not yet made any attempt to cover cases of hypothetical reasoning triggered by relative clauses and wh-questions.
-The hypotheses in such phenomena have already been established by the ghost nodes underlying them -- all we need to do is know when to withdraw them.
-The criterion we'll follow applies to the proofs assigned to phrasal complements, and requires first that the phrasal head is indexed.
-If that is the case, it draws out all variables within the proof investigated, and filters those of them whose node shares the same index as the head.
-Variables caught are abstracted over before the diamond introduction rule is applied.
-Figure~\ref{figure:simple_abstraction} presents a concrete example: node 6 carries index 1 and looks for its complement in node 7.
-But node 7 contains $\Var{8}$, and node 8 has index 1 -- therefore, we must abstract the proof of node 7 over $\Var{8}$ before continuing with assigning it a diamond.
-
-\paragraph{\todo}
-But how can we even be certain that the abstraction is indeed possible?
-Recalling once more our discussion from Section~\ref{subsubsection:sreason_dep}%
-	\footnote{The variable may be free but it could lie inaccessible behind structural brackets, don't mention it.},
-we might end up attempting to perform an illegal abstraction, e.g. in the case of a hypothetical adjunct.
-To reproduce our strategy from Figure~\ref{figure:higher_order_dep}, we need to make the tiniest of adaptation to our ``unbox-and-apply'' scheme from earlier on.
-
-
-%we must now retroactively regret our original type assignment and make the hypothesis extractable.
-%No big deal: when trying to ``unbox and apply'' 
-%No big deal: we substitute the original variable for an $\dep{x}$-marked equivalent (see Figure~\ref{figure:higher_order_nested_dep} to jog your memory) 
-
-
-\begin{figure}[htbp]
+\begin{figure}
 	\begin{subfigure}{1\textwidth}
 		\includegraphics[width=1\textwidth, trim={1.5cm 1.5cm 1.5cm 1.5cm}]{./prebuilt/simple_abstraction.pdf}\\[\smallsep]
 	\end{subfigure}\\[\midsep]
@@ -1199,10 +1180,147 @@ To reproduce our strategy from Figure~\ref{figure:higher_order_dep}, we need to 
 		{WS-U-E-A-0000000016.p.37.s.1(3)}
 		{Auto's die niet starten.}
 		{Cars that don't start.}
-		{\term{\boxelim{mod}(\con{6}~\diaintro{relcl}((\lam \Var{8}.\boxelim{mod}(\con{9})~(\con{10}~\Var{8}))))~\con{4}}}
+		{\term{\dboxelim{mod}(\con{6}~\ddiaintro{relcl}((\lam \Var{8}.\dboxelim{mod}\con{9}~(\con{10}~\Var{8}))))~\con{4}}}
 	\caption{Abstracting over a coindexed node.}
 	\label{figure:simple_abstraction}
 \end{figure}
+
+\paragraph{Subordinate Clauses}
+Now, if you have a sneaking suspicion that this looks oddly easy, you're right.
+We have not yet made any attempt to cover cases of hypothetical reasoning triggered by relative clauses and wh-questions.
+The hypotheses in such phenomena have already been established by the ghost nodes underlying them -- all we need to do is know when to withdraw them.
+The criterion we'll follow applies to the proofs assigned to phrasal complements, and requires first that the phrasal head is indexed.
+If that is the case, it draws out all variables within the proof investigated, and filters those of them whose node shares the same index as the head.
+Variables caught are abstracted over before the diamond introduction rule is applied.
+Figure~\ref{figure:simple_abstraction} presents a concrete example: node 6 carries index 1 and looks for its complement in node 7.
+But node 7 contains $\Var{8}$, and node 8 has index 1 -- therefore, we must abstract the proof of node 7 over $\Var{8}$ before continuing with assigning it a diamond.
+
+\begin{figure}
+	\begin{subfigure}{1\textwidth}
+		\includegraphics[width=1\textwidth, trim={1.5cm 1.5cm 1.5cm 1.5cm}]{./prebuilt/hard_abstraction.pdf}\\[\smallsep]
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}{1\textwidth}
+		\resizebox{1\textwidth}{!}{
+			\infer[\li E]{\con{26},\dbra{\con{28},\dbra{\con{34},\dbra{\con{33}}{obj1}}{vc},\dbra{\con{29}}{su}}{whbody}\vdash\whq}{
+				\infer[\Lex]{\con{26} : \ddia{whbody}(\dxdia{x}\dxbox{x}\ddia{mod}\dbox{mod}(\infp\li\infp)\li\svi)\li\whq}{}
+				&
+				\hspace{-160pt}
+				\infer[\ddia{whbody} I]{\dbra{\con{28},\dbra{\con{34},\dbra{\con{33}}{obj1}}{vc},\dbra{\con{29}}{su}}{whbody} \vdash \ddia{whbody}(\dxdia{x}\dxbox{x}\ddia{mod}\dbox{mod}(\infp\li\infp)\li\svi)}{
+					\infer[\li I]{\con{28},\dbra{\con{34},\dbra{\con{33}}{obj1}}{vc},\dbra{\con{29}}{su} \vdash \dxdia{x}\dxbox{x}\ddia{mod}\dbox{mod}(\infp\li\infp)\li\svi}{
+						\infer[\dxdia{x} E]{\con{28},\dbra{\con{34},\dbra{\con{33}}{obj1}}{vc},\Var{31}'',\dbra{\con{29}}{su} \vdash\svi}
+						{
+							\infer[\Extraction]{\con{28},\dbra{\con{34},\dbra{\con{33}}{obj1}}{vc},\dbra{\Var{31}'}{x},\dbra{\con{29}}{su} \vdash\svi}{
+								\infer[\li E]{\con{28},\dbra{\dbra{\Var{31}'}{x},\con{34},\dbra{\con{33}}{obj1}}{vc},\dbra{\con{29}}{su} \vdash\svi}{
+									\infer[\li E]{\con{28},\dbra{\dbra{\Var{31}'}{x},\con{34},\dbra{\con{33}}{obj1}}{vc} \vdash \ddia{su}\vnw\li\svi}{
+										\infer[\Lex]{\con{28}: \ddia{vc}\infp\li\ddia{su}\vnw\li\svi}{}
+										&
+										\hspace{-180pt}
+										\infer[\ddia{vc} I]{\dbra{\dbra{\Var{31}'}{x},\con{34},\dbra{\con{33}}{obj1}}{vc} \vdash \ddia{vc}\infp}{
+											\infer[\li E]{\dbra{\Var{31}'}{x},\con{34},\dbra{\con{33}}{obj1} \vdash \infp}{
+												\infer[\ddia{mod} E]{\dbra{\Var{31}'}{x} \vdash \infp\li\infp}{
+													\infer[\dbox{mod} E]{\dbra{\Var{31}}{mod} \vdash \infp\li\infp}{
+														\infer[\Ax]{\Var{31}: \dbox{mod}(\infp\li\infp)}{}
+													}
+													&
+													\infer[\dxbox{x} E]{\dbra{\Var{31}'}{x} \vdash \ddia{mod}\dbox{mod}(\infp\li\infp)}{
+														\infer[\Ax]{\Var{31}' : \dxbox{mod}\ddia{mod}\dbox{mod}(\infp\li\infp)}{}
+													}
+												}
+												&
+												\infer[\li E]{\con{34},\dbra{\con{33}}{obj1} \vdash \infp}{
+													\infer[\Lex]{\con{34}: \ddia{obj1}\np\li\infp}{}
+													&
+													\infer[\ddia{obj1} I]{\dbra{\con{33}}{obj1} \vdash \ddia{obj1}\np}{
+														\infer[\Lex]{\con{33}: \np}{}
+													}
+												}
+											}
+										}
+									}
+									&
+									\hspace{-150pt}
+									\infer[\ddia{su} I]{\dbra{\con{29}} \vdash \ddia{su}\vnw}{
+										\infer[\Lex]{\con{29}: \vnw}{}
+									}
+								}
+							}
+							&
+							\hspace{-75pt}
+							\infer[\Ax]{\Var{31}'' : \dxdia{x}\dxbox{x}\ddia{mod}\dbox{mod}(\infp\li\infp))}{}
+						}
+					}
+				}
+			}
+		}
+	\end{subfigure}\\[\smallsep]
+	\aethelcap
+		{WR-P-E-I-0000039352.p.3.s.7(25)}
+		{Waar kunnen we bonnen kopen?}
+		{Where can we buy beans?}
+		{\smaller
+		\term{\con{26}~
+			\ddiaintro{whbody}(\lam \Var{31}''.
+			\caseof
+				{\ddiaelim{x}\Var{31}''}
+				{\Var{31}'}
+				{(\con{28}~\ddiaintro{vc}
+					(\caseof
+						{\ddiaelim{mod}\dboxelim{x}\Var{31}'}
+						{\Var{31}}
+						{(\dboxelim{mod}\Var{31}~(\con{34}~\ddiaintro{obj1}\con{33}))})
+				~\ddiaintro{su}\con{29})
+				)}
+			)
+		}}
+	\caption{Abstracting over a nested node.}
+	\label{figure:hard_abstraction}
+\end{figure}
+
+
+\paragraph{Horrors from the Deep}
+But can we really be certain that the abstraction is indeed possible?
+Recalling once more our discussion from Section~\ref{subsubsection:sreason_dep}%
+	\footnote{The variable may be free, but it could lie inaccessible behind structural brackets -- don't mention it.},
+there's a very real risk we might end up getting locked out of our hypotheses when these are adjuncts, nested deeply, or both.
+In the first case, we need to reproduce our strategy from Figure~\ref{figure:higher_order_dep}.
+To do so, we need the tiniest of adaptations to our ``unbox-and-apply'' scheme from earlier on -- when the adjunct that was unboxed happens to be a variable, we will immediately follow through with a diamond elimination.
+This way, when the time comes for us to be abstract over the reclusive adjunct (and the time will come, since our proofs must be linear), it will already have been liberated of its structural brackets.
+In the second case, we are in trouble. 
+We need to employ the structural licensing pair $\dxdia{x}\dxbox{x}$, as in Figure~\ref{figure:higher_order_nested_dep}, but there is no way for the proof assignment to have been correct preemptively: we would have needed to know that the variable is nested before ever getting to actually build its nesting context.
+To solve this chicken and egg problem, we need to allow ourselves an erroneous assignment, and then travel back in time to retroactively alter our error.
+No big deal: going back in time means simply applying the substitution meta-pattern $\vari^{\smallgtype{a}} \mapsto \dboxelim{x}(\vari^{\dxbox{x}\smallgtype{a}})$.
+In non-obscure, this translates to traversing the proof, finding the problematic hypothesis and replacing it with a $\dep{x}$-marked (i.e. extractable) equivalent.
+Reconstructing the proof is not sufficient though -- we also need to perform all the $\Extraction$ rules necessary for the $\dep{x}$-marked structure to always appear at the structural onion's outermost layer, as well as substitute it for its logical diamond counterpart.
+At that point, we are at long last able to abstract over the hypothesis.
+
+The conventions described serve also to impose a canonical placement for the diamond elimination pattern.
+In combination with our carefully planned formulation of the $\Extraction$ rule from Section~\ref{subsubsection:sreason_dep}%
+	\footnote{As strictly localized and with shallow context -- this has to stop now.},
+we have effectively relieved the burden of proof equivalence checking: diamond eliminations are to be performed as soon as possible and structural extractions as late as possible (but no later) -- i.e. we will avoid perpetuating temporary structures unless they have a purpose.
+To see this in action, let's have a look at the example of Figure~\ref{figure:hard_abstraction}.
+There, node 31 is originally assigned $\Var{31} : \dbox{mod}(\infp[s]\li\infp[s])$.
+Upon unboxing it for application, we realize it's a hypothetical adjunct, therefore we follow through with a diamond elimination to $\Var{31}' : \ddia{mod}\dbox{mod}(\infp[s]\li\infp[s])$ to lose the \dep{mod} brackets.
+Further down the line, we attempt to abstract over $\Var{31}'$, only to find it trapped in a $\dep{vc}$ bracket.
+To facilitate the emancipation of the hypothesis, we perform the meta-syntactic substitution $\Var{31}' \mapsto \dboxelim{x}\Var{31}'$, where the new $\Var{31}'$ is of type $\dxbox{x}\ddia{mod}\dbox{mod}(\infp[s]\li\infp[s])$.
+Empowered by its black box, the variable breaks free of its chains with the $\Extraction$ rule, and gets diamond eliminated to $\Var{31}'' : \dxdia{x}\dxbox{x}\ddia{mod}\dbox{mod}(\infp[s]\li\infp[s])$.
+The latter is bracketless and exactly where we want it -- we can finally perform the abstraction.
+
+\paragraph{Nominal Domain}
+The situation is not much different in the nominal domain, except for a change in the order we do things in.
+%Our separation of noun and noun-phrase modifiers in two layers will now save us the trouble of having to resolve any  conflicts between determiners and modifiers.
+First, we must call $\mathsf{prove}$ on the head; unlike before, it receives no type hint, as we do not expect it to come out as a functor.
+Next, we requisit a proof for the determiner, hinted as a function from the head's type to the top type with a box on top.
+Last, we ask for a proof for each adjunct, again as the boxed endomorphism of the result.
+Same as before, we take the function composition of all adjuncts; determiner first, since it's the one responsible for raising the noun to a noun phrase, followed by the garden variety modifiers in order of appearance.
+At this point, we must thank our past selves for the separation of noun and noun-phrase modifiers in two different tree layers, as this has saved us the trouble of having to scratch our head contemplating how to organize adjuncts.%
+	\footnote{Thank you, past self.}
+	
+\paragraph{Conjunctions}
+%We are almost there -- the only 
+
+
+\subsubsection{Post-Processing}
+
 
 %The functionalities is encapsulated by the $\mathsf{make\_args}$ function.
 %\begin{align*} 
