@@ -20,6 +20,8 @@
 \usepackage{calc}
 \usepackage[bb=pazo]{mathalpha}
 \usepackage{enumitem}
+\usepackage{rotating}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					font black magic
@@ -309,7 +311,7 @@
 %                  proofnet stuff
 \newcommand{\pprop}[1]{	\ensuremath{\smallprop{#1}^{+}}}
 \newcommand{\nprop}[1]{	\ensuremath{\smallprop{#1}^{-}}}
-\newcommand{\vnorm}[1]{\vphantom{A_x}{#1}}
+\newcommand{\vnorm}[1]{\vphantom{\dbra{\chi}{cnj}}{#1}}
 \newcommand{\parlink}{\raisebox{\depth}{\scalebox{-1}[-1]{$\with$}}}
 \newcommand{\sbind}{\ensuremath{\mkern-0.5mu\cdot\mkern-0.5mu }}
 

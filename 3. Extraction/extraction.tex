@@ -139,7 +139,7 @@ the duck is my favorite bird\\
 the forest is our-\abbrv{def} temple\\
 \glt{`The forest is our temple.'}
 \end{exe}
-Demonstrative pronouns come in two major flavours: the proximal \textex{deze/dit} (plural \textex{deze}) and the distal \textex{die/dat} (plural \textex{die}).
+There's two types of demonstrative pronouns: the proximal \textex{deze/dit} (plural \textex{deze}) and the distal \textex{die/dat} (plural \textex{die}).
 The last two do double duty as relative pronouns -- more on that later.
 When used to substitute (rather than determine) a noun in a copula, each variant reverts to its neuter singular form.
 \begin{exe}
@@ -518,8 +518,8 @@ A focus on sentence formation, for instance, would justify some morphological co
 But since the focus here is on compositionality, we're given the chance for a much more radical leap: we can also skip word order altogether.
 
 Now this might be met with some scepticism, but put down your pitchforks and let me explain.
-In the type-logical setup, we'd follow the schema of Figure~\ref{figure:synsemtlg}: start from a strict syntactic logic, and then strip it down to its bare essentials to cast it into a logic of derivational semantics, the bare essentials in our case being linear implication and the dependency modalities.
-With derivational semantics being itself the point of interest, why take the hard route instead of just going there directly?
+In the type-logical setup, we'd follow the schema of Figure~\ref{figure:synsemtlg}: start from a strict syntactic logic, and then strip it down to its bare essentials to cast it into a logic of derivational semantics (the bare essentials in our case being linear implication and the dependency modalities).
+With derivational semantics being itself the point of interest, why take the hard route instead of just starting directly?
 This is somewhat akin to the abstract categorial grammar operationalization of Figure~\ref{figure:synsemacg}, which would have us start from a tectogrammatic logic, and transition to phenogrammar via a morphism (here left unimplemented).
 A perhaps less stretched operationalization would involve a two-stage inferential setup, the first stage being the phase of logical meaning assembly, followed by a higher-level phase of structural reorganization and reordering (here we'll call it quits immediately after the first).
 Put bluntly, this option allows us to sneak our way out of having to reason about the non-compositional aspects of syntax.%
@@ -541,9 +541,9 @@ Analyses are provisioned by Alpino~\cite{van2006last}, a powerful parser that st
 Alpino annotations are described as spanning three axes: a hierarchical one, answering which words form a phrase, a relational one, answering what the grammatical functions between words are, and a categorial one, answering what the syntactic labels of each word and phrase are.
 Unlike shallow dependency grammars, Alpino does not shy away from higher-order phenomena: it serves annotations as dependency \textit{graphs} rather than trees by employing \textit{secondary} edges to represent words that assume multiple syntactic functions.
 Expanded into the equivalent tree by node duplication, the sentential structure is visualized as a tree of nodes connected by named edges (one incoming edge per node, except for the root which has none).
-In what follows, I will occasionally abuse terminology and call an Alpino/Lassy graph a tree, in reference to this expanded representation; it is important to remember this is distinct from the shallow dependency trees inspected earlier in the context of dependency grammars.
+In what follows, I will occasionally abuse terminology and call an Alpino or Lassy graph a tree, in reference to this expanded representation; it is important to remember this is distinct from the shallow dependency trees inspected earlier in the context of dependency grammars.
 
-There's two types of nodes: material nodes represent words and phrases, whereas phantom nodes represent elided constituents -- every phantom node is indexically associated to a material one.
+Nodes can be either \textit{material}, representing words and phrases, or \textit{phantom}, representing elided constituents -- every phantom node is indexically associated to a material one.
 Material nodes are assigned a syntactic category label, either a lexical part of speech tag (in the case of a terminal node representing a word) or a phrasal category (in the case of a non-terminal representing a phrase).%
 	\footnote{Terminal nodes are in fact assigned tags from two distinct sets: a simplified one (denoted \textbf{pos}) and an extended one (denoted \textbf{postag}). The latter in turns consist of a generic label (denoted \textbf{pt}) and a set of label-specific morphological values.
 	Consistent with our dismissal of morphological constraints, we use \textbf{pt} in what follows, but this is by no means a hard constraint -- a short discussion will follow later.}
@@ -551,7 +551,7 @@ The label of a phantom node may be retrieved by inspecting its material counterp
 Nodes can be told apart by their unique identifier, which differs even among nodes sharing the same index (i.e. index $\neq$ identifier).
 Word order has no bearing on the tree structure -- the span of each material node in the sentence is just an attribute of that node.
 A material phrasal node connects to its constituents (themselves nodes of any kind) by virtue of directed edges labeled with grammatical functions.
-Modulo some exceptional cases, each phrasal node emits exactly one head-labeled edge, the rest being a combination of complements and adjuncts.
+Modulo some (supposedly) exceptional cases, each phrasal node emits exactly one head-labeled edge, the rest being a combination of complements and adjuncts.
 An example analysis as provided by Lassy is shown in Figure~\ref{figure:example_lassy_tree}.%
 
 Of the two corpora only the smallest one is of real interest.
@@ -717,12 +717,12 @@ We need to devise an algorithm that accepts trees like the one of Figure~\ref{fi
 Following our prior discussions, some assumptions need to be met before we get to even contemplate our approach.
 First, we need a clear three-way partition of the set of dependency labels, so that each dependency relation marks either a head, a complement or an adjunct.
 Further, we require that each dependency domain has exactly one head.
-Finally, we must ensure that higher order phenomena reflected in secondary edges (or ghost nodes) are homogeneous so that they can be treated in a uniform way.
+Finally, we must ensure that higher order phenomena reflected in secondary edges (or phantom nodes) are homogeneous so that they can be treated in a uniform way.
 Unfortunately, these requirements are not always met; our first step is therefore to massage any rough edges with a series of transformations aimed at (i) harmonizing the input trees with the target logic and (ii) fixing inconsistent formattings and underspecified or otherwise incompatible annotations. 
 
 \subsection{Taming Lassy}
 \subsubsection{Edge Relabeling}
-A phrasal annotation canonically contains a single head, a collection of complements (no more than one of each), and a collection of adjuncts (with no restriction on their plurality), where verbal, nominal and sentential domains differ in the the labels they may contain.
+A phrasal annotation canonically contains a single head, a collection of complements (no more than one of each), and a collection of adjuncts (without any restriction on their plurality), where verbal, nominal and sentential domains differ in the the labels they may contain.
 Deciding whether a dependency edge signifies a head, a complement or an adjunct requires little effort on our part, as the distinction has already been made.
 The Lassy annotation manual specifies labels \{\textit{hd}, \textit{rhd}, \textit{whd}, \textit{cmp}, \textit{crd}, \textit{dlink}\} as heads of various kinds, \{\textit{det}, \textit{mod}, \textit{app}, \textit{predm}\} as adjuncts, and \{\textit{body}, \textit{cnj}, \textit{hdf}, \textit{ld}, \textit{me}, \textit{obcomp}, \textit{obj1}, \textit{obj2}, \textit{pc}, \textit{pobj1}, \textit{predc}, \textit{se}, \textit{su}, \textit{sup}, \textit{svp}, \textit{vc}\} as complements.
 This is not a full partition of the set of dependency labels of Table~\ref{table:depset}, as several items fall in neither of the above bins -- more on that in a second.
@@ -782,9 +782,9 @@ Including internal and right-adjacent punctuation only, however, carries the ris
 The heuristic solution is to iteratively expand a truncated subtree by attaching any internal or peripheral punctuation marks, excluding opening brackets from the right edge and closing brackets and sentence-final punctuation from the left edge.
 To homogenize trees (truncated or otherwise), punctuations are displaced from the ``top'' node to the top-most node that carries an actual syntactic category label -- the latter serves as the new tree's root.
 
-The next issue to address is the potential disconnect between a ghost node and its material counterpart as a result of pruning.
-To avoid trees with floating nodes, we check whether ghosts in the pruned tree can access their material counterparts.
-When that is not the case, the ghost node is substituted by a copy of the material node, and, in the event of it being a phrasal node, the entire tree that lies underneath it.
+The next issue to address is the occasional disconnect between a phantom node and its material counterpart as a result of pruning.
+To avoid trees with floating nodes, we check whether phantoms in the pruned tree can access their material counterparts.
+When that's not the case, the phantom node is substituted by a copy of the material one, and, in the event of it being phrasal, the entire tree that lies underneath it.
 The process is repeated (to circumvent the possibility of adding a new floating node when fixing the first) until a fixpoint is reached.
 The result is the possibile duplication of lingustic material among different prunings (i.e. a subtree that occurred once in the original Lassy sample can sometimes be found in more than one of the processed samples).
 
@@ -845,15 +845,15 @@ In a similar vein, a tiny parser is employed to analyze expressions of time and 
 
 On the lexical side of things, some expressions tend to default to a multiword annotation despite not being one -- clearly an artifact of Alpino's rule-based parser that was never corrected in the manual verification stage.
 These are for the most part prepositional phrases (like \texttr{ten noorden van}{north of}, \texttr{met uitzondering van}{except for}, etc.), which are caught and reanalyzed by having the genitive-substitute \textex{van} attach to the modified noun (as consistently done otherwise throughout Lassy), which the remainder of the expression consumes as a direct object.
-More problematic is the occasional mischaracterization of the interrogative \texttr{wat voor}{what kind of}, where the preposition \texttr{voor}{for} is analyzed as part of a multiword expression together with a ghost node coindexed with the pronoun \texttr{wat}{what}.
-These are also caught and corrected, as in the example of Figure~\ref{figure:mwu:watvoor}; the preposition is reannotated as being the head of a prepositional phrase selecting for a direct object, that being the afforementioned ghost node.
+More problematic is the occasional mischaracterization of the interrogative \texttr{wat voor}{what kind of}, where the preposition \texttr{voor}{for} is analyzed as part of a multiword expression together with a phantom node coindexed with the pronoun \texttr{wat}{what}.
+These are also caught and corrected, as in the example of Figure~\ref{figure:mwu:watvoor}; the preposition is reannotated as being the head of a prepositional phrase selecting for a direct object, that being the afforementioned phantom node.
 Other, less severe, cases include the mislabeling of nationality adjectives (like \texttr{afrikaans}{Afrikan}, \texttr{europees}{european}, etc.), which are recast as modifiers of the noun they were merged with.
 For consistency, punctuations originally analyzed as multiword parts (presumably so as not to break phrasal contiguity) are instead pushed to the topmost root.
 
 These minor changes suffice to cut down the frequency of multiword expressions to a more manageable 4.5\% (an overall reduction of 25\%).
 Unresolved expressions have their parts merged into a single node; the resulting node gets a new syntactic label, that being the most common part of speech tag of the merged units (with a bias towards \textit{n} or \textit{np}, if either is present in the parts).
 The goal is to contain the effect of multiword annotations within their own phrasal boundaries (i.e. to avoid functors higher in the tree from selecting for \smallgtype{mwu}-typed arguments).
-In the case of a multiword phrase consisting solely of ghost parts, the merged phrase also gets assigned an index and associating it to its material counterpart.
+In the case of a multiword phrase consisting solely of phantom parts, the merged phrase also gets assigned an index and associating it to its material counterpart.
 
 \subsubsection{There Can Be Only One (Head)}
 Having dealt with structureless structures, the next thing to tackle are subtrees that fail to elect a single head, falling to civil war (when multiple nodes compete for the role) or rising to anarchy (when all relinquish it).
@@ -886,7 +886,7 @@ We heuristically resolve this by first locating any occurrence of a single punct
 \subsubsection{Phrasal Restructuring}
 Other than the incompatibilities detailed so far, some Lassy annotations are suboptimal for the target logic in specifying a phrasal structure that we want to treat differently than prescribed.
 Such cases are treated by automatically adjusting the phrasal structure to one we are happier with.
-Since these adjustments involve removing or establishing new subtrees and edges, we run the risk of accidentally removing the material tree that grounds a set of ghost nodes sharing the same index.
+Since these adjustments involve removing or establishing new subtrees and edges, we run the risk of accidentally removing the material tree that grounds a set of phantom nodes sharing the same index.
 As a safety measure, we first enforce the convention that the most shallow occurrence of a node should correspond to a material tree.
 
 \begin{figure}
@@ -910,13 +910,13 @@ As a safety measure, we first enforce the convention that the most shallow occur
 \paragraph{(Mis)understood Arguments}
 Lassy treats the non-finite verbal forms (participles and infinitives) as verbal elements proper, selecting for all the arguments their finite counterparts would.
 Obviously, participles used for the passive or the perfect and infinitives in verbal complements cannot possibly find all these arguments, some being located in higher levels of the dependency graph.
-To resolve this, Lassy opts for establishing ghost nodes coindexed with the so-called understood argument.
-The more non-finites in the path between the one under scrutiny and the top level clause, the more ghost nodes are inserted.
+To resolve this, Lassy opts for establishing phantom nodes coindexed with the so-called understood argument.
+The more non-finites in the path between the one under scrutiny and the top level clause, the more phantom nodes are inserted.
 These nodes are purely semantic in nature, and no syntactic item allows for the consecutive duplication of material they call for.
 As such, they have no place in the compositional structure we seek to extract, and we have the moral right to cast them away.%
 	\footnote{Funnily, our recurring complaint with Lassy so far has been that it gives us too little. 
 	This time around, it gives us too much.}
-Concretely, we look for any edge with adependency label normally reserved for a nominal complement (i.e. \textit{su}, \textit{obj1}, \textit{obj2}, \textit{sup}, \textit{pobj}) pointing to a ghost node, such that any of its non-immediate ancestors is a sentential clause with an outgoing edge pointed to a node of the same index.
+Concretely, we look for any edge with adependency label normally reserved for a nominal complement (i.e. \textit{su}, \textit{obj1}, \textit{obj2}, \textit{sup}, \textit{pobj}) pointing to a phantom node, such that any of its non-immediate ancestors is a sentential clause with an outgoing edge pointed to a node of the same index.
 Edges caught in our web are deleted, as are any nodes left floating; see Figure~\ref{figure:ua} for an example.
 This transformation incurs a loss of semantic coindexing, which anyway is irrelevant to us: it's up to lexical semantics entries to decide what arguments they have, how their slots are filled, and how these are propagated and updated down the sentence.
 Other than this coindexing, it will soon be made apparent that no meaningful function-argument structures are actually lost by this erasure.
@@ -951,10 +951,10 @@ This simple heuristic is as as far as we can get, but it will help homogenize ou
 
 \paragraph{Ellided Constituents}
 Other than non-finite verbal arguments, shared indexing is primarily employed by Lassy to indicate an omission of linguistic material in ellipses.
-The scheme Lassy employs presents the material version of a ``shared'' tree (be it a deep structure or a singleton node) in the first conjunct daughter of an elliptical conjunction, and a ghost copy of it in each subsequent sister.
+The scheme Lassy employs presents the material version of a ``shared'' tree (be it a deep structure or a singleton node) in the first conjunct daughter of an elliptical conjunction, and a phantom copy of it in each subsequent sister.
 We alter this by pushing the material node to the top-level of the conjunction%
-		\footnote{In the case of nested conjunctions, we stop at the first node assigned the \textit{conj} syntactic category that is an ancestor of \textit{all} ghost nodes of the same index and dependency.}
-(i.e. as a sibling to all conjuncts), and substituting the gap left behind by a new ghost node of the appropriate index.
+		\footnote{In the case of nested conjunctions, we stop at the first node assigned the \textit{conj} syntactic category that is an ancestor of \textit{all} phantom nodes of the same index and dependency.}
+(i.e. as a sibling to all conjuncts), and substituting the gap left behind by a new phantom node of the appropriate index.
 This will facilitate the easier typing of conjunctions later on.
 
 \paragraph{Unary Pipes}
@@ -994,7 +994,7 @@ The codomain of the translation is in our case coincident with our logic's set o
 As hinted at earlier, the extraction is \textit{parametric} to this translation: the domain can be any of the sets of lexical tags Lassy provides access to, and the codomain is by no means restricted to atomic types.
 This allows an easy adaptation to morpologically informed types, or a transition to an expanded theory (e.g. one that includes subtyping, additional axes of modal decorations, etc.). 
 In principle, this can also allow a re-incorporation of implicit arguments for non-finite verbal forms, but doing so would not amount to much: as promised earlier, these are already trivially recoverable by a simple morphism (readily applicable on the extracted proofs) that sends non-finite forms to the desired complex types (immediate return on investment for taking source labels at face value).
-In any case, the translation induces a function that naively tells us for each node what type the translation table prescribes to its part of speech tag (if lexical), syntactic category (if phrasal) or the correspond translations of its material counterpart (if ghost).
+In any case, the translation induces a function that naively tells us for each node what type the translation table prescribes to its part of speech tag (if lexical), syntactic category (if phrasal) or the correspond translations of its material counterpart (if phantom).
 
 Then, we need an equivalence relation on the set of dependencies so as to partition it into heads, adjuncts and complements -- each non-head dependency is translated into a modal label, the union of which (together with the extraction modality) forming the set of modalities $\deps$.
 For the set of dependencies, we also need a strict partial order, serving to impose an informal ordering of the arguments of a multi-argument functor.
@@ -1005,7 +1005,7 @@ From more to least oblique, we have: \textit{svp}\textgreater\textit{obcomp}\tex
 \subsubsection{Tree Patterns}
 The algorithm takes the form of a proof assignment function, responsible for casting a local tree structure into a corresponding natural deduction proof.
 The function is recursively called in a top-down fashion, its original input being the complete dependency tree and its endpoints being terminal nodes.
-Proofs assigned to lexical nodes will correspond to lexical type assignments, whereas proofs assigned to ghost nodes will be variable instantiations.
+Proofs assigned to lexical nodes will correspond to lexical type assignments, whereas proofs assigned to phantom nodes will be variable instantiations.
 Intermediate returns of the top-level function call will be the ``partial'' proofs of the corresponding subtrees.
 To apply the appropriate operation at each slice of the tree, the algorithm distinguishes between a number of structures on the basis of the outgoing dependencies present.
 Context may be propagated from a local layer to the layer underneath by providing the dependency label of the edge that led to the current tree, and (optionally) a type hint.
@@ -1019,27 +1019,18 @@ Despite building proofs, we will at times use notation or terminology commonly r
 
 \paragraph{Terminal Nodes}
 Terminal nodes are easy-peasy.
-There's only three questions we have to ask, namely ``do we have a type hint?'', ``is the node a ghost?'' and ``was there a dependency label that got us here and, if so, was it either an adjunct or a complement?''.
+There's only three questions we have to ask, namely ``do we have a type hint?'', ``is the node a phantom?'' and ``was there a dependency label that got us here and, if so, was it either an adjunct or a complement?''.
 Ok, this is actually four questions but nonetheless.
 Any proof assignment we cook up must be uniquely identifiable with the node; we will use the node's identifier as the subscript of the instantiated variable or constant (we will from now on use indexing to tell constants apart, as strings do not make for trustworthy identifiers, i.e. $\con{i}$ for constant i).
 
-If we do have a type hint, we just return a new constant (if not a ghost) or variable (if ghost) of the hinted type.
-%\begin{align*}
-%\mathsf{prove} \ \mathsf{node}_i \ \smallgtype{a} \ \_ =  \vari:\smallgtype{a} \ \mathsf{if} \ (\mathsf{ghost} \ \mathsf{node}_i) \ \mathsf{else} \ \con{i}:\smallgtype{a}
-%\end{align*}
-If we do not have a type hint, we must first map the syntactic category label of the node under scrutiny (or its material counterpart, if ghost) into a type using our translation table.
+If we do have a type hint, we just return a new constant (if not a phantom) or variable (if phantom) of the hinted type.
+If we do not have a type hint, we must first map the syntactic category label of the node under scrutiny (or its material counterpart, if phantom) into a type using our translation table.
 If the node was lexical, we are done -- we need to just instantiate the type with the $\Lex$ rule.
-If it was a ghost, we must recall our discussion in Section~\ref{subsubsection:sreason_dep}%
+If it was a phantom, we must recall our discussion in Section~\ref{subsubsection:sreason_dep}%
 	\footnote{Hypotheses come prepackaged with their modalities -- you're welcome.}
 and check whether a modality needs to be added -- a diamond (if we got here through a complement marking dependency), or a box (an adjunct marking one).
 If no label was present, or it was a heady one, we're free to stick with the plain type.
 Either way, the type gets instantiated with the $\Ax$ rule.
-%\begin{align*} 
-%\mathsf{prove} \ \mathsf{node}_i \ \mathsf{none} \ \dep{dep}  &= \ \mathsf{prove} \ \mathsf{node}_i \ \ (\smallgtype{b} \ \mathsf{if} \ (\mathsf{ghost} \ \mathsf{node}_i) \ \mathsf{else} \ \smallgtype{a})\ \mathsf{none}\\
-%\mathsf{where} \  \gtype{a} & \mapsfrom \mathsf{trans} \ \mathsf{node}_i \\
-%\gtype{b} & \mapsfrom \ddia{dep}\smallgtype{a} \ \mathsf{if} \  (\dep{dep} \in \complements) \ \mathsf{else}
-%\ \dbox{dep}\smallgtype{a} \ \mathsf{if} \  (\dep{dep} \in \adjuncts) \ \mathsf{else} \ \smallgtype{a}\\
-%\end{align*}
 
 \paragraph{Non-Terminal Trees}
 In any non-terminal domain, we must first decide on the type of the current phrase.
@@ -1115,7 +1106,7 @@ If no hint was passed, we will translate the phrasal category of the current roo
 		{Al het andere is afgeleid.}
 		{All the rest is derivative.}
 		{\term{\con{7}~\ddiaintro{vc}\con{10}~\ddiaintro{su}(\dboxelim{mod}(\dboxelim{mod}\con{4}~\con{5})~\con{6})}}
-	\caption{Simple finite clause extraction.}
+	\caption{Proving a simple finite clause.}
 	\label{figure:simple_extraction}
 \end{figure}
 %
@@ -1181,14 +1172,14 @@ Within each domain, heads apply to their arguments and adjuncts drop their boxes
 		{Auto's die niet starten.}
 		{Cars that don't start.}
 		{\term{\dboxelim{mod}(\con{6}~\ddiaintro{relcl}((\lam \Var{8}.\dboxelim{mod}\con{9}~(\con{10}~\Var{8}))))~\con{4}}}
-	\caption{Abstracting over a coindexed node.}
+	\caption{Abstracting over a relative clause gap.}
 	\label{figure:simple_abstraction}
 \end{figure}
 
 \paragraph{Subordinate Clauses}
 Now, if you have a sneaking suspicion that this looks oddly easy, you're right.
 We have not yet made any attempt to cover cases of hypothetical reasoning triggered by relative clauses and wh-questions.
-The hypotheses in such phenomena have already been established by the ghost nodes underlying them -- all we need to do is know when to withdraw them.
+The hypotheses in such phenomena have already been established by the phantom nodes underlying them -- all we need to do is know when to withdraw them.
 The criterion we'll follow applies to the proofs assigned to phrasal complements, and requires first that the phrasal head is indexed.
 If that is the case, it draws out all variables within the proof investigated, and filters those of them whose node shares the same index as the head.
 Variables caught are abstracted over before the diamond introduction rule is applied.
@@ -1201,10 +1192,12 @@ But node 7 contains $\Var{8}$, and node 8 has index 1 -- therefore, we must abst
 	\end{subfigure}\\[\midsep]
 	\begin{subfigure}{1\textwidth}
 		\resizebox{1\textwidth}{!}{
+			\hspace{100pt}
 			\infer[\li E]{\con{26},\dbra{\con{28},\dbra{\con{34},\dbra{\con{33}}{obj1}}{vc},\dbra{\con{29}}{su}}{whbody}\vdash\whq}{
 				\infer[\Lex]{\con{26} : \ddia{whbody}(\dxdia{x}\dxbox{x}\ddia{mod}\dbox{mod}(\infp\li\infp)\li\svi)\li\whq}{}
 				&
-				\hspace{-160pt}
+				\hspace{-350pt}
+				\infer*[]{}{\infer*[]{}{
 				\infer[\ddia{whbody} I]{\dbra{\con{28},\dbra{\con{34},\dbra{\con{33}}{obj1}}{vc},\dbra{\con{29}}{su}}{whbody} \vdash \ddia{whbody}(\dxdia{x}\dxbox{x}\ddia{mod}\dbox{mod}(\infp\li\infp)\li\svi)}{
 					\infer[\li I]{\con{28},\dbra{\con{34},\dbra{\con{33}}{obj1}}{vc},\dbra{\con{29}}{su} \vdash \dxdia{x}\dxbox{x}\ddia{mod}\dbox{mod}(\infp\li\infp)\li\svi}{
 						\infer[\dxdia{x} E]{\con{28},\dbra{\con{34},\dbra{\con{33}}{obj1}}{vc},\Var{31}'',\dbra{\con{29}}{su} \vdash\svi}
@@ -1214,7 +1207,7 @@ But node 7 contains $\Var{8}$, and node 8 has index 1 -- therefore, we must abst
 									\infer[\li E]{\con{28},\dbra{\dbra{\Var{31}'}{x},\con{34},\dbra{\con{33}}{obj1}}{vc} \vdash \ddia{su}\vnw\li\svi}{
 										\infer[\Lex]{\con{28}: \ddia{vc}\infp\li\ddia{su}\vnw\li\svi}{}
 										&
-										\hspace{-180pt}
+										\hspace{-160pt}
 										\infer[\ddia{vc} I]{\dbra{\dbra{\Var{31}'}{x},\con{34},\dbra{\con{33}}{obj1}}{vc} \vdash \ddia{vc}\infp}{
 											\infer[\li E]{\dbra{\Var{31}'}{x},\con{34},\dbra{\con{33}}{obj1} \vdash \infp}{
 												\infer[\ddia{mod} E]{\dbra{\Var{31}'}{x} \vdash \infp\li\infp}{
@@ -1238,7 +1231,7 @@ But node 7 contains $\Var{8}$, and node 8 has index 1 -- therefore, we must abst
 										}
 									}
 									&
-									\hspace{-150pt}
+									\hspace{-100pt}
 									\infer[\ddia{su} I]{\dbra{\con{29}} \vdash \ddia{su}\vnw}{
 										\infer[\Lex]{\con{29}: \vnw}{}
 									}
@@ -1250,6 +1243,8 @@ But node 7 contains $\Var{8}$, and node 8 has index 1 -- therefore, we must abst
 						}
 					}
 				}
+			}
+			}
 			}
 		}
 	\end{subfigure}\\[\smallsep]
@@ -1272,7 +1267,7 @@ But node 7 contains $\Var{8}$, and node 8 has index 1 -- therefore, we must abst
 				)}
 			)
 		}}
-	\caption{Abstracting over a nested node.}
+	\caption{Abstracting over a nested adjunct.}
 	\label{figure:hard_abstraction}
 \end{figure}
 
@@ -1287,15 +1282,15 @@ To do so, we need the tiniest of adaptations to our ``unbox-and-apply'' scheme f
 This way, when the time comes for us to be abstract over the reclusive adjunct (and the time will come, since our proofs must be linear), it will already have been liberated of its structural brackets.
 In the second case, we are in trouble. 
 We need to employ the structural licensing pair $\dxdia{x}\dxbox{x}$, as in Figure~\ref{figure:higher_order_nested_dep}, but there is no way for the proof assignment to have been correct preemptively: we would have needed to know that the variable is nested before ever getting to actually build its nesting context.
-To solve this chicken and egg problem, we need to allow ourselves an erroneous assignment, and then travel back in time to retroactively alter our error.
+To solve this chicken and egg problem, we need to allow ourselves an erroneous assignment, and then travel back in time to retroactively correct it.
 No big deal: going back in time means simply applying the substitution meta-pattern $\vari^{\smallgtype{a}} \mapsto \dboxelim{x}(\vari^{\dxbox{x}\smallgtype{a}})$.
-In non-obscure, this translates to traversing the proof, finding the problematic hypothesis and replacing it with a $\dep{x}$-marked (i.e. extractable) equivalent.
+In non-obscure, this translates to traversing the proof, finding the problematic hypothesis and replacing it with an $\dep{x}$-marked (i.e. extractable) equivalent.
 Reconstructing the proof is not sufficient though -- we also need to perform all the $\Extraction$ rules necessary for the $\dep{x}$-marked structure to always appear at the structural onion's outermost layer, as well as substitute it for its logical diamond counterpart.
 At that point, we are at long last able to abstract over the hypothesis.
 
 The conventions described serve also to impose a canonical placement for the diamond elimination pattern.
 In combination with our carefully planned formulation of the $\Extraction$ rule from Section~\ref{subsubsection:sreason_dep}%
-	\footnote{As strictly localized and with shallow context -- this has to stop now.},
+	\footnote{As strictly localized and with shallow context -- anytime.},
 we have effectively relieved the burden of proof equivalence checking: diamond eliminations are to be performed as soon as possible and structural extractions as late as possible (but no later) -- i.e. we will avoid perpetuating temporary structures unless they have a purpose.
 To see this in action, let's have a look at the example of Figure~\ref{figure:hard_abstraction}.
 There, node 31 is originally assigned $\Var{31} : \dbox{mod}(\infp[s]\li\infp[s])$.
@@ -1309,44 +1304,199 @@ The latter is bracketless and exactly where we want it -- we can finally perform
 The situation is not much different in the nominal domain, except for a change in the order we do things in.
 %Our separation of noun and noun-phrase modifiers in two layers will now save us the trouble of having to resolve any  conflicts between determiners and modifiers.
 First, we must call $\mathsf{prove}$ on the head; unlike before, it receives no type hint, as we do not expect it to come out as a functor.
-Next, we requisit a proof for the determiner, hinted as a function from the head's type to the top type with a box on top.
+Next, we requisit a proof for the determiner, hinted as a function from the head's type to the top type (with a complementary box on top, of course).
 Last, we ask for a proof for each adjunct, again as the boxed endomorphism of the result.
 Same as before, we take the function composition of all adjuncts; determiner first, since it's the one responsible for raising the noun to a noun phrase, followed by the garden variety modifiers in order of appearance.
-At this point, we must thank our past selves for the separation of noun and noun-phrase modifiers in two different tree layers, as this has saved us the trouble of having to scratch our head contemplating how to organize adjuncts.%
-	\footnote{Thank you, past self.}
-	
-\paragraph{Conjunctions}
-%We are almost there -- the only 
+At this point, we must thank our past selves for the separation of noun and noun-phrase modifiers in two different tree layers, as this has saved us the trouble of having to scratch our head contemplating how to organize adjuncts.
 
+\paragraph{Conjunctions}
+We are almost there.
+The last bit remaining is unfortunately also the hardest one: conjunctions.
+Conjunctions are the infernal harbinger of torment and despair.
+Their ability to use linguistic material more than once challenges the linearity of our type system.
+To overcome their dark influence, we'll need to resort to arcane conjurations from the ancient texts (summarized for your convenience in Chapter~\ref{chapter:Introduction}).
+
+A few conjunctions are actually innocuous, i.e. when the tree inspected consists of a single coordinator and a sequence of conjuncts.
+Porting our intuitions on coordinator type assignments from Section~\ref{subsubsection:intricacies}%
+	\footnote{Coordinators are polymorphic types binding pairs of the same type into a conjoined pair -- no problem.}%
+, we obtain the recipe $\ddia{cnj}\chi\li\ddia{cnj}\chi\li\chi$, where $\chi$ is to range over types.
+In the vanilla case, we may simply call $\mathsf{prove}$ on each conjunct independently, hinting each as the top type (which, if not hinted, will be the translation of the syntactic category labels' majority consensus).
+Then, we may move on to the coordinator, which is hinted as a function from the ($\ddia{cnj}$-marked) conjuncts' types to the top type.
+Having used the same type hint amounts to a coercion that ensures that the parts and the whole are of the same type -- in other words, we are faithful to our polymorphic recipe.
+A minor divergence is that our coordinator type is slightly more general than originally prescribed, being a variadic function rather than a binary one, since Lassy conjunctions are flat trees rather than hierarchical ones (punctuations carrying no annotations by default).
+
+\begin{figure}
+	\begin{subfigure}{1\textwidth}
+		\includegraphics[width=1\textwidth, trim={1.5cm 1.5cm 1.5cm 1.5cm}]{./prebuilt/subj_ellipsis.pdf}\\[\smallsep]
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}{1\textwidth}
+		\resizebox{1\textwidth}{!}{
+			\infer[\li E]{\con{5},\dbra{\con{4}}{cnj},\dbra{\con{8}}{cnj},\dbra{\con{3}}{su} \vdash \smain}{
+				\infer[\li E]{\con{5},\dbra{\con{4}}{cnj},\dbra{\con{8}}{cnj} \vdash \ddia{su}\np\li\smain}{
+					\infer[\li E]{\con{5},\dbra{\con{4}}{cnj} \vdash \ddia{cnj}\chi\li\chi}{
+						\infer[\Lex]{\con{5}: \ddia{cnj}\chi\li\ddia{cnj}\chi\li\chi}{}
+						&
+						\hspace{-10pt}
+						\infer[\ddia{cnj} I]{\dbra{\con{4}}{cnj} \vdash \ddia{cnj}\chi}{
+							\infer[\li I]{\con{4} \vdash \ddia{su}\np\li\smain}{
+								\infer[\li E]{\con{4},\Var{9} \vdash \smain}{
+									\infer[\Lex]{\con{4}: \ddia{su}\np\li\smain}{}
+									&
+									\infer[\Ax]{\Var{9}: \ddia{su}\np}{}
+								}
+							}
+						}
+					}
+					&
+%					\hspace{-170pt}
+					\infer[\ddia{cnj} I]{\dbra{\con{8}}{cnj} \vdash \ddia{cnj}\chi}{
+						\infer[\li I]{\con{8} \vdash \ddia{su}\np\li\smain}{
+							\infer[\li E]{\con{8},\Var{9} \vdash \smain}{
+								\infer[\Lex]{\con{8}: \ddia{su}\np\li\smain}{}
+								&
+								\infer[\Ax]{\Var{7}: \ddia{su}\np}{}
+							}
+						}
+					}
+				}
+				&
+%				\hspace{-100pt}
+				\infer[\ddia{su} I]{\dbra{\con{3}}{su} \vdash \ddia{su}\np}{
+					\infer[\Lex]{\con{3} : \np}{}
+				}
+			}
+		}	
+	\end{subfigure}\\[\smallsep]
+	\aethelcap
+		{wiki-6984.p.6.s.2(1)}
+		{Onafhankelijkheid moet en kan.}
+		{Independence must and can (happen).}
+		{\term{\con{5}~\ddiaintro{cnj}(\lam \Var{9}.\con{4}~\Var{9})~\ddiaintro{cnj}(\lam\Var{7}.\con{8}~\Var{7})~\ddiaintro{su}\con{3}}}
+	\caption{Proving a subject ellipsis.}
+	\label{figure:subj_elipsis}
+\end{figure}
+
+Unlike their well-behaved kindred, elliptical conjunctions require special treatment.
+Lassy rightly prefers pushing conjunctions to the topmost phrasal level.
+The subject ellipsis of Figure~\ref{figure:subj_elipsis}, for instance, is not annotated as the conjunction of two heads applied to a single noun phrase, but rather as the conjunction of two sentences sharing the same subject (the material subject has been elevated to the same level as the conjuncts thanks to our earlier transformation).
+We'll gladly follow along.
+Same as before, we will first seek a proof for each conjunct, but now also any non-conjunct siblings. % marked with a complement dependency.
+Conjuncts containing any variables whose nodes are coindexed with the non-conjunct siblings (the latter necessarily being material counterparts of conjunct-internal phantoms) will be abstracted over these variables, before being marked by the $\ddia{cnj} I$ rule.
+In the running example,  conjunct 2 contains the phantom subject 9 and conjunct 6 the phantom subject 7, both coindexed with material node 3.
+The proofs of 2 and 6 will therefore be abstracted over their subject variables, and the instantiation of the type variable $\chi$ will in this case be $\ddia{su}\np[s]\li\smain[s]$ (intentionally left implicit in the Figure for space economy).
+The proof we get back is coincidentally an $\eta$-expanded version of the heads' conjunction.
+
+More generally, the proof of each conjunct will contain a mixture of constants and variables, the latter being any combination of heads, complements and adjuncts.
+All variables that are ``shared'' between conjuncts will be abstracted over. 
+The abstraction of variables enacting head- and adjunct- functors will yield proofs of higher-order types.
+To see this in practice, let's consider the example of Figure~\ref{figure:vp_ellipsis}%
+	\footnote{Give it up for our first ever landscape proof!}.
+Conjuncts 14 and 24 contain phantom heads 33 and 25 respectively, both coindexed with material node 19.
+Abstracting their proofs over the corresponding variables will result in type variable $\chi$ being instantiated as the second order type
+$(\ddia{vc}\ww\li\ddia{su}\np\li\smain)\li\smain$, in turn producing a third order type hint for the coordinator... oof.
+
+Complicated as it might be, this type should not be alien to you, diligent reader.
+Let's flip things around and focus on what we have instead of what we miss.
+The dual view of having two sentences missing their head is that we have two pairs of floating constituents, pair one made of the modally marked proofs of nodes 15 and 22, and pair two made of the proofs of nodes 26 and 31.
+If we were to allow products in our type calculus, we could encode each pair as an item of type $\ddia{su}\np[s]\otimes\ddia{vc}\ww$, and use this to instantiate the polymorphic type.
+Alternatively, by type raising we could use them to derive corresponding proofs of type $((\ddia{su}\np[s]\otimes\ddia{vc}\ww)\li\smallgtype{a})\li\smallgtype{a}$, for any $\smallgtype{a}$ of our liking.
+By currying, we would end up with sequentialized versions of type $(\ddia{su}\np[s]\li\ddia{vc}\ww\li\smallgtype{a})\li\smallgtype{a}$.
+Ring a bell yet?
+Using $\smain[s]$ in place of $\smallgtype{a}$, we end up exactly where we started.%
+	\footnote{If this made little sense, you should actually read the introduction instead of relying on footnote clues.
+	Also I take ``diligent'' back.}
+Now, toying around with raised types is by no means ideal, as it reinforces the propensity of coordinators to become very long and complex.
+On the other hand, it absolves us from having to incorporate an explicit product and protects us from the headaches it comes with (like proof equivalence under product elimination, type equivalence under different branchings, more latex symbols to render in console pretty printing, etc., just to name a few).
+On the less cynical side, it also has the merit of permitting more flexible semantic interpretations for the user to be.
+Conjoining a series of arguments and feeding the result to the predicate means that the semantic interpretation of the conjunction would be inescapably bound to a local scope.
+Conjoining a series of $\lambda$ abstractions and applying the result to the shared predicate unveils the full context of the conjunction, thus granting the future semantic interpretation the potential to duplicate and distribute meaning if and as desired.
+
+\begin{sidewaysfigure}
+	\begin{subfigure}{1\textwidth}
+		\centering
+		{\includegraphics[width=0.85\textheight, trim={1.5cm 1.5cm 1.5cm 1.5cm}]{./prebuilt/hd_ellipsis.pdf}}
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}{1\textwidth}
+		\resizebox{1\textwidth}{!}{
+			\infer[\li E]{\con{23},\dbra{\dbra{\con{22}}{vc},\dbra{\dbra{\con{16}}{mod},\dbra{\con{17}}{mod},\con{18}}{su}}{cnj},\dbra{\dbra{\con{31}}{vc},\dbra{\dbra{\con{27}}{det},\con{28}}{su}}{cnj},\con{19} \vdash \smain}{
+				\infer[\li E]{\con{23},\dbra{\dbra{\con{22}}{vc},\dbra{\dbra{\con{16}}{mod},\dbra{\con{17}}{mod},\con{18}}{su}}{cnj},\dbra{\dbra{\con{31}}{vc},\dbra{\dbra{\con{27}}{det},\con{28}}{su}}{cnj} \vdash \chi}{
+					\infer[\li E]{\con{23},\dbra{\dbra{\con{22}}{vc},\dbra{\dbra{\con{16}}{mod},\dbra{\con{17}}{mod},\con{18}}{su}}{cnj} \vdash \ddia{cnj}\chi\li\chi }{
+						\infer[\Lex]{\con{23} : \ddia{cnj}\chi\li\ddia{cnj}\chi\li\chi}{}
+						&
+						\infer[\ddia{cnj}I]{\dbra{\dbra{\con{22}}{vc},\dbra{\dbra{\con{16}}{mod},\dbra{\con{17}}{mod},\con{18}}{su}}{cnj} \vdash \ddia{cnj}\chi}{
+							\infer[\li I]{\dbra{\con{22}}{vc},\dbra{\dbra{\con{16}}{mod},\dbra{\con{17}}{mod},\con{18}}{su} \vdash \chi}{
+								\infer*{\Var{33},\dbra{\con{22}}{vc},\dbra{\dbra{\con{16}}{mod},\dbra{\con{17}}{mod},\con{18}}{su} \vdash \smain}{
+								}
+%									\infer[\li E]{\Var{33},\dbra{\con{22}}{vc} \vdash \ddia{su}\np\li\smain}{
+%										\infer[\Ax]{\Var{33}: \ddia{vc}\ww\li\ddia{su}\np\li\smain}{}
+%										&
+%										\infer[\ddia{vc}I]{\dbra{\con{22}}{vc} \vdash \ddia{vc}\ww}{
+%											\infer[\Lex]{\con{22} : \ww}{}
+%										}
+%									}
+%									&
+%									\infer[\ddia{su}I]{\dbra{\dbra{\con{16}}{mod},\dbra{\con{17}}{mod},\con{18}}{su} \vdash \ddia{su}\np}{
+%										\infer*{\dbra{\con{16}}{mod},\dbra{\con{17}}{mod},\con{18}\vdash \np}{}
+%									}
+%								}
+							}
+						}
+					}
+					&
+					\infer[\ddia{cnj}I]{\dbra{\dbra{\con{31}}{vc},\dbra{\dbra{\con{27}}{det},\con{28}}{su}}{cnj} \vdash \ddia{cnj}\chi}{
+						\infer[\li I]{\dbra{\con{31}}{vc},\dbra{\dbra{\con{27}}{det},\con{28}}{su} \vdash \chi}{
+							\infer*{\Var{25},\dbra{\con{31}}{vc},\dbra{\dbra{\con{27}}{det},\con{28}}{su} \vdash \smain}{
+							}
+%								\infer[\li E]{\Var{25},\dbra{\con{31}}{vc} \vdash \ddia{su}\np\li\smain}{
+%									\infer[\Ax]{\Var{25}: \ddia{vc}\ww\li\ddia{su}\np\li\smain}{}
+%									&
+%									\infer[\ddia{vc}I]{\dbra{\con{31}}{vc} \vdash \ddia{vc}\ww}{
+%										\infer[\Lex]{\con{31} : \ww}{}
+%									}
+%								}
+%								&
+%								\infer[\ddia{su}I]{\dbra{\dbra{\con{27}}{det},\con{28}}{su}\vdash\ddia{su}\np}{
+%									\infer*{\dbra{\con{27}}{det},\con{28}\vdash\np}{}
+%								}
+%							}
+						}
+					}
+				}
+				&
+				\infer[\Lex]{\con{19}: \ddia{vc}\ww\li\ddia{su}\np\li\smain}{}
+			}
+		}
+	\end{subfigure}\\[\smallsep]
+	\aethelcap
+		{WR-P-E-I-0000015007.p.1.s.146(13)}
+		{Vele Palestijnse huizen werden opgeblazen en hun bewoners vermoord.}
+		{Many Palestinian houses were destroyed and their residents murdered.}
+		{\term{\con{23}~
+			\ddiaintro{cnj}(\lam \Var{33}.\Var{33}~\ddiaintro{vc}\con{22}~\ddiaintro{su}(\dboxelim{mod}\con{16}~(\dboxelim{mod}\con{17}~\con{18}))
+			~\ddiaintro{cnj}(\lam \Var{25}.\Var{25}~\ddiaintro{vc}\con{31}~\ddiaintro{su}(\dboxelim{det}\con{27}~\con{28}))
+			~\con{19}}}
+	\caption{Proving a verb phrase ellipsis.}
+	\label{figure:vp_ellipsis}
+\end{sidewaysfigure}
+
+%Our hard labor is about done.
+%To maintain the homogeneousness of functors regardless of the context they appear in, we must impose an order of abstraction that is reverse to the obliqueness hierarchy we have used so far.
+%Head- and adjunct- functors, falling outside the obliqueness order, will have priority over complements, appearing as the first argument of the higher-order types they help form.
+%Any secondary coordinator appearing within the same conjunction (now marked as \textit{cor}, due to our earlier transformation), will be the first argument to be consumed by the main coordinator.
+
+
+% inconsistency between 
 
 \subsubsection{Post-Processing}
 
 
-%The functionalities is encapsulated by the $\mathsf{make\_args}$ function.
-%\begin{align*} 
-%\mathsf{make\_args} & :: [(\dep{dep},\mathsf{Tree})] \to \mathsf{Node} \to \mathsf{Type}^? \to [\mathsf{Proof}]\\
-%\mathsf{make\_args} \ \mathsf{comps} \ \mathsf{head} \ \mathsf{type^?} & = [\mathsf{prove}' \ \mathsf{t}_i \ \mathsf{type}^? \ \mathsf{d}_i \ | \ (\mathsf{d}_i,\mathsf{t}_i) \in \mathsf{comps} ] \\
-%\mathsf{where} \ \mathsf{prove}' \ \mathsf{t}_i \ \mathsf{type}^? \ \mathsf{d}_i \  & \mapsfrom \ 
-%\mathsf{p}' \ \mathsf{if} \ (\mathsf{is\_var} \ \mathsf{p}') \ \mathsf{else} \ (\mathsf{\mathsf{add\_diamond} \ \mathsf{p}' \ \mathsf{d}_i})\\
-%\mathsf{p}' \ & \mapsfrom \ (\mathsf{abstract\_over} \ \mathsf{p} \ (\mathsf{indexed\_as} \ \mathsf{head}))\\
-%\mathsf{p} \ & \mapsfrom \ \mathsf{prove} \ \mathsf{t}_i \ \mathsf{type}^? \ \mathsf{d}_i
-%%(\mathsf{prove} \ \mathsf{t}_i \ \mathsf{type}^? \ \mathsf{d}_i)
-%%& \mathsf{as} \ \mapsfrom \ ppppppppppp
-%\end{align*}
-%\mathsf{prove} \ (\mathsf{node}_i, 
-%		(\dep{hd},\mathsf{Tree}_j):
-%		(\dep{comp}_{k}, \mathsf{Tree}_k)...(\dep{adj}_m, \mathsf{Tree}_m):
-%		(\dep{adj}_j, \mathsf{Tree}_j)...(\dep{adj}_n, \mathsf{Tree}_n)
-%%(\dep{dep}_{j}, \mathsf{Tree}_{j}), \dots]
-%%\ \mathsf{none} \ \dep{dep}  &= \ \mathsf{prove} \ \mathsf{node}_i \ \ (\smallgtype{b} \ 
 
 
 \subsection{Measuring Proofs}
-
 %\begin{align*}
 %\mathsf{prove} \ (\mathsf{node}_i, 
 %					[\mathsf{node}_i \
-%%\ \smallgtype{a} \ \_ =  \vari:\smallgtype{a} \ \mathsf{if} \ (\mathsf{ghost} \ \mathsf{node}_i) \ \mathsf{else} \ \con{i}:\smallgtype{a}
+%%\ \smallgtype{a} \ \_ =  \vari:\smallgtype{a} \ \mathsf{if} \ (\mathsf{phantom} \ \mathsf{node}_i) \ \mathsf{else} \ \con{i}:\smallgtype{a}
 %\end{align*}
 
 
