@@ -1386,20 +1386,19 @@ In the running example,  conjunct 2 contains the phantom subject 9 and conjunct 
 The proofs of 2 and 6 will therefore be abstracted over their subject variables, and the instantiation of the type variable $\chi$ will in this case be $\ddia{su}\np[s]\li\smain[s]$ (intentionally left implicit in the Figure for space economy).
 The proof we get back is coincidentally an $\eta$-expanded version of the heads' conjunction.
 
-More generally, the proof of each conjunct will contain a mixture of constants and variables, the latter being any combination of heads, complements and adjuncts.
-All variables that are ``shared'' between conjuncts will be abstracted over. 
-The abstraction of variables enacting head- and adjunct- functors will yield proofs of higher-order types.
+What if the elided item is not a complement, though?
+Not much changes, really: we must still look for hypotheses ``shared'' between adjuncts and materially present in the current conjunction branch.
+The difference is that withdrawing them this time around yields proofs of higher-order types.
 To see this in practice, let's consider the example of Figure~\ref{figure:vp_ellipsis}%
 	\footnote{Give it up for our first ever landscape proof!}.
-Conjuncts 14 and 24 contain phantom heads 33 and 25 respectively, both coindexed with material node 19.
-Abstracting their proofs over the corresponding variables will result in type variable $\chi$ being instantiated as the second order type
-$(\ddia{vc}\ww\li\ddia{su}\np\li\smain)\li\smain$, in turn producing a third order type hint for the coordinator... oof.
+Conjuncts 14 and 24 contain phantom 33 and 25 respectively, both standing in for a matrix head, implementing a function of the same type, and coindexed with the same material node 19.
+The abstraction will result in type variable $\chi$ being instantiated as the second order type $(\ddia{vc}\ww\li\ddia{su}\np\li\smain)\li\smain$, in turn producing a third order type hint for the coordinator... oof.
 
 Complicated as it might be, this type should not be alien to you, diligent reader.
 Let's flip things around and focus on what we have instead of what we miss.
 The dual view of having two sentences missing their head is that we have two pairs of floating constituents, pair one made of the modally marked proofs of nodes 15 and 22, and pair two made of the proofs of nodes 26 and 31.
 If we were to allow products in our type calculus, we could encode each pair as an item of type $\ddia{su}\np[s]\otimes\ddia{vc}\ww$, and use this to instantiate the polymorphic type.
-Alternatively, by type raising we could use them to derive corresponding proofs of type $((\ddia{su}\np[s]\otimes\ddia{vc}\ww)\li\smallgtype{a})\li\smallgtype{a}$, for any $\smallgtype{a}$ of our liking.
+By type raising, we could alternatively use them to derive corresponding proofs of type $((\ddia{su}\np[s]\otimes\ddia{vc}\ww)\li\smallgtype{a})\li\smallgtype{a}$, for any $\smallgtype{a}$ of our liking.
 By currying, we would end up with sequentialized versions of type $(\ddia{su}\np[s]\li\ddia{vc}\ww\li\smallgtype{a})\li\smallgtype{a}$.
 Ring a bell yet?
 Using $\smain[s]$ in place of $\smallgtype{a}$, we end up exactly where we started.%
@@ -1408,8 +1407,8 @@ Using $\smain[s]$ in place of $\smallgtype{a}$, we end up exactly where we start
 Now, toying around with raised types is by no means ideal, as it reinforces the propensity of coordinators to become very long and complex.
 On the other hand, it absolves us from having to incorporate an explicit product and protects us from the headaches it comes with (like proof equivalence under product elimination, type equivalence under different branchings, more latex symbols to render in console pretty printing, etc., just to name a few).
 On the less cynical side, it also has the merit of permitting more flexible semantic interpretations for the user to be.
-Conjoining a series of arguments and feeding the result to the predicate means that the semantic interpretation of the conjunction would be inescapably bound to a local scope.
-Conjoining a series of $\lambda$ abstractions and applying the result to the shared predicate unveils the full context of the conjunction, thus granting the future semantic interpretation the potential to duplicate and distribute meaning if and as desired.
+Conjoining a series of arguments and feeding the result to the predicate means that the semantic interpretation of the coordinator would be inescapably bound to a local scope.
+Conjoining a series of $\lambda$ abstractions and applying the result to the shared predicate grants the coordinator access to the full context of the conjunction, opening the door to a future semantic interpretation that can duplicate and distribute meaning if and as desired.
 
 \begin{sidewaysfigure}
 	\begin{subfigure}{1\textwidth}
@@ -1479,25 +1478,107 @@ Conjoining a series of $\lambda$ abstractions and applying the result to the sha
 	\label{figure:vp_ellipsis}
 \end{sidewaysfigure}
 
-%Our hard labor is about done.
-%To maintain the homogeneousness of functors regardless of the context they appear in, we must impose an order of abstraction that is reverse to the obliqueness hierarchy we have used so far.
-%Head- and adjunct- functors, falling outside the obliqueness order, will have priority over complements, appearing as the first argument of the higher-order types they help form.
-%Any secondary coordinator appearing within the same conjunction (now marked as \textit{cor}, due to our earlier transformation), will be the first argument to be consumed by the main coordinator.
-
-
-% inconsistency between 
+More generally, the proof of each conjunct will contain a mixture of constants and variables, the latter being any combination of heads, complements and adjuncts.
+All ``shared'' variables will be abstracted over.
+To maintain the homogeneousness of functors regardless of the context they appear in, the order of abstraction is reverse to the obliqueness hierarchy we have used so far.
+Head- and adjunct- functors, falling outside the hierarchy, will have priority over complements, appearing as the first argument of the higher-order types they help form.
+Any secondary coordinator appearing within the same conjunction (its dependency now labeled \textit{cor}, due to our earlier transformation), will be the first argument to be consumed by the main coordinator (the two are thus modeled as a derived and discontinuous coordinator phrase).
 
 \subsubsection{Post-Processing}
+The proofs we get back don't need to be type-checked: the extraction has already taken care of that for us.
+From the type-correctness perspective, all we need to do is assert their linearity in terms of both variables and constants, i.e. make sure that all words of the input sample were used (exactly once each), and ditto for variables, except they must also be bound (in the off chance a phantom node was never abstracted over).
+For the sake of uniformity, all proofs obtained are $\beta$ and $\eta$ reduced.
+From the representation perspective, our proofs are still overly attached to their Lassy roots.
+Constants and variables are named according to their node origins, which will no longer make any sense after the tree has been discarded.
+We therefore rename constants according to their order of appearance in the sentence, and variables by enumeration, following a left-first depth-first traversal of the proof tree (preferrable to de Bruijn indexing for human legibility).
+To allow the incorporation of extra-theoretical information, proofs are repackaged into a $\mathsf{Sample}$ record containing fields $\mathsf{proof}$, $\mathsf{lexical\_phrases}$, $\mathsf{name}$ and $\mathsf{subset}$.
+The first field is self-explanatory.
+The second field contains a variadic tuple of lexical phrases, each element being itself a variadic container of lexical items, given a single type assignment as a whole.
+Each lexical item contains node attributes from the original Lassy annotation, like $\mathsf{word}$, $\mathsf{pos}$, $\mathsf{pt}$ and $\mathsf{lemma}$.
+This organization is in line with the more liberal type lexicon demanded by multiword units, and allows us to preserve lexical information that would be lost if we were to simply just squeeze them into a single ``word''.
+Multiwords aside, it faithfully presents a sentence together with its punctuation marks, despite them not (usually) appearing in the compositional analysis.
+Finally, it disassociates proofs from the concrete lexical constants justifying them, allowing us to easily compare, filter and aggregate proofs detached from the sentences they were assigned to.
+The third field simply associates the sample to its Lassy identifier, whereas the fourth field suggests a standard train/dev/test split for machine learning applications.
+The collection of extracted proofs we will call \AE thel, for Automatically Extracted Theorems from Lassy, thus resolving the mystery of this section's cryptic name for those that made it this far.
+
+% problems
+% atomic types? 
+%	n vs np, ww vs ppart vs inf vs ppres
+% shared vs distributed adjuncts?
+
+% how-to?
+
+\subsection{Analysis}
+\subsubsection{Quantitative Snoozefest}
+We are done with proving; time to get to measuring.
+But first, a disclaimer.
+The numbers reported below have been relatively stable, but may well get to differ in between the time I write these words and the time you get to read them.
+They are correct in my subjective frame of reference, namely \AE thel $\mathtt{1.0.0a4}$. 
+
+\paragraph{From Lassy to \AE thel}
+From the 65\,200 trees of Lassy Small, we discard 2\,607 for being a single word or punctuation mark.
+The remaining 62\,593 are pruned into 69\,613 discourse-free cuttings (1.11 cuttings per source tree, on average).
+From these, the extraction algorithm produces 68\,782 theorems, bringing its (processed) corpus coverage to 98.81\%.
+A random 80/10/10 split is applied to the source Lassy samples, which translates into 56\,895  train, 6\,119 (8.8\%) dev and 5\,768 (8.3\%) test \AE thel samples (81.7/8.8/8.3).
+Performing the split on Lassy rather than directly on \AE thel ensures consistency between different revisions, and asserts that any sample overlap from subtree duplications during pruning will be contained within the same subset, keeping cross-contamination to a minimum.
+
+%Ill-formed trees are almost always to blame for a failed extraction; most failures are either due to conjunctions without a coordinator, or because of linearity breaches (free variables that cannot be justified by an existing proof pattern).
+
+To quantititatively measure the impact of the preprocessing transformations (i.e. see how close the derived dataset is to the original), we first examine how many of Lassy's samples are proven unaltered.
+In line with our observations on discourse level annotations from earlier, we find that 48\,074 (76.80\%) of Lassy samples can be uniquely mapped to an \AE thel proof.
+Counting the number of samples enumerating a certain number of words, we arrive at the graph of Figure~\ref{figure:count_lens}.
+Surprising noone, the graph reveals that both the original and the derived corpus exhibit a right-skewed distribution of sample lengths, the latter being a left-shifted version of the former.
+Concretely, Lassy has a mode of 13 and a median of 16.7 (ignoring the one-word sentences, for fairness), whereas \AE thel has a mode of 10 and a median of 15.
+The difference between them is not that striking and really only affects their centers and left tails; in fact, the two distributions go almost hand in hand towards their right tails.
+Practically, we lose a small proportion of originally long and medium-sized samples, and the broken parts accumulate into a bulk of short and really short samples (hence the outlier peak at 2).
+Not bad, considering.
 
 
-
-
-\subsection{Measuring Proofs}
-%\begin{align*}
-%\mathsf{prove} \ (\mathsf{node}_i, 
-%					[\mathsf{node}_i \
-%%\ \smallgtype{a} \ \_ =  \vari:\smallgtype{a} \ \mathsf{if} \ (\mathsf{phantom} \ \mathsf{node}_i) \ \mathsf{else} \ \con{i}:\smallgtype{a}
-%\end{align*}
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+%	    title={Sample Counts by Length},
+	    xlabel={Sample Length},
+	    ylabel={Sample Count},
+	    xmin=1, xmax=48,
+%	    ymin=-0, ymax=1,
+%	    xtick={1,10,100,1000,10000, 100000},
+	    legend pos=north west,
+	    ymajorgrids=true,
+		minor y tick num=1,
+	    yminorgrids=true,
+	    xmajorgrids=true,
+	    xminorgrids=true,
+	    minor x tick num=1,
+	    axis line style={draw=none},
+	    tick style={draw=none},
+	    width=0.95\textwidth,
+        legend pos=north east,
+	]
+	% lens
+	\addplot[black, dashed, thick,smooth]
+		table[
+	    mark=none,
+	    x index=0,
+	    y index=1,
+	    col sep=comma,
+	    ] {data/aethel_lens.dat};
+	\addlegendentry{\AE Thel}
+	    
+ 	\addplot[black, smooth]
+		table[
+	    mark=none,
+	    x index=0,
+	    y index=1,
+	    col sep=comma,
+	    ] {data/lassy_lens.dat};
+	\addlegendentry{Lassy}
+	 \end{axis}
+	\end{tikzpicture}
+	\caption{Sample counts by length.}
+	\label{figure:count_lens}
+\end{figure}
 
 
 %\begin{figure}
