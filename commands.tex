@@ -337,7 +337,7 @@
 	\end{tabularx}	
 }
 \newcommand{\aethelcap}[4]{
-	\smaller
+	{\smaller
 	\begin{tabularx}{1\textwidth}{@{}l@{}}
 	\multicolumn{1}{@{}C@{}}{\fname{#1}}\\
 	\toprule
@@ -346,6 +346,7 @@
 	{#4}\\
 	\bottomrule
 	\end{tabularx}	
+	}
 }
 \newcommand{\fname}[1]{\texttt{#1}}
 

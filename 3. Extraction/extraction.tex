@@ -31,7 +31,7 @@ And three, the end-yield of this process has merit of its own.
 As a derived dataset, it is first a building block necessary for populating the computational toolshed of the theory, and also a public resource for the world to with as they please.
 
 Before we get started, let me apologize for the gloomy mood that might permeate this chapter here and there.
-Proof extraction has been the most gruesome and iterated aspect of my PhD, its maintance and upkeep having an almost annual recurrence (with nothing festive about it).
+Proof extraction has been the most gruesome and iterated aspect of my path to doctorhood, its maintance and upkeep having an almost annual recurrence (with nothing festive about it).
 For the sake of scientific transparency, I have no choice other than to expose it in all its horrific details, but it might be that my fatigue of the topic occassionally reflects in a less-than-usually interesting prose.
 
 \section{Preliminaries}
@@ -1510,10 +1510,10 @@ The collection of extracted proofs we will call \AE thel, for Automatically Extr
 
 \subsection{Analysis}
 \subsubsection{Quantitative Snoozefest}
-We are done with proving; time to get to measuring.
+We are done with proving; time to get to counting.
 But first, a disclaimer.
 The numbers reported below have been relatively stable, but may well get to differ in between the time I write these words and the time you get to read them.
-They are correct in my subjective frame of reference, namely \AE thel $\mathtt{1.0.0a4}$. 
+They are correct in my subjective frame of reference (version), namely $\mathtt{1.0.0a4}$. 
 
 \paragraph{From Lassy to \AE thel}
 From the 65\,200 trees of Lassy Small, we discard 2\,607 for being a single word or punctuation mark.
@@ -1529,10 +1529,9 @@ In line with our observations on discourse level annotations from earlier, we fi
 Counting the number of samples enumerating a certain number of words, we arrive at the graph of Figure~\ref{figure:count_lens}.
 Surprising noone, the graph reveals that both the original and the derived corpus exhibit a right-skewed distribution of sample lengths, the latter being a left-shifted version of the former.
 Concretely, Lassy has a mode of 13 and a median of 16.7 (ignoring the one-word sentences, for fairness), whereas \AE thel has a mode of 10 and a median of 15.
-The difference between them is not that striking and really only affects their centers and left tails; in fact, the two distributions go almost hand in hand towards their right tails.
+The difference between them is not that striking and really only affects their left tails and centers; in fact, the two distributions go almost hand in hand towards their right tails.
 Practically, we lose a small proportion of originally long and medium-sized samples, and the broken parts accumulate into a bulk of short and really short samples (hence the outlier peak at 2).
 Not bad, considering.
-
 
 \begin{figure}
 	\centering
@@ -1553,7 +1552,7 @@ Not bad, considering.
 	    minor x tick num=1,
 	    axis line style={draw=none},
 	    tick style={draw=none},
-	    width=0.95\textwidth,
+%	    width=0.95\textwidth,
         legend pos=north east,
 	]
 	% lens
@@ -1580,6 +1579,133 @@ Not bad, considering.
 	\label{figure:count_lens}
 \end{figure}
 
+
+\paragraph{Theorems}
+To quantify the proof-theoretic diversity of the 68\,782 extracted samples, we abstract away from the sentences and end up with a total of 55\,052 unique theorems.
+Figure~\ref{figure:proof_assignments} groups and displays them according to how common they are, i.e. how many times we see the same theorem associated to a different sentence.
+Evidently, the vast majority of unique theorems (52\,665 or 95.7\%) occur but a single time within the dataset (i.e. they are assigned to a single sample), with logarithmically\textsubscript{10} fewer theorems being assigned to exponentially\textsubscript{2} more sentences, making \AE thel a rich and intricate resource.
+
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+	\begin{loglogaxis}[
+%	    title={Type Assignments/Occurrence Counts},
+	    xlabel={Times Theorems were Assigned},
+	    ylabel={Number of Theorems},
+	    legend pos=north west,
+	    ymin=1,
+	    xmin=0.9,
+	    ymajorgrids=true,
+		minor y tick num=1,
+	    yminorgrids=true,
+	    xmajorgrids=true,
+	    xminorgrids=true,
+	    axis line style={draw=none},
+	    tick style={draw=none},
+	    log basis x=2,
+	    ybar interval=1,
+	    nodes near coords, 
+   	    every node near coord/.append style={xshift=10pt, font=\footnotesize},
+%	    nodes near coords align={horizontal},
+		nodes near coords style={/pgf/number format/.cd, 1000 sep={\,},},
+		log origin y=infty,
+		point meta=rawy,
+%		every node near coord/.append style={yshift=-0.5cm},
+	]
+	
+	\addplot[black
+	,postaction={pattern=north east lines}]
+%	[black, const plot, dashdotdotted, thick]
+		table[
+	    x index=0,
+	    y index=1,
+	    col sep=comma,
+	    ] {data/proof_counts.dat};
+	\end{loglogaxis}
+	\end{tikzpicture}
+	\caption{Proof sparsity in \AE thel.}
+	\label{figure:proof_assignments}
+\end{figure}
+
+\paragraph{Proof Ambiguity}
+We've already made peace with the fact that our type logic is syntactically underspecified and prone to overgeneration.
+But a side-effect of this earlier concession is our inability to tell well- and ill- founded ambiguities apart, i.e. we have no means of knowing whether a second proof derivable from the exact same proof frame (sequence of type assignments) is a clear-cut error or indeed a linguistically plausible alternative reading.
+Lassy itself does not provide a derivation for each possible reading.
+Luckily, it is also internally inconsistent on which reading it prefers.
+We can use this to our advantage to try and estimate the \textit{derivational} ambiguity of \AE thel, by first isolating the proof frame of each sample (taking the type assignments independent if what words/phrases they were assigned to), and then counting the amount of unique proofs derived from each frame.%
+	\footnote{Note that we are gathering \textit{just} the sequence of types assigned to a sample and \textit{not} the proof's antecedent, since the modal bracketing structure already disambiguates the proof assignment.}
+In total, there's 56\,050 proof frames, but 53\,730 of those occur only once, thus being of little use to our purposes (since each will unavoidably be mapped to a single proof).
+Of the remaining 2\,320, 2\,259 (97.4\%) are mapped to one unique proof, whereas 61 (2.6\%) derive up two unique proofs.
+Using this as a guideline, we find 472 samples in the entirety of \AE thel (a measly 0.7\%) that are potentially ambiguous, their frames being among the 61 suspects.
+Manual inspection reveals most of them to really be ambiguous (e.g. the proof assigned is one of two possible modifier attachments), with the would-be alternative reading sometimes ruled out on the basis of selectional restrictions.
+%due to theory-external constraints (pragmatic or morphological
+% manual checking reveals them
+%These are mostly really ambiguous (e.g. one of , but sometimes the alternative reading is excluded due to extra-theoretic constraints 
+
+Repeating the above after first casting the proof and type assignments to \NLP{} (dropping any dependency information via a stripping morphism), we end up with 55\,096 unique frames for 54\,065 unique proofs, with 2\,524 frames occurring more than once.
+Their breakdown is as follows: 2\,405 are behind 1 unique proof, 112 behind 2, 6 behind 3, and 1 is behind 5.
+Potentially ambiguous samples are now doubled (909 or 1.7\% of the total), and ambiguities are more commonly artificial, with the would-be alternatives frequently ruled out by morphosyntactic constraints.
+
+What are these boring numbers trying tell us?
+Well, two things.
+First, that using an undirectional logical core does not cause any horrible explosion of apparent ambiguity: proof frames are sparse, and the bulk of them are pointing to a single proof.
+Assigning the correct types will by now means suffice for parsing, but, from a statistical perspective, it will certainly tighten the bound between which proofs are accessible and the one that is linguistically correct.
+Second, it tells us that dependency decorations seem to serve an extra role, orthogonal to the one intended.
+By restricting the hypotheses launched by higher-order functors to a predetermined grammatical function, they exchange derivational ambiguity for lexical type ambiguity, making up for the lack of 
+
+%Derivational ambiguity is largely subsumed by lexical type ambiguity.
+%First, dependency decorations 
+
+% DER AMBI ->> TYPE AMBI
+% DEP DISAMBI
+
+%\begin{figure}
+%	\centering
+%	\begin{tikzpicture}
+%	\begin{loglogaxis}[
+%%	    title={Type Assignments/Occurrence Counts},
+%	    xlabel={Times Theorems were Assigned},
+%	    ylabel={Number of Theorems},
+%	    legend pos=north west,
+%	    ymin=1,
+%	    xmin=0.9,
+%	    ymajorgrids=true,
+%		minor y tick num=1,
+%	    yminorgrids=true,
+%	    xmajorgrids=true,
+%	    xminorgrids=true,
+%	    axis line style={draw=none},
+%	    tick style={draw=none},
+%	    log basis x=2,
+%	    ybar interval=1,
+%	    nodes near coords, 
+%   	    every node near coord/.append style={xshift=10pt, font=\footnotesize},
+%%	    nodes near coords align={horizontal},
+%		nodes near coords style={/pgf/number format/.cd, 1000 sep={\,},},
+%		log origin y=infty,
+%		point meta=rawy,
+%%		every node near coord/.append style={yshift=-0.5cm},
+%	]
+%	
+%	\addplot[black
+%	,postaction={pattern=north east lines}]
+%%	[black, const plot, dashdotdotted, thick]
+%		table[
+%	    x index=0,
+%	    y index=1,
+%	    col sep=comma,
+%	    ] {data/proof_counts.dat};
+%	\end{loglogaxis}
+%	\end{tikzpicture}
+%	\caption{Proof sparsity in \AE thel.}
+%	\label{figure:proof_assignments}
+%\end{figure}
+
+\paragraph{Lexicon}
+
+%But another implication of using $\NLP$ as our logical core is the syncretism between well- and ill- founded ambiguity; i.e. we can't tell whether a second proof arising from the same type assignments is 
+
+\section{Key References \& Further Reading}
 
 %\begin{figure}
 %	\begin{tikzpicture}
