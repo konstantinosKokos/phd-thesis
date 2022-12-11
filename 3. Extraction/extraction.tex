@@ -1029,7 +1029,7 @@ If the node was lexical, we are done -- we need to just instantiate the type wit
 If it was a phantom, we must recall our discussion in Section~\ref{subsubsection:sreason_dep}%
 	\footnote{Hypotheses come prepackaged with their modalities -- you're welcome.}
 and check whether a modality needs to be added -- a diamond (if we got here through a complement marking dependency), or a box (an adjunct marking one).
-If no label was present, or it was a heady one, we're free to stick with the plain type.
+If no label was present, or it was a heady one, we are to stick with the plain type.
 Either way, the type gets instantiated with the $\Ax$ rule.
 
 \paragraph{Non-Terminal Trees}
@@ -1629,85 +1629,37 @@ Evidently, the vast majority of unique theorems (52\,665 or 95.7\%) occur but a 
 
 \paragraph{Proof Ambiguity}
 We've already made peace with the fact that our type logic is syntactically underspecified and prone to overgeneration.
-But a side-effect of this earlier concession is our inability to tell well- and ill- founded ambiguities apart, i.e. we have no means of knowing whether a second proof derivable from the exact same proof frame (sequence of type assignments) is a clear-cut error or indeed a linguistically plausible alternative reading.
-Lassy itself does not provide a derivation for each possible reading.
-Luckily, it is also internally inconsistent on which reading it prefers.
-We can use this to our advantage to try and estimate the \textit{derivational} ambiguity of \AE thel, by first isolating the proof frame of each sample (taking the type assignments independent if what words/phrases they were assigned to), and then counting the amount of unique proofs derived from each frame.%
+But a side-effect of this concession is our inability to tell well- and ill- founded ambiguities apart, i.e. we have no means of knowing whether a second proof derivable from the exact same proof frame (sequence of type assignments) is a clear-cut error or indeed a linguistically plausible alternative reading.
+Lassy itself only provides the derivation of one single reading (and it is not our place to ask which reading that is).
+We can use this to our advantage to try and estimate the \textit{derivational} ambiguity of \AE thel, by first isolating the proof frame of each sample (taking the type sequence independent of the sentence it was assigned to), and then counting the amount of unique proofs derived from each frame.%
 	\footnote{Note that we are gathering \textit{just} the sequence of types assigned to a sample and \textit{not} the proof's antecedent, since the modal bracketing structure already disambiguates the proof assignment.}
 In total, there's 56\,050 proof frames, but 53\,730 of those occur only once, thus being of little use to our purposes (since each will unavoidably be mapped to a single proof).
-Of the remaining 2\,320, 2\,259 (97.4\%) are mapped to one unique proof, whereas 61 (2.6\%) derive up two unique proofs.
-Using this as a guideline, we find 472 samples in the entirety of \AE thel (a measly 0.7\%) that are potentially ambiguous, their frames being among the 61 suspects.
-Manual inspection reveals most of them to really be ambiguous (e.g. the proof assigned is one of two possible modifier attachments), with the would-be alternative reading sometimes ruled out on the basis of selectional restrictions.
-%due to theory-external constraints (pragmatic or morphological
-% manual checking reveals them
-%These are mostly really ambiguous (e.g. one of , but sometimes the alternative reading is excluded due to extra-theoretic constraints 
-
+Of the remaining 2\,320, 2\,259 (97.4\%) are mapped to one unique proof, whereas 61 (2.6\%) may derive one of two unique proofs.
+Using this as a guideline, we find 472 potentially ambiguous samples in the entirety of \AE thel (a measly 0.7\%), their frames being among the 61 suspects.
+Manual inspection reveals most of them to really be ambiguous (e.g. the proof assigned prescribes one of two possible modifier attachments), 
+although in some cases the alternative reading is linguistically ruled out on the basis of selectional restrictions.
 Repeating the above after first casting the proof and type assignments to \NLP{} (dropping any dependency information via a stripping morphism), we end up with 55\,096 unique frames for 54\,065 unique proofs, with 2\,524 frames occurring more than once.
-Their breakdown is as follows: 2\,405 are behind 1 unique proof, 112 behind 2, 6 behind 3, and 1 is behind 5.
-Potentially ambiguous samples are now doubled (909 or 1.7\% of the total), and ambiguities are more commonly artificial, with the would-be alternatives frequently ruled out by morphosyntactic constraints.
+Of these, 2\,405 are behind 1 unique proof, 112 behind 2, 6 behind 3, and 1 is behind 5.
+Potentially ambiguous samples are now doubled (909 or 1.7\% of the total), and ambiguities are more commonly artificial; would-be alternative readings for the newly ambiguous samples are usually ruled out by morphosyntactic constraints invisible to the theory.
 
-What are these boring numbers trying tell us?
+What are all these boring numbers trying to tell us?
 Well, two things.
-First, that using an undirectional logical core does not cause any horrible explosion of apparent ambiguity: proof frames are sparse, and the bulk of them are pointing to a single proof.
-Assigning the correct types will by now means suffice for parsing, but, from a statistical perspective, it will certainly tighten the bound between which proofs are accessible and the one that is linguistically correct.
-Second, it tells us that dependency decorations seem to serve an extra role, orthogonal to the one intended.
-By restricting the hypotheses launched by higher-order functors to a predetermined grammatical function, they exchange derivational ambiguity for lexical type ambiguity, making up for the lack of 
+First, that using an undirectional logical core doesn't really estrange the grammar from the lexicon.
+Proof frames are sparse, and the bulk of them are pointing to a single proof; we are still as lexicalized as it gets.
+That's not to say that choosing the correct type assignments will by any means suffice for parsing, but rather that it will certainly narrow down the options of a (logically and linguistically) correct proof to almost exactly one.
+Second, it tells us that dependency decorations seem to serve an auxiliary role, additional to the one intended: they increase the count of unique frames and decrease the number of proofs grown per frame, trading derivational ambiguity for lexical type ambiguity.
+This is not really surprising: hypotheses launched by higher-order functors are restricted to a predetermined grammatical role, which, by the exclusion principle (no two complements of the same role), forces overt complements to assume the leftover, thus resolving ambiguity.
+\goodbreak
 
-%Derivational ambiguity is largely subsumed by lexical type ambiguity.
-%First, dependency decorations 
 
-% DER AMBI ->> TYPE AMBI
-% DEP DISAMBI
-
-%\begin{figure}
-%	\centering
-%	\begin{tikzpicture}
-%	\begin{loglogaxis}[
-%%	    title={Type Assignments/Occurrence Counts},
-%	    xlabel={Times Theorems were Assigned},
-%	    ylabel={Number of Theorems},
-%	    legend pos=north west,
-%	    ymin=1,
-%	    xmin=0.9,
-%	    ymajorgrids=true,
-%		minor y tick num=1,
-%	    yminorgrids=true,
-%	    xmajorgrids=true,
-%	    xminorgrids=true,
-%	    axis line style={draw=none},
-%	    tick style={draw=none},
-%	    log basis x=2,
-%	    ybar interval=1,
-%	    nodes near coords, 
-%   	    every node near coord/.append style={xshift=10pt, font=\footnotesize},
-%%	    nodes near coords align={horizontal},
-%		nodes near coords style={/pgf/number format/.cd, 1000 sep={\,},},
-%		log origin y=infty,
-%		point meta=rawy,
-%%		every node near coord/.append style={yshift=-0.5cm},
-%	]
-%	
-%	\addplot[black
-%	,postaction={pattern=north east lines}]
-%%	[black, const plot, dashdotdotted, thick]
-%		table[
-%	    x index=0,
-%	    y index=1,
-%	    col sep=comma,
-%	    ] {data/proof_counts.dat};
-%	\end{loglogaxis}
-%	\end{tikzpicture}
-%	\caption{Proof sparsity in \AE thel.}
-%	\label{figure:proof_assignments}
-%\end{figure}
-
-\paragraph{Lexicon}
-
-%But another implication of using $\NLP$ as our logical core is the syncretism between well- and ill- founded ambiguity; i.e. we can't tell whether a second proof arising from the same type assignments is 
+\paragraph{The Lexicon}
+% 993068 type assignments
+% 5546
 
 \section{Key References \& Further Reading}
 
 %\begin{figure}
+%	\centering
 %	\begin{tikzpicture}
 %	\begin{semilogxaxis}[
 %	    title={Type Assignments/Occurrence Counts},
@@ -1734,25 +1686,25 @@ By restricting the hypotheses launched by higher-order functors to a predetermin
 %	    y index=1,
 %	    col sep=comma,
 %	    ] {data/proportion_of_types_covered.dat};
-%	
-%	% assignments
-%	\addplot[black, const plot, dashed, thick]
-%		table[
-%	    mark=none,
-%	    x index=0,
-%	    y index=1,
-%	    col sep=comma,
-%	    ] {data/proportion_of_assignments_covered.dat};
-%	
-%	% sentences
-%	\addplot[black, const plot]
-%		table[
-%	    mark=none,
-%	    x index=0,
-%	    y index=1,
-%	    col sep=comma,
-%	    ] {data/proportion_of_sentences_covered.dat};
-%	    
+%%	
+%%	% assignments
+%%	\addplot[black, const plot, dashed, thick]
+%%		table[
+%%	    mark=none,
+%%	    x index=0,
+%%	    y index=1,
+%%	    col sep=comma,
+%%	    ] {data/proportion_of_assignments_covered.dat};
+%%	
+%%	% sentences
+%%	\addplot[black, const plot]
+%%		table[
+%%	    mark=none,
+%%	    x index=0,
+%%	    y index=1,
+%%	    col sep=comma,
+%%	    ] {data/proportion_of_sentences_covered.dat};
+%%	    
 %	\end{semilogxaxis}
 %	\end{tikzpicture}
 %	\label{figure:plot:assignment_occurrence_ecdf}
