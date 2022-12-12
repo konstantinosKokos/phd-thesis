@@ -1589,28 +1589,18 @@ Evidently, the vast majority of unique theorems (52\,665 or 95.7\%) occur but a 
 	\centering
 	\begin{tikzpicture}
 	\begin{loglogaxis}[
-%	    title={Type Assignments/Occurrence Counts},
 	    xlabel={Times Theorems were Assigned},
 	    ylabel={Number of Theorems},
 	    legend pos=north west,
 	    ymin=1,
 	    xmin=0.9,
-	    ymajorgrids=true,
-		minor y tick num=1,
-	    yminorgrids=true,
-	    xmajorgrids=true,
-	    xminorgrids=true,
-	    axis line style={draw=none},
-	    tick style={draw=none},
 	    log basis x=2,
 	    ybar interval=1,
 	    nodes near coords, 
    	    every node near coord/.append style={xshift=10pt, font=\footnotesize},
-%	    nodes near coords align={horizontal},
 		nodes near coords style={/pgf/number format/.cd, 1000 sep={\,},},
 		log origin y=infty,
 		point meta=rawy,
-%		every node near coord/.append style={yshift=-0.5cm},
 	]
 	
 	\addplot[black
@@ -1631,7 +1621,7 @@ Evidently, the vast majority of unique theorems (52\,665 or 95.7\%) occur but a 
 We've already made peace with the fact that our type logic is syntactically underspecified and prone to overgeneration.
 But a side-effect of this concession is our inability to tell well- and ill- founded ambiguities apart, i.e. we have no means of knowing whether a second proof derivable from the exact same proof frame (sequence of type assignments) is a clear-cut error or indeed a linguistically plausible alternative reading.
 Lassy itself only provides the derivation of one single reading (and it is not our place to ask which reading that is).
-We can use this to our advantage to try and estimate the \textit{derivational} ambiguity of \AE thel, by first isolating the proof frame of each sample (taking the type sequence independent of the sentence it was assigned to), and then counting the amount of unique proofs derived from each frame.%
+We can use this to our advantage to try and estimate the \textit{real} derivational ambiguity of \AE thel, by first isolating the proof frame of each sample (taking the type sequence independent of the sentence it was assigned to), and then counting the amount of unique proofs derived from each frame.%
 	\footnote{Note that we are gathering \textit{just} the sequence of types assigned to a sample and \textit{not} the proof's antecedent, since the modal bracketing structure already disambiguates the proof assignment.}
 In total, there's 56\,050 proof frames, but 53\,730 of those occur only once, thus being of little use to our purposes (since each will unavoidably be mapped to a single proof).
 Of the remaining 2\,320, 2\,259 (97.4\%) are mapped to one unique proof, whereas 61 (2.6\%) may derive one of two unique proofs.
@@ -1648,67 +1638,150 @@ First, that using an undirectional logical core doesn't really estrange the gram
 Proof frames are sparse, and the bulk of them are pointing to a single proof; we are still as lexicalized as it gets.
 That's not to say that choosing the correct type assignments will by any means suffice for parsing, but rather that it will certainly narrow down the options of a (logically and linguistically) correct proof to almost exactly one.
 Second, it tells us that dependency decorations seem to serve an auxiliary role, additional to the one intended: they increase the count of unique frames and decrease the number of proofs grown per frame, trading derivational ambiguity for lexical type ambiguity.
-This is not really surprising: hypotheses launched by higher-order functors are restricted to a predetermined grammatical role, which, by the exclusion principle (no two complements of the same role), forces overt complements to assume the leftover, thus resolving ambiguity.
+This is not really surprising: hypotheses launched by higher-order functors are restricted to a predetermined grammatical role, which, by the exclusion principle (no two complements of the same role), forces overt complements to assume the leftover role, implicitly resolving ambiguity.
 \goodbreak
 
 
-\paragraph{The Lexicon}
-% 993068 type assignments
-% 5546
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+	\begin{loglogaxis}[
+	    xlabel={Number of Unique Types Assigned},
+	    ylabel={Number of Lexical Entries},
+	    legend pos=north west,
+	    ymin=1,
+	    xmin=0.9,xmax=255,
+	    log basis x=2,
+	    ybar interval=1,
+%	    xtick={1,2,4,8,16,32,64,128,256,512,1024,2048},
+	    nodes near coords, 
+   	    every node near coord/.append style={xshift=12.5pt, font=\footnotesize},
+		nodes near coords style={/pgf/number format/.cd, 1000 sep={\,},},
+		log origin y=infty,
+		point meta=rawy,
+	]
+	% lens
+	\addplot[black,postaction={pattern=north east lines}]
+		table[
+	    x index=0,
+	    y index=1,
+	    col sep=comma,
+	    ] {data/ambiguity.dat};
+	\end{loglogaxis}
+	    
+	\end{tikzpicture}
+	\caption{Lexical Type Ambiguity}
+	\label{figure:type_ambiguity}
+\end{figure}
+
+
+\paragraph{Lexical Type Ambiguity}
+This brings us to the lexicon: the binary relation connecting words (or strings, really) to types, and obtained by the aggregation of all our proofs' type assignments.
+\AE thel as a whole contains 1\,034\,576 words chunked into 993\,068 phrases, each chunk carrying a single assignment.
+These amount to  74\,856 (67\,919 after case normalization) unique words and 76\,791 (71\,115) unique phrases, the latter being essentially the lexicon's domain.
+On the codomain's side, we have a grand total of 5\,546 unique \NLPplus{} types, which, stripped of their modalities, fall back to 3\,345 pure linear types.
+The first question to ask then is: how functional is this lexicon?
+Answering that question is Figure~\ref{figure:type_ambiguity}, which in short says ``not much, really'': ambiguities are more than common, and the majority of lexical entries (44\,592) are assigned between 8 to 16 different types.
+These are trailed by a long tail of chameleon words, 70 of them appearing in more than 32 distinct type guises.
+Last is the usual suspect \texttr{en}{and}, counting as many as 258 unique types -- the price for our choice to brave conjunctions with concrete and pre-raised instantiations of a polymorphic type.
+But this is painting a perhaps overly grim picture.
+Seen as random variables, lexical entries actually have most of their probability masses concentrated on their modes; the average probability of the most common type per entry lies at a (very high) 89.11\%. 
+Naively assigning the mode to each lexical assignment corpus-wide (regardless of any context) makes for a comfortable 67.2\% baseline, asserting that our assignments are in practice quite consistent within their entries.
+
+
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+	\begin{semilogxaxis}[
+	    xlabel={Type Occurrence Count},
+	    ylabel={Proportion Covered},
+	    xmin=1, xmax=140000,
+	    ymin=-0, ymax=1,
+	    xtick={1,10,100,1000,10000, 100000},
+	    width=1\textwidth
+	]
+	
+	% types
+	\addplot[black, const plot, dashdotdotted, thick]
+		table[
+	    x index=0,
+	    y index=1,
+	    col sep=comma,
+	    ] {data/proportion_of_types_covered.dat};
+	\addlegendentry{Types};	
+	   
+%	% sentences
+	\addplot[black, const plot]
+		table[
+	    mark=none,
+	    x index=0,
+	    y index=1,
+	    col sep=comma,
+	    ] {data/proportion_of_sentences_covered.dat};
+	\addlegendentry{Samples};
+	
+	% assignments-
+	\addplot[black, const plot, dashed, thick]
+		table[
+	    x index=0,
+	    y index=1,
+	    col sep=comma,
+	    ] {data/proportion_of_assignments_covered.dat};
+	\addlegendentry{Assignments};	
+	
+	   
+	\end{semilogxaxis}
+	\end{tikzpicture}
+	\caption{Proportion of types, type assignments and samples covered as a function of a minimum type occurrence threshold.}
+	\label{figure:ecdfs}
+\end{figure}
+
+
+\paragraph{Lexical Type Sparsity}
+But if ambiguity is not a real concern despite the high number of options per entry, some opposing force must be at work here.
+In reality, the only reason we are able to naively guess assignments with some reasonable accuracy is exactly because the less-than-most-frequent options are in fact very infrequent -- the demon's name is sparsity.
+To diagose the problem and quantify its extent, we perform a number of tests.
+First, we measure the proportion of the 5\,546 types that occur more than $n$ times, and plot the result in Figure~\ref{figure:ecdfs} (if you prefer jargon, this is the inverse empirical cumulative distribution of type occurrences).
+The dash-dotted line leaves little room for interpretation: 2\,644 (48\%) of the total types have only a single occurrence, 4\,436 (80\%)  have less than 10 occurrences, and only 297 (5\%) are common enough to boast more than 100 occurrences -- our types are sparse alright.
+This goes to show that uncommon type assignments are uncommon globally, and not just in the context of their lexical entry that contains them; in other words, a type rarely associated with \textit{some} lexical entry is likely rare to find among \textit{any} entry.
+The real impact of sparse types can only be analyzed by holistically inspecting their corpus-wide distribution.
+To that end, we repeat the above measurement, this time focusing on type assignments and samples rather than just types.
+Intuitively, we are interested in the proportion of the 993\,068 type assignments we could resolve when considering only types occurring more than $n$ times, and the proportion of the 68\,782 samples containing resolved assignments only. 
+Things look less scary here: on the type assignment front, the 5\% most common types cover 97\% of the total assignments, and the top 1\% (occurring more than 10\,000 times) is still good enough for 90\% of the assignments.
+Sentential coverage declines more rapidly, indicating that rare types are, to our dismay, evenly distributed within our samples -- discarding types with less than 10 occurrences, for instance, already brings down sentential coverage to 90\%.
+
+\paragraph{Lexical Entry Sparsity}
+For the sake of completeness, we may as well have a quick 
+
+
+% paragraph on word occ
+%[43918,
+% 15786,
+% 7676,
+% 4151,
+% 2399,
+% 1447,
+% 716,
+% 381,
+% 170,
+% 69,
+% 29,
+% 26,
+% 9,
+% 6,
+% 6,
+% 2,
+% 0,
+% 0]
+
+% PROOFBANK!!
+
+% qualtitative
+
 
 \section{Key References \& Further Reading}
 
-%\begin{figure}
-%	\centering
-%	\begin{tikzpicture}
-%	\begin{semilogxaxis}[
-%	    title={Type Assignments/Occurrence Counts},
-%	    xlabel={Occurrence Count},
-%	    ylabel={Proportion of Type Assignments},
-%	    xmin=1, xmax=140000,
-%	    ymin=-0, ymax=1,
-%	    xtick={1,10,100,1000,10000, 100000},
-%	    legend pos=north west,
-%	    ymajorgrids=true,
-%		minor y tick num=1,
-%	    yminorgrids=true,
-%	    xmajorgrids=true,
-%	    xminorgrids=true,
-%	    axis line style={draw=none},
-%	    tick style={draw=none}
-%	]
-%	
-%	% types
-%	\addplot[black, const plot, dashdotdotted, thick]
-%		table[
-%	    mark=none,
-%	    x index=0,
-%	    y index=1,
-%	    col sep=comma,
-%	    ] {data/proportion_of_types_covered.dat};
-%%	
-%%	% assignments
-%%	\addplot[black, const plot, dashed, thick]
-%%		table[
-%%	    mark=none,
-%%	    x index=0,
-%%	    y index=1,
-%%	    col sep=comma,
-%%	    ] {data/proportion_of_assignments_covered.dat};
-%%	
-%%	% sentences
-%%	\addplot[black, const plot]
-%%		table[
-%%	    mark=none,
-%%	    x index=0,
-%%	    y index=1,
-%%	    col sep=comma,
-%%	    ] {data/proportion_of_sentences_covered.dat};
-%%	    
-%	\end{semilogxaxis}
-%	\end{tikzpicture}
-%	\label{figure:plot:assignment_occurrence_ecdf}
-%\end{figure}
+
 
 \nocite{macken2011dutch}
 

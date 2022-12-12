@@ -70,9 +70,19 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					plots
-\pgfplotsset{width=0.8\textwidth, compat=1.9}
-\pgfplotsset{minor grid style={loosely dashed, ultra thin, gray!30}}
-\pgfplotsset{major grid style={dashed, gray!60}}
+\pgfplotsset{
+	width=0.8\textwidth, 
+	compat=1.9, 
+	enlarge x limits=0.05,
+	minor grid style={loosely dashed, ultra thin, gray!30},
+	major grid style={dashed, gray!60},
+	ymajorgrids=true,
+	minor y tick num=1,
+	yminorgrids=true,
+	xmajorgrids=true,
+	xminorgrids=true,
+	axis line style={draw=none},
+	tick style={draw=none}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                  chapter / section formatting
@@ -357,3 +367,4 @@
 \hyphenation{a-me-na-ble}
 \hyphenation{phra-ses}
 \hyphenation{name-ly}
+\hyphenation{co-do-main}
