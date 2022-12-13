@@ -13,15 +13,15 @@ This sets up a new research imperative: we must prove the model useful!
 ``Oof, that's a tricky one'', you might say, and you wouldn't be wrong.
 Thankfully, there are two tried and tested ways to proceed.
 The first is the way of the scholar, which requires a rare combination of high intellectual capacity, strong persuasive skills and a pinch of luck.
-It starts off with some profound abstract thinking, gradually overtaken by agressive campaigning: bashing the competition at workshops and conferences, making bold claims and generating traction at any chance given (optionally over social media platforms, for the modernists), eventually building a cult of personality, and finally resting on your laurels as the hype becomes self-sustainining; at long last, utility affirmed by popular approval.
-This path, sometimes called the scientific method, is a rather involved and painstakingly slow process, a high stakes gamble that only starts yielding profits in the long run; as such, it greatly benefits from the nourishment of a stable work environment.
+It starts off with some profound abstract thinking, gradually overtaken by agressive campaigning: bashing the competition at workshops and conferences, making bold claims and generating traction at any chance given (optionally over social media platforms, for the modernists), eventually building a cult of personality, and finally resting on your laurels as the hype becomes self-sustainining -- at long last, utility affirmed by popular approval.
+This path, sometimes called the scientific method, is a rather involved and painstakingly slow process, a high stakes gamble that only starts yielding profits in the long run.
 More befitting the modern paradigm of the mobile, adaptive, multi-purpose researcher is the alternative path, the way of the engineer.
 A shorter term investment, it requires only the acquirable skills of endurance and hardheadedness, and offers a recipe that's easier to follow: simply swing at it until it cracks.
 After a lot of obsessive iteration and self-correction (interchanged with the occasional feeling of despair), (f)utility will sooner or later be affirmed by cold, hard numbers.
 We'll go for this one.
 
 This choice has some methodological repercussions.
-Under more tranquil circumstances, we'd wait for the theory to be disseminated, criticized, adapted, error-corrected and returned to sender, before finally moving on; it being a theory of language, this would entail a thorough qualitative analysis of several kinds of linguistic phenomena, coupled with a theoretical investigation of what it can or cannot adequately capture.
+Under more tranquil circumstances, we'd wait for the theory to be disseminated, criticized, adapted, error-corrected and returned to sender before finally moving on; it being a theory of language, this would entail a thorough qualitative analysis of several kinds of linguistic phenomena, coupled with a theoretical investigation of what it can or cannot adequately capture.
 We are however in a compressed timeframe, forcing our hand into putting it straight to the test; the pragmatic approach is then to try and directly align it with real-world linguistic data at scale, and hope for the best.
 The process, called \textit{proof extraction}, revolves around ``proving''  some source corpus of syntactically annotated sentences via the design and application of an algorithm tasked with translating the existing annotation format into derivations of the target grammar -- in our case, a grammar of dependency-enhanced compositional assembly.
 Proof extraction serves a ternary purpose.
@@ -31,7 +31,8 @@ And three, the end-yield of this process has merit of its own.
 As a derived dataset, it is first a building block necessary for populating the computational toolshed of the theory, and also a public resource for the world to with as they please.
 
 Before we get started, let me apologize for the gloomy mood that might permeate this chapter here and there.
-Proof extraction has been the most gruesome and iterated aspect of my path to doctorhood, its maintance and upkeep having an almost annual recurrence (with nothing festive about it).
+Proof extraction has been the most gruesome and iterated aspect of my path to doctorhood, its maintance and upkeep having an almost annual recurrence (with nothing festive about it).%
+\footnote{Fun(?) fact: at least one revision to the extraction was made after these lines were written.}
 For the sake of scientific transparency, I have no choice other than to expose it in all its horrific details, but it might be that my fatigue of the topic occassionally reflects in a less-than-usually interesting prose.
 
 \section{Preliminaries}
@@ -910,8 +911,8 @@ As a safety measure, we first enforce the convention that the most shallow occur
 \paragraph{(Mis)understood Arguments}
 Lassy treats the non-finite verbal forms (participles and infinitives) as verbal elements proper, selecting for all the arguments their finite counterparts would.
 Obviously, participles used for the passive or the perfect and infinitives in verbal complements cannot possibly find all these arguments, some being located in higher levels of the dependency graph.
-To resolve this, Lassy opts for establishing phantom nodes coindexed with the so-called understood argument.
-The more non-finites in the path between the one under scrutiny and the top level clause, the more phantom nodes are inserted.
+To resolve this, Lassy opts for establishing phantom nodes coindexed with the so-called understood argument; the more non-finites in the path between the one under scrutiny and the top level clause, the more phantom nodes are inserted.
+%Some of these nodes are of a syntactic quality: the objects 
 These nodes are purely semantic in nature, and no syntactic item allows for the consecutive duplication of material they call for.
 As such, they have no place in the compositional structure we seek to extract, and we have the moral right to cast them away.%
 	\footnote{Funnily, our recurring complaint with Lassy so far has been that it gives us too little. 
@@ -1650,7 +1651,8 @@ This is not really surprising: hypotheses launched by higher-order functors are 
 	    ylabel={Number of Lexical Entries},
 	    legend pos=north west,
 	    ymin=1,
-	    xmin=0.9,xmax=255,
+	    xmin=0.9,
+%	    xmax=255,
 	    log basis x=2,
 	    ybar interval=1,
 %	    xtick={1,2,4,8,16,32,64,128,256,512,1024,2048},
@@ -1675,7 +1677,7 @@ This is not really surprising: hypotheses launched by higher-order functors are 
 \end{figure}
 
 
-\paragraph{Lexical Type Ambiguity}
+\paragraph{Lexical Type Ambiguity \todo}
 This brings us to the lexicon: the binary relation connecting words (or strings, really) to types, and obtained by the aggregation of all our proofs' type assignments.
 \AE thel as a whole contains 1\,034\,576 words chunked into 993\,068 phrases, each chunk carrying a single assignment.
 These amount to  74\,856 (67\,919 after case normalization) unique words and 76\,791 (71\,115) unique phrases, the latter being essentially the lexicon's domain.
@@ -1686,7 +1688,8 @@ These are trailed by a long tail of chameleon words, 70 of them appearing in mor
 Last is the usual suspect \texttr{en}{and}, counting as many as 258 unique types -- the price for our choice to brave conjunctions with concrete and pre-raised instantiations of a polymorphic type.
 But this is painting a perhaps overly grim picture.
 Seen as random variables, lexical entries actually have most of their probability masses concentrated on their modes; the average probability of the most common type per entry lies at a (very high) 89.11\%. 
-Naively assigning the mode to each lexical assignment corpus-wide (regardless of any context) makes for a comfortable 67.2\% baseline, asserting that our assignments are in practice quite consistent within their entries.
+Naively assigning the mode to each lexical assignment corpus-wide (regardless of any context) establishes a comfortable 67.2\% accuracy baseline, asserting that our assignments are in practice quite consistent within their entries.
+Hmm...
 
 
 \begin{figure}
@@ -1737,21 +1740,61 @@ Naively assigning the mode to each lexical assignment corpus-wide (regardless of
 \end{figure}
 
 
-\paragraph{Lexical Type Sparsity}
-But if ambiguity is not a real concern despite the high number of options per entry, some opposing force must be at work here.
+\paragraph{Lexical Type Sparsity \todo}
+So ambiguity is not a statistical threat, despite the high average number of options per entry; some opposing force must be counterweighting its effect.
 In reality, the only reason we are able to naively guess assignments with some reasonable accuracy is exactly because the less-than-most-frequent options are in fact very infrequent -- the demon's name is sparsity.
 To diagose the problem and quantify its extent, we perform a number of tests.
 First, we measure the proportion of the 5\,546 types that occur more than $n$ times, and plot the result in Figure~\ref{figure:ecdfs} (if you prefer jargon, this is the inverse empirical cumulative distribution of type occurrences).
-The dash-dotted line leaves little room for interpretation: 2\,644 (48\%) of the total types have only a single occurrence, 4\,436 (80\%)  have less than 10 occurrences, and only 297 (5\%) are common enough to boast more than 100 occurrences -- our types are sparse alright.
-This goes to show that uncommon type assignments are uncommon globally, and not just in the context of their lexical entry that contains them; in other words, a type rarely associated with \textit{some} lexical entry is likely rare to find among \textit{any} entry.
-The real impact of sparse types can only be analyzed by holistically inspecting their corpus-wide distribution.
+The dash-dotted line leaves little room for interpretation: 2\,644 (48\%) of the total types have only a single occurrence, 4\,436 (80\%)  have less than 10 occurrences, and only 297 (5\%) are common enough to boast more than 100 occurrences -- our types are quite sparse alright.
+This goes to show that uncommon type assignments are uncommon globally, and not just in the context of the lexical entry that contains them; in other words, a type rarely associated with \textit{some} lexical entry is likely rare to find among \textit{any} entry.
+
+To analyze the real impact of sparse types, we have to holistically inspect their corpus-wide distribution.
 To that end, we repeat the above measurement, this time focusing on type assignments and samples rather than just types.
 Intuitively, we are interested in the proportion of the 993\,068 type assignments we could resolve when considering only types occurring more than $n$ times, and the proportion of the 68\,782 samples containing resolved assignments only. 
-Things look less scary here: on the type assignment front, the 5\% most common types cover 97\% of the total assignments, and the top 1\% (occurring more than 10\,000 times) is still good enough for 90\% of the assignments.
-Sentential coverage declines more rapidly, indicating that rare types are, to our dismay, evenly distributed within our samples -- discarding types with less than 10 occurrences, for instance, already brings down sentential coverage to 90\%.
+Things look somewhat less scary here: on the type assignment front, the 5\% most common types cover 97\% of the total assignments, and the top 1\% (occurring more than 1\,000 times) is still good enough for 90\% of the assignments.
+Sentential coverage declines more rapidly, indicating that rare types are, to our discontent, evenly distributed within our samples -- discarding types with less than 10 occurrences, for instance, already brings sentential coverage down to 90\%.
+This will haunt us later, but for now let's keep lingering in the bliss of ignorance.
 
-\paragraph{Lexical Entry Sparsity}
-For the sake of completeness, we may as well have a quick 
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+	\begin{loglogaxis}[
+	    xlabel={Number of Occurrences},
+	    ylabel={Number of Lexical Entries},
+	    legend pos=north west,
+	    ymin=1,
+	    xmin=0.9,xmax=32768,
+	    log basis x=2,
+	    ybar interval=1,
+%	    xtick={1,2,4,8,16,32,64,128,256,512,1024,2048},
+	    nodes near coords, 
+   	    every node near coord/.append style={xshift=10pt, font=\footnotesize},
+		nodes near coords style={/pgf/number format/.cd, 1000 sep={\,},},
+		log origin y=infty,
+		point meta=rawy,
+	]
+	% lens
+	\addplot[black,postaction={pattern=north east lines}]
+		table[
+	    x index=0,
+	    y index=1,
+	    col sep=comma,
+	    ] {data/word_sparsity.dat};
+	\end{loglogaxis}
+	    
+	\end{tikzpicture}
+	\caption{Lexical Entry Sparsity}
+	\label{figure:entry_sparsity}
+\end{figure}
+
+
+\paragraph{Lexical Entry Sparsity \todo}
+On the other side of the lexicon lie lexical entries -- the words and phrases we may use to index the lexicon.
+Lexical entry sparsity is completely external to the extraction algorithm (words and their occurrence statistics being directly inherited from Lassy and its choice of corpora).
+It's also no longer a real practical consideration, since distributed word vectors and pretrained language models have long superseded the lexically fixed components of the modern NLP pipeline.
+Still, for the sake of completeness (and since the lexicon is a tiny resource of its own), we may as well have a quick glance of the statistics of the lexicon's domain.
+Figure~\ref{figure:entry_sparsity} shows that the distribution of lexical entry occurrences follows a near-perfect line in the log\textsubscript{10}/log\textsubscript{2} plane: most entries occur 
+
 
 
 % paragraph on word occ
