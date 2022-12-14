@@ -904,7 +904,7 @@ As a safety measure, we first enforce the convention that the most shallow occur
 		{dpc-gaz-001006-nl-sen.p.52.s.4(1)}
 		{Hiermee kan kostbare tijd gewonnen worden.}
 		{Precious time can be won with this.}
-	\caption{Removing the understood arguments from an infinitive and the participle nested within it.}
+	\caption{Removing the understood subject from an infinitival verbal complement.}
 	\label{figure:ua}
 \end{figure}
 
@@ -912,12 +912,13 @@ As a safety measure, we first enforce the convention that the most shallow occur
 Lassy treats the non-finite verbal forms (participles and infinitives) as verbal elements proper, selecting for all the arguments their finite counterparts would.
 Obviously, participles used for the passive or the perfect and infinitives in verbal complements cannot possibly find all these arguments, some being located in higher levels of the dependency graph.
 To resolve this, Lassy opts for establishing phantom nodes coindexed with the so-called understood argument; the more non-finites in the path between the one under scrutiny and the top level clause, the more phantom nodes are inserted.
-%Some of these nodes are of a syntactic quality: the objects 
-These nodes are purely semantic in nature, and no syntactic item allows for the consecutive duplication of material they call for.
-As such, they have no place in the compositional structure we seek to extract, and we have the moral right to cast them away.%
+Some of these nodes are of a syntactic quality:  non-finite forms of transitives used in passive constructions refer back to the auxiliary subject as their object.
+This makes past participles consistent with their use in the perfect, and infinitives consistent with their use in subordinate clauses.
+Others are purely semantic: both past participles and infinitives select for a subject (e.g. the ``agent'' of the action they denote), which can be any of the main clause's arguments.
+We are not happy with the latter, since no syntactic item allows for the duplication of material they demand, and they have no place in the compositional structure we seek to extract; we thus invoke our moral right to cast them away.%
 	\footnote{Funnily, our recurring complaint with Lassy so far has been that it gives us too little. 
 	This time around, it gives us too much.}
-Concretely, we look for any edge with adependency label normally reserved for a nominal complement (i.e. \textit{su}, \textit{obj1}, \textit{obj2}, \textit{sup}, \textit{pobj}) pointing to a phantom node, such that any of its non-immediate ancestors is a sentential clause with an outgoing edge pointed to a node of the same index.
+Concretely, we look for any edge with a \textit{su} label that points to a phantom node, such that any of its non-immediate ancestors is a sentential clause with another outgoing \textit{su} edge pointing to a node of the same index.
 Edges caught in our web are deleted, as are any nodes left floating; see Figure~\ref{figure:ua} for an example.
 This transformation incurs a loss of semantic coindexing, which anyway is irrelevant to us: it's up to lexical semantics entries to decide what arguments they have, how their slots are filled, and how these are propagated and updated down the sentence.
 Other than this coindexing, it will soon be made apparent that no meaningful function-argument structures are actually lost by this erasure.
@@ -960,7 +961,8 @@ This will facilitate the easier typing of conjunctions later on.
 
 \paragraph{Unary Pipes}
 The movements and erasures performed can sometimes lead to ``pipes'' of unary trees.
-We resolve these by removing any intermediate nodes and establishing a new edge from the source of the pipe to its end, inheriting the label of the edge that would previously appear first.
+Awkward as these might be, they pose no issue to the extraction algorithm, provided they consist solely of \textit{hd} labeled edges.
+We keep them as is so as to avoid the tedious and error-prone work of unecesssarily reindexing nodes.
 
 \paragraph{Labelless Conjunctions}
 The \textit{conj} label, used as an umbrella category to classify all conjunctions, carries the same risk as the \textit{mwu} label, namely of polluting the functional type assignments of phrases outside the conjunction itself with a generic, multi-purpose argument type.
@@ -971,7 +973,8 @@ Bare nouns are assigned the \textit{n} part of speech regardless of whether they
 To circumvent (to the extent possible) a combinatorial explosion of meaningless \smallgtype{n} and \smallgtype{np} argument variations, we alter the part of speech assignment of \textit{n} nodes that are not roofed under a \textit{np} from the former to the latter.
 As we will soon see, this will alter the type assignment of these nodes, in analogy to an implicit and contextual lexicalization of an explicit noun raising rule.
 
-% \todo : ad hoc transformations
+\paragraph{Assertions}
+Prior to sending the transformed tree on its way, we make some basic checks of its structural integrity; we assert first of all it is indeed a tree (all nodes but the root have one incoming edge, nodes are all connected), that every phantom node has a material counterpart, and that no phantom nodes are labeled as multiword parts (as these would be humanly impossible to type).
 
 \subsection{Proving Lassy}
 With our transformations in place, the subdued corpus should be ripe for our proof extraction algorithm.
@@ -994,7 +997,7 @@ Exceptionally, the \textit{spec} tag is cast into \smallgtype{np}, as the tag is
 The codomain of the translation is in our case coincident with our logic's set of propositional constants, $\propcon$.
 As hinted at earlier, the extraction is \textit{parametric} to this translation: the domain can be any of the sets of lexical tags Lassy provides access to, and the codomain is by no means restricted to atomic types.
 This allows an easy adaptation to morpologically informed types, or a transition to an expanded theory (e.g. one that includes subtyping, additional axes of modal decorations, etc.). 
-In principle, this can also allow a re-incorporation of implicit arguments for non-finite verbal forms, but doing so would not amount to much: as promised earlier, these are already trivially recoverable by a simple morphism (readily applicable on the extracted proofs) that sends non-finite forms to the desired complex types (immediate return on investment for taking source labels at face value).
+In principle, this can also allow a re-incorporation of the semantic subjects of non-finite verbal forms, but doing so would not amount to much: as promised earlier, these are already trivially recoverable by a simple morphism (readily applicable on the extracted proofs) that sends non-finite types (e.g. $\ppart[s]$) to the desired complex types (e.g. $\ddia{su}\np[s]\li\ppart[s]$); immediate return on investment for taking source labels at face value.
 In any case, the translation induces a function that naively tells us for each node what type the translation table prescribes to its part of speech tag (if lexical), syntactic category (if phrasal) or the correspond translations of its material counterpart (if phantom).
 
 Then, we need an equivalence relation on the set of dependencies so as to partition it into heads, adjuncts and complements -- each non-head dependency is translated into a modal label, the union of which (together with the extraction modality) forming the set of modalities $\deps$.
@@ -1177,14 +1180,15 @@ Within each domain, heads apply to their arguments and adjuncts drop their boxes
 	\label{figure:simple_abstraction}
 \end{figure}
 
-\paragraph{Subordinate Clauses}
+\paragraph{Subordinate Clauses \& Verbal Complements}
 Now, if you have a sneaking suspicion that this looks oddly easy, you're right.
-We have not yet made any attempt to cover cases of hypothetical reasoning triggered by relative clauses and wh-questions.
+We have not yet made any attempt to cover cases of hypothetical reasoning triggered by relative clauses, wh-questions and passive constructions.
 The hypotheses in such phenomena have already been established by the phantom nodes underlying them -- all we need to do is know when to withdraw them.
-The criterion we'll follow applies to the proofs assigned to phrasal complements, and requires first that the phrasal head is indexed.
-If that is the case, it draws out all variables within the proof investigated, and filters those of them whose node shares the same index as the head.
-Variables caught are abstracted over before the diamond introduction rule is applied.
-Figure~\ref{figure:simple_abstraction} presents a concrete example: node 6 carries index 1 and looks for its complement in node 7.
+The criterion we'll follow applies to the proofs assigned to phrasal complements, and requires first that either the phrasal head (for subordinate clauses) or its subject (for passives) is indexed.
+If that's the case, the head is licensing hypothetical argument and must receive a higher-order type.
+We draw out all variables within the proof of the complement investigated, and filter the one that shares the same index as the aforementioned head or subject.
+Variables caught this way are abstracted over before the diamond introduction rule is applied.
+Figure~\ref{figure:simple_abstraction} presents a concrete example: head node 6 carries index 1 and looks for its complement in node 7.
 But node 7 contains $\Var{8}$, and node 8 has index 1 -- therefore, we must abstract the proof of node 7 over $\Var{8}$ before continuing with assigning it a diamond.
 
 \begin{figure}
@@ -1239,7 +1243,7 @@ But node 7 contains $\Var{8}$, and node 8 has index 1 -- therefore, we must abst
 								}
 							}
 							&
-							\hspace{-75pt}
+							\hspace{-100pt}
 							\infer[\Ax]{\Var{31}'' : \dxdia{x}\dxbox{x}\ddia{mod}\dbox{mod}(\infp\li\infp))}{}
 						}
 					}
@@ -1277,7 +1281,7 @@ But node 7 contains $\Var{8}$, and node 8 has index 1 -- therefore, we must abst
 But can we really be certain that the abstraction is indeed possible?
 Recalling once more our discussion from Section~\ref{subsubsection:sreason_dep}%
 	\footnote{The variable may be free, but it could lie inaccessible behind structural brackets -- don't mention it.},
-there's a very real risk we might end up getting locked out of our hypotheses when these are adjuncts, nested deeply, or both.
+there's a very real risk we might end up getting locked out of our hypotheses when these are adjuncts, deeply nested, or both.
 In the first case, we need to reproduce our strategy from Figure~\ref{figure:higher_order_dep}.
 To do so, we need the tiniest of adaptations to our ``unbox-and-apply'' scheme from earlier on -- when the adjunct that was unboxed happens to be a variable, we will immediately follow through with a diamond elimination.
 This way, when the time comes for us to be abstract over the reclusive adjunct (and the time will come, since our proofs must be linear), it will already have been liberated of its structural brackets.
@@ -1292,7 +1296,7 @@ At that point, we are at long last able to abstract over the hypothesis.
 The conventions described serve also to impose a canonical placement for the diamond elimination pattern.
 In combination with our carefully planned formulation of the $\Extraction$ rule from Section~\ref{subsubsection:sreason_dep}%
 	\footnote{As strictly localized and with shallow context -- anytime.},
-we have effectively relieved the burden of proof equivalence checking: diamond eliminations are to be performed as soon as possible and structural extractions as late as possible (but no later) -- i.e. we will avoid perpetuating temporary structures unless they have a purpose.
+we have effectively relieved the burden of proof equivalence checking: diamond eliminations are to be performed as soon as possible and structural extractions as late as possible (but no later!) -- i.e. we will avoid perpetuating temporary structures unless they have a purpose.
 To see this in action, let's have a look at the example of Figure~\ref{figure:hard_abstraction}.
 There, node 31 is originally assigned $\Var{31} : \dbox{mod}(\infp[s]\li\infp[s])$.
 Upon unboxing it for application, we realize it's a hypothetical adjunct, therefore we follow through with a diamond elimination to $\Var{31}' : \ddia{mod}\dbox{mod}(\infp[s]\li\infp[s])$ to lose the \dep{mod} brackets.
@@ -1303,7 +1307,6 @@ The latter is bracketless and exactly where we want it -- we can finally perform
 
 \paragraph{Nominal Domain}
 The situation is not much different in the nominal domain, except for a change in the order we do things in.
-%Our separation of noun and noun-phrase modifiers in two layers will now save us the trouble of having to resolve any  conflicts between determiners and modifiers.
 First, we must call $\mathsf{prove}$ on the head; unlike before, it receives no type hint, as we do not expect it to come out as a functor.
 Next, we requisit a proof for the determiner, hinted as a function from the head's type to the top type (with a complementary box on top, of course).
 Last, we ask for a proof for each adjunct, again as the boxed endomorphism of the result.
@@ -1392,33 +1395,27 @@ Not much changes, really: we must still look for hypotheses ``shared'' between a
 The difference is that withdrawing them this time around yields proofs of higher-order types.
 To see this in practice, let's consider the example of Figure~\ref{figure:vp_ellipsis}%
 	\footnote{Give it up for our first ever landscape proof!}.
-Conjuncts 14 and 24 contain phantom 33 and 25 respectively, both standing in for a matrix head, implementing a function of the same type, and coindexed with the same material node 19.
-The abstraction will result in type variable $\chi$ being instantiated as the second order type $(\ddia{vc}\ww\li\ddia{su}\np\li\smain)\li\smain$, in turn producing a third order type hint for the coordinator... oof.
-
-Complicated as it might be, this type should not be alien to you, diligent reader.
-Let's flip things around and focus on what we have instead of what we miss.
-The dual view of having two sentences missing their head is that we have two pairs of floating constituents, pair one made of the modally marked proofs of nodes 15 and 22, and pair two made of the proofs of nodes 26 and 31.
-If we were to allow products in our type calculus, we could encode each pair as an item of type $\ddia{su}\np[s]\otimes\ddia{vc}\ww$, and use this to instantiate the polymorphic type.
-By type raising, we could alternatively use them to derive corresponding proofs of type $((\ddia{su}\np[s]\otimes\ddia{vc}\ww)\li\smallgtype{a})\li\smallgtype{a}$, for any $\smallgtype{a}$ of our liking.
-By currying, we would end up with sequentialized versions of type $(\ddia{su}\np[s]\li\ddia{vc}\ww\li\smallgtype{a})\li\smallgtype{a}$.
-Ring a bell yet?
-Using $\smain[s]$ in place of $\smallgtype{a}$, we end up exactly where we started.%
-	\footnote{If this made little sense, you should actually read the introduction instead of relying on footnote clues.
-	Also I take ``diligent'' back.}
-Now, toying around with raised types is by no means ideal, as it reinforces the propensity of coordinators to become very long and complex.
-On the other hand, it absolves us from having to incorporate an explicit product and protects us from the headaches it comes with (like proof equivalence under product elimination, type equivalence under different branchings, more latex symbols to render in console pretty printing, etc., just to name a few).
-On the less cynical side, it also has the merit of permitting more flexible semantic interpretations for the user to be.
-Conjoining a series of arguments and feeding the result to the predicate means that the semantic interpretation of the coordinator would be inescapably bound to a local scope.
-Conjoining a series of $\lambda$ abstractions and applying the result to the shared predicate grants the coordinator access to the full context of the conjunction, opening the door to a future semantic interpretation that can duplicate and distribute meaning if and as desired.
+Conjuncts 14 and 24 contain two phantom nodes each: 21 and 33, and 30 and 25, respectively.
+The first of each pair (21 and 30) are the phantom objects attributed to the past participles.
+Their indices, 1 and 3, are properly contained within each conjunct -- therefore they are of no interest to us here.
+The second ones (31 and 25) stand in for the missing auxilliary verb heading each conjunct, implementing higher-order functions of type:
+$\ddia{vc}(\ddia{obj1}\np[s]\li\ppart[s])\li\ddia{su}\np[s]\li\smain[s]$.
+These two share the same index 2, which materializes in node 19 -- \textit{these} are the variables we must abstract over.
+The abstraction will result in type variable $\chi$ being instantiated as the third order type:
+\begin{equation*}
+(\ddia{vc}(\ddia{obj1}\np[s]\li\ppart[s])\li\ddia{su}\np[s]\li\smain[s])\li\smain
+\end{equation*}
+in turn producing a fourth order type hint for the coordinator which doesn't even fit in the line... oof.
 
 \begin{sidewaysfigure}
 	\begin{subfigure}{1\textwidth}
 		\centering
-		{\includegraphics[width=0.85\textheight, trim={1.5cm 1.5cm 1.5cm 1.5cm}]{./prebuilt/hd_ellipsis.pdf}}
+		{\includegraphics[width=1\textwidth, trim={1.5cm 1.5cm 1.5cm 1.5cm}]{./prebuilt/hd_ellipsis.pdf}}
 	\end{subfigure}\\[\midsep]
 	\begin{subfigure}{1\textwidth}
 		\resizebox{1\textwidth}{!}{
 			\infer[\li E]{\con{23},\dbra{\dbra{\con{22}}{vc},\dbra{\dbra{\con{16}}{mod},\dbra{\con{17}}{mod},\con{18}}{su}}{cnj},\dbra{\dbra{\con{31}}{vc},\dbra{\dbra{\con{27}}{det},\con{28}}{su}}{cnj},\con{19} \vdash \smain}{
+				\infer*{}{
 				\infer[\li E]{\con{23},\dbra{\dbra{\con{22}}{vc},\dbra{\dbra{\con{16}}{mod},\dbra{\con{17}}{mod},\con{18}}{su}}{cnj},\dbra{\dbra{\con{31}}{vc},\dbra{\dbra{\con{27}}{det},\con{28}}{su}}{cnj} \vdash \chi}{
 					\infer[\li E]{\con{23},\dbra{\dbra{\con{22}}{vc},\dbra{\dbra{\con{16}}{mod},\dbra{\con{17}}{mod},\con{18}}{su}}{cnj} \vdash \ddia{cnj}\chi\li\chi }{
 						\infer[\Lex]{\con{23} : \ddia{cnj}\chi\li\ddia{cnj}\chi\li\chi}{}
@@ -1427,18 +1424,6 @@ Conjoining a series of $\lambda$ abstractions and applying the result to the sha
 							\infer[\li I]{\dbra{\con{22}}{vc},\dbra{\dbra{\con{16}}{mod},\dbra{\con{17}}{mod},\con{18}}{su} \vdash \chi}{
 								\infer*{\Var{33},\dbra{\con{22}}{vc},\dbra{\dbra{\con{16}}{mod},\dbra{\con{17}}{mod},\con{18}}{su} \vdash \smain}{
 								}
-%									\infer[\li E]{\Var{33},\dbra{\con{22}}{vc} \vdash \ddia{su}\np\li\smain}{
-%										\infer[\Ax]{\Var{33}: \ddia{vc}\ww\li\ddia{su}\np\li\smain}{}
-%										&
-%										\infer[\ddia{vc}I]{\dbra{\con{22}}{vc} \vdash \ddia{vc}\ww}{
-%											\infer[\Lex]{\con{22} : \ww}{}
-%										}
-%									}
-%									&
-%									\infer[\ddia{su}I]{\dbra{\dbra{\con{16}}{mod},\dbra{\con{17}}{mod},\con{18}}{su} \vdash \ddia{su}\np}{
-%										\infer*{\dbra{\con{16}}{mod},\dbra{\con{17}}{mod},\con{18}\vdash \np}{}
-%									}
-%								}
 							}
 						}
 					}
@@ -1447,23 +1432,13 @@ Conjoining a series of $\lambda$ abstractions and applying the result to the sha
 						\infer[\li I]{\dbra{\con{31}}{vc},\dbra{\dbra{\con{27}}{det},\con{28}}{su} \vdash \chi}{
 							\infer*{\Var{25},\dbra{\con{31}}{vc},\dbra{\dbra{\con{27}}{det},\con{28}}{su} \vdash \smain}{
 							}
-%								\infer[\li E]{\Var{25},\dbra{\con{31}}{vc} \vdash \ddia{su}\np\li\smain}{
-%									\infer[\Ax]{\Var{25}: \ddia{vc}\ww\li\ddia{su}\np\li\smain}{}
-%									&
-%									\infer[\ddia{vc}I]{\dbra{\con{31}}{vc} \vdash \ddia{vc}\ww}{
-%										\infer[\Lex]{\con{31} : \ww}{}
-%									}
-%								}
-%								&
-%								\infer[\ddia{su}I]{\dbra{\dbra{\con{27}}{det},\con{28}}{su}\vdash\ddia{su}\np}{
-%									\infer*{\dbra{\con{27}}{det},\con{28}\vdash\np}{}
-%								}
-%							}
 						}
 					}
 				}
+				}
 				&
-				\infer[\Lex]{\con{19}: \ddia{vc}\ww\li\ddia{su}\np\li\smain}{}
+				\hspace{-95pt}
+				\infer[\Lex]{\con{19}: \ddia{vc}(\ddia{obj1}\np\li\ppart)\li\ddia{su}\np\li\smain}{}
 			}
 		}
 	\end{subfigure}\\[\smallsep]
@@ -1472,12 +1447,35 @@ Conjoining a series of $\lambda$ abstractions and applying the result to the sha
 		{Vele Palestijnse huizen werden opgeblazen en hun bewoners vermoord.}
 		{Many Palestinian houses were destroyed and their residents murdered.}
 		{\term{\con{23}~
-			\ddiaintro{cnj}(\lam \Var{33}.\Var{33}~\ddiaintro{vc}\con{22}~\ddiaintro{su}(\dboxelim{mod}\con{16}~(\dboxelim{mod}\con{17}~\con{18}))
-			~\ddiaintro{cnj}(\lam \Var{25}.\Var{25}~\ddiaintro{vc}\con{31}~\ddiaintro{su}(\dboxelim{det}\con{27}~\con{28}))
+			\ddiaintro{cnj}(\lam \Var{33}.\Var{33}~\ddiaintro{vc}(\lam \Var{21}.\con{22}~\Var{21})~\ddiaintro{su}(\dboxelim{mod}\con{16}~(\dboxelim{mod}\con{17}~\con{18}))
+			~\ddiaintro{cnj}(\lam \Var{25}.\Var{25}~\ddiaintro{vc}(\lam \Var{30}.\con{31}~\Var{30})~\ddiaintro{su}(\dboxelim{det}\con{27}~\con{28}))
 			~\con{19}}}
-	\caption{Proving a verb phrase ellipsis.}
+	\caption{Proving a verb phrase ellipsis with a higher-order head.}
 	\label{figure:vp_ellipsis}
 \end{sidewaysfigure}
+
+Complicated as it might be, this type should not be alien to you, diligent reader.
+Let's flip things around and focus on what we have instead of what we miss.
+The dual view of having two sentences missing their head is that we have two pairs of floating proofs: pair one grounded in nodes 15 and 22, and pair two in nodes 26 and 31.
+If we were to allow products in our type calculus, we could encode each pair as an item of type $\ddia{su}\np[s]\otimes\ddia{vc}(\ddia{obj1}\np[s]\li\ppart[s]))$, and use this to instantiate the polymorphic scheme.
+By type raising, we could alternatively use them to derive corresponding proofs of type:
+\begin{equation*}
+((\ddia{su}\np[s]\otimes\ddia{vc}(\ddia{obj1}\np[s]\li\ppart[s]))\li\smallgtype{a})\li\smallgtype{a}
+\end{equation*}
+for any $\smallgtype{a}$ of our liking.
+The product can then be curried into:
+\begin{equation*}
+(\ddia{su}\np[s]\li\ddia{vc}(\ddia{obj1}\np[s]\li\ppart[s]))\li\smallgtype{a})\li\smallgtype{a}
+\end{equation*}
+Ring a bell yet?
+Using $\smain[s]$ in place of $\smallgtype{a}$, we end up exactly where we started.%
+	\footnote{If this made little sense, you should actually read the introduction instead of relying on footnote clues.
+	Also I take ``diligent'' back.}
+Now, toying around with raised types is by no means ideal, as it reinforces the propensity of coordinators to become very long and complex.
+On the other hand, it absolves us from having to incorporate an explicit product and protects us from the headaches it comes with (like proof equivalence under product elimination, type equivalence under different product branchings, more latex symbols to render in console pretty printing, etc., just to name a few).
+On the less cynical side, it also has the merit of permitting more flexible semantic interpretations for the user-to-be.
+Conjoining a series of arguments and feeding the result to the predicate means that the semantic interpretation of the coordinator would be inescapably bound to a local scope.
+Conjoining a series of $\lambda$ abstractions and applying the result to the shared predicate grants the coordinator access to the full context of the conjunction, opening the door to a future semantic interpretation that can duplicate and distribute meaning if and as desired.
 
 More generally, the proof of each conjunct will contain a mixture of constants and variables, the latter being any combination of heads, complements and adjuncts.
 All ``shared'' variables will be abstracted over.
@@ -1518,18 +1516,17 @@ They are correct in my subjective frame of reference (version), namely $\mathtt{
 
 \paragraph{From Lassy to \AE thel}
 From the 65\,200 trees of Lassy Small, we discard 2\,607 for being a single word or punctuation mark.
-The remaining 62\,593 are pruned into 69\,613 discourse-free cuttings (1.11 cuttings per source tree, on average).
-From these, the extraction algorithm produces 68\,782 theorems, bringing its (processed) corpus coverage to 98.81\%.
-A random 80/10/10 split is applied to the source Lassy samples, which translates into 56\,895  train, 6\,119 (8.8\%) dev and 5\,768 (8.3\%) test \AE thel samples (81.7/8.8/8.3).
+The remaining 62\,593 are pruned into 69\,583 discourse-free cuttings (1.11 cuttings per source tree, on average).
+From these, the extraction algorithm produces 68\,763 theorems, bringing its (processed) corpus coverage to gratifying 98.82\%.
+All failures are due to problematic tree structures; mostly conjunctions without a coordinator, or, rarely, linearity breaches (free variables that cannot be justified by an existing proof pattern).
+A random 80/10/10 split is applied to the source Lassy samples, which translates into 56\,875 (82.7\%) train, 6\,118 (8.9\%) dev and 5\,770 (8.4\%) test \AE thel samples (81.7/8.8/8.3).
 Performing the split on Lassy rather than directly on \AE thel ensures consistency between different revisions, and asserts that any sample overlap from subtree duplications during pruning will be contained within the same subset, keeping cross-contamination to a minimum.
 
-%Ill-formed trees are almost always to blame for a failed extraction; most failures are either due to conjunctions without a coordinator, or because of linearity breaches (free variables that cannot be justified by an existing proof pattern).
-
 To quantititatively measure the impact of the preprocessing transformations (i.e. see how close the derived dataset is to the original), we first examine how many of Lassy's samples are proven unaltered.
-In line with our observations on discourse level annotations from earlier, we find that 48\,074 (76.80\%) of Lassy samples can be uniquely mapped to an \AE thel proof.
+In line with our observations on discourse level annotations from earlier, we find that 48\,057 (73.78\%) of the filtered Lassy samples can be uniquely mapped to an \AE thel proof.
 Counting the number of samples enumerating a certain number of words, we arrive at the graph of Figure~\ref{figure:count_lens}.
 Surprising noone, the graph reveals that both the original and the derived corpus exhibit a right-skewed distribution of sample lengths, the latter being a left-shifted version of the former.
-Concretely, Lassy has a mode of 13 and a median of 16.7 (ignoring the one-word sentences, for fairness), whereas \AE thel has a mode of 10 and a median of 15.
+Concretely, Lassy has a mode of 13 and a median of 17.4 (ignoring the one-word sentences, for fairness), whereas \AE thel has a mode of 10 and a median of 15.
 The difference between them is not that striking and really only affects their left tails and centers; in fact, the two distributions go almost hand in hand towards their right tails.
 Practically, we lose a small proportion of originally long and medium-sized samples, and the broken parts accumulate into a bulk of short and really short samples (hence the outlier peak at 2).
 Not bad, considering.
@@ -1582,9 +1579,9 @@ Not bad, considering.
 
 
 \paragraph{Theorems}
-To quantify the proof-theoretic diversity of the 68\,782 extracted samples, we abstract away from the sentences and end up with a total of 55\,052 unique theorems.
+To quantify the proof-theoretic diversity of the 68\,763 extracted samples, we abstract away from the sentences and end up with a total of 55\,026 unique theorems.
 Figure~\ref{figure:proof_assignments} groups and displays them according to how common they are, i.e. how many times we see the same theorem associated to a different sentence.
-Evidently, the vast majority of unique theorems (52\,665 or 95.7\%) occur but a single time within the dataset (i.e. they are assigned to a single sample), with logarithmically\textsubscript{10} fewer theorems being assigned to exponentially\textsubscript{2} more sentences, making \AE thel a rich and intricate resource.
+Evidently, the vast majority of unique theorems (52\,637 or 95.7\%) occur but a single time within the dataset (i.e. they are assigned to a single sample), with logarithmically\textsubscript{10} fewer theorems being assigned to exponentially\textsubscript{2} more sentences, making \AE thel a rich and intricate resource.
 
 \begin{figure}
 	\centering
@@ -1624,16 +1621,16 @@ But a side-effect of this concession is our inability to tell well- and ill- fou
 Lassy itself only provides the derivation of one single reading (and it is not our place to ask which reading that is).
 We can use this to our advantage to try and estimate the \textit{real} derivational ambiguity of \AE thel, by first isolating the proof frame of each sample (taking the type sequence independent of the sentence it was assigned to), and then counting the amount of unique proofs derived from each frame.%
 	\footnote{Note that we are gathering \textit{just} the sequence of types assigned to a sample and \textit{not} the proof's antecedent, since the modal bracketing structure already disambiguates the proof assignment.}
-In total, there's 56\,050 proof frames, but 53\,730 of those occur only once, thus being of little use to our purposes (since each will unavoidably be mapped to a single proof).
-Of the remaining 2\,320, 2\,259 (97.4\%) are mapped to one unique proof, whereas 61 (2.6\%) may derive one of two unique proofs.
+In total, there's 56\,099 proof frames, but 53\,7 of those occur only once, thus being of little use to our purposes (since each will unavoidably be mapped to a single proof).
+Of the remaining 2\,305, 2\,259 (97.4\%) are mapped to one unique proof, whereas 61 (2.6\%) may derive one of two unique proofs.
 Using this as a guideline, we find 472 potentially ambiguous samples in the entirety of \AE thel (a measly 0.7\%), their frames being among the 61 suspects.
 Manual inspection reveals most of them to really be ambiguous (e.g. the proof assigned prescribes one of two possible modifier attachments), 
 although in some cases the alternative reading is linguistically ruled out on the basis of selectional restrictions.
-Repeating the above after first casting the proof and type assignments to \NLP{} (dropping any dependency information via a stripping morphism), we end up with 55\,096 unique frames for 54\,065 unique proofs, with 2\,524 frames occurring more than once.
-Of these, 2\,405 are behind 1 unique proof, 112 behind 2, 6 behind 3, and 1 is behind 5.
-Potentially ambiguous samples are now doubled (909 or 1.7\% of the total), and ambiguities are more commonly artificial; would-be alternative readings for the newly ambiguous samples are usually ruled out by morphosyntactic constraints invisible to the theory.
+Repeating the above after first casting the proof and type assignments to \NLP{} (dropping any dependency information via a stripping morphism), we end up with 55\,118 unique frames for 54\,172 unique proofs, with 2\,492 frames occurring more than once.
+Of these, 2\,405 are behind 1 unique proof, 111 behind 2, 6 behind 3, and 1 is behind 5.
+Potentially ambiguous samples are now doubled (904, or 1.3\% of the total), and ambiguities are more commonly artificial; would-be alternative readings for the newly ambiguous samples are usually ruled out by morphosyntactic constraints invisible to the theory.
 
-What are all these boring numbers trying to tell us?
+What are these boring numbers trying to tell us?
 Well, two things.
 First, that using an undirectional logical core doesn't really estrange the grammar from the lexicon.
 Proof frames are sparse, and the bulk of them are pointing to a single proof; we are still as lexicalized as it gets.
@@ -1642,6 +1639,19 @@ Second, it tells us that dependency decorations seem to serve an auxiliary role,
 This is not really surprising: hypotheses launched by higher-order functors are restricted to a predetermined grammatical role, which, by the exclusion principle (no two complements of the same role), forces overt complements to assume the leftover role, implicitly resolving ambiguity.
 \goodbreak
 
+
+\paragraph{Lexical Type Ambiguity}
+This brings us to the lexicon: the binary relation connecting words (or strings, really) to types, and obtained by the aggregation of all our proofs' type assignments.
+\AE thel as a whole contains 1\,033\,858 words chunked into 992\,385 phrases, each chunk carrying a single assignment.
+These amount to  74\,812 (67\,883 after case normalization) unique words and 76\,746 (71\,077) unique phrases, the latter being essentially the lexicon's domain.
+On the codomain's side, we have a grand total of 6\,008 unique \NLPplus{} types, which, stripped of their modalities, fall back to 3\,641 pure linear types.
+The first question to ask then is: how functional is this lexicon?
+Answering that question is Figure~\ref{figure:type_ambiguity}, which in short says ``not much, really''.
+Despite most lexical entries (56\,176) having a single unique assignment, ambiguities are quite common, the number of assignments exponentially\textsubscript{2} increasing for a logarthmically\textsubscript{10} declining number of entries.
+At the end of the tail we find several chameleon words appearing in multiple guises; chief among them is the usual suspect \texttr{en}{and}, counting as many as 1\,046 (!) unique types in just 41\,614 occurrences -- the price due for our choice to brave conjunctions with concretely instanced, pre-raised types.
+But this is painting a perhaps overly grim picture.
+Seen as random variables, lexical entries actually have most of their probability masses concentrated on their modes; the average probability of the most common type per entry lies at a (very high) 88.97\%. 
+Naively assigning the mode to each lexical assignment corpus-wide (regardless of any context) establishes a comfortable 66.97\% accuracy baseline, asserting that our assignments are in practice quite consistent within their entries.
 
 \begin{figure}
 	\centering
@@ -1652,45 +1662,45 @@ This is not really surprising: hypotheses launched by higher-order functors are 
 	    legend pos=north west,
 	    ymin=1,
 	    xmin=0.9,
-%	    xmax=255,
 	    log basis x=2,
 	    ybar interval=1,
 %	    xtick={1,2,4,8,16,32,64,128,256,512,1024,2048},
 	    nodes near coords, 
-   	    every node near coord/.append style={xshift=12.5pt, font=\footnotesize},
+   	    every node near coord/.append style={xshift=10pt, font=\footnotesize},
 		nodes near coords style={/pgf/number format/.cd, 1000 sep={\,},},
 		log origin y=infty,
-		point meta=rawy,
-	]
+		point meta=rawy]
+	
 	% lens
-	\addplot[black,postaction={pattern=north east lines}]
+	\addplot[black,pattern=north east lines]
 		table[
 	    x index=0,
 	    y index=1,
 	    col sep=comma,
 	    ] {data/ambiguity.dat};
-	\end{loglogaxis}
 	    
+	\end{loglogaxis}
+
 	\end{tikzpicture}
 	\caption{Lexical Type Ambiguity}
 	\label{figure:type_ambiguity}
 \end{figure}
 
 
-\paragraph{Lexical Type Ambiguity \todo}
-This brings us to the lexicon: the binary relation connecting words (or strings, really) to types, and obtained by the aggregation of all our proofs' type assignments.
-\AE thel as a whole contains 1\,034\,576 words chunked into 993\,068 phrases, each chunk carrying a single assignment.
-These amount to  74\,856 (67\,919 after case normalization) unique words and 76\,791 (71\,115) unique phrases, the latter being essentially the lexicon's domain.
-On the codomain's side, we have a grand total of 5\,546 unique \NLPplus{} types, which, stripped of their modalities, fall back to 3\,345 pure linear types.
-The first question to ask then is: how functional is this lexicon?
-Answering that question is Figure~\ref{figure:type_ambiguity}, which in short says ``not much, really'': ambiguities are more than common, and the majority of lexical entries (44\,592) are assigned between 8 to 16 different types.
-These are trailed by a long tail of chameleon words, 70 of them appearing in more than 32 distinct type guises.
-Last is the usual suspect \texttr{en}{and}, counting as many as 258 unique types -- the price for our choice to brave conjunctions with concrete and pre-raised instantiations of a polymorphic type.
-But this is painting a perhaps overly grim picture.
-Seen as random variables, lexical entries actually have most of their probability masses concentrated on their modes; the average probability of the most common type per entry lies at a (very high) 89.11\%. 
-Naively assigning the mode to each lexical assignment corpus-wide (regardless of any context) establishes a comfortable 67.2\% accuracy baseline, asserting that our assignments are in practice quite consistent within their entries.
-Hmm...
+\paragraph{Lexical Type Sparsity}
+So ambiguity is not a major statistical threat, despite the high average number of options per entry; some opposing force must be counterweighting its effect.
+In reality, the only reason we are able to naively guess assignments with some reasonable accuracy is exactly because the less-than-most-frequent options are in fact very infrequent -- the demon's name is sparsity.
+To diagose the problem and quantify its extent, we perform a number of tests.
+First, we measure the proportion of the 6\,008 types that occur more than $n$ times, and plot the result in Figure~\ref{figure:ecdfs} (if you prefer jargon, this is the inverse empirical cumulative distribution of type occurrences).
+The dash-dotted line leaves little room for interpretation: 2\,868 (47.7\%) of the total types have only a single occurrence, 4\,807 (80\%)  have less than 10 occurrences, and only 316 (5\%) are common enough to boast more than 100 occurrences -- our types are quite sparse alright.
+This goes to show that uncommon type assignments are uncommon globally, and not just in the context of the lexical entry that contains them; in other words, a type rarely associated with \textit{some} lexical entry is likely rare to find among \textit{any} entry.
 
+To analyze the real impact of sparse types, we have to holistically inspect their corpus-wide distribution.
+To that end, we repeat the above measurement, this time focusing on type assignments and samples rather than just types.
+Intuitively, we are interested in the proportion of the 992\,385 type assignments we could resolve when considering only types occurring more than $n$ times, and the proportion of the 68\,763 samples containing resolved assignments only. 
+Things look somewhat less scary here: on the type assignment front, the 5\% most common types cover 97\% of the total assignments, and the top 1\% (occurring more than 1\,000 times) is still good enough for 90\% of the assignments.
+Sentential coverage declines more rapidly, indicating that rare types are, to our discontent, evenly distributed within our samples -- discarding types with less than 10 occurrences, for instance, already brings sentential coverage down to 88\%.
+This will haunt us later, but for now let's keep lingering in the bliss of ignorance.
 
 \begin{figure}
 	\centering
@@ -1740,20 +1750,13 @@ Hmm...
 \end{figure}
 
 
-\paragraph{Lexical Type Sparsity \todo}
-So ambiguity is not a statistical threat, despite the high average number of options per entry; some opposing force must be counterweighting its effect.
-In reality, the only reason we are able to naively guess assignments with some reasonable accuracy is exactly because the less-than-most-frequent options are in fact very infrequent -- the demon's name is sparsity.
-To diagose the problem and quantify its extent, we perform a number of tests.
-First, we measure the proportion of the 5\,546 types that occur more than $n$ times, and plot the result in Figure~\ref{figure:ecdfs} (if you prefer jargon, this is the inverse empirical cumulative distribution of type occurrences).
-The dash-dotted line leaves little room for interpretation: 2\,644 (48\%) of the total types have only a single occurrence, 4\,436 (80\%)  have less than 10 occurrences, and only 297 (5\%) are common enough to boast more than 100 occurrences -- our types are quite sparse alright.
-This goes to show that uncommon type assignments are uncommon globally, and not just in the context of the lexical entry that contains them; in other words, a type rarely associated with \textit{some} lexical entry is likely rare to find among \textit{any} entry.
-
-To analyze the real impact of sparse types, we have to holistically inspect their corpus-wide distribution.
-To that end, we repeat the above measurement, this time focusing on type assignments and samples rather than just types.
-Intuitively, we are interested in the proportion of the 993\,068 type assignments we could resolve when considering only types occurring more than $n$ times, and the proportion of the 68\,782 samples containing resolved assignments only. 
-Things look somewhat less scary here: on the type assignment front, the 5\% most common types cover 97\% of the total assignments, and the top 1\% (occurring more than 1\,000 times) is still good enough for 90\% of the assignments.
-Sentential coverage declines more rapidly, indicating that rare types are, to our discontent, evenly distributed within our samples -- discarding types with less than 10 occurrences, for instance, already brings sentential coverage down to 90\%.
-This will haunt us later, but for now let's keep lingering in the bliss of ignorance.
+\paragraph{Lexical Entry Sparsity}
+On the other side of the lexicon lie lexical entries -- the words and phrases we may use to index the lexicon.
+Lexical entry sparsity is completely external to the extraction algorithm (words and their occurrence statistics being directly inherited from Lassy and its choice of corpora).
+It's also no longer a real practical consideration, since distributed word vectors and pretrained language models have long superseded the lexically fixed components of the modern NLP pipeline.
+Still, for the sake of completeness (and since the lexicon is a tiny resource of its own), we may as well have a quick glance of the statistics of the lexicon's domain.
+Figure~\ref{figure:entry_sparsity} shows the distribution of lexical entry occurrences; most entries occur just once, whereas a handful occur up to a few thousand times (interpolate between most and a handful in the log\textsubscript{10}/log\textsubscript{2} plane to find the any point of interest).
+The most common word of \AE thel is the gendered definite determiner \textex{de}, claiming the throne with an incontestible 56\,925 occurrences (making up for 5.7\% of all words just by itself).
 
 \begin{figure}
 	\centering
@@ -1768,11 +1771,12 @@ This will haunt us later, but for now let's keep lingering in the bliss of ignor
 	    ybar interval=1,
 %	    xtick={1,2,4,8,16,32,64,128,256,512,1024,2048},
 	    nodes near coords, 
-   	    every node near coord/.append style={xshift=10pt, font=\footnotesize},
+   	    every node near coord/.append style={xshift=9pt, font=\scriptsize},
 		nodes near coords style={/pgf/number format/.cd, 1000 sep={\,},},
 		log origin y=infty,
 		point meta=rawy,
-	]
+		width=0.9\textwidth]
+		
 	% lens
 	\addplot[black,postaction={pattern=north east lines}]
 		table[
@@ -1787,35 +1791,7 @@ This will haunt us later, but for now let's keep lingering in the bliss of ignor
 	\label{figure:entry_sparsity}
 \end{figure}
 
-
-\paragraph{Lexical Entry Sparsity \todo}
-On the other side of the lexicon lie lexical entries -- the words and phrases we may use to index the lexicon.
-Lexical entry sparsity is completely external to the extraction algorithm (words and their occurrence statistics being directly inherited from Lassy and its choice of corpora).
-It's also no longer a real practical consideration, since distributed word vectors and pretrained language models have long superseded the lexically fixed components of the modern NLP pipeline.
-Still, for the sake of completeness (and since the lexicon is a tiny resource of its own), we may as well have a quick glance of the statistics of the lexicon's domain.
-Figure~\ref{figure:entry_sparsity} shows that the distribution of lexical entry occurrences follows a near-perfect line in the log\textsubscript{10}/log\textsubscript{2} plane: most entries occur 
-
-
-
-% paragraph on word occ
-%[43918,
-% 15786,
-% 7676,
-% 4151,
-% 2399,
-% 1447,
-% 716,
-% 381,
-% 170,
-% 69,
-% 29,
-% 26,
-% 9,
-% 6,
-% 6,
-% 2,
-% 0,
-% 0]
+\subsubsection{Quality Control}
 
 % PROOFBANK!!
 
