@@ -1644,14 +1644,15 @@ This is not really surprising: hypotheses launched by higher-order functors are 
 This brings us to the lexicon: the binary relation connecting words (or strings, really) to types, and obtained by the aggregation of all our proofs' type assignments.
 \AE thel as a whole contains 1\,033\,858 words chunked into 992\,385 phrases, each chunk carrying a single assignment.
 These amount to  74\,812 (67\,883 after case normalization) unique words and 76\,746 (71\,077) unique phrases, the latter being essentially the lexicon's domain.
-On the codomain's side, we have a grand total of 6\,008 unique \NLPplus{} types, which, stripped of their modalities, fall back to 3\,641 pure linear types.
+On the codomain's side, we have a grand total of 6\,008 unique \NLPplus{} types.
+Stripped of their modalities, these fall back to 3\,641 pure linear types, evidencing the import of the added dependency axis.
 The first question to ask then is: how functional is this lexicon?
 Answering that question is Figure~\ref{figure:type_ambiguity}, which in short says ``not much, really''.
-Despite most lexical entries (56\,176) having a single unique assignment, ambiguities are quite common, the number of assignments exponentially\textsubscript{2} increasing for a logarthmically\textsubscript{10} declining number of entries.
-At the end of the tail we find several chameleon words appearing in multiple guises; chief among them is the usual suspect \texttr{en}{and}, counting as many as 1\,046 (!) unique types in just 41\,614 occurrences -- the price due for our choice to brave conjunctions with concretely instanced, pre-raised types.
-But this is painting a perhaps overly grim picture.
-Seen as random variables, lexical entries actually have most of their probability masses concentrated on their modes; the average probability of the most common type per entry lies at a (very high) 88.97\%. 
-Naively assigning the mode to each lexical assignment corpus-wide (regardless of any context) establishes a comfortable 66.97\% accuracy baseline, asserting that our assignments are in practice quite consistent within their entries.
+Despite most lexical entries (56\,176) having a single unique image, ambiguities are quite common, the number of assignments exponentially\textsubscript{2} increasing for a logarthmically\textsubscript{10} declining number of entries.
+At the end of the tail we find several chameleon words appearing in multiple guises; chief among them is the usual suspect \texttr{en}{and}, counting as many as 1\,046 (!) unique types in just 41\,614 occurrences -- the price of braving conjunctions with concretely instanced, pre-raised types.
+But this is painting an overly grim picture; seen as random variables, lexical entries actually have most of their probability masses concentrated on their modes.
+The average probability of the most common type per entry lies at a (very high) 88.97\%, while naively assigning the mode to each lexical assignment corpus-wide (disregarding context) establishes a comfortable 66.97\% baseline, asserting that our assignments are in practice quite consistent within their entries.
+\goodbreak
 
 \begin{figure}
 	\centering
@@ -1755,7 +1756,7 @@ On the other side of the lexicon lie lexical entries -- the words and phrases we
 Lexical entry sparsity is completely external to the extraction algorithm (words and their occurrence statistics being directly inherited from Lassy and its choice of corpora).
 It's also no longer a real practical consideration, since distributed word vectors and pretrained language models have long superseded the lexically fixed components of the modern NLP pipeline.
 Still, for the sake of completeness (and since the lexicon is a tiny resource of its own), we may as well have a quick glance of the statistics of the lexicon's domain.
-Figure~\ref{figure:entry_sparsity} shows the distribution of lexical entry occurrences; most entries occur just once, whereas a handful occur up to a few thousand times (interpolate between most and a handful in the log\textsubscript{10}/log\textsubscript{2} plane to find the any point of interest).
+Figure~\ref{figure:entry_sparsity} shows the distribution of lexical entry occurrences; most entries occur just once, whereas a handful occur up to a few thousand times (interpolate between most and a handful in the log\textsubscript{10}/log\textsubscript{2} plane to find any point of interest).
 The most common word of \AE thel is the gendered definite determiner \textex{de}, claiming the throne with an incontestible 56\,925 occurrences (making up for 5.7\% of all words just by itself).
 
 \begin{figure}
@@ -1792,6 +1793,10 @@ The most common word of \AE thel is the gendered definite determiner \textex{de}
 \end{figure}
 
 \subsubsection{Quality Control}
+We made it through the boring part!
+With all the numbers laid down, all that's left to do is expose how \AE thel treats common and idiosyncratic constructions of Dutch.
+
+\todo
 
 % PROOFBANK!!
 
@@ -1799,7 +1804,17 @@ The most common word of \AE thel is the gendered definite determiner \textex{de}
 
 
 \section{Key References \& Further Reading}
+The chapter has presented \AE thel and detailed the process toward its construction.
+The baby version of \AE thel made an early public appearance in my thesis~\cite{https://doi.org/10.48550/arxiv.1909.02955} in what feels like ages ago (but actually was three-something years).
+Back then, it didn't yet have a name, and was just only a partially worked out type lexicon, but its statistical kinks were already becoming obvious.
+The full resource gradually took form as a proof bank proper, and was first described in \citet{kogkalidis-etal-2020-aethel}.
+The chapter is a significantly more mature version of the paper, sharing the same general design philosophy but boasting lighter preprocessing (leading to longer and higher quality proofs) and wider coverage (improving linguistic variation).
+More importantly, the extraction algorithm has been revised and reimlemented to ensure type safety, guaranteeing the formal correctness of the extracted proofs and fixing several issues and inconsistencies pertaining to the modal decorations of higher order types.
 
+My little bubble aside, corpus extraction is a fan favorite for the computationally inclined linguists (or the linguistically inclined computists).
+The endeavour was popularized by the CCGbank~\cite{10.1162/coli.2007.33.3.355}, a semi-automatically extracted corpus of combinatory categorial grammar derivations. 
+Following a similar endeavour in German~\cite{hockenmaier2006creating}, the corpus has become a flagship for the applied categorial grammarian, spawning many offsprings across different languages~\cite[\textit{inter alia}]{johan2009converting,tse2010chinese,ambati2018hindi}.
+More akin to our proof-theoretic regime, and forebearers to this work, are the French TLGbank~\cite{moot:inria-00494062}, and the type-logical conversion of the spoken Dutch corpus~\cite{moot2010extraction}, both following the multimodal Lambek tradition.
 
 
 \nocite{macken2011dutch}

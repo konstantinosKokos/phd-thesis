@@ -836,7 +836,7 @@ Regardless of what it might have been, we cannot reasonably anticipate there to 
 \begin{figure}
 	\centering
 	\begin{tikzpicture}[
-		   focus/.style={rectangle, thick, draw, minimum size=15pt},
+		   focus/.style={circle, draw, minimum size=18pt},
 		   link/.style={thick, dashed}
 	]
 	\node[inner sep=0pt, outer sep=0pt] (bg) at (0,0) 
@@ -862,15 +862,15 @@ Regardless of what it might have been, we cannot reasonably anticipate there to 
 	$
 	}
 	};
-	\node[focus] (ak) at (0.51, 1.125) {};
-	\node[focus] (am) at (3.55,  1.125) {};
+	\node[focus] (ak) at (0.65, 1.2) {};
+	\node[focus] (am) at (3.85	,  1.2) {};
 	\draw[link, <-] (ak) to[bend left=45] (am); %$(am.north)$);
-	\node[focus] (bl1) at	(1.35, 1.125) {};
-	\node[focus] (bl2) at (2.35, 0.525) {};
+	\node[focus] (bl1) at	(1.55, 1.2) {};
+	\node[focus] (bl2) at (2.6, 0.6) {};
 	\draw[link, ->] (bl1) -- (bl2);
-	\node[focus] (bi) at (-3.3, 0.525) {};
-	\node[focus] (cj1) at (-2.45, 0.525) {};
-	\node[focus] (cj2) at (0.6, -0.075) {};	
+	\node[focus] (bi) at (-3.45, 0.6) {};
+	\node[focus] (cj1) at (-2.55, 0.6) {};
+	\node[focus] (cj2) at (0.7, -0.05) {};	
 	\draw[link, <-] (bi) to[bend left=60] (bl2);
 	\draw[link, ->] (cj1) -- (cj2);
 	\end{tikzpicture}

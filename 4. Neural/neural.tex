@@ -1,0 +1,54 @@
+\chapter{Proof Learning}
+\label{chapter:chapter_4}
+
+
+
+Reflections are normally reserved for the end of a chapter, but I'm in a pensive mood so I'll do them here instead.
+This thesis to-be is part of a broader whole, a project set off with the noble goal of developing a composition calculus for vector-based semantic modelling.
+In its days of inception, the goal was not just noble but also technically reasonable.
+Distributional semantics and word vectors were in their heyday, machine learning was rapidly taking off, parsers all of a shudden started becoming reliable; everything seemed to point towards the imminent bloom of a new era in natural language processing, an era where the wisdoms of old would meet the machines of today, hinting at a bright and prosperous future for structure-aware semantic composition models.
+And things did seem to go that way, at least for a few years.
+But, unbeknownst to all, the new era in the evolutionary history of NLP would actually turn out to also be its dumbest one.
+The advent of highly data efficient neural architectures (combined with their immense potential for commercial applications, and its allure to big corporations) brought large language models into the game: unsophisticated, blatantly over-parameterized systems, fed unprocessed texts for weeks on end until they learn to convincingly imitate its use.
+Large language models usurped the heir apparent and condemned structure-aware semantic computation to obscurity; the future of computational semantics is to be opaque, boring, exclusive to big tech and provided as-a-service instead.
+My thesis got caught in the blast of this change of power, necessitating a careful motivation for the chapter; anything and everything done as or in the name of science requires justification after all.
+What follows is my justification.
+
+Parsing is good.
+Converting raw signals intro structured representations thereof allows us standardize their machine processing, and elevates automated reasoning away from form and into substance.
+The more well-behaved the representational structure chosen, the more powerful, transparent and verifiable the reasoning can be.
+The less localized the representational structure chosen, the more inclusive, universal and adaptable the reasoning can be.
+In that sense, $\lambda$ calculi are an ideal representation format, and advancing the conversion of text into formal representations is promoting accountable automation of textual processing and eliminates the anthromorphic delusion of the ghost in the machine.
+A formal system operating on formal representations is not prone to implicit biases, latent variables, ambiguity, or inconsistency: erroneous outputs are the result of bad input or bad programming.
+
+Machine learning is not bad.
+Shifting the focus away from the algorithm and toward the data can often be a reasonable concession in the automation of complex or labor-intensive tasks, provided that the task is not risk critical and that no intelligence is attributed to the end system.
+This is especially the case if ``almost correct'' is almost as good as correct, or the problem being modeled is intractable, making an approximation the best we can hope for.
+But employing machine learning has to be thought of as either a shortcut, or an admission of defeat.
+In opting for a machine learning solution, one assigns more faith to a generic data cruncher in solving a problem, than to oneself in designing a solution to that problem.
+
+Interweaving symbolic and subsymbolic reasoning is then the responsible engineer's out.
+Disassembling a system into two tiers of components promotes the selective expenditure of formal effort where it really is needed, while still benefiting from the  high horsepower of brute force statistical machinery.
+Complicated but decipherable components, rich in hierarchical or recursive structure and requiring or greatly benefiting from formal transparency are to be tackled explicitly, whereas components that are laborious but uninteresting, data intensive, or intactable are to be isolated and outsourced to a machine worker.
+This is exactly the route we'll follow in this chapter, where we'll go through the hoops of designing and implementing a formally disciplined yet accurate and robust wide-coverage parser, a novel neurosymbolic architecture aimed at substructural logics of the linear lineage, instantiated here for \NLPplus{} and trained on \AE thel.
+
+%Data intensive components can be tackled with 
+% it allows one to disassemble a system into complicated but solvable, safety critical, formally 
+%selectively expend effort on the complicated but solvable 
+% isolate pipleine
+% expend effort
+% selectively
+ 
+
+%
+%
+%\section{Supertagging}
+%
+%\subsection{A Brief History}
+%
+%\subsection{Constructing Types}
+%
+%\subsection{Decoding Order vs. Structure}
+%
+%
+%\section{Neural Proof Nets}
