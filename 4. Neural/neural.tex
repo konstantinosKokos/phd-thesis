@@ -2,26 +2,30 @@
 \label{chapter:chapter_4}
 
 
+\chapabstract{\todo}
+
 
 Reflections are normally reserved for the end of a chapter, but I'm in a pensive mood so I'll do them here instead.
 This thesis to-be is part of a broader whole, a project set off with the noble goal of developing a composition calculus for vector-based semantic modelling.
 In its days of inception, the goal was not just noble but also technically reasonable.
-Distributional semantics and word vectors were in their heyday, machine learning was rapidly taking off, parsers all of a shudden started becoming reliable; everything seemed to point towards the imminent bloom of a new era in natural language processing, an era where the wisdoms of old would meet the machines of today, hinting at a bright and prosperous future for structure-aware semantic composition models.
+Distributional semantics and word vectors were in their heyday, machine learning was rapidly taking off, parsers all of a sudden started becoming reliable; everything seemed to point towards the imminent bloom of a new era in natural language processing, an era where the wisdoms of old would meet the machines of today, hinting at a bright and prosperous future for structure-aware semantic composition models.
 And things did seem to go that way, at least for a few years.
 But, unbeknownst to all, the new era in the evolutionary history of NLP would actually turn out to also be its dumbest one.
-The advent of highly data efficient neural architectures (combined with their immense potential for commercial applications, and its allure to big corporations) brought large language models into the game: unsophisticated, blatantly over-parameterized systems, fed unprocessed texts for weeks on end until they learn to convincingly imitate its use.
+The advent of data efficient neural architectures (combined with their immense potential for commercial applications, and its allure to big corporations) brought large language models into the game: unsophisticated, blatantly over-parameterized general purpose systems, fed unprocessed texts for weeks on end until they learn to convincingly imitate its use.
 Large language models usurped the heir apparent and condemned structure-aware semantic computation to obscurity; the future of computational semantics is to be opaque, boring, exclusive to big tech and provided as-a-service instead.
-My thesis got caught in the blast of this change of power, necessitating a careful motivation for the chapter; anything and everything done as or in the name of science requires justification after all.
-What follows is my justification.
+My thesis got caught in the blast of this change of power, necessitating a clear positioning in the current state of affairs, and a careful motivation for the chapter to follow; anything and everything done as -- or in the name of -- science requires justification after all.
+So here goes.
 
 Parsing is good.
-Converting raw signals intro structured representations thereof allows us standardize their machine processing, and elevates automated reasoning away from form and into substance.
-The more well-behaved the representational structure chosen, the more powerful, transparent and verifiable the reasoning can be.
-The less localized the representational structure chosen, the more inclusive, universal and adaptable the reasoning can be.
-In that sense, $\lambda$ calculi are an ideal representation format, and advancing the conversion of text into formal representations is promoting accountable automation of textual processing and eliminates the anthromorphic delusion of the ghost in the machine.
-A formal system operating on formal representations is not prone to implicit biases, latent variables, ambiguity, or inconsistency: erroneous outputs are the result of bad input or bad programming.
+Converting raw signals intro structured representations thereof allows us to standardize their machine processing, and elevates automated reasoning away from form and into substance.
+The more well-behaved the representational format chosen, the more powerful, transparent and verifiable the reasoning can be.
+The less localized and problem-specific the representational format chosen, the more adaptive and better understood the reasoning can be.
+On the basis of these observations, $\lambda$ calculi make for an ideal representation format.
+Choice of format aside, a formal system operating on formal representations is not prone to implicit biases, latent variables, ambiguity, or inconsistency: erroneous outputs are the result of bad input or bad programming.
+Specifically in the natural language domain, advancing the conversion of text into formal representations is promoting accountable automation of textual processing, and eliminates the anthromorphic delusion of the ghost in the machine.
+Parsing is therefore only superficially in competition with large language models, and its seeming obsoletion is just a by-product of the ephemeral and rapidly shifting pop science trends of the ``AI'' race.
 
-Machine learning is not bad.
+That said, machine learning is not bad.
 Shifting the focus away from the algorithm and toward the data can often be a reasonable concession in the automation of complex or labor-intensive tasks, provided that the task is not risk critical and that no intelligence is attributed to the end system.
 This is especially the case if ``almost correct'' is almost as good as correct, or the problem being modeled is intractable, making an approximation the best we can hope for.
 But employing machine learning has to be thought of as either a shortcut, or an admission of defeat.
@@ -29,16 +33,145 @@ In opting for a machine learning solution, one assigns more faith to a generic d
 
 Interweaving symbolic and subsymbolic reasoning is then the responsible engineer's out.
 Disassembling a system into two tiers of components promotes the selective expenditure of formal effort where it really is needed, while still benefiting from the  high horsepower of brute force statistical machinery.
-Complicated but decipherable components, rich in hierarchical or recursive structure and requiring or greatly benefiting from formal transparency are to be tackled explicitly, whereas components that are laborious but uninteresting, data intensive, or intactable are to be isolated and outsourced to a machine worker.
+Complicated but decipherable components, rich in hierarchical or recursive structure, and requiring or greatly benefiting from formal transparency are to be tackled explicitly, whereas components that are laborious but uninteresting, data intensive, or intactable are to be isolated and outsourced to a machine worker.
+In this here context, I'm claiming that large language models should be treated not as a substitute but as complementary to logic-based systems.
 This is exactly the route we'll follow in this chapter, where we'll go through the hoops of designing and implementing a formally disciplined yet accurate and robust wide-coverage parser, a novel neurosymbolic architecture aimed at substructural logics of the linear lineage, instantiated here for \NLPplus{} and trained on \AE thel.
 
-%Data intensive components can be tackled with 
-% it allows one to disassemble a system into complicated but solvable, safety critical, formally 
-%selectively expend effort on the complicated but solvable 
-% isolate pipleine
-% expend effort
-% selectively
- 
+\section{Building a Categorial Parser}
+We'll start with a high-level conceptualization of the categorial grammar parser.
+In the infancy of categorial grammars, the parser would be thought of as nothing other than a lexicon and a theorem prover: the lexicon enumerating any and all the possible type assignemnts for each word, the theorem prover exhaustively iterating the combinatorial space of assignments to produce all possible proofs for each possible assignment (Figure~\ref{figure:archetypical_parser}).
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[t/.style={text height=1.5ex, text depth=.25ex, rectangle, outer sep=0pt}, node distance=10pt]
+	\node[t] (w1) 			at (0, 0) {w\textsubscript{0}};
+	\node[t] (wdots)		at (2, 0) {\dots};		
+	\node[t] (wn) 			at (4, 0) {w\textsubscript{n}};
+	\node[rectangle,draw=black, minimum width=120pt,minimum height=20pt] (lex)
+						 	at (2, -1.5) {Lexicon};
+	\draw[->]  (w1) -- ++ (0.6, -1);
+	\draw[->] (wn) -- ++ (-0.6, -1);
+	\node[t] (t1)			at (0.2, -3.2) {$\text{t}_0^0 \ | \ \text{t}_0^1 \ ... \text{t}_0^p$};
+	\node[t] (tdots)		at (2, -3.2) 	  {\dots};
+	\node[t] (tn)			at (3.8, -3.2) {$\text{t}_n^0 \ | \ \text{t}_n^1 \ ... \text{t}_n^q$};
+	\draw[->] ($(w1) + (0.6, -2)$) -- ($(t1.north) + (0, 0.1)$);
+	\draw[->] ($(wn) + (-0.6, -2)$) -- ($(tn.north) + (0, 0.1)$);
+	\draw [thick,decorate,decoration={brace,aspect=0.2,amplitude=10pt,mirror}] (-0.5,-3.5) -- (4.5,-3.5) 
+			node[black,xshift=-113.5pt,yshift=-0.6cm] {\footnotesize $\times$};
+	\node[t] (c11)			at (1.5, -5) {$\text{t}^0_0$};
+	\node[t] 				at (2.75, -5) {\dots};
+	\node[t] (cn1)			at (4, -5) {$\text{t}^0_n$};
+	\node[t] (c12)			at (1.5, -6) {$\text{t}^0_0$};
+	\node[t] 				at (2.75, -6) {\dots};
+	\node[t] (cn2)			at (4, -6) {$\text{t}^1_n$};
+	\node[t] 				at (1.5, -7) {\vdots};
+	\node[t] (c1k)			at (1.5, -8) {$\text{t}^p_0$};
+	\node[t] 				at (2.75, -8) {\dots};
+	\node[t] (cnk)			at (4, -8) {$\text{t}^q_n$};
+	\draw[->, thick, rounded corners] (0.5, -4.3) -- ++ (0, -0.7) -- ++ (0.75, 0);
+	\draw[->, thick, rounded corners] (0.5, -4.3) -- ++ (0, -1.7) -- ++ (0.75, 0);
+	\draw[->, thick, rounded corners] (0.5, -4.3) -- ++ (0, -3.7) -- ++ (0.75, 0);
+	\node[rectangle, draw=black, minimum height=120pt] (pr)
+							at (7, -6.5)	{\begin{tabular}{c}Theorem\\ Prover\end{tabular}};	
+	\draw[->] (cn1) ++ (0.4, 0) -- ++ (1.3, 0);
+	\draw[->] (cn2) ++ (0.4, 0) -- ++ (1.3, 0);
+	\draw[->] (cnk) ++ (0.4, 0) -- ++ (1.3, 0);
+	\draw[->]  (cn1) ++ (4.3, -1.5) -- ++ (1, 0) node[right] {\{p\textsubscript{0}\dots p\textsubscript{k}\}};
+	\end{tikzpicture}
+	\caption{The archetypical categorial grammar parsing pipeline.}
+	\label{figure:archetypical_parser}
+\end{figure}
+
+Obviously, this setup hits a brick wall in the sheer complexity of real human language.
+As we have discussed in earlier chapters, a type system enacting a strict grammar logic is not just hard to design, but also entails a prohibitively ambiguous type lexicon.
+Even if the theorem prover is perfectly optimized, the architecture will become bottlenecked at its input.
+The total number of assignments to consider in a sentence increases exponentially with its length, so even a minor increase in the average number of types per lexical entry will have a tremendous impact in processing time.
+At the same time, a fixed lexicon is a severely limiting factor, as it effectively forbids processing sentences containing unseen lexical entries, i.e. if a (word, type) pair is missing from the lexicon.
+Relaxing the structural properties of the type system to ease lexical pressure is not a panacea either.
+Other than the prover becoming ambiguous, more proofs will become accessible, and inacessible proofs will take longer to reject.
+In sum, from the implementer's perspective lexicon and grammar are not synergistic but in conflict with one another, and a middle ground must be found for them to work well in tandem.
+
+These very real problems require equally real solutions for the categorial program to come to fruition: the practitioner must often resort to tricks aimed at compressing or efficiently navigating the enormous search space.
+The modern pipeline commonly pipes a lexical disambiguation component, usually referred to as the \textit{supertagger}.
+The supertagger is tasked with ranking the possible assignments to a single entry, given its context of appearance.
+Assignments are ranked according to their likelihood, in turn approximated on the basis of some training data.
+Depending on the quality and speed of the statistical estimator employed, the entries returned are truncated depending on some threshold likelihood (or just by their count).
+This (partially) sidesteps the explosive combinatorics of considering all potential assignments, setting an upper boundary to the cardinality of the parser's input.
+The parser may also be sped up by allowing yet another statistical model to guide its actions anytime more than a single option is available.
+As with all real solutions, perfect is unattainable; this time/space efficiency usually coming at the cost of approximation errors that translate in foregone rigidness, correctness and/or coverage.
+
+The strategy we'll follow does not challenge this general model, but contributes some new insights to the operationalization of its components.
+
+
+\section{Supertagging}
+A supertagger is a statistical model, a parametric function $f_\theta$ tasked with producing the most likely type assignment sequence $t_0 \dots t_n$ for a given sentence $w_0 \dots w_n$.
+\begin{equation}
+	f_\theta(w_0 \dots w_n) \approx \underset{t_0\dots t_n}{\mathsf{argmax}} ~ p(t_0\dots t_n \ | \ w_0 \dots w_n, \theta)
+\end{equation}
+To do so, it should in theory approximate the probability of a type assignment sequence conditional on the input; in other words, feeding $f_\theta$ with any element of the product space $\lexicon^k$ should implicitly produce a total order over the product space $\types^{k}$, where $\lexicon$ the set of words in the language, $\types$ the type universe, and $k$ ranging over $\mathbb{N}$.
+If that looks stupidly intractable, it's because it is.
+Both domain and codomain are practically infinite: regardless of what the cardinality of $\lexicon$ and $\types$ are, the number of combinations between different sequences thereof quickly exceeds our current estimates for stars in the universe as the sequence length increases.
+Put simply, no amount of sample data would ever be able to overcome the problem's inherent sparsity and allow for a direct attempt at an approximation.
+Therefore, in practice, some truncations and independence assumptions are necessary in how we choose to formulate the sequence-wide conditional assignment probability:
+\begin{equation}\label{equation:supertag}
+p(t_0\dots t_n \ | \ w_0 \dots w_n)
+\end{equation}
+before we get to even contemplate implementing the model.
+The choice of assumptions and truncations made can (and do) have a deep impact on the model's performance, but also its suitability towards a specific grammar.
+This last fact seems to have largely been dismissed by the broader practitioner community, who treat the problem with consistent indifference, changing the viewing lens only according to the quirks and fashions of contemporary machine learning standards.
+We will shamelessly fall into the same last trap, but in our downfall we will be conscious of the intellectual and ideological roots the earlier chapters have established; those of revealing structure previously hidden, and paying that structure its due respect.
+
+\subsection{A Brief History of Supertagging}
+But to actually perceive the structure, we must first see its absence -- therefore (and for maintaining supsense), we will first outline the short but dense history of supertagging, and sketch out the paradigm shifts it has undergone throughout.
+
+\subsubsection{Origins}
+Supertagging (both the term and the idea) are due to early insights of~\citet{joshi1994disambiguation}.
+The two correctly pointed out that, for a strongly lexicalized grammar (in their case, a Tree Adjoining Grammar), assining the correct grammatic descriptor, or \textit{supertag} (in our case, a type), to each lexical entry within a sentence amounts to \textit{almost} parsing, and that even just weeding out some of the erroneous assignments significantly facilitates parsing.
+To counteract sparsity, and in alignment with the \textit{modus operandi} at the time, early supertaggers opted for an independence assumption between words and supertags outside a local context window.
+
+For a so-called unigram model (full independence between subsequent words), (\ref{equation:supertag}) boils down to:
+\begin{equation}
+\prod_i^n p(t_i \ | \ w_i)
+\end{equation}
+where each local conditional can be estimated on the basis of corpus frequencies.
+On its own, this is not good enough either, as rare and unknown entries would hardly give sufficient data to extract an empirical distribution from.
+As a solution, plain part of speech tags would find use as an intermediary, i.e. $w_i$ would in practice be substituted by $pos_i$, which would in turn be supplied by an external tagger.
+\todo : too simple
+
+Invoking Bayes' rule and factoring out the denominator has (\ref{equation:supertag}) rewrite to the proportionate quantity:
+\begin{align}
+\propto p(w_0\dots w_n \ | \ t_0\dots t_n)~ p(t_0\dots t_n)
+\end{align}
+Extending the context to a window of size $\kappa$, allows supertag assignments at position $i$ to excert infuence on the supertags of future positions via the approximation of the \textit{contextual probability} $p(t_0 \dots t_n)$ as:
+\begin{equation}\label{equation:contextual_prob_jb}
+p(t_0 \dots t_n) \approx \prod_i^n (t_i \ | \ t_{i-\kappa}\dots t_{i-1})
+\end{equation}
+Going one step further and making the assumption that the \textit{emission probability} $p(w_0\dots w_n \ | \ t_0\dots t_n)$ is position-seperable and independent allows its rewrite to:
+\begin{equation}\label{equation:emission_prob_jb}
+p(w_0\dots w_n \ | \ t_0\dots t_n) \approx \prod_i^n p(w_i \ | \ t_i)
+% \ \prod_i^n (t_i \ | \ t_{i-\kappa}\dots t_{i-1})
+\end{equation}
+Putting (\ref{equation:contextual_prob_jb}) and (\ref{equation:emission_prob_jb}) together, we get an approximation to 
+
+%e faithfully approximated by $\prod_i^n p(w_i \ | \ t_i)$ 
+
+
+
+
+%\prod_i^n p(t_i \ | \ t_{i-\kappa}\dots t_{i-1}) \prod_i^n p(w_i \ | \ t_i)
+%\end{equation}
+
+%\subsection{}
+%The domain is infinite -- even constraining the word sequences to grammatical ones and the set of words to the set of lexical entries in the sample data, the possible inputs are endless.
+%The same applies to the codomain, as the type universe is an inductive set -- constraining the type assignments considered to the ones witnessed in the lexicon certainly improves the picture, but this barely leaves any dent in the combinatorial 
+%In any case, no amount of sample data would ever be close to enough for a direct approximation 
+%The real distribution is impossible to approximate, as no sample data would ever be able to even remotely account for either the (practical) infinity of the domain or the sparsity of the codomain.
+% independence asssumptions%Thankfully, we are only interested in obtaining the first few most likely sequences of assignments, and less so in their actual probabilities (or those of the less likely assignments).
+
+
+
+%type assignments according to an approximation of their probability
+
 
 %
 %
@@ -52,3 +185,6 @@ This is exactly the route we'll follow in this chapter, where we'll go through t
 %
 %
 %\section{Neural Proof Nets}
+
+\bibliographystyle{abbrvnat}
+\bibliography{bibliography}

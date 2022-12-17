@@ -197,8 +197,8 @@ To suppress the title page and other front matter, comment out the command^^J
   \fancyhf{}% start on a clean slate: clear all fields
   \renewcommand\headrulewidth{0pt} 
   \fancyhead[LE,RO]{\textrm{\thepage}}
-  \fancyhead[LO]{\nouppercase{\textsl{\strut\leftmark}}}
-  \fancyhead[RE]{\nouppercase{\textsl{\strut\rightmark}}}}
+  \fancyhead[LO]{\nouppercase{\textbf{\strut\leftmark}}}
+  \fancyhead[RE]{\nouppercase{\textbf{\strut\rightmark}}}}
 
 % Actual plain style: Just the page number
 \fancypagestyle{realplain}{%	
