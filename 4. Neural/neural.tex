@@ -1,4 +1,4 @@
-\chapter{Proof Learning}
+\chapter{Learning to Prove}
 \label{chapter:chapter_4}
 
 
@@ -6,12 +6,12 @@
 
 
 Reflections are normally reserved for the end of a chapter, but I'm in a pensive mood so I'll do them here instead.
-This thesis to-be is part of a broader whole, a project set off with the noble goal of developing a composition calculus for vector-based semantic modelling.
-In its days of inception, the goal was not just noble but also technically reasonable.
+This thesis was originally envisaged as part of a broader whole, a stepping stone toward an integrated approach at structural reasoning and meaning representation; the goal being a composition calculus for vector-based semantic modeling.
+In the project's days of inception, that goal was both just noble and technically feasible.
 Distributional semantics and word vectors were in their heyday, machine learning was rapidly taking off, parsers all of a sudden started becoming reliable; everything seemed to point towards the imminent bloom of a new era in natural language processing, an era where the wisdoms of old would meet the machines of today, hinting at a bright and prosperous future for structure-aware semantic composition models.
 And things did seem to go that way, at least for a few years.
 But, unbeknownst to all, the new era in the evolutionary history of NLP would actually turn out to also be its dumbest one.
-The advent of data efficient neural architectures (combined with their immense potential for commercial applications, and its allure to big corporations) brought large language models into the game: unsophisticated, blatantly over-parameterized general purpose systems, fed unprocessed texts for weeks on end until they learn to convincingly imitate its use.
+The advent of data efficient neural architectures (combined with their immense potential for commercial applications, and its allure to big corporations) brought large language models into the game: unsophisticated, blatantly over-parameterized, general purpose systems, fed unprocessed texts for weeks on end until they'd learn to convincingly imitate its use.
 Large language models usurped the heir apparent and condemned structure-aware semantic computation to obscurity; the future of computational semantics is to be opaque, boring, exclusive to big tech and provided as-a-service instead.
 My thesis got caught in the blast of this change of power, necessitating a clear positioning in the current state of affairs, and a careful motivation for the chapter to follow; anything and everything done as -- or in the name of -- science requires justification after all.
 So here goes.
@@ -21,7 +21,7 @@ Converting raw signals intro structured representations thereof allows us to sta
 The more well-behaved the representational format chosen, the more powerful, transparent and verifiable the reasoning can be.
 The less localized and problem-specific the representational format chosen, the more adaptive and better understood the reasoning can be.
 On the basis of these observations, $\lambda$ calculi make for an ideal representation format.
-Choice of format aside, a formal system operating on formal representations is not prone to implicit biases, latent variables, ambiguity, or inconsistency: erroneous outputs are the result of bad input or bad programming.
+Choice of format aside, a formal system operating on formal representations is not prone to implicit biases, latent variables, ambiguity, or inconsistency: erroneous outputs are the result of bad input or bad programming; there's always an explicit culprit.
 Specifically in the natural language domain, advancing the conversion of text into formal representations is promoting accountable automation of textual processing, and eliminates the anthromorphic delusion of the ghost in the machine.
 Parsing is therefore only superficially in competition with large language models, and its seeming obsoletion is just a by-product of the ephemeral and rapidly shifting pop science trends of the ``AI'' race.
 
@@ -29,13 +29,13 @@ That said, machine learning is not bad.
 Shifting the focus away from the algorithm and toward the data can often be a reasonable concession in the automation of complex or labor-intensive tasks, provided that the task is not risk critical and that no intelligence is attributed to the end system.
 This is especially the case if ``almost correct'' is almost as good as correct, or the problem being modeled is intractable, making an approximation the best we can hope for.
 But employing machine learning has to be thought of as either a shortcut, or an admission of defeat.
-In opting for a machine learning solution, one assigns more faith to a generic data cruncher in solving a problem, than to oneself in designing a solution to that problem.
+In opting for a machine learning solution, one assigns more faith to a generic data cruncher in solving a problem, than to oneself in designing a solution to that very problem.
 
 Interweaving symbolic and subsymbolic reasoning is then the responsible engineer's out.
 Disassembling a system into two tiers of components promotes the selective expenditure of formal effort where it really is needed, while still benefiting from the  high horsepower of brute force statistical machinery.
 Complicated but decipherable components, rich in hierarchical or recursive structure, and requiring or greatly benefiting from formal transparency are to be tackled explicitly, whereas components that are laborious but uninteresting, data intensive, or intactable are to be isolated and outsourced to a machine worker.
-In this here context, I'm claiming that large language models should be treated not as a substitute but as complementary to logic-based systems.
-This is exactly the route we'll follow in this chapter, where we'll go through the hoops of designing and implementing a formally disciplined yet accurate and robust wide-coverage parser, a novel neurosymbolic architecture aimed at substructural logics of the linear lineage, instantiated here for \NLPplus{} and trained on \AE thel.
+In this here context, I'm claiming that large language models should be treated not as a substitute, but as complementary to logic-based systems.
+This is exactly the route we'll follow in this chapter, where we'll go through the hoops of designing and implementing a formally disciplined but accurate and robust wide-coverage parser, a novel neurosymbolic architecture aimed at substructural logics of the linear lineage, instantiated here for \NLPplus{} and trained on \AE thel.
 
 \section{Building a Categorial Parser}
 We'll start with a high-level conceptualization of the categorial grammar parser.
@@ -116,8 +116,10 @@ Therefore, in practice, some truncations and independence assumptions are necess
 \begin{equation}\label{equation:supertag}
 p(t_0\dots t_n \ | \ w_0 \dots w_n)
 \end{equation}
-before we get to even contemplate implementing the model.
-The choice of assumptions and truncations made can (and do) have a deep impact on the model's performance, but also its suitability towards a specific grammar.
+the decomposition which will be the focal point of our discussion.
+A choice of assumptions and truncations is a prerequisite before we even get to contemplate the model's implementation.
+Each choice can (and will) have a deep impact on the model's performance, most notably in phenomena in the more remote regions of the probability density landscape.
+As a corollary, each choice will alter how suitable a model is to one single grammar depending exactly on how that landscape looks.
 This last fact seems to have largely been dismissed by the broader practitioner community, who treat the problem with consistent indifference, changing the viewing lens only according to the quirks and fashions of contemporary machine learning standards.
 We will shamelessly fall into the same last trap, but in our downfall we will be conscious of the intellectual and ideological roots the earlier chapters have established; those of revealing structure previously hidden, and paying that structure its due respect.
 
@@ -126,32 +128,78 @@ But to actually perceive the structure, we must first see its absence -- therefo
 
 \subsubsection{Origins}
 Supertagging (both the term and the idea) are due to early insights of~\citet{joshi1994disambiguation}.
-The two correctly pointed out that, for a strongly lexicalized grammar (in their case, a Tree Adjoining Grammar), assining the correct grammatic descriptor, or \textit{supertag} (in our case, a type), to each lexical entry within a sentence amounts to \textit{almost} parsing, and that even just weeding out some of the erroneous assignments significantly facilitates parsing.
-To counteract sparsity, and in alignment with the \textit{modus operandi} at the time, early supertaggers opted for an independence assumption between words and supertags outside a local context window.
+The two correctly pointed out that, for a strongly lexicalized grammar (in their case, a tree adjoining grammar), assigning the correct grammatic descriptor, or \textit{supertag} (in our case, a type), to each word in a sentence amounts to \textit{almost} parsing, and that even just weeding out some of the erroneous assignments significantly facilitates parsing.
+Early literature was characterized by an almost single-minded attachment to localized computation, the justification being that supertagging must remain localized for it not to become ``too much like parsing''~\cite{bangalore1999supertagging}.
+With the benefit of hindsight, we can safely call this a pragmatic consideration and an artifact of the times, with the scene largely dominated by window-based models.
 
-For a so-called unigram model (full independence between subsequent words), (\ref{equation:supertag}) boils down to:
+A so-called unigram model assumes full independence between subsequent words, and (\ref{equation:supertag}) boils down to:
 \begin{equation}
 \prod_i^n p(t_i \ | \ w_i)
 \end{equation}
 where each local conditional can be estimated on the basis of corpus frequencies.
-On its own, this is not good enough either, as rare and unknown entries would hardly give sufficient data to extract an empirical distribution from.
+Despite competely breaking apart sequential sparity, this formulation is not much good on its own either; rare and unknown entries hardly provide sufficient data for an empirical distribution to be extracted.
 As a solution, plain part of speech tags would find use as an intermediary, i.e. $w_i$ would in practice be substituted by $pos_i$, which would in turn be supplied by an external tagger.
-\todo : too simple
+The resulting model is, alas, too simple to find real use: the assumptions made are exceedingly naive, and lexicalization is heavily bottlenecked by the coarse and undescriptive part of speech tags; we need to do better.
 
 Invoking Bayes' rule and factoring out the denominator has (\ref{equation:supertag}) rewrite to the proportionate quantity:
 \begin{align}
 \propto p(w_0\dots w_n \ | \ t_0\dots t_n)~ p(t_0\dots t_n)
 \end{align}
-Extending the context to a window of size $\kappa$, allows supertag assignments at position $i$ to excert infuence on the supertags of future positions via the approximation of the \textit{contextual probability} $p(t_0 \dots t_n)$ as:
+Extending the context to a window of size $\kappa$, allows local decisions to excert direct influence to the next $\kappa$ predictions (and thus indirectly affect all future ones).
+This requires approximating the \textit{contextual probability} $p(t_0 \dots t_n)$ as:
 \begin{equation}\label{equation:contextual_prob_jb}
 p(t_0 \dots t_n) \approx \prod_i^n (t_i \ | \ t_{i-\kappa}\dots t_{i-1})
 \end{equation}
-Going one step further and making the assumption that the \textit{emission probability} $p(w_0\dots w_n \ | \ t_0\dots t_n)$ is position-seperable and independent allows its rewrite to:
+Going one step further and making the assumption that the \textit{emission probability} $p(w_0\dots w_n \ | \ t_0\dots t_n)$ is position-separable and independent allows its rewrite to:
 \begin{equation}\label{equation:emission_prob_jb}
 p(w_0\dots w_n \ | \ t_0\dots t_n) \approx \prod_i^n p(w_i \ | \ t_i)
 % \ \prod_i^n (t_i \ | \ t_{i-\kappa}\dots t_{i-1})
 \end{equation}
-Putting (\ref{equation:contextual_prob_jb}) and (\ref{equation:emission_prob_jb}) together, we get an approximation to 
+Putting (\ref{equation:contextual_prob_jb}) and (\ref{equation:emission_prob_jb}) together, we get an approximation to (\ref{equation:supertag}) that is absolutely and obviously wrong.
+Despite the fact, it is also workable, in having efficiently circumvented sparsity, adequate, in having accounted for the very important axis of output-to-output interactions, and practical, in allowing a hidden Markov model implementation.
+
+
+\subsubsection{CCGbank and the Original Sin}
+Supertagging gained significant traction with the release of the CCGbank, the first real large scale lexicalized dataset.
+The first incarnation of a combinatory categorial grammar supertagger would be the original work of~\citet{clark2002supertagging}, where the output-to-output dependencies would be foregone for an expanded input-to-output window.
+In that setting and for a window of size $2\kappa + 1$, (\ref{equation:supertag}) would take the form:
+\begin{equation}
+	\prod_i^n p(t_i \ | \ w_{i-\kappa} \dots w_{i+\kappa})
+\end{equation}
+The model would materialize as a log-linear feature weighter trained as a maximum entropy estimator.
+The input would include several sparse heuristics, including morphological features and boolean context predicates, allowing a soft bypass of the fixed entry lexicon.
+%On top of dropping the supertag-to-supertag dependencies, the work pointed to an increase in coverage offered by abandoning the sequential product  which has since remained standard practice.
+
+Novelty and ingenuity aside, the work set a number of precedents; some of those, reasonable as they may have been at the time, have since permeated through the problem statement, becoming \textit{de facto} practices rather than conscious design decisions.
+Structural constraints were dropped, in part because they are less straightforward to deduce in frameworks other than tree adjoining grammars (they never found their way back, athough admittedly they never were particularly sophisticated to begin with).
+This step away from structural discipline is exacerbated by having also dropped the supertag-to-supertag dependencies, since the model now has no chance of learning how to statistically filter out mutually incompatible assignments either.
+To counteract the problem, the paper opts for a yet more radical solution: abandoning the sequential product (or the $\mathsf{argmax}$ operator) in favor of a \textit{multitagging} approach (i.e. returning all categories whose probability exceeds some fixed ratio of the highest ranked one).
+This tremendously improves coverage (by outsourcing heavier duty to the parser), but has to be understood as a practical overcorrection, an emergency measure to sidepass the model's inherent disregard to output-level sequential interactions.
+The limitation is acknowledged by \citet{clark-curran-2004-importance}, and later partially resolved by \citet{curran2006multi}, who employ the forward-backward algorithm to efficiently recalibrate the probability of an assignment in the multitagging setup as the sum of all sequential assignments containing it, (\ref{equation:supertag}) becoming:
+\begin{equation}
+	\prod_i^n \sum_{\mathbf{t}_{0:i-1}, \mathbf{t}_{i+1:n}} p(\mathbf{t}_{0:i-1}, t_i, \mathbf{t}_{i+1:n} \ | \ w_0 \dots w_n)
+\end{equation}
+thereby reinstating a limited notion of output-to-output dependencies in the form of localized posteriors.
+Finally, rare supertags, which were particularly problematic or near impossible to learn, were found to have very limited impact on overall coverage; this set the grounds for their (statistically) near inconsequential erasure, a choice that gradually became ingrained as a mandatory step of data sanitation and preprocessing.
+
+
+\subsubsection{Distributed Word Vectors \& Neural Networks}
+The advent of word embeddings and the gradual substitution of sparse features with continuous vectors paved the way for the incorporation of artificial neural networks.
+\citet{10.1162/tacl_a_00186} employed a collection of pretrained embeddings combined with a window-based two-layer network in a ``semi-supervised'' manner (in today's jargon, a pretty much fully supervised separable convolution).
+This had the dual effect of offering a natural generalization from the fixed size lexicon to the (still fixed, but much larger) set of pretrained` embeddings, while also improving the current accuracy/ambiguity ratio and overall efficiency of the log-linear supertagger of~\citet{clark2007wide}.
+Experiments involving a conditional random field were mildly succesful, but abandoned due to the prohibitively slow decoding; but it is obvious to the people involved that something critical is missing.
+~\citet{xu-etal-2015-ccg} took the approach a step further by utilizing a simple recurrent network, and in doing so claiming to sidestep the locality of the window-based model.
+And while their approach does indeed offer a wider receptive field (and a better operationalization), it is still focused solely on the input side; output-to-output interactions are still nowhere to be seen.
+To escape the unidirectional constraint of the classical recurrent network (or perhaps out of force of habit?), they continued incorporating window-based features that provided a minimal amount of right context $\kappa$, thereby rewriting (\ref{equation:supertag}) as:
+\begin{equation}
+	\prod_i^n p(t_i \ | \ w_0 \dots w_{i+\kappa})
+\end{equation}
+
+\subsubsection{•}
+%by now, it is evident that despite earlier aphorisms, there's nothing deep or spiritual about supertagging remaining local.
+% naturally generalizing from a fixed size lexicon to the (much larger) set of available embeddings while improving the accuracy/ambiguity ratio of 
+
+%for all factors that should have been accounted, namely both input-to-output and output-to-output interactions.
 
 %e faithfully approximated by $\prod_i^n p(w_i \ | \ t_i)$ 
 
