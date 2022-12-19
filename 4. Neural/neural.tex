@@ -11,7 +11,7 @@ In the project's days of inception, that goal was both just noble and technicall
 Distributional semantics and word vectors were in their heyday, machine learning was rapidly taking off, parsers all of a sudden started becoming reliable; everything seemed to point towards the imminent bloom of a new era in natural language processing, an era where the wisdoms of old would meet the machines of today, hinting at a bright and prosperous future for structure-aware semantic composition models.
 And things did seem to go that way, at least for a few years.
 But, unbeknownst to all, the new era in the evolutionary history of NLP would actually turn out to also be its dumbest one.
-The advent of data efficient neural architectures (combined with their immense potential for commercial applications, and its allure to big corporations) brought large language models into the game: unsophisticated, blatantly over-parameterized, general purpose systems, fed unprocessed texts for weeks on end until they'd learn to convincingly imitate its use.
+The advent of data efficient neural architectures (combined with their immense potential for commercial applications, and its allure to big corporations) brought large language models into the game: unsophisticated, profanely over-parameterized, general purpose systems, fed unprocessed texts for weeks on end until they'd learn to convincingly imitate its use.
 Large language models usurped the heir apparent and condemned structure-aware semantic computation to obscurity; the future of computational semantics is to be opaque, boring, exclusive to big tech and provided as-a-service instead.
 My thesis got caught in the blast of this change of power, necessitating a clear positioning in the current state of affairs, and a careful motivation for the chapter to follow; anything and everything done as -- or in the name of -- science requires justification after all.
 So here goes.
@@ -155,48 +155,104 @@ Going one step further and making the assumption that the \textit{emission proba
 p(w_0\dots w_n \ | \ t_0\dots t_n) \approx \prod_i^n p(w_i \ | \ t_i)
 % \ \prod_i^n (t_i \ | \ t_{i-\kappa}\dots t_{i-1})
 \end{equation}
-Putting (\ref{equation:contextual_prob_jb}) and (\ref{equation:emission_prob_jb}) together, we get an approximation to (\ref{equation:supertag}) that is absolutely and obviously wrong.
-Despite the fact, it is also workable, in having efficiently circumvented sparsity, adequate, in having accounted for the very important axis of output-to-output interactions, and practical, in allowing a hidden Markov model implementation.
+Putting (\ref{equation:contextual_prob_jb}) and (\ref{equation:emission_prob_jb}) together, we get an approximation to (\ref{equation:supertag}) that is blatantly wrong.
+Despite the fact, it is also workable, in having efficiently circumvented sparsity, adequate, in having accounted for the very important axis of output-to-output interactions, and practical, in allowing a tangible implementation as a hidden Markov model.
 
 
 \subsubsection{CCGbank and the Original Sin}
-Supertagging gained significant traction with the release of the CCGbank, the first real large scale lexicalized dataset.
-The first incarnation of a combinatory categorial grammar supertagger would be the original work of~\citet{clark2002supertagging}, where the output-to-output dependencies would be foregone for an expanded input-to-output window.
-In that setting and for a window of size $2\kappa + 1$, (\ref{equation:supertag}) would take the form:
+Supertagging gained significant momentum with the release of the CCGbank whose large size and gold standard nature offered an ideal test bed for experimentation.
+The first incarnation of a combinatory categorial grammar supertagger would be the original work of~\citet{clark2002supertagging}.
+The model diverged from the implementation of~\citet{bangalore1999supertagging} in opting for a larger window size and foregoing the contextual effect of output-to-output dependencies.
+In that setting, and for a window of size $2\kappa + 1$, (\ref{equation:supertag}) would take the form:
 \begin{equation}
 	\prod_i^n p(t_i \ | \ w_{i-\kappa} \dots w_{i+\kappa})
 \end{equation}
 The model would materialize as a log-linear feature weighter trained as a maximum entropy estimator.
-The input would include several sparse heuristics, including morphological features and boolean context predicates, allowing a soft bypass of the fixed entry lexicon.
-%On top of dropping the supertag-to-supertag dependencies, the work pointed to an increase in coverage offered by abandoning the sequential product  which has since remained standard practice.
+The input would include several sparse heuristics, including morphological features and boolean context predicates, allowing a partial soft bypass of the fixed entry lexicon.
 
 Novelty and ingenuity aside, the work set a number of precedents; some of those, reasonable as they may have been at the time, have since permeated through the problem statement, becoming \textit{de facto} practices rather than conscious design decisions.
 Structural constraints were dropped, in part because they are less straightforward to deduce in frameworks other than tree adjoining grammars (they never found their way back, athough admittedly they never were particularly sophisticated to begin with).
 This step away from structural discipline is exacerbated by having also dropped the supertag-to-supertag dependencies, since the model now has no chance of learning how to statistically filter out mutually incompatible assignments either.
-To counteract the problem, the paper opts for a yet more radical solution: abandoning the sequential product (or the $\mathsf{argmax}$ operator) in favor of a \textit{multitagging} approach (i.e. returning all categories whose probability exceeds some fixed ratio of the highest ranked one).
+To counteract the problem, the paper opted for a yet more radical solution: abandoning the sequential formulation (i.e. no more $\mathsf{argmax}$ing over the product) in favor of a \textit{multitagging} approach (i.e. returning all categories whose local probability exceeds some fixed ratio of the highest ranked candidate).
 This tremendously improves coverage (by outsourcing heavier duty to the parser), but has to be understood as a practical overcorrection, an emergency measure to sidepass the model's inherent disregard to output-level sequential interactions.
-The limitation is acknowledged by \citet{clark-curran-2004-importance}, and later partially resolved by \citet{curran2006multi}, who employ the forward-backward algorithm to efficiently recalibrate the probability of an assignment in the multitagging setup as the sum of all sequential assignments containing it, (\ref{equation:supertag}) becoming:
+The limitation is acknowledged by \citet{clark-curran-2004-importance}, and an attempt at resolution is offered by \citet{curran2006multi}.
+There, the forward-backward algorithm is employed to efficiently calibrate the probability of an assignment (in the multitagging setup) as the sum of all sequential assignments containing it:
 \begin{equation}
-	\prod_i^n \sum_{\mathbf{t}_{0:i-1}, \mathbf{t}_{i+1:n}} p(\mathbf{t}_{0:i-1}, t_i, \mathbf{t}_{i+1:n} \ | \ w_0 \dots w_n)
+	p(t_i \ | \ w_0\dots w_n) = \sum_{\mathbf{t}_{0:i-1}, \mathbf{t}_{i+1:n}} p(\mathbf{t}_{0:i-1}, t_i, \mathbf{t}_{i+1:n} \ | \ w_0 \dots w_n)
 \end{equation}
-thereby reinstating a limited notion of output-to-output dependencies in the form of localized posteriors.
+This does reinstate a notion of output-to-output dependencies in the form of estimated posteriors, but computational considerations have diffused the potential for widespread adoption in later frameworks. 
 Finally, rare supertags, which were particularly problematic or near impossible to learn, were found to have very limited impact on overall coverage; this set the grounds for their (statistically) near inconsequential erasure, a choice that gradually became ingrained as a mandatory step of data sanitation and preprocessing.
 
 
 \subsubsection{Distributed Word Vectors \& Neural Networks}
 The advent of word embeddings and the gradual substitution of sparse features with continuous vectors paved the way for the incorporation of artificial neural networks.
-\citet{10.1162/tacl_a_00186} employed a collection of pretrained embeddings combined with a window-based two-layer network in a ``semi-supervised'' manner (in today's jargon, a pretty much fully supervised separable convolution).
-This had the dual effect of offering a natural generalization from the fixed size lexicon to the (still fixed, but much larger) set of pretrained` embeddings, while also improving the current accuracy/ambiguity ratio and overall efficiency of the log-linear supertagger of~\citet{clark2007wide}.
-Experiments involving a conditional random field were mildly succesful, but abandoned due to the prohibitively slow decoding; but it is obvious to the people involved that something critical is missing.
-~\citet{xu-etal-2015-ccg} took the approach a step further by utilizing a simple recurrent network, and in doing so claiming to sidestep the locality of the window-based model.
-And while their approach does indeed offer a wider receptive field (and a better operationalization), it is still focused solely on the input side; output-to-output interactions are still nowhere to be seen.
+\citet{10.1162/tacl_a_00186} employed a collection of pretrained embeddings combined with a window-based two-layer network in a ``semi-supervised'' manner (in today's jargon, a pretty much fully supervised separable convolution), to a dual effect.
+On the one hand, the pretrained embeddings offered a natural generalization from the fixed size lexicon to the (still fixed, but much larger) set of pretrained` embeddings, single handedly obsoleting the long standing problem of tackling rare and unseen \textit{words}~\cite{thomforde-steedman-2011-semi,deoskar-etal-2011-learning,deoskar2014generalizing}.
+On the other hand, the parameter-sharing convolution improved the accuracy/ambiguity ratio and overall efficiency of the (then standard) log-linear supertagger of~\citet{clark2007wide}.
+Unlike before, words were allowed to associate to any supertag, regardless of whether or not a (word, supertag) pair was observed during training; the lexicon thus turning from a hard imperative to a soft guideline.
+Additional experiments involving a conditional random field were mildly succesful, but abandoned due to the prohibitively slow decoding -- yet, it is obvious to the people involved that something critical is missing.
+\citet{xu-etal-2015-ccg} took the approach a step further by utilizing a simple recurrent network, and, in doing so, claimed to sidestep the locality of the previous neural model.
 To escape the unidirectional constraint of the classical recurrent network (or perhaps out of force of habit?), they continued incorporating window-based features that provided a minimal amount of right context $\kappa$, thereby rewriting (\ref{equation:supertag}) as:
 \begin{equation}
 	\prod_i^n p(t_i \ | \ w_0 \dots w_{i+\kappa})
 \end{equation}
+And while their approach does indeed offer a wider receptive field (and a better operationalization), it is still focused solely on the input side; output-to-output interactions are still nowhere to be seen, leaving their promise unfulfilled.
 
-\subsubsection{•}
-%by now, it is evident that despite earlier aphorisms, there's nothing deep or spiritual about supertagging remaining local.
+\subsubsection{Autoregressive Modeling}
+By now (and despite earlier aphorisms), it is becoming increasingly evident that nothing deep or spiritual restricts supertagging to remaining local, as advancements in machine learning are progressively offering more opportunities for fast and efficient incorporation of ever wider context.
+But the absence of output-to-output dependencies remains unresolved, despite it being a recurrent theme in the literature.
+This changes with the work of \citet{vaswani-etal-2016-supertagging} who score two major points with their resourceful use of long short-term memory networks.
+First, they replace the simple recurrence of \citet{xu-etal-2015-ccg} with a bidirectional one (thus allowing unbounded left- and right- input interactions) --  an idea explored in parallel by multiple contemporary works~\cite[\textit{inter alia}]{ling-etal-2015-finding,xu-etal-2016, lewis-etal-2016-lstm}.
+More importantly and in addition to that, they introduce an intermediate recurrence that is to serve as a supertag-level language model, fusing the prediction history with the input context to produce each local prediction.
+The two together alter (\ref{equation:supertag}) into a version far more elaborate than previous proposals:
+\begin{equation}
+	\prod_i^n p(t_i \ | \ t_0\dots t_{i-1},w_0\dots w_n)
+\end{equation}
+Under a modern lens, this is akin to a slighly clumsy implementation of an autoregressive sequence-to-sequence model, with the decoder meriting from perfect alignment between input and output tokens.
+Unlike prior work, no occurrence threshold was imposed, and explicit evaluations over sparse lexical relations were provided.
+The added expressivity and significantly wider receptive field granted the model the state of the art badge, which was to remain uncontested for a surprisingly long two human years%
+	\footnote{Approx. three centuries in machine learning years.}.
+
+\subsubsection{Superwhat?}
+More than just a testament to its strengths, this momentary pause makes for a discontinuity in the velocity of progress; not because people suddenly lost interest in supertagging, but rather because machine learning architectures and their applications had slowly become exhausted.
+This coincides with a stall across NLP in general, and a concurrent paradigm shift; specialized models started becoming outfashioned, and improvements would no longer be enabled by domain expertise and task-specific engineering, but rather by higher quality unsupervised and semi-supervised training routines over larger and larger models.
+A case in point is the next major performance landmark (an absolute leap higher than that between any two prior successive models), which was in fact offered by a structurally simplified model: a plain bidirectional sequence encoder trained on multiple tasks and with multiple auxilary losses; a step backwards in all but accuracy~\cite{clark-etal-2018-semi}, in essence using the factorization:
+\begin{equation}
+	\prod_i^n p(t_i \ | \ w_0 \dots w_n)
+\end{equation}
+The same paradigm is today more dominant than ever, and has pushed conventional NLP outside of the spotlight, putting an end to an exciting but short golden era.
+
+\subsection{Constructing Types}
+The supertagging architectures reviewed are, from first to last, variations on a theme.
+Regardless of whether the underlying statistical machinery is a hidden Markov model, a maximum entropy model, a neural sequence tagger or a sequence-to-sequence transducer, a single commonality characterizes them all: they start from the assumption of a finite codomain.
+More than that, they don't just assume but \textit{require} that the zipfian tail of lexical type sparsity is practically irrelevant for the corpus, and, by extension, for language at large.
+In other words, they require that most of the probability mass of type occurrences is concentrated around a central region of few but common types, and that sufficiently rare types are nothing but statistical artifacts which can safely be ignored.
+This bias is not to be mistaken as a vice, nor as a deeply motivated ruling; it is a practical compromise that became an unwritten rule, similar to the (once proclaimed as necessary) locality of supertagging -- a notion abandoned and forgotten with minimal deliberation as soon as technology permitted.
+The issue is quite shallow: statistical models have always had a very hard time dealing with under-represented samples (in our case, supertags), and correctly predicting items outside the training data is an open problem.
+
+That, again, is not to say the compromise is an unjust one; its heedless proliferation does, however, come with two major side effects.
+One, it forces parsers to give up on potentially rare syntactic phenomena, assuming those manifest through unique and uncommon supertags.
+Even though a parser should in principle be able to handle any valid supertag (regardless of its statistical properties), the \textit{a priori} exclusion of rare ones means that exactly those difficult phenomena that would benefit from the linguistic expertise of a robust parser are to be discarded in the first place!
+The problem is of an epistemological nature: we'll only ever parse only what we can parse, but we can't parse what we won't try to parse.
+Two, in becoming part of the first page of the (as of yet unwritten) supertagging bible, the concept implicitly reinforces the belief that grammars not following a distribution of occurrences similar to (or denser than) that of the CCGbank are practically unusable.
+This is really a quite serious pitfall containing a contradiction worth pointing out -- it basically says that lexicalization is good, but only as long as it's not too itemized! 
+Lexicalized formalisms that are ``too lexicalized'' are condemned to a premature end in fear of never making it past the supertagging phase, while it is only through such formalisms we could ever hope to trivialize the parsing process and fulfill the lexicalist dream... go figure.
+
+
+%, similar in nature to the so-proclaimed locality requirement.
+
+%due to a generic sequence tagging model that was 
+%was in fact due to a dumbe
+% clark-etal-2018-semi
+%: task-specific architectures became gradually replaced with generic systems, and improvement wou
+
+%The model significantly outperformed previous solutions, and remained uncontested
+
+
+%The sped up pace of progress and the rapidly increasing technical offerings from machine learning techn
+%In reality, the thing to be avoided
+%A significant advancement came by~\citet{vaswani-etal-2016-supertagging}
+%
 % naturally generalizing from a fixed size lexicon to the (much larger) set of available embeddings while improving the accuracy/ambiguity ratio of 
 
 %for all factors that should have been accounted, namely both input-to-output and output-to-output interactions.
