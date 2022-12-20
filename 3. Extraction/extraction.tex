@@ -6,7 +6,7 @@
 With our theorycrafting over, we have in our hands an uninstantiated descriptive model of syntactic and semantic composition, promising to capture dependency relations while keeping both its feet set firmly in type theory.
 Unfortunately, it is well attested by now that ``all models are wrong...''~\cite{doi:10.1080/01621459.1976.10480949}.
 Any promise of theoretical universality, cognitive plausibility, linguistic intrinsicness or what have you, would require some degree of handwaving and conjencturing that I am not comfortable with.
-What is undisputable, however, is the nobility of our goals and the purity of our tools: the \textit{omniversality} of the $\lambda$ calculus~\cite{wadler2015propositions} asserts that our modeling approach is not some ad hoc machinery designed to tackle a highly localized problem, but the one and only programming language ever worth writing. 
+What is undisputable, however, is the nobility of our goals and the purity of our tools: the \textit{omniversality} of the $\lambda$ calculus~\cite{wadler2015propositions} asserts that our modeling approach is not some \textit{ad hoc} machinery designed to tackle a highly localized problem, but the one and only programming language ever worth writing. 
 Beyond purpose and methodology, and having \textit{a priori} given up any ideation of truth, the only measure of success for our model is that of its utility (``...but some are useful'', ~\cite{doi:10.1080/01621459.1976.10480949}).
 This sets up a new research imperative: we must prove the model useful!
 
@@ -834,7 +834,7 @@ The criteria of what constitutes a multiword phrase and what doesn't are somewha
 The example of Figure~\ref{figure:du_mwp_example} claims that \texttr{Eerste Wereldoorlog}{first world.war} is one, for instance -- eliciting the questions of whether expressions like the \textex{third/current/last/next world war} are also instances of a multiword phrase, and, if so, where the line is drawn (if at all).
 Anyway, multiword expressions are bad, but what's really bad is how overindulgent Lassy is with their use, which feels more like a free pass at disclaiming any responsibility of actually providing an analysis: a preposterous 5.9\% of all composite phrases are labeled as being multiword expressions.
 
-Multiword phrases are not an impassable roadblock; they can be tackled by relaxing the lexicalist word-to-type restriction, i.e. allowing entries in the lexical dictionary to be arbitrary strings rather than words.
+Multiword phrases are not an impassable roadblock; they can be tackled by relaxing the lexicalist word-to-type restriction, i.e. allowing entries in the lexical dictionary to be keyed by arbitrary strings rather than words.
 This is indeed the approach we'll follow, but only after having salvaged however many of the missing annotations as we can.
 Doing so is in our best interest: it will reduce the lexicon's load and provide us with a collection of annotations that are easier to generalize from.
 Generating structure out of thin air is of course impossible, but several existing patterns are amenable to an automatic reannotation.
@@ -1641,25 +1641,26 @@ This is not really surprising: hypotheses launched by higher-order functors are 
 
 
 \paragraph{Lexical Type Ambiguity}
-This brings us to the lexicon: the binary relation connecting words (or strings, really) to types, and obtained by the aggregation of all our proofs' type assignments.
+This brings us to the lexicon: the binary relation connecting keys (words or strings, really) to types, and obtained by the aggregation of all our proofs' type assignments.
 \AE thel as a whole contains 1\,033\,858 words chunked into 992\,385 phrases, each chunk carrying a single assignment.
 These amount to  74\,812 (67\,883 after case normalization) unique words and 76\,746 (71\,077) unique phrases, the latter being essentially the lexicon's domain.
 On the codomain's side, we have a grand total of 6\,008 unique \NLPplus{} types.
 Stripped of their modalities, these fall back to 3\,641 pure linear types, evidencing the import of the added dependency axis.
 The first question to ask then is: how functional is this lexicon?
 Answering that question is Figure~\ref{figure:type_ambiguity}, which in short says ``not much, really''.
-Despite most lexical entries (56\,176) having a single unique image, ambiguities are quite common, the number of assignments exponentially\textsubscript{2} increasing for a logarthmically\textsubscript{10} declining number of entries.
+Despite most lexical keys (56\,176) having a single unique image, ambiguities are quite common, the number of assignments exponentially\textsubscript{2} increasing for a logarthmically\textsubscript{10} declining number of keys.
 At the end of the tail we find several chameleon words appearing in multiple guises; chief among them is the usual suspect \texttr{en}{and}, counting as many as 1\,046 (!) unique types in just 41\,614 occurrences -- the price of braving conjunctions with concretely instanced, pre-raised types.
-But this is painting an overly grim picture; seen as random variables, lexical entries actually have most of their probability masses concentrated on their modes.
-The average probability of the most common type per entry lies at a (very high) 88.97\%, while naively assigning the mode to each lexical assignment corpus-wide (disregarding context) establishes a comfortable 66.97\% baseline, asserting that our assignments are in practice quite consistent within their entries.
-\goodbreak
+No less than 1\,796 types contain a $\ddia{cnj}$ marking, and are thus associated with coordinators.
+But this is painting an overly grim picture; seen as random variables, lexical keys actually have most of their probability masses concentrated on their modes.
+The average probability of the most common type per key lies at a (very high) 88.97\%, while naively assigning the mode to each lexical assignment corpus-wide (disregarding context) establishes a comfortable 66.97\% baseline, asserting that our lexical entries are in practice quite consistent when grouped by their keys.
+
 
 \begin{figure}
 	\centering
 	\begin{tikzpicture}
 	\begin{loglogaxis}[
 	    xlabel={Number of Unique Types Assigned},
-	    ylabel={Number of Lexical Entries},
+	    ylabel={Number of Lexical Keys},
 	    legend pos=north west,
 	    ymin=1,
 	    xmin=0.9,
@@ -1689,12 +1690,12 @@ The average probability of the most common type per entry lies at a (very high) 
 
 
 \paragraph{Lexical Type Sparsity}
-So ambiguity is not a major statistical threat, despite the high average number of options per entry; some opposing force must be counterweighting its effect.
+So ambiguity is not a major statistical threat, despite the high average number of options per key; some opposing force must be counterweighting its effect.
 In reality, the only reason we are able to naively guess assignments with some reasonable accuracy is exactly because the less-than-most-frequent options are in fact very infrequent -- the demon's name is sparsity.
 To diagose the problem and quantify its extent, we perform a number of tests.
 First, we measure the proportion of the 6\,008 types that occur more than $n$ times, and plot the result in Figure~\ref{figure:ecdfs} (if you prefer jargon, this is the inverse empirical cumulative distribution of type occurrences).
 The dash-dotted line leaves little room for interpretation: 2\,868 (47.7\%) of the total types have only a single occurrence, 4\,807 (80\%)  have less than 10 occurrences, and only 316 (5\%) are common enough to boast more than 100 occurrences -- our types are quite sparse alright.
-This goes to show that uncommon type assignments are uncommon globally, and not just in the context of the lexical entry that contains them; in other words, a type rarely associated with \textit{some} lexical entry is likely rare to find among \textit{any} entry.
+This goes to show that uncommon type assignments are uncommon globally, and not just in the context of the lexical key that maps to them; in other words, a type rarely associated with \textit{some} lexical key is likely rare to find among \textit{any} key.
 
 To analyze the real impact of sparse types, we have to holistically inspect their corpus-wide distribution.
 To that end, we repeat the above measurement, this time focusing on type assignments and samples rather than just types.
@@ -1751,12 +1752,12 @@ This will haunt us later, but for now let's keep lingering in the bliss of ignor
 \end{figure}
 
 
-\paragraph{Lexical Entry Sparsity}
-On the other side of the lexicon lie lexical entries -- the words and phrases we may use to index the lexicon.
-Lexical entry sparsity is completely external to the extraction algorithm (words and their occurrence statistics being directly inherited from Lassy and its choice of corpora).
+\paragraph{Lexical Key Sparsity}
+On the other side of the lexicon lie lexical keys -- the words and phrases we may use to index the lexicon.
+Lexical key sparsity is completely external to the extraction algorithm (words and their occurrence statistics being directly inherited from Lassy and its choice of corpora).
 It's also no longer a real practical consideration, since distributed word vectors and pretrained language models have long superseded the lexically fixed components of the modern NLP pipeline.
 Still, for the sake of completeness (and since the lexicon is a tiny resource of its own), we may as well have a quick glance of the statistics of the lexicon's domain.
-Figure~\ref{figure:entry_sparsity} shows the distribution of lexical entry occurrences; most entries occur just once, whereas a handful occur up to a few thousand times (interpolate between most and a handful in the log\textsubscript{10}/log\textsubscript{2} plane to find any point of interest).
+Figure~\ref{figure:entry_sparsity} shows the distribution of lexical key occurrences; most keys occur just once, whereas a handful occur up to a few thousand times (interpolate between most and a handful in the log\textsubscript{10}/log\textsubscript{2} plane to find any point of interest).
 The most common word of \AE thel is the gendered definite determiner \textex{de}, claiming the throne with an incontestible 56\,925 occurrences (making up for 5.7\% of all words just by itself).
 
 \begin{figure}
@@ -1764,7 +1765,7 @@ The most common word of \AE thel is the gendered definite determiner \textex{de}
 	\begin{tikzpicture}
 	\begin{loglogaxis}[
 	    xlabel={Number of Occurrences},
-	    ylabel={Number of Lexical Entries},
+	    ylabel={Number of Lexical Keys},
 	    legend pos=north west,
 	    ymin=1,
 	    xmin=0.9,xmax=32768,
@@ -1788,7 +1789,7 @@ The most common word of \AE thel is the gendered definite determiner \textex{de}
 	\end{loglogaxis}
 	    
 	\end{tikzpicture}
-	\caption{Lexical Entry Sparsity}
+	\caption{Lexical Key Sparsity}
 	\label{figure:entry_sparsity}
 \end{figure}
 
@@ -1807,13 +1808,13 @@ With all the numbers laid down, all that's left to do is expose how \AE thel tre
 The chapter has presented \AE thel and detailed the process toward its construction.
 The baby version of \AE thel made an early public appearance in my thesis~\cite{https://doi.org/10.48550/arxiv.1909.02955} in what feels like ages ago (but actually was three-something years).
 Back then, it didn't yet have a name, and was just only a partially worked out type lexicon, but its statistical kinks were already becoming obvious.
-The full resource gradually took form as a proof bank proper, and was first described in \citet{kogkalidis-etal-2020-aethel}.
-The chapter is a significantly more mature version of the paper, sharing the same general design philosophy but boasting lighter preprocessing (leading to longer and higher quality proofs) and wider coverage (improving linguistic variation).
-More importantly, the extraction algorithm has been revised and reimlemented to ensure type safety, guaranteeing the formal correctness of the extracted proofs and fixing several issues and inconsistencies pertaining to the modal decorations of higher order types.
+The full resource gradually took form as a proof bank proper, and was first described by \citet{kogkalidis-etal-2020-aethel}.
+The chapter is a significantly more mature version of the paper, describing an overhauled version that shares the same general design philosophy but boasts lighter preprocessing (leading to longer and higher quality proofs) and wider coverage (improving linguistic variation).
+The most important feature of the overhaul is the revised extraction algorithm, reimlemented so as to ensure type safety, guaranteeing the formal correctness of the extracted proofs and fixing several issues and inconsistencies pertaining to the modal decorations of higher order types.
 
 My little bubble aside, corpus extraction is a fan favorite for the computationally inclined linguists (or the linguistically inclined computists).
-The endeavour was popularized by the CCGbank~\cite{10.1162/coli.2007.33.3.355}, a semi-automatically extracted corpus of combinatory categorial grammar derivations. 
-Following a similar endeavour in German~\cite{hockenmaier2006creating}, the corpus has become a flagship for the applied categorial grammarian, spawning many offsprings across different languages~\cite[\textit{inter alia}]{johan2009converting,tse2010chinese,ambati2018hindi}.
+The endeavour was popularized by the CCGbank~\cite{10.1162/coli.2007.33.3.355}, a semi-automatically extracted corpus of combinatory categorial grammar derivations, following a similar endeavour in German~\cite{hockenmaier2006creating}.
+CCGbank has since become a flagship for the applied categorial grammarian, spawning many offsprings across different languages~\cite[\textit{inter alia}]{johan2009converting,tse2010chinese,ambati2018hindi}.
 More akin to our proof-theoretic regime and forebearers to this work are the French TLGbank~\cite{moot:inria-00494062}, and the type-logical conversion of the spoken Dutch corpus~\cite{moot2010extraction}, both following the multimodal Lambek tradition.
 
 

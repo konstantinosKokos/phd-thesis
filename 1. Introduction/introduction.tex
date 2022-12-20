@@ -2240,6 +2240,7 @@ Note that, despite appearances, $\mathtt{str}$ is a first-order type $*\li *$ (w
 
 
 \subsubsection{Artificial Languages}
+\label{subsubsection:acg_artificial}
 Abstract categorial grammars are characterized by two measures of complexity: the maximal order of source constants' types, and the maximal order of the codomain of $\eta_0$.
 The two together constitute the grammar's \textit{class}, which concisely describes the sort of languages the grammar can model.
 This can prove effective in revealing a more granular stratification underlying the Chomsky hierarchy of formal grammars, when the latter are embedded into abstract categorial equivalents; as such, the framework has found extensive use as a meta-language for the study and formalization of formal grammars (as done by \citet{de2004expressive}, \textit{inter alia}).
@@ -2287,8 +2288,9 @@ The above -- all of type $\mathtt{str}$, and underlined to distinguish from func
 \end{table}
 
 \begin{figure}
-	{\smaller
 	\[
+	\resizebox{1\textwidth}{!}
+	{
 		\infer[\li E]{\term{rdiv~(dia~(box~(ldiv~np~np)))~pp}:\type}{
 			\infer{\type\li\type\li\type}{\term{rdiv}}
 			&
@@ -2308,11 +2310,11 @@ The above -- all of type $\mathtt{str}$, and underlined to distinguish from func
 				}
 			}
 			&
-			\hspace{-45pt}
+			\hspace{-35pt}
 			\infer{\type}{\term{pp}}
 		}
-	\]
 	}
+	\]
 	\caption{Constructing the type assignment of~(\ref{equation:litten}).}
 	\label{figure:litten_acg_der}
 \end{figure}
