@@ -3,8 +3,8 @@
 
 \chapabstract{In the beginning there was the word, and the word had a \type.}
 
-Our story begins with the (over-ambitious, in hindsight) musings of one of the world's most well-renowned mathematicians, David Hilbert. 
-Unhappy with the numerous paradoxes and inconsistencies of mathematics at the end of the 19th century, Hilbert would postulate the existence and advocate the formulation of a finite set of axiomatic rules, which, when put together, would give rise to the most well-behaved system known to [wo]mankind, capable of acting as a universal meta-theory for all mathematics, in the process absolving all mathematicians of their sins.
+Our story begins with the (over-ambitious, in hindsight) musings of one of the world's most famous mathematicians, David Hilbert. 
+Unhappy with the numerous paradoxes and inconsistencies of mathematics at the end of the 19th century, Hilbert would postulate the existence and advocate the formulation of a finite set of axiomatic rules, which, when put together, would give rise to the most well-behaved system known to [wo]mankind: a system capable of acting as a universal meta-theory for all mathematics, in the process absolving all mathematicians of their sins.
 The idea was of course appealing and gained traction, not the least due to Hilbert's influence over the field (and his will to exercise it).
 As with all ideas that generate traction, however, it was not long before a cultural counter-movement would develop.
 Intuitionism, with Luitzen Egbertus Jan Brouwer as its forefather, would challenge Hilbert's program by questioning the objective validity of (any) mathematical logic.
@@ -16,7 +16,8 @@ Eventually, in a critical moment of clarity and inspiration, and tired by the on
 This is in reference, of course, to the biggest discovery of the last century\footnote{In proof theory, at least.}, made independently (using wildly different words every time) by various mathematicians and logicians spanning different timelines.
 Put plainly, what is now known as the Curry-Howard correspondence establishes a syntactic equivalence between deductive systems in intuitionistic brands of logic and corresponding computational systems, called $\lam$-calculi.
 Put even more plainly, it suggests that valid proofs in such logics constitute in fact compilable code for functional progams, bridging in essence the seemingly disparate fields of mathematical logic and computer science.
-The repercussions of this discovery were enormous, and are more tangible today than ever before; type systems comprised of higher-order $\lam$-calculi and their logics provide the theoretical foundations for modern programming languages and proof assistants (this last fact is both important and interesting, but won't concern us much presently).
+The repercussions of this discovery were enormous, and are more tangible today than ever before; type systems comprised of higher-order $\lam$-calculi and their logics provide the theoretical foundations for modern programming languages and proof assistants; 
+a fact both important and interesting, but which won't concern us much presently.
 
 In a more niche (but equally beautiful) fragment of the academic world, and in parallel to the above developments, applied logicians and formally inclined linguists have been demonstrating a stunning perserverance in their self-imposed quest of modeling natural language syntax and semantics, making do only with the vocabulary provided by formal logics.
 This noble endeavour traces its origins back to Aristotle, but its modern incarnation is due to Jim Lambek, who was the first to point out that the grammaticality of a natural language utterance can be equated to provability in a certain logic (or type inhabitation, if one is to borrow the terminology of constructive type theories), if the grammar (a collection of empirical linguistic rules) were to be treated as a substructural logic (a collection of formal mathematical rules).
@@ -25,7 +26,7 @@ By that time, Richard Montague had already come up with the fantastically novel 
 With this, he fulfilled Gottlob Frege's long-prophesized principle of compositionality, which would once and for all put the Chomskian tradition to rest\footnote{In some corners of the Earth, this part of the prophecy is yet to transpire.}, ushering linguistics into a new era.
 With the benefit of posterity, it would be tempting for us to act smart and exclaim that Lambek and Montague's ideas were remarkably aligned. 
 In reality, it took another couple of decades for someone to notice.
-The credit is due to Johan van Benthem, who basically pointed out that Lambek's calculi make for the perfect syntactic machinery for Montague's program, seeing as they admit the Curry-Howard correspondence, and are therefore able to drive semantic composition virtually for free (in fact one could go as far as to say that they are the only kind of machinery that can accomplish such a feat without being riddled with ad-hoc transformations).
+The credit is due to Johan van Benthem, who basically pointed out that Lambek's calculi make for the perfect syntactic machinery for Montague's program, seeing as they admit the Curry-Howard correspondence, and are therefore able to drive semantic composition virtually for free (in fact one could go as far as to say that they are the \textit{only} kind of machinery that can accomplish such a feat without being riddled with ad-hoc designs).
 This revelation, combined with the contemporary bloom of substructural logics, was the spark that ignited a renewed interest in Lambek's work.
 The culmination point for this interest was type-logical grammars (or categorial type logics): families of closely related type theories extending the original calculi of Lambek with unary operators lent from modal logic, intended to implement a stricter but more linguistically faithful modeling of the composition of natural language form and meaning.
 
@@ -76,7 +77,7 @@ A perhaps more down-to-earth way of looking at a structure is as a \textit{list}
 
 Given propositions and structures, we can next define \textit{judgements}, statements of the form
 $\Gamma \vdash \prop{a}$.
-We read such a statement as a suggestion that from \textit{assumptions} $\Gamma$ (i.e. a structure of \textit{hypotheses}) one can derive a proposition \smallprop{A}.
+We read such a statement as a suggestion that from \textit{assumptions} $\Gamma$ (i.e. a structure of \textit{hypotheses}) one can derive the proposition \smallprop{a}.
 Formulas occurring within $\Gamma$ are said to occur in \textit{antecedent} position, whereas \prop{a} is in \textit{succedent} position.
 
 A \textit{rule} is a two-line statement separated by a horizontal line.

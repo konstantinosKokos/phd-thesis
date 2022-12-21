@@ -5,14 +5,15 @@
 \chapabstract{\todo}
 
 
-Reflections are normally reserved for the end of a chapter, but I'm in a pensive mood so I'll do them here instead.
-This thesis was originally envisaged as part of a broader whole, a stepping stone toward an integrated approach at structural reasoning and meaning representation; the goal being a composition calculus for vector-based semantic modeling.
-In the project's days of inception, that goal was not just noble but also technically feasible.
-Distributional semantics and word vectors were in their heyday, machine learning was rapidly taking off, parsers all of a sudden started becoming reliable; everything seemed to point towards the imminent bloom of a new era in natural language processing (NLP), an era where the wisdoms of old would meet the machines of today, hinting at a bright and prosperous future for structure-aware semantic composition models.
+Reflections are normally reserved for the end of a chapter, but I'm in a pensive mood so we'll have them here instead.
+This thesis was originally envisaged as part of a broader whole, a stepping stone toward an integrated approach at structural reasoning and meaning representation; the end goal was to be a prototype for a type-driven composition calculus for vector-based semantic modeling.
+In the project's days of inception, that goal was not just noble but also technically feasible; distributional semantics and word vectors were in their heyday, machine learning was rapidly taking off, parsers all of a sudden started becoming reliable.
+Everything seemed to point towards the imminent bloom of a new era in natural language processing (NLP), an era where the wisdoms of old would meet the machines of today, hinting at a bright and prosperous future for neurosymbolic structure-aware semantic composition models.
 And things did seem to go that way, at least for a few years.
-But, unbeknownst to all, the new era in the evolutionary history of NLP would actually turn out to also be its dumbest one.
-The advent of data efficient neural architectures (combined with their immense potential for commercial applications, and its allure to big corporations) brought large language models into the game: unsophisticated, profanely over-parameterized, general purpose systems, fed unprocessed texts for weeks on end until they'd learn to convincingly imitate its use.
-Large language models usurped the heir apparent and condemned structure-aware semantic computation to obscurity; the future of computational semantics is to be opaque, boring, exclusive to big tech and provided as-a-service instead.
+But, unbeknownst to all, the new era in the evolutionary history of NLP would actually turn out to also be the dumbest (yet).
+The advent of data efficient neural architectures -- combined with their immense potential for commercial applications, and its allure to big corporations -- brought large language models into the game.
+These are unsophisticated, profanely over-parameterized, general purpose systems, fed unprocessed texts for weeks on end until they'd learn to convincingly imitate its use.
+With their sheer strength, large language models usurped the heir apparent and condemned structure-aware semantic computation to obscurity; the future of computational semantics is to be opaque, boring, exclusive to big tech and provided as-a-service instead.
 My thesis got caught in the blast of this change of power, necessitating a clear positioning in the current state of affairs, and a careful motivation for the chapter to follow; anything and everything done as -- or in the name of -- science requires justification after all.
 So here goes.
 
@@ -32,8 +33,9 @@ But employing machine learning has to be thought of as either a shortcut, or an 
 In opting for a machine learning solution, one assigns more faith to a generic data cruncher in solving a problem, than to oneself in designing a solution to that very problem.
 
 Interweaving symbolic and subsymbolic reasoning is then the responsible engineer's out.
-Disassembling a system into two tiers of components promotes the selective expenditure of formal effort where it really is needed, while still benefiting from the  high horsepower of brute force statistical machinery.
-Complicated but decipherable components, rich in hierarchical or recursive structure, and requiring or greatly benefiting from formal transparency are to be tackled explicitly, whereas components that are laborious but uninteresting, data intensive or intactable are to be isolated and outsourced to a machine worker.
+A bipartite disassembly promotes the selective expenditure of formal effort where it really is needed, while still benefiting from the high horsepower of brute force statistical machinery.
+Complicated but decipherable components, rich in hierarchical or recursive structure, and requiring or greatly benefiting from formal transparency are to be tackled explicitly.
+Components that are laborious but uninteresting, data intensive or intractable are to be isolated and outsourced to a machine worker.
 In this here context, I'm claiming that large language models should be treated not as a substitute, but as complementary to logic-based systems.
 This is exactly the route we'll follow in this chapter, where we'll go through the hoops of designing and implementing a formally disciplined but accurate and robust wide-coverage parser, a novel neurosymbolic architecture aimed at substructural logics of the linear lineage, instantiated here for \NLPplus{} and trained on \AE thel.
 
@@ -100,14 +102,18 @@ Depending on the quality and speed of the statistical estimator employed, the ca
 This (partially) sidesteps the explosive combinatorics of considering all potential assignments, setting an upper boundary to the cardinality of the parser's input.
 The parser may also be sped up by allowing yet another statistical model to guide its actions anytime it hits a decision point.
 As with all real solutions, perfect is unattainable; this time/space efficiency usually comes at the cost of approximation errors that translate to foregone rigidness, correctness and/or coverage.
-
 The strategy we'll follow does not challenge this general model, but contributes some new insights to the operationalization of its components.
+
+A foreword before we get to it: I imagine a crash course in machine learning to be redundant in the current day and age.
+In any case, my intention is to help the purists make sense of what's going on, yet without obfuscating the implementation from fellow hackers.
+To that end, I'll try keep the gory technical details contained and separate from the high level, abstract descriptions.
+I hope the result is sensible and inclusive.
 
 
 \section{Supertagging}
-A supertagger is a statistical model, a parametric function $f_\theta$ tasked with producing the most likely type assignment sequence $t_0 \dots t_n$ for a given sentence $w_0 \dots w_n$.
+A supertagger is a statistical model, a parametric function $f_\theta$ tasked with producing the most likely type assignment sequence $\tseq := t_0 \dots t_n$ for a given sentence $\wseq := w_0 \dots w_n$.
 \begin{equation}
-	f_\theta(w_0 \dots w_n) \approx \underset{t_0\dots t_n}{\mathsf{argmax}} ~ p(t_0\dots t_n \ | \ w_0 \dots w_n, \theta)
+	f_\theta(\wseq) \approx \underset{\tseq}{\mathsf{argmax}} ~ p(\tseq \ | \wseq, \theta)
 \end{equation}
 To do so, it should in theory approximate the probability of a type assignment sequence conditional on the input; in other words, feeding $f_\theta$ with any element of the product space $\lexicon^k$ should implicitly produce a total order over the product space $\types^{k}$, where $\lexicon$ the set of words in the language, $\types$ the type universe, and $k$ ranging over $\mathbb{N}$.
 If that looks stupidly intractable, it's because it is.
@@ -115,7 +121,7 @@ Both domain and codomain are practically infinite: regardless of what the cardin
 Put simply, no amount of sample data would ever be able to overcome the problem's inherent sparsity and allow for a direct attempt at an approximation.
 Therefore, in practice, some truncations and independence assumptions are necessary in how we choose to formulate the sequence-wide conditional assignment probability, the decomposition of which will be the focal point of our discussion:
 \begin{equation}\label{equation:supertag}
-p(t_0\dots t_n \ | \ w_0 \dots w_n)
+p(\tseq \ | \ \wseq)
 \end{equation}
 A choice of assumptions and truncations is a prerequisite before we even get to contemplate the model's implementation.
 Each choice can (and will) have a deep impact on the model's performance, most notably in phenomena inhabiting the more remote regions of the probability density function's landscape.
@@ -143,17 +149,16 @@ The resulting model is, alas, too simple to find real use: the assumptions made 
 
 Invoking Bayes' rule and factoring out the denominator has (\ref{equation:supertag}) rewrite to the proportionate quantity:
 \begin{align}
-\propto p(w_0\dots w_n \ | \ t_0\dots t_n)~ p(t_0\dots t_n)
+\propto p(\wseq \ | \ \tseq)~ p(\tseq)
 \end{align}
 Extending the context to a window of size $\kappa$, allows local decisions to excert direct influence to the next $\kappa$ predictions (and thus indirectly affect all future ones).
-This requires approximating the \textit{contextual probability} $p(t_0 \dots t_n)$ as:
+This requires approximating the \textit{contextual probability} $p(\tseq)$ as:
 \begin{equation}\label{equation:contextual_prob_jb}
-p(t_0 \dots t_n) \approx \prod_i^n (t_i \ | \ t_{i-\kappa}\dots t_{i-1})
+p(\tseq) \approx \prod_i^n (t_i \ | \ \seq{t}{i-\kappa:i-1})
 \end{equation}
-Going one step further and making the assumption that the \textit{emission probability} $p(w_0\dots w_n \ | \ t_0\dots t_n)$ is position-separable and independent allows its rewrite to:
+Going one step further and making the assumption that the \textit{emission probability} $p(\mathbf{w}_{0:n} \ | \ \mathbf{t}_{0:n})$ is position-separable and independent allows its rewrite to:
 \begin{equation}\label{equation:emission_prob_jb}
-p(w_0\dots w_n \ | \ t_0\dots t_n) \approx \prod_i^n p(w_i \ | \ t_i)
-% \ \prod_i^n (t_i \ | \ t_{i-\kappa}\dots t_{i-1})
+p(\mathbf{w}_{0:n} \ | \ \mathbf{t}_{0:n}) \approx \prod_i^n p(w_i \ | \ t_i)
 \end{equation}
 Putting (\ref{equation:contextual_prob_jb}) and (\ref{equation:emission_prob_jb}) together, we get an approximation to (\ref{equation:supertag}) that is blatantly wrong.
 Despite the fact, it is also workable, in having efficiently circumvented sparsity, adequate, in having accounted for the very important axis of output-to-output interactions, and practical, in allowing a tangible implementation as a hidden Markov model.
@@ -165,7 +170,7 @@ The first incarnation of a combinatory categorial grammar supertagger would be t
 The model diverged from the implementation of~\citet{bangalore1999supertagging} in opting for a larger window size and foregoing the contextual effect of output-to-output dependencies.
 In that setting, and for a window of size $2\kappa + 1$, (\ref{equation:supertag}) would take the form:
 \begin{equation}
-	\prod_i^n p(t_i \ | \ w_{i-\kappa} \dots w_{i+\kappa})
+	\prod_i^n p(t_i \ | \ \seq{w}{i - \kappa : i+\kappa})
 \end{equation}
 The model would materialize as a log-linear feature weighter trained as a maximum entropy estimator.
 The input would include several sparse heuristics, including morphological features and boolean context predicates, allowing a partial soft bypass of the fixed-key lexicon.
@@ -178,7 +183,7 @@ This was shown to tremendously improve coverage (by outsourcing heavier duty to 
 The limitation is acknowledged by \citet{clark-curran-2004-importance}, and an attempt at resolution is offered by \citet{curran2006multi}.
 There, the forward-backward algorithm is employed to efficiently calibrate the probability of an assignment (in the multitagging setup) as the sum of all sequential assignments containing it:
 \begin{equation}
-	p(t_i \ | \ w_0\dots w_n) = \sum_{\mathbf{t}_{0:i-1}, \mathbf{t}_{i+1:n}} p(\mathbf{t}_{0:i-1}, t_i, \mathbf{t}_{i+1:n} \ | \ w_0 \dots w_n)
+	p(t_i \ | \ \mathbf{w}_{0:n}) = \sum_{\mathbf{t}_{0:i-1}, \mathbf{t}_{i+1:n}} p(\mathbf{t}_{0:i-1}, t_i, \mathbf{t}_{i+1:n} \ | \ \mathbf{w}_{0:n})
 \end{equation}
 This does reinstate a notion of output-to-output dependencies in the form of estimated posteriors, but computational considerations have diffused the potential for widespread adoption in later frameworks. 
 Finally, rare supertags, which were particularly problematic or near impossible to learn, were found to have very limited impact on overall coverage; this set the grounds for their (statistically) near inconsequential erasure, a choice that gradually became ingrained as a mandatory step of data sanitation and preprocessing.
@@ -191,10 +196,10 @@ On the one hand, the pretrained embeddings offered a natural generalization from
 On the other hand, the parameter-sharing convolution improved the accuracy/ambiguity ratio and overall efficiency of the (then standard) log-linear supertagger of~\citet{clark2007wide}.
 Unlike before, words were allowed to associate to any supertag, regardless of whether or not a \textlangle word, supertag\textrangle{} pair was observed during training; the lexicon thus turning from a hard imperative to a soft guideline.
 Additional experiments involving a conditional random field were mildly succesful, but abandoned due to the prohibitively slow decoding -- yet, it is obvious to the people involved that something critical is missing.
-\citet{xu-etal-2015-ccg} took the approach a step further by utilizing a simple recurrent network, and, in doing so, claimed to sidestep the locality of the previous neural model.
+\citet{xu-etal-2015-ccg} took the approach a step further by utilizing a simple recurrent network (RNN), and, in doing so, claimed to sidestep the locality of the previous neural model.
 To escape the unidirectional constraint of the classical recurrent network (or perhaps out of force of habit?), they continued incorporating window-based features that provided a minimal amount of right context $\kappa$, thereby rewriting (\ref{equation:supertag}) as:
 \begin{equation}
-	\prod_i^n p(t_i \ | \ w_0 \dots w_{i+\kappa})
+	\prod_i^n p(t_i \ | \ \seq{w}{0:i+\kappa})
 \end{equation}
 And while their approach does indeed offer a wider receptive field (and a better operationalization), it is still focused solely on the input side; output-to-output interactions are still nowhere to be seen, leaving their promise unfulfilled.
 
@@ -205,8 +210,8 @@ This changes with the work of \citet{vaswani-etal-2016-supertagging} who score t
 First, they replace the simple recurrence of \citet{xu-etal-2015-ccg} with a bidirectional one (thus allowing unbounded left- and right- input interactions) --  an idea explored in parallel by multiple contemporary works~\cite[\textit{inter alia}]{ling-etal-2015-finding,xu-etal-2016-expected,lewis-etal-2016-lstm}.
 More importantly and in addition to that, they introduce an intermediate recurrence that is to serve as a supertag-level language model, fusing the prediction history with the input context to produce each local prediction.
 The two together alter (\ref{equation:supertag}) into a version far more elaborate than previous proposals:
-\begin{equation}
-	\prod_i^n p(t_i \ | \ t_0\dots t_{i-1},w_0\dots w_n)
+\begin{equation}\label{equation:lstm_lm}
+	\prod_i^n p(t_i \ | \ \seq{t}{0:i-1},\wseq)
 \end{equation}
 Under a modern lens, this is akin to a slighly clumsy implementation of an autoregressive sequence-to-sequence model, with the decoder meriting from perfect alignment between input and output tokens.
 Unlike prior work, no occurrence threshold was imposed, and explicit evaluations over sparse lexical relations were provided.
@@ -219,7 +224,7 @@ This coincides with a stall across NLP in general, and a concurrent paradigm shi
 A case in point is the next major landmark, in fact reached by a structurally simplified model~\cite{clark-etal-2018-semi}, 
 a plain bidirectional sequence encoder using the factorization:
 \begin{equation}
-	\prod_i^n p(t_i \ | \ w_0 \dots w_n)
+	\prod_i^n p(t_i \ | \ \wseq)
 \end{equation}
 Despite taking a step backwards in terms of structural sophistication, the model managed a performance leap comparable to that of switching from a separable neural function to a recurrent one (see Figure~\ref{figure:supertag_history}), all by ``simply'' incorporating multiple tasks and losses in its training loop.
 The same paradigm is today more dominant than ever, and has pushed conventional NLP outside of the spotlight, putting an end to an exciting but short golden era.
@@ -315,65 +320,75 @@ The two combined lift the closed world assumption, paving the way for the \texti
 Our first attempt at a constructive supertagger is described in detail by~\citet{kogkalidis-etal-2019-constructive}.
 Like all first attempts at anything, it is characterized by a degree of cute naivety combined with an overeager execution.
 Types are as viewed the corresponding formula trees and then traversed in a depth-first left-first fashion (i.e. read off in Polish notation).
-Each type thus yields a type-word, viewed as the produce of a tiny context free grammar, the alphabet of which would be the union of propositional constants and logical connectives.
+Each type thus yields a type-word, viewed as the produce of a tiny recursive grammar (a context free one), the alphabet of which would be the union of propositional constants and logical connectives.
 A sequence of types is represented as the concatenation of the sequentialized types, each type-word separated from the next by an (in hindsight unecessary) special alphabet token.
 This expansion of a type-word into multiple symbols inadvertently breaks the input-to-output alignment; words are no longer associated to a single output symbol, but rather a sequence thereof.
 As expected, this means that a sequence tagger is no longer a fitting backend for our experimental ventures.
 Thankfully, the two biggest buzzwords of machine learning in 2018 are both surprisingly relevant here.
-%(generalized) neural machine translation (NMT) and Transformers; these give us an alternative way forward.
 
-\subsubsection{Neural Machine Translation \& The Transformer}
+\subsubsection{Buzzwords}
+\paragraph{Neural Machine Translation} Neural machine translation (NMT) is the modern paradigm to machine translation, the task of automatically translating text from some source language to a target one.
+The term made its explosive first appearance halfway through the last decade, taking the field by storm~\cite{kalchbrenner2013recurrent,cho2014learning,bahdanau2015neural}.
+The dominant approach rests on a sequence-to-sequence neural model~\cite{cho2014learning,NIPS2014_a14ac55a}, which consists of two parts: a sequence \textit{encoder}, which builds a contextual representation of the input sequence, and a sequence \textit{decoder} which uses the input representation to iteratively produce the output sequence on a token by token basis.
+For an input sequence $\seq{x}{0:M}$ mapped to an output sequence $\seq{y}{0:N}$, this corresponds to a conditional language model trained to maximize
+\begin{equation}
+	p(y_i \ | \ \seq{y}{0:i-1},\seq{x}{0:M})
+\end{equation}
 
-%The resulting misalignment between words and types (type-words consisting of multiple symbols) necessitated an alternative to the industry standard sequence tagging architectures.
-%The modal treatment of dependencies was still in its infancy; rather than multiple pairs of residuated modalities, we assumed a collection of different implication arrows, each arrow essentially the composition of a dependency modality and the unadulterated linear implication.
+The above conditional is of course exactly identical to (\ref{equation:lstm_lm}); in fact the supertag language model of~\citet{vaswani-etal-2016-supertagging} \textit{is} a degenerate case of neural machine translation, where $\mathbf{y}$ is $\mathbf{t}$ and $\mathbf{x}$ is $\mathbf{w}$, and $M$ and $N$ coincide.
+This is not an one-off, but rather an instace of a broader trend, referred to as \textit{generalized} machine translation.
+The generalized part stems from the fact that neither the source nor the target language are in any way constrained to being natural (or human) languages; either of the two (or both!) may well be artificial languages.
+The actually interesting bit is that they don't actually even need to be languages \textit{per se}; any complex data structure that can be canonically traversed into an unambiguous sequentialization makes for a valid input/output.
+\citet{vinyals2015grammar} explore the idea in training a sequence-to-sequene parser by directly translating the input sentence into a linearized constituency tree; the model is surprisingly accurate in learning both \textit{how} to create valid trees (only occasionally producing malformed output), and \textit{which} valid tree to create for a given sentence (with an accuracy comparable or matching previous established models).
 
-%The implementation would rely on the buzzwords of Transformers and generalized machine transa
+The paradigm is of course bland, making no assumptions about the output structure and requiring little to no task-specific tuning.
+For the exact same reasons, it is also highly appealing, and a good starting point for experimentation -- we can just apply it virtually unchanged to the task at hand.
+In our domain, the goal sequence $\mathbf{y}$ will be the sum of symbols together forming our sequence of type-words, and $\mathbf{x}$ will be none other than the sentence itself.
+Using the doubly indexed $s_{i,j}$ to denote the $j$-th symbol of the $i$-th type (symbol enumeration following the depth-first left-first traversal of the formula tree), the conditional being model becomes:
+\begin{equation}
+	\prod_i^n \prod_j^{|| t_i ||} 
+	p(s_{i, j} \ | \ 
+		s_{k, :} : k < i,
+		s_{i, k} : k < j,
+		\wseq)
+\end{equation}
+where $||t_i||$ the number of symbols of type-word $i$.
+Note that the above is essentially an expanded version of~(\ref{equation:lstm_lm}), in the sense of containing intermediate evaluations in between full supertags.
+This view allows drawing a parallel between type-words made of primitive symbols and words made of subword units~\cite{sennrich-etal-2016-neural}. The two share the same high-level purpose of improving ``translation'' to rare (type-)words, even though the structural decomposition of types is much more regular and consistent than the morphological decomposition of words.
+
+\paragraph{Neural Attention}
+Encoding the input sequence to a fixed length vector is essentially lossy neural compression.
+The longer the input and output sequences are, the more this compression may prove catastrophic in capturing long range dependencies~\cite{cho2014properties}.
+As an alternative, attention-based models circumvent the need for compression by simply building a contextually informed representation of the full input, distributed evenly among its tokens (one representation per sequence element).
+These representations can be dynamically weighted and summed, yielding a distinct view of the same structure based on an external aggregation context (a query).
+Attention has its roots in neural image processing~\cite[\textit{inter alia}]{larochelle2010learning,NIPS2014_09c6c378}, but its application to language was essentially the catalyst that set the field ablaze~\cite{bahdanau2015neural}.
+
+Even though attention was originally used as an enhancement on top of RNNs, the code of conduct today is basically attention only.
+The instigator of that paradigm shift was the transformer architecture~\cite{vaswani2017attention}, which by now enjoys a status of almost folkloric standing (absolving me from having to explicate its inner workings ).
+In high level terms (and consciously oversimplifying), the transformer is a heteroassociative memory mechanism.
+It builds three distinct representations for each sequence token: \textit{queries} dictate what each token looks for, \textit{keys} dictate what each token associates with, and \textit{values} correspond to stored memories.
+A distance metric (commonly a scaled dot-product) is used to induce a unique weighting over the keys matrix for each query vector; we may say that queries \textit{attend} to keys.
+The resulting weights are normalized to sum to one, and act as multiplicative factors in the weighted averaging of the values matrix, yielding a distinct evaluation of the full sequence for each query.
+This basic operation is trivial to parallelize, both across tokens within the same sequence, as well as across independent sequences, thus allowing an efficient many-to-many message passing contextualization that can be stacked multiple times in depth for expra expressivity.
+Using this as a decoder is just as easy, since queries may come from a different sequence than keys and values.
+The only requirement is a masking strategy that disallows autoregressed tokens from attending to their future while training (that's cheating).
+This is significant for training in the NMT setup, as it trades the linear temporal delay of the RNN for the quadratic memory cost of the attention matrix (quadratic because all tokens must attend to all tokens).
+
+\subsubsection{Implementation \& Results}
+Our problem is ripe with long distance dependencies.
+Moreover, these are not confined to being only between encoder-decoder token pairs, but may also exhibit within decoder token pairs alone.
+Consider that the misalignment between input and output means that we must consult the full input sequence at each decoding step, while the structurally liberal type logic means that cues to the current step (e.g. the argument of a functor) may be found multiple types (and thus even more steps) in away.
+For this reason alone, the transformer seemed like a good candidate architecture.%
+	\footnote{Nothing to do with it topping the machine learning citation charts of 2018.}
+The encoder consisted of ELMo, the \textit{de facto} language model of the time~\cite{peters-etal-2018-deep}, pretrained for Dutch~\cite{che-etal-2018-towards}
+
+
 
 \subsection{Geometric Constraints}
 
+\section{Parsing as Permutation}
 
 
-
-%The sped up pace of progress and the rapidly increasing technical offerings from machine learning techn
-%In reality, the thing to be avoided
-%A significant advancement came by~\citet{vaswani-etal-2016-supertagging}
-%
-% naturally generalizing from a fixed size lexicon to the (much larger) set of available embeddings while improving the accuracy/ambiguity ratio of 
-
-%for all factors that should have been accounted, namely both input-to-output and output-to-output interactions.
-
-%e faithfully approximated by $\prod_i^n p(w_i \ | \ t_i)$ 
-
-
-
-
-%\prod_i^n p(t_i \ | \ t_{i-\kappa}\dots t_{i-1}) \prod_i^n p(w_i \ | \ t_i)
-%\end{equation}
-
-%\subsection{}
-%The domain is infinite -- even constraining the word sequences to grammatical ones and the set of words to the set of lexical entries in the sample data, the possible inputs are endless.
-%The same applies to the codomain, as the type universe is an inductive set -- constraining the type assignments considered to the ones witnessed in the lexicon certainly improves the picture, but this barely leaves any dent in the combinatorial 
-%In any case, no amount of sample data would ever be close to enough for a direct approximation 
-%The real distribution is impossible to approximate, as no sample data would ever be able to even remotely account for either the (practical) infinity of the domain or the sparsity of the codomain.
-% independence asssumptions%Thankfully, we are only interested in obtaining the first few most likely sequences of assignments, and less so in their actual probabilities (or those of the less likely assignments).
-
-
-
-%type assignments according to an approximation of their probability
-
-
-%
-%
-%\section{Supertagging}
-%
-%\subsection{A Brief History}
-%
-%\subsection{Constructing Types}
-%
-%\subsection{Decoding Order vs. Structure}
-%
-%
-%\section{Neural Proof Nets}
 
 \bibliographystyle{abbrvnat}
 \bibliography{bibliography}
