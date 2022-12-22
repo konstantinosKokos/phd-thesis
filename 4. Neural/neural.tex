@@ -319,7 +319,7 @@ The two combined lift the closed world assumption, paving the way for the \texti
 \subsection{Supertagging as NMT}
 Our first attempt at a constructive supertagger is described in detail by~\citet{kogkalidis-etal-2019-constructive}.
 Like all first attempts at anything, it is characterized by a degree of cute naivety combined with an overeager execution.
-Types are as viewed the corresponding formula trees and then traversed in a depth-first left-first fashion (i.e. read off in Polish notation).
+Types are first viewed as the corresponding formula trees, and then traversed in a depth-first left-first fashion (i.e. read off in Polish notation).
 Each type thus yields a type-word, viewed as the produce of a tiny recursive grammar (a context free one), the alphabet of which would be the union of propositional constants and logical connectives.
 A sequence of types is represented as the concatenation of the sequentialized types, each type-word separated from the next by an (in hindsight unecessary) special alphabet token.
 This expansion of a type-word into multiple symbols inadvertently breaks the input-to-output alignment; words are no longer associated to a single output symbol, but rather a sequence thereof.
@@ -343,7 +343,7 @@ The actually interesting bit is that they don't actually even need to be languag
 
 The paradigm is of course bland, making no assumptions about the output structure and requiring little to no task-specific tuning.
 For the exact same reasons, it is also highly appealing, and a good starting point for experimentation -- we can just apply it virtually unchanged to the task at hand.
-In our domain, the goal sequence $\mathbf{y}$ will be the sum of symbols together forming our sequence of type-words, and $\mathbf{x}$ will be none other than the sentence itself.
+In our domain, the goal sequence $\mathbf{y}$ would be the sum of symbols together forming our sequence of type-words, and $\mathbf{x}$ will be none other than the sentence itself.
 Using the doubly indexed $s_{i,j}$ to denote the $j$-th symbol of the $i$-th type (symbol enumeration following the depth-first left-first traversal of the formula tree), the conditional being model becomes:
 \begin{equation}
 	\prod_i^n \prod_j^{|| t_i ||} 
@@ -364,27 +364,92 @@ These representations can be dynamically weighted and summed, yielding a distinc
 Attention has its roots in neural image processing~\cite[\textit{inter alia}]{larochelle2010learning,NIPS2014_09c6c378}, but its application to language was essentially the catalyst that set the field ablaze~\cite{bahdanau2015neural}.
 
 Even though attention was originally used as an enhancement on top of RNNs, the code of conduct today is basically attention only.
-The instigator of that paradigm shift was the transformer architecture~\cite{vaswani2017attention}, which by now enjoys a status of almost folkloric standing (absolving me from having to explicate its inner workings ).
+The instigator of that paradigm shift was the transformer architecture~\cite{vaswani2017attention}, which by now enjoys a status of almost folkloric standing (absolving me from having to explicate its inner workings in detail -- the interwebs contain plenty hyper-enthusiastic blog posts on the topic).
 In high level terms (and consciously oversimplifying), the transformer is a heteroassociative memory mechanism.
 It builds three distinct representations for each sequence token: \textit{queries} dictate what each token looks for, \textit{keys} dictate what each token associates with, and \textit{values} correspond to stored memories.
-A distance metric (commonly a scaled dot-product) is used to induce a unique weighting over the keys matrix for each query vector; we may say that queries \textit{attend} to keys.
-The resulting weights are normalized to sum to one, and act as multiplicative factors in the weighted averaging of the values matrix, yielding a distinct evaluation of the full sequence for each query.
+A distance metric (commonly a scaled dot-product) is used to induce a weighting over the keys matrix for each query vector; we may say that queries \textit{attend} to keys.
+The resulting weights are normalized to sum to one, and act as multiplicative factors in the weighted averaging of the values matrix, yielding a vector acting as a distinct evaluation of the full sequence for each query.
 This basic operation is trivial to parallelize, both across tokens within the same sequence, as well as across independent sequences, thus allowing an efficient many-to-many message passing contextualization that can be stacked multiple times in depth for expra expressivity.
-Using this as a decoder is just as easy, since queries may come from a different sequence than keys and values.
-The only requirement is a masking strategy that disallows autoregressed tokens from attending to their future while training (that's cheating).
+Using this as a decoder is just as easy, since queries may come from a different sequence than keys and values, provided their dimensionalities (not the counts!) match.
+The only requirement is a masking strategy that disallows autoregressed tokens from attending to their future while training, since that would be cheating.
 This is significant for training in the NMT setup, as it trades the linear temporal delay of the RNN for the quadratic memory cost of the attention matrix (quadratic because all tokens must attend to all tokens).
 
-\subsubsection{Implementation \& Results}
+\subsubsection{Implementation}
 Our problem is ripe with long distance dependencies.
 Moreover, these are not confined to being only between encoder-decoder token pairs, but may also exhibit within decoder token pairs alone.
-Consider that the misalignment between input and output means that we must consult the full input sequence at each decoding step, while the structurally liberal type logic means that cues to the current step (e.g. the argument of a functor) may be found multiple types (and thus even more steps) in away.
+Consider that the misalignment between input and output means that we must consult the full input sequence at each decoding step, while the structurally liberal type logic means that cues to the current step may be found locally (within the same type), or multiple types (and thus even more steps) away.
 For this reason alone, the transformer seemed like a good candidate architecture.%
 	\footnote{Nothing to do with it topping the machine learning citation charts of 2018.}
-The encoder consisted of ELMo, the \textit{de facto} language model of the time~\cite{peters-etal-2018-deep}, pretrained for Dutch~\cite{che-etal-2018-towards}
+Adhering to evidence that pretrained language models seem to benefit either side of the encoder-decoder pipelne, the encoder would consist of a Dutch version of ELMo, the \textit{de facto} language model of the time~\cite{peters-etal-2018-deep,che-etal-2018-towards}.
+To account for domain adaptation without having to compute the costly gradient updates for the over-parameterized language model, a single transformer encoder was used to contextualize ELMo's precomputed representations.
+The encoder was connected to a tiny transformer decoder of two layers, allowing unhindered access to the full input and all previous outputs.
 
+\subsubsection{Experiments \& Results}
+\paragraph{Training}
+The model was trained with teacher forcing, i.e. predicting the current step assuming perfect rather than predicted (noisy) context.
+For regularization, and in order to discourage the model from memoizing common type patterns, the Kullback-Leibler divergence was employed as the loss function, computed between the model's predictions and the ground truth, with 20\% of the probability mass evenly distributed across the non-true entries (basically a naive implementation of the label smoothed cross entropy loss~\cite{szegedy2016rethinking}).
+The training data would consist of samples counting less than 20 words, pulled from the current at the time version of \AE thel.
+This historical version of the dataset is only vaguely reminiscent of its current incarnation, the core difference being the use of $\NLP$ as the type logic, with an informal decoration of the implication standing for today's modalities.
+Despite formal and representational divergences, the distribution of types is practically identical in between the two versions; as a fun trivia, only about 85\% of the total unique types were present in the training split used.
+Exact numbers aside, insights gained from that past venture do carry over to the present.
 
+\paragraph{Evaluation}
+Unlike work in CCGbank, evaluation cannot be done on a comparative basis, due to the absence of established baselines%
+	\footnote{There's basically noone to beat.}.
+Cross-framework comparisons are also irrelevant due to the vastly different problem formulations (i.e. different linguistic framework, corpus, language); to drive the point across, consider that accuracy was measured over a set of 5\,700 types, which is 1 order of magnitude above CCGbank's 425 non-thresholded categories.
+What's worth exploring instead is (i) the architecture's potential at supertagging, and (ii) its ability to learn reasonable generalizations beyond its training data.
+To that end, we may view constructive and discriminative supertagging not as two orthogonal approaches, but as the extreme points of a continuum.
+At the intermediate points between these extremes, there exist alphabets containing composite symbols that correspond to notational shorthands for the most common type and sub-type patterns.
+As more of notational shorthands are introduced, the target output's length is significantly decreased, but the model is exposed to progressively less constructions of full types.
+This allow us to approximately map the landscape between a fully constructive supertagger and a fully discriminative one.
+
+On a purely numerical basis, the results are not astounding. 
+Constructive accuracy lies at a disheartening 88\%, which is far from sufficient for downstream parsing.
+What is intriguing, though, is that accuracy gradually declines with the introduction of notational shorthands, falling all the way down to 87.2\% with the eventual collapse to a discriminative autoregressive tagger.
+Let's repeat this once more: obfuscating type structure hinders performance.
+The story looks even more promising when it comes to the far end of the zipfian tail: 19.2\% of type assignments involving unseen types are correctly predicted, as are 45.7\% of those involving rarely seen types; these plunge to an unavoidable 0 and 23.9\%, respectively, with the transition to a discriminative setup.
+Furthermore, not a single type is malformed, indicating that the grammar of type formation is indeed learnable, even when incorporated within a challenging sequence labeling task.
+Raw numbers aside, the results suffice to deem the experiment an objective success: we generated concrete evidence that a full dismantling of the lexicon is not just possible but in fact also beneficial for supertagging a sparse type grammar.
+
+\subsubsection{Insights \& Observations}
+\paragraph{Advantages}
+The prime advantage is the acquisition of rare and unseen supertags, which is a major accomplishment in its own right.
+Secondary advantage \#1 is the unintended provision of trained representations for zeroary and n-ary primitives%
+	\footnote{Replace with appropriate framework-specific terminlogoy, e.g. atomic propositions and logical connectives, atomic categories and categorial combinators, etc.},
+either contextual (i.e. as provided by the decoder) or stand-alone (i.e. as provided by the embedding layer).
+In the first case, they enact contextual representation that live in the disputed zone between the input sentence and the output derivation, suggesting new routes to parsing -- we'll see about that in a bit.
+In the second case, they may find use as high-granularity supertag representations, allowing the dynamic representation of \textit{any} valid supertag, akin to character-level embeddings for a character level model -- supertag representations could then find use in downstream applications as an extralingual input~\cite{kasai-etal-2017-tag}.
+Secondary advantage \#2 is the possibility for a hyper-articulated heuristic search during decoding, as we are now able to branch off to different sequences of assignments by sampling not only across types, but also within them.
+A different symbol might drastically alter and affect the future of the decoding, locally within the current type or globally across the full sequence.
+Other than potentially improving the sample efficiency of beam search, this can further be used to strictly enforce structural constraints, as we will also see in a bit.
+
+\paragraph{Downsides}
+With the benefit of posterity, it is also quite clear the approach suffers from a series of limitations.
+First and foremost, there's the superficial fact that overall accuracy is far from groundbreaking, pointing to the need for architectual search and hyper-optimization adjustments.
+A deeper issue is the computational penalty of the naive application of the transformer; unfolding supertags to primitive symbols has added a second product in the formulation of (\ref{equation:lstm_lm}).
+The sequential decoding inherited from NMT means that this extra product excerts a multiplicative influence to decoding time, made quadratic in terms of memory footprint (that's what we get for succumbing to popular trends); the model is computationally expensive, slow and bullky to optimize.
+At the same time, we have not fully kept our initial promise; structure may have been revealed, but it was not paid the respect due.
+Supertags were brutally leveled into one-dimensional decals, their original treeness reflected neither in the representations nor in the structural inductive bias of the learning machine.
+We still have to do better.
 
 \subsection{Geometric Constraints}
+\citet{prange-etal-2021-supertagging} notice the problem and seek to resolve it by explicating the categorial tree structure.
+Their methodology abides by the encoder-decoder paradigm, but with one crucial, task-specific adaptation: the decoders experimented with are tree biased, making them a far better fit for addressing the problem at hand.
+The general setup has the encoder build a contextualized representation for each word in the input, which is to serve as the initial seed for the decoding of the respective supertag; the decoder is then independently applied among all trees.
+Two decoders are considered; a tree-shaped variant of the gated recurrent unit~\cite{cho2014properties} and a positionally informed densely connected network.
+The first recurses along the tree structure, generating each local symbol dependent on its direct ancestor.
+The second sums the initial seed with the projection of a feature vector describing the local position (a fixed choice among some predetermined possibilities) and the sequence of ancestors that lead to it.
+
+The approach makes for a well-motivated path in the right direction.
+The new formulation completely eliminates the burden of \textit{how} trees are constructed, allowing the model to focus on \textit{which} trees to construct. 
+At the same time, the decoders considered are now token-separable, i.e. they can be applied in parallel across both sequences and trees.
+Where previously we would have to perform $\sum_i ||t_i||$ decoding steps, ths n
+% speeding up inference 
+
+% each supertag-to-be starts with an initial representation handed by the sequence encoder, aligned with the word it's to be assigned to.
+%Following contextualization, the decoder is separably applied
+
+% the decoder is separably applied, i.e. decoding is performed in parallel across trees.
 
 \section{Parsing as Permutation}
 

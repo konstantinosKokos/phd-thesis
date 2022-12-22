@@ -358,3 +358,42 @@
     pages = "55--64",
     abstract = "This paper describes our system (HIT-SCIR) submitted to the CoNLL 2018 shared task on Multilingual Parsing from Raw Text to Universal Dependencies. We base our submission on Stanford{'}s winning system for the CoNLL 2017 shared task and make two effective extensions: 1) incorporating deep contextualized word embeddings into both the part of speech tagger and parser; 2) ensembling parsers trained with different initialization. We also explore different ways of concatenating treebanks for further improvements. Experimental results on the development data show the effectiveness of our methods. In the final evaluation, our system was ranked first according to LAS (75.84{\%}) and outperformed the other systems by a large margin.",
 }
+@inproceedings{szegedy2016rethinking,
+  title={Rethinking the inception architecture for computer vision},
+  author={Szegedy, Christian and Vanhoucke, Vincent and Ioffe, Sergey and Shlens, Jon and Wojna, Zbigniew},
+  booktitle={Proceedings of the IEEE conference on computer vision and pattern recognition},
+  pages={2818--2826},
+  year={2016}
+}
+@inproceedings{kasai-etal-2017-tag,
+    title = "{TAG} Parsing with Neural Networks and Vector Representations of Supertags",
+    author = "Kasai, Jungo  and
+      Frank, Bob  and
+      McCoy, Tom  and
+      Rambow, Owen  and
+      Nasr, Alexis",
+    booktitle = "Proceedings of the 2017 Conference on Empirical Methods in Natural Language Processing",
+    month = sep,
+    year = "2017",
+    address = "Copenhagen, Denmark",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/D17-1180",
+    doi = "10.18653/v1/D17-1180",
+    pages = "1712--1722",
+    abstract = "We present supertagging-based models for Tree Adjoining Grammar parsing that use neural network architectures and dense vector representation of supertags (elementary trees) to achieve state-of-the-art performance in unlabeled and labeled attachment scores. The shift-reduce parsing model eschews lexical information entirely, and uses only the 1-best supertags to parse a sentence, providing further support for the claim that supertagging is {``}almost parsing.{''} We demonstrate that the embedding vector representations the parser induces for supertags possess linguistically interpretable structure, supporting analogies between grammatical structures like those familiar from recent work in distributional semantics. This dense representation of supertags overcomes the drawbacks for statistical models of TAG as compared to CCG parsing, raising the possibility that TAG is a viable alternative for NLP tasks that require the assignment of richer structural descriptions to sentences.",
+}
+@article{prange-etal-2021-supertagging,
+    title = "Supertagging the Long Tail with Tree-Structured Decoding of Complex Categories",
+    author = "Prange, Jakob  and
+      Schneider, Nathan  and
+      Srikumar, Vivek",
+    journal = "Transactions of the Association for Computational Linguistics",
+    volume = "9",
+    year = "2021",
+    address = "Cambridge, MA",
+    publisher = "MIT Press",
+    url = "https://aclanthology.org/2021.tacl-1.15",
+    doi = "10.1162/tacl_a_00364",
+    pages = "243--260",
+    abstract = "Abstract Although current CCG supertaggers achieve high accuracy on the standard WSJ test set, few systems make use of the categories{'} internal structure that will drive the syntactic derivation during parsing. The tagset is traditionally truncated, discarding the many rare and complex category types in the long tail. However, supertags are themselves trees. Rather than give up on rare tags, we investigate constructive models that account for their internal structure, including novel methods for tree-structured prediction. Our best tagger is capable of recovering a sizeable fraction of the long-tail supertags and even generates CCG categories that have never been seen in training, while approximating the prior state of the art in overall tag accuracy with fewer parameters. We further investigate how well different approaches generalize to out-of-domain evaluation sets.",
+}
