@@ -1649,8 +1649,8 @@ Stripped of their modalities, these fall back to 3\,641 pure linear types, evide
 The first question to ask then is: how functional is this lexicon?
 Answering that question is Figure~\ref{figure:type_ambiguity}, which in short says ``not much, really''.
 Despite most lexical keys (56\,176) having a single unique image, ambiguities are quite common, the number of assignments exponentially\textsubscript{2} increasing for a logarthmically\textsubscript{10} declining number of keys.
-At the end of the tail we find several chameleon words appearing in multiple guises; chief among them is the usual suspect \texttr{en}{and}, counting as many as 1\,046 (!) unique types in just 41\,614 occurrences -- the price of braving conjunctions with concretely instanced, pre-raised types.
-No less than 1\,796 types contain a $\ddia{cnj}$ marking, and are thus associated with coordinators.
+At the end of the tail we find several chameleon words appearing in multiple guises; chief among them is the usual suspect \texttr{en}{and}, counting as many as 1\,046 (!) unique types in just 41\,614 occurrences.
+No less than 1\,796 types contain a $\ddia{cnj}$ marking, and are thus associated with coordinators -- the price of braving conjunctions with concretely instanced, pre-raised types; Table~\ref{table:polymorphic_crd} presents the most commonly occurring coordinator types.
 But this is painting an overly grim picture; seen as random variables, lexical keys actually have most of their probability masses concentrated on their modes.
 The average probability of the most common type per key lies at a (very high) 88.97\%, while naively assigning the mode to each lexical assignment corpus-wide (disregarding context) establishes a comfortable 66.97\% baseline, asserting that our lexical entries are in practice quite consistent when grouped by their keys.
 
@@ -1687,6 +1687,24 @@ The average probability of the most common type per key lies at a (very high) 88
 	\caption{Lexical Type Ambiguity}
 	\label{figure:type_ambiguity}
 \end{figure}
+
+\begin{table}
+	\centering
+	\begin{tabularx}{0.99\textwidth}{@{}c@{}c@{\qquad}c@{}c@{}}
+	Concrete Type & \# Occurrences & Concrete Type & \# Occurrences\\
+	\toprule
+	$\np[s]$ & 7,620 & $\dbox{mod}(\n[s]\li\n[s])$ & 582\\
+	$\smain[s]$ & 2\,623 & $\dbox{app}(\np[s]\li\np[s])$ & 528\\
+	$\dbox{mod}(\np[s]\li\np[s])$ & 1\,655 & $\np[s]$ ($\times 4$) & 400\\
+	$\np[s]$ ($\times 3$) & 1\,366 & $\pp[s]$ & 361\\
+	$\ddia{mod}\dbox{mod}(\np[s]\li\np[s])\li\np$ & 1\,147 & $\ddia{su}\vnw[s]\li\smain[s]$ & 344\\
+	$\ddia{su}\np[s]\li\smain[s]$ & 1\,113 & $\ti[s]$ & 302\\
+	$\ddia{det}\dbox{det}(\n[s]\li\np[s])\li\np[s]$ & 592 & $\dbox{mod}(\smain[s]\li\smain[s])$ & 282\\
+	\end{tabularx}
+	\caption{Most common concrete types instantiating the polymorphic coordinator, and relevant occurrence counts.
+	Coordinator arity is 2 unless specified.}
+	\label{table:polymorphic_crd}
+\end{table}
 
 
 \paragraph{Lexical Type Sparsity}

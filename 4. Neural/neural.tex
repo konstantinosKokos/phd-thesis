@@ -39,7 +39,7 @@ Components that are laborious but uninteresting, data intensive or intractable a
 In this here context, I'm claiming that large language models should be treated not as a substitute, but as complementary to logic-based systems.
 This is exactly the route we'll follow in this chapter, where we'll go through the hoops of designing and implementing a formally disciplined but accurate and robust wide-coverage parser, a novel neurosymbolic architecture aimed at substructural logics of the linear lineage, instantiated here for \NLPplus{} and trained on \AE thel.
 
-\section{Building a Categorial Parser}
+\section{The Categorial Parser}
 We'll start with a high-level conceptualization of the categorial grammar parser.
 In the infancy of categorial grammars, the parser would be thought of as nothing other than a lexicon and a theorem prover: the lexicon enumerating any and all the possible type assignments for each word, the theorem prover exhaustively iterating the combinatorial space of assignments to produce all possible proofs for each possible assignment (Figure~\ref{figure:archetypical_parser}).
 
@@ -223,7 +223,7 @@ More than just a testament to the LSTM's strengths, this momentary pause makes f
 This coincides with a stall across NLP in general, and a concurrent paradigm shift; specialized models started becoming outfashioned, and improvements would no longer be enabled by domain expertise and task-specific engineering, but rather by higher quality unsupervised and semi-supervised training routines over larger and larger models.
 A case in point is the next major landmark, in fact reached by a structurally simplified model~\cite{clark-etal-2018-semi}, 
 a plain bidirectional sequence encoder using the factorization:
-\begin{equation}
+\begin{equation}\label{equation:seq_cls}
 	\prod_i^n p(t_i \ | \ \wseq)
 \end{equation}
 Despite taking a step backwards in terms of structural sophistication, the model managed a performance leap comparable to that of switching from a separable neural function to a recurrent one (see Figure~\ref{figure:supertag_history}), all by ``simply'' incorporating multiple tasks and losses in its training loop.
@@ -364,7 +364,7 @@ These representations can be dynamically weighted and summed, yielding a distinc
 Attention has its roots in neural image processing~\cite[\textit{inter alia}]{larochelle2010learning,NIPS2014_09c6c378}, but its application to language was essentially the catalyst that set the field ablaze~\cite{bahdanau2015neural}.
 
 Even though attention was originally used as an enhancement on top of RNNs, the code of conduct today is basically attention only.
-The instigator of that paradigm shift was the transformer architecture~\cite{vaswani2017attention}, which by now enjoys a status of almost folkloric standing (absolving me from having to explicate its inner workings in detail -- the interwebs contain plenty hyper-enthusiastic blog posts on the topic).
+The instigator of that paradigm shift was the transformer architecture~\cite{vaswani2017attention}, which by now enjoys an unprecedented pop-science status (saving me the hassle of having to regurgitate yet another ``transformers explained'' pamphlet).
 In high level terms (and consciously oversimplifying), the transformer is a heteroassociative memory mechanism.
 It builds three distinct representations for each sequence token: \textit{queries} dictate what each token looks for, \textit{keys} dictate what each token associates with, and \textit{values} correspond to stored memories.
 A distance metric (commonly a scaled dot-product) is used to induce a weighting over the keys matrix for each query vector; we may say that queries \textit{attend} to keys.
@@ -438,13 +438,275 @@ Their methodology abides by the encoder-decoder paradigm, but with one crucial, 
 The general setup has the encoder build a contextualized representation for each word in the input, which is to serve as the initial seed for the decoding of the respective supertag; the decoder is then independently applied among all trees.
 Two decoders are considered; a tree-shaped variant of the gated recurrent unit~\cite{cho2014properties} and a positionally informed densely connected network.
 The first recurses along the tree structure, generating each local symbol dependent on its direct ancestor.
-The second sums the initial seed with the projection of a feature vector describing the local position (a fixed choice among some predetermined possibilities) and the sequence of ancestors that lead to it.
+The second sums the initial seed with the projection of a feature vector describing the local position and its ancestry (both fixed choices among some predetermined possibilities).
 
 The approach makes for a well-motivated path in the right direction.
 The new formulation completely eliminates the burden of \textit{how} trees are constructed, allowing the model to focus on \textit{which} trees to construct. 
 At the same time, the decoders considered are now token-separable, i.e. they can be applied in parallel across both sequences and trees.
-Where previously we would have to perform $\sum_i ||t_i||$ decoding steps, ths n
-% speeding up inference 
+Where previously we would have to perform $\sum_i^n ||t_i||$ decoding steps, this now shrinks to $\mathsf{max}_i^n ~ \mathsf{depth}(t_i)$ -- practically a constant, and a reduction of at least one order of magnitude.
+Furthermore, words and supertags are now structurally aligned, relieving the model from having to learn the implicit soft alignments necessary at each decoding step.
+On the practical side, numbers are significantly improved across the board (except for the far end of the zipfian tail), making the model a real alternative to the discriminative \textit{status quo}.
+This becomes even more relevant considering how easily the setup lends itself to the multitagging paradigm (an insight omitted from the authors), as multiple trees may be obtained by following along the path of the factorization (modulo accounting for depth-width smoothing):
+\begin{equation}\label{equation:tree_ar}
+	p(t_i \ | \ \wseq) = \prod_j^{||t_i||} p(s_{i,j} \ | \ s_{i,k} : k \in \mathsf{ancestors(j)}, \wseq)
+\end{equation}
+All these merits come, however, at a heavy price: in parallelizing decoding across trees, the architecture loses the ability to model auto-regressive interactions between output nodes belonging to \textit{different} trees; interactions that can be crucial at the granularity scale we are now at.
+The task is morally reduced to a sequence classification once more, albeit now with a dynamically adaptive classifier; we are back at (\ref{equation:seq_cls}), except for each local decision being elaborated according to (\ref{equation:tree_ar}).
+
+The two approaches seem to be at odds, but the tension between them is highly artificial.
+Both merely suffer from the naivety of conflating structural biases and decoding order: one forgets about tree structure in opting for a sequential decoding, whereas the other does the exact opposite, forgetting about sequential structure in opting for a tree-like decoding.
+What we need to do is disentangle the two concepts, observing first that the output type is neither $\mathsf{Seq}[s]$ nor $\mathsf{Tree}[s]$ but $\mathsf{Seq}[\mathsf{Tree}[s]]$.
+And that's it.
+Having done that, the work that remains is of purely technical nature; we just need to come up with the spatiotemporal dependencies that abide by \textit{both} structural axes, and then a neural architecture that can accommodate them.
+The choice of temporal (decoding) order is easy: \citet{prange-etal-2021-supertagging} make a very compelling case for depth-parallel decoding, seeing as it's insanely fast (we are not temporally bottlenecked by left-to-right sequential dependencies) but also structurally elegant (trees are only built when/if licensed by non-terminal nodes, ensuring structural correctness virtually for free).
+Sticking with depth-parallel decoding means necessarily foregoing some autoregressive interactions: we certainly cannot look to the future (i.e. tree nodes located deeper than the current level, since these should depend on the decision we are about to make), but neither to the present (i.e. tree nodes residing in the current level, since these will be all decided simultaneously).
+This leaves some leeway as to what could constitute the decision context, and here's where we can improve upon prior work in adding the missing structural dependencies.
+The maximalist position is nothing less than the entire past, i.e. \textit{all} the nodes we have so far decoded.
+Crucially, this abolishes conservative ancestry biases, establishing ``diagonal'' structural interactions between autoregressed nodes without requiring them to be directly linked to one another, or even share the same ancestral heritage (belong to the same tree), casting (\ref{equation:supertag}) to:
+\begin{equation}
+	\prod_i^n \prod_j^{||t_i||} p(s_{i, j} \ | \ p(s_{:, k} : \mathsf{level}(k) < \mathsf{level}(j), \wseq)
+\end{equation}
+
+The point might seem stretched but it is really just subtle.
+If you're having trouble following along, take a look at Figure~\ref{figure:canvas}, displaying an abstract (partial) canvas of the constructive supertagger's input/output space, where $w_a$, $w_b$, $w_c$ are the first three words of the input sequence, with corresponding goal trees $a$, $b$ and $c$, the nodes of which enumerated according to a left-first depth-first traversal.
+Focusing on autoregressive interactions alone, the sequential approach we started from would have each node depend on all nodes to its left and below; without loss of generality, $b_6$ would for instance depend on all of $a$, but also $b_1$, $b_2$, $b_3$, $b_4$ and $b_5$, as well as any descendants of the last two.
+The tree-biased approach would have each node depend on its ancestors; for $b_6$, these would be just $b_3$ and $b_1$.
+The tree-sequential approach envisaged here has each node depend on all nodes below it; the prediction of $b_6$ is now informed by the contents of nodes $[a/b/c/\dots]_{1,2,3}$.
+The convention is that shallow nodes (presumably the easiest ones) are decoded first, unraveling the next layer of the canvas (we won't need to waste any compute on predicting, say, $b_6$ if either of $b_3$ and $b_1$ was a terminal symbol), while providing disambiguation context for deeper nodes (presumably harder) along the entire sequence.
+
+\begin{figure}
+	\begin{tikzpicture}[
+        nf/.style={text=black!60},
+        ne/.style={draw=black!60},
+        ts/.style={}]  
+        \tikzset{grow'=up}
+        \tikzset{sibling distance=0pt}
+        \tikzset{level 1/.style={level distance=36pt}}
+		\tikzset{level 2/.style={level distance=32pt}}
+		\tikzset{level 3+/.style={level distance=28pt}}
+			\begin{scope}[xshift=-100pt]
+			\Tree 
+				[.{$w_a$} 
+				\edge[->];
+					[.{$a_1$}
+						[.{$a_2$}
+							[.{$a_4$}
+								\edge[dotted]; {\hphantom{\dots}}
+								\edge[dotted]; {\hphantom{.}}
+							]
+							[.{$a_5$}
+								\edge[dotted]; {\hphantom{.}}
+								\edge[dotted]; {\hphantom{\dots}}
+							]
+						]
+						[.{$a_3$}
+							[.{$a_6$}
+								\edge[dotted]; {\hphantom{\dots}}
+								\edge[dotted]; {\hphantom{.}}
+							]
+							[.{$a_7$}
+								\edge[dotted]; {\hphantom{.}}
+								\edge[dotted]; {\hphantom{\dots}}
+							]
+						]
+					]
+				]
+			\end{scope}
+			\Tree 
+				[.{$w_b$}
+				\edge[->];
+					[.{$b_1$}
+						[.{$b_2$}
+							[.{$b_4$}
+								\edge[dotted]; {\hphantom{\dots}}
+								\edge[dotted]; {\hphantom{.}}
+							]
+							[.{$b_5$}
+								\edge[dotted]; {\hphantom{.}}
+								\edge[dotted]; {\hphantom{\dots}}
+							]
+						]
+						[.{$b_3$}
+							[.{$b_6$}
+								\edge[dotted]; {\hphantom{\dots}}
+								\edge[dotted]; {\hphantom{.}}
+							]
+							[.{$b_7$}
+								\edge[dotted]; {\hphantom{.}}
+								\edge[dotted]; {\hphantom{\dots}}
+							]
+						]
+					]
+				]
+			\begin{scope}[xshift=100pt]
+			\Tree 
+				[.{$w_c$}
+				\edge[->];
+					[.{$c_1$}
+						[.{$c_2$}
+							[.{$c_4$}
+								\edge[dotted]; {\hphantom{\dots}}
+								\edge[dotted]; {\hphantom{.}}
+							]
+							[.{$c_5$}
+								\edge[dotted]; {\hphantom{.}}
+								\edge[dotted]; {\hphantom{\dots}}
+							]
+						]
+						[.{$c_3$}
+							[.{$c_6$}
+								\edge[dotted]; {\hphantom{\dots}}
+								\edge[dotted]; {\hphantom{.}}
+							]
+							[.{$c_7$}
+								\edge[dotted]; {\hphantom{.}}
+								\edge[dotted]; {\hphantom{\dots}}
+							]
+						]
+					]
+				]
+			\end{scope}
+			\begin{scope}[xshift=170pt]
+				\node (dots) at (0,0) {\dots};
+			\end{scope}
+    \end{tikzpicture}
+    \caption{Abstract canvas of a constructive supertagger's I/O structure.}
+    \label{figure:canvas}
+\end{figure}
+
+\subsubsection{Geometry-Aware Supertagging}
+The operationalization of this novel approach is described in an as of yet unpublished (and not for lack of effort%
+\footnote{As to why this is the case, your guess is as good as mine. Qualitatively, the reviews are all over the place, ranging from ``I don't get it, reject.'' to ``I don't get it, but looks impressive!''. Quantitatively, they follow $\mathcal{N}(3.5, 1.15)$ (sample size 7, minimum 1, maximum 4). Props to the *ACL reviewing community, and the morons populating it for their consistency and commitment.})
+manuscript~\cite{kogkalidis2022geometryaware}.
+Seeing as this is the last and most authoritative word in supertagging to date, we'll expand upon it here.
+First off, the spatiotemporal dependencies we seek to implement do not follow the inductive biases of any run-of-the-mill architecture we may find precompiled in some machine learning library.
+The closest paradigm available are graph neural networks (GNNs), which are essentially the most general class of neural architectures, suitable for learning on arbitrary graphs and manifolds (points, sequences, canonical grids, trees -- these are all just very specific instances of graphs: every neural network is a subclass of a graph neural network).
+GNNs are usually formulated on the basis of some graph structure, where primitive graph entries (edges, nodes or both) are iteratively updated in a series of so-called \textit{message passing} rounds.
+The concrete implementation of the messaging scheme (including what the flow of communication is and how messages are constructed) are up for deliberation.
+
+In our case, it would be straighforward to add direct messaging components that implement exactly the spatiotemporal dependencies described earlier.
+But this lacks subtlety, making no attempt at exploiting the regularity of the output space; sure -- it may be neither sequence nor tree, but it's not an ad-hoc graph either!
+Computationally, this would not bode very well either; the number of interactions to compute would be upper bound by the series:
+\begin{equation}\label{equation:dense_graph}
+\sum_{k=0}^{m := \mathsf{max}_i^n ~ \mathsf{depth}(t_i)}
+	\Big(
+	\hspace{-22.5pt}
+	\underbrace{\vphantom{\sum\nolimits_{k'}^{k}} 2^{k}n}_{\text{\# prediction targets}}
+	\hspace{-5pt}
+	\times
+	~~~
+	\big(
+	\underbrace{\sum\nolimits_{k'=0}^{k-1} 2^{k'}n}_{\text{\# context nodes}}
+	~~
+	+ 
+	\underbrace{\vphantom{\sum\nolimits_{k'}^{k}}  n}_{\text{input length}}
+	\hspace{-10pt}
+	\big)
+	\Big)
+%= \frac{2}{3}(4^{d+1} - 1) \cdot n^2
+\end{equation}
+whose memory footprint grows as $O(2^{2m} n^2)$, scaling quadratically with sequence length and exponentially with twice the maximal tree depth -- yikes.
+To keep this beast under check, we would do well to utilize the output's geometric constants, namely the words.
+A reasonable way to do that would be as state tracking vectors (fixed both in count and in length).
+Akin to RNN hidden states, these shall be iteratively updated by the decoding process, while simultaneously reining it in.
+Practically, each decoding step shall be conditioned on the current states, with each state (word) informing only the nodes it is associated with (the supertag it will decode into) in a one-to-many fashion, i.e. $n$ parallel messaging rounds, each from a \textit{single} state to the (maximally) $2^k$ nodes above.
+Conversely, after the step has concluded, states will receive feedback from the nodes last predicted, again respecting word boundaries, now in a many-to-one fashion, i.e. again $n$ parallel messaging rounds, now from the $2^k$ freshly decoded states back to the single state they are assocciated with (originate from).
+Unlike the naive approach, the setup maintains the word/supertag alignment while also structurally fusing the input- and output-level interactions sources.
+Nodes are indirectly informed by all \textit{local} nodes below, with a much more endearing complexity of just:
+\begin{equation}
+\sum_{k=0}^{m}
+	\underbrace{2^{k} n}_{\text{prediction messages}}
+	+
+	\underbrace{2^{k} n}_{\text{feedback messages}}
+\end{equation}
+which now grows as $O(2^m n)$.
+Of course, something is amiss: the depth-wise intra-tree interactions may well be captured, but the inter-tree ones are unaccounted.
+In the same vein as before, we may bypass this by having the state vectors communicate with one another after each local feedback around, allowing non-local autoregressive context flows.
+Having this done globally (all words communicating with all words) is certainly feasible and still preferrable to (\ref{equation:dense_graph}), but suboptimal: it inserts a $mn^2$ memory complexity component ($m$ messaging rounds in the cartesian product of words).
+A better alternative can be found in the dusty scriptures of old: sliding windows.
+Regulating and thresholding state interactions according to their relative distance reinstates computational well-behavedness%
+	\footnote{Actually scratch that, this was meant to just preserve the \textit{locality} of supertagging all along.},
+substituting $n^2$ with $\kappa^2$ (basically a constant, for window size $\kappa$) and setting the final memory footprint of the decoder at $O(2^mn +m)$.
+	
+Computational considerations aside, this formulation is also conducive to learning.
+Having interactions modulated and bottlenecked by state tracking vectors reduces the number of statistical confounds accessible to the model, acting as an implicit regularizer and enforcing a degree of locality to the (otherwise distributed) neural representations.
+This propotes a heterogeneous formulation, whereby different graph elements can be inhabitants of different vector spaces.
+State vectors are recurrent across depth and inter-communicating across width, thus meriting from high-dimensional representations; with that in mind, they can initially be supplied by an external high-horsepower encoder, solving the interfacing with the input. 
+Tree nodes, on the other hand, encode a decision over a very small vocabulary and are use-and-forget, justifying a low-dimensional representation.
+Finally, implementing the forward, backward and horizontal message passing rounds as separable, parameter-sharing operations repeated both across depth as well as width reduces the model's parameter count and provides the inductive biases needed for strong generalization.
+Summarizing:
+\begin{enumerate}
+	\item State vectors are initialized by some external encoder.
+	\item An empty fringe consisting of $n$ blank nodes is instantiated, one such per word, rooting the corresponding supertag trees.
+	\item Until a fix-point is reached (there is no longer a fringe):
+		\begin{enumerate}
+			\item States project class weights to their respective fringe nodes in a one-to-many fashion. Depending on the arity of the decoded symbols, a next fringe of unfilled nodes is constructed at the appropriate positions.
+			\item Each state vector receives feedback in a many-to-one fashion from the just decoded nodes above (what used to be the fringe), yielding tree-contextual states.
+			\item The updated state vectors exchange messages within their local neighborhoods in a many-to-many fashion, yielding tree-and-(sub)sequence-contextual states.
+		\end{enumerate}
+\end{enumerate}
+
+\subsubsection{Implementation}
+We are no longer in the distant past; high-level fluff will no longer suffice.
+Scientific integrity and lack of peer approval also compel explication.
+The paragraphs to follow detail how the abstract pipeline is executed in practice. 
+Consider yourself warned: you are urged to skip to the next section if sensitive to machine learning jargon, or the calendar year in your frame of reference is greater or equal to 2026 (I expect every single word written to be obsolete by then).
+
+\paragraph{Node Embeddings}
+State vectors are temporally dynamic and of size $d_w$; they are initialized to $\mathbf{h}_{0:n}^0 \in \mathbb{R}^{n\times d_w}$ by some external encoder, and are then updated through the fix-point iteration of three message passing rounds, as described in the next paragraphs.
+Tree nodes, on the other hand, are not subject to temporal updates, but instead become dynamically ``revealed'' by the decoding process. 
+Their representations of size $d_n$ are computed on the basis of (i) their primitive symbol and (ii) their position within a tree.
+
+Primitive symbol embeddings are obtained from a standard embedding table $W_e: \mathcal{S} \to \mathbb{R}^{d_n}$ that contains a distinct vector for each symbol in the set of primitives $\mathcal{S}$. 
+When it comes to embedding positions, we are presented with a number of options.
+It would be straightforward to fix a vocabulary of positions, and learn a distinct vector for each.
+But this is neither inclusive nor elegant: it imposes an ad-hoc bound to the shape and size of tree nodes that can be encoded (contradicting the constructive paradigm), and fails to account for the compositional nature of trees.
+The structure-conscious route requires noting that \textit{paths} over binary branching trees form a semi-group, i.e. they consist of two primitives (namely a left and a right path), and an associative non-commutative binary operator that binds two paths together into a single new one.
+The archetypical example of a semigroup is matrix multiplication; we therefore instantiate a tensor $P \in \mathbb{R}^{2 \times n_d \times n_d}$ encoding each of the two path primitives as a linear map over symbol embeddings.
+From the above we can derive a function $p$ that converts positions to linear maps, by performing consecutive matrix multiplications of the primitive weights, as indexed by the binary word of a node's position; e.g. the linear map corresponding to position $12_{10} = 0011_{2}$ would be $p(12) = P_0P_0P_1P_1 \in \mathbb{R}^{d_n \times d_n}$.
+We flatten the final map by evaluating it against an initial seed vector $\rho_0$, corresponding to the tree root.%
+	\footnote{In practice, paths can be (and are) efficiently computed once per batch for each unique tree position during training, and stored as fixed embeddings during inference.}
+To stabilize training and avoid vanishing or exploding weights, we model paths as \textit{unitary} transformations by parameterizing the two matrices of $P$ to orthogonality using the exponentiation trick on skew-symmetric bases~\cite{bader2019computing,lezcano2019trivializations}.
+The final embedding for a symbol $\sigma$ occupying position $k$ is given by the element-wise product of its positional and content embeddings $p(k)(\rho_0) \circ \left(W_e(\sigma)\right) \in \mathbb{R}^{d_n}$.
+The embedder is then essentially an instantiation of a unitary RNN~\cite{arjovsky2016unitary}, except applied on tree paths rather than symbol sequences.%
+	\footnote{Concurrently, \citet{bernardy2022assessing} follow a similar approach in teaching a unitary RNN to recognize Dyck words, and find the unitary representations learned to respect the compositional properties of the task.
+	Here we go the other way around, using the unitary recurrence exactly because we expect them to respect the compositional properties of the task.}
+
+
+%node $b_6$ depend on the entirety of tree $a$, as well as all nodes left or below $b_6$ 
+
+%encompasses both nodes within the tree that are \textit{not} ancestor of the current one, as well as nodes that 
+%And here's where we can improve upon prior work, adding the missing structural dependencies; this context should encompass all nodes we have so far decoded, and not just only those of the local tree.
+% does not need to -- and should not -- be confined to a single, local tree. 
+%All other trees within the sequence may have 
+%% regardless of what tree they belong to.
+%The only thing to decide 
+% deeper within a tree, since these depend on the current step), but neither to the present (i.e. nodes located parallel to the current plane)
+%, where the two can be as independent as one wants them to.
+%But is structure-aware decoding 
+
+%This is a step backwards, porting us once more to (\ref{equation:seq_cls}), which we tried so hard to escape.
+%This 
+%porting us back 
+%A trend is evident by now: the autoregressive formulation 
+%Despite their common goal of accounting for assignments in the zipfian tail, there are tension points between 
+%the above two approaches. In
+%providing a global history context, the first breaks
+%the input-to-output alignment and hides the catego-
+%rial tree structure. In opting for a tree-wise bottom-
+%up decoding, the second forgets about meaningful
+%inter-tree output-to-output dependencies. In this
+%paper, we seek to resolve these tension points with
+%a novel, unified and grammar-agnostic supertag-
+%ging framework based on heterogeneous dynamic
+%graph convolutions. Our architecture combines
+%the merits of explicit tree structures, strong auto-
+%regressive properties, near-constant decoding time,
+%and a memory complexity that scales with the input,
+%boasting high performance across the full span of
+%the frequency spectrum and surpassing previously
+%established benchmarks on all datasets considered.
+%% speeding up inference 
 
 % each supertag-to-be starts with an initial representation handed by the sequence encoder, aligned with the word it's to be assigned to.
 %Following contextualization, the decoder is separably applied
