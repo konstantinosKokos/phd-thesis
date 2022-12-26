@@ -630,11 +630,11 @@ substituting $n^2$ with $\kappa^2$ (basically a constant, for window size $\kapp
 	
 Computational considerations aside, this formulation is also conducive to learning.
 Having interactions modulated and bottlenecked by state tracking vectors reduces the number of statistical confounds accessible to the model, acting as an implicit regularizer and enforcing a degree of locality to the (otherwise distributed) neural representations.
-This propotes a heterogeneous formulation, whereby different graph elements can be inhabitants of different vector spaces.
-State vectors are recurrent across depth and inter-communicating across width, thus meriting from high-dimensional representations; with that in mind, they can initially be supplied by an external high-horsepower encoder, solving the interfacing with the input. 
+It also justifies a heterogeneous formulation, which would have different graph elements inhabit different vector spaces.
+State vectors are recurrent across depth and inter-communicating across width, thus meriting from high-dimensional representations; with that in mind, they can initially be supplied by an external high-horsepower encoder, solving the initial interfacing with the input sentence. 
 Tree nodes, on the other hand, encode a decision over a very small vocabulary and are use-and-forget, justifying a low-dimensional representation.
 Finally, implementing the forward, backward and horizontal message passing rounds as separable, parameter-sharing operations repeated both across depth as well as width reduces the model's parameter count and provides the inductive biases needed for strong generalization.
-Summarizing:
+Summarizing, the decoding algorithm looks as follows:
 \begin{enumerate}
 	\item State vectors are initialized by some external encoder.
 	\item An empty fringe consisting of $n$ blank nodes is instantiated, one such per word, rooting the corresponding supertag trees.
@@ -650,7 +650,7 @@ Summarizing:
 We are no longer in the distant past; high-level fluff will no longer suffice.
 Scientific integrity and lack of peer approval also compel explication.
 The paragraphs to follow detail how the abstract pipeline is executed in practice. 
-Consider yourself warned: you are urged to skip to the next section if sensitive to machine learning jargon, or the calendar year in your frame of reference is greater or equal to 2026 (I expect every single word written to be obsolete by then).
+Consider yourself warned: you are urged to skip to the next section if sensitive to machine learning jargon, or the calendar year in your frame of reference is greater or equal to 2026 (I expect every single word to be obsolete by then).
 
 \paragraph{Node Embeddings}
 State vectors are temporally dynamic and of size $d_w$; they are initialized to $\mathbf{h}_{0:n}^0 \in \mathbb{R}^{n\times d_w}$ by some external encoder, and are then updated through the fix-point iteration of three message passing rounds, as described in the next paragraphs.
@@ -664,54 +664,277 @@ But this is neither inclusive nor elegant: it imposes an ad-hoc bound to the sha
 The structure-conscious route requires noting that \textit{paths} over binary branching trees form a semi-group, i.e. they consist of two primitives (namely a left and a right path), and an associative non-commutative binary operator that binds two paths together into a single new one.
 The archetypical example of a semigroup is matrix multiplication; we therefore instantiate a tensor $P \in \mathbb{R}^{2 \times n_d \times n_d}$ encoding each of the two path primitives as a linear map over symbol embeddings.
 From the above we can derive a function $p$ that converts positions to linear maps, by performing consecutive matrix multiplications of the primitive weights, as indexed by the binary word of a node's position; e.g. the linear map corresponding to position $12_{10} = 0011_{2}$ would be $p(12) = P_0P_0P_1P_1 \in \mathbb{R}^{d_n \times d_n}$.
-We flatten the final map by evaluating it against an initial seed vector $\rho_0$, corresponding to the tree root.%
-	\footnote{In practice, paths can be (and are) efficiently computed once per batch for each unique tree position during training, and stored as fixed embeddings during inference.}
-To stabilize training and avoid vanishing or exploding weights, we model paths as \textit{unitary} transformations by parameterizing the two matrices of $P$ to orthogonality using the exponentiation trick on skew-symmetric bases~\cite{bader2019computing,lezcano2019trivializations}.
-The final embedding for a symbol $\sigma$ occupying position $k$ is given by the element-wise product of its positional and content embeddings $p(k)(\rho_0) \circ \left(W_e(\sigma)\right) \in \mathbb{R}^{d_n}$.
+We flatten the final map by evaluating it against an initial seed vector $\rho_0 \in \mathbb{R}^{d_n}$, corresponding to the tree root (or the initial hidden state in the RNN paradigm).
+To stabilize training and avoid vanishing or exploding weights and gradients, we model paths as \textit{unitary} transformations by parameterizing the two matrices of $P$ to orthogonality using the exponentiation trick on skew-symmetric bases~\cite{bader2019computing,lezcano2019trivializations}.
+Now, let tree node $s_{i, k}$ contain symbol $\sigma \in \mathcal{S}$; its embedding $n_{i,k}$ will be agnostic to its tree index $i$ and given as as the element-wise product of its tree-positional and content embeddings:
+\begin{equation}
+n_{i, k} = p(k)(\rho_0) \odot \left(W_e(\sigma)\right) \in \mathbb{R}^{d_n}
+\end{equation}
 The embedder is then essentially an instantiation of a unitary RNN~\cite{arjovsky2016unitary}, except applied on tree paths rather than symbol sequences.%
 	\footnote{Concurrently, \citet{bernardy2022assessing} follow a similar approach in teaching a unitary RNN to recognize Dyck words, and find the unitary representations learned to respect the compositional properties of the task.
 	Here we go the other way around, using the unitary recurrence exactly because we expect them to respect the compositional properties of the task.}
+Since paths are shared across trees, their representations are in practice efficiently computed once per batch for each unique tree position during training, and stored as fixed embeddings during inference.
+
+\paragraph{Node Prediction} 
+Assuming at step $\tau$ a sequence of globally contextualized states $\mathbf{h}^{\tau}_{0:n}$, we need to use each element $h^{\tau}_i$ to obtain class weights for all of the node neighborhood $\mathcal{N}_{i, \tau}$ consisting of all nodes (if any) of tree $t_i$ that lie at depth $\tau$.%
+	\footnote{That's a lot of indexing operations. Look at figure~\ref{figure:canvas} and assume an enumeration that starts from 0 for timesteps and sequence positions and 1 for node positions. Then $\mathcal{N}_{1,2}$ would be $\{b_4, b_5, b_6, b_7 \}$.}
+We start by down-projecting the state vector into the node's dimensionality using a linear map $W_n$.
+The resulting feature vectors are indistinguishable between all nodes of the same tree -- to discriminate between them (and obtain a unique prediction at each node), we gate the feature vectors against each node's positional embedding.
+From the latter, we obtain class weights by matrix multiplying them against the transpose of the symbol embedding table~\cite{press-wolf-2017-using}:
+\begin{equation}
+\mathrm{weights}_{i,k} = \left(p(k)(\rho_0) \odot W_n h^{\tau}_i\right) W_e^\top
+\end{equation}
+The above weights are converted into a probability distribution over the alphabet symbols $\mathcal{S}$ by application of the $\mathsf{softmax}$ function. 
+The distribution can be sampled over to generate a concrete prediction.
+
+\paragraph{Autoregressive Feedback}
+To update the states for the next iteration, we must first provide autoregressive feedback from the last decoded nodes.
+We do so using a heterogeneous message-passing scheme based on graph attention networks~\cite{velivckovic2018graph,brody2021attentive}.
+First, we use a a linear map $W_b$ to down-project the state vector into the nodes' dimensionality.
+For each position $i$ and corresponding state $h^\tau_i$, we compute a self-loop score:
+\begin{equation}
+\tilde{\alpha}_{i,\circlearrowleft,\tau} = w_{a} \cdot (W_b(h^\tau_i) \ ||  \ \mathbf{0})
+\end{equation}
+where $w_a \in \mathbb{R}^{2d_n}$ a dot-product weight and $\mathbf{0}$ a $d_n$-dimensional zero vector.
+Then we use the (now decoded) neighborhood $\mathcal{N}_{i, \tau}$ to generate a heterogeneous attention score for each node $s_{i, k} \in \mathcal{N}_{i, \tau}$:
+\begin{equation}
+\tilde{\alpha}_{i,k,\tau} = w_a \cdot (h^{\tau}_i \ || \ n_{i, k})
+\end{equation}
+Scores are passed through a leaky rectifier non-linearity before being normalized to attention coefficients $\alpha$.
+These are used as weighting factors that scale the self-loop and input messages, the latter upscaled by a linear map $W_m$:
+\begin{equation}
+	\tilde{h}^\tau_i = \sum_{s_{i, k} \in \mathcal{N}_{i,\tau}} {\alpha}_{i,k,\tau}W_m n_{i,k} + {\alpha}_{i,\circlearrowleft,\tau} h^\tau_i
+\end{equation}
+This can also be seen as a dynamic residual connection -- $\alpha_{i,\circlearrowleft,\tau}$ acts as a gate that decides how open the state's representation should be to node feedback (or conversely, how strongly it should retain its current values).
+States receiving no node feedback (i.e. states that have completed decoding more one or more time steps ago) are thus protected from updates, preserving their content.
+In practice, attention coefficients and message vectors are computed for multiple independently attention heads as done by~\citet{vaswani2017attention}, but these are omitted from the above equations to avoid cluttering the notation.
+
+\paragraph{Sequential Feedback}
+At the end of the node feedback stage, we are left with a sequence of locally contextualized states $\tilde{h}^\tau_i$.
+The sequential structure can be seen as a fully connected directed graph, nodes being states (words) and edges labeled by relative distances between word pairs.
+We embed these distances into the encoder's vector space using an embedding table $W_r \in \mathbb{R}^{2\kappa \times d_w}$, where $\kappa$ the maximum allowed distance, a hyper-parameter.
+Edges escaping the maximum distance threshold are truncated rather than clipped, in order to preserve memory and facilitate training, leading to a natural segmentation of the sentence into (overlapping) chunks.
+Following standard practices, we project states into query, key and value vectors~\cite{vaswani2017attention}, and compute the attention scores between words $i$ and $j$ using relative-position weighted attention~\cite{shaw-etal-2018-self}:
+\begin{equation}
+\tilde{a}_{i,j} = d_w^{-1/2}~(W_q \tilde{h}^\tau_i \odot W_r\mathcal{E}^w_{i,j}) \cdot W_k\tilde{h}^\tau_j
+\end{equation}
+From the normalized attention scores we obtain a new set of aggregated messages:
+\begin{equation}
+m_{i,t}' = \sum_{j \in \{0..s\}} \frac{\mathsf{exp}(\tilde{a}_{i,j}) W_v\tilde{h}^\tau_j}{
+\sum_{k\in \{0..s\}}
+\mathsf{exp}(\tilde{a}_{i,k})}
+\end{equation}
+Same as before, queries, keys, values, edge embeddings and attention coefficients are distributed over many heads. 
+Aggregated messages are passed through a swish-gated feed-forward layer~\cite{dauphin2017language,shazeer2020glu} to yield the next sequence of state vectors:
+\begin{equation}
+h^{\tau+1}_i = W_3\left(\mathsf{swish}_1(W_1 m_{i,\tau}')\odot W_2m_{i,\tau}'\right)
+\end{equation}
+where $W_{1,2}$ are linear maps from the encoder's dimensionality to an intermediate dimensionality, and vice versa for $W_3$.
+
+\paragraph{Putting Things Together}
+We compose the previously detailed components into a single layer, which acts a sequence-wide, recurrent-in-depth decoder.
+We insert skip connections between the input and output of the message-passing and feed-forward layers~\cite{he2016deep}, and subsequently normalize each using root mean square normalization~\cite{zhang2019root}.
+
+The end-product bears semblance and owes credit to various contemporary lines of work.
+From the architectural angle, it is as an application-specific offspring of weight-tied architectures, dynamic graph convolutions and structured self-attention networks.
+The depth recurrence is evocative of weight-tied architectures~\cite{dehghani2018universal,bai2019deep} and their graph-oriented variants~\cite{li2016gated}, which model neural computation as the fix-point iteration of a single layer against a structured input, thus allowing for a dynamically adaptive computation ``depth'' -- albeit with a constant parameter count.
+Analogously to structure-aware self-attention networks~\cite{zhu-etal-2019-modeling,cai2020graph} and graph attentive networks~\cite{velivckovic2018graph,yun2019graph,ying2021transformers,brody2021attentive}, it also employs standard query/key and fully-connected attention mechanisms injected with structurally biased representations, either at the edge or at the node level.
+Finally, akin to dynamic graph approaches~\cite{liao2019efficient,pareja2020evolvegcn}, it forms a closed loop system that autoregressively generates its own input, in the process becoming exposed to subgraph structures that drastically differ between time steps.
+
+\subsubsection{Experiments \& Results}
+\paragraph{Datasets}
+The way to publication is often arduous, but a tried and true shortcut is to beat prior benchmarks in established datasets.
+Another tried and true shortcut is to replicate others' work without proper attribution.
+Both shortcuts are telling of the times; I don't care much about the former, but the latter I do find bothersome.
+In any case, testing the architecture on multiple datasets is good practice, as it better affirms its potential, increases chances to glory and fame and disarms publication sharks.
+Hence, we shall employ it not just on \AE thel but also on the two versions of the CCGbank, as well as the French TLGbank; in total, 4 different datasets spanning three languages and as many grammar formalisms.
+
+\begin{table}
+    \centering
+    \small{
+    \begin{tabular}{@{}l@{\qquad}c@{\quad}c@{\qquad}c@{\qquad}c@{}}
+        & \multicolumn{2}{c}{\textbf{\textit{CCGbank}}} 
+        & \multirow{2}{*}{\textbf{\textit{TLGbank}}}
+        & \multirow{2}{*}{\textbf{\textit{\AE thel}}}\\ 
+        & \textit{original} & \textit{rebank} \\
+        \toprule
+        \textbf{Primitives}     & 37        & 40        & 27        & 83\\
+        ~ Zeroary           & 35        & 38        & 19        & 33\\ 
+        ~ Binary            & 2         & 2         & 8         & 50\\
+        \midrule
+        \textbf{Categories}     & 1\,323      & 1\,619      & 851      & 6\,008\\
+        ~{in train}         & 1\,286      & 1\,575      & 803      & 5\,377\\
+        ~{depth avg.}       & 1.94      & 1.96      & 1.99     &   1.82\\
+        ~{depth max.}       & 6         & 6         & 7        & 35*\\ 
+        \midrule
+        \textbf{Test Sentences} & 2\,407      & 2\,407      & 1\,571**    & 5\,770 \\
+        ~{length avg.}      & 23.00     & 24.27     & 27.58    &  16.52\\
+        \midrule
+        \textbf{Test Tokens}    & 55\,371     & 56\,395     & 44\,302     & 95\,331\\
+        ~ Frequent {(100+)}   & 54\,825     & 55\,690     & 43\,289     & 91\,503\\
+        ~ Uncommon {(10-99)}  & 442       & 563       & 833       & 2\,639\\
+        ~ Rare {(1-9)}        & 75        & 107       & 149       & 826\\
+        ~ Unseen {(OOV)}      & 22        & 27        & 31        & 363\\
+        \addlinespace
+        	\multicolumn{5}{@{}l}{*A beautiful conjunction of 35 noun phrases.}\\
+      	\multicolumn{5}{@{}l}{**Random but consistent train/dev/test split of 80/10/10.}
+    \end{tabular}}
+    \caption{Bird's eye view of datasets employed and relevant statistics. Test tokens are binned according to their corresponding categories' occurrence count in the respective dataset's training set. Token counts are measured before pre-processing. Unique primitives and tree depths for the type-logical datasets are counted \textit{after} binarization.}
+    \label{table:datasets}
+\end{table}
 
 
-%node $b_6$ depend on the entirety of tree $a$, as well as all nodes left or below $b_6$ 
+A high-level overview of the datasets is presented in Table~\ref{table:datasets}.
+The English CCGbank and its refined version~\cite[rebank]{honnibal2010rebanking} stand out in having combinatory categories as their supertags, built with the aid of two binary slash operators.
+Combinatory rules take care of shifting, raising and function composition, allowing the lexicon to remain small and simple.
+The key difference between the two versions lies in their tokenization and the plurality of categories assigned, the latter containing more assignments and a more fine-grained set of syntactic primitives, which in turn make it a slightly more challenging evaluation benchmark.
+The French TLGbank is \AE thel's distant but cherished relative. 
+It uses modalities for control purposes, licensing or restricting the applicability of rules related to non-local syntactic phenomena.
+Its supertags are therefore multimodal Lambek types, the tree representations of which are not strictly binary; to make compatible with the architecture with minimal effort, we cast unary operators into pseudo-binaries by inserting an artificial terminal tree in a fixed slot within them.
+A similar strategy is applied to \AE thel (which I assume is by now familiar).
+Unary branches are shortened by first merging diamond-box pairs into a single composite symbol, and then iteratively merging adjunct (resp. complement) markers (either plain or composite) with the subsequent (resp. preceding) binary operator.
+The new symbols correspond to notational and temporal shortcuts for multiple decisions compressed in a single time step, making for an unambiguous and invertible representational translation at the cost of an enlarged alphabet.%
+	\footnote{If you're really really observant here, you might see a potential problem with this. 
+	If you can't, I'll spoil it for you.
+	Some of the composite alphabet symbols may appear in the test set (or in the wild) without having ever appeared in the training set -- these would be impossible to predict, even in the constructive setting!
+	In fact, one such symbol exists, corresponding to the type/tree pattern $\dxdia{x}\dxbox{x}\ddia{cmpbody} \textvisiblespace \li \textvisiblespace$ for hypothesizing a deeply nested body of a complementizer -- it has 3 occurrences in the dev set and 1 in the test set.
+	This is basically the zipfian tai of the zipfian tail -- we'll let it slide without rearranging the train/dev/test split, as it poses an innocuous and fun little challenge and an easter egg of shorts.
+	Obviously, dropping the practical restriction for binarity would solve the problem, at the cost of elongated trees and the loss of architectural uniformity.}
+	
+\paragraph{Training \todo}
+A single hyper-parameter setup is shared among all experiments, obtained after a minimal logarithmic search over sensible initial values.
+Specifically, we set the node dimensionality $d_n$ to 128 with 4 heterogeneous attention heads and the state dimensionality $d_w$ to 768 with 8 homogeneous attention heads.
+We train using AdamW~\cite{loshchilov2018fixing} and a variable learning rate scaled by a linear warmup and cosine decay schedule over 25 epochs, scaled by 10\% for the encoder.
+During training we provide strict teacher forcing and apply feature and edge dropout at 20\% chance.
+Same as before, the loss signal is derived as the label-smoothed negative log-likelihood between the network's prediction and the ground truth label.
+Base-sized BERT variants are procured from the transformers library~\cite{wolf-etal-2020-transformers}: RoBERTa for English~\cite{liu2019roberta}, BERTje for Dutch~\cite{de2019bertje} and CamemBERT for French~\cite{martin-etal-2020-camembert}, all fine-tuned during training.
 
-%encompasses both nodes within the tree that are \textit{not} ancestor of the current one, as well as nodes that 
-%And here's where we can improve upon prior work, adding the missing structural dependencies; this context should encompass all nodes we have so far decoded, and not just only those of the local tree.
-% does not need to -- and should not -- be confined to a single, local tree. 
-%All other trees within the sequence may have 
-%% regardless of what tree they belong to.
-%The only thing to decide 
-% deeper within a tree, since these depend on the current step), but neither to the present (i.e. nodes located parallel to the current plane)
-%, where the two can be as independent as one wants them to.
-%But is structure-aware decoding 
+\paragraph{Evaluation}
 
-%This is a step backwards, porting us once more to (\ref{equation:seq_cls}), which we tried so hard to escape.
-%This 
-%porting us back 
-%A trend is evident by now: the autoregressive formulation 
-%Despite their common goal of accounting for assignments in the zipfian tail, there are tension points between 
-%the above two approaches. In
-%providing a global history context, the first breaks
-%the input-to-output alignment and hides the catego-
-%rial tree structure. In opting for a tree-wise bottom-
-%up decoding, the second forgets about meaningful
-%inter-tree output-to-output dependencies. In this
-%paper, we seek to resolve these tension points with
-%a novel, unified and grammar-agnostic supertag-
-%ging framework based on heterogeneous dynamic
-%graph convolutions. Our architecture combines
-%the merits of explicit tree structures, strong auto-
-%regressive properties, near-constant decoding time,
-%and a memory complexity that scales with the input,
-%boasting high performance across the full span of
-%the frequency spectrum and surpassing previously
-%established benchmarks on all datasets considered.
-%% speeding up inference 
+%\begin{table*}[h]
+%%    \newcolumntype{N}{>{\centering\arraybackslash}p{0.089\textwidth}}
+%    \newcolumntype{L}{>{\raggedright\arraybackslash}X}
+%    \newcommand{\num}[1]{\multirow{1}{*}{#1}}
+%    \newcommand{\ave}[2]{\multirow{1}{*}{~~#1}{\textsubscript{$\pm$#2}}}
+%
+%    \centering
+%    {\smaller
+%    \begin{tabularx}{1.00\textwidth}{@{}l@{~}Xc@{}c@{}c@{}c@{}c@{}}
+%    & & \multicolumn{5}{c}{\textbf{accuracy} {(\%)}} \\
+%    \cmidrule(lr){3-7}
+%    & \multicolumn{1}{c}{\textbf{model}} & {overall} & {frequent} & {uncommon} & {rare} & {unseen}\\
+%    \toprule
+%    \multicolumn{7}{l}{\textit{\textbf{CCG (original)}}} \\
+%    & \multicolumn{1}{l}{Symbol Sequential LSTM /w n-gram oracles\\
+%	& \multicolumn{1}{l}{~\cite{liu2021generating}}
+%    & 95.99 & 96.40 & 65.83 & 
+%    \multicolumn{2}{c}{8.65\textsuperscript{!}} \\
+%    & \multicolumn{1}{l}{Symbol Sequential LSTM
+%    {~\cite{bhargava-penn-2020-supertagging}}}
+%    & 96.00 & -- & -- & -- & $\sim$\textbf{5}\\
+%    & \multicolumn{1}{l}{Cross-View Training
+%    {~\cite{clark-etal-2018-semi}}} 
+%    & 96.10 & -- & -- & -- & n/a \\ 
+%    & \multicolumn{1}{l}{{Recursive Tree Addressing}
+%    {~\cite{prange-etal-2021-supertagging}}}
+%    &  \num{96.09} & \num{96.44} & \num{68.10} & \num{\textbf{37.40}} & \num{\textbf{3.03}} \\
+%    & \multicolumn{1}{l}{{BERT Token Classification}
+%    {~\cite{prange-etal-2021-supertagging}}}
+%    & \num{96.22} & \num{\textbf{96.58}} & \num{70.29} & \num{23.17} & n/a\\
+%    & \multicolumn{1}{l}{Attentive Convolutions
+%    {~\cite{tian-etal-2020-supertagging}}} 
+%    & \textbf{96.25} & \textbf{96.64} & 71.04 & n/a & n/a\\ 
+%    \addlinespace
+%    & \multicolumn{1}{l}{{Heterogeneous Dynamic Convolutions}
+%    {~(this work)}} 
+%    & \ave{\textbf{96.29}}{0.04}
+%    & \ave{\textbf{96.61}}{0.04}
+%    & \ave{\textbf{72.06}}{0.72}
+%    & \ave{34.45}{1.58}
+%    & \ave{\textbf{4.55}}{2.87}\\
+%    \addlinespace
+%    \addlinespace
+%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    \multicolumn{2}{L}{\textit{\textbf{CCG (rebank)}}} \\
+%    & \multicolumn{1}{l}{{Symbol Sequential Transformer}\textsuperscript{\textdagger}
+%    {~\cite{kogkalidis-etal-2019-constructive}}}
+%    & \num{90.68} & \num{91.10} & \num{63.65} & \num{34.58} & \num{\textbf{7.41}} \\
+%    & \multicolumn{1}{l}{Symbol Sequential LSTM\textsuperscript{\textdagger}
+%    {~\cite{bhargava-penn-2020-supertagging}}}
+%    & 93.92 & 94.39 & 65.48 & 19.00 & 0.00\\
+%    & \multicolumn{1}{l}{{TreeGRU}
+%    {~\cite{prange-etal-2021-supertagging}}}
+%    & \num{94.62} & \num{95.10} & \num{64.24} & \num{25.55} & \num{2.47} \\
+%    & \multicolumn{1}{l}{{Recursive Tree Addressing}
+%    {~\cite{prange-etal-2021-supertagging}}}
+%    &  \num{94.70} & \num{95.11} & \num{68.86} & \num{\textbf{36.76}} & \num{4.94} \\
+%    & \multicolumn{1}{l}{{Token Classification}
+%    {~\cite{prange-etal-2021-supertagging}}}
+%    &  \num{94.83} & \num{95.27} & \num{68.68} & \num{23.99} & \num{n/a} \\
+%    \addlinespace
+%    & \multicolumn{1}{l}{{Heterogeneous Dynamic Convolutions}
+%    {~(this work)}} 
+%    & \ave{\textbf{95.07}}{0.04}
+%    & \ave{\textbf{95.45}}{0.04}
+%    & \ave{\textbf{71.40}}{1.15}
+%    & \ave{\textbf{37.19}}{1.81} 
+%    & \ave{{3.70}}{0.00}\\
+%    \addlinespace
+%    \addlinespace
+%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    \multicolumn{7}{l}{\textit{\textbf{French TLGbank}}} \\
+%    % \midrule
+%    & \multicolumn{1}{l}{{ELMo \& LSTM Classification}
+%    {~\cite{moot2019}}}
+%    & \num{93.20} & \num{95.10} & \num{75.19} & \num{25.85} & \num{n/a}\\
+%    & \multicolumn{1}{l}{{BERT Token Classification\textsuperscript{\textdaggerdbl}}}
+%    & \num{\textbf{95.93}} & \num{\textbf{96.44}} & \num{81.39} & \num{47.45} & \num{n/a}\\
+%    \addlinespace
+%    & \multicolumn{1}{l}{{Heterogeneous Dynamic Convolutions}
+%    {~(this work)}}
+%    & \ave{\textbf{95.92}}{0.01}
+%    & \ave{96.40}{0.01} 
+%    & \ave{\textbf{81.48}}{0.97}
+%    & \ave{\textbf{55.37}}{1.00} 
+%    & \ave{\textbf{7.26}}{2.67} \\ 
+%    \addlinespace
+%    \addlinespace
+%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
+%    \multicolumn{7}{l}{\textit{\textbf{\AE thel}}} \\
+%    % \midrule
+%    & \multicolumn{1}{l}{{Symbol Sequential Transformer}\textsuperscript{\textborn}
+%    {~\cite{kogkalidis-etal-2020-neural}}}
+%    & \num{83.67} & \num{84.55} & \num{64.70} & \num{50.58} & \num{\textbf{24.55}} \\
+%    & \multicolumn{1}{l}{{BERT Token Classification}\textsuperscript{\textdaggerdbl}}
+%    &  \num{93.52} & \num{\textbf{94.83}} & \num{71.85} & \num{38.06} & \num{n/a} \\
+%    \addlinespace
+%    & \multicolumn{1}{l}{{Heterogeneous Dynamic Convolutions}
+%    {~(this work)}}
+%    & \ave{\textbf{93.67}}{0.04}
+%    & \ave{\textbf{94.72}}{0.13}
+%    & \ave{\textbf{73.45}}{0.46}
+%    & \ave{\textbf{53.83}}{1.14}
+%    & \ave{15.79}{1.32} \\
+%    \bottomrule
+%    \addlinespace
+%    \multicolumn{7}{l}{{\fixh{\textsuperscript{!}}%
+%    Accuracy over both bins, with a frequency-truncated training set (authors claim no difference when using the full set).}}\\
+%    \multicolumn{7}{l}{{\textsuperscript{\textdagger}Numbers from~\citet{prange-etal-2021-supertagging}.}}\\
+%    \multicolumn{7}{l}{{\fixh{\textsuperscript{\textdaggerdbl}}Our replication.}}\\
+%    \multicolumn{7}{l}{{\textsuperscript{\textborn}Model trained and evaluated on an older dataset version and tree sequences spanning less than 140 nodes in total.}}
+%    \end{tabularx}}
+%    \caption{Model performance across datasets and compared to recent studies. Numbers are taken from the papers cited unless otherwise noted. For our model, we report averages and standard deviations over 6 runs. Bold face fonts indicate (within standard deviation of) highest performance.}
+%    \label{table:comparisons}
+%\end{table*}
 
-% each supertag-to-be starts with an initial representation handed by the sequence encoder, aligned with the word it's to be assigned to.
-%Following contextualization, the decoder is separably applied
+%During inference, each next fringe can be easily generated with minimal structure manipulation.
+%Decoded symbols that correspond to tree-forming operators are isolated, and their indices are multiplied by two (to create the positions of their left children), and then offset by one (to create the positions of their right children). 
+%Interleaving the offset and non-offset vectors yields the positions of both descendants of a single binary.
+%In the same vein, the new state indices are simply the repetition of their respective ancestor indices.
+%Positional embeddings of the current fringe are kept and reused in the ensuing node feedback phase (zero waste).
 
-% the decoder is separably applied, i.e. decoding is performed in parallel across trees.
+
+
 
 \section{Parsing as Permutation}
 
