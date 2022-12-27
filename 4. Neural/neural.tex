@@ -110,7 +110,7 @@ To that end, I'll try keep the gory technical details contained and separate fro
 I hope the result is sensible and inclusive.
 
 
-\section{Supertagging}
+\section{Supertagging the Tail}
 A supertagger is a statistical model, a parametric function $f_\theta$ tasked with producing the most likely type assignment sequence $\tseq := t_0 \dots t_n$ for a given sentence $\wseq := w_0 \dots w_n$.
 \begin{equation}
 	f_\theta(\wseq) \approx \underset{\tseq}{\mathsf{argmax}} ~ p(\tseq \ | \wseq, \theta)
@@ -317,6 +317,7 @@ This perspective is in a sense orthogonal to the transition from fixed, corpus-e
 The two combined lift the closed world assumption, paving the way for the \textit{last supertagger} -- one able to reliably predict the correct type (be it rare or unseen) for any word (be it rare or unseen).
 
 \subsection{Supertagging as NMT}
+\label{subsection:snmt}
 Our first attempt at a constructive supertagger is described in detail by~\citet{kogkalidis-etal-2019-constructive}.
 Like all first attempts at anything, it is characterized by a degree of cute naivety combined with an overeager execution.
 Types are first viewed as the corresponding formula trees, and then traversed in a depth-first left-first fashion (i.e. read off in Polish notation).
@@ -575,6 +576,7 @@ The convention is that shallow nodes (presumably the easiest ones) are decoded f
 \end{figure}
 
 \subsubsection{Geometry-Aware Supertagging}
+\label{subsubsection:gas}
 The operationalization of this novel approach is described in an as of yet unpublished (and not for lack of effort%
 \footnote{As to why this is the case, your guess is as good as mine. Qualitatively, the reviews are all over the place, ranging from ``I don't get it, reject.'' to ``I don't get it, but looks impressive!''. Quantitatively, they follow $\mathcal{N}(3.5, 1.15)$ (sample size 7, minimum 1, maximum 4). Props to the *ACL reviewing community, and the morons populating it for their consistency and commitment.})
 manuscript~\cite{kogkalidis2022geometryaware}.
@@ -711,12 +713,13 @@ In practice, attention coefficients and message vectors are computed for multipl
 
 \paragraph{Sequential Feedback}
 At the end of the node feedback stage, we are left with a sequence of locally contextualized states $\tilde{h}^\tau_i$.
-The sequential structure can be seen as a fully connected directed graph, nodes being states (words) and edges labeled by relative distances between word pairs.
+The sequential structure can be seen as a fully connected directed graph, nodes being states (words) and edges tabulated as the square matrix $\mathcal{E}$, with entry $\mathcal{E}_{i, j}$ containing the relative distance between words $i$ and $j$.
+%$\mathcal{E}$ labeled by relative distances between word pairs.
 We embed these distances into the encoder's vector space using an embedding table $W_r \in \mathbb{R}^{2\kappa \times d_w}$, where $\kappa$ the maximum allowed distance, a hyper-parameter.
 Edges escaping the maximum distance threshold are truncated rather than clipped, in order to preserve memory and facilitate training, leading to a natural segmentation of the sentence into (overlapping) chunks.
 Following standard practices, we project states into query, key and value vectors~\cite{vaswani2017attention}, and compute the attention scores between words $i$ and $j$ using relative-position weighted attention~\cite{shaw-etal-2018-self}:
 \begin{equation}
-\tilde{a}_{i,j} = d_w^{-1/2}~(W_q \tilde{h}^\tau_i \odot W_r\mathcal{E}^w_{i,j}) \cdot W_k\tilde{h}^\tau_j
+\tilde{a}_{i,j} = d_w^{-1/2}~(W_q \tilde{h}^\tau_i \odot W_r\mathcal{E}_{i,j}) \cdot W_k\tilde{h}^\tau_j
 \end{equation}
 From the normalized attention scores we obtain a new set of aggregated messages:
 \begin{equation}
@@ -735,18 +738,12 @@ where $W_{1,2}$ are linear maps from the encoder's dimensionality to an intermed
 We compose the previously detailed components into a single layer, which acts a sequence-wide, recurrent-in-depth decoder.
 We insert skip connections between the input and output of the message-passing and feed-forward layers~\cite{he2016deep}, and subsequently normalize each using root mean square normalization~\cite{zhang2019root}.
 
-The end-product bears semblance and owes credit to various contemporary lines of work.
-From the architectural angle, it is as an application-specific offspring of weight-tied architectures, dynamic graph convolutions and structured self-attention networks.
-The depth recurrence is evocative of weight-tied architectures~\cite{dehghani2018universal,bai2019deep} and their graph-oriented variants~\cite{li2016gated}, which model neural computation as the fix-point iteration of a single layer against a structured input, thus allowing for a dynamically adaptive computation ``depth'' -- albeit with a constant parameter count.
-Analogously to structure-aware self-attention networks~\cite{zhu-etal-2019-modeling,cai2020graph} and graph attentive networks~\cite{velivckovic2018graph,yun2019graph,ying2021transformers,brody2021attentive}, it also employs standard query/key and fully-connected attention mechanisms injected with structurally biased representations, either at the edge or at the node level.
-Finally, akin to dynamic graph approaches~\cite{liao2019efficient,pareja2020evolvegcn}, it forms a closed loop system that autoregressively generates its own input, in the process becoming exposed to subgraph structures that drastically differ between time steps.
-
 \subsubsection{Experiments \& Results}
 \paragraph{Datasets}
 The way to publication is often arduous, but a tried and true shortcut is to beat prior benchmarks in established datasets.
 Another tried and true shortcut is to replicate others' work without proper attribution.
 Both shortcuts are telling of the times; I don't care much about the former, but the latter I do find bothersome.
-In any case, testing the architecture on multiple datasets is good practice, as it better affirms its potential, increases chances to glory and fame and disarms publication sharks.
+In any case, testing the architecture on multiple datasets is good practice, as it better affirms its potential, increases chances to glory and fame, and disarms publication sharks.
 Hence, we shall employ it not just on \AE thel but also on the two versions of the CCGbank, as well as the French TLGbank; in total, 4 different datasets spanning three languages and as many grammar formalisms.
 
 \begin{table}
@@ -788,157 +785,336 @@ A high-level overview of the datasets is presented in Table~\ref{table:datasets}
 The English CCGbank and its refined version~\cite[rebank]{honnibal2010rebanking} stand out in having combinatory categories as their supertags, built with the aid of two binary slash operators.
 Combinatory rules take care of shifting, raising and function composition, allowing the lexicon to remain small and simple.
 The key difference between the two versions lies in their tokenization and the plurality of categories assigned, the latter containing more assignments and a more fine-grained set of syntactic primitives, which in turn make it a slightly more challenging evaluation benchmark.
-The French TLGbank is \AE thel's distant but cherished relative. 
+In more familiar grounds we have the French TLGbank, \AE thel's distant but cherished uncle. 
 It uses modalities for control purposes, licensing or restricting the applicability of rules related to non-local syntactic phenomena.
 Its supertags are therefore multimodal Lambek types, the tree representations of which are not strictly binary; to make compatible with the architecture with minimal effort, we cast unary operators into pseudo-binaries by inserting an artificial terminal tree in a fixed slot within them.
 A similar strategy is applied to \AE thel (which I assume is by now familiar).
 Unary branches are shortened by first merging diamond-box pairs into a single composite symbol, and then iteratively merging adjunct (resp. complement) markers (either plain or composite) with the subsequent (resp. preceding) binary operator.
-The new symbols correspond to notational and temporal shortcuts for multiple decisions compressed in a single time step, making for an unambiguous and invertible representational translation at the cost of an enlarged alphabet.%
+The new symbols correspond to notational and temporal shorthands for multiple decisions compressed in a single time step, making for an unambiguous and invertible representational translation at the cost of an enlarged primitive alphabet.
+These shorthands are not to be confused with the ones we experimented with earlier in Section~\ref{subsection:snmt}.
+Here, we are establishing representational shorthands for composite type operators (tree constructors); there, we were creating shorthands for frequent (sub-)types (self standing trees).%
 	\footnote{If you're really really observant here, you might see a potential problem with this. 
 	If you can't, I'll spoil it for you.
-	Some of the composite alphabet symbols may appear in the test set (or in the wild) without having ever appeared in the training set -- these would be impossible to predict, even in the constructive setting!
+	Some of the composite alphabet symbols may appear in the test set (or in the wild) without having ever appeared in the training set.
+	These would be impossible to predict, even in the constructive setting -- not because they're absent from the vocabulary, but because there's no usage examples to learn from!
 	In fact, one such symbol exists, corresponding to the type/tree pattern $\dxdia{x}\dxbox{x}\ddia{cmpbody} \textvisiblespace \li \textvisiblespace$ for hypothesizing a deeply nested body of a complementizer -- it has 3 occurrences in the dev set and 1 in the test set.
 	This is basically the zipfian tai of the zipfian tail -- we'll let it slide without rearranging the train/dev/test split, as it poses an innocuous and fun little challenge and an easter egg of shorts.
 	Obviously, dropping the practical restriction for binarity would solve the problem, at the cost of elongated trees and the loss of architectural uniformity.}
 	
-\paragraph{Training \todo}
+\paragraph{Training}
 A single hyper-parameter setup is shared among all experiments, obtained after a minimal logarithmic search over sensible initial values.
 Specifically, we set the node dimensionality $d_n$ to 128 with 4 heterogeneous attention heads and the state dimensionality $d_w$ to 768 with 8 homogeneous attention heads.
-We train using AdamW~\cite{loshchilov2018fixing} and a variable learning rate scaled by a linear warmup and cosine decay schedule over 25 epochs, scaled by 10\% for the encoder.
+We train using AdamW~\cite{	loshchilov2018decoupled} and a variable learning rate scaled by a linear warmup and cosine decay schedule over 25 epochs, scaled by 10\% for the encoder.
 During training we provide strict teacher forcing and apply feature and edge dropout at 20\% chance.
-Same as before, the loss signal is derived as the label-smoothed negative log-likelihood between the network's prediction and the ground truth label.
-Base-sized BERT variants are procured from the transformers library~\cite{wolf-etal-2020-transformers}: RoBERTa for English~\cite{liu2019roberta}, BERTje for Dutch~\cite{de2019bertje} and CamemBERT for French~\cite{martin-etal-2020-camembert}, all fine-tuned during training.
+The loss signal is derived as the label-smoothed negative log-likelihood between the network's prediction and the ground truth label.
+Base-sized BERT variants are procured from the transformers library~\cite{wolf2020transformers}: RoBERTa for English~\cite{liu2019roberta}, RobBERT for Dutch~\cite{delobelle2020robbert} and CamemBERT for French~\cite{martin2020camembert}, all fine-tuned during training.
 
 \paragraph{Evaluation}
+We perform model selection on the basis of validation accuracy, and gather the corresponding test scores according to the frequency bins of Table~\ref{table:datasets}.
+Table~\ref{table:comparisons} presents our results compared to relevant published literature.
+Evidently, our model surpasses established benchmarks in terms of overall accuracy, matching or surpassing the performance of both traditional supertaggers on common categories and constructive ones on the tail end of the frequency distribution, so there's that.
 
-%\begin{table*}[h]
-%%    \newcolumntype{N}{>{\centering\arraybackslash}p{0.089\textwidth}}
-%    \newcolumntype{L}{>{\raggedright\arraybackslash}X}
-%    \newcommand{\num}[1]{\multirow{1}{*}{#1}}
-%    \newcommand{\ave}[2]{\multirow{1}{*}{~~#1}{\textsubscript{$\pm$#2}}}
-%
-%    \centering
-%    {\smaller
-%    \begin{tabularx}{1.00\textwidth}{@{}l@{~}Xc@{}c@{}c@{}c@{}c@{}}
-%    & & \multicolumn{5}{c}{\textbf{accuracy} {(\%)}} \\
-%    \cmidrule(lr){3-7}
-%    & \multicolumn{1}{c}{\textbf{model}} & {overall} & {frequent} & {uncommon} & {rare} & {unseen}\\
-%    \toprule
-%    \multicolumn{7}{l}{\textit{\textbf{CCG (original)}}} \\
-%    & \multicolumn{1}{l}{Symbol Sequential LSTM /w n-gram oracles\\
-%	& \multicolumn{1}{l}{~\cite{liu2021generating}}
-%    & 95.99 & 96.40 & 65.83 & 
-%    \multicolumn{2}{c}{8.65\textsuperscript{!}} \\
-%    & \multicolumn{1}{l}{Symbol Sequential LSTM
-%    {~\cite{bhargava-penn-2020-supertagging}}}
-%    & 96.00 & -- & -- & -- & $\sim$\textbf{5}\\
-%    & \multicolumn{1}{l}{Cross-View Training
-%    {~\cite{clark-etal-2018-semi}}} 
-%    & 96.10 & -- & -- & -- & n/a \\ 
-%    & \multicolumn{1}{l}{{Recursive Tree Addressing}
-%    {~\cite{prange-etal-2021-supertagging}}}
-%    &  \num{96.09} & \num{96.44} & \num{68.10} & \num{\textbf{37.40}} & \num{\textbf{3.03}} \\
-%    & \multicolumn{1}{l}{{BERT Token Classification}
-%    {~\cite{prange-etal-2021-supertagging}}}
-%    & \num{96.22} & \num{\textbf{96.58}} & \num{70.29} & \num{23.17} & n/a\\
-%    & \multicolumn{1}{l}{Attentive Convolutions
-%    {~\cite{tian-etal-2020-supertagging}}} 
-%    & \textbf{96.25} & \textbf{96.64} & 71.04 & n/a & n/a\\ 
-%    \addlinespace
-%    & \multicolumn{1}{l}{{Heterogeneous Dynamic Convolutions}
-%    {~(this work)}} 
-%    & \ave{\textbf{96.29}}{0.04}
-%    & \ave{\textbf{96.61}}{0.04}
-%    & \ave{\textbf{72.06}}{0.72}
-%    & \ave{34.45}{1.58}
-%    & \ave{\textbf{4.55}}{2.87}\\
-%    \addlinespace
-%    \addlinespace
+\begin{table}
+    \newcommand{\ave}[2]{\multirow{2}{*}{~~#1\textsubscript{$\pm$#2}}}
+	\newcommand{\num}[1]{\multirow{2}{*}{#1}}
+	
+    \centering
+    {\smaller
+    \begin{tabularx}{1.00\textwidth}{@{}l@{~}Xc@{}c@{}c@{}c@{}c@{}}
+    & & \multicolumn{5}{c}{\textbf{accuracy} {(\%)}} \\
+    \cmidrule(lr){3-7}
+    & \multicolumn{1}{c}{\textbf{model}} & {overall} & {frequent} & {uncommon} & {rare} & {unseen}\\
+    \toprule
+    \multicolumn{7}{l}{\textit{\textbf{CCGbank (original)}}} \\
+    & \multicolumn{1}{l}{Symbol Sequential LSTM /w n-grams}
+    & \num{95.99} & \num{96.40} & \num{65.83} &  \multicolumn{2}{c}{\num{8.65\textsuperscript{!}}} \\
+    	& \multicolumn{1}{l}{~\smaller\cite{Liu_Ji_Wu_Lan_2021}}\\
+    & \multicolumn{1}{l}{Recursive Tree Addressing}
+    & \num{96.09} & \num{96.44} & \num{68.10} & \num{\textbf{37.40}} & \num{\textbf{3.03}} \\
+	& \multicolumn{1}{l}{~\smaller\cite{prange-etal-2021-supertagging}}\\
+    & \multicolumn{1}{l}{Cross-View Training}
+    & \num{96.10} & \num{--} & \num{--} & \num{--} & \num{n/a} \\ 
+    & \multicolumn{1}{l}{~\smaller\cite{clark-etal-2018-semi}}\\
+    & \multicolumn{1}{l}{Attentive Convolutions}
+    & \num{\textbf{96.25}} & \num{\textbf{96.64}} & \num{71.04} & \num{n/a} & \num{n/a}\\ 
+    & \multicolumn{1}{l}{~\smaller\cite{tian2020supertagging}} \\
+    \addlinespace
+    & \multicolumn{1}{l}{Geometry-Aware Convolutions}
+    & \ave{\textbf{96.29}}{0.04}
+    & \ave{\textbf{96.61}}{0.04}
+    & \ave{\textbf{72.06}}{0.72}
+    & \ave{34.45}{1.58}
+    & \ave{\textbf{4.55}}{2.87}\\
+    & \multicolumn{1}{l}{~\smaller (this work)}\\
+    \addlinespace
+    \addlinespace
 %    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%    \multicolumn{2}{L}{\textit{\textbf{CCG (rebank)}}} \\
-%    & \multicolumn{1}{l}{{Symbol Sequential Transformer}\textsuperscript{\textdagger}
-%    {~\cite{kogkalidis-etal-2019-constructive}}}
-%    & \num{90.68} & \num{91.10} & \num{63.65} & \num{34.58} & \num{\textbf{7.41}} \\
-%    & \multicolumn{1}{l}{Symbol Sequential LSTM\textsuperscript{\textdagger}
-%    {~\cite{bhargava-penn-2020-supertagging}}}
-%    & 93.92 & 94.39 & 65.48 & 19.00 & 0.00\\
-%    & \multicolumn{1}{l}{{TreeGRU}
-%    {~\cite{prange-etal-2021-supertagging}}}
-%    & \num{94.62} & \num{95.10} & \num{64.24} & \num{25.55} & \num{2.47} \\
-%    & \multicolumn{1}{l}{{Recursive Tree Addressing}
-%    {~\cite{prange-etal-2021-supertagging}}}
-%    &  \num{94.70} & \num{95.11} & \num{68.86} & \num{\textbf{36.76}} & \num{4.94} \\
-%    & \multicolumn{1}{l}{{Token Classification}
-%    {~\cite{prange-etal-2021-supertagging}}}
-%    &  \num{94.83} & \num{95.27} & \num{68.68} & \num{23.99} & \num{n/a} \\
-%    \addlinespace
-%    & \multicolumn{1}{l}{{Heterogeneous Dynamic Convolutions}
-%    {~(this work)}} 
-%    & \ave{\textbf{95.07}}{0.04}
-%    & \ave{\textbf{95.45}}{0.04}
-%    & \ave{\textbf{71.40}}{1.15}
-%    & \ave{\textbf{37.19}}{1.81} 
-%    & \ave{{3.70}}{0.00}\\
-%    \addlinespace
-%    \addlinespace
+    \multicolumn{2}{L}{\textit{\textbf{CCGbank (rebank)}}} \\
+    & \multicolumn{1}{l}{Symbol Sequential Transformer\textsuperscript{\textdagger}}
+    & \num{90.68} & \num{91.10} & \num{63.65} & \num{34.58} & \num{\textbf{7.41}} \\
+	& \multicolumn{1}{l}{~\smaller\cite{kogkalidis-etal-2019-constructive}}\\
+    & \multicolumn{1}{l}{TreeGRU}
+    & \num{94.62} & \num{95.10} & \num{64.24} & \num{25.55} & \num{2.47} \\
+	& \multicolumn{1}{l}{~\smaller\cite{prange-etal-2021-supertagging}}\\
+    & \multicolumn{1}{l}{Recursive Tree Addressing}
+    &  \num{94.70} & \num{95.11} & \num{68.86} & \num{\textbf{36.76}} & \num{4.94} \\
+	& \multicolumn{1}{l}{~\smaller\cite{prange-etal-2021-supertagging}}\\
+    \addlinespace
+    & \multicolumn{1}{l}{Geometry-Aware Convolutions}
+    & \ave{\textbf{95.07}}{0.04}
+    & \ave{\textbf{95.45}}{0.04}
+    & \ave{\textbf{71.40}}{1.15}
+    & \ave{\textbf{37.19}}{1.81} 
+    & \ave{{3.70}}{0.00}\\
+    & \multicolumn{1}{l}{~\smaller (this work)}\\
+    \addlinespace
+    \addlinespace
 %    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%    \multicolumn{7}{l}{\textit{\textbf{French TLGbank}}} \\
+    \multicolumn{7}{l}{\textit{\textbf{French TLGbank}}} \\
 %    % \midrule
-%    & \multicolumn{1}{l}{{ELMo \& LSTM Classification}
-%    {~\cite{moot2019}}}
-%    & \num{93.20} & \num{95.10} & \num{75.19} & \num{25.85} & \num{n/a}\\
-%    & \multicolumn{1}{l}{{BERT Token Classification\textsuperscript{\textdaggerdbl}}}
-%    & \num{\textbf{95.93}} & \num{\textbf{96.44}} & \num{81.39} & \num{47.45} & \num{n/a}\\
-%    \addlinespace
-%    & \multicolumn{1}{l}{{Heterogeneous Dynamic Convolutions}
-%    {~(this work)}}
-%    & \ave{\textbf{95.92}}{0.01}
-%    & \ave{96.40}{0.01} 
-%    & \ave{\textbf{81.48}}{0.97}
-%    & \ave{\textbf{55.37}}{1.00} 
-%    & \ave{\textbf{7.26}}{2.67} \\ 
-%    \addlinespace
-%    \addlinespace
+    & \multicolumn{1}{l}{ELMo \& LSTM Classification}
+    & \num{93.20} & \num{95.10} & \num{75.19} & \num{25.85} & \num{n/a}\\
+	& \multicolumn{1}{l}{~\smaller\cite{moot2019}}\\
+    \addlinespace
+    & \multicolumn{1}{l}{Geometry-Aware Convolutions}
+    & \ave{\textbf{95.92}}{0.01}
+    & \ave{96.40}{0.01} 
+    & \ave{\textbf{81.48}}{0.97}
+    & \ave{\textbf{55.37}}{1.00} 
+    & \ave{\textbf{7.26}}{2.67} \\ 
+    & \multicolumn{1}{l}{~\smaller (this work)}\\
+    \addlinespace
+    \addlinespace
 %    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
-%    \multicolumn{7}{l}{\textit{\textbf{\AE thel}}} \\
+    \multicolumn{7}{l}{\textit{\textbf{\AE thel}} (v0.4.0)} \\
 %    % \midrule
-%    & \multicolumn{1}{l}{{Symbol Sequential Transformer}\textsuperscript{\textborn}
-%    {~\cite{kogkalidis-etal-2020-neural}}}
-%    & \num{83.67} & \num{84.55} & \num{64.70} & \num{50.58} & \num{\textbf{24.55}} \\
-%    & \multicolumn{1}{l}{{BERT Token Classification}\textsuperscript{\textdaggerdbl}}
-%    &  \num{93.52} & \num{\textbf{94.83}} & \num{71.85} & \num{38.06} & \num{n/a} \\
-%    \addlinespace
-%    & \multicolumn{1}{l}{{Heterogeneous Dynamic Convolutions}
-%    {~(this work)}}
-%    & \ave{\textbf{93.67}}{0.04}
-%    & \ave{\textbf{94.72}}{0.13}
-%    & \ave{\textbf{73.45}}{0.46}
-%    & \ave{\textbf{53.83}}{1.14}
-%    & \ave{15.79}{1.32} \\
-%    \bottomrule
-%    \addlinespace
-%    \multicolumn{7}{l}{{\fixh{\textsuperscript{!}}%
-%    Accuracy over both bins, with a frequency-truncated training set (authors claim no difference when using the full set).}}\\
-%    \multicolumn{7}{l}{{\textsuperscript{\textdagger}Numbers from~\citet{prange-etal-2021-supertagging}.}}\\
-%    \multicolumn{7}{l}{{\fixh{\textsuperscript{\textdaggerdbl}}Our replication.}}\\
-%    \multicolumn{7}{l}{{\textsuperscript{\textborn}Model trained and evaluated on an older dataset version and tree sequences spanning less than 140 nodes in total.}}
-%    \end{tabularx}}
-%    \caption{Model performance across datasets and compared to recent studies. Numbers are taken from the papers cited unless otherwise noted. For our model, we report averages and standard deviations over 6 runs. Bold face fonts indicate (within standard deviation of) highest performance.}
-%    \label{table:comparisons}
-%\end{table*}
+    & \multicolumn{1}{l}{Symbol Sequential Transformer\textsuperscript{\textborn}}
+    & \num{83.67} & \num{84.55} & \num{64.70} & \num{50.58} & \num{\textbf{24.55}} \\
+	& \multicolumn{1}{l}{~\smaller\cite{kogkalidis-etal-2020-neural}}\\
+	\addlinespace
+	\addlinespace
+    \multicolumn{7}{l}{\textit{\textbf{\AE thel}} (v1.0.0a4)} \\
+    & \multicolumn{1}{l}{Geometry-Aware Convolutions}
+    & \ave{\textbf{95.92}}{0.01}
+    & \ave{96.40}{0.01} 
+    & \ave{\textbf{81.48}}{0.97}
+    & \ave{\textbf{55.37}}{1.00} 
+    & \ave{\textbf{7.26}}{2.67} \\ 
+    & \multicolumn{1}{l}{~\smaller (this work)}\\
+    \bottomrule
+    \addlinespace
+    \multicolumn{7}{l}{\textsuperscript{!}Accuracy over both bins, with a frequency-truncated training set.}\\
+    \multicolumn{7}{l}{{\textsuperscript{\textdagger}Numbers from~\citet{prange-etal-2021-supertagging}.}}\\
+    \multicolumn{7}{l}{{\textsuperscript{\textborn}Parser-integrated model trained with tree sequences spanning less than 140 nodes in total.}}
+    \end{tabularx}}
+    \caption{Model performance across datasets and compared to recent studies. Numbers are taken from the papers cited unless otherwise noted. For our model, we report averages and standard deviations over 6 runs. Bold face fonts indicate (within standard deviation of) highest performance.}
+    \label{table:comparisons}
+\end{table}
 
-%During inference, each next fringe can be easily generated with minimal structure manipulation.
-%Decoded symbols that correspond to tree-forming operators are isolated, and their indices are multiplied by two (to create the positions of their left children), and then offset by one (to create the positions of their right children). 
-%Interleaving the offset and non-offset vectors yields the positions of both descendants of a single binary.
-%In the same vein, the new state indices are simply the repetition of their respective ancestor indices.
-%Positional embeddings of the current fringe are kept and reused in the ensuing node feedback phase (zero waste).
-
-
+To investigate the relative impact of each network component, we conduct an ablation study where message passing components are removed from their network in their entirety.
+Removing the state feedback component collapses the network into a token-wise separable recurrence, akin to a graph-featured RNN without a hidden-to-hidden affine map.
+Removing the node feedback component turns the network into a Universal Transformer~\cite{dehghani2018universal} composed with a dynamically adaptive classification head.
+Removing both is equatable to a 1-to-many contextualized token classification that is structurally unfolded in depth.
+Our results, presented in Table~\ref{table:ablations}, verify first a positive contribution from both components, indicating the importance of both information sharing axes.
+In three out of the four datasets, the relative gains of incorporating state feedback outweigh those of node feedback, and are most pronounced in the case of \AE thel, likely due to its positionally agnostic types.
+With the exception of CCGrebank, relinquishing both kinds of feedback largely underperforms having either one, experimentally affirming their compatibility.
 
 
-\section{Parsing as Permutation}
+\begin{table}
+    \centering
+    {\small
+    \begin{tabular}{@{}l@{\qquad}ccc@{}}
+        &  {node feedback only}  & {state feedback only} & {no feedback} \\
+        \toprule
+        \textit{\textbf{CCGbank} (original)} & -0.05 & -0.01 & -0.08 \\ 
+        \textit{\textbf{CCGbank} (rebank)} & -0.12 & -0.04 & -0.07 \\
+        \textit{\textbf{French TLGbank}} & -0.13 & -0.14 & -0.23 \\
+        \textit{\textbf{\AE thel}} v1.0.0a4 & -0.24 & -0.12 & -0.37
+    \end{tabular}}
+    \caption{Absolute difference in overall accuracy when removing the state and node feedback components (averages of 3 repetitions).}
+    \label{table:ablations}
+\end{table}
 
 
+\subsubsection{Insights \& Observations}
+\paragraph{Advantages}
+Claiming state of the art performance while still being able to predict rare and unseen types with relative reliability is a definite advantage, despite having gone under the radar.
+Like before, the approach provisions contextual and self-standing representations for atomic components virtually for free.
+Unlike before, the architecture boasts an extremely fast inference speed that goes toe-to-toe with conventional discriminative architectures, owing to its temporal upper bound scaling with maximal tree depth (practically a constant, except for really perverse cases).
+Structure manipulation is kept to the bare minimum, even in the absence of oracle guidance, maximizing GPU utilization and data parallelism with high efficiency sparse routines~\cite{fey2019fast}.
+Operations are batched and temporally iterated across all nodes and sequences without any CPU interruptions.
+Each next fringe is dynamically generated by selecting decoded symbols that correspond to tree forming operators, isolating their indices, multiplying them by two (to create left children), offsetting by one (to create right children), and finally interleaving the two, thus yielding both descendants on a purely numerical basis.
+In the same vein, the new state indices are simply the repetition of their respective ancestor indices.
+The architecture's memory footprint and parameter count are also the product of careful design and thus well under check, facilitating training and parser integration (as we will soon see).
+
+\paragraph{Supertagging and Sparsity}
+Practice aside, the results obtained pose concrete evidence that lexical sparsity, historically deemed the categorial grammar's curse, might well just require a change of perspective to tame and deploy as the answer to the very problem it poses.
+Crucially, the architecture's relative gains scale with respect to the task's complexity.
+In the original version of the CCGbank, the model is only slightly superior to the next best performing model -- an ad-hoc graph neural network with built in lexical biases (quite literally the ideological antipode of our endeavour).
+The difference becomes order of magnitude wider for the slightly more challenging rebank version.
+The effect is maximally pronounced for the harder type-logical datasets.
+For the French TLGbank, performance jumps up to CCGbank scales (despite it being significantly smaller and sparser).
+For \AE thel, the absolute performance leap is about 10\% compared to the vanilla constructive tagger.
+Even though there's some data distance between the two experiments (version gap, different data filtering, etc.) making strict numeric comparisons moot, the sizeable improvement is beyond doubt.
+This is clearly to be attributed to increased returns from the rare and uncommon bins.
+There is a synergistic effect between the larger population of these bins pronouncing even minor improvements, while at the same time the acquisition of rare categories apparently benefits from their plurality.
+Put simply, learning sparse assignments is \textit{easier} in grammars that contain many and diverse rare assignments, and improvements there \textit{matter} more -- especially so if these don't come at the cost of stability at the higher frequency spectrum.
+The impact of this finding alone is bigger than the menial architecture itself -- it is basically an open invitation to more elaborate, more strict and more regular lexicalized theories, and a promise that no matter how statistically unruly they might seem, there will always be an architectural solution to accommodate them.
+In today's machine learning frenzy, it is a statement of purpose lost: tools for the task, and not tasks for the tools.
+
+\paragraph{Downsides}
+Despite its objective success, the methodology is not without limitations.
+Most importantly, the parallel nature of the decoder trades inference speed for an incompatibility with greedy algorithms like beam search and an inability to produce local assignment rankings.
+Put plainly, obtaining more than the "best" category assignment per word is not straightforward, a fact which can prove harmful for coverage of a downstream parser.
+A possible solution would involve branching across multiple tree-slices (i.e. sequences of partial assignments) rather than single predictions, but efficiently computing scores and comparing between complex structures is uncharted territory and not trivial to implement.
+The issue is of course not unique to this system, but common to all decoders that perform multiple assignments concurrently -- as such, there is some hope that insights might percolate from one field to another and eventually make their way to us.
+
+\section{Neural Proof Search}
+We have made significant progress with supertagging, first alleviating the scary-looking roadblock of lexical type sparsity, and then producing numbers bigger than any numbers seen before%
+	\footnote{Actually, \citet{tian2020supertagging} were reporting even bigger numbers for a while, but it later turned out that these numbers were in error and their real numbers were a lot smaller than the numbers they originally reported.
+	An honest mistake, no doubt due to churning out the same architecture 5 times over the span of a year -- they thought you're not supposed to measure performance on rare assignments at all.
+	Long story short, don't trust numbers you haven't made yourself.}%
+, earning a spot at at the top 10 pop hits leaderboard for the next couple of months.
+But supertagging alone is not going to take us to the end of the road.
+Far from it, in fact, since our chosen logic is extremely permissive, burning away any hope of making do using just the proof-theoretic tools we have available.
+The problem is simple: our type assignments, even when fully correct, still allow more proofs than desired -- we need yet another piece of statistical machinery that somehow tells us which one of these many proofs is the linguistically sensible one.
+And once more, the discriminator approach is not going to work: enumerating and ranking all well-formed proofs is a no-go -- we have to build the correct proof from scratch instead.
+
+To move forward we need to look back.
+Almost an entire book ago, we had a brief encounter with proof nets, and we saw them at work in the context of $\ILL_{\li}$ (by now rebranded as \NLP).
+Back then, we were quick to dismiss them after a moment of shallow appreciation, seeing as they were too complicated of a proof format for conducting search on, and too ambiguous of a representational format for showing around.
+Lots have changed since, and not for the better; we added modalities, which impose further structure on their own, in turn necessitating yet another rule of deduction ($\Extraction$) invisible to proof nets.
+Why then should we turn our attention back to them now?
+
+This blast from the past is justified by the inadequacy of alternatives.
+The natural deduction presentation we have predominantly employed is hierarchical and tree-like; assuming perfect processing and regardless of search direction (bottom-up or top-down), computation is temporally bound by the proof depth -- bottlenecked by decisions due, or anticipating decisions to be.
+The same is true for most proof theoretic alternatives (tableaus, the sequent presentation, $\lambda$ terms, etc.).%
+Decisions cannot be detached from the structure they bind to and help form -- to make a choice requires knowing your options, in turn requiring explicit symbolic manipulation.
+Exploring a choice requires also evaluating it, and building the structure that will allow future choices to be made.
+Even if the proof is to be dynamically constructed, abolishing the need for enumerating all options globally, each local junction point still needs to be exhaustively expanded for the construction to proceed.
+Type safety is not for free: it costs back-and-forth between the symbolic engine and the statistical learner.
+Proof nets, on the other hand, are the embodiment of data parallelism, the most saught out property of neural computation and the key to efficient training and optimization.
+Decision making and validity testing are detached: we must first make all the decisions that are to be made, and only then can we check whether they are structurally legitimate.
+This laxness was the very reason we abandoned proof nets in the first place, but it is exactly what makes them so very appealing now.
+
+\subsection{Parsing as Permutation}
+So what exactly is the structure of decisions prescribed in a proof net?
+This might be easier to digest with an illustration.
+%\subsection{Neural Proof Nets}
+%The trickeries described next were first made public 
+
+%Going bottom-up, computation is bottlenecked by decisions due.
+%complicated to perform proof search on and ambiguous as a representational format.
+%\subsection{Blast from the Past}
+
+\begin{figure*}
+    \resizebox{1\textwidth}{!}{
+		\begin{tikzpicture}
+		    [t/.style={text height=1.5ex, text depth=.25ex, rectangle, outer sep=0pt},
+		    node distance=10pt,
+		    r/.style={},
+		    g/.style={},
+		    tree/.style={very thick},
+		    link/.style={dashed}]
+        \tikzset{grow'=up}
+        \tikzset{sibling distance=0pt}
+        \tikzset{level 1/.style={level distance=36pt}}
+		\tikzset{level 2/.style={level distance=32pt}}
+		\tikzset{level 3+/.style={level distance=28pt}}
+		\Tree
+			[.{{$\li\ddia{whbody}$}}
+				[.{$\li\ddia{predc}$}
+					{$\vnw^0$}
+					{$\svi^1$}
+				]
+				{$\whq^2$}
+			]			
+		\begin{scope}[xshift=100pt]
+			\Tree
+			[.{{$\li\ddia{whbody}$}}
+				[.{$\li\ddia{predc}$}
+					{$\vnw^0$}
+					{$\svi^1$}
+				]
+				{$\whq^2$}
+			]		
+		\end{scope}
+%		\node[t] (wat)      at (0, 0) {\w{Wat}};
+%		\node[t,g] (wat_fn_1) at (0, 1) {$\li\ddia{whbody}$};
+%        \node[t,r] (wat_fn_2) at (-1.5, 2.5) {$\li\ddia{predc}$};
+%        \node[t, g] (wat_pron) at (-2.5, 4) {$\vnw^0$};
+%        \node[t, r] (wat_svi) at (-0.5, 4) {$\svi^1$};
+%        \node[t, g] (wat_whq) at (1.5, 2.5) {$\whq^2$};
+%
+%		\node[t] (is) at (4, 0)     {\w{is}};
+%		\node[t,g] (is_fn_1) at (4, 1)  {$\li\ddia{predc}$};
+%		\node[t,g] (is_fn_2) at (5, 2.5) {$\li\ddia{su}$};
+%		\node[t,r] (is_pron) at (3, 2.5) {$\vnw^3$};
+%		\node[t,r] (is_np) at (4.25, 4) {$\np^4$};
+%		\node[t,g] (is_svi) at (5.75, 4) {$\svi^5$};
+%		
+%		\node[t] (dat)   at (8, 0)   {\w{die}};
+%		\node[t,g] (dat_fn) at (8, 1)  {$\dbox{det}\li$};
+%		\node[t,r] (dat_n) at (7, 2.5) {$\n^6$};
+%        \node[t,g] (dat_np) at (9, 2.5) {$\np^7$};
+%        
+%        \node[t] (rare)   at (11, 0)   {\w{rare}};
+%		\node[t,g] (rare_fn) at (11, 1)  {$\dbox{mod}\li$};
+%		\node[t,r] (rare_n_1) at (10, 2.5) {$\n^8$};
+%        \node[t,g] (rare_n_2) at (12, 2.5) {$\n^9$};	
+%        
+%        \node[t] (tekening) at (14, 0) {\w{tekening}};
+%        \node[t,g] (tekening_n) at (14, 1) {$\n^{10}$};
+%
+%        \draw[tree] (wat_fn_1) -- (wat_fn_2) -- (wat_pron);
+%        \draw[tree] (wat_fn_2) -- (wat_svi);
+%        \draw[tree] (wat_fn_1) -- (wat_whq);
+%        
+%        \draw[tree] (is_fn_1) -- (is_pron);
+%        \draw[tree] (is_fn_1) -- (is_fn_2) -- (is_np);
+%        \draw[tree] (is_fn_2) -- (is_svi);
+%        
+%        \draw[tree] (dat_fn) -- (dat_n);
+%        \draw[tree] (dat_fn) -- (dat_np);
+%        
+%        \draw[tree] (rare_fn) -- (rare_n_1);
+%        \draw[tree] (rare_fn) -- (rare_n_2);
+
+%        \draw[->, dashed] (tekening_n) -- ($(tekening_n) + (0, 2.5)$) -| (rare_n_1);
+%        \draw[->, dashed] (rare_n_2) -- ($(rare_n_2) + (0, 1.5)$) -| (dat_n);
+%        \draw[->, dashed] (dat_np) -- ($(dat_np) + (0, 2.5)$) -| (is_np);
+%        \draw[->, dashed] (is_svi) -- ($(is_svi) + (0, 1.5)$) -| (wat_svi);
+%        \draw[->, dashed] (wat_pron) -- ($(wat_pron) + (0, 0.75)$) -| (is_pron);
+%        \draw[->, dashed] (wat_whq) -- ++ (0, 4);
+%         \draw[->] (de_np) -- ($(de_np) + (0, 2)$) -| (waarover_np_1);
+%         \draw[->] (waarover_np_2) -- ($(waarover_np_2) + (0, 1)$) -| (zijn_np);
+%         \draw[->] (dit_prn) -- ($(dit_prn) + (0, 4.5)$) -| (zijn_prn);
+%         \draw[->] (zijn_smain) -- ($(zijn_smain) + (0, 2)$);
+%         \draw[->] (wij_prn) -- ($(wij_prn) + (0, 4)$) -| (staan_prn);
+%         \draw[->] (waarover_adv) -- ($(waarover_adv) + (0, 1.5)$) -| (staan_adv);
+%         \draw[->] (staan_ssub) -- ($(staan_ssub) + (0, 2)$) -| (waarover_ssub);
+	    \end{tikzpicture}
+    }
+    \caption{\todo}
+%    Proof net equivalent of the proof of Figure~\ref{figure:nd_derivation}, with unary diamonds (resp. boxes) fused with the implication dominating (resp. dominated by) them for depth compression.
+%    Atomic propositions are indexed by enumeration for identification purposes.
+%    Color coding here serves to differentiate between resources we have (green) and resources we need (red) -- the rule is start green from the bottom, change (resp. keep) color for the left (resp. right) daughter of an implication.
+%    Bold edges denote the tree structure underlying type assignments. 
+%    Dashed edges denote the correct matching between resources of opposite polarity.}
+    \label{figure:proofnet}
+\end{figure*}
+
+
+\section{Key References \& Further Reading}
+
+The geometry-informed supertagger of Section~\ref{subsubsection:gas}	 bears semblance and owes credit to various contemporary lines of work, being an application-specific offspring of weight-tied architectures, dynamic graph convolutions and structured self-attention networks.
+The depth recurrence is evocative of weight-tied architectures~\cite{dehghani2018universal,bai2019deep} and their graph-oriented variants~\cite{li2016gated}, which model neural computation as the fix-point iteration of a single layer against a structured input, thus allowing for a dynamically adaptive computation ``depth'' -- albeit with a constant parameter count.
+Analogously to structure-aware self-attention networks~\cite{zhu-etal-2019-modeling,cai2020graph} and graph attentive networks~\cite{velivckovic2018graph,yun2019graph,ying2021transformers,brody2021attentive}, it also employs standard query/key and fully-connected attention mechanisms injected with structurally biased representations, either at the edge or at the node level.
+Finally, akin to dynamic graph approaches~\cite{liao2019efficient,pareja2020evolvegcn}, it forms a closed loop system that autoregressively generates its own input, in the process becoming exposed to subgraph structures that drastically differ between time steps.
+
+% biaffine
+% richard
+% french
 
 \bibliographystyle{abbrvnat}
 \bibliography{bibliography}
