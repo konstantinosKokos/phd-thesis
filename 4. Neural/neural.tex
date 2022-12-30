@@ -113,7 +113,7 @@ I hope the result is sensible and inclusive.
 \section{Supertagging the Tail}
 A supertagger is a statistical model, a parametric function $f_\theta$ tasked with producing the most likely type assignment sequence $\tseq := t_0 \dots t_n$ for a given sentence $\wseq := w_0 \dots w_n$.
 \begin{equation}
-	f_\theta(\wseq) \approx \underset{\tseq}{\mathsf{argmax}} ~ p(\tseq \ | \wseq, \theta)
+	f_\theta(\wseq) \approx \underset{\tseq}{\mathrm{argmax}} ~ p(\tseq \ | \wseq, \theta)
 \end{equation}
 To do so, it should in theory approximate the probability of a type assignment sequence conditional on the input; in other words, feeding $f_\theta$ with any element of the product space $\lexicon^k$ should implicitly produce a total order over the product space $\types^{k}$, where $\lexicon$ the set of words in the language, $\types$ the type universe, and $k$ ranging over $\mathbb{N}$.
 If that looks stupidly intractable, it's because it is.
@@ -175,10 +175,10 @@ In that setting, and for a window of size $2\kappa + 1$, (\ref{equation:supertag
 The model would materialize as a log-linear feature weighter trained as a maximum entropy estimator.
 The input would include several sparse heuristics, including morphological features and boolean context predicates, allowing a partial soft bypass of the fixed-key lexicon.
 
-Novelty and ingenuity aside, the work set a number of precedents; some of those, reasonable as they may have been at the time, have since permeated through the problem statement, becoming \textit{de facto} practices rather than conscious design decisions.
+Novelty and ingenuity aside, the work set a number of precedents; some of those, reasonable as they may have been at the time, have since permeated through the problem statement, becoming de facto practices rather than conscious design decisions.
 Structural constraints were dropped, in part because they are less straightforward to deduce in frameworks other than tree adjoining grammars; they never found their way back into the mainstream, athough admittedly they never were particularly sophisticated to begin with.
 This step away from structural discipline is exacerbated by having also dropped the supertag-to-supertag dependencies, since the model now has no chance of learning how to statistically filter out mutually incompatible assignments either.
-To counteract the problem, the paper opted for a yet more radical solution: abandoning the sequential formulation (i.e. no more $\mathsf{argmax}$ing over the product) in favor of a \textit{multitagging} approach (i.e. returning all categories whose local probability exceeds some fixed ratio of the highest ranked candidate).
+To counteract the problem, the paper opted for a yet more radical solution: abandoning the sequential formulation (i.e. no more $\mathrm{argmax}$ing over the product) in favor of a \textit{multitagging} approach (i.e. returning all categories whose local probability exceeds some fixed ratio of the highest ranked candidate).
 This was shown to tremendously improve coverage (by outsourcing heavier duty to the parser), but has to be understood as a practical overcorrection, an emergency measure to sidepass the model's inherent disregard to output-level sequential interactions.
 The limitation is acknowledged by \citet{clark-curran-2004-importance}, and an attempt at resolution is offered by \citet{curran2006multi}.
 There, the forward-backward algorithm is employed to efficiently calibrate the probability of an assignment (in the multitagging setup) as the sum of all sequential assignments containing it:
@@ -201,13 +201,13 @@ To escape the unidirectional constraint of the classical recurrent network (or p
 \begin{equation}
 	\prod_i^n p(t_i \ | \ \seq{w}{0:i+\kappa})
 \end{equation}
-And while their approach does indeed offer a wider receptive field (and a better operationalization), it is still focused solely on the input side; output-to-output interactions are still nowhere to be seen, leaving their promise unfulfilled.
+And while their approach does indeed offer a wider receptive field, it is focused solely on the input side; output-to-output interactions are still nowhere to be seen.
 
 \subsubsection{Autoregressive Modeling}
 By now (and despite earlier aphorisms), it is becoming increasingly evident that nothing deep or spiritual restricts supertagging to remaining local, as advancements in machine learning are progressively offering more opportunities for fast and efficient incorporation of ever wider context.
 But the absence of output-to-output dependencies remains unresolved, despite it being a recurrent theme in the literature.
 This changes with the work of \citet{vaswani-etal-2016-supertagging} who score two major points with their resourceful use of long short-term memory networks (LSTM).
-First, they replace the simple recurrence of \citet{xu-etal-2015-ccg} with a bidirectional one (thus allowing unbounded left- and right- input interactions) --  an idea explored in parallel by multiple contemporary works~\cite[\textit{inter alia}]{ling-etal-2015-finding,xu-etal-2016-expected,lewis-etal-2016-lstm}.
+First, they replace the simple recurrence of \citet{xu-etal-2015-ccg} with a bidirectional one (thus allowing unbounded left- and right- input interactions) --  an idea explored in parallel by multiple contemporary works~\cite[inter alia]{ling-etal-2015-finding,xu-etal-2016-expected,lewis-etal-2016-lstm}.
 More importantly and in addition to that, they introduce an intermediate recurrence that is to serve as a supertag-level language model, fusing the prediction history with the input context to produce each local prediction.
 The two together alter (\ref{equation:supertag}) into a version far more elaborate than previous proposals:
 \begin{equation}\label{equation:lstm_lm}
@@ -288,7 +288,7 @@ The issue is really quite shallow: statistical models have always had a very har
 
 That, again, is not to say the compromise is an unjust one; its heedless proliferation does, however, come with two major side effects.
 One, it forces parsers to give up on potentially rare syntactic phenomena, assuming those manifest through unique and uncommon supertags.
-Even though a parser should in principle be able to handle any valid supertag (regardless of its statistical properties), the \textit{a priori} exclusion of rare ones corresponds to an externally imposed restriction to its generalization.
+Even though a parser should in principle be able to handle any valid supertag (regardless of its statistical properties), the a priori exclusion of rare ones corresponds to an externally imposed restriction to its generalization.
 In other words, exactly those difficult phenomena that would benefit from the linguistic expertise of a robust parser are to be discarded in the first place!
 The problem is of an epistemological nature: we'll only ever parse only what we can parse, but we can't parse what we won't even try to parse.
 Two, in becoming part of the first page of the (as of yet unwritten) supertagging bible, the concept implicitly reinforces the belief that grammars not following a distribution of occurrences similar to (or denser than) that of the CCGbank are practically unusable.
@@ -307,7 +307,7 @@ But, as the proverb goes, ``necessity is the mother of invention''%
 and we're definitely in need here, so we may as well invent something.
 
 In reality, what we need is less of an invention and more of an observation.
-The important thing to observe is that supertags (be them combinatorial categories, type-logical types or anything resembling them) are not \textit{ad hoc}, opaque and dissimilar \textit{units}, but highly regular, transparent and decomposable \textit{structures}, made of a small set of primitives and the binders that piece them together.
+The important thing to observe is that supertags (be them combinatorial categories, type-logical types or anything resembling them) are not ad hoc, opaque and dissimilar \textit{units}, but highly regular, transparent and decomposable \textit{structures}, made of a small set of primitives and the binders that piece them together.
 In our setup, complex types are the result of type forming operators applied to ``smaller'' types, the smallest types available being atomic propositions; recall the (strategically placed) exercise of Figure~\ref{figure:litten_acg_der}.
 This insight is really quite trivial and won't come as a surprise to anyone that has even superficially dabbled in the joys of algebraic data types, context-free grammars, inductive tree structures, or any sort of the hierarchical recursions common in computer science.
 Theoretically unsurprising as it may be, it offers an interesting applied perspective: why teach a statistical model how to \textit{disambiguate} (i.e. choose) between some candidate assignments (however many), when we could instead teach it to \textit{construct} (i.e. inductively describe) the most suitable assignments instead?
@@ -345,7 +345,7 @@ The actually interesting bit is that they don't actually even need to be languag
 The paradigm is of course bland, making no assumptions about the output structure and requiring little to no task-specific tuning.
 For the exact same reasons, it is also highly appealing, and a good starting point for experimentation -- we can just apply it virtually unchanged to the task at hand.
 In our domain, the goal sequence $\mathbf{y}$ would be the sum of symbols together forming our sequence of type-words, and $\mathbf{x}$ will be none other than the sentence itself.
-Using the doubly indexed $s_{i,j}$ to denote the $j$-th symbol of the $i$-th type (symbol enumeration following the depth-first left-first traversal of the formula tree), the conditional being model becomes:
+Using the doubly indexed $s_{i,j}$ to denote the $j$-th symbol of the $i$-th type (symbol enumeration following the depth-first left-first traversal of the formula tree), the conditional becomes:
 \begin{equation}
 	\prod_i^n \prod_j^{|| t_i ||} 
 	p(s_{i, j} \ | \ 
@@ -354,6 +354,7 @@ Using the doubly indexed $s_{i,j}$ to denote the $j$-th symbol of the $i$-th typ
 		\wseq)
 \end{equation}
 where $||t_i||$ the number of symbols of type-word $i$.
+We will refer to this operationalization as a \textit{symbol sequential} supertagger.
 Note that the above is essentially an expanded version of~(\ref{equation:lstm_lm}), in the sense of containing intermediate evaluations in between full supertags.
 This view allows drawing a parallel between type-words made of primitive symbols and words made of subword units~\cite{sennrich-etal-2016-neural}. The two share the same high-level purpose of improving ``translation'' to rare (type-)words, even though the structural decomposition of types is much more regular and consistent than the morphological decomposition of words.
 
@@ -362,7 +363,7 @@ Encoding the input sequence to a fixed length vector is essentially lossy neural
 The longer the input and output sequences are, the more this compression may prove catastrophic in capturing long range dependencies~\cite{cho2014properties}.
 As an alternative, attention-based models circumvent the need for compression by simply building a contextually informed representation of the full input, distributed evenly among its tokens (one representation per sequence element).
 These representations can be dynamically weighted and summed, yielding a distinct view of the same structure based on an external aggregation context (a query).
-Attention has its roots in neural image processing~\cite[\textit{inter alia}]{larochelle2010learning,NIPS2014_09c6c378}, but its application to language was essentially the catalyst that set the field ablaze~\cite{bahdanau2015neural}.
+Attention has its roots in neural image processing~\cite[inter alia]{larochelle2010learning,NIPS2014_09c6c378}, but its application to language was essentially the catalyst that set the field ablaze~\cite{bahdanau2015neural}.
 
 Even though attention was originally used as an enhancement on top of RNNs, the code of conduct today is basically attention only.
 The instigator of that paradigm shift was the transformer architecture~\cite{vaswani2017attention}, which by now enjoys an unprecedented pop-science status (saving me the hassle of having to regurgitate yet another ``transformers explained'' pamphlet).
@@ -373,15 +374,15 @@ The resulting weights are normalized to sum to one, and act as multiplicative fa
 This basic operation is trivial to parallelize, both across tokens within the same sequence, as well as across independent sequences, thus allowing an efficient many-to-many message passing contextualization that can be stacked multiple times in depth for expra expressivity.
 Using this as a decoder is just as easy, since queries may come from a different sequence than keys and values, provided their dimensionalities (not the counts!) match.
 The only requirement is a masking strategy that disallows autoregressed tokens from attending to their future while training, since that would be cheating.
-This is significant for training in the NMT setup, as it trades the linear temporal delay of the RNN for the quadratic memory cost of the attention matrix (quadratic because all tokens must attend to all tokens).
+This is significant for training in the NMT setup, as it circumvents the linear temporal delay of the RNN by trading it for the quadratic memory cost of the attention matrix (quadratic because all tokens must attend to all tokens); the trade-off does not carry through to inference, where one has to suffer both the temporal delay (since there's no oracle supplying the future anymore) as well as the memory penalty.
 
 \subsubsection{Implementation}
 Our problem is ripe with long distance dependencies.
 Moreover, these are not confined to being only between encoder-decoder token pairs, but may also exhibit within decoder token pairs alone.
 Consider that the misalignment between input and output means that we must consult the full input sequence at each decoding step, while the structurally liberal type logic means that cues to the current step may be found locally (within the same type), or multiple types (and thus even more steps) away.
-For this reason alone, the transformer seemed like a good candidate architecture.%
-	\footnote{Nothing to do with it topping the machine learning citation charts of 2018.}
-Adhering to evidence that pretrained language models seem to benefit either side of the encoder-decoder pipelne, the encoder would consist of a Dutch version of ELMo, the \textit{de facto} language model of the time~\cite{peters-etal-2018-deep,che-etal-2018-towards}.
+For this reason alone, the transformer seemed like a good candidate architecture%
+	\footnote{Nothing to do with it topping the machine learning citation charts of 2018.}.
+Adhering to evidence that pretrained language models seem to benefit either side of the encoder-decoder pipelne, the encoder would consist of a Dutch version of ELMo, the de facto language model at the time~\cite{peters-etal-2018-deep,che-etal-2018-towards}.
 To account for domain adaptation without having to compute the costly gradient updates for the over-parameterized language model, a single transformer encoder was used to contextualize ELMo's precomputed representations.
 The encoder was connected to a tiny transformer decoder of two layers, allowing unhindered access to the full input and all previous outputs.
 
@@ -434,22 +435,23 @@ Supertags were brutally leveled into one-dimensional decals, their original tree
 We still have to do better.
 
 \subsection{Geometric Constraints}
+\label{subsection:gc}
 \citet{prange-etal-2021-supertagging} notice the problem and seek to resolve it by explicating the categorial tree structure.
-Their methodology abides by the encoder-decoder paradigm, but with one crucial, task-specific adaptation: the decoders experimented with are tree biased, making them a far better fit for addressing the problem at hand.
+Their methodology abides by the encoder-decoder paradigm, but with one crucial, task-specific adaptation: the decoders experimented with are \textit{tree recursive}, making them a far better fit for addressing the problem at hand.
 The general setup has the encoder build a contextualized representation for each word in the input, which is to serve as the initial seed for the decoding of the respective supertag; the decoder is then independently applied among all trees.
-Two decoders are considered; a tree-shaped variant of the gated recurrent unit~\cite{cho2014properties} and a positionally informed densely connected network.
+Two decoders are considered; a tree-shaped variant of the gated recurrent unit~\cite{cho2014properties} and a positionally informed feed-forward network.
 The first recurses along the tree structure, generating each local symbol dependent on its direct ancestor.
 The second sums the initial seed with the projection of a feature vector describing the local position and its ancestry (both fixed choices among some predetermined possibilities).
 
 The approach makes for a well-motivated path in the right direction.
 The new formulation completely eliminates the burden of \textit{how} trees are constructed, allowing the model to focus on \textit{which} trees to construct. 
 At the same time, the decoders considered are now token-separable, i.e. they can be applied in parallel across both sequences and trees.
-Where previously we would have to perform $\sum_i^n ||t_i||$ decoding steps, this now shrinks to $\mathsf{max}_i^n ~ \mathsf{depth}(t_i)$ -- practically a constant, and a reduction of at least one order of magnitude.
+Where previously we would have to perform $\sum_i^n ||t_i||$ decoding steps, this now shrinks to $\mathrm{max}_i^n ~ \mathrm{depth}(t_i)$ -- practically a constant, and a reduction of at least one order of magnitude.
 Furthermore, words and supertags are now structurally aligned, relieving the model from having to learn the implicit soft alignments necessary at each decoding step.
-On the practical side, numbers are significantly improved across the board (except for the far end of the zipfian tail), making the model a real alternative to the discriminative \textit{status quo}.
+On the practical side, numbers are significantly improved across the board (except for the far end of the zipfian tail), making the model a real alternative to the discriminative status quo.
 This becomes even more relevant considering how easily the setup lends itself to the multitagging paradigm (an insight omitted from the authors), as multiple trees may be obtained by following along the path of the factorization (modulo accounting for depth-width smoothing):
 \begin{equation}\label{equation:tree_ar}
-	p(t_i \ | \ \wseq) = \prod_j^{||t_i||} p(s_{i,j} \ | \ s_{i,k} : k \in \mathsf{ancestors(j)}, \wseq)
+	p(t_i \ | \ \wseq) = \prod_j^{||t_i||} p(s_{i,j} \ | \ s_{i,k} : k \in \mathrm{ancestors(j)}, \wseq)
 \end{equation}
 All these merits come, however, at a heavy price: in parallelizing decoding across trees, the architecture loses the ability to model auto-regressive interactions between output nodes belonging to \textit{different} trees; interactions that can be crucial at the granularity scale we are now at.
 The task is morally reduced to a sequence classification once more, albeit now with a dynamically adaptive classifier; we are back at (\ref{equation:seq_cls}), except for each local decision being elaborated according to (\ref{equation:tree_ar}).
@@ -465,11 +467,11 @@ This leaves some leeway as to what could constitute the decision context, and he
 The maximalist position is nothing less than the entire past, i.e. \textit{all} the nodes we have so far decoded.
 Crucially, this abolishes conservative ancestry biases, establishing ``diagonal'' structural interactions between autoregressed nodes without requiring them to be directly linked to one another, or even share the same ancestral heritage (belong to the same tree), casting (\ref{equation:supertag}) to:
 \begin{equation}
-	\prod_i^n \prod_j^{||t_i||} p(s_{i, j} \ | \ p(s_{:, k} : \mathsf{level}(k) < \mathsf{level}(j), \wseq)
+	\prod_i^n \prod_j^{||t_i||} p(s_{i, j} \ | \ p(s_{:, k} : \mathrm{level}(k) < \mathrm{level}(j), \wseq)
 \end{equation}
 
 The point might seem stretched but it is really just subtle.
-If you're having trouble following along, take a look at Figure~\ref{figure:canvas}, displaying an abstract (partial) canvas of the constructive supertagger's input/output space, where $w_a$, $w_b$, $w_c$ are the first three words of the input sequence, with corresponding goal trees $a$, $b$ and $c$, the nodes of which enumerated according to a left-first depth-first traversal.
+If you're having trouble following along, take a look at Figure~\ref{figure:canvas}, displaying an abstract (partial) canvas of the constructive supertagger's input/output space, where $w_a$, $w_b$, $w_c$ are the first three words of the input sequence, with corresponding goal trees $a$, $b$ and $c$, the nodes of which enumerated according to a depth-first left-first traversal.
 Focusing on autoregressive interactions alone, the sequential approach we started from would have each node depend on all nodes to its left and below; without loss of generality, $b_6$ would for instance depend on all of $a$, but also $b_1$, $b_2$, $b_3$, $b_4$ and $b_5$, as well as any descendants of the last two.
 The tree-biased approach would have each node depend on its ancestors; for $b_6$, these would be just $b_3$ and $b_1$.
 The tree-sequential approach envisaged here has each node depend on all nodes below it; the prediction of $b_6$ is now informed by the contents of nodes $[a/b/c/\dots]_{1,2,3}$.
@@ -590,7 +592,7 @@ In our case, it would be straighforward to add direct messaging components that 
 But this lacks subtlety, making no attempt at exploiting the regularity of the output space; sure -- it may be neither sequence nor tree, but it's not an ad-hoc graph either!
 Computationally, this would not bode very well either; the number of interactions to compute would be upper bound by the series:
 \begin{equation}\label{equation:dense_graph}
-\sum_{k=0}^{m := \mathsf{max}_i^n ~ \mathsf{depth}(t_i)}
+\sum_{k=0}^{m := \mathrm{max}_i^n ~ \mathrm{depth}(t_i)}
 	\Big(
 	\hspace{-22.5pt}
 	\underbrace{\vphantom{\sum\nolimits_{k'}^{k}} 2^{k}n}_{\text{\# prediction targets}}
@@ -635,7 +637,7 @@ Having interactions modulated and bottlenecked by state tracking vectors reduces
 It also justifies a heterogeneous formulation, which would have different graph elements inhabit different vector spaces.
 State vectors are recurrent across depth and inter-communicating across width, thus meriting from high-dimensional representations; with that in mind, they can initially be supplied by an external high-horsepower encoder, solving the initial interfacing with the input sentence. 
 Tree nodes, on the other hand, encode a decision over a very small vocabulary and are use-and-forget, justifying a low-dimensional representation.
-Finally, implementing the forward, backward and horizontal message passing rounds as separable, parameter-sharing operations repeated both across depth as well as width reduces the model's parameter count and provides the inductive biases needed for strong generalization.
+Finally, implementing the forward, backward and horizontal message passing rounds as separable, parameter-sharing convolutions repeated both across depth as well as width reduces the model's parameter count and provides the inductive biases needed for strong generalization.
 Summarizing, the decoding algorithm looks as follows:
 \begin{enumerate}
 	\item State vectors are initialized by some external encoder.
@@ -686,7 +688,7 @@ From the latter, we obtain class weights by matrix multiplying them against the 
 \begin{equation}
 \mathrm{weights}_{i,k} = \left(p(k)(\rho_0) \odot W_n h^{\tau}_i\right) W_e^\top
 \end{equation}
-The above weights are converted into a probability distribution over the alphabet symbols $\mathcal{S}$ by application of the $\mathsf{softmax}$ function. 
+The above weights are converted into a probability distribution over the alphabet symbols $\mathcal{S}$ by application of the $\mathrm{softmax}$ function. 
 The distribution can be sampled over to generate a concrete prediction.
 
 \paragraph{Autoregressive Feedback}
@@ -723,14 +725,14 @@ Following standard practices, we project states into query, key and value vector
 \end{equation}
 From the normalized attention scores we obtain a new set of aggregated messages:
 \begin{equation}
-m_{i,t}' = \sum_{j \in \{0..s\}} \frac{\mathsf{exp}(\tilde{a}_{i,j}) W_v\tilde{h}^\tau_j}{
+m_{i,t}' = \sum_{j \in \{0..s\}} \frac{\mathrm{exp}(\tilde{a}_{i,j}) W_v\tilde{h}^\tau_j}{
 \sum_{k\in \{0..s\}}
-\mathsf{exp}(\tilde{a}_{i,k})}
+\mathrm{exp}(\tilde{a}_{i,k})}
 \end{equation}
 Same as before, queries, keys, values, edge embeddings and attention coefficients are distributed over many heads. 
 Aggregated messages are passed through a swish-gated feed-forward layer~\cite{dauphin2017language,shazeer2020glu} to yield the next sequence of state vectors:
 \begin{equation}
-h^{\tau+1}_i = W_3\left(\mathsf{swish}_1(W_1 m_{i,\tau}')\odot W_2m_{i,\tau}'\right)
+h^{\tau+1}_i = W_3\left(\mathrm{swish}_1(W_1 m_{i,\tau}')\odot W_2m_{i,\tau}'\right)
 \end{equation}
 where $W_{1,2}$ are linear maps from the encoder's dimensionality to an intermediate dimensionality, and vice versa for $W_3$.
 
@@ -751,9 +753,9 @@ Hence, we shall employ it not just on \AE thel but also on the two versions of t
     \small{
     \begin{tabular}{@{}l@{\qquad}c@{\quad}c@{\qquad}c@{\qquad}c@{}}
         & \multicolumn{2}{c}{\textbf{\textit{CCGbank}}} 
-        & \multirow{2}{*}{\textbf{\textit{TLGbank}}}
-        & \multirow{2}{*}{\textbf{\textit{\AE thel}}}\\ 
-        & \textit{original} & \textit{rebank} \\
+        & \textbf{\textit{TLGbank}}
+        & \textbf{\textit{\AE thel}}\\ 
+        & \textit{original} & \textit{rebank} & & ($\mathtt{1.0.0a4}$)\\
         \toprule
         \textbf{Primitives}     & 37        & 40        & 27        & 83\\
         ~ Zeroary           & 35        & 38        & 19        & 33\\ 
@@ -807,7 +809,7 @@ Specifically, we set the node dimensionality $d_n$ to 128 with 4 heterogeneous a
 We train using AdamW~\cite{	loshchilov2018decoupled} and a variable learning rate scaled by a linear warmup and cosine decay schedule over 25 epochs, scaled by 10\% for the encoder.
 During training we provide strict teacher forcing and apply feature and edge dropout at 20\% chance.
 The loss signal is derived as the label-smoothed negative log-likelihood between the network's prediction and the ground truth label.
-Base-sized BERT variants are procured from the transformers library~\cite{wolf2020transformers}: RoBERTa for English~\cite{liu2019roberta}, RobBERT for Dutch~\cite{delobelle2020robbert} and CamemBERT for French~\cite{martin2020camembert}, all fine-tuned during training.
+Base-sized BERT variants are procured from the transformers library~\cite{wolf2020transformers}: RoBERTa for English~\cite{liu2019roberta}, BERTje for Dutch~\cite{de2019bertje} and CamemBERT for French~\cite{martin2020camembert}, all fine-tuned during training.
 
 \paragraph{Evaluation}
 We perform model selection on the basis of validation accuracy, and gather the corresponding test scores according to the frequency bins of Table~\ref{table:datasets}.
@@ -829,7 +831,7 @@ Evidently, our model surpasses established benchmarks in terms of overall accura
     & \multicolumn{1}{l}{Symbol Sequential LSTM /w n-grams}
     & \num{95.99} & \num{96.40} & \num{65.83} &  \multicolumn{2}{c}{\num{8.65\textsuperscript{!}}} \\
     	& \multicolumn{1}{l}{~\smaller\cite{Liu_Ji_Wu_Lan_2021}}\\
-    & \multicolumn{1}{l}{Recursive Tree Addressing}
+    & \multicolumn{1}{l}{Tree Recursive (Feature Embedding)}
     & \num{96.09} & \num{96.44} & \num{68.10} & \num{\textbf{37.40}} & \num{\textbf{3.03}} \\
 	& \multicolumn{1}{l}{~\smaller\cite{prange-etal-2021-supertagging}}\\
     & \multicolumn{1}{l}{Cross-View Training}
@@ -853,10 +855,10 @@ Evidently, our model surpasses established benchmarks in terms of overall accura
     & \multicolumn{1}{l}{Symbol Sequential Transformer\textsuperscript{\textdagger}}
     & \num{90.68} & \num{91.10} & \num{63.65} & \num{34.58} & \num{\textbf{7.41}} \\
 	& \multicolumn{1}{l}{~\smaller\cite{kogkalidis-etal-2019-constructive}}\\
-    & \multicolumn{1}{l}{TreeGRU}
+    & \multicolumn{1}{l}{Tree Recursive (GRU)}
     & \num{94.62} & \num{95.10} & \num{64.24} & \num{25.55} & \num{2.47} \\
 	& \multicolumn{1}{l}{~\smaller\cite{prange-etal-2021-supertagging}}\\
-    & \multicolumn{1}{l}{Recursive Tree Addressing}
+    & \multicolumn{1}{l}{Tree Recursive (Feature Embedding)}
     &  \num{94.70} & \num{95.11} & \num{68.86} & \num{\textbf{36.76}} & \num{4.94} \\
 	& \multicolumn{1}{l}{~\smaller\cite{prange-etal-2021-supertagging}}\\
     \addlinespace
@@ -886,20 +888,20 @@ Evidently, our model surpasses established benchmarks in terms of overall accura
     \addlinespace
     \addlinespace
 %    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
-    \multicolumn{7}{l}{\textit{\textbf{\AE thel}} (v0.4.0)} \\
+    \multicolumn{7}{l}{\textit{\textbf{\AE thel}} ($\mathtt{0.4}$)} \\
 %    % \midrule
     & \multicolumn{1}{l}{Symbol Sequential Transformer\textsuperscript{\textborn}}
     & \num{83.67} & \num{84.55} & \num{64.70} & \num{50.58} & \num{\textbf{24.55}} \\
 	& \multicolumn{1}{l}{~\smaller\cite{kogkalidis-etal-2020-neural}}\\
 	\addlinespace
 	\addlinespace
-    \multicolumn{7}{l}{\textit{\textbf{\AE thel}} (v1.0.0a4)} \\
+    \multicolumn{7}{l}{\textit{\textbf{\AE thel}} ($\mathtt{1.0.0}$)} \\
     & \multicolumn{1}{l}{Geometry-Aware Convolutions}
-    & \ave{\textbf{95.92}}{0.01}
-    & \ave{96.40}{0.01} 
-    & \ave{\textbf{81.48}}{0.97}
-    & \ave{\textbf{55.37}}{1.00} 
-    & \ave{\textbf{7.26}}{2.67} \\ 
+    & \ave{\textbf{94.08}}{0.02}
+    & \ave{95.16}{0.01} 
+    & \ave{\textbf{75.55}}{0.02}
+    & \ave{\textbf{58.15}}{0.00} 
+    & \ave{\textbf{18.37}}{2.73} \\ 
     & \multicolumn{1}{l}{~\smaller (this work)}\\
     \bottomrule
     \addlinespace
@@ -919,7 +921,6 @@ Our results, presented in Table~\ref{table:ablations}, verify first a positive c
 In three out of the four datasets, the relative gains of incorporating state feedback outweigh those of node feedback, and are most pronounced in the case of \AE thel, likely due to its positionally agnostic types.
 With the exception of CCGrebank, relinquishing both kinds of feedback largely underperforms having either one, experimentally affirming their compatibility.
 
-
 \begin{table}
     \centering
     {\small
@@ -929,7 +930,7 @@ With the exception of CCGrebank, relinquishing both kinds of feedback largely un
         \textit{\textbf{CCGbank} (original)} & -0.05 & -0.01 & -0.08 \\ 
         \textit{\textbf{CCGbank} (rebank)} & -0.12 & -0.04 & -0.07 \\
         \textit{\textbf{French TLGbank}} & -0.13 & -0.14 & -0.23 \\
-        \textit{\textbf{\AE thel}} v1.0.0a4 & -0.24 & -0.12 & -0.37
+        \textit{\textbf{\AE thel}} ($\mathtt{1.0.0}$) & -0.24 & -0.12 & -0.39
     \end{tabular}}
     \caption{Absolute difference in overall accuracy when removing the state and node feedback components (averages of 3 repetitions).}
     \label{table:ablations}
@@ -943,9 +944,11 @@ Like before, the approach provisions contextual and self-standing representation
 Unlike before, the architecture boasts an extremely fast inference speed that goes toe-to-toe with conventional discriminative architectures, owing to its temporal upper bound scaling with maximal tree depth (practically a constant, except for really perverse cases).
 Structure manipulation is kept to the bare minimum, even in the absence of oracle guidance, maximizing GPU utilization and data parallelism with high efficiency sparse routines~\cite{fey2019fast}.
 Operations are batched and temporally iterated across all nodes and sequences without any CPU interruptions.
-Each next fringe is dynamically generated by selecting decoded symbols that correspond to tree forming operators, isolating their indices, multiplying them by two (to create left children), offsetting by one (to create right children), and finally interleaving the two, thus yielding both descendants on a purely numerical basis.
-In the same vein, the new state indices are simply the repetition of their respective ancestor indices.
+Each next fringe is dynamically generated on a purely numerical basis.%
+	\footnote{By selecting decoded symbols that correspond to tree forming operators, isolating their indices, multiplying them by two (to create left children), offsetting by one (to create right children), and finally interleaving the two to yield both descendants.
+In the same vein, the indices of the aligned states are simply the repetition of their respective ancestors' indices.}
 The architecture's memory footprint and parameter count are also the product of careful design and thus well under check, facilitating training and parser integration (as we will soon see).
+The model takes approximately 5 hours to train on each dataset, and boasts a constant processing speed of 6\,000 \sfrac{tokens}{sec} on a consumer-grade laptop GPU. By comparison, the sequential model takes about 100 hours to converge, and processes about 700 \sfrac{tokens}{sec}, scaling inversely with sentence length.
 
 \paragraph{Supertagging and Sparsity}
 Practice aside, the results obtained pose concrete evidence that lexical sparsity, historically deemed the categorial grammar's curse, might well just require a change of perspective to tame and deploy as the answer to the very problem it poses.
@@ -973,11 +976,11 @@ The issue is of course not unique to this system, but common to all decoders tha
 We have made significant progress with supertagging, first alleviating the scary-looking roadblock of lexical type sparsity, and then producing numbers bigger than any numbers seen before%
 	\footnote{Actually, \citet{tian2020supertagging} were reporting even bigger numbers for a while, but it later turned out that these numbers were in error and their real numbers were a lot smaller than the numbers they originally reported.
 	An honest mistake, no doubt due to churning out the same architecture 5 times over the span of a year -- they thought you're not supposed to measure performance on rare assignments at all.
-	Long story short, don't trust numbers you haven't made yourself.}%
+	Long story short, don't trust the numbers.}%
 , earning a spot at at the top 10 pop hits leaderboard for the next couple of months.
 But supertagging alone is not going to take us to the end of the road.
 Far from it, in fact, since our chosen logic is extremely permissive, burning away any hope of making do using just the proof-theoretic tools we have available.
-The problem is simple: our type assignments, even when fully correct, still allow more proofs than desired -- we need yet another piece of statistical machinery that somehow tells us which one of these many proofs is the linguistically sensible one.
+The problem is simple: our type assignments, even when fully correct, still allow more proofs than desired -- we need yet another statistical learner on which to outsource the duty of finding which one of these many proofs is the linguistically sensible one.
 And once more, the discriminator approach is not going to work: enumerating and ranking all well-formed proofs is a no-go -- we have to build the correct proof from scratch instead.
 
 To move forward we need to look back.
@@ -986,135 +989,360 @@ Back then, we were quick to dismiss them after a moment of shallow appreciation,
 Lots have changed since, and not for the better; we added modalities, which impose further structure on their own, in turn necessitating yet another rule of deduction ($\Extraction$) invisible to proof nets.
 Why then should we turn our attention back to them now?
 
-This blast from the past is justified by the inadequacy of alternatives.
+The blast from the past is justified by the inadequacy of alternatives.
 The natural deduction presentation we have predominantly employed is hierarchical and tree-like; assuming perfect processing and regardless of search direction (bottom-up or top-down), computation is temporally bound by the proof depth -- bottlenecked by decisions due, or anticipating decisions to be.
-The same is true for most proof theoretic alternatives (tableaus, the sequent presentation, $\lambda$ terms, etc.).%
-Decisions cannot be detached from the structure they bind to and help form -- to make a choice requires knowing your options, in turn requiring explicit symbolic manipulation.
-Exploring a choice requires also evaluating it, and building the structure that will allow future choices to be made.
-Even if the proof is to be dynamically constructed, abolishing the need for enumerating all options globally, each local junction point still needs to be exhaustively expanded for the construction to proceed.
-Type safety is not for free: it costs back-and-forth between the symbolic engine and the statistical learner.
-Proof nets, on the other hand, are the embodiment of data parallelism, the most saught out property of neural computation and the key to efficient training and optimization.
+The same is true for most proof-theoretic alternatives (tableaus, the sequent calculus, $\lambda$ terms, etc.).
+Decisions cannot be detached from the structure they bind to and help form -- to make a choice requires knowing your options, which in turn requires that previous choices were not just abstractly ``made'' but concretely evaluated.
+At the same time, even if the proof is to be dynamically constructed, thus abolishing the need for enumerating all options globally, each local junction point still needs to be exhaustively expanded for the construction to proceed.
+Explicit symbolic manipulation and neural representations are inseparably bound, and even though the former can be somewhat localized, it can never be foregone fully.
+Practically speaking, type safety is not for free: it costs back-and-forth between the logical and numerical back ends, inhibiting integration.
+Proof nets, on the other hand, are the embodiment of data parallelism, the most saught out property of neural computation and the holy grail of efficient training and optimization.
 Decision making and validity testing are detached: we must first make all the decisions that are to be made, and only then can we check whether they are structurally legitimate.
 This laxness was the very reason we abandoned proof nets in the first place, but it is exactly what makes them so very appealing now.
 
-\subsection{Parsing as Permutation}
-So what exactly is the structure of decisions prescribed in a proof net?
-This might be easier to digest with an illustration.
-%\subsection{Neural Proof Nets}
-%The trickeries described next were first made public 
+%What follows is a retrospective revision and expansion of the ideas and experiments of \citet{kogkalidis-etal-2020-neural}.
 
-%Going bottom-up, computation is bottlenecked by decisions due.
-%complicated to perform proof search on and ambiguous as a representational format.
-%\subsection{Blast from the Past}
+\subsection{Parsing as Permutation}
+So what exactly is the structure of decisions encoded in a proof net?
+Recalling our earlier discussion, a proof net is essentially two things and a promise.
+First, a sequence of decomposition trees, called a proof frame.
+Second, a bijection between atomic formulas of inverse polarities, called axiom links.
+The two together make a proof structure -- if it so happens that we can traverse the structure, the promise is kept: it is also a proof net.
+The proof frame is deterministically obtained from a sequence of type assignments, and thus irrelevant to this discussion -- in principle, we can assume it to be given from the supertagging component.
+The promise of traversability corresponds to the deferred (and also deterministic) validity checking -- it can only be done \textit{given} a proof structure.
+The only thing we really have any say on is the axiom links.
+Our goal is therefore to design a neural model capable of manipulating sets and building bijections between them -- and not just \textit{any} bijections, but rather only those that are theoretically permitted (traversable, i.e. valid proofs) and linguistically sensible (i.e. not just valid proofs, but also valid parses).
+
+At this point, the customary first reaction is to nervously contemplate all past decisions that led to this moment.
+Neural models are notoriously ill-fit for discrete and combinatorial optimization -- what are we even doing?
+The thought does briefly cross the mind: maybe we'd be better off trying some run-of-the-mill shift-reduce or chart-based parser with neurally guided decisions?
+Nah.
+Pulling us out of this momentary lapse is the folkloric knowledge that a bijection between two ordered sets, or \textit{chains}, can be uniquely represented as a \textit{permutation matrix} -- a boolean valued, doubly stochastic and square matrix that, left-applied to set\textsubscript{1} (in column form), \textit{transports} each of its elements to its pair in set\textsubscript{2}.
+Note that the order does not need to be due to some intrinsic property of the set and its elements, but may well be externally imposed -- this is just simply a representational trick.
+Considering also that a link is only possible between different instances of the \textit{same} atomic type, the problem naturally reduces to finding not a single, big matrix, but many smaller, independent ones.
+
+This might all be easier to digest with a visual example.
+Let's turn our attention to Figure~\ref{figure:rare_teken}, which displays an annotated proof net for the wh-question \texttr{Wat is die rare tekening?}{What is this scary picture?}, with derivation:
+\begin{equation}
+	\w{wat}~\ddiaintro{whbody}(\lam \Var{0}.\w{is}~\Var{0}~\ddiaintro{su}(\dboxelim{det}\w{die}~(\dboxelim{mod}\w{rare}~\w{tekening})))
+\end{equation}
+Formula decompositions should be easy to decipher.
+Following the polarization induction, we end up with polarity information for all formula nodes, all the way up to leaves -- the only addition to the modus operandi of  Section~\ref{subsection:proofnets} are the unary modal branches, which are polarity preserving.
+To be able to tell distinct occurrences of the same atom apart, we associate a unique index to each leaf; the convention followed is irrelevant, but we may as well assume a depth-first left-first sequence-wide enumeration.
+We can then use these to refer back to the occurrences of atomic formulas they identify within the proof frame.
+Gathering positive and negative leaves, we end up with two ordered sets $P$ and $N$; in this case $P := \{ 0, 2, 5, 7, 9, 10\}$ and $N := \{ 1,3,4,6,8,11\}$.
+Each set can then be partitioned according to its elements' types, yielding as many positive as negative subsets, aligned in equinumerous pairs; i our case, positive subsets $P_{\vnw[s]} = \{ 0 \}$, $P_{\svi[s]} = \{5 \}$, $P_{\whq[s]} = \{2\}$, $P_{\np[s]} = \{ 7 \}$  and $P_{\n[s]} = \{ 9, 10 \}$, and their negative counterparts $N_{\vnw[s]} = \{3\}$, $N_{\svi[s]} =\{1 \}$, $N_{\whq[s]} = \{ 11 \}$, $N_{\np[s]} = \{4\}$  and $N_{\n[s]} = \{ 6, 8\}$.
+Now, rather than look for the correct bijection between $P$ and $N$, we should be looking for the correct bijections between sets of the same ``type'' and inverse polarity.
+All sets except those indexed by $\n[s]$ are singletons, their pairs having but one bijection.
+Each of $P_{\n[s]}$ and $N_{\n[s]}$ contains two elements, giving rise to two possible bijections -- a one-in-two choice that captures the entire proof.
+The bijection we are in search for is $\pi_{\n[s]} : P_{\n[s]} \biject N_{\n[s]}$, $\pi_{\n[s]}(9)=6$, $\pi_{\n[s]}(10)=8$, which can be represented as the permutation matrix:
+\begin{equation}
+\begin{tikzpicture}[scale=.6]
+    \fill[gray!30] (0,1) rectangle +(1,1);
+    \node [above] at (0.5, 1) {\checkmark};
+    \fill[gray!30] (1,0) rectangle +(1,1);
+    \node [above] at (1.5, 0) {\checkmark};
+    \node [above] at (0.5,2) {6};
+    \node [above] at (1.5,2) {8};
+    \node [left] at (0,1.5) {9};
+    \node [left] at (0,0.5) {10};
+    \node at (-1.75,1) {${\pi}_{\n[s]}\!:=$};
+    \draw (0,0) grid (2,2);
+\end{tikzpicture}
+\end{equation}
+Without loss of generality, creating such matrices is what the proof search we need to conduct boils down to -- even if usually we'll have more choices spread among more types.
+Needless to say, this is a simplification; structural constraints are only partially imported, in the sense that traversability and well-formedness are not respected by default.
+It is not an unreasonable one though; the format is compact, and imports at least some of the structural constraints, faithfully capturing definition of a proof structure.
+Besides, matrices are the bread and butter of machine learning -- we're on the right track.
 
 \begin{figure*}
     \resizebox{1\textwidth}{!}{
 		\begin{tikzpicture}
-		    [t/.style={text height=1.5ex, text depth=.25ex, rectangle, outer sep=0pt},
+		    [t/.style={text height=1.5ex, text depth=.25ex, rectangle, outer sep=0pt,font=\small},
 		    node distance=10pt,
-		    r/.style={},
-		    g/.style={},
 		    tree/.style={very thick},
 		    link/.style={dashed}]
+		\tikzset{frontier/.style={distance from root=200pt}}
+		\tikzset{idx/.style={dotted, thick}}
         \tikzset{grow'=up}
         \tikzset{sibling distance=0pt}
         \tikzset{level 1/.style={level distance=36pt}}
 		\tikzset{level 2/.style={level distance=32pt}}
-		\tikzset{level 3+/.style={level distance=28pt}}
+		\tikzset{level 3+/.style={level distance=32pt}}
 		\Tree
-			[.{{$\li\ddia{whbody}$}}
-				[.{$\li\ddia{predc}$}
-					{$\vnw^0$}
-					{$\svi^1$}
-				]
-				{$\whq^2$}
-			]			
-		\begin{scope}[xshift=100pt]
-			\Tree
-			[.{{$\li\ddia{whbody}$}}
-				[.{$\li\ddia{predc}$}
-					{$\vnw^0$}
-					{$\svi^1$}
-				]
-				{$\whq^2$}
+			[.{\w{Wat}} \edge[draw=none];
+				[.{$\li$}
+					[.{$\ddia{whbody}$}
+						[.{$\li$} \edge[dashed] node[left] {$\Var{0}$};
+							[.{$\ddia{predc}$}
+								[.{$\vnw^+$} \edge[idx, gray!40];
+									\node[t] (0) {0};
+								]
+							]
+							[.{$\svi^-$} \edge[idx, gray!40];
+								\node[t] (1) {1};
+							]
+						]
+					]
+					[.{$\whq^+$} \edge[idx, gray!40];
+						\node[t] (2) {2};
+					]
+				]	
 			]		
+		\begin{scope}[xshift=75pt]
+			\Tree
+				[.{\w{is}} \edge[draw=none];
+					[.{$\li$}
+						[.{$\ddia{predc}$}
+							[.{$\vnw^-$} \edge[idx, gray!40];
+								\node[t] (3) {3};
+							]
+						]
+						[.{$\li$}
+							[.{$\ddia{su}$}
+								[.{$\np^-$} \edge[idx, gray!40];
+									\node[t] (4) {4};
+								]
+							] 
+							[.{$\svi^+$} \edge[idx, gray!40];
+								\node[t] (5) {5};
+							]
+						]
+					]
+				]
 		\end{scope}
-%		\node[t] (wat)      at (0, 0) {\w{Wat}};
-%		\node[t,g] (wat_fn_1) at (0, 1) {$\li\ddia{whbody}$};
-%        \node[t,r] (wat_fn_2) at (-1.5, 2.5) {$\li\ddia{predc}$};
-%        \node[t, g] (wat_pron) at (-2.5, 4) {$\vnw^0$};
-%        \node[t, r] (wat_svi) at (-0.5, 4) {$\svi^1$};
-%        \node[t, g] (wat_whq) at (1.5, 2.5) {$\whq^2$};
-%
-%		\node[t] (is) at (4, 0)     {\w{is}};
-%		\node[t,g] (is_fn_1) at (4, 1)  {$\li\ddia{predc}$};
-%		\node[t,g] (is_fn_2) at (5, 2.5) {$\li\ddia{su}$};
-%		\node[t,r] (is_pron) at (3, 2.5) {$\vnw^3$};
-%		\node[t,r] (is_np) at (4.25, 4) {$\np^4$};
-%		\node[t,g] (is_svi) at (5.75, 4) {$\svi^5$};
-%		
-%		\node[t] (dat)   at (8, 0)   {\w{die}};
-%		\node[t,g] (dat_fn) at (8, 1)  {$\dbox{det}\li$};
-%		\node[t,r] (dat_n) at (7, 2.5) {$\n^6$};
-%        \node[t,g] (dat_np) at (9, 2.5) {$\np^7$};
-%        
-%        \node[t] (rare)   at (11, 0)   {\w{rare}};
-%		\node[t,g] (rare_fn) at (11, 1)  {$\dbox{mod}\li$};
-%		\node[t,r] (rare_n_1) at (10, 2.5) {$\n^8$};
-%        \node[t,g] (rare_n_2) at (12, 2.5) {$\n^9$};	
-%        
-%        \node[t] (tekening) at (14, 0) {\w{tekening}};
-%        \node[t,g] (tekening_n) at (14, 1) {$\n^{10}$};
-%
-%        \draw[tree] (wat_fn_1) -- (wat_fn_2) -- (wat_pron);
-%        \draw[tree] (wat_fn_2) -- (wat_svi);
-%        \draw[tree] (wat_fn_1) -- (wat_whq);
-%        
-%        \draw[tree] (is_fn_1) -- (is_pron);
-%        \draw[tree] (is_fn_1) -- (is_fn_2) -- (is_np);
-%        \draw[tree] (is_fn_2) -- (is_svi);
-%        
-%        \draw[tree] (dat_fn) -- (dat_n);
-%        \draw[tree] (dat_fn) -- (dat_np);
-%        
-%        \draw[tree] (rare_fn) -- (rare_n_1);
-%        \draw[tree] (rare_fn) -- (rare_n_2);
-
-%        \draw[->, dashed] (tekening_n) -- ($(tekening_n) + (0, 2.5)$) -| (rare_n_1);
-%        \draw[->, dashed] (rare_n_2) -- ($(rare_n_2) + (0, 1.5)$) -| (dat_n);
-%        \draw[->, dashed] (dat_np) -- ($(dat_np) + (0, 2.5)$) -| (is_np);
-%        \draw[->, dashed] (is_svi) -- ($(is_svi) + (0, 1.5)$) -| (wat_svi);
-%        \draw[->, dashed] (wat_pron) -- ($(wat_pron) + (0, 0.75)$) -| (is_pron);
-%        \draw[->, dashed] (wat_whq) -- ++ (0, 4);
-%         \draw[->] (de_np) -- ($(de_np) + (0, 2)$) -| (waarover_np_1);
-%         \draw[->] (waarover_np_2) -- ($(waarover_np_2) + (0, 1)$) -| (zijn_np);
-%         \draw[->] (dit_prn) -- ($(dit_prn) + (0, 4.5)$) -| (zijn_prn);
-%         \draw[->] (zijn_smain) -- ($(zijn_smain) + (0, 2)$);
-%         \draw[->] (wij_prn) -- ($(wij_prn) + (0, 4)$) -| (staan_prn);
-%         \draw[->] (waarover_adv) -- ($(waarover_adv) + (0, 1.5)$) -| (staan_adv);
-%         \draw[->] (staan_ssub) -- ($(staan_ssub) + (0, 2)$) -| (waarover_ssub);
+		\begin{scope}[xshift=150pt]
+			\Tree
+				[.{\w{die}} \edge[draw=none];
+					[.{$\dbox{det}$}
+						[.{$\li$}
+							[.$\n^-$ \edge[idx, gray!40];
+								\node[t] (6) {6};
+							]
+							[.{$\np^+$} \edge[idx, gray!40];
+								\node[t] (7) {7};
+							]
+						]
+					]
+				]
+		\end{scope}
+		\begin{scope}[xshift=200pt]
+			\Tree
+				[.{\w{rare}} \edge[draw=none];
+					[.{$\dbox{mod}$}
+						[.${\li}$
+							[.{$\n^-$} \edge[idx, gray!40];
+								\node[t] (8) {8};
+							]
+							[.{$\n^+$} \edge[idx, gray!40];
+								\node[t] (9) {9};
+							]
+						]
+					]
+				]
+		\end{scope}
+		\begin{scope}[xshift=250pt]
+			\Tree
+				[.{\w{tekening}} \edge[draw=none];
+					[.{$\n^{+}$} \edge[idx, gray!40];
+						\node[t] (10) {10};
+					]
+				]
+		\end{scope}
+		\begin{scope}[xshift=300pt]
+			\Tree
+				[.{} \edge[draw=none];
+					[.{$\whq^{-}$}	\edge[idx, gray!40];
+						\node[t] (11) {11};
+					]
+				]
+		\end{scope}
+        \draw[<-, idx] (0) -- ($(0) + (0, 2)$) -| (3);
+        \draw[->, idx] (8) -- ($(8) + (0, 1)$) -| (10);
+        \draw[->, idx] (4) -- ($(4) + (0, 1)$) -| (7);
+        \draw[->, idx] (1) -- ($(1) + (0, 1.5)$) -| (5);
+        \draw[->, idx] (6) -- ($(6) + (0, 0.55)$) -| (9);
+        \draw[->, idx] (11) -- ($(11) + (0, 2.5)$) -| (2);
 	    \end{tikzpicture}
     }
-    \caption{\todo}
-%    Proof net equivalent of the proof of Figure~\ref{figure:nd_derivation}, with unary diamonds (resp. boxes) fused with the implication dominating (resp. dominated by) them for depth compression.
-%    Atomic propositions are indexed by enumeration for identification purposes.
-%    Color coding here serves to differentiate between resources we have (green) and resources we need (red) -- the rule is start green from the bottom, change (resp. keep) color for the left (resp. right) daughter of an implication.
-%    Bold edges denote the tree structure underlying type assignments. 
-%    Dashed edges denote the correct matching between resources of opposite polarity.}
-    \label{figure:proofnet}
+    \caption{The two layers of an $\NLPplus$ proof net: a proof frame (below) with its axiom links (above).}
+    \label{figure:rare_teken}
 \end{figure*}
 
+\subsection{Neural Proof Nets}
+Permutation matrices may well be matrices, but they're still discrete -- not something we could ever hope to differentiably produce.
+In our neural reimaging of axiom links, we need to go for the next best thing: their continuous relaxations.
+A soft version of a permutation matrix can be approximated with arbitrary precision by virtue of the Sinkhorn operator~\cite{sinkhorn1964relationship}.
+The operator and its underlying theorem state that the iterative normalization (alternating between rows and columns) of a square matrix with positive entries yields, in the limit, a doubly-stochastic matrix, the entries of which are \textit{almost} binary.
+Almost binary is binary enough -- we will do just fine without going to the limit.
+The positive entry constraint is a minor hickup though.
+To bypass it, we can move computation to the logarithmic domain, employing the $\mathrm{log}$-$\mathrm{sum}$-$\mathrm{exp}$ trick in place of standard normalization, which also helps ensure numerical stability.
+In that setting, the Sinkhorn normalization of a real-valued square matrix $\mathbf{X}$ is defined as:
+\begin{equation}
+\mathrm{Sinkhorn}(\mathbf{X})= \lim_{\tau \to \infty}\mathrm{exp}\left(\mathrm{Sinkhorn}^{(\tau)}(\mathbf{X})\right)
+\end{equation}
+where the induction is given by:
+\begin{align}
+    \mathrm{Sinkhorn}^{(0)}(\mathbf{X}) &= \mathbf{X} \\
+    \mathrm{Sinkhorn}^{(\tau)}(\mathbf{X}) &= \mathcal{T}_r\left(\mathcal{T}_r\left(\mathrm{Sinkhorn}^{(\tau-1)}(\mathbf{X})\right)^\top\right)
+\end{align}
+and $\mathcal{T}_r$ the row normalization in the log-space:
+\begin{equation}
+{\mathcal{T}_r(\mathbf{X})}_{i, j} = \mathbf{X}_{i, j} - \mathrm{log}\sum\limits_{r=0}^{N-1}{\mathrm{exp}{(\mathbf{X}_{r, j} - \mathrm{max}(\mathbf{X}_{r, :}))}}
+\end{equation}
 
-\section{Key References \& Further Reading}
+Used this way, the Sinkhorn operator gives rise to a non-linear activation function that applies on matrices and pushes them towards binarity and bistochasticity, analogous to a 2-dimensional softmax that preserves assignment~\cite{mena2018learning}.
+This exotic activation function is the key to efficiently navigating the combinatorially prohibitive landscape of axiom links.%
+	\footnote{Recall that the number of possible bijections scales factorially with the cardinality of the sets.}
+Where previously we would need to either (i) thoroughly construct and rank all combinations, or (ii) iteratively decode through each element of set\textsubscript{1} while dynamically adjusting set\textsubscript{2} as candidates get excluded, we are now presented with a much more appealing alternative; a temporally bound, backtrack-free operation that translates the structural constraint of bijectivity into highly optimized and fully parallelizable linear algebraic routines.
 
-The geometry-informed supertagger of Section~\ref{subsubsection:gas}	 bears semblance and owes credit to various contemporary lines of work, being an application-specific offspring of weight-tied architectures, dynamic graph convolutions and structured self-attention networks.
-The depth recurrence is evocative of weight-tied architectures~\cite{dehghani2018universal,bai2019deep} and their graph-oriented variants~\cite{li2016gated}, which model neural computation as the fix-point iteration of a single layer against a structured input, thus allowing for a dynamically adaptive computation ``depth'' -- albeit with a constant parameter count.
-Analogously to structure-aware self-attention networks~\cite{zhu-etal-2019-modeling,cai2020graph} and graph attentive networks~\cite{velivckovic2018graph,yun2019graph,ying2021transformers,brody2021attentive}, it also employs standard query/key and fully-connected attention mechanisms injected with structurally biased representations, either at the edge or at the node level.
-Finally, akin to dynamic graph approaches~\cite{liao2019efficient,pareja2020evolvegcn}, it forms a closed loop system that autoregressively generates its own input, in the process becoming exposed to subgraph structures that drastically differ between time steps.
+To apply in the setup envisaged here, all we need to do is assemble matrices containing unnormalized similarity scores in the cartesian product of positive $P_{\chi}$ and negative $N_{\chi}$ occurrences of formula tree leaves, one such matrix $S_{\chi}$ per unique atomic proposition $\chi$ present in a frame.
+Normalizing these scores with Sinkhorn and contrasting the result with the target output (the discrete ground truth permutation $\pi_{\chi}$) amounts to teaching a network an implicit ranking of the set of bijections between the two sets, on the basis of their elements' representations.
+If training goes according to plan, the $\pi_{\chi}$-image (resp. $\pi_{\chi}^{-1}$) of each element of $P_{\chi}$ (resp. $N_{\chi}$) will outrank all competing items in $N_{\chi}$ (resp. $P_{\chi}$), i.e. be the largest entry of its row (resp. column) of $S_{\chi}$.
+For this to have any chance of success, the mechanism producing $S_{\chi}$, and by extension the representations of $P_{\chi}$ and $N_{\chi}$, will need to be highly contextual.
+Embedding a leaf's type, polarity and/or tree position won't cut it -- sequential context is crucial to disambiguate between leaves living in distinct instances of identical types, whereas lexical association context should prove beneficial in resolving derivational ambiguities (rare as they might be).
+Coincidentally and to our great fortune, the two constructive supertaggers we have described and implemented in the previous section do in fact provide contextual representations, at exactly this granularity scale -- imagine that!
+Happy coincidence aside, the operationalization described is plug-and-play for any supertagger, constructive or otherwise -- the picky requirements on subtype representations can always be satisfied by some third party encoder.
+Employing such an encoder might even be for the best, in terms of performance alone -- but for the sake of parameter compression and model reuse, we are given the chance to have the decoding architectures described earlier do double duty as ``proof frame encoders''.
+To that end, we simply need to jointly train supertagging and axiom linking in a unified, end-to-end architecture, simultaneously optimizing both objectives.%
+	\footnote{
+	Another way to see this is as a flipped version of the \textit{linear assignment problem}, where given matrices of representations $P$, $N$, a similarity metric $w$ and target output $\pi$, we wish to learn set element representations and the parameters of a similarity metric $w$ (if any), such that the quantity:
+	\[
+		\sum_{i, j} \pi_{i,j} \odot \mathrm{Sinkhorn}^{\tau}(S)_{i,j}
+	\]
+	is maximized, where $S_{i,j} = w(P_i, N_j)$.
+}
+
+\subsubsection{Implementation(s)}
+Since the original publication of \citet{kogkalidis-etal-2020-neural}, the architecture was revised with minor micro-adjustments, and retrained with each new major adaptation of \AE thel, charting a multidimensional course of only partially compatible successive stops.
+Rather than suffocate us all with irrelevant distractions, I think it's best if I stick to describing in detail only the current and most recent implementation which rests on the supertagger of Section~\ref{subsection:gc}, drawing parallels with isolated historical insights only when relevant.
+
+\paragraph{Supertagger Integration}
+The architecture combines just as easily with both the symbol sequential and the geometrically informed decoder, requiring only an adaptation of how leaf nodes are indexed and gathered.
+Freely reusable as they might be, the contextual representations of either decoder are imperfect: each token can only be informed by tokens that temporally preceded it.
+In theory, this means that disambiguation between competing link candidates is back-loaded -- the weight of flipping the scales is on the tokens last decoded. 
+It also means that the geometry-aware model is at a disadvanage, since it performs multiple assignments in parallel.
+In practice, this is not a major concern -- both integrations perform exceptionally well and quickly fit the training set, making the addition of any extra parameters redundant and a potential threat to generalization; we can stick to using the decoder's representations as is.
+
+Choosing between the two decoders seems like a no brainer at first -- the geometry-aware formulation is significantly faster and more accurate, let alone easier to train (despite these factors usually being in conflict).
+But in transitioning to it, we fortfeit the right to algorithmically \textit{search} in the output space.
+In practical terms, while we may keep demanding a new proof frame from the symbol sequential supertagger ad infinitum (or until satisfied), the geometric one won't be at all receptive to our pleas -- its greedily decoded proof frame is our one and only chance at a parse.
+This limitation becomes especially relevant considering the impenetrable barrier placed by the count invariance property, requiring an equal count of positive and negatlives for every atomic type present (no square matrix otherwise!).
+A proof frame that fails to satisfy that property is no good for proof search.
+This obstacle can be repurposed to a tool, as long as search is an option -- hard-wiring the constraint into beam search yields a correct-by-construction (yet painfully slow) decoding algorithm, massively increasing computational load but practically ensuring parsability.%
+	\footnote{
+	Beam searching over the symbol sequential decoder with a beam width $\beta$ means obtaining $\beta$ unique sequences satisfying:
+	\[
+		\mathrm{argmax}_{\beta}\left(
+		\prod_i^n \prod_j^{|| t_i ||} 
+		p(s_{\beta, i, j} \ | \ 
+			s_{\beta, k, :} : k < i,
+			s_{\beta, i, k} : k < j,
+			\wseq)
+		\right)
+	\]
+	We can import the count invariance condition by overwriting the probability score $p(s_{\beta, n, ||t_n||} | \dots )$ assigned by the decoder with $-\infty$ when $\mathbf{t}_{0:n}$ fails the check, essentially discarding the sequence and forcing a backtrack.
+}
+Initial experiments on \AE thel $\mathtt{0.4}$ showed that a beam width of 2 would suffice to bring parsability (i.e. invariance correctness) to 100\% and coverage (i.e. \textit{some} parse obtained) to 95.3\% (up from 87.7\% and 89.9\%, respectively), with tangible but diminishing returns to accuracy from further increasing the beam width up to 5.
+Sticking with the parallel decoder means having to wave such niceties goodbye, at least until some search algorithm is formulated and implemented.
+Despite the fact, the drastically improved accuracy and speed translate to a multiplicative increase in the performance-to-compute ratio -- the greedy output of the novel supertagger is practically as good as (and incomparably faster then) an unmodified beam search on the original one, but with no guarantee of structural correctness.
+Long story short, the geometry-aware decoder is not a no brainer, but it's still the superior choice.
+
+The permutation component may modulate the linking process by providing a parametric and trainable similarity metric.
+The current version utilizes a weight vector $w \in \mathbb{R}^{d_n}$ to compute similarity scores between positive and negative vectors as their $w$-weighted inner product.
+This is a cheap and efficient way to selectively allocate weight on (some of) the decoder's representations, partially disentangling the two problems.
+
+\paragraph{Training}
+The unified architecture is end-to-end differentiable, and can be jointly trained on both the supertagging and the axiom linking tasks simultaneously.
+The supertagging objective remains exactly as before, whereas the linking loss is obtained as the negative log likelihood between the Sinkhorn-normalized activations and the discrete ground truth labels (identical to standard multiclass classification).
+Given that proof frames are a priori known in training and considering that teacher forcing ensures the correct autoregressive interactions, we may simply proceed with isolating the leaves out of the decoder's representations.
+Leaf representations are binned according to their sentential index, atomic type and polarity (e.g. a single bin would be all occurrences of a positive $\type{np}$ in sentence \#13 of the input batch).
+Each bin is zipped with its inverse polarity counterpart, and their element-wise similarity scores are computed via the chosen metric.%
+	\footnote{Note that the zipping function is not \textit{the} similarity metric but the pairwise application of one. 
+	In other words, the agreement scores are independently computed between pairs of elements from the two sets.
+	This is necessary to account for the variably sized sets encountered without ad-hoc padding, but also to ensure that the end operator is permutation invariant.}
+Similarity scores are normalized by a fixed number of Sinkhorn iterations -- three iterations suffice to produce sharp activations without eroding the gradient updates.
+Similarity scores and Sinkhorn normalizations are computed in parallel and batched across bins of the same size (i.e. according to the bijected sets' cardinality) -- a faster alternative would be to pad them to a fixed size using some arbitrarily low constant as a padding value, but the difference is minor and not worth the memory overhead. 
+
+The joint architecture takes longer to train than the standalone tagger, owing to the slower forward and backward passes, but also an increased number of epochs required to reach convergence.
+The linking module is surprisingly fast to converge, but its inclusion is detrimental to the supertagging component, as its loss term dominates the sum early on.
+Since accurate supertagging is a prerequisite to parsing, linking loss is scaled by 10\% to promote smoother training curves and a better task balance.
+To nudge the model away from local optima and diffuse any gradient conflict, one of the two losses is occassionally zeroed out with a 20\% chance~\cite{woo2021revisiting}.
+
+\paragraph{Evaluation}
+
+%Regardless of how leaf representations are sourced, the high-level pipeline follows the same general principles.
+%First, the supertagger's output is ``parsed'' into types proper.
+%Assuming no structural integrity issues, leaf positions are then indexed, keeping track of their polarities and atomic types -- the result is a proof frame.
+%For the frame to be an eligible starting point for proof search, it must satisfy the count invariance property, requiring an equal count of positive and negative leaves for every atomic type present.
+%Assuming it does, leaf representations are extracted and binned according to their type and polarity (also sentential index, when processing in batches).
+%Each bin is zipped with its inverse polarity counterpart, and their element-wise agreement scores are computed via some similarity metric.%
+%	\footnote{Note that the zipping function is not \textit{the} similarity metric but the pairwise application of one. 
+%	In other words, the agreement scores are independently computed between pairs of elements from the two sets.
+%	This is necessary to account for the variably sized sets encountered without ad-hoc padding, but also to ensure that the end operator is permutation invariant.}
+%The resulting matrices are finally normalized by a fixed number of Sinkhorn iterations, and sent on their way.
+%
+
+%%%To procure these activations, three Sinkhorn iterations are applied to the agreement scores computed in parallel
+%%Dropout is applied to the intermediating weight vector to randomly zero out the same pairwise interactions in each batch.
+%%%Three Sinkhorn iterations suffice for results to sharpen the matrices into being almost binar
+%%%
+%%
+%%%Dropout is applied to the intermediating weight vector
+%%
+%%\paragraph{Inference}
+%%During inference, the
+%%
+%
+%
+%\subsubsection{Experiments \& Results}
+%
+%\subsubsection{Insights \& Observations}
+%%\subsubsection{Original}
+%%\paragraph{Overview}
+%%In their first public appearance, neural proof nets were seen hand in hand with a variation of the symbol sequential transformer of Section~\ref{subsection:snmt} -- this was less of a conscious choice and more of a lack thereof.
+%%The language mdo underlying the transformer was originally substituted for BERTje and eventually for RobBERT~\cite{delobelle2020robbert}.
+%%To account for the missing right context of the decoder's output (it being left-to-right autoregressive), leaf representations were processed by a second encoder, used to cross-attend between the full input and the entire decoded output, contextualizing the latter based on the former.
+%%Negative and positive representations were processed by distinct feed-forward networks, and their agreement scores would be computed as their dot-products.
+%%A finite number of Sinkhorn steps would then process the output, which would be discretized by rounding during inference.
+%%Boring and irrelevant details aside, 
+%
+%% only the current implementation 
+%%The new supertagger of Section~\ref{subsection:gc} presents us with an alternative that looks like a no brainer at a first glance.
+%%Alas, the truth is more complicated; the choice of supertagger has a multidimensional effect on the system's end-to-end performance.
+%
+%%To quantify the effect of this, we will go through three distinct evolutionary phases of neural proof nets through time.
+%
+%
+%%\subsubsection{Symbol Sequential}
+%%In the original experiments of~\citet{kogkalidis-etal-2020-neural}, the supertagger consisted of a 
+
+
+
+%\subsection{Proof Nets in \NLPplus}
+%Before we lay out our schemes and proceed with our machinations, we need to take a brief pause for the sake of formal transparency.
+%The use of proof nets as our representational standard might be seen as implicating an equivalence between proofs and proof nets.
+%Such an implication would be sloppy -- the two sure are closely related, and going from proof to proof net is straightforward, but the opposite direction is tricky: a proof net lets out less than necessary to allow a perfect proof reconstruction.
+%Luckily, we are not really demanding an isomorphism between \NLPplus{} and its proof nets; we just want a locally one-to-one relation between the two, covering only the neighborhood of proofs inhabited by our linguistic usecases.
+%There's a whole lot of proof patterns we don't expect to ever encounter, and can thus safely ignore (e.g. box introduction rules, diamonds in result position, box-diamond chains etc., just to name a few).
+%This might still seem quite ambituous at a first glance -- proof nets have no means of encoding the positionally underspecified diamond elimination rule $\diamond E$, and are altogether unperceptive to the structural extraction rule $\Extraction$
+%This would've indeed been the case if it wasn't for our providence: we have imposed a canonical placement on both these rules, which should relieve the burden of translation.
+%%If historicity is your
+
+
+
+
+%\section{Key References \& Further Reading}
+%
+%The geometry-informed supertagger of Section~\ref{subsubsection:gas}	 bears semblance and owes credit to various contemporary lines of work, being an application-specific offspring of weight-tied architectures, dynamic graph convolutions and structured self-attention networks.
+%The depth recurrence is evocative of weight-tied architectures~\cite{dehghani2018universal,bai2019deep} and their graph-oriented variants~\cite{li2016gated}, which model neural computation as the fix-point iteration of a single layer against a structured input, thus allowing for a dynamically adaptive computation ``depth'' -- albeit with a constant parameter count.
+%Analogously to structure-aware self-attention networks~\cite{zhu-etal-2019-modeling,cai2020graph} and graph attentive networks~\cite{velivckovic2018graph,yun2019graph,ying2021transformers,brody2021attentive}, it also employs standard query/key and fully-connected attention mechanisms injected with structurally biased representations, either at the edge or at the node level.
+%Finally, akin to dynamic graph approaches~\cite{liao2019efficient,pareja2020evolvegcn}, it forms a closed loop system that autoregressively generates its own input, in the process becoming exposed to subgraph structures that drastically differ between time steps.
 
 % biaffine
 % richard
 % french
+% kasai
 
 \bibliographystyle{abbrvnat}
 \bibliography{bibliography}

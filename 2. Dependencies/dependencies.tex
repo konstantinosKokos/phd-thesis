@@ -117,7 +117,7 @@ claiming that one of the ways to make a verb phrase $VP$ involves concatenating 
 
 Even though context-free grammars are no longer seriously considered in the linguistic world, they have directly influenced most early attempts at grammar design -- and, by extension, their later successors and refinements.
 Notational evidence of this past are more than noticeable today, ranging from the wide adoption of tree-style notation for syntactic analyses to the conceptual syncretism of constituency grammars and phrase structure ones.
-More up-to-date frameworks expand upon the barebones context-free backend with niceties like a separation of functional dominance and linear precedence, added rules that manipulate movement and discontuinity, the proclamation of a single category as the \textit{head} of a production rule (or subtree), feature markings that carry semantic, morphological or phonological information, incorporation of dependency information, etc.~\cite[\textit{inter alia}]{gazdar1985generalized,jacobson1987phrase,pollard1994head,dalrymple2001lexical}.
+More up-to-date frameworks expand upon the barebones context-free backend with niceties like a separation of functional dominance and linear precedence, added rules that manipulate movement and discontuinity, the proclamation of a single category as the \textit{head} of a production rule (or subtree), feature markings that carry semantic, morphological or phonological information, incorporation of dependency information, etc.~\cite[inter alia]{gazdar1985generalized,jacobson1987phrase,pollard1994head,dalrymple2001lexical}.
 
 To our ill fortune, the field of formal syntax is actually an informal mess, more akin to a mine field rather than an academic one; it's best if I tread carefully and refrain from overextending myself here, in order to avoid setting off unseen traps or causing easily avoidable confusion.
 The point I want to make is that the focal center of the above formalisms is the \textit{phrase} and its structure -- as such, they are all referred to as phrase structure grammars, regardless of whatever extra fluff they carry or what their expressive capacity is.
@@ -132,7 +132,7 @@ Long story short, even without extensions to the logical core for managing disco
 
 \subsection{Dependency Grammars}
 \label{subsection:dep_grammars}
-The constituency tradition has co-evolved along the opposing view of dependency grammars~\cite[\textit{inter alia}]{tesniere2015elements,gaifman1965dependency,sgall1986meaning,mel1988dependency,sleator1995parsing}.
+The constituency tradition has co-evolved along the opposing view of dependency grammars~\cite[inter alia]{tesniere2015elements,gaifman1965dependency,sgall1986meaning,mel1988dependency,sleator1995parsing}.
 Dependency grammars reject the binary phrasal division that constituency grammars abide by, and instead adopt a flatter structural form, the only unit of which is the word.
 Words are connected with one another by dependency arcs, i.e. directed edges between word pairs.
 Each word can have arbitrarily many outgoing edges (dependents), but only a single incoming edge (head) -- the exception is the root word which has no head of its own (i.e. the head of the matrix clause).
@@ -324,13 +324,14 @@ The story is no different with more than one complements -- i.e. a transitive wo
 A determiner, however, would be typed as $\dbox{det}(\np[s]\divright\n[s])$ -- it recognizes the right-adjacent noun as its head, but still takes functional precedence over it, licensing the function application by dropping its determiner box.
 Similarly, a prenominal modifier would be typed as $\dbox{mod}(\np[s]\divright\np[s])$ -- to apply to its unmarked head, the type would need first liberate itself of its box, being a modifying adjunct.
 
-Atomic type assignments will remain for the most part unchanged, as propositional constants are necessarily complements (or heads of a singleton phrase, to be pedantic) and their grammatical role cannot be decided \textit{a priori}, anticipating a phrasal head to enforce it instead.
+Atomic type assignments will remain for the most part unchanged, as propositional constants are necessarily complements (or heads of a singleton phrase, to be pedantic) and their grammatical role cannot be decided a priori, anticipating a phrasal head to enforce it instead.
 Plural nouns like the \textex{dolphins} and \textex{whirlpools} of Table~\ref{table:toy_lambek_lexicon}, for instance, would still be typed as $\np[s]$ -- there's no telling in advance whether they will occur as subjects, direct objects or something else.
 Exceptionally for words whose morphological characteristics already confine them to a single possible grammatical role, we can consider an alternative typing that restricts them to exclusively that grammatical role.
 The straightforward thing to do would be to lexically mark them with a diamond -- e.g. for the nominative version of the third person singular personal pronoun, \textex{he}, we might assign the type $\ddia{su}\np[s]$, denoting it must necessarily occur in subject position.
 However, this would create a structural assymetry between a nominal \textit{assigned} the subject role via the $\ddia{su} I$ rule (inducing corresponding brackets) versus the pronoun \textit{carrying} the subject role (and thus remaining bracket-free).
 To break this asymmetry, a better alternative would be to use a lexical assignment that rests on the \textit{closure} operator of (\ref{equation:closure}) instead, i.e. $\dbox{su}\ddia{su}\np[s]$.
-Now for the verbal head to find its subject-marked argument, the pronoun would need to reveal its diamond via the $\dbox{su} E$ rule, independently bracketing \textit{itself} in the process, while excluding any potential for grammatical misuse.
+Now for the verbal head to find its subject-marked argument, the pronoun would need to reveal its diamond via the $\dbox{su} E$ rule, independently bracketing \textit{itself} in the process, while excluding any potential for grammatical misuse.%
+	\footnote{This is more of a serving suggestion -- we won't really be using it anywhere.}
 
 \subsubsection{Dependencies \& Structural Reasoning}
 \label{subsubsection:sreason_dep}

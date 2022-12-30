@@ -24,6 +24,7 @@
 %\usepackage{minted}
 \usepackage[normalem]{ulem}
 \usepackage{breakcites}
+\usepackage{xfrac}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					font black magic
@@ -212,7 +213,7 @@
 		{\smallgtype{#2}}%
 		{\ensuremath{\vnorm{\smallgtype{#2}}}}%
 }
-\newcommand{\subcat}[3]{\gtype[#1]{#2}\textsubscript{#3}}
+\newcommand{\subcat}[3]{\ensuremath{\gtype[#1]{#2}_{\text{#3}}}}
 \newcommand{\s}[1][]{\gtype[#1]{s}}
 \newcommand{\smalls}{\s[s]}
 \newcommand{\smain}[1][]{\subcat{#1}{\smalls}{main}}
@@ -254,10 +255,11 @@
 \newcommand{\ppres}[1][]{\gtype[#1]{ppres}}
 \newcommand{\rel}[1][]{\gtype[#1]{rel}}
 \newcommand{\svan}[1][]{\subcat{#1}{\smalls}{van}}
-\newcommand{\wh}[1][]{\gtype[#1]{wh}}
-\newcommand{\whq}[1][]{\subcat{#1}{\wh[s]}{q}}
-\newcommand{\whrel}[1][]{\subcat{#1}{\wh[s]}{rel}}
-\newcommand{\whsub}[1][]{\subcat{#1}{\wh[s]}{sub}}
+\newcommand{\q}[1][]{\gtype[#1]{q}}
+\newcommand{\sub}[1][]{\gtype[#1]{sub}}
+\newcommand{\whq}[1][]{\subcat{#1}{\q[s]}{wh}}
+\newcommand{\whrel}[1][]{\subcat{#1}{\rel[s]}{wh}}
+\newcommand{\whsub}[1][]{\subcat{#1}{\sub[s]}{wh}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					type modalities
@@ -322,8 +324,8 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                  proofnet stuff
-\newcommand{\pprop}[1]{	\ensuremath{\smallprop{#1}^{+}}}
-\newcommand{\nprop}[1]{	\ensuremath{\smallprop{#1}^{-}}}
+\newcommand{\pprop}[1]{\ensuremath{\smallprop{#1}^{+}}}
+\newcommand{\nprop}[1]{\ensuremath{\smallprop{#1}^{-}}}
 \newcommand{\vnorm}[1]{\vphantom{\dbra{\chi}{cnj}}{#1}}
 \newcommand{\parlink}{\raisebox{\depth}{\scalebox{-1}[-1]{$\with$}}}
 \newcommand{\sbind}{\ensuremath{\mkern-0.5mu\cdot\mkern-0.5mu }}
@@ -334,6 +336,7 @@
 \newcommand{\copyleft}{\reflectbox{\copyright}}
 \newcommand{\greek}[1]{\mathrm{#1}}
 \newcommand{\Tau}{\greek{T}}
+\newcommand{\Beta}{\greek{B}}
 \newcommand{\bred}{\overset{\beta}{\leadsto}}
 \newcommand{\bredstar}{\overset{\beta *}{\leadsto}}
 \newcommand{\qqquad}{\quad\qquad}
@@ -364,6 +367,7 @@
 \newcommand{\seq}[2]{\mathbf{#1}_{#2}}
 \newcommand{\tseq}{\ensuremath{\seq{t}{0:n}}}
 \newcommand{\wseq}{\ensuremath{\seq{w}{0:n}}}
+\newcommand{\biject}{\rightarrowtail\mathrel{\mkern-15mu}\twoheadrightarrow}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					hyphenations

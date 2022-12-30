@@ -6,8 +6,8 @@
 With our theorycrafting over, we have in our hands an uninstantiated descriptive model of syntactic and semantic composition, promising to capture dependency relations while keeping both its feet set firmly in type theory.
 Unfortunately, it is well attested by now that ``all models are wrong...''~\cite{doi:10.1080/01621459.1976.10480949}.
 Any promise of theoretical universality, cognitive plausibility, linguistic intrinsicness or what have you, would require some degree of handwaving and conjencturing that I am not comfortable with.
-What is undisputable, however, is the nobility of our goals and the purity of our tools: the \textit{omniversality} of the $\lambda$ calculus~\cite{wadler2015propositions} asserts that our modeling approach is not some \textit{ad hoc} machinery designed to tackle a highly localized problem, but the one and only programming language ever worth writing. 
-Beyond purpose and methodology, and having \textit{a priori} given up any ideation of truth, the only measure of success for our model is that of its utility (``...but some are useful'', ~\cite{doi:10.1080/01621459.1976.10480949}).
+What is undisputable, however, is the nobility of our goals and the purity of our tools: the \textit{omniversality} of the $\lambda$ calculus~\cite{wadler2015propositions} asserts that our modeling approach is not some ad hoc machinery designed to tackle a highly localized problem, but the one and only programming language ever worth writing. 
+Beyond purpose and methodology, and having a priori given up any ideation of truth, the only measure of success for our model is that of its utility (``...but some are useful'', ~\cite{doi:10.1080/01621459.1976.10480949}).
 This sets up a new research imperative: we must prove the model useful!
 
 ``Oof, that's a tricky one'', you might say, and you wouldn't be wrong.
@@ -751,7 +751,7 @@ This has no effect on our extracted types and proofs but shall help us formulate
 
 \subsubsection{Non-Compositional Annotations}
 Despite its admittedly high quality, Lassy has not been built with an inherent focus towards compositionality.
-This reflects in some not so uncommon exceptions to the canonical phrasal annotation that \textit{de facto} necessitate some global concessions and adaptations, and some local emergency measures, ranging from targeted transformations in the best case, to occassionally just giving up on a sample in the worst.
+This reflects in some not so uncommon exceptions to the canonical phrasal annotation that de facto necessitate some global concessions and adaptations, and some local emergency measures, ranging from targeted transformations in the best case, to occassionally just giving up on a sample in the worst.
 The biggest problem that we are faced with right off the bat is the abundance of vague, general purpose annotation schemes to convey non-compositional structures.
 These come in two flavours -- discourse level annotations, and multiword phrases.
 
@@ -772,7 +772,7 @@ Unfortunatey, there is no algorithmic way to mend these pretend annotations, in 
 This phenomenon is unpleasantly common; discourse level annotations sum up to about 2\% of the total dependency edges in the corpus, and are present in some 11\,700 samples, polluting a hard to ignore 18\% of the dataset.
 In order not to lose all the precious samples in their totality, we take the more conservative approach of simply pruning the problematic edges rather than discard the entire tree.
 The subtree underneath each cut is subsequently rooted as an independent sample, sprouting an array of smaller samples from the larger unusuable original; in the example under scrutiny, we end up with three samples rooted at nodes 3, 12 and 15.
-Albeit being a sensible solution in terms of data preservation, this has the unavoidable downside of \textit{a priori} breaking the alignment between the source corpus and the collection of proofs to be.
+Albeit being a sensible solution in terms of data preservation, this has the unavoidable downside of a priori breaking the alignment between the source corpus and the collection of proofs to be.
 In order to facilitate some level of back-and-forth matching, the new samples inherit the sample name of their origin and are distinguished between one another by a suffix corresponding to the identifier of their root node.
 
 The pruning might sound easy on paper but proves tricky in certain regards.
@@ -1485,11 +1485,11 @@ Any secondary coordinator appearing within the same conjunction (its dependency 
 
 \subsubsection{Post-Processing}
 The proofs we get back don't need to be type-checked: the extraction has already taken care of that for us.
-From the type-correctness perspective, all we need to do is assert their linearity in terms of both variables and constants, i.e. make sure that all words of the input sample were used (exactly once each), and ditto for variables, except they must also be bound (in the off chance a phantom node was never abstracted over).
+From a theoretical perspective, all we need to do is assert their linearity in terms of both variables and constants, i.e. make sure that all words of the input sample were used (exactly once each), and ditto for variables, except they must also be bound (in the off chance a phantom node was never abstracted over).
 For the sake of uniformity, all proofs obtained are $\beta$ and $\eta$ reduced.
-From the representation perspective, our proofs are still overly attached to their Lassy roots.
+From a representational perspective, our proofs are still overly attached to their Lassy roots.
 Constants and variables are named according to their node origins, which will no longer make any sense after the tree has been discarded.
-We therefore rename constants according to their order of appearance in the sentence, and variables by enumeration, following a left-first depth-first traversal of the proof tree (preferrable to de Bruijn indexing for human legibility).
+We therefore rename constants according to their order of appearance in the sentence, and variables by enumeration, following a depth-first left-first traversal of the proof tree (preferrable to de Bruijn indexing for human legibility).
 To allow the incorporation of extra-theoretical information, proofs are repackaged into a $\mathsf{Sample}$ record containing fields $\mathsf{proof}$, $\mathsf{lexical\_phrases}$, $\mathsf{name}$ and $\mathsf{subset}$.
 The first field is self-explanatory.
 The second field contains a variadic tuple of lexical phrases, each element being itself a variadic container of lexical items, given a single type assignment as a whole.
@@ -1832,7 +1832,7 @@ The most important feature of the overhaul is the revised extraction algorithm, 
 
 My little bubble aside, corpus extraction is a fan favorite for the computationally inclined linguists (or the linguistically inclined computists).
 The endeavour was popularized by the CCGbank~\cite{10.1162/coli.2007.33.3.355}, a semi-automatically extracted corpus of combinatory categorial grammar derivations, following a similar endeavour in German~\cite{hockenmaier2006creating}.
-CCGbank has since become a flagship for the applied categorial grammarian, spawning many offsprings across different languages~\cite[\textit{inter alia}]{johan2009converting,tse2010chinese,ambati2018hindi}.
+CCGbank has since become a flagship for the applied categorial grammarian, spawning many offsprings across different languages~\cite[inter alia]{johan2009converting,tse2010chinese,ambati2018hindi}.
 More akin to our proof-theoretic regime and forebearers to this work are the French TLGbank~\cite{moot:inria-00494062}, and the type-logical conversion of the spoken Dutch corpus~\cite{moot2010extraction}, both following the multimodal Lambek tradition.
 
 

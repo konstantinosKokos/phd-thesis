@@ -303,7 +303,7 @@ And finally, we can introduce throwaway variables into our typing environment wi
 There's just a few catches to beware of.
 The first has to do with tracing variables in a proof; the concatenation of structures $\Gamma$, $\Delta$ is only valid if $\Gamma$ and $\Delta$ contain no variables of the same name; if that were to be the case, we would be dealing with variable shadowing, a situation where the same name could ambiguously refer to two distinct objects (a horrible thing).
 The second has to do with do with the $\Exchange{}$ rule. 
-The careful reader might notice that the rule leaves no imprint on the term level, meaning we cannot distinguish between a program where variables were \textit{a priori} provided in the correct order, and one where they were shuffled into position later on.
+The careful reader might notice that the rule leaves no imprint on the term level, meaning we cannot distinguish between a program where variables were a priori provided in the correct order, and one where they were shuffled into position later on.
 This is justifiable if one is to treat the rule as a syntactic bureaucracy that has no real semantic effect, i.e. if we consider the two proofs as equivalent, following along the commuting conversions mentioned earlier (supporting the idea that in this type theory, asssumptions are multisets rather than sequences).
 A slightly more perverse problem arises out of the product elimination rule $\times E$.
 The rule posits that two assumptions $\smallterm{\vari }: \smallprop{A}$ and $\smallterm{\varj}: \smallprop{B}$ can be substituted by a single (derived) term of their product type $\smallterm{s}: \smallprop{A}\times\smallprop{B}$. 
@@ -684,6 +684,7 @@ The equivalent term reduction steps this time around are:
 
 
 \subsection{Proof Nets}
+\label{subsection:proofnets}
 We have basked in the beauty of the natural deduction presentation adopted so far, and seen how it gives rise to a straightforward computational interpretation.
 We have also seen how it is at times overly bureaucratic in its explication of structural rules that are null from a computational perspective.
 To our luck, an additional representation makes itself available as soon as we step into linear grounds, namely \textit{proof nets}, also due to Girard~\cite{girard1987linear}. 
@@ -779,9 +780,9 @@ An arrangement of the decomposition trees of all formulas as they occur within a
 		\node (li3) 	at (6, 0) {$\vnorm{\li}$};
 		\draw[dashed] (li3) -- (A2) node[midway, left]{$\term{\vark}$};
 		\draw (li3) -- (C2);
-		\draw[->] (A1) -- ($(A1.north) + (0, 0.5)$) -- ($(A2.north) + (0, 0.5)$) -- (A2);
-		\draw[->] (B2) -- ($(B2.north) + (0, 0.25)$) -- ($(B1.north) + (0, 0.25)$) -- (B1);
-		\draw[->] (C2) -- ($(C2.north) + (0, 0.75)$) -- ($(C1.north) + (0, 0.75)$) -- (C1);
+		\draw[->, dotted, thick] (A1) -- ($(A1.north) + (0, 0.5)$) -- ($(A2.north) + (0, 0.5)$) -- (A2);
+		\draw[->, dotted, thick] (B2) -- ($(B2.north) + (0, 0.25)$) -- ($(B1.north) + (0, 0.25)$) -- (B1);
+		\draw[->, dotted, thick] (C2) -- ($(C2.north) + (0, 0.75)$) -- ($(C1.north) + (0, 0.75)$) -- (C1);
 	\end{tikzpicture}
 	\caption{Proof structure.}
 	\label{subfigure:proof_structure_funcomp}
@@ -794,7 +795,7 @@ A proof frame must satisfy an invariance property before the eligibility of the 
 Namely, it must contain an equal number of positive and negative occurrences of each unique atomic formula that appears within it.
 This perfectly fits the linear logic paradigm: everything produced has to be consumed, and vice versa.
 In our case, we have three unique formulas, \smallprop{A}, \smallprop{B} and \smallprop{C}, each one of which has a single positive and a single negative occurrence: check.
-The next thing to do in building a proof net is to establish a bijection between atomic formulas of opposite polarity, and draw it as an extra set of edges, pointed negative atoms to their positive matches: we call those \textit{axiom links}.
+The next thing to do in building a proof net is to establish a bijection between atomic formulas of opposite polarity, and draw it as an extra set of edges, pointing negative atoms to their positive matches: we call those \textit{axiom links}.
 Axiom links essentially specify the elimination of function types: they identify function arguments with their concrete inputs in a geometric fashion.
 We do not need to put much thought for our running example: since all atoms have a single occurrence of each polarity, there is just one possible bijection to consider, presented in Figure~\ref{subfigure:proof_structure_funcomp}.
 A proof frame with axiom links on top is called a \textit{proof structure}, and this representation provides all of the information contained within a proof.
@@ -891,7 +892,7 @@ For instance, joining $\{ i \leftrightarrow k\}$ and $\{ l\leftrightarrow i, j \
 \[
 \term{\left(\lam \vari.\vari^{\prop{a}_i \li \prop{b}_j}~\varj^{\prop{a}_k}\right)~\vark^{\prop{a}_l \li \prop{b}_m}}
 \]
-The added burden has the enormous benefit of yielding ``$\beta$ normalized'' links and resolving potential future headaches \textit{a priori}.
+The added burden has the enormous benefit of yielding ``$\beta$ normalized'' links and resolving potential future headaches a priori.
 }%
 , which can then be applied as a mapping (e.g. to the lexicographically first element) yielding a link-decorate judgement, in our case:
 \[
@@ -900,6 +901,7 @@ The added burden has the enormous benefit of yielding ``$\beta$ normalized'' lin
 Matching indices correspond exactly to the axiom links of Figure~\ref{subfigure:proof_structure_funcomp} -- the two representations are in fact equivalent.
 Now, we really do know how to freely move back and forth between the proof net and natural deduction presentation of proofs in $\ILL_{\li}$.
 
+\paragraph{Proof Nets and Search}
 The question then is: when should we use which?
 The original intention of proof nets was to provide a compact, bureacracy-free representation of proofs that abstracts away from structural rules.
 In that sense, their strength is also their weakness; same as the $\lam$-terms they prescribe, they encode the semantically essential part of a proof, but hide structural subtleties that can prove hard to guess or recover.
@@ -1761,7 +1763,7 @@ Adverbs would also be endomorphisms, except this time higher-order -- \linebreak
 	\label{figure:nl_applicative_examples}
 \end{figure}
 
-Linguistic reasoning is not done \textit{ex nihilo} -- formulas like the above are supplied by and grounded in the lexicon. 
+Linguistic reasoning is not done ex nihilo -- formulas like the above are supplied by and grounded in the lexicon. 
 This does not exclude the option of utilizing hypotheticals instantiated by the axiom rule $\Ax$ -- hypothetical reasoning lives, in fact, at the core of the type-logical inferential process, as we will soon see.
 It means, rather, that our building blocks will for the most part be \textit{lexical constants}, proof objects that behave just like variables, except they are neither wantonly typed nor amenable to abstraction.
 To convey the difference between the two, we will instantiate the latter with a seemingly new rule of inference, $\Lex$, which simply performs lexical lookup, i.e. pulls a word's type from the lexicon.
@@ -1958,7 +1960,7 @@ From a theoretical perspective, we can incorporate the question of type choice i
  \smallprop{A}_1 \with (\smallprop{A}_2 \with (\smallprop{A}_3 \dots (\smallprop{A}_{n-1}\with\smallprop{A}_{n})))
 \end{equation}
 and the subscript enumerating each of the possible instantiations in the context of a single sentence.
-Under this regime, the lexical assignment rule $\Lex$ would need to be followed by a sequence of projections to isolate the desired type, contributing little other than excessive verbosity.%
+In such a regime, the lexical assignment rule $\Lex$ would need to be followed by a sequence of projections to isolate the desired type, contributing little other than excessive verbosity.%
 \footnote{
 A more ambitious usecase could allow the \textit{simultaneous} derivation of multiple unique analyses, and the incorporation of derivational ambiguity arising out of lexical choice as a first class citizen of the proof theory -- a proof object that resides \textit{within} it rather than a notion in the meta-theory \textit{above} it.
 The repercussions of this would be magnificent for semantic applications, but no concrete results that I am aware of were ever produced in that direction.}
@@ -1976,9 +1978,9 @@ to denote the coordinator type pattern parameterized over the \textit{type varia
 This is in fact an exemplar of \textit{parametric polymorphism}, which is properly formalized in second-order intuitionistic logic and its type-equivalent System F~\cite{girard1972interpretation, reynolds1974towards}. 
 \begin{center}
 \begin{tabularx}{0.6\textwidth}{@{}cc@{}}
-$\infer[\Pi I]{\Gamma \vdash \lam \alpha.\term{M}: \Pi \alpha.\sigma}{\Gamma, \alpha : \prop{TYPE} \vdash \term{M}: \sigma}$
+$\infer[\Pi I]{\Gamma \vdash \lam \alpha.\term{M}: \Pi \alpha.\sigma}{\Gamma, \alpha : \type \vdash \term{M}: \sigma}$
 &
-$\infer[\Pi E]{\Gamma, \Delta \vdash \term{M~\prop{b}}: \sigma_{[\alpha\mapsto\smallprop{B}}]}{\Gamma \vdash\term{M}: \Pi \alpha.\sigma &  \Delta \vdash \term{B}: \prop{TYPE}}$
+$\infer[\Pi E]{\Gamma, \Delta \vdash \term{M~\prop{b}}: \sigma_{[\alpha\mapsto\smallprop{B}}]}{\Gamma \vdash\term{M}: \Pi \alpha.\sigma &  \Delta \vdash \term{B}: \type}$
 \end{tabularx}
 \end{center}
 The rules above showcase the introduction and elimination of types quantified over types $\Pi \alpha.\sigma$, and the term analogue of abstracting over types $\lam \alpha.M$.
@@ -2244,7 +2246,7 @@ Note that, despite appearances, $\mathtt{str}$ is a first-order type $*\li *$ (w
 \label{subsubsection:acg_artificial}
 Abstract categorial grammars are characterized by two measures of complexity: the maximal order of source constants' types, and the maximal order of the codomain of $\eta_0$.
 The two together constitute the grammar's \textit{class}, which concisely describes the sort of languages the grammar can model.
-This can prove effective in revealing a more granular stratification underlying the Chomsky hierarchy of formal grammars, when the latter are embedded into abstract categorial equivalents; as such, the framework has found extensive use as a meta-language for the study and formalization of formal grammars (as done by \citet{de2004expressive}, \textit{inter alia}).
+This can prove effective in revealing a more granular stratification underlying the Chomsky hierarchy of formal grammars, when the latter are embedded into abstract categorial equivalents; as such, the framework has found extensive use as a meta-language for the study and formalization of formal grammars (as done by \citet{de2004expressive}, inter alia).
 \footnote{There is a certain irony in formal grammars requiring or benefiting from formalization. If you're having trouble parsing this, consider that formal languages are essentially ad-hoc rules on strings; by formalization we mean giving these rules the type-theoretic treatment they deserve.}
 
 To see this in practice, let's have some meta-fun pretty-printing the types of $\logic{(N)L}_{\diamond, \bx}$ by modeling their type formation rules (which constitute a context-free grammar) using an abstract categorial grammar.
@@ -2435,7 +2437,7 @@ Obviously, a categorial grammar stripped of hypothetical reasoning would not amo
 To regain some of the lost expressivity (ideally, exactly and only as much as needed), combinatory categorial grammars incorporate a collection of rules lent from the combinatory logic of~\citet{curry1958combinatory}, albeit in restricted form.
 The first such rule is morpholexical in nature; it allows lexical items to raise their types once, before administering them to the syntactic derivation, forcing a flip in the local function/argument structure and allowing different semantic scopes to take effect as/when needed.
 The remaining rules are essentially four instances of function composition -- one for each unique pair of directional implications considered.
-The absence of hypothetical reasoning means that these are no longer derivable theorems of some underlying type theory, but ad-hoc schemata, fixed \textit{a priori} to fit their designated purpose.
+The absence of hypothetical reasoning means that these are no longer derivable theorems of some underlying type theory, but ad-hoc schemata, fixed a priori to fit their designated purpose.
 To counteract overgeneration, these rules are made available only to a pre-defined subset of the sum of lexical types, empirically specified.
 With respect to the interface, a combinatory derivaton can be cast into a semantic $\lam$ term the usual way; by assigning to each rule a corresponding term constructor.
 Note, however, that this procedure is a non-invertible \textit{transformation} rather than an isomorphic correspondence; the purity of the Curry-Howard correspondence is lost, traded away for the aforementioned decrease in parsing complexity.
