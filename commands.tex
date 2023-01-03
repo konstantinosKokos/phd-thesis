@@ -63,6 +63,7 @@
 \usepackage{pgfplots}
 \usetikzlibrary{fit,positioning,arrows,automata,shapes,backgrounds,
 				calc,patterns}
+\usepgfplotslibrary{fillbetween}
 \usepackage{tikz-qtree}
 \tikzset{
 	unary/.style={thin,double},
@@ -368,6 +369,7 @@
 \newcommand{\tseq}{\ensuremath{\seq{t}{0:n}}}
 \newcommand{\wseq}{\ensuremath{\seq{w}{0:n}}}
 \newcommand{\biject}{\rightarrowtail\mathrel{\mkern-15mu}\twoheadrightarrow}
+\newcommand{\stat}[2]{#1\textsubscript{$\pm$#2}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					hyphenations

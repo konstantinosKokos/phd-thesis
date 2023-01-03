@@ -2,18 +2,18 @@
 \label{chapter:chapter_4}
 
 
-\chapabstract{\todo}
+\chapabstract{Like playing tic-tac-toe, but with types}
 
 
 Reflections are normally reserved for the end of a chapter, but I'm in a pensive mood so we'll have them here instead.
-This thesis was originally envisaged as part of a broader whole, a stepping stone toward an integrated approach at structural reasoning and meaning representation; the end goal was to be a prototype for a type-driven composition calculus for vector-based semantic modeling.
-In the project's days of inception, that goal was not just noble but also technically feasible; distributional semantics and word vectors were in their heyday, machine learning was rapidly taking off, parsers all of a sudden started becoming reliable.
-Everything seemed to point towards the imminent bloom of a new era in natural language processing (NLP), an era where the wisdoms of old would meet the machines of today, hinting at a bright and prosperous future for neurosymbolic structure-aware semantic composition models.
+This thesis was originally envisaged as a stepping stone toward an integrated approach at structural reasoning and meaning representation; a type-driven model of syntax reflected in a vector-based model of meaning.
+The end-goal not just theoretically noble, but also technically relevant; distributional semantics and word vectors were in their heyday, machine learning was rapidly taking off, parsers all of a sudden were becoming reliable.
+Everything seemed to point towards the imminent bloom of a new era in natural language processing, where the wisdoms of old would meet the machines of today, hinting at a bright and prosperous future for neurosymbolic and structure-aware models of semantic composition.
 And things did seem to go that way, at least for a few years.
-But, unbeknownst to all, the new era in the evolutionary history of NLP would actually turn out to also be the dumbest (yet).
-The advent of data efficient neural architectures -- combined with their immense potential for commercial applications, and its allure to big corporations -- brought large language models into the game.
-These are unsophisticated, profanely over-parameterized, general purpose systems, fed unprocessed texts for weeks on end until they'd learn to convincingly imitate its use.
-With their sheer strength, large language models usurped the heir apparent and condemned structure-aware semantic computation to obscurity; the future of computational semantics is to be opaque, boring, exclusive to big tech and provided as-a-service instead.
+But, unbeknownst to all, the forthcoming era in the field's evolutionary history would actually turn out to also be the dumbest (yet).
+The advent of data efficient neural architectures -- combined with their immense potential for commercial applications and its allure to big tech -- brought large language models into the game.
+These are unsophisticated, profanely over-parameterized, general purpose systems, fed unprocessed texts for weeks on end until they learn to convincingly imitate its use.
+With their sheer dumb force (and the hype surrounding it), large language models usurped the heir apparent and condemned structure-aware semantic computation to obscurity; the future of computational semantics is to be opaque, boring, steered by industry and provided as-a-service instead.
 My thesis got caught in the blast of this change of power, necessitating a clear positioning in the current state of affairs, and a careful motivation for the chapter to follow; anything and everything done as -- or in the name of -- science requires justification after all.
 So here goes.
 
@@ -23,21 +23,23 @@ The more well-behaved the representational format chosen, the more powerful, tra
 The less localized and problem-specific the representational format chosen, the more adaptive and better understood the reasoning can be.
 On the basis of these observations, $\lambda$ calculi make for an ideal representation format.
 Choice of format aside, a formal system operating on formal representations is not prone to implicit biases, latent variables, ambiguity or inconsistency: erroneous outputs are the result of bad input or bad programming; there's always someone to blame.
-Specifically in the natural language domain, advancing the conversion of text into formal representations is promoting accountable automation of textual processing, and eliminates the anthromorphic delusion of the ghost in the machine.
+Specifically in the natural language domain, advancing the conversion of text into formal representations is promoting accountable automation of textual processing, and eliminates the anthromorphic delusion of the ghost in the machine: to succesfully imitate linguistic form is not to understand meaning.
 Parsing is therefore only superficially in competition with large language models, and its seeming obsoletion is just a by-product of the ephemeral and rapidly shifting pop science trends of the ``AI'' race.
 
 That said, machine learning is not bad.
 Shifting the focus away from the algorithm and toward the data can often be a reasonable concession in the automation of complex or labor-intensive tasks, provided that the task is not risk critical and that no intelligence is attributed to the end system.
-This is especially the case if ``almost correct'' is almost as good as correct, or the problem being modeled is intractable, making an approximation the best we can hope for.
-But employing machine learning has to be thought of as either a shortcut, or an admission of defeat.
-In opting for a machine learning solution, one assigns more faith to a generic data cruncher in solving a problem, than to oneself in designing a solution to that very problem.
+This is especially the case if ``almost correct'' is almost as good as correct, or the problem being modeled is intractable, making an approximation the best we could hope for.
+But employing machine learning has to be thought of as either a shortcut or an admission of defeat, not as an end goal in itself.
+In opting for a machine learning solution, one assigns more faith to a generic data cruncher in pretending to solve a problem than to oneself in designing a solution to that problem.
 
-Interweaving symbolic and subsymbolic reasoning is then the responsible engineer's out.
-A bipartite disassembly promotes the selective expenditure of formal effort where it really is needed, while still benefiting from the high horsepower of brute force statistical machinery.
-Complicated but decipherable components, rich in hierarchical or recursive structure, and requiring or greatly benefiting from formal transparency are to be tackled explicitly.
+Interweaving symbolic and subsymbolic reasoning is then the responsible engineer's out. 
+Complicated but decipherable components, rich in hierarchical or recursive structure, requiring or greatly benefiting from formal transparency are to be tackled explicitly.
 Components that are laborious but uninteresting, data intensive or intractable are to be isolated and outsourced to a machine worker.
+This partition promotes the expenditure of formal effort where it really is needed, while having it benefit from (rather than compete with) the high horsepower of brute force statistical machinery.
 In this here context, I'm claiming that large language models should be treated not as a substitute, but as complementary to logic-based systems.
-This is exactly the route we'll follow in this chapter, where we'll go through the hoops of designing and implementing a formally disciplined but accurate and robust wide-coverage parser, a novel neurosymbolic architecture aimed at substructural logics of the linear lineage, instantiated here for \NLPplus{} and trained on \AE thel.
+This is exactly the route we'll follow in this chapter, deviating from the original plan in going not from structures of form to vectors of meaning, but from vectors of form to structures of meaning.
+Less pompously, we'll go through the hoops of designing and implementing a formally disciplined but accurate and robust wide-coverage parser, a neurosymbolic architecture aimed at substructural logics of the linear lineage, instantiated here for \NLPplus{} and trained on \AE thel.
+
 
 \section{The Categorial Parser}
 We'll start with a high-level conceptualization of the categorial grammar parser.
@@ -282,9 +284,9 @@ The same paradigm is today more dominant than ever, and has pushed conventional 
 The supertagging architectures reviewed are, from first to last, variations on a theme.
 Regardless of whether the underlying statistical machinery is a hidden Markov model, a maximum entropy model, a neural sequence tagger or a sequence-to-sequence transducer, a single commonality characterizes them all: they start from the assumption of a finite codomain.
 More than that, they don't just assume but \textit{require} that the zipfian tail of lexical type sparsity is practically irrelevant for the corpus, and, by extension, for language at large.
-In other words, they require that most of the probability mass of type occurrences is concentrated around a central region of few but common types, and that exceptionally rare types are nothing but statistical artifacts which can safely be ignored.
+In other words, they require that most of the probability mass of type occurrences is concentrated around a central region of a few common types, and that exceptionally rare types are nothing but statistical artifacts which can safely be ignored.
 This bias is not to be mistaken for a vice, nor for a deeply motivated ruling; it is a practical compromise that became an unwritten rule, similar to the (once proclaimed as necessary) locality of supertagging -- a notion since abandoned and forgotten with minimal remorse and deliberation as soon as technology allowed.
-The issue is really quite shallow: statistical models have always had a very hard time dealing with under-represented samples (in our case, supertags), and correctly predicting items outside the training data is an open problem.
+The issue is really quite shallow: statistical models have always had a very hard time dealing with under-represented samples (in our case, supertags), and correctly recognizing items outside the training data is an open problem with no general solution.
 
 That, again, is not to say the compromise is an unjust one; its heedless proliferation does, however, come with two major side effects.
 One, it forces parsers to give up on potentially rare syntactic phenomena, assuming those manifest through unique and uncommon supertags.
@@ -293,7 +295,7 @@ In other words, exactly those difficult phenomena that would benefit from the li
 The problem is of an epistemological nature: we'll only ever parse only what we can parse, but we can't parse what we won't even try to parse.
 Two, in becoming part of the first page of the (as of yet unwritten) supertagging bible, the concept implicitly reinforces the belief that grammars not following a distribution of occurrences similar to (or denser than) that of the CCGbank are practically unusable.
 This is really a quite serious pitfall containing a contradiction worth pointing out -- it basically says that lexicalization is good, but only as long as it's not too itemized! 
-Lexicalized formalisms that are ``too lexicalized'' are condemned to a premature end in fear of never making it past the supertagging phase, while it is only through such formalisms we could ever hope to trivialize the parsing process and fulfill the lexicalist dream... go figure.
+Lexicalized formalisms whose lexica are too eloquent are condemned to a premature end in fear of never making it past the supertagging phase, while it is only through such formalisms we could ever hope to trivialize the parsing process and fulfill the paradigm's ambition...
 
 Epistemological ramblings aside and back to reality, the type grammar we have developed is not among the lucky few.
 \AE thel is way sparser than the CCGbank, containing five times as many types, while test samples with at least one rare type (i.e. a type with less than 10 occurrences in the joined train and dev subsets) appear four times as often as in the CCGbank (14.5\% vs 3.5\%).
@@ -302,9 +304,7 @@ Worse yet, these statistics are suggestive of a big type universe%
 	\footnote{Read as (big (type universe)) and not as ((big type) universe) -- if you don't see the difference, ignore this comment.}, 
 of which we likely have a observed only but a glimpse through the lens of \AE thel.
 In practical terms, we done messed up, and no existing technology will save us now.
-But, as the proverb goes, ``necessity is the mother of invention''%
-	\footnote{I like the thought of Invention as the daughter of a happy progressive family with three mothers, the other two being Laziness and Boredom.}
-and we're definitely in need here, so we may as well invent something.
+But, as the proverb goes, ``necessity is the mother of invention'' and we're definitely in need here, so we may as well invent something.
 
 In reality, what we need is less of an invention and more of an observation.
 The important thing to observe is that supertags (be them combinatorial categories, type-logical types or anything resembling them) are not ad hoc, opaque and dissimilar \textit{units}, but highly regular, transparent and decomposable \textit{structures}, made of a small set of primitives and the binders that piece them together.
@@ -817,7 +817,7 @@ Table~\ref{table:comparisons} presents our results compared to relevant publishe
 Evidently, our model surpasses established benchmarks in terms of overall accuracy, matching or surpassing the performance of both traditional supertaggers on common categories and constructive ones on the tail end of the frequency distribution, so there's that.
 
 \begin{table}
-    \newcommand{\ave}[2]{\multirow{2}{*}{~~#1\textsubscript{$\pm$#2}}}
+    \newcommand{\ave}[2]{\multirow{2}{*}{~~\stat{#1}{#2}}}
 	\newcommand{\num}[1]{\multirow{2}{*}{#1}}
 	
     \centering
@@ -1055,7 +1055,7 @@ Needless to say, this is a simplification; structural constraints are only parti
 It is not an unreasonable one though; the format is compact, and imports at least some of the structural constraints, faithfully capturing definition of a proof structure.
 Besides, matrices are the bread and butter of machine learning -- we're on the right track.
 
-\begin{figure*}
+\begin{figure}
     \resizebox{1\textwidth}{!}{
 		\begin{tikzpicture}
 		    [t/.style={text height=1.5ex, text depth=.25ex, rectangle, outer sep=0pt,font=\small},
@@ -1167,7 +1167,7 @@ Besides, matrices are the bread and butter of machine learning -- we're on the r
     }
     \caption{The two layers of an $\NLPplus$ proof net: a proof frame (below) with its axiom links (above).}
     \label{figure:rare_teken}
-\end{figure*}
+\end{figure}
 
 \subsection{Neural Proof Nets}
 Permutation matrices may well be matrices, but they're still discrete -- not something we could ever hope to differentiably produce.
@@ -1215,7 +1215,7 @@ To that end, we simply need to jointly train supertagging and axiom linking in a
 
 \subsubsection{Implementation(s)}
 Since the original publication of \citet{kogkalidis-etal-2020-neural}, the architecture was revised with minor micro-adjustments, and retrained with each new major adaptation of \AE thel, charting a multidimensional course of only partially compatible successive stops.
-Rather than suffocate us all with irrelevant distractions, I think it's best if I stick to describing in detail only the current and most recent implementation which rests on the supertagger of Section~\ref{subsection:gc}, drawing parallels with isolated historical insights only when relevant.
+Rather than suffocate us all with irrelevant distractions and boring tables of deltas, I think it's best if I stick to describing in detail only the current and most recent implementation, drawing parallels with isolated historical insights only when relevant.
 
 \paragraph{Supertagger Integration}
 The architecture combines just as easily with both the symbol sequential and the geometrically informed decoder, requiring only an adaptation of how leaf nodes are indexed and gathered.
@@ -1243,20 +1243,24 @@ This obstacle can be repurposed to a tool, as long as search is an option -- har
 	\]
 	We can import the count invariance condition by overwriting the probability score $p(s_{\beta, n, ||t_n||} | \dots )$ assigned by the decoder with $-\infty$ when $\mathbf{t}_{0:n}$ fails the check, essentially discarding the sequence and forcing a backtrack.
 }
-Initial experiments on \AE thel $\mathtt{0.4}$ showed that a beam width of 2 would suffice to bring parsability (i.e. invariance correctness) to 100\% and coverage (i.e. \textit{some} parse obtained) to 95.3\% (up from 87.7\% and 89.9\%, respectively), with tangible but diminishing returns to accuracy from further increasing the beam width up to 5.
 Sticking with the parallel decoder means having to wave such niceties goodbye, at least until some search algorithm is formulated and implemented.
-Despite the fact, the drastically improved accuracy and speed translate to a multiplicative increase in the performance-to-compute ratio -- the greedy output of the novel supertagger is practically as good as (and incomparably faster then) an unmodified beam search on the original one, but with no guarantee of structural correctness.
+Despite the fact, the drastically improved accuracy and speed translate to a multiplicative increase in the performance-to-compute ratio -- the greedy output of the novel supertagger is practically as good as -- and incomparably faster then -- a vanilla beam search on the original one, but with no guarantee of structural correctness.
 Long story short, the geometry-aware decoder is not a no brainer, but it's still the superior choice.
 
 The permutation component may modulate the linking process by providing a parametric and trainable similarity metric.
 The current version utilizes a weight vector $w \in \mathbb{R}^{d_n}$ to compute similarity scores between positive and negative vectors as their $w$-weighted inner product.
-This is a cheap and efficient way to selectively allocate weight on (some of) the decoder's representations, partially disentangling the two problems.
+This is an efficient way to selectively allocate signed weights on the decoder's representations, allowing certain pairwise interactions more prominence than others (or even imposing sparsity to disentangle the two problems, if $L_1$ regularization is employed).
+Let's take a second to restate this: the transition from supertagging to full-blown parsing incurs a cost of 128 extra parameters; a relative increase of a paltry 0.0001\%.
+What we have in our hands is quite literally the world's tiniest parser.
 
+%Initial experiments on \AE thel $\mathtt{0.4}$ showed that a invariance-adjusted beam width of 2 would suffice to bring parsability (i.e. invariance correctness) to 100\% and coverage (i.e. \textit{some} parse obtained) to 95.3\% (up from 87.7\% and 89.9\%, respectively), with tangible but diminishing returns to accuracy from further increasing the beam width up to 5 -- even though the exact numbers are no longer relevant, they paint an accurate picture of its effect.
+
+\subsubsection{Experiments \& Results}
 \paragraph{Training}
 The unified architecture is end-to-end differentiable, and can be jointly trained on both the supertagging and the axiom linking tasks simultaneously.
 The supertagging objective remains exactly as before, whereas the linking loss is obtained as the negative log likelihood between the Sinkhorn-normalized activations and the discrete ground truth labels (identical to standard multiclass classification).
 Given that proof frames are a priori known in training and considering that teacher forcing ensures the correct autoregressive interactions, we may simply proceed with isolating the leaves out of the decoder's representations.
-Leaf representations are binned according to their sentential index, atomic type and polarity (e.g. a single bin would be all occurrences of a positive $\type{np}$ in sentence \#13 of the input batch).
+Leaf representations are binned according to their sentential index, atomic type and polarity (e.g. a single bin would be all occurrences of a positive $\np[s]$ in sentence \#13 of the input batch).
 Each bin is zipped with its inverse polarity counterpart, and their element-wise similarity scores are computed via the chosen metric.%
 	\footnote{Note that the zipping function is not \textit{the} similarity metric but the pairwise application of one. 
 	In other words, the agreement scores are independently computed between pairs of elements from the two sets.
@@ -1264,85 +1268,228 @@ Each bin is zipped with its inverse polarity counterpart, and their element-wise
 Similarity scores are normalized by a fixed number of Sinkhorn iterations -- three iterations suffice to produce sharp activations without eroding the gradient updates.
 Similarity scores and Sinkhorn normalizations are computed in parallel and batched across bins of the same size (i.e. according to the bijected sets' cardinality) -- a faster alternative would be to pad them to a fixed size using some arbitrarily low constant as a padding value, but the difference is minor and not worth the memory overhead. 
 
-The joint architecture takes longer to train than the standalone tagger, owing to the slower forward and backward passes, but also an increased number of epochs required to reach convergence.
-The linking module is surprisingly fast to converge, but its inclusion is detrimental to the supertagging component, as its loss term dominates the sum early on.
-Since accurate supertagging is a prerequisite to parsing, linking loss is scaled by 10\% to promote smoother training curves and a better task balance.
-To nudge the model away from local optima and diffuse any gradient conflict, one of the two losses is occassionally zeroed out with a 20\% chance~\cite{woo2021revisiting}.
+The joint architecture takes longer to train than the standalone tagger, owing to the slower forward and backward passes, but also due to the increased number of epochs required to reach convergence.
+The linking task is surprisingly fast to converge, but its inclusion is detrimental to supertagging, as its loss term dominates the sum early on.
+Since accurate supertagging is a prerequisite to parsing, linking loss is scaled by 10\% to promote smoother training curves and a healthier task balance.
+To nudge the model away from local optima induced by gradient conflict, one of the two losses is occassionally zeroed out with a 20\% chance.
 
 \paragraph{Evaluation}
-
-%Regardless of how leaf representations are sourced, the high-level pipeline follows the same general principles.
-%First, the supertagger's output is ``parsed'' into types proper.
-%Assuming no structural integrity issues, leaf positions are then indexed, keeping track of their polarities and atomic types -- the result is a proof frame.
-%For the frame to be an eligible starting point for proof search, it must satisfy the count invariance property, requiring an equal count of positive and negative leaves for every atomic type present.
-%Assuming it does, leaf representations are extracted and binned according to their type and polarity (also sentential index, when processing in batches).
-%Each bin is zipped with its inverse polarity counterpart, and their element-wise agreement scores are computed via some similarity metric.%
-%	\footnote{Note that the zipping function is not \textit{the} similarity metric but the pairwise application of one. 
-%	In other words, the agreement scores are independently computed between pairs of elements from the two sets.
-%	This is necessary to account for the variably sized sets encountered without ad-hoc padding, but also to ensure that the end operator is permutation invariant.}
-%The resulting matrices are finally normalized by a fixed number of Sinkhorn iterations, and sent on their way.
-%
-
-%%%To procure these activations, three Sinkhorn iterations are applied to the agreement scores computed in parallel
-%%Dropout is applied to the intermediating weight vector to randomly zero out the same pairwise interactions in each batch.
-%%%Three Sinkhorn iterations suffice for results to sharpen the matrices into being almost binar
-%%%
-%%
-%%%Dropout is applied to the intermediating weight vector
-%%
-%%\paragraph{Inference}
-%%During inference, the
-%%
-%
-%
-%\subsubsection{Experiments \& Results}
-%
-%\subsubsection{Insights \& Observations}
-%%\subsubsection{Original}
-%%\paragraph{Overview}
-%%In their first public appearance, neural proof nets were seen hand in hand with a variation of the symbol sequential transformer of Section~\ref{subsection:snmt} -- this was less of a conscious choice and more of a lack thereof.
-%%The language mdo underlying the transformer was originally substituted for BERTje and eventually for RobBERT~\cite{delobelle2020robbert}.
-%%To account for the missing right context of the decoder's output (it being left-to-right autoregressive), leaf representations were processed by a second encoder, used to cross-attend between the full input and the entire decoded output, contextualizing the latter based on the former.
-%%Negative and positive representations were processed by distinct feed-forward networks, and their agreement scores would be computed as their dot-products.
-%%A finite number of Sinkhorn steps would then process the output, which would be discretized by rounding during inference.
-%%Boring and irrelevant details aside, 
-%
-%% only the current implementation 
-%%The new supertagger of Section~\ref{subsection:gc} presents us with an alternative that looks like a no brainer at a first glance.
-%%Alas, the truth is more complicated; the choice of supertagger has a multidimensional effect on the system's end-to-end performance.
-%
-%%To quantify the effect of this, we will go through three distinct evolutionary phases of neural proof nets through time.
-%
-%
-%%\subsubsection{Symbol Sequential}
-%%In the original experiments of~\citet{kogkalidis-etal-2020-neural}, the supertagger consisted of a 
+During evaluation and inference, the decoder has to rely on its own output, as the ground truth frame is unknown.
+When decoding completes, the output must first be ``parsed'' into types proper.
+Assuming no structural integrity issues, leaf positions are indexed, keeping track of their polarities and atomic types -- the result is a proof frame.
+For the frame to be an eligible starting point for proof search, it must satisfy the count invariance property, which is dynamically asserted on the spot.
+If it does, leaf representations are extracted and binned and their agreement scores are computed and normalized like before (except sequentially for each sentence).
+In the event that the local discretization (i.e. rounding) of a normalized matrix does not correspond to a bijection, we resort to an explicit combinatorial optimization via the Hungarian method, using the normalized scores as assignment weights.
+In either case, the pairings obtained correspond to axiom links, which are traversed to produce a proof (more on that in a bit).
 
 
+We proceed with evaluation with no training wheels: no pre- or post- processing, no tokenization or chunking oracles, and no length, depth or frequency-based thresholding.
+All scores reported are the average of three repetitions.
+Numeric evaluation requires a way to compare proofs.
+The first and most transparent thing to consider are sentential- (or proof-) level performance metrics, where there's two axes of interest; axis one is whether we could have gotten or did get a proof, and axis two is whether that proof could be or was the correct one.
+The key results are presented in Table~\ref{table:key_results}.
 
-%\subsection{Proof Nets in \NLPplus}
-%Before we lay out our schemes and proceed with our machinations, we need to take a brief pause for the sake of formal transparency.
-%The use of proof nets as our representational standard might be seen as implicating an equivalence between proofs and proof nets.
-%Such an implication would be sloppy -- the two sure are closely related, and going from proof to proof net is straightforward, but the opposite direction is tricky: a proof net lets out less than necessary to allow a perfect proof reconstruction.
-%Luckily, we are not really demanding an isomorphism between \NLPplus{} and its proof nets; we just want a locally one-to-one relation between the two, covering only the neighborhood of proofs inhabited by our linguistic usecases.
-%There's a whole lot of proof patterns we don't expect to ever encounter, and can thus safely ignore (e.g. box introduction rules, diamonds in result position, box-diamond chains etc., just to name a few).
-%This might still seem quite ambituous at a first glance -- proof nets have no means of encoding the positionally underspecified diamond elimination rule $\diamond E$, and are altogether unperceptive to the structural extraction rule $\Extraction$
-%This would've indeed been the case if it wasn't for our providence: we have imposed a canonical placement on both these rules, which should relieve the burden of translation.
-%%If historicity is your
+\begin{table}[h]
+	\centering
+	\begin{tabular}{@{}c@{\qquad}c@{}}
+		\textbf{parsability}	&
+		\textbf{coverage} \\
+		\smaller(some proof obtainable) &
+		\smaller(some proof obtained) \\
+		\toprule
+		\stat{87.35}{0.18} &
+		\stat{85.56}{0.22} \\
+		\addlinespace
+		\textbf{frame accuracy} &
+		\textbf{accuracy}\\
+		\smaller(correct proof obtainable) & 
+		\smaller(correct proof obtained)\\
+		\toprule
+		\stat{57.76}{0.55} & 
+		\stat{55.63}{0.55}\\
+	\end{tabular}
+	\caption{Sentential-level evaluation of the parser.}
+	\label{table:key_results}	
+\end{table}
 
+On the bottom left, accuracy corresponds to the proportion of sentences assigned a proof that satisfies \textit{strict syntactic equality} to the ground truth one, and stands at a 55.63\%.
+The significance of this number is easy to miss, considering the unforgiving rigidness of the metric and the demanding nature of the task -- proof equality means having \textit{perfectly} captured the input's function-argument structures, functional types and dependency roles.
+By comparison, the state of the art in CCGbank parsing is currently 54\%~\cite{DBLP:journals/corr/abs-2109-10044} -- which is only to say that the two tasks, despite their obvious differences, are now very proximal in performance, despite type-logical grammars being traditionally dismissed as ``too complex''.
+Less promising is the average coverage, i.e. the proportion of sentences assigned any proof at all, lying at a modest 85.56\%.
+To find the culprit for this lacking result, we measure parsability, i.e. the proportion of analyses whose proof frame satisfies the count invariance property.
+Evidently, only 87.35\% of the input is amenable to proof search at all.
+Despite appearances, this is actually quite reasonable considering the severe architectural limitation of being confined to the one single best proof frame.
+It also goes to show that the permutation strategy is incredibly robust; 97.95\% of the parsable sentences are \textit{actually} parsed, with the remaining 2.05\% of the errors being due to a structural link error.
+To put this in context, only 2\% of the parsable sentences contain \textit{any} structural error among \textit{any} of their permutation bijections among \textit{any} of the atomic types present.
+In other words, the traversability condition that makes a proof structure a proof net has been almost perfectly captured, despite remaining implicit throughout the training process, both in terms of representations used and of the loss signal backpropagated.
+More than just incredibly robust, the permutations are extremely accurate.
+This is made evident when considering the proportion of correct proofs to correct frames, which lies at an astonishing 96.31\%.
+Put plainly, the number suggests that an error-free proof is \textit{practically guaranteed} from an error-free frame.
+The results as a whole paint a clear picture that takes little effort to interpret: the performance bottleneck is on the supertagging module rather than the permutation module.
 
+\begin{table}
+	\centering
+	\begin{tabular}{@{}lcccc@{}}
+		\textbf{modulo}			& $p$ & $r$ & $F_1$ & sentential accuracy\\
+		\toprule
+		--						& \stat{89.36}{0.05} & \stat{89.46}{0.06} & \stat{89.17}{0.06} & \stat{55.63}{0.55}\\
+		~modalities				& \stat{90.82}{0.02} & \stat{90.94}{0.03} & \stat{90.68}{0.03} & \stat{56.25}{1.02}\\
+		~functional types 		& \stat{90.91}{0.03} & \stat{91.02}{0.04} & \stat{90.72}{0.04} & \stat{57.39}{0.71}\\
+		~types					& \stat{92.14}{0.01} & \stat{92.30}{0.01} & \stat{92.00}{0.02} & \stat{58.83}{0.63}\\
+	\end{tabular}
+	\caption{Decomposition metrics and relaxations.}
+	\label{table:relaxations}	
+\end{table}
 
+To understand the sizeable gap between accuracy and coverage, we employ an adaptation of the parsing community's favorite $F_1$-score.
+Concretely, we gather all samples for which a proof was produced, and decompose both prediction and ground truth into their respective sets of subproofs.
+We measure $tp$ as the two sets' intersection, $fp$ as the difference between predicted and correct subproofs and $fn$ as the difference between correct and predicted subproofs, from which we may obtain precision as $p = \sfrac{tp}{(tp+fp)}$, recall as $r = \sfrac{tp}{(tp+fn)}$ and their harmonic mean as $F_1 = \sfrac{2 p r}{(p + r)}$.
+On top of the vanilla versions of these metrics, we can also examine relaxations by incorporating a combination of two modulo factors.
+Relaxation one targets the functional core of the logic, applying a forgetful transformation to strip proofs of their modalities to examine typed function-argument structures in isolation.
+Relaxation two targets the modal enhancement of the logic, collapsing the set of atomic types into a single point (thus treating all functional types of the same \textit{shape} as equal) to examine dependency structures in isolation.
+Relaxing on both axes at once is essentially casting proofs into the untyped $\lambda$ calculus, where all we care about are the type- and dependency- agnostic function/argument structures.%
+	\footnote{Proofs are in $\beta$ and $\eta$ normal, so no free points from abstractions. Identity proofs are only equal if they match in both name and type, so no free points from variable instantiations either.}
+The results are averaged over covered samples%
+	\footnote{Averaging over the full test set would artificially deflate scores, since no partial proofs are returned from failing samples.}
+and presented in Table~\ref{table:relaxations}.
+Whether they are informative or not is up to debate; practically, they suggest that allowing for the occassional error in an atomic type or modality, about 92\% of the subproofs returned are correct, and about as many of the gold standard subproofs are returned, which in turn suggests that erroneous parses are likely the product of isolatd, local errors.
 
-%\section{Key References \& Further Reading}
-%
-%The geometry-informed supertagger of Section~\ref{subsubsection:gas}	 bears semblance and owes credit to various contemporary lines of work, being an application-specific offspring of weight-tied architectures, dynamic graph convolutions and structured self-attention networks.
-%The depth recurrence is evocative of weight-tied architectures~\cite{dehghani2018universal,bai2019deep} and their graph-oriented variants~\cite{li2016gated}, which model neural computation as the fix-point iteration of a single layer against a structured input, thus allowing for a dynamically adaptive computation ``depth'' -- albeit with a constant parameter count.
-%Analogously to structure-aware self-attention networks~\cite{zhu-etal-2019-modeling,cai2020graph} and graph attentive networks~\cite{velivckovic2018graph,yun2019graph,ying2021transformers,brody2021attentive}, it also employs standard query/key and fully-connected attention mechanisms injected with structurally biased representations, either at the edge or at the node level.
-%Finally, akin to dynamic graph approaches~\cite{liao2019efficient,pareja2020evolvegcn}, it forms a closed loop system that autoregressively generates its own input, in the process becoming exposed to subgraph structures that drastically differ between time steps.
+\subsubsection{Insights \& Observations}
+\paragraph{Advantages}
+The position that parsing is a problem of permutation offers an appealing way of encoding the parse space, where computational efficiency and formal correctness are no longer at odds.
+This challenges the status quo of shift-reduce parsing, scorning iterative structure manipulation in favor of a direct translation of structural constraints into vectorial ones, directly optimizable with numerical methods.
+Neural proof nets embody this in being fully parallel (even \textit{intra}-sententially), living entirely on the GPU.
+They refuse to engage in the over-parameterization game; combined with a constructive architecture, they're practically parameterless -- you can use them on your grandma's laptop.
+To call their asymptotic behavior favorable would be an understatement; modern machines can perform a Sinkhorn normalization over batches of 64 matrices in constant time (in the $\mu s$ scale) for any matrix order up to $2^7$ -- to comprehend how extremely ridiculous this is, consider that this would amount to finding the correct bijection out of ${2^7}! = 3.9\times 10^{215}$ possibilities across 64 pairs of sets in parallel.
+More than just efficient, they are effective -- employed here for an objectively difficult, sparse, underspecified and nascent type logic, they achieve accuracy comparable to that of established parsers boasting decades of combined community wisdom and collective effort.
+Numbers aside, neural proof nets are messengers of unity and not confrontation.
+In trivializing the difficulties associated with hypothetical reasoning, they bring explicit variable binding into \textit{practical} relevance for wide-coverage categorial grammars, discrediting all the naysaying.
+The same pipeline we used here applies to \textit{any} grammar logic in the linear tradition -- type theoretic purity is no longer a foe to shy away from, but a free pass at proof nets and their vectorized forms.
+The framework is finally open to modification; explicit structural constraints additional to linearity may always be imported as objective functions or representational adjustments.
 
-% biaffine
-% richard
-% french
-% kasai
+\paragraph{Downsides}
+The key issue with the end-to-end architecture is inherited from the supertagger -- our inability to mix and match multiple assignments is now here to haunt us with a sharp 13\% reduction in absolute coverage.
+Beyond that, the implementation described capitalizes on a disentanglement between neural and symbolic operations for the sake of efficiency.
+But doing so comes at the heavy price of a unidirectional data flow that lacks cross-component feedback; even though tagger and parser share the same representations, there's no communication from the latter to the form.
+Symbolically traversing the produced axiom links is done singularly for the sake of testing and verifying the neural output, but gives us no chance to emit back a new request.
+Failures may be caught, but they are nonetheless irrecoverable -- a partial output that fails any structural constraint, however rare or common, signifies an abrupt and non-negotiable end to the processing pipeline.
+A better operationalization would be to use the symbolic engine to continuously ask for neural output as long as the structural constraints are not met (or the user is not satisfied with the parse provided).
+For this to be possible, neural components would need to be extended with some notion of backtracking.
+In that sense, the parallel nature not just of the supertagger but also the parser becomes now a double-edged sword, practically prohibiting us from asking for the ``next-best'' set of axiom links -- this becomes especially hard to tackle considering how the permutations of different atoms are independently produced.
+On a relevant note, the permutation module is currently implemented as a greedy deterministic oracle, making no attempt to account for derivational ambiguity. 
+This is a sensible decision for the current set of experiments, given that ambiguity is mostly captured at the type level.
+Still, the limitation could be lifted by cross-contextualizing and/or adding noise and incorporating sampling routines in a probabilistic learning setup.
+
+\subsection{Bonus: Proof Nets in \NLPplus}
+Everything has been done, but not everything has been said.
+A cautious reader might have noticed an argumentative sleight of hand in the current section.
+To clear the air of any suspicion of deception, we need to step away from neural matters and take one last detour through the loopy land of proof nets.
+The issue at hand is none other than the use of proof nets as our representational standard, which might be seen as implicating an equivalence relation between proofs and proof nets.
+Such an implication would be sloppy -- the two sure are closely related, and going from proof to proof net is straightforward, but the opposite direction is tricky: a proof net lets out less than necessary to allow a perfect proof reconstruction.
+Luckily, we are not really demanding an isomorphism between \NLPplus{} and its proof nets; we just want a locally one-to-one relation between the two, covering only the neighborhood of proofs inhabited by our linguistic usecases.
+There's a whole lot of proof patterns we don't expect to ever encounter, and can thus safely ignore (e.g. diamonds in result position, box-diamond chains etc., just to name a few).
+This might still seem quite ambituous at a first -- proof nets have no means of encoding the positionally underspecified diamond elimination rule $\diamond E$, and are altogether unperceptive to the structural extraction rule $\Extraction$
+This would've indeed been the case if it wasn't for our earlier providence: we have imposed a canonical placement on both these rules, which should relieve the burden of translation.
+In principle, we should be able to put things in literal order.
+
+The algorithm we'll follow requires as input a set of axiom links, a sequence of (antecedent) lexical type assignments and a (succedent) conclusion.
+All types are polarized and their decomposition trees indexed -- this means we have invertible mappings between types and constant/variable indices, leaf indices and types, and, by extension, leaf indices and constant/variable indices.
+Using these, we may also produce the \textit{mirror image} of a decomposition tree on demand: a tree of the exact same type but opposite polarity, whose leaf indices are the axiom link pairs of the original (regardless of link direction).
+Our traversal starts as easy as it did before -- with two traversal directions.
+
+\subsubsection{Negative Mode}
+Upon taking a step in negative (upward) mode traversal, we will consult the mirror image of the tree just entered; if it is mapped to either a variable or a constant, we will return the corresponding proof without actually proceeding with the traversal; this allows us to sidestep dangerous $\eta$ expanded modal forms and their normalizations.
+If that's not the case, we have no choice other than to actually perform the traversal, taking a different action depending on what the current node is.
+
+\paragraph{Atom}
+In the easiest case, it will just be a leaf -- we just need to cross over it and enter through the opposite end in positive (downward) mode.
+In the case of the node being a type constructor, things get complicated.
+
+\paragraph{Implication} When encountering a negative implication (a par node), we will first navigate the right hand side (the functor's result, which is also negative) -- whatever we get back will be the \textit{body} of a $\lambda$ abstraction to-be.
+The variable to abstract over is indexed by the left hand side (the functor's argument, which is positive), meaning we can \textit{usually} just proceed with the abstraction and return the result (as we know both the variable's type and its index).
+Exceptionally, if the left hand side tree is rooted in a $\dxdia{x}$ node, we are in trouble.
+Its presence alerts us to the fact that the variable we are trying to abstract over is structurally nested, meaning (i) we have its index wrong, and (ii) it is not structurally free for us to abstract.
+To recover the correct index, we may simply just consult the variable index assigned to the positive tree rooted in the $\dxdia{x}$ node -- when associating variables to formula trees, we \textit{know} that positive boxes rooted in positive diamonds are two distinct variables, to be indexed separately.
+Having learned its name, we are now free to manipulate it and perform all extractions necessary on the proof body, moving the problem variable to the outermost structural layer of the antecedent structure.%
+	\footnote{Beware: this is not a rule applied locally, but a retroactive transformation of the entire proof.}
+At that point, we procure a new proof for the body by a $\dxdia{x}E$ rule, substituting the structural $\dbra{\_}{x}$ for a logical diamond and the old variable for a new one, of the correct index.
+We are then able to proceed with the abstraction and return the result as we'd do normally.
+
+\paragraph{Diamond} 
+A negative diamond is one of two things: an actual instruction to apply a diamond introduction rule, or part of a variable's type assignment.
+As we discussed earlier, the difference between these two is only artificial -- but following our drive to avoid modal normalizations, we must figure out which of the two possibilities we're dealing with.
+To do so, we skip through the diamond to the negative tree above, traverse it as usual, and then inspect the result.
+If it so happens that it's a proof containing a single variable as its premise (bracketed or otherwise), we return it unaltered.
+If not, we apply the appropriate $\diamond I$ rule as directed by the skipped node and return the result.
+
+\paragraph{Box}
+To reach a negative box node must mean that the negative adjunct we're traversing is not directly supplied by a constant or a variable, but rather by a complex proof.
+As before, we skip the node, traverse the nested tree, and apply the appropriate $\bx I$ rule to the result.
+The appearance of a $\bx I$ rule shouldn't alienate us -- it is just a case of a verbose $\eta$ redex (considering we don't employ any closure patterns $\bx\diamond$) which will disappear after normalization.
+
+\subsubsection{Positive Mode}
+Upon entering a tree through a leaf in positive (downward) mode, we need to delineate its shape and content by identifying its root, i.e. the lowest positive node we can reach without changing sign (i.e. passing through a negative implication).
+If that root is a $\dxdia{x}$ node, we'll go for the immediately previous root instead, i.e. a $\dxbox{x}$ node.
+We'll then instantiate either a variable or a constant (depending on what kind of proof the tree is associated with) and begin the traversal by pattern matching the entire tree while passing the freshly instantiated proof as context.
+Positive mode traversal may occassionally require a \textit{cut} to proceed, that being a tuple of a variable and a proof -- its role will become apparent in a bit.
+No cut is provided initially.
+
+\paragraph{Atom}
+If the tree is a singleton, we simpy return the context and call it a day.
+
+\paragraph{Implication}
+If the tree is rooted in an implication and no cut was provided, things look familiar.
+We simply perform a negative traversal of the left branch, apply the context to it, and then step up the tree passing the updated context.
+If a cut was provided, we must first unpack its contents.
+These are to be read as instructions from the \textit{past}, calling for $\diamond E$ rule to be applied on the context in order to substitute the unpacked variable for the unpacked proof. 
+After the substitution is performed, we may proceed as before.
+
+\paragraph{Diamond}
+A positive diamond is a bit of a wildcard.
+What's for certain is that we are within some hypothesis, as diamonds in result position was never part of the plan.
+To figure out what kind of hypothesis we're dealing with, we have to inspect the contained tree above.
+If it's a leaf, we're inside the type assignment of a complement variable, so we may simply return the context.
+If it's an implication, we're inside some hypothesis of a very high order type -- traversal is ill-advised, but assuredly the entire tree must be associated with a variable which we can just return untouched.
+If it's a box, things get interesting -- we're in an interior pattern $\diamond\bx$.
+For this to make sense, the two modalities must match in their labels.
+Assuming they do, the diamond node is prescribing a cut: a substitution to be done in the \textit{future}.
+We must package the variable associated with the nested (box-rooted) tree together with the passed context.
+We then continue with the traversal, using the variable as the reset context -- when the time comes, it will be substituted for the previous context.
+
+\paragraph{Box}
+The box is again the better behaved of the two modalities.
+A box in positive mode is simply a call for $\bx E$ rule to be applied on the context before continuing with the traversal.
+
+\subsubsection{Traversal}
+Now if this all reads like black magic, it's probably because it is.
+Obscure as it might be, it works: followed by $\eta$ and $\beta$ normalizations and $\alpha$ conversion, it produces a faithful back-and-forth translation for all the 55\,026 unique theorems of \AE thel.
+The process goes as usual: start from the root of the conclusion in negative mode and hope for the best.
+If you pass through all nodes and no type errors were thrown along the way, there's a pinky promise%
+	\footnote{That's the closest we can do in lieau of a formal guarantee.}
+that the proof structure was a proof net.
+
+\section{Key References \& Further Reading}
+On this pleasant note, this chapter has reached its overdue end.
+If excited about the prospects of the work presented here, you're in luck -- the field is fresh as a daisy and the possibilities for further developments endless.
+Below you'll find some pointers to get you started.
+
+Our original work~\cite{kogkalidis-etal-2019-constructive} on constructive supertagging has somewhat sensitivized the community to the problem of open-domain lexicalized parsing (despite citations thrown at blind attributing the idea to a second-tier and closed source derivative).
+Despite the digressions against the paradigm, our results are inspired and preceded by a ton of inventive applications of generalized machine translation models repurposed for structure induction~\cite[inter alia]{vinyals2015grammar,wiseman2016sequence,dong-lapata-2016-language,buys2017robust}.
+Serious steps forward include the ones by \citet{prange-etal-2021-supertagging} and \citet{Liu_Ji_Wu_Lan_2021}, who concurrently saught to account for the tree-like structure of lexical categories, the former through a tree-biased architecture and the latter through transition-based parsers applied at the lexical level.
+
+These serve as the inspiration for the geometry-informed supertagger of \citet{kogkalidis2022geometryaware}, which bears semblance and owes credit to various ongoing lines of architectural work.
+The depth recurrence is evocative of weight-tied architectures~\cite{dehghani2018universal,bai2019deep} and their graph-oriented variants~\cite{li2016gated}, which model neural computation as the fix-point iteration of a single layer against a structured input, thus allowing for a dynamically adaptive computation ``depth'' -- albeit with a constant parameter count.
+Analogously to structure-aware self-attention networks~\cite[inter alia]{zhu-etal-2019-modeling,cai2020graph} and graph attentive networks~\cite[inter alia]{velivckovic2018graph,yun2019graph,ying2021transformers,brody2021attentive}, it also employs standard query/key and fully-connected attention mechanisms injected with structurally biased representations, either at the edge or at the node level.
+Finally, akin to dynamic graph approaches~\cite{liao2019efficient,pareja2020evolvegcn}, it forms a closed loop system that autoregressively generates its own input, in the process becoming exposed to subgraph structures that drastically differ between time steps.
+
+The neuralification of proof nets is really just the creative application of modern breakthroughs in optimal transport learning and differentiable sorting~\cite[inter alia]{cuturi2013sinkhorn,mena2018learning,grover2018stochastic,peyre2019computational}.
+The use of neural supertag representations for parsing (albeit at a more coarse level) is I believe due to~\citet{kasai-etal-2017-tag}.
+\citet{moot2022perspectives} raises a shismatic criticism of proof nets from within%
+	\footnote{You're lucky this isn't the communist party or the catholic church, Richard.}
+, but also provides stimuli and incentives for alternative operationalizations.
+\Citet{deepgrail23} are more devout, adapting the architecture for use with a multimodal Lambek calculus targeted for French. 
+Finally, \citet{DBLP:journals/corr/abs-2109-10044} recounts an up-to-date tale of categorial grammar parsing, and offers new insights along the way, but from the combinatory side of history -- this might prove handy if you're looking for alternative perspectives.
+
 
 \bibliographystyle{abbrvnat}
 \bibliography{bibliography}
