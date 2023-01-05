@@ -65,7 +65,367 @@
 	\label{table:gloss_abbreviations}
 \end{table}
 
-\section{\NLPplus{} with Python}
-\label{sec:python_impl}
+\section{\todo}
+\label{appendix:aethel}
 
-% annoys both oo and fp
+The acronym \AE thel has two readings, depending on the aspect of the E.
+Read as automatically extract\textit{ed} theorems from Lassy, it is an elaborate dataset of type-checked derivations of Dutch in $\NLPplus{}$.
+Read as automatically extract\textit{ing} theorems from Lassy, it is a Python library for extracting, processing and representing these derivations.
+The two are made for one another and, even though they can live independently, they are best presented together.
+We'll start from the second aspect and move towards the first.
+The exposition is honest but not exhaustive with respect to the actual code -- the intention is not to write a full API reference manual but rather just a quick how-to guide, with occasional commentary motivating design decisions.
+The full source code is available at \href{https://github.com/konstantinosKokos/aethel}{github.com/konstantinosKokos/aethel}.%
+	\footnote{Latest commit is 407dbb47a420a3c37606d1b6d65d1a3121e635fd.}
+Up-to-date user instructions and data downloads are best retrieved from the repository, which shall remain active for the foreseeable future.
+
+\subsection{\NLPplus{} with Python}
+Our implementation of \NLPplus{} proofs is faithful to the decomposition of Chapter~\ref{chapter:Introduction}.
+We disentangle proofs and terms into distinct entities, following our observations that the latter can be less informative than the former (e.g. hiding structural brackets and structural rules, being equivalent under order variations, etc.).
+Practically, the relation between proof and term is modeled as a relation of inclusion rather than equivalence, i.e. a proof \textit{has} a term, but a term is \textit{not} a proof.
+To carve a path to our objects of interest, we will go from small to big, starting with the basic definitions of structures, types, structural primitives, terms and rules.
+The absence of first-class inductive data in Python means we'll have to make do with abstract class patterns instead -- I apologize in advance for the mandatory eye bleach to follow.
+
+\subsubsection{Structures}
+Structures are implemented as an abstract class, parameterizable with respect to their contents \py{T}.
+Structures must be traversable, representable and pairwise comparable, and we must be able to check whether a structure contains an object, where the notion of containment changes depending on the concrete structure under scrutiny.
+
+\begin{minted}{python}
+class Structure(abc.ABC, typing.Generic[T]):
+	def __repr__(self) -> str: ...
+	def __eq__(self, other) -> bool: ...
+	def __contains__(self, item) -> bool: ...
+\end{minted}
+
+\noindent\NLP{} structures are multisets; yet in our use case we do care about order (even if only in the representational sense) -- we can treat them as \textit{sequences} instead (altering the notion of equality to account for permutation invariance if/when necessary).
+The $\diamond$, $\bx$ modalities impose structure in the form of brackets -- we can treat them as \textit{unary} containers.
+A container structure will carry a name for its brackets; strictly speaking a tagged union object, but implemented as a string.
+To canonicalize ambiguous representations and remain faithful to the absence of tree-like recursion, we impose that a unary must necessarily contain a sequence (may as well be a singleton), while a sequence can contain either unary structures or elementary objects (i.e. no sequences of sequences).
+With this simple mutual induction in mind, we arrive at the definitions below (the type hints serve as little more than mental notes).
+
+\begin{minted}{python}
+class Unary(Structure[T]):
+	content:  Sequence[T]
+	brackets: str
+
+class Sequence(Structure[T], typing.Sequence[T]):
+	structures: tuple[T | Unary[T], ...]
+\end{minted}
+
+\subsubsection{Types}
+Next, we take the inductive type grammar and break it into multiple classes, starting with the abstract class that all concrete patterns inherit from.%
+	\footnote{Older implementations had \py{Type} be an abstract factory pattern, with each type-pattern being a concrete factory, with the intention of dynamically constructing types that are indeed distinct python ``types''.
+	This would then allow the native creation of terms of the appropriate ``type''. 
+	In hindsight, the extra complexity was far from worth it -- tangling up $\NLPplus{}$ types and Python ``types'' offers little practical value aside the cheap thrill of calling \py{type()} on some proof object and reading back an actual formula.
+	The two implementations are mutually compatible, though.}
+Types must be representable and implement equality, while also providing auxiliary functionalities like back-and-forth translations between prefix and infix notation, computing order, stripping modalities, etc.
+
+\begin{minted}[texcomments]{python}
+class Type(abc.ABC): 
+	def __repr__(self) -> str: ...
+	def __eq__(self, other) -> bool: ...
+	def __abs__(self) -> Type: ... # removes modalities
+	def order(self) -> int: ...    # see \ref{equation:type_order}
+	def prefix(self) -> str: ...  
+	
+	@staticmethod
+	def parse_prefix(prefix: str) -> Type: ...  
+\end{minted}
+
+\noindent Different type patterns are then defined as different concrete classes.
+Atoms are simple: they just contain a sign that allows their identification.
+Functors are defined coordinate-wise (having an argument to the left of the arrow and a result to the right).
+Modal quantifications obey the same abstraction (having a content and a decoration), differing only in whether they are a diamond or a box.
+
+\begin{minted}{python}
+class Atom(Type):
+	sign: str
+
+class Functor(Type):
+	argument: Type
+	result:   Type
+	
+class Modal(Type, ABC):
+	content:    Type
+	decoration: str
+	
+class Box(Modal):
+	...
+	
+class Diamond(Modal):
+	...
+\end{minted}
+
+\noindent By inheritance, concrete type objects are instances of both their respective construction patterns and the abstract class \py{Type}.
+On the basis of the above, we implement a tiny calculator responsible for performing operations on types and asserting their validity.
+
+\begin{minted}{python}
+class TypeInference:
+    class TypeCheckError(Exception): ...
+
+    @staticmethod
+    def assert_equal(a: Type, b: Type) -> None: ...
+    @staticmethod
+    def arrow_elim(functor: Type, argument: Type) -> Type: ...
+    @staticmethod
+    def box_elim(inner: Type, box: str | None) -> tuple[Type, str]: ...
+    @staticmethod
+    def dia_elim(inner: Type, dia: str | None) -> tuple[Type, str]: ...
+\end{minted}
+
+\subsubsection{Terms}
+In the exact same vein, we have to define a painstaking number of different classes to capture all the ways we can cook up a term.
+We'll adorn terms with types to ensure a first layer of well-typedness pertaining to logical constraints.
+Rather than redundantly transcribe the type of all complex terms, we compute it dynamically on the basis of their primitive parts and the operations that bind them.
+
+\begin{minted}{python}
+class Term(abc.ABC):
+    def __repr__(self) -> str: ...
+    def __eq__(self, other) -> bool: ...
+    def vars(self) -> Iterable[Variable]: ...
+    def constants(self) -> Iterable[Constant]: ...
+
+    @property
+    @abstractmethod
+    def type(self) -> Type: ...
+\end{minted}
+
+\noindent On top of an index allowing their identification, variables and constants must then also carry their types on their sleeve.
+
+\begin{minted}{python}
+class Variable(Term):
+    type:  Type
+    index: int
+    
+class Constant(Term):
+    type:  Type
+    index: int
+\end{minted}
+
+\noindent All other terms consist of subterms which allow the inductive computation of their type.
+This is also used at instantiation time to assert that the term is well-formed.
+
+\begin{minted}{python}
+class ArrowElimination(Term):
+    function: Term
+    argument: Term
+
+class ArrowIntroduction(Term):
+    abstraction: Variable
+    body:        Term
+
+class DiamondIntroduction(Term):
+    decoration: str
+    body:       Term
+
+class BoxElimination(Term):
+    decoration: str
+    body:       Term
+
+class BoxIntroduction(Term):
+    decoration: str
+    body:       Term
+\end{minted}
+
+\noindent Since we are encoding term patterns rather than proofs, it makes sense to decompose the term rewrite prescribed by the $\diamond E$ rule into the two different patterns it involves: one for the actual removal of a diamond, done retroactively, and one for the substitution, done locally.
+
+\begin{minted}{python}
+class DiamondElimination(Term):
+    decoration: str
+    body:       Term
+
+class CaseOf(Term):
+    becomes:  Term
+    where:    Term
+    original: Term
+\end{minted}
+
+\noindent This is already showing how proofs and terms diverge.
+A valid (sub-)term is not necessarily a valid proof:  its validity can only be asserted given some external context (and under structural conditions it is blind to), in turn relying on our definition of proof.
+
+\subsubsection{Proofs}
+To close the circle, we start by mimicking the definition of a judgement as an antecedent structure of variables and constants and a succedent term (which carries a type).
+As before, we restrict the assumptions to being a \py{Sequence} for the sake of canonicalization.
+
+\begin{minted}{python}
+class Judgement:
+    assumptions: Sequence[Variable | Constant]
+    term:        Term
+\end{minted}
+
+\noindent Proof constructors are the logic's rules, which for the most part overlap with term patterns.
+Exactly because of the exceptional cases where they don't, we need to actually implement them anew.
+
+\begin{minted}{python}
+class Rule(enum.Enum):
+    def __repr__(self) -> str: ...
+    def __str__(self) -> str: ...
+    def __call__(self, *args, **kwargs) -> Proof: ...
+\end{minted}
+
+Rules are essentially implemented as operations on proofs that create bigger proofs.
+A distinction is made between logical and structural ones.
+
+\begin{minted}{python}
+class Logical(Rule):
+    Variable = ...
+    Constant = ...
+    ArrowElimination = ...
+    ArrowIntroduction = ...
+    DiamondIntroduction = ...
+    BoxElimination = ...
+    BoxIntroduction = ...
+    DiamondElimination = ...
+
+class Structural(Rule):
+    Extract = ...
+\end{minted}
+
+\noindent At long last, we have all the components necessary to define a proof.
+A proof is a record of zero or more premises (themselves proofs), a conclusion (a verified judgement), the last rule of inference used to bind the premises together (an identifier of the previous enumeration), and maybe a variable under focus (used to tell which variable is abstracted over or substituted, for rules $\li I$ and $\diamond E$ respectively).
+A proof has a structure (that of its conclusion's antecedent), a term (that of its conclusion succedent) and a type (that of its term's).
+Other than being comparable, representable and yada yada, and on top of some proof-theoretic utilities, proof objects provide instance-level access to the compositional operations implemented by rules, allowing (relatively) easy bottom-up synthesis.
+
+\begin{minted}{python}
+class Proof:
+    premises:   tuple[Proof, ...]
+    conclusion: Judgement
+    rule:       Rule
+    focus:      Variable | None
+    
+    def __repr__(self) -> str: ...
+    def __str__(self) -> str: ...
+    def __eq__(self, other) -> bool: ...
+    
+    # self-applied rule shortcuts
+    def apply(self, other: Proof) -> Proof: ...
+    def diamond(self, diamond: str) -> Proof: ...
+    def box(self, box: str) -> Proof: ...
+    def unbox(self, box: str | None) -> Proof: ...
+    def undiamond(self, where: Variable, becomes: Proof) -> Proof: ... 
+    def abstract(self, var: Variable) -> Proof: ...
+    def extract(self, var: Variable) -> Proof: ...
+
+    def standardize_vars(self) -> Proof: ...
+    def eta_norm(self) -> Proof: ...
+    def beta_norm(self) -> Proof: ...
+    def is_linear(self) -> bool: ...
+    def subproofs(self) -> Iterator[Proof]: ...
+
+\end{minted}
+
+\noindent Since we now have access to the full picture, rule applications are sufficiently informed to assert all validity checks necessary, both logical and structural.
+
+\subsubsection{Examples}
+To see this in action, the snippets below showcase the construction of simple proofs seen through Chapter~\ref{chapter:Introduction}.
+But first, some type shortcuts to make our lifes easier:
+
+\begin{minted}{pycon}
+>>> A = Atom('A')             # $\smallprop{a}$
+>>> B = Atom('B')             # $\smallprop{b}$
+>>> C = Atom('C')             # $\smallprop{c}$
+>>> bA = Box('a', A)          # $\dbox{a}\smallprop{a}$
+>>> dbA = Diamond('a', bA)    # $\ddia{a}\dbox{a}\smallprop{a}$
+>>> dA = Diamond('a', A)      # $\ddia{a}\smallprop{a}$
+>>> bdA = Box('a', dA)        # $\dbox{a}\ddia{a}\smallprop{a}$
+\end{minted}
+
+\noindent Then a proof pattern shortcut that from a type and an index creates the identity proof of the corresponding variable:
+\begin{minted}{pycon}
+>>> def var(t: Type, i: int) -> Proof:
+>>>    return Logical.Variable(Variable(_type=t, index=i))
+\end{minted}
+
+\noindent With these, we can create our first toy proofs, like the axiom of identity for some type \smallprop{a} or the function composition of $\smallprop{a}\li\smallprop{b}$ and $\smallprop{b}\li\smallprop{c}$:
+\begin{minted}{pycon}
+>>> (x := var(A, 0)).abstract(x.term)
+⊢ (λx0.x0) : A⟶A
+>>> x = var(A, 0)
+>>> f = var(Functor(A, B), 1)
+>>> g = var(Functor(B, C), 2)
+>>> g.apply(f.apply(x)).abstract(x.term)
+x2, x1 ⊢ (λx0.x2 (x1 x0)) : A⟶C
+\end{minted}
+
+\noindent The story is no different for the modalities; here's deriving the interior and closure operators:
+\begin{minted}{pycon}
+>>> var(A, 0).diamond('a').box('a')
+x0 ⊢ ▴a(▵a(x0)) : □a(◇a(A))
+>>> (x := var(bA, 0)).unbox().undiamond(where=x.term, 
+                                        becomes=var(dbA, 1))
+x1 ⊢ case ▿a(x1) of x0 in ▾a(x0) : A
+\end{minted}
+
+\noindent As long as we refrain from initializing proof objects manually or mutating their values, rules will block us from making illegal moves:
+\begin{minted}{pycon}
+>>> var(Functor(A, B), 0).apply(var(B, 1)
+TypeCheckError: A⟶B is not a functor of B
+>>> var(A, 0).box('a')
+ProofError: x0 : A is not a singleton containing a unary
+\end{minted}
+
+%\subsubsection{Visualization}
+%Proofs can be easily dumped to and loaded from either textual or binary files, as well as cast to \LaTeX{} code.
+
+\subsection{Manipulating \AE thel}
+To allow the incorporation of extra-theoretical information, proofs are repackaged with the sentence into a \py{Sample} record, containing also a name (the Lassy identifier of the source file, plus a node identifier indicating the pruning point) and a subset specification (either of train, dev or test).
+
+\begin{minted}{python}
+class Sample:
+    lexical_phrases:    tuple[LexicalPhrase, ...]
+    proof:              Proof
+    name:               str
+    subset:             str
+
+	def __len(self)__ -> int: ...
+	def __repr__(self) -> str: ...
+    def show_term(self, show_types: bool, show_words: bool) -> str: ...
+    
+    @property
+    def sentence(self) -> str: ...
+\end{minted}
+
+\noindent Tokenization and token-level annotations are provided as a record field, populated by breaking the sentence apart into a variadic tuple of lexical phrases.
+Each lexical phrase consists of one or more lexical items, but is given a single type assignment and enacts a singularly indexed proof constant.
+This organization is in line with the more liberal type lexicon demanded by multiword units, and allows us to preserve lexical information that would be lost if we were to simply just squeeze them into a single ``word''.
+Multiwords aside, it permits faithfully presenting a sentence together with its punctuation marks, despite them not (usually) appearing in the compositional analysis.
+Finally, it disassociates proofs from the concrete lexical constants justifying them, allowing us to easily compare, filter and aggregate proofs detached from the sentences they were assigned to.
+
+\begin{minted}{python}
+class LexicalPhrase:
+    items:  tuple[LexicalItem, ...]
+    type:   Type
+
+    @property
+    def string(self) -> str: ...
+    def __repr__(self) -> str: ...
+    def __len__(self) -> int: ...
+
+class LexicalItem:
+    word:   str
+    pos:    str
+    pt:     str
+    lemma:  str
+\end{minted}
+
+\noindent Finally, the entire dataset is packaged into a \py{ProofBank} record; practically a list of samples with some extra niceties on top, like indexing utilities and a version field used to tell different temporal instances apart.
+Loading from a binarized dump is done by a convenience static function.
+
+\begin{minted}{python}
+class ProofBank:
+    version: str
+    samples: list[Sample]
+
+    def __getitem__(self, item: int) -> Sample: ...
+    def __len__(self) -> int: ...
+    def find_by_name(self, name: str) -> list[Sample]: ...
+    def __repr__(self) -> str: ...
+
+    @staticmethod
+    def load_data(path: str) -> ProofBank: ...
+\end{minted}
+
+
+%The third field simply associates the sample to its Lassy identifier, whereas the fourth field suggests a standard train/dev/test split for machine learning applications.
+
+
+

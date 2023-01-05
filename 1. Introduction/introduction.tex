@@ -255,7 +255,7 @@ Rather than present a grammar of terms and later ground it in the logic, we will
 Given an infinite but enumerable set $\vars$ consisting of (unique names for) indexed variables with elements \{\term{\vari, \varj, \vark, \varl, \dots}\}, and denoting arbitrary but well-formed terms with \smallterm{s}, \smallterm{t}, \smallterm{u}, we will use $\smallterm{s}: \smallprop{a}$ (or $\smallterm{s}^{\smallprop{A}}$) to indicate that term \smallterm{s} is of type \smallprop{a}.
 Assumptions $\Gamma$, $\Delta$ will now denote a \textit{typing environment}:
 \begin{equation}
-\varj : \prop a_1 ,~  \vark : \prop a_2 \dots ~ \Var{n} : \prop a_n
+\vari : \prop a ,~  \varj : \prop a',~ \vark : \prop a'' \dots
 \end{equation}
 i.e. rather than a sequence of formulas, we have a sequence of distinct variables, each of a specific type, and a judgement $\Gamma \vdash \term{s} : \prop{b}$ will now denote the derivation of a term \term{s} of type \prop{b} out of such an environment.
 
@@ -296,8 +296,8 @@ Any occurrence of \smallterm{\vari } within \term{s} is then \textit{bound} by t
 The conjunction introduction $\times I$ allows us to create tuple objects \smallterm{(s, t)} through their parts \smallterm{s} and \smallterm{t}.
 Its dual, $\times E$, gives us the option to identify the two coordinates of a tuple \smallterm{s} with variables \smallterm{\vari } and \smallterm{\varj}, when the latter are hypothesized assumptions for deriving some program \smallterm{t}.
 If our assumptions are not in order, blocking the applicability of some rule, we can put them back where they belong with $\Exchange{}$.
-With $\Contraction{}$ we can pretend to be using two different instances \smallterm{\vari } and \smallterm{\varj} of the same type before identifying the two as a single object \term{\vari } in term \term{s} with term \term{t}'');
-note here the meta-notation for \textit{variable substitution}, $\smallterm{s}_{[\smallterm{\vari } \mapsto \smallterm{t}]}$, which reads as ``replace any occurrence of variable \term{\vari }.
+With $\Contraction{}$ we can pretend to be using two different instances $\vari$ and $\varj$ of the same type before identifying the two as a single object $\vark$ in term \term{s};
+note here the meta-notation for \textit{variable substitution}, $\smallterm{s}_{[\smallterm{\vari } \mapsto \smallterm{t}]}$, which reads as ``replace any occurrence of variable $\vari$ with term \smallterm{t}.
 And finally, we can introduce throwaway variables into our typing environment with $\Weakening{}$ (arguably useful for creating things like constant functions).
 
 There's just a few catches to beware of.
@@ -426,7 +426,7 @@ The converse, i.e. type lowering, is not true: $(\pprop{A} \ii \nprop{B}) \ii \p
 
 \paragraph{Function Order} The implication-only fragment of the logic includes $\ii$ as its sole logical connective.
 The resulting type theory is one that deals only with functions; for its types, we can define their order $\mathcal{O}$ as follows:
-\begin{equation}
+\begin{equation}\label{equation:type_order}
 	\begin{aligned}
 	\mathcal{O}(p \in \propcon{}) & := 0 \\
 	\mathcal{O}(\prop{a} \ii \prop{b}) & := \mathrm{max}(\mathcal{O}(\prop{a}) + 1, \mathcal{O}(\prop{b}))
@@ -517,8 +517,8 @@ The weakest links are the $\Contraction{}$ and $\Weakening{}$ rules.
 These two rules are a cultural and ideological remnant of a long-gone age infested by delusions of prosperity and abundance.
 In their presence, propositions are proof objects that can be freely replicated and discarded.
 Removing them (or controlling their applicability via other means) directs us towards a more eco-conscious regime by turning propositions into finite resources, the production and/or consumption of which is not to be taken for granted.
-Removing $\Contraction{}$ yields Affine Logic, a logic in which resources can be used no more than once.
-Removing $\Weakening{}$ yields Relevant Logic, a logic in which resources can be used no less than once.
+Removing the $\Contraction{}$ rule yields Affine Logic, a logic in which resources can be used no more than once.
+Removing the $\Weakening{}$ rule yields Relevant Logic, a logic in which resources can be used no less than once.
 Removing both yields Linear Logic, a logic in which resources can be used \textit{exactly} once.
 The intuitionistic formulations of the above give rise to corresponding type theories~\cite{pierce2004advanced}.
 For the purposes of this manuscript, we will focus our presentation on linear type theory.

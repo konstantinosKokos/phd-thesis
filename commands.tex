@@ -21,7 +21,7 @@
 \usepackage[bb=pazo]{mathalpha}
 \usepackage{enumitem}
 \usepackage{rotating}
-%\usepackage{minted}
+\usepackage{minted}
 \usepackage[normalem]{ulem}
 \usepackage{breakcites}
 \usepackage{xfrac}
@@ -50,6 +50,9 @@
 \setlist[enumerate]{leftmargin=*}
 \setlist{noitemsep}
 \renewcommand{\theenumi}{\roman{enumi}}%
+\makeatletter
+\@beginparpenalty=10000
+\makeatother
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -256,11 +259,11 @@
 \newcommand{\ppres}[1][]{\gtype[#1]{ppres}}
 \newcommand{\rel}[1][]{\gtype[#1]{rel}}
 \newcommand{\svan}[1][]{\subcat{#1}{\smalls}{van}}
-\newcommand{\q}[1][]{\gtype[#1]{q}}
+\newcommand{\wh}[1][]{\gtype[#1]{wh}}
 \newcommand{\sub}[1][]{\gtype[#1]{sub}}
-\newcommand{\whq}[1][]{\subcat{#1}{\q[s]}{wh}}
-\newcommand{\whrel}[1][]{\subcat{#1}{\rel[s]}{wh}}
-\newcommand{\whsub}[1][]{\subcat{#1}{\sub[s]}{wh}}
+\newcommand{\whq}[1][]{\subcat{#1}{\wh[s]}{q}}
+\newcommand{\whrel}[1][]{\subcat{#1}{\wh[s]}{rel}}
+\newcommand{\whsub}[1][]{\subcat{#1}{\wh[s]}{sub}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					type modalities
@@ -331,6 +334,13 @@
 \newcommand{\parlink}{\raisebox{\depth}{\scalebox{-1}[-1]{$\with$}}}
 \newcommand{\sbind}{\ensuremath{\mkern-0.5mu\cdot\mkern-0.5mu }}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                  minted
+\setminted{fontsize=\footnotesize,tabsize=4,python3=true,texcomments} % fontencoding
+\usemintedstyle{bw}
+\newcommand{\py}[1]{\mintinline[fontsize=\normalfont]{python}{#1}}
+%\newcommand{\pyf}[1]{\mintinline[fontsize=\footnotesize]{python}{#1}}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					shortcuts
@@ -370,6 +380,16 @@
 \newcommand{\wseq}{\ensuremath{\seq{w}{0:n}}}
 \newcommand{\biject}{\rightarrowtail\mathrel{\mkern-15mu}\twoheadrightarrow}
 \newcommand{\stat}[2]{#1\textsubscript{$\pm$#2}}
+
+\DeclareUnicodeCharacter{25C7}{$\diamond$}
+\DeclareUnicodeCharacter{27F6}{$\li$}
+\DeclareUnicodeCharacter{25A1}{$\bx$}
+\DeclareUnicodeCharacter{25B4}{$\diaelim$}
+\DeclareUnicodeCharacter{25B5}{$\diaintro$}
+\DeclareUnicodeCharacter{03BB}{$\lambda$}
+\DeclareUnicodeCharacter{25BE}{$\boxelim$}
+\DeclareUnicodeCharacter{25BF}{$\boxintro$}
+\DeclareUnicodeCharacter{22A2}{$\vdash$}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					hyphenations

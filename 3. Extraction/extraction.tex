@@ -28,7 +28,7 @@ Proof extraction serves a ternary purpose.
 One, it gives us access to an uncompromisingly realistic testbed upon which we can immediately inspect and iteratively finetune the specifics of the grammar logic.
 Two, it fills in for a strict and impartial external critic in providing a quantitative evaluation regime -- at each point in time, we are able to measure the proportion of source analyses (and corresponding linguistic phenomena) the algorithm provides a (reasonable) output for.
 And three, the end-yield of this process has merit of its own.
-As a derived dataset, it is first a building block necessary for populating the computational toolshed of the theory, and also a public resource for the world to with as they please.
+As a derived dataset, it is first a building block necessary for populating the computational toolshed of the theory, and also a public resource for the world to do with as they please.
 
 Before we get started, let me apologize for the gloomy mood that might permeate this chapter here and there.
 Proof extraction has been the most gruesome and iterated aspect of my path to doctorhood, its maintance and upkeep having an almost annual recurrence (with nothing festive about it).%
@@ -39,7 +39,7 @@ For the sake of scientific transparency, I have no choice other than to expose i
 \subsection{The Dutch Language}
 For our linguistic inquiries, the focus will be on Dutch.
 Other than being the language I was contractually obliged to conduct this research on, Dutch is an interesting specimen, the idiosyncracies of which have in the past proven quite a topic of debate for others, and a source of headaches for myself.
-I don't have any intention (or delusion of competence) to casually throw a detailed exposition of the Dutch grammar here, but a brief and superficial typological overview might help smooth the transition into the what is to come.
+I don't have any intention (or delusion of competence) to casually throw a detailed exposition of the Dutch grammar here, but a brief and superficial typological overview might help smooth the transition into what is to come.
 If the section has the opposite effect to the one intended, know that I'll hold no grudge if you skip ahead.
 
 But first things first.
@@ -57,7 +57,7 @@ The masculine and feminine genders are morphologically indistinguishable -- tell
 \ex\label{gloss:genders}
 \begin{xlist}
 \ex
-\gll \textit{de} \textit{aard}\\
+\gll \textit{de} \textit{aarde}\\
 the earth(\abbrv{m})\\
 \ex
 \gll \textit{de} \textit{zee}\\
@@ -132,7 +132,7 @@ all people want something some want everything\\
 Possessive and demonstrative pronouns can also enact determiners, both uninflected (except for the first person plural \textex{ons} which inflects like an indefinite adjective, see next paragraph).
 \begin{exe}
 \ex
-\gll De eend is mijn favoriet vogel.\\
+\gll De eend is mijn favoriete vogel.\\
 the duck is my favorite bird\\
 \glt{`The duck is my favorite bird.'}
 \ex\label{gloss:ido}
@@ -232,9 +232,6 @@ images with \abbrv{pst.ptcp}-close eyes\\
 \glt{`closed eye visuals'}
 \end{exe}
 Combined with with the modal \texttr{hebben}{to have} (or exceptionally \textex{zijn} for unaccusatives and verbs of movement), it produces the perfect tense.
-\begin{exe}
-\ex
-\end{exe}
 Combined with the modals \texttr{worden}{to become} and \texttr{zijn}{to be}, it produces the passive voice and its perfect tense.
 
 \paragraph{Infinitives}
@@ -485,7 +482,7 @@ Pronominal adverbs are common in Dutch, and find use as interrogative adverbs or
 \begin{exe}
 \ex
 \begin{xlist}
-\ex[*]{\textit{Wat prat je over?}}
+\ex[*]{\textit{Wat praat je over?}}
 \ex
 \gll Waar praat je over?\\
 what talk you about\\
@@ -734,7 +731,7 @@ A minor problem appears in the reuse of the \textit{body} label in three differe
 This conflation is perfectly reasonable from Lassy's angle: in all three constructions, the head specifies the dependency (being either \textit{whd}, \textit{rhd} or \textit{cmp}) and selects for a subordinate clause with a gap that is practically agnostic to its external context.
 This scheme backfires in our setup, due to heads not carrying their own annotation but rather imposing one on their complements -- if we keep the \textit{body} relation as is, the three different types of head would be indistinguishable.
 Counteracting this is easy; we simply subcategorize the \textit{body} label according to the label of its head, giving rise to labels \textit{whbody}, \textit{relcl} and \textit{cmpbody}.
-This doesn't have any intended consequences on the interal structure and typing of the complement, as its contents still has no premonition as to what diamond it will eventually be assigned.
+This doesn't have any unintended consequences on the interal structure and typing of the complement, as its contents still has no premonition as to what diamond it will eventually be assigned.
 
 \paragraph{\textit{det} or \textit{mod}?}
 Lassy is occassionally inconsistent with the use of the determiner \textit{det} and modifier \textit{mod} labels in the nominal domain, marking either as the other in various contexts.
@@ -772,7 +769,7 @@ Unfortunatey, there is no algorithmic way to mend these pretend annotations, in 
 This phenomenon is unpleasantly common; discourse level annotations sum up to about 2\% of the total dependency edges in the corpus, and are present in some 11\,700 samples, polluting a hard to ignore 18\% of the dataset.
 In order not to lose all the precious samples in their totality, we take the more conservative approach of simply pruning the problematic edges rather than discard the entire tree.
 The subtree underneath each cut is subsequently rooted as an independent sample, sprouting an array of smaller samples from the larger unusuable original; in the example under scrutiny, we end up with three samples rooted at nodes 3, 12 and 15.
-Albeit being a sensible solution in terms of data preservation, this has the unavoidable downside of a priori breaking the alignment between the source corpus and the collection of proofs to be.
+Albeit being a sensible solution in terms of data preservation, this has the unavoidable downside of a priori breaking the alignment between the source corpus and the collection of proofs to-be.
 In order to facilitate some level of back-and-forth matching, the new samples inherit the sample name of their origin and are distinguished between one another by a suffix corresponding to the identifier of their root node.
 
 The pruning might sound easy on paper but proves tricky in certain regards.
@@ -980,13 +977,13 @@ Prior to sending the transformed tree on its way, we make some basic checks of i
 With our transformations in place, the subdued corpus should be ripe for our proof extraction algorithm.
 
 \subsubsection{Proof Charming}
-The extraction is built around a tiny DSL written in Python, which allows one to formulate, represent and traverse valid proofs of \NLPplus.
+The extraction is built around a tiny DSL written in Python, which allows one to formulate, represent, transform and traverse valid proofs of \NLPplus.
 By invoking the DSL while traversing the dependency tree of a Lassy sample, the extraction algorithm dynamically constructs a natural deduction proof, translating tree patterns into meta-theoretical proof operations.
 Internalizing the syntactic validity assertions of \NLPplus{} is a costly procedure, both in terms of processing overhead and of maintainance effort required, especially considering how unconducive the language is to formal rigor.
 On the other hand, it serves to eliminate the need for asynchronously interfacing with some external checker, and provides a formal guarantee that whatever the extraction algorithm produces is \textit{correct by construction}: any syntactic missteps will be caught on the spot and raise an exception.
 As a bonus, the system can (and will) find use outside the scope of the extraction, as a representational intermediary for parsing and proof representation.
 Detailing the specifics behind the implementation shouldn't be our main concern here; it suffices to know it exists and runs as a constant safety belt in all that follows.
-If for whatever reason you enjoy watching people try to beat types into Python, you can take at a look at Appendix~\ref{sec:python_impl} (not for the faint of heart).
+If for whatever reason you enjoy watching people try to beat types into Python, you can take at a look at Appendix~\ref{appendix:aethel} (not for the faint of heart).
 
 \subsubsection{Parameters}
 We start by declaring our basic necessities.
@@ -1125,13 +1122,13 @@ In a dual fashion, we can call $\mathsf{prove}$ on each adjunct tree, type hinti
 With this and that, we now have proofs for each subtree underneath us -- what remains to be done is fusing these proofs together.
 The way to go is simple: we need to first left fold the head's proof against the complements' proofs, and then apply the function composition of the ``unboxed'' adjuncts' proofs onto the result (unbox literally meaning using the box elimination rule to reveal the endomorphism enclosed within).
 Let's reiterate this for clarity.
-Each step of the initial fold will produce a ``shorter'' type, and, by the the time we run out of complements, the result's type will coincide with the top type.
+Each step of the initial fold will produce a ``shorter'' type, and, by the time we run out of complements, the result's type will coincide with the top type.
 Each unboxed adjunct will be a function from the top type to itself -- their n-ary function composition will then still be the of the same type, meaning it can be directly applied to our intermediate result.
 At this point, we have each tree below exactly once (yay, linearity), and we have produced a proof of the type we were asked to (or the tree prescribed), meaning we're good to go.
 Exceptionally to the above, nodes assigned the \textit{punct} tag are given a plain \smallgtype{punct} type that does not partake in the proof.
 
 This simple setup already suffices to cover quite a lot of trees with simple applicative phenomena, including higher order modifiers like in the example of Figure~\ref{figure:simple_extraction}.
-There, nodes 1, 2 and 10 obtains types $\smain[s]$, $\np[s]$ and $\ww[s]$ by simple translation, and 7 obtains the type $\ddia{vc}\ww[s]\li\ddia{su}\np[s]\li\smain[s]$, having 10 and 2 as complements (adorned with $\ddia{vc}$ and $\ddia{su}$ diamonds respectively) and 1 as the result.
+There, nodes 1, 2 and 10 obtain types $\smain[s]$, $\np[s]$ and $\ww[s]$ by simple translation, and 7 obtains the type $\ddia{vc}\ww[s]\li\ddia{su}\np[s]\li\smain[s]$, having 10 and 2 as complements (adorned with $\ddia{vc}$ and $\ddia{su}$ diamonds respectively) and 1 as the result.
 Node 2 forces the type $\dbox{mod}(\np[s]\li\np[s])$ to node 3 (as an adjunct with the \textit{mod} label), in turn forcing the type $\dbox{mod}(\dbox{mod}(\np[s]\li\np[s])\li\dbox{mod}(\np[s]\li\np[s]))$ to node 4 for the exact same reason. 
 Nodes 5 and 6 inherit the types of their mothers (3 and 2), having no complements.
 Within each domain, heads apply to their arguments and adjuncts drop their boxes to apply to the result.
@@ -1256,7 +1253,7 @@ But node 7 contains $\Var{8}$, and node 8 has index 1 -- therefore, we must abst
 	\aethelcap
 		{WR-P-E-I-0000039352.p.3.s.7(25)}
 		{Waar kunnen we bonnen kopen?}
-		{Where can we buy beans?}
+		{Where can we buy vouchers?}
 		{\smaller
 		\term{\con{26}~
 			\ddiaintro{whbody}(\lam \Var{31}''.
@@ -1490,22 +1487,9 @@ For the sake of uniformity, all proofs obtained are $\beta$ and $\eta$ reduced.
 From a representational perspective, our proofs are still overly attached to their Lassy roots.
 Constants and variables are named according to their node origins, which will no longer make any sense after the tree has been discarded.
 We therefore rename constants according to their order of appearance in the sentence, and variables by enumeration, following a depth-first left-first traversal of the proof tree (preferrable to de Bruijn indexing for human legibility).
-To allow the incorporation of extra-theoretical information, proofs are repackaged into a $\mathsf{Sample}$ record containing fields $\mathsf{proof}$, $\mathsf{lexical\_phrases}$, $\mathsf{name}$ and $\mathsf{subset}$.
-The first field is self-explanatory.
-The second field contains a variadic tuple of lexical phrases, each element being itself a variadic container of lexical items, given a single type assignment as a whole.
-Each lexical item contains node attributes from the original Lassy annotation, like $\mathsf{word}$, $\mathsf{pos}$, $\mathsf{pt}$ and $\mathsf{lemma}$.
-This organization is in line with the more liberal type lexicon demanded by multiword units, and allows us to preserve lexical information that would be lost if we were to simply just squeeze them into a single ``word''.
-Multiwords aside, it faithfully presents a sentence together with its punctuation marks, despite them not (usually) appearing in the compositional analysis.
-Finally, it disassociates proofs from the concrete lexical constants justifying them, allowing us to easily compare, filter and aggregate proofs detached from the sentences they were assigned to.
-The third field simply associates the sample to its Lassy identifier, whereas the fourth field suggests a standard train/dev/test split for machine learning applications.
-The collection of extracted proofs we will call \AE thel, for Automatically Extracted Theorems from Lassy, thus resolving the mystery of this section's cryptic name for those that made it this far.
-
-% problems
-% atomic types? 
-%	n vs np, ww vs ppart vs inf vs ppres
-% shared vs distributed adjuncts?
-
-% how-to?
+The collection of extracted proofs we will call \AE thel, for automatically extracted theorems from Lassy, thus resolving the mystery of this section's cryptic name for those that made it this far.
+For a practical user's guide to \AE thel, refer to Appendix~\ref{appendix:aethel}.
+For moving on, it suffices to know that an analysis is essentially a nicely packaged tuple, containing a proof on one coordinate and a tokenized and type-annotated sentence on the other.
 
 \subsection{Analysis}
 \subsubsection{Quantitative Snoozefest}
