@@ -147,14 +147,15 @@
 \newcommand{\abbrv}[1]{\textsc{#1}}
 \let\eachwordtwo=\small
 \let\eachwordone=\textit
+\let\eachwordthree=\footnotesize
 \counterwithin{xnumi}{chapter}
 \exewidth{(1.234)}
-\def\glt{\nobreak\vskip.01\baselineskip}
+\def\glt{\nobreak\vskip.07\baselineskip}
 
 \makeatletter
 \newcommand{\nolistbreak}{%
-  \let\oldpar\par\def\par{\oldpar\nobreak}% Any \par issues a \nobreak
-  \@nobreaktrue% Don't break with first \item
+  	\let\oldpar\par\def\par{\oldpar\nobreak}% Any \par issues a \nobreak
+  	\@nobreaktrue% Don't break with first \item
 }
 \makeatletter
 
@@ -398,3 +399,4 @@
 \hyphenation{phra-ses}
 \hyphenation{name-ly}
 \hyphenation{co-do-main}
+\hyphenation{man-u-script}

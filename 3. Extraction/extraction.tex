@@ -33,264 +33,21 @@ As a derived dataset, it is first a building block necessary for populating the 
 Before we get started, let me apologize for the gloomy mood that might permeate this chapter here and there.
 Proof extraction has been the most gruesome and iterated aspect of my path to doctorhood, its maintance and upkeep having an almost annual recurrence (with nothing festive about it).%
 \footnote{Fun(?) fact: at least one revision to the extraction was made after these lines were written.}
-For the sake of scientific transparency, I have no choice other than to expose it in all its horrific details, but it might be that my fatigue of the topic occassionally reflects in a less-than-usually interesting prose.
+For the sake of scientific transparency, I have no choice other than to expose it in all its gory details, but it might be that my fatigue of the topic occassionally reflects in a less-than-usually interesting prose.
 
 \section{Preliminaries}
-\subsection{The Dutch Language}
+\label{section:preliminaries}
+
+\subsection{Going Dutch}
 For our linguistic inquiries, the focus will be on Dutch.
 Other than being the language I was contractually obliged to conduct this research on, Dutch is an interesting specimen, the idiosyncracies of which have in the past proven quite a topic of debate for others, and a source of headaches for myself.
-I don't have any intention (or delusion of competence) to casually throw a detailed exposition of the Dutch grammar here, but a brief and superficial typological overview might help smooth the transition into what is to come.
-If the section has the opposite effect to the one intended, know that I'll hold no grudge if you skip ahead.
+I don't have any intention (or delusion of competence) to casually throw an overview of the Dutch grammar here; I'm certain that interested parties will be able to easily get their hands on some introductory guide way more adequate than any I could have ever written.
+In any case, knowledge of Dutch or its grammar is by no means a prerequisite to moving on%
+	\footnote{Speaking from experience.} -- the framework we will describe might be instantiated for Dutch (thus inheriting typological labels and conventions typical to the language), but is actually language-agnostic; it's not a framework \textit{made for} the language, but a framework \textit{applied to} the language.	
+What could be of use, however, is the briefest of expositions to Dutch word order.
 
-But first things first.
-Dutch is a West Germanic language, spoken primarily in the Low Countries within Europe by some 25 million speakers.
-Owing to the Netherlands' nasty colonial history, Dutch has left a noticeable mark on the global linguistic atlas: it has played a primary role in the evolution of Afrikaans and, to a far lesser extent, Indonesian, while native Dutch speakers can be found as far as South America and the Dutch Carribean region.
-Demographics aside, the language is said to be one of the closest relatives of English and German, sharing many of their morphosyntactic characteristics -- we'll go through some of those together.
-The abbrevations in the glosses to follow are industry standard, you can find their transcriptions in Table~\ref{table:gloss_abbreviations} of Appendix~\ref{sec:abbrevations}.
-Any internal inconsistencies are deliberate: I am trying to gloss only those features relevant to the local discussion.
-
-\subsubsection{The Noun Phrase}
-\paragraph{Nouns}
-Dutch nouns have three grammatical genders: the masculine, the feminine and the neuter.
-The masculine and feminine genders are morphologically indistinguishable -- telling them apart is done on the basis of the lexicon alone.
-\begin{exe}
-\ex\label{gloss:genders}
-\begin{xlist}
-\ex
-\gll \textit{de} \textit{aarde}\\
-the earth(\abbrv{m})\\
-\ex
-\gll \textit{de} \textit{zee}\\
-the sea(\abbrv{f})\\
-\ex
-\gll \textit{het} \textit{bos}\\
-the forest(\abbrv{n})\\
-\end{xlist}
-\end{exe}
-There's two numbers, the singular and the plural, the latter constructed with the aid of the suffix \textex{-en} or rarely \textex{-s}, depending on the noun.
-\begin{exe}
-\ex 
-\begin{xlist}
-\ex
-\gll \textit{de} \textit{zeven} \textit{zee-\"{e}n}\\
-the seven sea-\abbrv{pl}\\
-\glt{`the seven seas'}
-\ex
-\gll \textit{de} \textit{trekvogel-s}\\
-the  migratory.bird-\abbrv{pl}\\
-\glt{`the migratory birds'}
-\end{xlist}
-\end{exe}
-Case markings are not overtly realized, except for some mostly frozen leftovers from the distant past -- their functionality has largely been replaced by word order constraints, with the indirect object (formerly in the dative) preceding the direct object (formerly in the accusative), and periphrastic constructions, with the preposition \texttr{aan}{to} used to indicate indirect objects (see Gloss~\ref{gloss:ido} later on), and \texttr{van}{of} to substitute the genitive.
-\begin{exe}
-\ex
-\gll \textit{het} \textit{oog} \textit{van} \textit{de} \textit{geest}\\
-the eye of the mind\\
-\glt{`the mind's eye'}
-\end{exe}
-A cute peculiarity of Dutch is the strikingly common use of a productive diminutive form, denoting either small size or an affectionate disposition -- diminutives are formed with the suffix \textex{-tje} or regionally \textex{-ke}, and are always neuter (notice the gender change of Gloss~\ref{gloss:gender_change}).
-
-\paragraph{Determiners}
-Determiners precede the noun and match its gender and number.
-There are two articles: the definite, and the indefinite.
-The definite has two singular forms \textex{de}/\textex{het} (non-neuter/neuter) and a single plural \textex{de}. 
-Non-neuter forms are used for both masculine and feminine (refer back to Gloss~\ref{gloss:genders}).
-\begin{exe}
-\ex\label{gloss:gender_change}
-\begin{xlist}
-\ex
-\gll de klein-e vogel\\
-the(\abbrv{nn.sg}) small-\abbrv{def} bird\\
-\glt{`the small bird'}
-\ex
-\gll het klein-e vogel-tje\\
-the(\abbrv{n.sg}) small-\abbrv{def} bird-\abbrv{dim}\\
-\glt{`the small birdie'}
-\end{xlist}
-\end{exe}
-The indefinite \textex{een} is gender-agnostic, and has no plural form.
-\begin{exe}
-\ex
-\begin{xlist}
-\ex\label{gloss:indef_adj_sg_n}
-\gll een donker lied\\
-a dark song\\
-\glt{`a dark song'}
-\ex 
-\gll donker-e lied-eren\\
-dark-\abbrv{pl} song-\abbrv{pl}\\
-\glt{`dark songs'}
-\end{xlist}
-\end{exe}
-Indefinite pronouns can be used to convey universal or existential quantification and negation, materializing as substitutes for determiners (e.g. \texttr{alles}{all}, \texttr{sommige}{some}, \texttr{geen}{no}, etc.), or as stand-alones (e.g. \texttr{iets}{something}, \texttr{niets}{nothing}, etc.).
-\begin{exe}
-\ex
-\gll Alle mensen willen iets, sommige willen alles.\\
-all people want something some want everything\\
-\glt{`All people want something, some want everything.'}
-\end{exe}
-Possessive and demonstrative pronouns can also enact determiners, both uninflected (except for the first person plural \textex{ons} which inflects like an indefinite adjective, see next paragraph).
-\begin{exe}
-\ex
-\gll De eend is mijn favoriete vogel.\\
-the duck is my favorite bird\\
-\glt{`The duck is my favorite bird.'}
-\ex\label{gloss:ido}
-\gll Het bos is onz-e tempel.\\
-the forest is our-\abbrv{def} temple\\
-\glt{`The forest is our temple.'}
-\end{exe}
-There's two types of demonstrative pronouns: the proximal \textex{deze/dit} (plural \textex{deze}) and the distal \textex{die/dat} (plural \textex{die}).
-The last two do double duty as relative pronouns -- more on that later.
-When used to substitute (rather than determine) a noun in a copula, each variant reverts to its neuter singular form.
-\begin{exe}
-\ex
-\begin{xlist}
-\ex
-\gll Deze bergen zijn hoog.\\
-these(\abbrv{pl}) mountains are tall\\
-\glt{`These mountains are tall.'}
-\ex
-\gll Dit zijn mijn bergen.\\
-this(\abbrv{n}) are my mountains\\
-\glt{'These are my mountains.'}
-\end{xlist}
-\end{exe}
-
-\paragraph{Adjectives}
-Adjectives used as nominal modifiers find their place between the determiner and the head noun.
-They appear inflected with an \textex{-e} affix in all cases except for the idefinite use with a neuter singular noun (refer back to Gloss~\ref{gloss:indef_adj_sg_n}, contrast with \ref{gloss:gender_change}).
-The same affix applies to nominalized adjectives, which can allow the ommission of a contextually implied noun, or be used independently as an abstract concept or a quantifying property.
-\begin{exe}
-\ex
-\gll dood aan het heilig-e\\
-death to the holy-\abbrv{nmlz}\\
-\glt{`death to the holy'}
-\ex
-\gll De zachtmoedig-en zullen niets be\"{e}rven.\\
-the meek-\abbrv{nmlz.pl} shall nothing inherit(\abbrv{inf})\\
-\glt{`The meek shall inherit nothing.'}
-\end{exe}
-An alternative inflection with a \textex{-s} affix marks the partitive use, when the adjective modifies an indefinite pronoun.
-\begin{exe}
-\ex
-\gll iets ernstigs-s\\
-something grave-\abbrv{ptv}\\
-\glt{`something grave'}
-\end{exe}
-The language provides acccess to a comparative and a superlative form, via the affixes \textex{-er} and \textex{-ste} respectively, or periphrastically with \texttr{meer}{more} and \texttr{meest}{most}.
-\begin{exe}
-\ex
-\gll \textit{het} \textit{donker-ste} \textit{lied}\\
-the(\abbrv{n.sg}) dark-\abbrv{sup} song\\
-\glt{`the darkest song'}
-\end{exe}
-
-\paragraph{Personal Pronouns}
-Noun phrases can be substituted by personal pronouns, which in Dutch are morphologically marked for case and gender.
-The nominative is used for the subject position, the genitive corresponds to the possessive determiners discussed earlier, and the accussative is used to denote objects.
-\begin{exe}
-\ex
-\gll Ik zie een vreemde man in de spiegel.\\
-I(\abbrv{nom}) see a strange man in the mirror\\
-\glt{`I see a strange man in the mirror.'}
-\ex
-\gll Hij merkt mij op.\\
-he(\abbrv{nom}) perceives me(\abbrv{acc}) on\\
-\glt{`He notices me.'}
-\end{exe}
-A dative form is sometimes exceptionally used for indirect objects in the third person plural.
-Depending on the regional variation, personal pronouns must match the grammatical gender of the noun they refer to, or simply default to the neuter (reserving the masculine and feminine forms for animates).
-Third person singulars are also interchangeable with the appropriate demonstratives.
-Personal pronouns come in two variants: the stressed (emphatic) and the unstressed (standard).
-
-\subsubsection{The Verb}
-\paragraph{Conjugation}
-In their citation form, verbs match their infinitival versions, regularly consisting of the verbal stem plus \textex{-en}.
-Verbal conjugation patterns distinguish between two grammatical tenses, the non-past and the past, and three moods, the indicative, the subjunctive and the imperative, of which the first two are morpohologically conflated.
-Each pattern is parameterized by person and number.
-Aspectual flavours, passivization and an explicit future are accessible as productive constructions with modals, the latter being the common culprits of irregular conjugation.
-
-\paragraph{Participles}
-Participles exist for both tenses, and have a multitude of uses.
-The present participle is formed by affixing \textex{-de}, and is commonly employed as an duration-denoting adjective or adverb, always inflected in the first case, and optionally in the second.
-\begin{exe}
-\ex
-\gll de zweven-de vrouw\\
-the levitate-\abbrv{prs.ptcp} woman\\
-\glt{`the levitating woman'}
-\end{exe}
-Rarely, it can be used as a complement to the auxiliary \texttr{zijn}{to be} to produce a kind of present continuous.
-Present participles of transitives can attach to the end of their object nouns, appearing as fused compounds.
-The past participle is more versatile.
-Regular past participles are formed by prefixing \textex{ge-} to the verbal stem (morphophonological terms and conditions may apply) and substituting the infinitival suffix for either \textex{-t}, \textex{-d} or nothing, depending on the stem's last phoneme.
-Like the present participle, it can be used as an adjective, denoting now a completed event.
-\begin{exe}
-\ex
-\gll beelden met ge-sloten ogen\\
-images with \abbrv{pst.ptcp}-close eyes\\
-\glt{`closed eye visuals'}
-\end{exe}
-Combined with with the modal \texttr{hebben}{to have} (or exceptionally \textex{zijn} for unaccusatives and verbs of movement), it produces the perfect tense.
-Combined with the modals \texttr{worden}{to become} and \texttr{zijn}{to be}, it produces the passive voice and its perfect tense.
-
-\paragraph{Infinitives}
-Infinitival forms commonly occur as the verbal complements of a modal, auxiliary or perception verb.
-\begin{exe}
-\ex
-\gll Ik wil slapen.\\
-I want sleep(\abbrv{inf})\\
-\glt{`I want to sleep.'}
-\end{exe}
-Depending on the modal, the preposition \texttr{te}{to}, or the discontinuous \texttr{om ... te}{to}, may be either necessary, optionally admissible or completely disallowed -- if one does manifest, it precedes the infinitive.
-\begin{exe}
-\ex
-\gll Ik probeer te schrijven.\\
-I try to write(\abbrv{inf})\\
-\glt{`I try to write.'}
-\end{exe}
-The discontinuous variant is only selected for by specific verbs -- it can enclose linguistic material, like the infinitive's object or any adverbs modifying it.
-\begin{exe}
-\ex
-\gll Ik dwing mezelf om wat te schrijven.\\
-I force myself \_ something to write(\abbrv{inf})\\
-\glt{`I force myself to write something.'}
-\end{exe}
-An infinitive directly following \textex{aan het} can combine with \textex{zijn} to construct the continuous aspect, in either the present or the past tense.
-\begin{exe}
-\ex
-\gll Ik ben aan het schrijven.\\
-I am in the write(\abbrv{inf})\\
-\glt{`I am writing.'}
-\end{exe}
-Infinitives are also often nominalized, the resulting nominals being singular neuters.
-\begin{exe}
-\ex
-\gll Het schrijven is pijnlijk.\\
-The write(\abbrv{inf}) is painful\\
-\glt{`The writing is painful.'}
-\end{exe}
-
-\paragraph{Separable Verbs} 
-The verbal lexicon contains several compound items comprised of a preposition and a verbal stem, usually with a compositional meaning.
-The stem is separated from its prepositional prefix when the verb heads a matrix clause, in which case the preposition is moved to the end of the clause -- in all other cases, including the finite form in subordinate clauses, the two remain attached.
-When inflecting for the perfect, the prefix applies to the stem (i.e. after the preposition).
-
-\subsubsection{The Sentence}
-By far the most fun aspect of Dutch is its absolutely wild sentential word order.
-
-\paragraph{Main Clauses}
-The main clauses inspected so far emanate a false sense of safety, coming off as SVO at first glance, with participles used for the passive voice and the perfect tense pushed to the right edge of the clause.
-The truth is far more sinister -- the verb is placed there only by exception, abiding by the V2 rule that has it appear second for matrix clauses only.
-The effect becomes apparent when employing a preverbal adverb -- in Gloss~\ref{gloss:simple_smain_v2}, both the subject and its predicate complement follow the verb in a VSO pattern.
-
-
-\paragraph{Questions and Imperatives}
-When it comes to questions, things look familiar again.
-Line in English, wh-questions begin with an interrogative pronoun or adverb (e.g. \texttr{wie}{who}, \texttr{wat}{what}, \texttr{welk}{which}, \texttr{waarom}{why} etc.), which is immediately followed by the conjugated verb (Gloss~\ref{gloss:simple_whq}).
-In direct questions without an interrogative, as well as positive imperatives, the verb is placed first (Glosses~\ref{gloss:simple_sv1_q} and \ref{gloss:simple_sv1_imp}).
-In negative imperative sentences and impersonal commands, the infinitival is placed last.
-
+Even though main clauses emanate a false sense of safety, coming off as SVO at first glance, Dutch is an SOV language where exceptionally for matrix clauses the verb appears in the \textit{second} position.
+The effect becomes apparent when employing a preverbal adverb -- contrast (\ref{gloss:simple_smain}) with (\ref{gloss:simple_smain_v2}), where both the subject and its predicate complement follow the verb in a VSO pattern.
 \begin{exe}
 \ex
 \begin{xlist}
@@ -301,64 +58,47 @@ Frans sell-\abbrv{prs.3sg} cheese\\
 \ex\label{gloss:simple_smain_v2}
 \gll Morgen verkoop-t Frans kaas.\\
 tomorrow sell-\abbrv{prs.3sg} Frans cheese\\
-\glt{`Frans will sell cheese tomorrow.'}
-\ex\label{gloss:simple_sv1_q}
-\gll Verkoop-t Frans kaas?\\
-sell-\abbrv{prs.3sg} Frans cheese\\
-\glt{`Does Frans sell cheese?'}
-\ex\label{gloss:simple_whq}
-\gll Wie verkoop-t kaas?\\
-who sell-\abbrv{prs.3sg} cheese\\
-\glt{`Who sells cheese?'}
-\ex\label{gloss:simple_sv1_imp}
-\gll Verkoop kaas!\\
-sell(\abbrv{imp}) cheese\\
-\glt{`Sell cheese!'}
 \end{xlist}
 \end{exe}
-
-\paragraph{Subordinate Clauses}
-Subordinate clauses is where things really get interesting.
-Unaffected by the V2 rule, the word order turns out to be SOV; this affects indirect questions, verbal complements and relative clauses alike.
-Indirect questions are straightforward -- modulo the word order permutation, they match their direct counterparts.
+Subordinate sentences are unaffected by the V2 rule.
+As a corollary, the infinitives of (non-nested) verbal complements (\ref{gloss:simple_vc}) are pushed to the end of their clause, as are the verbal heads of indirect questions (\ref{gloss:embedded_q}).
 \begin{exe}
-\ex\label{gloss:embedded_q}
-\gll Weet je wie kaas verkoopt?\\
-know you who cheese sells\\
-\glt{`Do you know who sells cheese?'}
-\end{exe}
-Infinitives in non-nested verbal complements are likewise just pushed to the end of their clause.
-\begin{exe}
+\ex
+\begin{xlist}
 \ex\label{gloss:simple_vc}
 \gll Frans wil koopman worden.\\
-Frans wants merchant be(\abbrv{inf})\\
+Frans wants merchant become[\abbrv{inf}]\\
 \glt{`Frans wants to be a merchant.'}
+\ex\label{gloss:embedded_q}
+\gll Weet je wie kaas verkoopt-?\\
+know you who cheese sell-\abbrv{prs.3sg}\\
+\glt{`Do you know who sells cheese?'}
+\end{xlist}
 \end{exe}
-Relative clauses are instigated by relative adverbs and pronouns.
-Interestingly, the language does not make an overt distinction between an object- and a subject- relative pronoun; combined with the SOV word order, and the absence of case markings, the effect is that the two relative clause types end up having the exact same surface form when the grammatical gender of the antecedent noun and the non-gap embedded argument are the same -- contrast the two sentences below.
+Interestingly, the language does not make an overt distinction between an object- and a subject- relative pronoun; combined with the SOV word order, and the absence of case markings, the effect is that the two relative clause types end up having the exact same surface form when the grammatical gender of the antecedent noun and the non-gap embedded argument are the same -- contrast the two sentences (\ref{gloss:rc_ambiguity}) below, where the first one is amenable to two different readings.
 \begin{exe}
 \ex\label{gloss:rc_ambiguity}
 \begin{xlist}
 \ex
 \gll het geheim dat een bos verbergt\\
-the secret(\abbrv{n}) that a forest(\abbrv{n}) hides\\
+the secret[\abbrv{n}] that a forest[\abbrv{n}] hides\\
 \glt{
 \begin{enumerate}[topsep=0pt]
-	\item `the secret the hides a forest'
+	\item `the secret that hides a forest'
 	\item `the secret that a forest hides'
 \end{enumerate}}
 \ex
 \gll de kerk die vuur opslokt\\
-the church(\abbrv{nn}) that(\abbrv{nn}) vuur(\abbrv{n}) consumes\\
+the church[\abbrv{nn}] that[\abbrv{nn}] vuur[\abbrv{n}] consumes\\
 \glt{`the church that fire consumes'}
 \end{xlist}
 \end{exe}
 
 The SOV order means that the chaining of verbs requiring non-finite complements inadvertently leads to \textit{verb clusters}, i.e. collections of two or more verbs situated within the dependent clause and adjacent to one another.
-Verb clusters are marked by their inability to accommodate non-verbal material, and may follow a number of different word orders, which don't necessarily abide by the order of selectional dominance.
+Verb clusters are characterized by their inability to accommodate non-verbal material, and may follow a number of different word orders, which don't necessarily abide by the order of selectional dominance.
 The question of which factors influence the grammaticality of word order variations  is a hot potato and a topic of active research for decades -- to make matters worse, these factors tend to differ between regional variations of the language.%
 	\footnote{As a fun trivia,  out of the 6 possible orderings of 3-verb clusters, 4 to 5 were found admissible by Dutch speakers depending on the construction~\cite{3vc}.}
-What follows are some simplified common observations -- the interested reader should find the thesis of~\citet{augustinus2015complement} a good entry point towards more detailed discussions.
+What follows are some simplified common observations.
 
 For starters, bare infinitives usually follow their governor -- but: this is not necessarily the case for clusters of 2 verbs where the finite verb is a modal.
 The first two  below depict the canonical and ``inverted'' word orders; the third example is ungrammaticaul due to the adjective \textex{naamloos} interrupting the cluster.
@@ -367,79 +107,57 @@ The first two  below depict the canonical and ``inverted'' word orders; the thir
 \begin{xlist}
 \ex
 \gll ... waar ik naamloos zal rusten\\
-.... where I nameless will rest(\abbrv{inf})\\
+.... where I nameless will rest[\abbrv{inf}]\\
 \ex
 \gll ... waar ik naamloos rusten zal\\
-... where I nameless rest(\abbrv{inf}) will\\
+... where I nameless rest[\abbrv{inf}] will\\
 \glt{`... where I will rest nameless'}
 \ex[*]{\textit{... waar ik zal naamloos rusten}}
 \end{xlist}
 \end{exe}
-Past participles used in the formation of the perfect or passive may occur either to the left or the right of the tense auxiliaries \textex{hebben} and \textex{zijn}, leading to either a German- or English- like construction.
+A similar phenomenon is observed in the passive voice and the perfect tense, both of which are formed periphrastically using a past participle and the appropriate auxiliary verb.
+There, the past participle may occur either to the left or the right of the auxiliary, leading to either a German- or English- like construction.
 \begin{exe}
 \ex\label{gloss:green_vs_red}
 \begin{xlist}
 \ex
 \gll ... omdat ik de eend ge-zien heb\\
-... because I the duck \abbrv{pst.ptcp}-see have\\
+... because I the duck \abbrv{ptcp}-see have-\abbrv{1sg}\\
 \ex
 \gll ... omdat ik de eend heb ge-zien\\
-... because I the duck have \abbrv{pst.ptcp}-see\\
+... because I the duck have-\abbrv{1sg} \abbrv{ptcp}-see\\
 \glt{`... because I have seen the duck'}
 \end{xlist}
 \end{exe}
-This gets complicated by the so-called IPP (\textit{Infinitivus Pro Participio}) effect, where a participle that selects for an infinitive changes to an infinitive itself, creating a cluster in the process -- once more, whether this substitution is mandatory, optional or altogether impossible is lexically decided.
+This gets further complicated by the so-called IPP (\textit{Infinitivus Pro Participio}) effect, where a participle that selects for an infinitive changes to an infinitive itself, creating a cluster in the process -- whether this substitution is mandatory, optional or altogether impossible is lexically decided~\cite{augustinus2015complement}.
 \begin{exe}
 \ex\label{gloss:ipp}
 \begin{xlist}
 \ex 
 \gll Ik heb de eend ge-zien.\\
-I have the duck \abbrv{pst.ptcp}-see\\
+I have the duck \abbrv{ptcp}-see\\
 \glt{`I have seen the duck.'}
 \ex
 \gll Ik heb de eend zien vliegen.\\
-I have the duck see(\abbrv{inf}) fly(\abbrv{inf})\\
+I have the duck see[\abbrv{inf}] fly[\abbrv{inf}]\\
 \glt{`I have seen the duck fly.'}
 \ex\label{gloss:ipp_tv}
 \gll Ik heb de eend een nest zien maken.\\
-I have the duck a nest see(\abbrv{inf}) make(\abbrv{inf})\\
+I have the duck a nest see[\abbrv{inf}] make[\abbrv{inf}]\\
 \glt{`I have seen the duck make a nest.'}
 \end{xlist}
 \end{exe}
-Next, the infinitival head of a dependent clause may be forced to occur directly after the verb dominating it, if the latter belongs to a closed set of so-called \textit{raising} verbs (i.e. the raiser is infixed between the infinitive to the right, and the infinitive's non-verbal arguments to the left).
-These include modals like \texttr{willen}{to want} and \texttr{moeten}{must}, perception verbs like \texttr{horen}{to hear} and \texttr{zien}{to see}, and some nondescript verbs like \texttr{doen}{to do} and \texttr{laten}{to let}.
-As before, they can be subcategorized as obligatory raisers and optional ones.
-\begin{exe}
-\ex
-\gll Ik denk dat ik iemand hoor naderen\\
-I think that I someone hear approach(\abbrv{inf})\\
-\glt{`I think I hear someone approaching.'}
-\end{exe}
-Yet other verbs like \texttr{verplichten}{to forbid} select not a bare infinitive but a \textex{te}-marked infinitival phrase, which they leave intact at the end of the clause -- a phenomenon known as \textit{extraposition}.
-The twist is that the intersection of extraposition verbs and raising verbs is non-empty -- \texttr{proberen}{to try}, for instance, can behave as either.
 
-\goodbreak\begin{exe}
-\ex\label{gloss:vr_vs_xpos}
-\begin{xlist}
-\ex
-\gll \textit{Ik} \textit{denk} \textit{dat} \textit{hij} \textit{probeert} \textit{iets} \textit{te} \textit{zeggen}.\\
-I think that he tries something to say(\abbrv{inf})\\
-\ex
-\gll \textit{Ik} \textit{denk} \textit{dat} \textit{hij} \textit{iets} \textit{probeert} \textit{te} \textit{zeggen}.\\
-I think that he something tries to say(\abbrv{inf})\\
-\glt{`I think that he is trying to say something'}
-\end{xlist}
-\end{exe}
-
-Typology aside, Dutch verb clusters have been a favorite topic of debate for formal grammarians for a while now, since their construction requires expressive capacity beyond what a context-free grammar can offer, and thus brinking an end to any delusion that human languages are context-free~\cite[\textit{inter alia}]{huybregts1984weak,shieber1985evidence}.%
-	\footnote{Or, depending on the reader, that Dutch is a human language.}%
-The impenetrable nature of verb clusters means that verbs that partake in their construction may often be forced to detach from their arguments, or worse yet become stranded from them by the infixation of another verb in between -- in the dependency grammar paradigm, these discontinuities materialize as non-projective (or cross-serial) dependencies -- see Figure~\ref{figure:xdep_udparse} for an example.
+There's of course a lot more to the story, but we will steer clear of the rabbit hole.
+The matter is of more than typological interest, though -- Dutch verb clusters have been a favorite topic of debate for formal grammarians for a while now, since their construction requires expressive capacity beyond what a context-free grammar can offer, and thus brinking an end to any delusion that human languages are context-free~\cite[\textit{inter alia}]{huybregts1984weak,shieber1985evidence}.%
+	\footnote{Or, depending on the reader, that Dutch is a human language.}
+The impenetrable nature of verb clusters means that verbs that partake in their construction may often be forced to detach from their arguments, or, worse yet, become stranded from them by the infixation of another verb in between -- in the dependency grammar paradigm, these discontinuities materialize as non-projective (or cross-serial) dependencies -- see Figure~\ref{figure:xdep_udparse} for an example.
+Long story short, Dutch word order is a complex puzzle that is not to be trifled with.
 
 \begin{figure}
 	\centering
 	\begin{tikzpicture}[t/.style={text height=1.5ex, text depth=.25ex, rectangle, outer sep=0pt}, node distance=10pt]
 	\smaller
-%%	\node[t] (1) 			
 	\node[t] (1)			at (0, 0) {\w{ik}};
 	\node[t] (2)			[right=10pt of 1] {\w{heb}};
 	\node[t] (3)			[right=10pt of 2] {\w{de}};
@@ -460,60 +178,25 @@ The impenetrable nature of verb clusters means that verbs that partake in their 
 	\label{figure:xdep_udparse}
 \end{figure}
 
-\paragraph{Adverbs}
-Last item on the agenda are adverbs, commonly enacted by uninflected adjectives.
-When not appearing in the emphatic first position, adverbial phrases must occur after definite objects and before indefinite ones, their internal order following a time-manner-location pattern.
-\begin{exe}
-\ex
-\gll Turkse varkens doden momenteel laf burgers in Koerdistan.\\
-Turkish pigs kill currently coward(\abbrv{adv}) civilians in Kurdistan\\
-\glt{`Turkish pigs are cowardly killing civilians in Kurdistan right now.'}
-\end{exe}
-Adverbial counterparts to pronouns make for locative adverbs (i.e. \textex{dit} becomes \texttr{hier}{here}, \textex{dat} becomes \texttr{daar}{there}, \textex{wat} becomes \texttr{waar}{where}, etc.). 
-Unique among them is \textex{er} from the singular neuter personal pronoun \textex{het}, which finds use as an unstressed locative or a subject-filler for an impersonal passive.
-\begin{exe}
-\ex
-\gll Er is geen zaken doen op een dode planeet.\\
-there is no business make(\abbrv{inf}) on a dead planet\\
-\glt{`There is no business on a dead planet.'}
-\end{exe}
-When a preposition would apply to a singular neuter pronoun, the adverbial form is commonly employed instead; their positions are inverted, and if they end up adjacent they become fused, giving rise to a so-called  pronominal adverb.
-Pronominal adverbs are common in Dutch, and find use as interrogative adverbs or relative pronouns.
-\begin{exe}
-\ex
-\begin{xlist}
-\ex[*]{\textit{Wat praat je over?}}
-\ex
-\gll Waar praat je over?\\
-what talk you about\\
-\ex
-\gll Waarover praat je?\\
-what.about talk you\\
-\glt{`What are you talking about?'}
-\ex
-\gll We praten erover.\\
-we speak it.about\\
-\glt{`We are talking about it.'}
-\end{xlist}
-\end{exe}
-
+%A superficial exposition of some interesting Dutch phenomena will nevertheless follow later on in this chapter's conclusion, where they can be paired with the analyses they are prescribed.
 
 \subsection{Parsing: Recognition vs. Discovery}
-With this lengthy detour over, we arrive at some painful truths: if there's any message to take home, it's the sheer amount of complexity inherent in a natural language grammar.
-Nominals come with a ton of morphosyntactic rules, exposing the fact that there's no syntactic entity as simple and unmarked as the idealized \np[s] we have extensively utilized in earlier chapters.
+Our journey has to start with some painful observations.
+A natural language grammar is a rather complicated construct that extends beyond the reach of compositional structure.
+Nominals come with a ton of morphosyntactic rules; there's no syntactic entity as simple and unmarked as the idealized \np[s] we have extensively utilized in earlier chapters.
 The erroneous ommission or addition of as much as an inflectional marking suffices to turn a phrase ungrammatical.
 The same issue pesters verbal morphology -- combining a verb with its potential arguments requires solving a number of constraints relating to number and person (let aside any notions of semantic compatibility).
-To see these constraints solved on the type level is not out of the question~\cite{pollard2004type} (modalities might in fact make for the perfect tool for the job, see \citet{moa}); it is, however, a problem in its own right.
+To see these constraints solved on the type level is not out of the question~\cite[inter alia]{moa,pollard2004type}; it is, however, a problem in its own right.
 But all these concerns are trivial compared to the monumental intricacies laid down by word order constraints.
-For a language like Dutch, devising the type assignments and structural rules that exactly allow the word permutations admissible by the language is a tremendous undertaking that requires navigating a complex network of layered rules and exceptions subject to regional variety.
+For a language like Dutch, devising the type assignments and structural rules that exactly allow the word permutations admissible by the language is a tremendous undertaking that requires navigating a complex network of layered rules and exceptions, subject to regional and historical variety.
 
 That is not to say that such endeavours are without merit; a formalism that presents itself as syntactic in nature yet fails to provide a general and transparent account of morphosyntactic and word order constraints wouldn't be particularly honest.
-The above remarks bring forth, however, a question of priorities, and by implication put us at a juncture point.
+The above remarks bring forth, however, a question of priorities, which puts us at a juncture point.
 We have on the one hand the option to pursue the Lambekian holy grail: the design of a substructural type system, the proof search over which should amount to a decision procedure capable of telling sentence and non-sentence apart.
 Put in practical terms, we'd settle for nothing less than absolute alignment with the Dutch grammar; just enough expressivity to ensure no overgeneration, no undergeneration and a perfect resolution of any and all syntactic ambiguities.
 The other option is perhaps more sober -- depending on our end-goals, we can check our ambitions to a more realistic level.
-A focus on sentence formation, for instance, would justify some morphological concessions.
-But since the focus here is on compositionality, we're given the chance for a much more radical leap: we can also skip word order altogether.
+A focus on sentence formation, for instance, would justify the morphological concessions we have already been silently making.
+But since the focus here is on compositionality, we're given the chance for a much more radical leap: we can \textit{cut} the knot by skipping word order altogether.
 
 Now this might be met with some scepticism, but put down your pitchforks and let me explain.
 In the type-logical setup, we'd follow the schema of Figure~\ref{figure:synsemtlg}: start from a strict syntactic logic, and then strip it down to its bare essentials to cast it into a logic of derivational semantics (the bare essentials in our case being linear implication and the dependency modalities).
@@ -550,7 +233,7 @@ Nodes can be told apart by their unique identifier, which differs even among nod
 Word order has no bearing on the tree structure -- the span of each material node in the sentence is just an attribute of that node.
 A material phrasal node connects to its constituents (themselves nodes of any kind) by virtue of directed edges labeled with grammatical functions.
 Modulo some (supposedly) exceptional cases, each phrasal node emits exactly one head-labeled edge, the rest being a combination of complements and adjuncts.
-An example analysis as provided by Lassy is shown in Figure~\ref{figure:example_lassy_tree}.%
+An example analysis as provided by Lassy is shown in Figure~\ref{figure:example_lassy_tree}.
 
 Of the two corpora only the smallest one is of real interest.
 Lassy Small includes approximately 65\,000 sentences, amassing a total of almost 1 million words. 
@@ -710,12 +393,13 @@ A breakdown of the corpus' contents is presented in Table~\ref{table:lassy_conte
 \end{table}
 
 \section{\AE thel}
+\label{section:aethel}
 The stage is set.
 We need to devise an algorithm that accepts trees like the one of Figure~\ref{figure:example_lassy_tree} and spits out proofs of $\NLP_{\diamond,\bx}$.
 Following our prior discussions, some assumptions need to be met before we get to even contemplate our approach.
 First, we need a clear three-way partition of the set of dependency labels, so that each dependency relation marks either a head, a complement or an adjunct.
 Further, we require that each dependency domain has exactly one head.
-Finally, we must ensure that higher order phenomena reflected in secondary edges (or phantom nodes) are homogeneous so that they can be treated in a uniform way.
+Finally, we must ensure that higher-order phenomena reflected in secondary edges (or phantom nodes) are homogeneous so that they can be treated in a uniform way.
 Unfortunately, these requirements are not always met; our first step is therefore to massage any rough edges with a series of transformations aimed at (i) harmonizing the input trees with the target logic and (ii) fixing inconsistent formattings and underspecified or otherwise incompatible annotations. 
 
 \subsection{Taming Lassy}
@@ -1127,7 +811,7 @@ Each unboxed adjunct will be a function from the top type to itself -- their n-a
 At this point, we have each tree below exactly once (yay, linearity), and we have produced a proof of the type we were asked to (or the tree prescribed), meaning we're good to go.
 Exceptionally to the above, nodes assigned the \textit{punct} tag are given a plain \smallgtype{punct} type that does not partake in the proof.
 
-This simple setup already suffices to cover quite a lot of trees with simple applicative phenomena, including higher order modifiers like in the example of Figure~\ref{figure:simple_extraction}.
+This simple setup already suffices to cover quite a lot of trees with simple applicative phenomena, including higher-order modifiers like in the example of Figure~\ref{figure:simple_extraction}.
 There, nodes 1, 2 and 10 obtain types $\smain[s]$, $\np[s]$ and $\ww[s]$ by simple translation, and 7 obtains the type $\ddia{vc}\ww[s]\li\ddia{su}\np[s]\li\smain[s]$, having 10 and 2 as complements (adorned with $\ddia{vc}$ and $\ddia{su}$ diamonds respectively) and 1 as the result.
 Node 2 forces the type $\dbox{mod}(\np[s]\li\np[s])$ to node 3 (as an adjunct with the \textit{mod} label), in turn forcing the type $\dbox{mod}(\dbox{mod}(\np[s]\li\np[s])\li\dbox{mod}(\np[s]\li\np[s]))$ to node 4 for the exact same reason. 
 Nodes 5 and 6 inherit the types of their mothers (3 and 2), having no complements.
@@ -1181,10 +865,11 @@ Within each domain, heads apply to their arguments and adjuncts drop their boxes
 Now, if you have a sneaking suspicion that this looks oddly easy, you're right.
 We have not yet made any attempt to cover cases of hypothetical reasoning triggered by relative clauses, wh-questions and passive constructions.
 The hypotheses in such phenomena have already been established by the phantom nodes underlying them -- all we need to do is know when to withdraw them.
-The criterion we'll follow applies to the proofs assigned to phrasal complements, and requires first that either the phrasal head (for subordinate clauses) or its subject (for passives) is indexed.
-If that's the case, the head is licensing hypothetical argument and must receive a higher-order type.
-We draw out all variables within the proof of the complement investigated, and filter the one that shares the same index as the aforementioned head or subject.
-Variables caught this way are abstracted over before the diamond introduction rule is applied.
+The criterion we'll follow applies to the proofs assigned to phrasal complements, and inspects the variables contained therein.
+Variables and nodes are in a one-to-one relation, owing to their naming scheme; from a variable, we can refer to its node, and from a node we can extract its index, inducing a many-to-one variable to index relation.
+Any variable's that maps to an index coinciding with that of the phrasal head (for subordinate clauses), the phrasal subject (for passives), or the phrasal subject of any ancestor phrase (for passives nested under auxiliaries), the variable is abstracted over.
+The complement then becomes a functional type, before the diamond introduction rule is applied.
+This forces the head to attain a higher-order type that \textit{licenses} the hypothetical argument.
 Figure~\ref{figure:simple_abstraction} presents a concrete example: head node 6 carries index 1 and looks for its complement in node 7.
 But node 7 contains $\Var{8}$, and node 8 has index 1 -- therefore, we must abstract the proof of node 7 over $\Var{8}$ before continuing with assigning it a diamond.
 
@@ -1496,12 +1181,12 @@ For moving on, it suffices to know that an analysis is essentially a nicely pack
 We are done with proving; time to get to counting.
 But first, a disclaimer.
 The numbers reported below have been relatively stable, but may well get to differ in between the time I write these words and the time you get to read them.
-They are correct in my subjective frame of reference (version), namely $\mathtt{1.0.0a4}$. 
+They are correct in my subjective frame of reference (version), namely $\mathtt{1.0.0a5}$. 
 
 \paragraph{From Lassy to \AE thel}
 From the 65\,200 trees of Lassy Small, we discard 2\,607 for being a single word or punctuation mark.
 The remaining 62\,593 are pruned into 69\,583 discourse-free cuttings (1.11 cuttings per source tree, on average).
-From these, the extraction algorithm produces 68\,763 theorems, bringing its (processed) corpus coverage to gratifying 98.82\%.
+From these, the extraction algorithm produces 68\,763 theorems, bringing its (processed) corpus coverage to a gratifying 98.82\%.
 All failures are due to problematic tree structures; mostly conjunctions without a coordinator, or, rarely, linearity breaches (free variables that cannot be justified by an existing proof pattern).
 A random 80/10/10 split is applied to the source Lassy samples, which translates into 56\,875 (82.7\%) train, 6\,118 (8.9\%) dev and 5\,770 (8.4\%) test \AE thel samples (81.7/8.8/8.3).
 Performing the split on Lassy rather than directly on \AE thel ensures consistency between different revisions, and asserts that any sample overlap from subtree duplications during pruning will be contained within the same subset, keeping cross-contamination to a minimum.
@@ -1563,9 +1248,9 @@ Not bad, considering.
 
 
 \paragraph{Theorems}
-To quantify the proof-theoretic diversity of the 68\,763 extracted samples, we abstract away from the sentences and end up with a total of 55\,026 unique theorems.
+To quantify the proof-theoretic diversity of the 68\,763 extracted samples, we abstract away from the sentences and end up with a total of 55\,108 unique theorems.
 Figure~\ref{figure:proof_assignments} groups and displays them according to how common they are, i.e. how many times we see the same theorem associated to a different sentence.
-Evidently, the vast majority of unique theorems (52\,637 or 95.7\%) occur but a single time within the dataset (i.e. they are assigned to a single sample), with logarithmically\textsubscript{10} fewer theorems being assigned to exponentially\textsubscript{2} more sentences, making \AE thel a rich and intricate resource.
+Evidently, the vast majority of unique theorems (52\,739 or 95.7\%) occur but a single time within the dataset (i.e. they are assigned to a single sample), with logarithmically\textsubscript{10} fewer theorems being assigned to exponentially\textsubscript{2} more sentences, making \AE thel a rich and intricate resource.
 
 \begin{figure}
 	\centering
@@ -1605,14 +1290,14 @@ But a side-effect of this concession is our inability to tell well- and ill- fou
 Lassy itself only provides the derivation of one single reading (and it is not our place to ask which reading that is).
 We can use this to our advantage to try and estimate the \textit{real} derivational ambiguity of \AE thel, by first isolating the proof frame of each sample (taking the type sequence independent of the sentence it was assigned to), and then counting the amount of unique proofs derived from each frame.%
 	\footnote{Note that we are gathering \textit{just} the sequence of types assigned to a sample and \textit{not} the proof's antecedent, since the modal bracketing structure already disambiguates the proof assignment.}
-In total, there's 56\,099 unique proof frames, but 53\,794 (95.9\%) of those occur only once, thus being of little use to our purposes (since each will unavoidably be mapped to a single proof).
-Of the remaining 2\,305, 2\,259 (97.4\%) are mapped to one unique proof, whereas 61 (2.6\%) may derive one of two unique proofs.
+In total, there's 56\,098 unique proof frames, but 53\,867 (96\%) of those occur only once, thus being of little use to our purposes (since each will unavoidably be mapped to a single proof).
+Of the remaining 2\,292, 2\,231 (97.3\%) are mapped to one unique proof, whereas 61 (2.7\%) may derive one of two unique proofs.
 Using this as a guideline, we find 472 potentially ambiguous samples in the entirety of \AE thel (a measly 0.7\%), their frames being among the 61 suspects.
 Manual inspection reveals most of them to really be ambiguous (e.g. the proof assigned prescribes one of two possible modifier attachments), 
 although in some cases the alternative reading is linguistically ruled out on the basis of selectional restrictions.
-Repeating the above after first casting the proof and type assignments to \NLP{} (dropping any dependency information via a stripping morphism), we end up with 55\,118 unique frames for 54\,172 unique proofs, with 2\,492 frames occurring more than once.
-Of these, 2\,405 are behind 1 unique proof, 111 behind 2, 6 behind 3, and 1 is behind 5.
-Potentially ambiguous samples are now doubled (904, or 1.3\% of the total), and ambiguities are more commonly artificial; would-be alternative readings for the newly ambiguous samples are usually ruled out by morphosyntactic constraints invisible to the theory.
+Repeating the above after first casting the proof and type assignments to \NLP{} (dropping any dependency information via a stripping morphism), we end up with 56\,185 unique frames for 54\,170 unique proofs, with 2\,471 frames occurring more than once.
+Of these, 2\,374 are behind 1 unique proof, 112 behind 2, 6 behind 3, and 1 is behind 5.
+Potentially ambiguous samples are now doubled (909, or 1.3\% of the total), and ambiguities are more commonly artificial; would-be alternative readings for the newly ambiguous samples are usually ruled out by morphosyntactic constraints invisible to the theory.
 
 What are these boring numbers trying to tell us?
 Well, two things.
@@ -1628,15 +1313,15 @@ This is not really surprising: hypotheses launched by higher-order functors are 
 This brings us to the lexicon: the binary relation connecting keys (words or strings, really) to types, and obtained by the aggregation of all our proofs' type assignments.
 \AE thel as a whole contains 1\,033\,858 words chunked into 992\,385 phrases, each chunk carrying a single assignment.
 These amount to  74\,812 (67\,883 after case normalization) unique words and 76\,746 (71\,077) unique phrases, the latter being essentially the lexicon's domain.
-On the codomain's side, we have a grand total of 6\,008 unique \NLPplus{} types.
-Stripped of their modalities, these fall back to 3\,641 pure linear types, evidencing the import of the added dependency axis.
+On the codomain's side, we have a grand total of 5\,762 unique \NLPplus{} types.
+Stripped of their modalities, these fall back to 3\,542 pure linear types, evidencing the import of the added dependency axis.
 The first question to ask then is: how functional is this lexicon?
 Answering that question is Figure~\ref{figure:type_ambiguity}, which in short says ``not much, really''.
-Despite most lexical keys (56\,176) having a single unique image, ambiguities are quite common, the number of assignments exponentially\textsubscript{2} increasing for a logarthmically\textsubscript{10} declining number of keys.
-At the end of the tail we find several chameleon words appearing in multiple guises; chief among them is the usual suspect \texttr{en}{and}, counting as many as 1\,046 (!) unique types in just 41\,614 occurrences.
-No less than 1\,796 types contain a $\ddia{cnj}$ marking, and are thus associated with coordinators -- the price of braving conjunctions with concretely instanced, pre-raised types; Table~\ref{table:polymorphic_crd} presents the most commonly occurring coordinator types.
+Despite most lexical keys (56\,224) having a single unique image, ambiguities are quite common, the number of assignments exponentially\textsubscript{2} increasing for a logarthmically\textsubscript{10} declining number of keys.
+At the end of the tail we find several chameleon words appearing in multiple guises; chief among them is the usual suspect \texttr{en}{and}, counting as many as 1\,045 (!) unique types in just 41\,614 occurrences.
+No less than 1\,363 types contain a $\ddia{cnj}$ marking, and are thus associated with coordinators -- the price of braving conjunctions with concretely instanced, pre-raised types; Table~\ref{table:polymorphic_crd} presents the most commonly occurring coordinator types.
 But this is painting an overly grim picture; seen as random variables, lexical keys actually have most of their probability masses concentrated on their modes.
-The average probability of the most common type per key lies at a (very high) 88.97\%, while naively assigning the mode to each lexical assignment corpus-wide (disregarding context) establishes a comfortable 66.97\% baseline, asserting that our lexical entries are in practice quite consistent when grouped by their keys.
+The average probability of the most common type per key lies at a (very high) 89.04\%, while naively assigning the mode to each lexical assignment corpus-wide (disregarding context) establishes a comfortable 67.08\% baseline, asserting that our lexical entries are in practice quite consistent when grouped by their keys.
 
 
 \begin{figure}
@@ -1695,14 +1380,14 @@ The average probability of the most common type per key lies at a (very high) 88
 So ambiguity is not a major statistical threat, despite the high average number of options per key; some opposing force must be counterweighting its effect.
 In reality, the only reason we are able to naively guess assignments with some reasonable accuracy is exactly because the less-than-most-frequent options are in fact very infrequent -- the demon's name is sparsity.
 To diagose the problem and quantify its extent, we perform a number of tests.
-First, we measure the proportion of the 6\,008 types that occur more than $n$ times, and plot the result in Figure~\ref{figure:ecdfs} (if you prefer jargon, this is the inverse empirical cumulative distribution of type occurrences).
-The dash-dotted line leaves little room for interpretation: 2\,868 (47.7\%) of the total types have only a single occurrence, 4\,807 (80\%)  have less than 10 occurrences, and only 316 (5\%) are common enough to boast more than 100 occurrences -- our types are quite sparse alright.
+First, we measure the proportion of the 5\,762 types that occur more than $n$ times, and plot the result in Figure~\ref{figure:ecdfs} (if you prefer jargon, this is the inverse empirical cumulative distribution of type occurrences).
+The dash-dotted line leaves little room for interpretation: 2\,747 (47.7\%) of the total types have only a single occurrence, 4\,603 (79.9\%)  have less than 10 occurrences, and only 310 (5\%) are common enough to boast more than 100 occurrences -- our types are quite sparse alright.
 This goes to show that uncommon type assignments are uncommon globally, and not just in the context of the lexical key that maps to them; in other words, a type rarely associated with \textit{some} lexical key is likely rare to find among \textit{any} key.
 
 To analyze the real impact of sparse types, we have to holistically inspect their corpus-wide distribution.
 To that end, we repeat the above measurement, this time focusing on type assignments and samples rather than just types.
 Intuitively, we are interested in the proportion of the 992\,385 type assignments we could resolve when considering only types occurring more than $n$ times, and the proportion of the 68\,763 samples containing resolved assignments only. 
-Things look somewhat less scary here: on the type assignment front, the 5\% most common types cover 97\% of the total assignments, and the top 1\% (occurring more than 1\,000 times) is still good enough for 90\% of the assignments.
+Things look somewhat less scary here: on the type assignment front, the 5\% most common types cover 98\% of the total assignments, and the top 1\% (occurring more than 1\,000 times) is still good enough for 90\% of the assignments.
 Sentential coverage declines more rapidly, indicating that rare types are, to our discontent, evenly distributed within our samples -- discarding types with less than 10 occurrences, for instance, already brings sentential coverage down to 88\%.
 This will haunt us later, but for now let's keep lingering in the bliss of ignorance.
 
@@ -1795,32 +1480,209 @@ The most common word of \AE thel is the gendered definite determiner \textex{de}
 	\label{figure:entry_sparsity}
 \end{figure}
 
-\subsubsection{Quality Control}
-We made it through the boring part!
-With all the numbers laid down, all that's left to do is expose how \AE thel treats common and idiosyncratic constructions of Dutch.
 
-\todo
-
-% PROOFBANK!!
-
-% qualtitative
+%\subsubsection{Quality Control}
+%We made it through the boring part!
+%With all the numbers laid down, all that's left to do is showcase on how \AE thel treats common and idiosyncratic constructios of Dutch.
+%For space economy, we'll drop the natural deduction presentation in favor of the compactified $\lambda$ terms -- we've seen enough back-and-forths by now to take the training wheels off.
+%
+%\paragraph{Infinitives \& Clusters}
+%Infinitival forms commonly occur as the verbal complements of a modal, auxiliary or perception verb.
+%Depending on the modal, the preposition \texttr{te}{to}, or the discontinuous \texttr{om ... te}{to}, may be either necessary, optionally admissible or completely disallowed.
+%Dutch subordinate clauses follow an SOV order, meaning that the chaining of verbs requiring non-finite complements inadvertently leads to \textit{verb clusters}, i.e. collections of two or more verbs situated within the dependent clause and adjacent to one another.
+%Verb clusters are marked by their inability to accommodate non-verbal material, and may follow a number of different word orders, which don't necessarily abide by the order of selectional dominance.
+%The question of which factors influence the grammaticality of word order variations  is a hot potato and a topic of active research for decades -- to make matters worse, these factors tend to differ between regional variations of the language.
+%\linebreak\begin{exe}
+%\ex
+%\nolistbreak\begin{xlist}
+%\ex {\small\fname{WS-U-E-A-0000000046.p.8.s.6(1)}}
+%\glll Hij erkent dat hij de kamer onjuist ge\"-informeer-d heeft .\\
+%He admits that he the chamber wrongly \abbrv{pst.ptcp}-inform-\abbrv{circ} has .\\
+%{$\vnw[s]$}
+%{$\ddia{vc}\cp[s]\li\ddia{su}\vnw[s]\li\smain[s]$}
+%{$\ddia{cmpbody}\ssub[s]\li\cp[s]$}
+%{$\vnw[s]$}
+%{$\dbox{det}(\n[s]\li\np[s]$}
+%{$\n[s]$}
+%{$\dbox{mod}(\ppart[s]\li\ppart[s]$}
+%{$\ddia{obj1}\np[s]\li\ppart[s]$}
+%{$\ddia{vc}\ppart[s]\li\ddia{su}\vnw[s]\li\ssub[s]$}
+%{$\punct[s]$}\\
+%\glt{\small $\term{
+%	\con{1}
+%	~\ddiaintro{vc}(\con{2}~\ddiaintro{vc}(\dboxelim{mod}\con{6}~(\con{7}~\ddiaintro{obj1}(\dboxelim{det}\con{4}~\con{5}))))
+%	~\ddiaintro{su}(\con{0})
+%	}$}
+%\glt{`He admits that he has wrongly informed the chamber.'}
+%\ex {\small\fname{dpc-vla-001175-nl-sen.p.302.s.2(1)}}
+%\glll De jobinhoud van leraren zou moeten kunnen vari\"eren .\\
+%The job-content of teachers will must(\abbrv{inf}) can(\abbrv{inf}) vary(\abbrv{inf}) .\\
+%{$\dbox{det}(\n[s]\li\np[s])$}
+%{$\n[s]$}
+%{$\ddia{obj1}\np[s]\li\dbox{mod}(\np[s]\li\np[s])$}
+%{$\np[s]$}
+%{$\ddia{vc}\infp[s]\li\ddia{su}\np[s]\li\smain[s]$}
+%{$\ddia{vc}\infp[s]\li\infp[s]$}
+%{$\ddia{vc}\infp[s]\li\infp[s]$}
+%{$\infp[s]$}
+%{$\punct$}\\
+%\glt{\small $\term{
+%	\con{4}
+%	~\ddiaintro{vc}(\con{5}~\ddiaintro{vc}(\con{6}~\ddiaintro{vc}\con{7}))
+%	~\ddiaintro{su}(\dboxelim{mod}(\con{2}~\ddiaintro{obj1}\con{3})~(\dboxelim{det}\con{0}~\con{1}))
+%}$
+%}
+%\glt{`The job content of teachers must be able to change'}
+%\end{xlist}
+%\end{exe}
+%Thankfully, that's none of our concerns -- word orders variations 
+%
+%\paragraph{Passives}
+%Dutch has a periphrastic passive, built with the aid of modals \texttr{worden}{to become} and \texttr{zijn}{to be}.
+%Following Lassy's guidelines, past participles of transitives look for a direct object argument, supplied by a higher-order assignment to the modal matrix head.
+%
+%\begin{exe}
+%\nolistbreak\ex {\small\fname{WS-U-E-A-0000000040.p.14.s.3(1)}}
+%\glll Zijn die theorie\"en nu uit\textlangle ge\textrangle sloten ?\\
+%Are those theories now \textlangle\abbrv{pst.ppart}\textrangle rule-out ?\\
+%{$\ddia{vc}(\ddia{obj1}\np[s]\li\ppart)\li\ddia{su}\np[s]\li\svi[s]$}
+%{$\dbox{det}(\n[s]\li\np[s])$}
+%{$\n[s]$}
+%{$\dbox{mod}(\ppart[s]\li\ppart[s])$}
+%{$\ddia{obj1}\np[s]\li\ppart[s]$}
+%{$\punct[s]$}\\
+%\glt{\small $\term{
+%\con{0}
+%~\ddiaintro{vc}(\lam \Var{0}.\dboxelim{mod}\con{3}~(\con{4}~\Var{0}))
+%~\ddiaintro{su}(\dboxelim{det}\con{1}~\con{2})
+%}$}
+%\glt{`Are those theories now ruled out?'}
+%\end{exe}
+%A similar strategy is applied in the case of passivized infinitives.
+%\begin{exe}
+%\nolistbreak\ex {\small\fname{dpc-ind-001638-nl-sen.p.21.s.3(7)}}
+%\glll Vorbeelden zijn niet moelijk te vinden\\
+%Are those theories now \textlangle\abbrv{pst.ppart}\textrangle rule-out ?\\
+%{$\ddia{vc}(\ddia{obj1}\np[s]\li\ppart)\li\ddia{su}\np[s]\li\svi[s]$}
+%{$\dbox{det}(\n[s]\li\np[s])$}
+%{$\n[s]$}
+%{$\dbox{mod}(\ppart[s]\li\ppart[s])$}
+%{$\ddia{obj1}\np[s]\li\ppart[s]$}
+%{$\punct[s]$}\\
+%\glt{\small $\term{
+%\con{0}
+%~\ddiaintro{vc}(\lam \Var{0}.\dboxelim{mod}\con{3}~(\con{4}~\Var{0}))
+%~\ddiaintro{su}(\dboxelim{det}\con{1}~\con{2})
+%}$}
+%\glt{`Are those theories now ruled out?'}
+%\end{exe}
+%
+%%Out[263]: 'dpc-ind-001638-nl-sen.p.21.s.3(7).xml'
+%%Voorbeelden zijn niet moeilijk te vinden
+%
+%%\paragraph{Pronominal Adverbs}
+%%Dutch pronouns have adverbial counterparts which find use as locatives (e.g. \texttr{dit}{this} becomes \texttr{hier}{here}, texttr{dat}{that} becomes \texttr{daar}{there}, etc.).
+%%These locatives commonly combine with prepositions, giving rise to so-called pronominal adverbs -- these can occassionally give rise to higher-order patterns.
+%
+%%\begin{exe}
+%%\nolistbreak\ex
+%%\glll Werk waarmee vandaag moet worden begonnen . \\
+%%Work with-which today must become begin .\\
+%%	{$\np[s]$}
+%%	{$\ddia{relcl}(\dxdia{x}\dxbox{x}\ddia{pc}\bw[s]\li\ssub[s])\li\dbox{mod}(\ssub[s]\li\ssub[s])$}
+%%	{$\dbox{mod}(\ppart[s]\li\ppart[s])$}
+%%	{$\ddia{vc}(\infp[s]\li\ssub[s]$}
+%%	{$\ddia{vc}\ppart[s]\li\infp[s]$}
+%%	{$\ddia{pc}\bw[s]\li\ppart[s]$}
+%%	{$\punct[s]$}\\
+%%\glt{\small $\term{
+%%					\dboxelim{mod}(\con{1}~\ddiaintro{relcl}(\lam \Var{0}.
+%%					\caseof{\ddiaelim{x}\Var{0}}{\Var{1}}
+%%					{\con{3}~\ddiaintro{vc}(\con{4}~\ddiaintro{vc}(\dboxelim{mod}\con{2}~\dboxelim{x}{\Var{1}}))}))~\con{0}}$}
+%%\glt{`Work which must begin today'}
+%%\glt{\hfill \small\fname{dpc-bal-001237-nl-sen.p.21.s.4(1)}}
+%%\end{exe}
+%%\paragraph{Infinitives}
+%%
+%%%Depending on the modal, the preposition \texttr{te}{to}, or the discontinuous \texttr{om ... te}{to}, may be either necessary, optionally admissible or completely disallowed -- if one does manifest, it precedes the infinitive.
+%%\begin{exe}
+%%\nolistbreak\ex
+%%\glll We leerden elkaar te respecteren .\\
+%%We learned each-other to respect .\\
+%%{$\vnw[s]$} {$\ddia{vc}\ti[s]\li\ddia{su}\vnw[s]\li\smain[s]$} {$\vnw[s]$} {$\ddia{cmpbody}\infp[s]\li\ti[s]$} {$\infp[s]$} {$\punct[s]$}\\
+%%\glt{\small $\con{1}~\ddiaintro{vc}(\con{2}~\ddiaintro{cmpbody}(\con{3}))~\ddiaintro{su}(\con{0})$}
+%%\glt{`We learned to respect each other.'}
+%%\glt{\hfill \small\fname{dpc-bal-001238-nl-sen.p.27.s.2(1)}}
+%%\end{exe}
+%%\begin{exe}
+%%\nolistbreak\ex
+%%\glll privaat bezit moest worden afgeschaft .\\
+%%We learned each-other to respect\\
+%%{$\dbox{mod}(\np[s]\l\np[s]$} {$\np[s]$} {}
+%%%{$\vnw[s]$} {$\ddia{vc}\ti[s]\li\ddia{su}\vnw[s]\li\smain[s]$} {$\vnw[s]$} {$\ddia{cmpbody}\infp[s]\li\ti[s]$} {$\infp[s]$}\\
+%%\glt{\small $\con{1}~\ddiaintro{vc}(\con{2}~\ddiaintro{cmpbody}(\con{3}))~\ddiaintro{su}(\con{0})$}
+%%\glt{`We learned to respect each other.'}
+%%\glt{\hfill \small\fname{WR-P-E-I-0000039081.p.1.s.7(12)}}
+%%\end{exe}
+%%Out[72]: 
+%
+%%The discontinuous variant is only selected for by specific verbs -- it can enclose linguistic material, like the infinitive's object or any adverbs modifying it.
+%%\begin{exe}
+%%\ex
+%%\gll Ik dwing mezelf om wat te schrijven.\\
+%%I force myself \_ something to write(\abbrv{inf})\\
+%%\glt{`I force myself to write something.'}
+%%\end{exe}
+%%An infinitive directly following \textex{aan het} can combine with \textex{zijn} to construct the continuous aspect, in either the present or the past tense.
+%%\begin{exe}
+%%\ex
+%%\gll Ik ben aan het schrijven.\\
+%%I am in the write(\abbrv{inf})\\
+%%\glt{`I am writing.'}
+%%\end{exe}
+%%Infinitives are also often nominalized, the resulting nominals being singular neuters.
+%%\begin{exe}
+%%\ex
+%%\gll Het schrijven is pijnlijk.\\
+%%The write(\abbrv{inf}) is painful\\
+%%\glt{`The writing is painful.'}
+%%\end{exe}
+%
+%
+%%\paragraph{Verb Clusters}
+%%
+%%\paragraph{Passive Voice}
+%%
+%%\paragraph{Continuous Aspect}
+%%
+%%\paragraph{Om x Te}
+%%
+%%\paragraph{Separable Verbs}
+%%
+%%\paragraph{Pronominal Adverbs}
+%%
+%%\paragraph{Conjunctions}
+%
+%%\todo
+%
+%% PROOFBANK!!
+%
+%% qualtitative
 
 
 \section{Key References \& Further Reading}
+\label{section:references_3}
 The chapter has presented \AE thel and detailed the process toward its construction.
 The baby version of \AE thel made an early public appearance in my thesis~\cite{https://doi.org/10.48550/arxiv.1909.02955} in what feels like ages ago (but actually was three-something years).
 Back then, it didn't yet have a name, and was just only a partially worked out type lexicon, but its statistical kinks were already becoming obvious.
 The full resource gradually took form as a proof bank proper, and was first described by \citet{kogkalidis-etal-2020-aethel}.
 The chapter is a significantly more mature version of the paper, describing an overhauled version that shares the same general design philosophy but boasts lighter preprocessing (leading to longer and higher quality proofs) and wider coverage (improving linguistic variation).
-The most important feature of the overhaul is the revised extraction algorithm, reimlemented so as to ensure type safety, guaranteeing the formal correctness of the extracted proofs and fixing several issues and inconsistencies pertaining to the modal decorations of higher order types.
+The most important feature of the overhaul is the revised extraction algorithm, reimlemented so as to ensure type safety, guaranteeing the formal correctness of the extracted proofs and fixing some suboptimal annotations pertaining to the modal decorations of higher-order types.
 
 My little bubble aside, corpus extraction is a fan favorite for the computationally inclined linguists (or the linguistically inclined computists).
 The endeavour was popularized by the CCGbank~\cite{10.1162/coli.2007.33.3.355}, a semi-automatically extracted corpus of combinatory categorial grammar derivations, following a similar endeavour in German~\cite{hockenmaier2006creating}.
 CCGbank has since become a flagship for the applied categorial grammarian, spawning many offsprings across different languages~\cite[inter alia]{johan2009converting,tse2010chinese,ambati2018hindi}.
 More akin to our proof-theoretic regime and forebearers to this work are the French TLGbank~\cite{moot:inria-00494062}, and the type-logical conversion of the spoken Dutch corpus~\cite{moot2010extraction}, both following the multimodal Lambek tradition.
-
-
-\nocite{macken2011dutch}
 
 
 \bibliographystyle{abbrvnat}

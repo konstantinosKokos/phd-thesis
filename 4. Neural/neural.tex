@@ -42,6 +42,7 @@ Less pompously, we'll go through the hoops of designing and implementing a forma
 
 
 \section{The Categorial Parser}
+\label{section:parse}
 A high-level conceptualization of the categorial grammar parser should make for a good starting point.
 In the infancy of categorial grammars, the parser would be thought of as nothing other than a lexicon and a theorem prover: the lexicon enumerating any and all the possible type assignments for each word, the theorem prover exhaustively iterating the combinatorial space of assignments to produce all possible proofs for each possible assignment (Figure~\ref{figure:archetypical_parser}).
 
@@ -111,8 +112,8 @@ In any case, my intention is to help the purists make sense of what's going on, 
 To that end, I'll try keep the gory technical details contained and separate from the high level, abstract descriptions.
 I hope the result is sensible and inclusive.
 
-
 \section{Supertagging}
+\label{section:supertagging}
 A supertagger is a statistical model, a parametric function $f_\theta$ tasked with producing the most likely type assignment sequence $\tseq := t_0 \dots t_n$ for a given sentence $\wseq := w_0 \dots w_n$.
 \begin{equation}
 	f_\theta(\wseq) \approx \underset{\tseq}{\mathrm{argmax}} ~ p(\tseq \ | \wseq, \theta)
@@ -630,7 +631,7 @@ Having this done globally (all words communicating with all words) is certainly 
 A better alternative can be found in the dusty scriptures of old: sliding windows.
 Regulating and thresholding state interactions according to their relative distance reinstates computational well-behavedness%
 	\footnote{Maybe there was something to the locality of supertagging after all.},
-substituting $n^2$ with $n\kappa^2$ for window size $\kappa$ (basically linear in sequence length) and setting the final memory footprint of the decoder at $O(2^mn +mn)$.
+substituting $n^2$ with $n\kappa$ for window size $\kappa$ (basically linear in sequence length) and setting the final memory footprint of the decoder at $O(2^mn +mn)$.
 	
 Computational considerations aside, this formulation is also conducive to learning.
 Having interactions modulated and bottlenecked by state tracking vectors reduces the number of statistical confounds accessible to the model, acting as an implicit regularizer and enforcing a degree of locality to the (otherwise distributed) neural representations.
@@ -997,12 +998,12 @@ Hence, we shall employ it not just on \AE thel but also on the two versions of t
         & \textbf{\textit{\AE thel}}\\ 
         & \textit{original} & \textit{rebank} & & ($\mathtt{1.0.0a4}$)\\
         \toprule
-        \textbf{Primitives}     & 37        & 40        & 27        & 83\\
-        ~ Zeroary           & 35        & 38        & 19        & 33\\ 
+        \textbf{Primitives}     & 37        & 40        & 27        & 81\\
+        ~ Zeroary           & 35        & 38        & 19        & 31\\ 
         ~ Binary            & 2         & 2         & 8         & 50\\
         \midrule
-        \textbf{Categories}     & 1\,323      & 1\,619      & 851      & 6\,008\\
-        ~{in train}         & 1\,286      & 1\,575      & 803      & 5\,377\\
+        \textbf{Categories}     & 1\,323      & 1\,619      & 851      & 5\,762\\
+        ~{in train}         & 1\,286      & 1\,575      & 803      & 5\,146\\
         ~{depth avg.}       & 1.94      & 1.96      & 1.99     &   1.82\\
         ~{depth max.}       & 6         & 6         & 7        & 35*\\ 
         \midrule
@@ -1043,7 +1044,7 @@ Back then, we were creating shorthands for frequent (sub-)types (self standing t
 	This is basically the zipfian tai of the zipfian tail -- we'll let it slide without rearranging the train/dev/test split, as it poses an innocuous and fun little challenge and an easter egg of shorts.
 	Obviously, dropping the practical restriction for binarity would solve the problem, at the cost of elongated trees and the loss of architectural uniformity.}
 
-\begin{figure}[h]
+\begin{figure}
 		\begin{subfigure}[t]{0.5\textwidth}
 		\centering
 		\begin{tikzpicture}
@@ -1056,7 +1057,7 @@ Back then, we were creating shorthands for frequent (sub-)types (self standing t
         \tikzset{sibling distance=0pt}
         \tikzset{level 1/.style={level distance=32pt}}
 		\tikzset{level 2/.style={level distance=28pt}}
-		\tikzset{level 3+/.style={level distance=20pt}}
+		\tikzset{level 3+/.style={level distance=26pt}}
 		\Tree
 		[.${\li}$
 			[.$\ddia{whbody}$
@@ -1115,6 +1116,7 @@ Back then, we were creating shorthands for frequent (sub-)types (self standing t
 \paragraph{Training}
 A single hyper-parameter setup is shared among all experiments, obtained after a minimal logarithmic search over sensible initial values.
 Specifically, we set the node dimensionality $d_n$ to 128 with 4 heterogeneous attention heads and the state dimensionality $d_w$ to 768 with 8 homogeneous attention heads.
+The window size for the state-to-state messaging passing rounds is set to 14 (1 self connection, 6 right neighbours and as many left, 1 direct connection to the sequence summary token).
 We train using AdamW~\cite{	loshchilov2018decoupled} and a variable learning rate scaled by a linear warmup and cosine decay schedule over 25 epochs, scaled by 10\% for the encoder.
 During training we provide strict teacher forcing and apply feature and edge dropout at 20\% chance.
 The loss signal is derived as the label-smoothed negative log-likelihood between the network's prediction and the ground truth label.
@@ -1282,6 +1284,7 @@ A possible solution would involve branching across multiple tree-slices (i.e. se
 The issue is of course not unique to this system, but common to all decoders that perform multiple assignments concurrently -- as such, there is some hope that insights might percolate from one field to another and eventually make their way to us.
 
 \section{Neural Proof Search}
+\label{section:npn}
 We have made significant progress with supertagging, first removing the scary-looking roadblock of lexical type sparsity, and then producing numbers bigger than any numbers seen before%
 	\footnote{Actually, \citet{tian2020supertagging} were reporting even bigger numbers for a while, but it later turned out that these numbers were in error and their real numbers were a lot smaller than the numbers they originally reported.
 	An honest mistake, no doubt due to churning out the same architecture 5 times over the span of a year -- they thought you're not supposed to measure performance on rare assignments at all.
@@ -1720,7 +1723,7 @@ If we pass through all nodes and no red letters appear on our screen (read: no t
 	\footnote{That's the closest we can do in lieu of a formal guarantee.}
 that the proof structure was a proof net.
 If what follows reads like black magic, it's probably because it is.
-Obscure as it might seem, it works: followed by $\eta$ and $\beta$ normalizations and $\alpha$ conversion, it produces a faithful back-and-forth translation for all the 55\,026 unique theorems of \AE thel.
+Obscure as it might seem, it works: followed by $\eta$ and $\beta$ normalizations and $\alpha$ conversion, it produces a faithful back-and-forth translation for all the 55\,108 unique theorems of \AE thel.
 
 
 \subsubsection{Negative Mode}
@@ -1801,7 +1804,7 @@ The depth recurrence is evocative of weight-tied architectures~\cite{dehghani201
 Analogously to structure-aware self-attention networks~\cite[inter alia]{zhu-etal-2019-modeling,cai2020graph} and graph attentive networks~\cite[inter alia]{velivckovic2018graph,yun2019graph,ying2021transformers,brody2021attentive}, it also employs standard query/key and fully-connected attention mechanisms injected with structurally biased representations, either at the edge or at the node level.
 Finally, akin to dynamic graph approaches~\cite{liao2019efficient,pareja2020evolvegcn}, it forms a closed loop system that autoregressively generates its own input, in the process becoming exposed to subgraph structures that drastically differ between time steps.
 
-Our neuralification of proof nets~\cite{kogkalidis-etal-2020-neural} is really just the creative application of modern breakthroughs in optimal transport learning and differentiable set representations~\cite[inter alia]{cuturi2013sinkhorn,mena2018learning,grover2018stochastic,peyre2019computational}, combined with existing insights and intuitions on proof net-based search~\cite{moot2008graph}.
+Our neuralification of proof nets~\cite{kogkalidis-etal-2020-neural} is really just the creative application of modern breakthroughs in optimal transport learning and differentiable set representations~\cite[inter alia]{cuturi2013sinkhorn,mena2018learning,grover2018stochastic,peyre2019computational}, combined with existing insights and intuitions on the application of graph-theoretic machinery for proof search~\cite{moot2008graph}.
 Again in parallel [sic], \citet{bhargava2021proof} present our operationalization anew, modulo microvariations, and apply it on a Lambek-style adaptation of the CCGbank.
 As for steps forward, \citet{moot2022perspectives} raises a shismatic criticism of proof nets from within, but also provides stimuli and incentives for alternative operationalizations.
 \Citet{deepgrail23} are more devout, adapting the architecture for use with a multimodal Lambek calculus targeted for French. 

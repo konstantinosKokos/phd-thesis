@@ -1,4 +1,9 @@
-\chapter*{Preface}
+{
+\renewcommand{\thechapter}{\arabic{chapter}}
+\setcounter{chapter}{-1}
+\renewcommand{\bibname}{Papers this dissertation is based on}
+\chapter{Preface}
+\label{chapter:preface}
 
 Greetings, reader. Out of coincidence or some weird turn of events, I have written this dissertation to-be and you have stumbled upon it.
 Introductions would normally be in order, but since this communication channel is asynchronous and unidirectional I will be doing double duty for the both of us.
@@ -37,22 +42,55 @@ The absence of feedback means that my mental model of you is a purely artificial
 I will inadvertently skip things that to me seem self-evident, and rant at length about others that you take for granted.
 So feel free to skip ahead when something reads trivial, and do not judge too harshly when you encounter an explanation you find insufficient.
 
-\newpage
-
 \subsection*{What this thesis is about}
 The quote below was received almost verbatim as a review.
-Mean spirited as it may be, it adequately summarizes the contents of this thesis:
+Mean spirited as it may be, it provides an adequate high-level summary of this thesis' contents: 
 \begin{quote}
 [The thesis] starts with Lambek Calculus, some how uses dependency labels in some of its semantic types, provides a parsing algorithm for it; there are neural networks and vectors used and some accuracy results provided, but I am still unsure about the contributions [of the thesis] and their relevance.
 \begin{flushright} Unknown reviewer, 2019.\end{flushright}
 \end{quote}
 
-\paragraph{Contributions}
-Thanks to this fellow scientist's earnest reviewing work, all I have to elucidate here are this thesis' contributions, enumerated below for your convenience:
-\begin{enumerate}
-\item an attempt at a painless introduction to simple type theory and its substructural variants, with an emphasis on linguistics and type-logical grammars; read more in Chapter~\ref{chapter:Introduction}
-\item the structural control modalities of $\logic{(N)L(P)}_{\diamond, \bx}$ are appropriated and employed as dependency domain demarcators, yielding a type system capable of simultaneously capturing dependency- and function-argument structure; read more in Chapter~\ref{chapter:chapter_2}
-\item the type system is instantiated as a derivational semantics logic (or abstract syntax logic, depending on which side of the dividing line you stand at), and aligned with real-world corpus data; the result is a big, type-checked dataset of proof-derivations; read more in Chapter~\ref{chapter:chapter_3}
-\item a bunch of underappreciated insights on neural supertagging, with an emphasis on overcoming the limitations of a set-in-stone lexicon; also, a novel neural architecture for hyper-efficient and hyper-accurate parsing with substructural logics; read more in Chapter~\ref{chapter:chapter_4}
-\item several attempts at dry humor to varying degrees of success -- in the words of my beloved: ``your thesis is a joke''; spread throughout all Chapters.
+Thanks to this fellow scientist's earnest reviewing work, all I have to elucidate here is the thesis' breakdown and its contributions. Starting from the former:
+\begin{enumerate}[labelindent=2pt, itemindent=30pt, labelsep=5pt, widest=Chapter III,align=right,itemsep=5pt]
+\item[\textbf{Chapter~\ref{chapter:preface}}] greets the reader and provides a chapter summary, while also setting the tonal precedents for what is to follow.
+\item[\textbf{Chapter~\ref{chapter:Introduction}}] makes an attempt at a painless introduction to simple type theory and its substructural variants, with an emphasis on linguistics and type-logical grammars.
+We start in Section~\ref{section:simple_type_theory} with a crash course on simple type theory, followed by a transition to a linear types in Section~\ref{section:linear_type_theory}.
+Further into substructural territory, we take a look at Lambek calculi in Section~\ref{section:lambek_calculi}, where more than just linear, our types become immovable and bracket-bound.
+To regain some of the expressivity lost in the passage, we call to the aid of modalities in Section~\ref{section:modalities}.
+We deploy the above as categorial grammars, type-driven frameworks for reasoning about natural language syntax and semantics in Section~\ref{section:linguistics}, with a focus on type-logical grammars and abstract categorial grammars.
+\item[\textbf{Chapter~\ref{chapter:chapter_2}}] offers a non-standard usecase for the structural control modalities of the multimodal Lambek family $\logic{(N)L(P)}_{\diamond, \bx}$.
+We begin in Section~\ref{section:phrase_vs_dependecy} with a face-off between the two strands of grammar flavors that have dominated computational linguistics in the past decades, and see how they compare to categorial grammars.
+Unsatisfied by the comparison, we move on to Section~\ref{section:modalities_for_dependency}, where we appropriate the modalities resorted to earlier, repurposing them now as dependency domain demarcators.
+\item[\textbf{Chapter~\ref{chapter:chapter_3}}] instantiates the type system as a derivational semantics logic (or abstract syntax logic, depending on which side of the dividing line you stand at), and aligns it with real-world corpus data. 
+We set the stage in Section~\ref{section:preliminaries} with a backstory intended to motivate the design choices behind the logic, and a description of the corpus used.
+We then proceed to describe the proof extraction process and its evaluation in Section~\ref{section:aethel}.
+\item[\textbf{Chapter~\ref{chapter:chapter_4}}] makes for a change of scenery, offering a collection of insights on the neural parsing of substructural grammar logics.
+We first paint a picture of the archetypical categorial grammar parser in Section~\ref{section:parse}, pinpointing the tension points between abstract theory and applied practice.
+We then trace along the history of supertagging in Section~\ref{section:supertagging}, going from its (not-so-ancient) origins all the way to tomorrow.
+We motivate the abolition of the predefined lexicon as a natural step in its evolutionary progress, and provide two convincing implementations to that end.
+Finally, in Section~\ref{section:npn} we propose a neural operationalization for the proof nets of linear logic, and show how this yields a brand new paradigm for parsing substructural grammar logics.
+\item[\textbf{Chapter~\ref{chapter:chapter_5}}] provides some concluding remarks and waves the reader goodbye.
 \end{enumerate}
+
+\paragraph{Contributions}
+Contributions produced and presented in this thesis, organized in bullet points for your convenience and reading pleasure, include:
+\begin{itemize}
+\item a \textbf{type-driven} model of compositional syntax that simultaneously captures \textbf{dependency-} and \textbf{function-argument- structures}; not a world first, but a close second, by 30 years
+\item a big, open-source, \textbf{well-typed dataset} of proof-derivations for written Dutch
+\item the \textbf{first supertagger} to correctly \textbf{construct novel type assignments}, operating without a fixed lexicon
+\item the current \textbf{state of the art} supertagger that outperforms accuracy benchmarks \textbf{across grammar frameworks}, without foregoing the ability to predict rare and unseen assignments
+\item a \textbf{neural operationalization} of linear logic \textbf{proof nets} into a massively parallel, differentiable and performant proof search engine
+\item several attempts at dry humor, to varying degrees of success; in the words of my beloved: ``this thesis is a joke''
+\end{itemize}
+
+
+\paragraph{Publications}
+Chapter~\ref{chapter:chapter_2} is a novel, extended collage of work taking secondary role in \citet{kogkalidis-etal-2020-aethel} and \citet{rouss}.
+Chapter~\ref{chapter:chapter_3} is an extended version of \citet{kogkalidis-etal-2020-aethel}.
+Chapter~\ref{chapter:chapter_4} is based on \citet{kogkalidis-etal-2019-constructive,kogkalidis-etal-2020-neural} and \citet[preprint]{kogkalidis2022geometryaware}.
+The whole manuscript is a bigger, better, faster, stronger (or so I'd like to think) version of early work delivered as part of my master's thesis~\cite{https://doi.org/10.48550/arxiv.1909.02955}.
+
+
+\bibliographystyle{abbrvnat}
+\bibliography{bibliography}
+}
