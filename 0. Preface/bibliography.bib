@@ -1,0 +1,70 @@
+@inproceedings{kogkalidis-etal-2019-constructive,
+    title = "Constructive Type-Logical Supertagging With Self-Attention Networks",
+    author = "Kogkalidis, Konstantinos  and
+      Moortgat, Michael  and
+      Deoskar, Tejaswini",
+    booktitle = "Proceedings of the 4th Workshop on Representation Learning for NLP (RepL4NLP-2019)",
+    month = aug,
+    year = "2019",
+    address = "Florence, Italy",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/W19-4314",
+    doi = "10.18653/v1/W19-4314",
+    pages = "113--123",
+    abstract = "We propose a novel application of self-attention networks towards grammar induction. We present an attention-based supertagger for a refined type-logical grammar, trained on constructing types inductively. In addition to achieving a high overall type accuracy, our model is able to learn the syntax of the grammar{'}s type system along with its denotational semantics. This lifts the closed world assumption commonly made by lexicalized grammar supertaggers, greatly enhancing its generalization potential. This is evidenced both by its adequate accuracy over sparse word types and its ability to correctly construct complex types never seen during training, which, to the best of our knowledge, was as of yet unaccomplished.",
+}
+@misc{kogkalidis2022geometryaware,
+    title={Geometry-Aware Supertagging with Heterogeneous Dynamic Convolutions},
+    author={Konstantinos Kogkalidis and Michael Moortgat},
+    year={2022},
+    eprint={2203.12235},
+    archivePrefix={arXiv},
+    primaryClass={cs.CL}
+}
+@inproceedings{kogkalidis-etal-2020-neural,
+    title = "Neural Proof Nets",
+    author = "Kogkalidis, Konstantinos  and
+      Moortgat, Michael  and
+      Moot, Richard",
+    booktitle = "Proceedings of the 24th Conference on Computational Natural Language Learning",
+    month = nov,
+    year = "2020",
+    address = "Online",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2020.conll-1.3",
+    doi = "10.18653/v1/2020.conll-1.3",
+    pages = "26--40",
+    abstract = "Linear logic and the linear λ-calculus have a long standing tradition in the study of natural language form and meaning. Among the proof calculi of linear logic, proof nets are of particular interest, offering an attractive geometric representation of derivations that is unburdened by the bureaucratic complications of conventional prooftheoretic formats. Building on recent advances in set-theoretic learning, we propose a neural variant of proof nets based on Sinkhorn networks, which allows us to translate parsing as the problem of extracting syntactic primitives and permuting them into alignment. Our methodology induces a batch-efficient, end-to-end differentiable architecture that actualizes a formally grounded yet highly efficient neuro-symbolic parser. We test our approach on {\AE}Thel, a dataset of type-logical derivations for written Dutch, where it manages to correctly transcribe raw text sentences into proofs and terms of the linear λ-calculus with an accuracy of as high as 70{\%}.",
+}
+@mastersthesis{https://doi.org/10.48550/arxiv.1909.02955,
+  title={Extracting and Learning a Dependency-Enhanced Type Lexicon for {D}utch},
+  author={Kogkalidis, Konstantinos},
+  year={2019},
+  school={Utrecht University},
+  url={https://studenttheses.uu.nl/handle/20.500.12932/32880},
+}
+@inproceedings{kogkalidis-etal-2020-aethel,
+    title = "{{\AE}THEL}: Automatically Extracted Typelogical Derivations for {D}utch",
+    author = "Kogkalidis, Konstantinos  and
+      Moortgat, Michael  and
+      Moot, Richard",
+    booktitle = "Proceedings of the Twelfth Language Resources and Evaluation Conference",
+    month = may,
+    year = "2020",
+    address = "Marseille, France",
+    publisher = "European Language Resources Association",
+    url = "https://aclanthology.org/2020.lrec-1.647",
+    pages = "5257--5266",
+    abstract = "We present {\AE}THEL, a semantic compositionality dataset for written Dutch. {\AE}THEL consists of two parts. First, it contains a lexicon of supertags for about 900 000 words in context. The supertags correspond to types of the simply typed linear lambda-calculus, enhanced with dependency decorations that capture grammatical roles supplementary to function-argument structures. On the basis of these types, {\AE}THEL further provides 72 192 validated derivations, presented in four formats: natural-deduction and sequent-style proofs, linear logic proofnets and the associated programs (lambda terms) for meaning composition. {\AE}THEL{'}s types and derivations are obtained by means of an extraction algorithm applied to the syntactic analyses of LASSY Small, the gold standard corpus of written Dutch. We discuss the extraction algorithm and show how {`}virtual elements{'} in the original LASSY annotation of unbounded dependencies and coordination phenomena give rise to higher-order types. We suggest some example usecases highlighting the benefits of a type-driven approach at the syntax semantics interface. The following resources are open-sourced with {\AE}THEL: the lexical mappings between words and types, a subset of the dataset consisting of 7 924 semantic parses, and the Python code that implements the extraction algorithm.",
+    language = "English",
+    ISBN = "979-10-95546-34-4",
+}
+@inbook{rouss,
+	title = {Diamonds are Forever: Theoretical and Empirical Support for a Dependency-Enhanced Type Logic},
+	author= {Moortgat, Michael and Kogkalidis, Konstantinos and Wijnholds, Gijs},
+	editor = {Loukanova, Roussanka and Le{F}anu Lumsdaine, Peter and Muskens, Reinhard},
+	year = {2023},
+	publisher = {Springer},
+	series = {Studies in Computational Intelligence (SCI)},
+	booktitle = {Logic and Algorithms in Computational Linguistics 2021}
+}
