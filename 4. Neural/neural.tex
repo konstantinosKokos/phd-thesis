@@ -319,7 +319,7 @@ The two, combined, lift the closed world assumption, paving the way for the last
 
 \subsection{Supertagging as NMT}
 \label{subsection:snmt}
-The first attempt at a constructive supertagger is described in detail by~\citet{kogkalidis-etal-2019-constructive}.
+The first attempt at a constructive supertagger is described in detail in~\citet{kogkalidis-etal-2019-constructive}.
 Like all first attempts, it is characterized by a degree of cute naivety combined with an overeager execution.
 Types are first viewed as the corresponding formula trees, and then traversed in a depth-first left-first fashion (i.e. read off in Polish notation).
 Each type thus yields a type-word, viewed as the produce of a tiny recursive grammar (a context free one), the alphabet of which would be the union of propositional constants and logical connectives.
@@ -425,7 +425,7 @@ Secondary advantage \#2 is the possibility for a hyper-articulated heuristic sea
 A different symbol might drastically alter and affect the future of the decoding, locally within the current type or globally across the full sequence.
 Other than potentially improving the sample efficiency of beam search, this can further be used to strictly enforce structural constraints, as we will also see in a bit.
 
-\paragraph{Downsides}
+\paragraph{Limitations}
 With the benefit of hindsight, it is also clear the approach suffers from a series of limitations.
 First and foremost, there's the superficial fact that overall accuracy is far from groundbreaking, pointing to the need for architectual search and hyper-optimization adjustments.
 A deeper issue is the computational penalty of the naive application of the transformer; unfolding supertags to primitive symbols has added a second product in the formulation of (\ref{equation:lstm_lm}).
@@ -582,7 +582,7 @@ The convention is that shallow nodes (presumably the easiest ones) are decoded f
 
 \subsubsection{Geometry-Aware Supertagging}
 \label{subsubsection:gas}
-A suggestive operationalization of this novel approach is described by~\cite{kogkalidis2022geometryaware}; we'll expand upon it here.
+A suggestive operationalization of this novel approach was made public in~\citet[preprint]{kogkalidis2022geometryaware}; we'll expand upon it here.
 First off, the spatiotemporal dependencies we seek to implement do not follow the inductive biases of any run-of-the-mill architecture we may find precompiled in some machine learning library.
 The closest paradigm available are graph neural networks (GNNs), which are essentially the most general class of neural architectures, suitable for learning on arbitrary graphs and manifolds (points, sequences, canonical grids, trees -- these are all just very specific instances of graphs: every neural network is a subclass of a graph neural network).
 GNNs are usually formulated on the basis of some graph structure, where primitive graph entries (edges, nodes or both) are iteratively updated in a series of so-called \textit{message passing} rounds.
@@ -690,7 +690,8 @@ A single iteration of step (iii) over the abstract canvas of Figure~\ref{figure:
 				\node (dots) at (0,0) {\dots};
 			\end{scope}
     \end{tikzpicture}
-    \end{subfigure}\\[\midsep]
+    \end{subfigure}\\[\smallsep]
+    \rule{1\textwidth}{0.5pt}\\[\smallsep]
     	t=0\textsuperscript{(a)}\hfill\begin{subfigure}{0.85\textwidth}
 	\begin{tikzpicture}
 			\begin{scope}[xshift=-100pt]
@@ -731,7 +732,8 @@ A single iteration of step (iii) over the abstract canvas of Figure~\ref{figure:
 				\node (dots) at (0,0) {\dots};
 			\end{scope}
     \end{tikzpicture}
-    \end{subfigure}\\[\midsep]
+    \end{subfigure}\\[\smallsep]
+    \rule{1\textwidth}{0.5pt}\\[\smallsep]
     	t=0\textsuperscript{(b)}\hfill\begin{subfigure}{0.85\textwidth}
 	\begin{tikzpicture}
 			\begin{scope}[xshift=-100pt]
@@ -772,7 +774,8 @@ A single iteration of step (iii) over the abstract canvas of Figure~\ref{figure:
 				\node (dots) at (0,0) {\dots};
 			\end{scope}
     \end{tikzpicture}
-    \end{subfigure}\\[\midsep]
+    \end{subfigure}\\[\smallsep]
+    \rule{1\textwidth}{0.5pt}\\[\smallsep]
   	t=0\textsuperscript{(c)}\hfill\begin{subfigure}{0.85\textwidth}
 	\begin{tikzpicture}
 			\begin{scope}[xshift=-100pt]
@@ -817,7 +820,8 @@ A single iteration of step (iii) over the abstract canvas of Figure~\ref{figure:
 			\draw[<-] (wa) to[bend left] (wb);
 			\draw[<-] (wb) to[bend left] (wc);
     \end{tikzpicture}
-    \end{subfigure}\\[\midsep]
+    \end{subfigure}\\[\smallsep]
+    \rule{1\textwidth}{0.5pt}\\[\smallsep]
     	t=1\textsuperscript{(a)}\hspace{18pt}\begin{subfigure}{0.85\textwidth}
 	\begin{tikzpicture}
 			\begin{scope}[xshift=-100pt]
@@ -888,7 +892,7 @@ A single iteration of step (iii) over the abstract canvas of Figure~\ref{figure:
 			\draw[->] (wc) to[bend right] (c3);
     \end{tikzpicture}
     \end{subfigure}\\[\midsep]
-    \caption{The first decoding iteration from start to finish.}
+    \caption{A frame by frame view of the first decoding step.}
     \label{figure:decoding_process}
 \end{figure}
 
@@ -1276,7 +1280,7 @@ Put simply, learning sparse assignments is \textit{easier} in grammars that cont
 The impact of this finding alone is bigger than the menial architecture itself -- it is basically an open invitation to more elaborate, more strict and more regular lexicalized theories, and a promise that no matter how statistically unruly they might seem, there will always be an architectural solution to accommodate them.
 In today's machine learning frenzy, it is a statement of purpose lost: tools for the task, and not tasks for the tools.
 
-\paragraph{Downsides}
+\paragraph{Limitations}
 Despite its objective success, the methodology is not without limitations.
 Most importantly, the parallel nature of the decoder trades inference speed for an incompatibility with greedy algorithms like beam search and an inability to produce local assignment rankings.
 Put plainly, obtaining more than the "best" category assignment per word is not straightforward, a fact which can prove harmful for coverage of a downstream parser.
@@ -1311,8 +1315,6 @@ Practically speaking, type safety is not for free: it costs back-and-forth betwe
 Proof nets, on the other hand, are the embodiment of data parallelism, the most saught after property of neural computation and the holy grail of efficient training and optimization.
 Decision making and validity testing are detached: we must first make all the decisions that are to be made, and only then can we check whether they are structurally legitimate.
 This laxness was the very reason we abandoned proof nets in the first place, but it is exactly what makes them so very appealing now.
-
-%What follows is a retrospective revision and expansion of the ideas and experiments of \citet{kogkalidis-etal-2020-neural}.
 
 \subsection{Parsing as Permutation}
 So what exactly is the structure of decisions encoded in a proof net?
@@ -1523,7 +1525,7 @@ To that end, we simply need to jointly train supertagging and axiom linking in a
 }
 
 \subsubsection{Implementation(s)}
-Since the original publication of \citet{kogkalidis-etal-2020-neural}, the architecture was revised with minor micro-adjustments, and retrained with each new major adaptation of \AE thel, charting a multidimensional course of only partially compatible successive stops.
+Since the original version of \citet{kogkalidis-etal-2020-neural}, the architecture was revised with minor micro-adjustments, and retrained with each new major adaptation of \AE thel, charting a multidimensional course of only partially compatible successive stops.
 Rather than suffocate us all with irrelevant distractions and boring tables of deltas, I think it's best if I stick to describing in detail only the current and most recent implementation, drawing parallels with isolated historical insights only when relevant.
 
 \paragraph{Supertagger Integration}
@@ -1686,7 +1688,7 @@ In trivializing the difficulties associated with hypothetical reasoning, they br
 The same pipeline we used here applies to \textit{any} grammar logic in the linear tradition -- type theoretic purity is no longer a foe to shy away from, but a free pass at proof nets and their vectorized forms.
 The framework is finally open to modification; explicit structural constraints additional to linearity may always be imported as objective functions or representational adjustments.
 
-\paragraph{Downsides}
+\paragraph{Limitations}
 The key issue with the end-to-end architecture is inherited from the supertagger -- our inability to mix and match multiple assignments is now here to haunt us with a sharp 13\% reduction in absolute coverage.
 Beyond that, the implementation described capitalizes on a disentanglement between neural and symbolic operations for the sake of efficiency.
 But doing so comes at the heavy price of a unidirectional data flow that lacks cross-component feedback; even though tagger and parser share the same representations, there's no communication from the latter to the former.

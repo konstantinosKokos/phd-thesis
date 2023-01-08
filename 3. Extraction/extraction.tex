@@ -38,7 +38,7 @@ For the sake of scientific transparency, I have no choice other than to expose i
 \section{Preliminaries}
 \label{section:preliminaries}
 
-\subsection{Going Dutch}
+\subsection{Dutch (or: if German had a stroke)}
 For our linguistic inquiries, the focus will be on Dutch.
 Other than being the language I was contractually obliged to conduct this research on, Dutch is an interesting specimen, the idiosyncracies of which have in the past proven quite a topic of debate for others, and a source of headaches for myself.
 I don't have any intention (or delusion of competence) to casually throw an overview of the Dutch grammar here; I'm certain that interested parties will be able to easily get their hands on some introductory guide way more adequate than any I could have ever written.
@@ -70,12 +70,12 @@ As a corollary, the infinitives of (non-nested) verbal complements (\ref{gloss:s
 Frans wants merchant become[\abbrv{inf}]\\
 \glt{`Frans wants to be a merchant.'}
 \ex\label{gloss:embedded_q}
-\gll Weet je wie kaas verkoopt-?\\
+\gll Weet je wie kaas verkoop-t?\\
 know you who cheese sell-\abbrv{prs.3sg}\\
 \glt{`Do you know who sells cheese?'}
 \end{xlist}
 \end{exe}
-Interestingly, the language does not make an overt distinction between an object- and a subject- relative pronoun; combined with the SOV word order, and the absence of case markings, the effect is that the two relative clause types end up having the exact same surface form when the grammatical gender of the antecedent noun and the non-gap embedded argument are the same -- contrast the two sentences (\ref{gloss:rc_ambiguity}) below, where the first one is amenable to two different readings.
+Interestingly, the language does not make an overt distinction between an object- and a subject- relative pronoun; combined with the SOV word order, and the absence of morphological case markings, the effect is that the two relative clause types end up having the exact same surface form when the grammatical gender of the antecedent noun and the non-gap embedded argument are the same -- contrast the two sentences (\ref{gloss:rc_ambiguity}) below, where the first one is amenable to two different readings.
 \begin{exe}
 \ex\label{gloss:rc_ambiguity}
 \begin{xlist}
@@ -177,8 +177,6 @@ Long story short, Dutch word order is a complex puzzle that is not to be trifled
 	\caption{Crossing dependencies in the 2-verb cluster of Gloss~\ref{gloss:ipp_tv}.}
 	\label{figure:xdep_udparse}
 \end{figure}
-
-%A superficial exposition of some interesting Dutch phenomena will nevertheless follow later on in this chapter's conclusion, where they can be paired with the analyses they are prescribed.
 
 \subsection{Parsing: Recognition vs. Discovery}
 Our journey has to start with some painful observations.
@@ -594,7 +592,7 @@ Lassy treats the non-finite verbal forms (participles and infinitives) as verbal
 Obviously, participles used for the passive or the perfect and infinitives in verbal complements cannot possibly find all these arguments, some being located in higher levels of the dependency graph.
 To resolve this, Lassy opts for establishing phantom nodes coindexed with the so-called understood argument; the more non-finites in the path between the one under scrutiny and the top level clause, the more phantom nodes are inserted.
 Some of these nodes are of a syntactic quality:  non-finite forms of transitives used in passive constructions refer back to the auxiliary subject as their object.
-This makes past participles consistent with their use in the perfect, and infinitives consistent with their use in subordinate clauses.
+This makes past participles consistent with their use in the perfect, and infinitives consistent with their use in subordinate clauses -- we'll let it slide.
 Others are purely semantic: both past participles and infinitives select for a subject (e.g. the ``agent'' of the action they denote), which can be any of the main clause's arguments.
 We are not happy with the latter, since no syntactic item allows for the duplication of material they demand, and they have no place in the compositional structure we seek to extract; we thus invoke our moral right to cast them away.%
 	\footnote{Funnily, our recurring complaint with Lassy so far has been that it gives us too little. 
@@ -866,7 +864,7 @@ Now, if you have a sneaking suspicion that this looks oddly easy, you're right.
 We have not yet made any attempt to cover cases of hypothetical reasoning triggered by relative clauses, wh-questions and passive constructions.
 The hypotheses in such phenomena have already been established by the phantom nodes underlying them -- all we need to do is know when to withdraw them.
 The criterion we'll follow applies to the proofs assigned to phrasal complements, and inspects the variables contained therein.
-Variables and nodes are in a one-to-one relation, owing to their naming scheme; from a variable, we can refer to its node, and from a node we can extract its index, inducing a many-to-one variable to index relation.
+Variables and nodes are in a one-to-one relation, owing to their common naming scheme; from a variable, we can refer to its node, and from a node we can extract its index, inducing a many-to-one variable to index relation.
 Any variable's that maps to an index coinciding with that of the phrasal head (for subordinate clauses), the phrasal subject (for passives), or the phrasal subject of any ancestor phrase (for passives nested under auxiliaries), the variable is abstracted over.
 The complement then becomes a functional type, before the diamond introduction rule is applied.
 This forces the head to attain a higher-order type that \textit{licenses} the hypothetical argument.
@@ -1480,40 +1478,241 @@ The most common word of \AE thel is the gendered definite determiner \textex{de}
 	\label{figure:entry_sparsity}
 \end{figure}
 
+\pagebreak
 
-%\subsubsection{Quality Control}
-%We made it through the boring part!
-%With all the numbers laid down, all that's left to do is showcase on how \AE thel treats common and idiosyncratic constructios of Dutch.
-%For space economy, we'll drop the natural deduction presentation in favor of the compactified $\lambda$ terms -- we've seen enough back-and-forths by now to take the training wheels off.
-%
-%\paragraph{Infinitives \& Clusters}
-%Infinitival forms commonly occur as the verbal complements of a modal, auxiliary or perception verb.
-%Depending on the modal, the preposition \texttr{te}{to}, or the discontinuous \texttr{om ... te}{to}, may be either necessary, optionally admissible or completely disallowed.
-%Dutch subordinate clauses follow an SOV order, meaning that the chaining of verbs requiring non-finite complements inadvertently leads to \textit{verb clusters}, i.e. collections of two or more verbs situated within the dependent clause and adjacent to one another.
-%Verb clusters are marked by their inability to accommodate non-verbal material, and may follow a number of different word orders, which don't necessarily abide by the order of selectional dominance.
-%The question of which factors influence the grammaticality of word order variations  is a hot potato and a topic of active research for decades -- to make matters worse, these factors tend to differ between regional variations of the language.
-%\linebreak\begin{exe}
-%\ex
-%\nolistbreak\begin{xlist}
-%\ex {\small\fname{WS-U-E-A-0000000046.p.8.s.6(1)}}
-%\glll Hij erkent dat hij de kamer onjuist ge\"-informeer-d heeft .\\
-%He admits that he the chamber wrongly \abbrv{pst.ptcp}-inform-\abbrv{circ} has .\\
-%{$\vnw[s]$}
-%{$\ddia{vc}\cp[s]\li\ddia{su}\vnw[s]\li\smain[s]$}
-%{$\ddia{cmpbody}\ssub[s]\li\cp[s]$}
-%{$\vnw[s]$}
-%{$\dbox{det}(\n[s]\li\np[s]$}
-%{$\n[s]$}
-%{$\dbox{mod}(\ppart[s]\li\ppart[s]$}
-%{$\ddia{obj1}\np[s]\li\ppart[s]$}
-%{$\ddia{vc}\ppart[s]\li\ddia{su}\vnw[s]\li\ssub[s]$}
-%{$\punct[s]$}\\
-%\glt{\small $\term{
-%	\con{1}
-%	~\ddiaintro{vc}(\con{2}~\ddiaintro{vc}(\dboxelim{mod}\con{6}~(\con{7}~\ddiaintro{obj1}(\dboxelim{det}\con{4}~\con{5}))))
-%	~\ddiaintro{su}(\con{0})
-%	}$}
-%\glt{`He admits that he has wrongly informed the chamber.'}
+\subsubsection{Quality Control}
+We made it through the boring part!
+With all the numbers laid down, all that's left to do is showcase how \AE thel treats common and idiosyncratic constructios of Dutch.
+For space economy, we'll drop the natural deduction presentation in favor of the compactified $\lambda$ terms -- we've seen enough back-and-forths by now to take the training wheels off.
+The examples to follow contain a third line for type assignments, and the prescribed $\lambda$ term before the free translation.
+
+\paragraph{Relative Clauses}
+The derivational ambiguity attributed to relative clauses is now implicitly cast into lexical type ambiguity -- the relativizer obtains a different type assignment depending on the type of relative clause it introduces.
+Compare the type assignments to the relativizer \textex{die} in the examples below.
+\begin{exe}
+\ex {\small\fname{WS-U-E-A-0000000215.p.25.s.1(1)}}
+\glll Beelden die slechte herinneringen oproepen .\\
+Pictures that bad memories evoke . \\
+	$\con{0}::\np[s]$
+	$\con{1}::\ddia{relcl}(\ddia{su}\vnw[s]\li\ssub)\li\dbox{mod}(\np[s]\li\np[s])$
+	$\con{2}::\dbox{mod}(\np[s]\li\np[s])$
+	$\con{3}::\np[s]$
+	$\con{4}::\ddia{obj1}\np[s]\li\ddia{su}\vnw[s]\li\ssub$
+	$\punct[s]$\\
+\glt{$\small\term{
+	\dboxelim{mod}(\con{1}~
+		\ddiaintro{relcl}(
+			\con{4}~
+			\ddiaintro{obj1}(
+				\dboxelim{mod}\con{2}
+				~\con{3}
+			)
+		)
+	)
+	~\con{0}
+}$}
+\glt{`Pictures that evoke bad memories.'}
+\ex  {\small\fname{pc-ind-001645-nl-sen.p.12.s.1(13)}}
+\glll de strategie die ze volgen is eeuwenoud .\\
+the strategy that they follow is centuries.old .\\
+	$\con{0}::\dbox{det}(\n[s]\li\np[s])$ 
+	$\con{1}::\n[s]$
+	$\con{2}::\ddia{relcl}(\ddia{obj1}\vnw[s]\li\ssub)\li\dbox{mod}(\np[s]\li\np[s])$
+	$\con{3}::\vnw[s]$
+	$\con{4}::\ddia{obj1}\vnw[s]\li\ddia{su}\vnw[s]\li\ssub$
+	$\con{5}::\ddia{predc}\adj[s]\li\ddia{su}\np[s]\li\smain[s]$
+	$\con{6}::\adj[s]$
+	$\punct[s]$\\
+\glt{$\small\term{
+	\con{5}
+	~\ddiaintro{predc}\con{6}
+	~\ddiaintro{su}(
+		\dboxelim{mod}(\con{2}~\ddiaintro{relcl}(\lam \Var{0}.\con{4}~\Var{0}~\ddiaintro{su}\con{3}))
+	~(\dboxelim{det}\con{0}~\con{1})
+	)
+}$}
+\glt{`the strategy they follow is centuries old'}
+\end{exe}
+
+\paragraph{Word Order \& Sentential Types}
+Similarly, word order may not be formally treated, but the subcategorization of sentential types provides a heuristic clue toward what the correct association between verbal arguments and their sentential positioning should be.
+Compare the distinct positioning of the verbal head \textex{heeft} in the examples below and how it reflects on its type assignment.
+\begin{exe}
+\ex {\small\fname{WR-P-P-I-0000000130.p.1.s.1(1)}}\label{gloss:smain_ta}
+\glll Vet heeft geen smaak .\\
+Fat has no taste . \\
+	$\con{0}::\np[s]$
+	$\con{1}::\ddia{obj1}\np[s]\li\ddia{su}\np[s]\li\smain[s]$
+	$\con{2}::\dbox{mod}(\np[s]\li\np[s])$
+	$\con{3}::\np[s]$
+	$\punct[s]$\\
+\glt{$\small\term{
+	\con{1}~
+	\ddiaintro{obj1}(\dboxelim{mod}\con{2}~\con{3})~\ddiaintro{su}\con{0}
+}$}
+\glt{`Fat has no taste.'}
+\ex {\small\fname{WR-P-P-C-0000000008.p.16.s.1(2)}}\label{gloss:svi_ta}
+\glll Heeft uw woning mechanische ventilatie ?\\
+Has your residence mechanical ventilation ?\\
+	$\con{0}::\ddia{obj1}\np[s]\li\ddia{su}\np[s]\li\svi[s]$
+	$\con{1}::\dbox{det}(\n[s]\li\np[s])$
+	$\con{2}::\n[s]$
+	$\con{3}::\dbox{mod}(\np[s]\li\np[s])$
+	$\con{4}::\np[s]$
+	$\punct[s]$\\
+\glt{$\small\term{
+	\con{0}
+	~\ddiaintro{obj1}(
+		\dboxelim{mod}\con{3}~\con{4}
+	)
+	~\ddiaintro{su}(
+		\dboxelim{det}\con{1}~\con{2}
+	)
+}$}
+\glt{`Does your residence have mechanical ventilation?'}
+%%Let about.this no misunderstanding be .\\
+%%	$\ddia{vc}\infp[s]\li\ddia{obj1}\np[s]\li\svi[s]$
+%%	$\dbox{mod}(\infp[s]\li\infp[s])$
+%%	$\dbox{mod}(\np[s]\li\np[s])$
+%%	$\np[s]$
+%%	$\infp[s]$
+%%	$\punct[s]$\\
+%%\glt{$\small\term{
+%%	\con{0}
+%%	~\ddiaintro{vc}(\dboxelim{mod}\con{1}~\con{4})
+%%	~\ddiaintro{obj1}(\dboxelim{mod}\con{2}~\con{3})
+%%}$}
+%\end{xlist}
+\end{exe}
+
+\paragraph{Discontinuities}
+Horizontal (i.e. word-order) discontinuities are trivialized by the non-directional type system.
+Neither the discontinuous \texttr{om..te}{to} nor the displaced participle of the separable verb \texttr{wegnemen}{take away} have any difficulty finding their place in the derivation of (\ref{gloss:svp}).
+\begin{exe}
+\ex {\small\fname{WR-P-P-C-0000000048.txt-162(6)}}\label{gloss:svp}
+\glll {Om\textrangle} eventuele twijfel weg {\textlangle{}te} {nemen} \\
+{To\textrangle} potential doubts away {} take \\
+	$\con{0}::\ddia{cmpbody}\ti[s]\li\oti[s]$
+	$\con{1}::\dbox{mod}(\np[s]\li\np[s])$
+	$\con{2}::\np[s]$
+	$\con{3}::\bw[s]$
+	$\con{4}::\ddia{cmpbody}\infp[s]\li\ti[s]$
+	$\con{5}::\ddia{svp}\bw[s]\li\ddia{obj1}\np[s]\li\infp[s]$\\
+\glt{$\small\term{
+	\con{0}
+	~\ddiaintro{cmpbody}(
+		\con{4}~
+		\ddiaintro{cmpbody}(
+			\con{5}~
+			\ddiaintro{svp}\con{3}
+			~\ddiaintro{obj1}(\dboxelim{mod}\con{1}~\con{2})
+		)
+	)
+}$}
+\glt{`To cast away any doubts'}
+\end{exe}
+Likewise, types don't have to vary for the two different placements of past participles in the perfect or the passive; inspect the positioning of the auxiliary \textex{heeft} in relation to the past participle in Examples (\ref{gloss:green}) and (\ref{gloss:red}) below.
+Verb clusters also become straightforward to derive, regardless of the cluster-internal dominance hierarchy.
+%;
+\begin{exe}
+\ex {\small\fname{WS-U-E-A-0000000046.p.8.s.6(1)}} \label{gloss:green}
+\glll Hij erkent dat hij de kamer onjuist ge\"informeerd heeft .\\
+He admits that he the chamber wrongly informed has .\\
+	$\con{0}::\vnw[s]$
+	$\con{1}::\ddia{vc}\cp[s]\li\ddia{su}\vnw[s]\li\smain[s]$
+	$\con{2}::\ddia{cmpbody}\ssub[s]\li\cp[s]$
+	$\con{3}::\vnw[s]$
+	$\con{4}::\dbox{det}(\n[s]\li\np[s])$
+	$\con{5}::\n[s]$
+	$\con{6}::\dbox{mod}(\ppart[s]\li\ppart[s]$
+	$\con{7}::\ddia{obj1}\np[s]\li\ppart[s]$
+	$\con{8}::\ddia{vc}\ppart[s]\li\ddia{su}\vnw[s]\li\ssub[s]$
+	$\punct[s]$\\
+\glt{\small $\term{
+	\con{1}
+	~\ddiaintro{vc}(\con{2}~\ddiaintro{vc}(\dboxelim{mod}\con{6}~(\con{7}~\ddiaintro{obj1}(\dboxelim{det}\con{4}~\con{5}))))
+	~\ddiaintro{su}(\con{0})
+	}$}
+\glt{`He admits that he has wrongly informed the chamber.'}
+\nolistbreak\ex {\small\fname{WR-P-P-I-0000000173.p.1.s.2(1)}} \label{gloss:red}
+\glll Hij moet begrijpen wat de verdachte heeft bezield .\\
+He must understand what the suspect has possessed .\\
+	$\con{0}::\vnw[s]$
+	$\con{1}::\ddia{vc}\infp[s]\li\ddia{su}\vnw[s]\li\smain[s]$
+	$\con{2}::\ddia{vc}\whsub[s]\li\infp[s]$
+	$\con{3}::\ddia{whbody}(\ddia{su}\vnw[s]\li\ssub[s])\li\whsub[s]$
+	$\con{4}::\dbox{det}(\ww[s]\li\np[s])$
+	$\con{5}::\ww[s]$
+	$\con{6}::\ddia{vc}\ppart[s]\li\ddia{su}\vnw[s]\li\ssub[s]$
+	$\con{7}::\ddia{obj1}\np[s]\li\ppart[s]$
+	$\punct[s]$\\
+\glt{\small $\term{
+		\con{1}
+		~\ddiaintro{vc}(
+			\con{2}
+			~\ddiaintro{vc}(
+				\ddiaintro{whbody}(
+					\con{6}
+					~\ddiaintro{vc}(
+						\ddiaintro{obj1}(
+							\dboxelim{det}\con{4}~\con{5}
+						)
+					)
+				)
+			)			
+		)
+		~\ddiaintro{su}\con{0}
+	}$}
+\glt{`He must understand what possessed the subject.'}
+\end{exe}
+Example (\ref{gloss:red}) is of special interest, showcasing also the absence of ``conversion'' rules --  the nominalized present participle \textex{verdachte} is not cast into a $\np[s]$, but used as-is, forcing a non-standard type assignment to the determiner.
+
+Vertical (i.e. dependency domain) discontinuities are a tad trickier, requiring the $\dxdia{x}\dxbox{x}$ type pattern to unlock.
+Combined with our position-explicit formulation of the $\diamond E$ rules, this has the side-effect of producing rather complicated proofs and terms, even for relatively short and simple sentences.
+In the example below, the hypothetical modifier seeks to apply to a \textit{complete} past participle, forcing the transitive participle forming the passive to \textit{really} apply to a hypothetical object noun phrase, only to then immediately abstract over it, before the whole $\Extraction$ contraption is set to work.
+The result is a term with as many variables as constants -- not a particularly pleasant sight to behold, even if keeping terms and proofs representationally proximal.%
+	\footnote{Selectively using the shortcut notation of Section~\ref{subsubsection:digression} at the user's behest is an option, producing the somewhat more legible: $
+			\con{0}~\ddiaintro{whbody}(
+				\lam \Var{0}.
+				\con{1}
+				~\ddiaintro{vc}(\lam \Var{1}.\dboxelim{mod}\ddiaelim{mod}\dboxelim{x}\ddiaelim{x}\Var{1}~(\con{3}~\Var{1})
+				~\ddiaintro{su}\con{2}				
+			)
+$
+	 .}
+\begin{exe}
+\ex {\small\fname{dpc-bmm-001078-nl-sen.p.1.s.1(1)}}
+\glll Hoe worden modellen ontwikkeld\\
+How become models developed\\
+	$\con{0}::\ddia{whbody}(\dxdia{x}\dxbox{x}\ddia{mod}\dbox{mod}(\ppart[s]\li\ppart[s])\li\svi[s])\li\whq[s]$
+	$\ddia{vc}(\ddia{obj1}\np[s]\li\ppart[s])\li\ddia{su}\np[s]\li\svi[s]$
+	$\np[s]$
+	$\ddia{obj1}\np[s]\li\ppart[s]$\\
+\glt{\small
+  $ \displaystyle
+    \begin{aligned} 
+       \term{
+	\con{0}
+	~\ddiaintro{whbody}(
+		\lam \Var{0}.}
+		& \term{\cterm{case } \ddiaelim{x}\Var{0}}
+		 \term{\cterm{ of } \Var{1}}\term{\cterm{ in }}\\
+		& \term{\con{1}~
+			\ddiaintro{vc}\left(
+				\lam \Var{2}.
+				\cterm{case } \ddiaelim{mod}\dboxelim{x}\Var{1}
+				\cterm{ of } \Var{3}
+				\cterm{ in }
+				(\dboxelim{mod}\Var{3}~(\con{3}~\Var{2}))\right)
+				~\ddiaintro{su}\con{2})}\\
+    \end{aligned}
+  $
+}
+\glt{`How are models developed'}
+\end{exe}
+
+\paragraph{Conjunctions}
+
 %\ex {\small\fname{dpc-vla-001175-nl-sen.p.302.s.2(1)}}
 %\glll De jobinhoud van leraren zou moeten kunnen vari\"eren .\\
 %The job-content of teachers will must(\abbrv{inf}) can(\abbrv{inf}) vary(\abbrv{inf}) .\\
@@ -1673,10 +1872,10 @@ The most common word of \AE thel is the gendered definite determiner \textex{de}
 \section{Key References \& Further Reading}
 \label{section:references_3}
 The chapter has presented \AE thel and detailed the process toward its construction.
-The baby version of \AE thel made an early public appearance in my thesis~\cite{https://doi.org/10.48550/arxiv.1909.02955} in what feels like ages ago (but actually was three-something years).
-Back then, it didn't yet have a name, and was just only a partially worked out type lexicon, but its statistical kinks were already becoming obvious.
-The full resource gradually took form as a proof bank proper, and was first described by \citet{kogkalidis-etal-2020-aethel}.
-The chapter is a significantly more mature version of the paper, describing an overhauled version that shares the same general design philosophy but boasts lighter preprocessing (leading to longer and higher quality proofs) and wider coverage (improving linguistic variation).
+The baby version of \AE thel made an early public appearance in my thesis~\cite{https://doi.org/10.48550/arxiv.1909.02955}.
+Back then, it didn't yet have a name, being only a partially worked out type lexicon -- nevertheless, its statistical kinks were already apparent.
+The full resource gradually took form as a proof bank proper, and was initially described in \citet{kogkalidis-etal-2020-aethel}.
+The chapter is a significantly more mature version of the paper, describing an overhauled version that shares the same general design philosophy but with lighter preprocessing (leading to longer and higher quality proofs) and wider coverage (improving linguistic variation).
 The most important feature of the overhaul is the revised extraction algorithm, reimlemented so as to ensure type safety, guaranteeing the formal correctness of the extracted proofs and fixing some suboptimal annotations pertaining to the modal decorations of higher-order types.
 
 My little bubble aside, corpus extraction is a fan favorite for the computationally inclined linguists (or the linguistically inclined computists).

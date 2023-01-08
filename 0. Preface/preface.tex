@@ -21,7 +21,7 @@ Wooo, exciting!
 But also slightly alarming.
 I feel a bit conscious knowing that you might be putting my words under a critical lens – I’ll do my best not to fail your expectations. 
 In the wildcard scenario where you do not fall in any of the above categories, excuse my lack of foresight and know that you are still very welcome, and I am happy to have you around.%
-\footnote{More realistically, if noone ever reads this (far), let this transmission be forever lost to the void.}
+More realistically, if noone ever reads this (far), let this transmission be forever lost to the void.
 
 But enough with you, what about me? 
 At the time of writing, I am in my early thirties and I call myself Kokos. 
@@ -50,36 +50,42 @@ Mean spirited as it may be, it provides an adequate high-level summary of this t
 \begin{flushright} Unknown reviewer, 2019.\end{flushright}
 \end{quote}
 
-Thanks to this fellow scientist's earnest reviewing work, all I have to elucidate here is the thesis' breakdown and its contributions. Starting from the former:
+Thanks to this fellow scientist's earnest reviewing work, all I need to do here is first align the above summary with the manuscript through a chapter breakdown, and then elucidate the thesis' contributions in a child-proof way.
+Starting from the former:
 \begin{enumerate}[labelindent=2pt, itemindent=30pt, labelsep=5pt, widest=Chapter III,align=right,itemsep=5pt]
 \item[\textbf{Chapter~\ref{chapter:preface}}] greets the reader and provides a chapter summary, while also setting the tonal precedents for what is to follow.
-\item[\textbf{Chapter~\ref{chapter:Introduction}}] makes an attempt at a painless introduction to simple type theory and its substructural variants, with an emphasis on linguistics and type-logical grammars.
-We start in Section~\ref{section:simple_type_theory} with a crash course on simple type theory, followed by a transition to a linear types in Section~\ref{section:linear_type_theory}.
-Further into substructural territory, we take a look at Lambek calculi in Section~\ref{section:lambek_calculi}, where more than just linear, our types become immovable and bracket-bound.
-To regain some of the expressivity lost in the passage, we call to the aid of modalities in Section~\ref{section:modalities}.
-We deploy the above as categorial grammars, type-driven frameworks for reasoning about natural language syntax and semantics in Section~\ref{section:linguistics}, with a focus on type-logical grammars and abstract categorial grammars.
+\item[\textbf{Chapter~\ref{chapter:Introduction}}] is an attempt at a painless introduction to simple type theory and its substructural variants, and their significance for linguistics.
+We start in Section~\ref{section:simple_type_theory} with a crash course on simple type theory, a formal model of computation and logical deduction.
+Removing the ability to erase or duplicate logical propositions, we transition to linear type theory in Section~\ref{section:linear_type_theory} -- a place where the motto is resource consciousness and truth is not for free.
+Following along the same path, in Section~\ref{section:lambek_calculi} we take the extra step of making content immovable and bracket-bound to its surroundings, revealing the landscape of Lambek calculi $\logic{(N)L(P)}$.
+To regain some of the expressivity lost in the passage, we call to the aid of modalities in Section~\ref{section:modalities} -- these allow us to reinstate the implicit equivalences of before, now as explicit rules the applicability of which we can control.
+We deploy the above as categorial grammars: type-driven frameworks for reasoning about natural language syntax and semantics in Section~\ref{section:linguistics}.
+We discuss two relevant and related paradigms: multi-modal type-logical grammars and abstract categorial grammars, both of which treat grammatical content as typed propositions.
+Constraints imported by types are used to control grammatical composition, and parsing becomes a process of logical deduction, giving us finally the foundation of this thesis and allowing us to move on.
 \item[\textbf{Chapter~\ref{chapter:chapter_2}}] offers a non-standard usecase for the structural control modalities of the multimodal Lambek family $\logic{(N)L(P)}_{\diamond, \bx}$.
-We begin in Section~\ref{section:phrase_vs_dependecy} with a face-off between the two strands of grammar flavors that have dominated computational linguistics in the past decades, and see how they compare to categorial grammars.
+We begin in Section~\ref{section:phrase_vs_dependecy} with a face-off between the two strands of grammar flavors that have dominated computational linguistics in the past decades, constituency and dependency grammars, and see how they compare to categorial grammars.
 Unsatisfied by the comparison, we move on to Section~\ref{section:modalities_for_dependency}, where we appropriate the modalities resorted to earlier, repurposing them now as dependency domain demarcators.
 \item[\textbf{Chapter~\ref{chapter:chapter_3}}] instantiates the type system as a derivational semantics logic (or abstract syntax logic, depending on which side of the dividing line you stand at), and aligns it with real-world corpus data. 
 We set the stage in Section~\ref{section:preliminaries} with a backstory intended to motivate the design choices behind the logic, and a description of the corpus used.
-We then proceed to describe the proof extraction process and its evaluation in Section~\ref{section:aethel}.
-\item[\textbf{Chapter~\ref{chapter:chapter_4}}] makes for a change of scenery, offering a collection of insights on the neural parsing of substructural grammar logics.
-We first paint a picture of the archetypical categorial grammar parser in Section~\ref{section:parse}, pinpointing the tension points between abstract theory and applied practice.
-We then trace along the history of supertagging in Section~\ref{section:supertagging}, going from its (not-so-ancient) origins all the way to tomorrow.
-We motivate the abolition of the predefined lexicon as a natural step in its evolutionary progress, and provide two convincing implementations to that end.
-Finally, in Section~\ref{section:npn} we propose a neural operationalization for the proof nets of linear logic, and show how this yields a brand new paradigm for parsing substructural grammar logics.
-\item[\textbf{Chapter~\ref{chapter:chapter_5}}] provides some concluding remarks and waves the reader goodbye.
+In Section~\ref{section:aethel}, we proceed to describe how the corpus' analyses can be recast as proof-theoretic inhabitants of our framework.
+We detail the extraction process, the resulting view of the corpus, and its practical evaluation as a stand-alone resource.
+\item[\textbf{Chapter~\ref{chapter:chapter_4}}] makes for a drastic change of scenery, offering a collection of insights on the neural parsing of substructural grammar logics.
+We first paint a picture of the archetypical categorial grammar parser in Section~\ref{section:parse}, pinpointing the tension points between abstract theory and applied practice and illustrating the need for a disciplined merger between the formal and the informal.
+In Section~\ref{section:supertagging} we trace along the history of supertagging: the statistical disambiguation process (and the machinery empowering it) through which a system can automatically infer the most likely type for a lexical item in context (i.e. word in a sentence).
+We start  from its (not-so-ancient) origins all the way to tomorrow, motivating the abolition of a set-in-stone type vocabulary as a natural step in its evolutionary progress and providing two convincing implementations to that end.
+Finally, in Section~\ref{section:npn} we propose a neural operationalization for the proof nets of linear logic.
+Invoking their bureaucracy-free format, we expose a brand new paradigm for the statistical parsing of substructural grammar logics in the \logic{(N)L(P)} lineage.
+\item[\textbf{Chapter~\ref{chapter:chapter_5}}] provides concluding remarks and waves the reader goodbye.
 \end{enumerate}
 
 \paragraph{Contributions}
 Contributions produced and presented in this thesis, organized in bullet points for your convenience and reading pleasure, include:
 \begin{itemize}
-\item a \textbf{type-driven} model of compositional syntax that simultaneously captures \textbf{dependency-} and \textbf{function-argument- structures}; not a world first, but a close second, by 30 years
+\item a \textbf{type-driven} model of compositional syntax that simultaneously captures \textbf{dependency-} and \textbf{function-argument- structures}; not a world first, but a close second by 30 years
 \item a big, open-source, \textbf{well-typed dataset} of proof-derivations for written Dutch
 \item the \textbf{first supertagger} to correctly \textbf{construct novel type assignments}, operating without a fixed lexicon
-\item the current \textbf{state of the art} supertagger that outperforms accuracy benchmarks \textbf{across grammar frameworks}, without foregoing the ability to predict rare and unseen assignments
-\item a \textbf{neural operationalization} of linear logic \textbf{proof nets} into a massively parallel, differentiable and performant proof search engine
+\item the current \textbf{state of the art} supertagger that outperforms accuracy benchmarks \textbf{across grammar frameworks}, without foregoing the ability to predict rare and unseen assignments -- essentially an assurance that sparse and elaborated categorial grammars are of practical use, despite prior disdains
+\item a \textbf{neural operationalization} of linear logic \textbf{proof nets} into a massively parallel, differentiable and hyper-performant proof search engine -- essentially a reconciliation between the modern neural toolbox and the Lambekian tradition, and a call back to typing discipline for categorial practitioners
 \item several attempts at dry humor, to varying degrees of success; in the words of my beloved: ``this thesis is a joke''
 \end{itemize}
 
