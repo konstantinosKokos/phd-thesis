@@ -26,7 +26,7 @@ By that time, Richard Montague had already come up with the fantastically novel 
 With this, he fulfilled Gottlob Frege's long-prophesized principle of compositionality, which would once and for all put the Chomskian tradition to rest\footnote{In some corners of the Earth, this part of the prophecy is yet to transpire.}, ushering linguistics into a new era.
 With the benefit of posterity, it would be tempting for us to act smart and exclaim that Lambek and Montague's ideas were remarkably aligned. 
 In reality, it took another couple of decades for someone to notice.
-The credit is due to Johan van Benthem, who basically pointed out that Lambek's calculi make for the perfect syntactic machinery for Montague's program, seeing as they admit the Curry-Howard correspondence, and are therefore able to drive semantic composition virtually for free (in fact one could go as far as to say that they are the \textit{only} kind of machinery that can accomplish such a feat without being riddled with ad-hoc designs).
+The credit is due to Johan van Benthem, who basically pointed out that Lambek's calculi make for the perfect syntactic machinery for Montague's program, seeing as they admit the Curry-Howard correspondence, and are therefore able to drive semantic composition virtually for free (in fact one could go as far as to say that they are the \textit{only} kind of machinery that can accomplish such a feat without being riddled with ad hoc designs).
 This revelation, combined with the contemporary bloom of substructural logics, was the spark that ignited a renewed interest in Lambek's work.
 The culmination point for this interest was type-logical grammars (or categorial type logics): families of closely related type theories extending the original calculi of Lambek with unary operators lent from modal logic, intended to implement a stricter but more linguistically faithful modeling of the composition of natural language form and meaning.
 
@@ -1786,7 +1786,7 @@ Attempting to produce a derivation for the original version seems like a dead-en
 We are not to blame for this incompetence: the problem lies with the grammar -- we could never hope to capture this behavior with our current machinery.
 Despite their elegance and formal appeal, grammars relying purely on Lambek calculi suffer from an aversion to anomalies like discontinuities and long-distance dependencies, which natural languages tend to exhibit at an unfortunately striking degree.
 
-One could of course attept to cop out of the problem by just introducing ad-hoc raised forms for movable parts, one per distinct position they can be found at. 
+One could of course attept to cop out of the problem by just introducing ad hoc raised forms for movable parts, one per distinct position they can be found at. 
 The repercussions of such a move would soon, however, prove catastrophic.
 On the one hand, the once reliably concise lexicon would become overpopulated by endless variations on the same theme: each expansion point of a lexical type would percolate into all other lexical items it interacts with (either as consumers or producers thereof), the effect cascading at progressively larger lexical neighborhoods, until (if ever) an eventual equilibrium is reached.
 On the other hand, raised types obfuscate the functional relations and constituency structures we have worked so hard to reveal and incorporate, virtually beating the very purpose of the logic.
@@ -1945,7 +1945,7 @@ The proof of Figure~\ref{figure:lovecract_rel_clause} employs this typing in com
 \label{subsubsection:intricacies}
 The analysis just performed illustrated the necessity of (at least) two distinct types for the same string \textex{that}, hinting at the fact that the lexicon is \textit{not a function} from words to types, but rather a \textit{relation} between them.
 One, more opinionated than I, might argue that each type is mapped to a distinct lexical item (one per relativization type), and that the identification between their strings is a mere coincidence, an idiosyncracy of the language, or anyway irrelevant; even if a string is multi-typed, each type is a witness to a unique latent word hiding behind it.
-Of different effect but similar flavour would be the line of defense that appeals to null syntax, a covert process that can conditionally nominalize infinitives, determine plural nouns, relativize gerunds or do any sort of thing, really; a word is never multi-typed, but ad-hoc type conversions can take place out of the blue.
+Of different effect but similar flavour would be the line of defense that appeals to null syntax, a covert process that can conditionally nominalize infinitives, determine plural nouns, relativize gerunds or do any sort of thing, really; a word is never multi-typed, but ad hoc type conversions can take place out of the blue.
 Even under premises as radical as the above, occassions of type undeterminism are all but rare.
 Consider for instance the verb \textex{to have}, whose argument structure for the possessive meaning alone) is specified (according to its FrameNet entry~\cite{baker1998berkeley}) as having mandatory owner and possession semantic arguments (corresponding to syntactic subject and direct object), but also any combination of depictive, duration, explanation, manner and temporal optional complements, in various orders -- each variation necessarily expressed with a distinct type.
 In our case, we need the type:
@@ -2248,7 +2248,7 @@ Note that, despite appearances, $\mathtt{str}$ is a first-order type $*\li *$ (w
 Abstract categorial grammars are characterized by two measures of complexity: the maximal order of source constants' types, and the maximal order of the codomain of $\eta_0$.
 The two together constitute the grammar's \textit{class}, which concisely describes the sort of languages the grammar can model.
 This can prove effective in revealing a more granular stratification underlying the Chomsky hierarchy of formal grammars, when the latter are embedded into abstract categorial equivalents; as such, the framework has found extensive use as a meta-language for the study and formalization of formal grammars (as done by \citet{de2004expressive}, inter alia).
-\footnote{There is a certain irony in formal grammars requiring or benefiting from formalization. If you're having trouble parsing this, consider that formal languages are essentially ad-hoc rules on strings; by formalization we mean giving these rules the type-theoretic treatment they deserve.}
+\footnote{There is a certain irony in formal grammars requiring or benefiting from formalization. If you're having trouble parsing this, consider that formal languages are essentially ad hoc rules on strings; by formalization we mean giving these rules the type-theoretic treatment they deserve.}
 
 To see this in practice, let's have some meta-fun pretty-printing the types of $\logic{(N)L}_{\diamond, \bx}$ by modeling their type formation rules (which constitute a context-free grammar) using an abstract categorial grammar.
 First item on the agenda is the specification of our two logics $\Sigma$ and $\Tau$.
@@ -2438,7 +2438,7 @@ Obviously, a categorial grammar stripped of hypothetical reasoning would not amo
 To regain some of the lost expressivity (ideally, exactly and only as much as needed), combinatory categorial grammars incorporate a collection of rules lent from the combinatory logic of~\citet{curry1958combinatory}, albeit in restricted form.
 The first such rule is morpholexical in nature; it allows lexical items to raise their types once, before administering them to the syntactic derivation, forcing a flip in the local function/argument structure and allowing different semantic scopes to take effect as/when needed.
 The remaining rules are essentially four instances of function composition -- one for each unique pair of directional implications considered.
-The absence of hypothetical reasoning means that these are no longer derivable theorems of some underlying type theory, but ad-hoc schemata, fixed a priori to fit their designated purpose.
+The absence of hypothetical reasoning means that these are no longer derivable theorems of some underlying type theory, but ad hoc schemata, fixed a priori to fit their designated purpose.
 To counteract overgeneration, these rules are made available only to a pre-defined subset of the sum of lexical types, empirically specified.
 With respect to the interface, a combinatory derivaton can be cast into a semantic $\lam$ term the usual way; by assigning to each rule a corresponding term constructor.
 Note, however, that this procedure is a non-invertible \textit{transformation} rather than an isomorphic correspondence; the purity of the Curry-Howard correspondence is lost, traded away for the aforementioned decrease in parsing complexity.
@@ -2462,7 +2462,7 @@ The term calculus of hybrid type-logical grammars requires a translation of logi
 The term constructors assigned to the elimination (resp. introduction) of the Lambek connectives is that of structure concatenation (resp. separation), whereas the term constructors assigned to the linear connective are standard function application and variable abstraction.
 The marriage of these two layers of abstraction in the same term calculus might seem unorthodox or at least aesthetically displeasing, but is not without merit.
 Concetenative terms allow the framework to relax the lexical pressure of an abstract categorial grammar by preserving the canonical categorial grammar treatment of local syntactic phenomena.
-Applicative terms constitute localized and controlled bursts of ad-hoc expressivity that can exceptionally allow the derivation of higher-order and non-local phenomena normally inacessible to the OG Lambek calculi.
+Applicative terms constitute localized and controlled bursts of ad hoc expressivity that can exceptionally allow the derivation of higher-order and non-local phenomena normally inacessible to the OG Lambek calculi.
 Hybrid type-logical grammars are a relatively new addition to the family, and are subject to ongoing research, both from the linguistic and the proof-theoretic perspective~\cite{kubota2020type,moot2022logical}.
 As to why one would choose this setup over alternatives, your guess is as good as mine; hybrid proponents proclaim the system less obscure and more fit for linguistic applications~\cite{kubota2020type} -- external validation is still pending.
 

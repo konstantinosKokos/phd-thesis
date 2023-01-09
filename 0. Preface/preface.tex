@@ -10,17 +10,17 @@ Introductions would normally be in order, but since this communication channel i
 
 So, let's start with you. 
 A few scenarios are plausible as to why you are browsing these pages. 
-The most likely scenario is that you are an acquaintance of mine; either social or academic.
+The most likely one is that you are an acquaintance of mine; either social or academic.
 In the first case, you are probably wondering what it is I spent 5 years in Utrecht for.
 In the second case, you are probably trying to figure out whether I am worthy of the title of doctor; if so, I hope you won’t be disappointed (especially if you happen to be a member of the examination committee, for both our sakes).
-Another plausible scenario is that you're just lazilly scrolling through the opening pages contempating whether I'd be a good fit for some organization you are representing?
+Another plausible scenario is that you're just lazilly scrolling through the opening pages, contempating whether I'd be a good fit for some organization you are representing.
 If so, you should definitely go for me.
 Exceptionally, if this happens to be some big corp reptile den, scram -- and shame on you, future me.
 Otherwise, could it even be that you are \textit{actually} interested in the subject matter of this thesis? 
 Wooo, exciting!
 But also slightly alarming.
-I feel a bit conscious knowing that you might be putting my words under a critical lens – I’ll do my best not to fail your expectations. 
-In the wildcard scenario where you do not fall in any of the above categories, excuse my lack of foresight and know that you are still very welcome, and I am happy to have you around.%
+I feel a bit conscious knowing that you'll be putting my words under a critical lens – I’ll do my best not to fail your expectations. 
+In the wildcard scenario where you do not fall in any of the above categories, excuse my lack of foresight and know that you are still very welcome, and I am happy to have you around.
 More realistically, if noone ever reads this (far), let this transmission be forever lost to the void.
 
 But enough with you, what about me? 
@@ -28,7 +28,7 @@ At the time of writing, I am in my early thirties and I call myself Kokos.
 I had the enormous luck of crossing paths with my supervisor, Michael, five years ago, during the first weeks of my graduate studies in Utrecht. 
 The repercussions of this encounter were (and still are) unforeseeable. 
 Coming from an engineering background that basked in practicality, with an obsessive repulsion to anything formal, his course offered me a glimpse of a whole new world. 
-I got to see that proofs are not irrelevant bureaucracies to avoid, but objects of interest in themselves, hidden in plain sight from the working hacker under common programming patterns. 
+I got to see that proofs are not irrelevant bureaucracies to avoid, but objects of interest in themselves, hidden in plain sight from the working hacker under the most common programming patterns. 
 If this naive revelation came as shock, you can imagine my almost mystical awe when I was shown how proof \& type theories also offer suitable tools and vocabulary for the analysis of human languages. 
 Despite my prior ignorance, the “holy trinity” between constructive logics, programming languages and natural languages has been (with its ups and downs) at the forefronts of theoretical research for well over a century. 
 This dissertation aims to be my tiny contribution to this line of work, conducted from the angle of a late convert, a theory-conscious hacker. 
@@ -46,7 +46,7 @@ So feel free to skip ahead when something reads trivial, and do not judge too ha
 The quote below was received almost verbatim as a review.
 Mean spirited as it may be, it provides an adequate high-level summary of this thesis' contents: 
 \begin{quote}
-[The thesis] starts with Lambek Calculus, some how uses dependency labels in some of its semantic types, provides a parsing algorithm for it; there are neural networks and vectors used and some accuracy results provided, but I am still unsure about the contributions [of the thesis] and their relevance.
+[The paper] starts with Lambek Calculus, some how uses dependency labels in some of its semantic types, provides a parsing algorithm for it; there are neural networks and vectors used and some accuracy results provided, but I am still unsure about the contributions [of the paper] and their relevance.
 \begin{flushright} Unknown reviewer, 2019.\end{flushright}
 \end{quote}
 
@@ -54,28 +54,30 @@ Thanks to this fellow scientist's earnest reviewing work, all I need to do here 
 Starting from the former:
 \begin{enumerate}[labelindent=2pt, itemindent=30pt, labelsep=5pt, widest=Chapter III,align=right,itemsep=5pt]
 \item[\textbf{Chapter~\ref{chapter:preface}}] greets the reader and provides a chapter summary, while also setting the tonal precedents for what is to follow.
-\item[\textbf{Chapter~\ref{chapter:Introduction}}] is an attempt at a painless introduction to simple type theory and its substructural variants, and their significance for linguistics.
-We start in Section~\ref{section:simple_type_theory} with a crash course on simple type theory, a formal model of computation and logical deduction.
+\item[\textbf{Chapter~\ref{chapter:Introduction}}] is an attempt at a painless introduction to simple type theory and its substructural variants, and an allusion to their significance for linguistics.
+We set things off in Section~\ref{section:simple_type_theory} with a crash course on simple type theory, a formal model of computation and logical deduction.
 Removing the ability to erase or duplicate logical propositions, we transition to linear type theory in Section~\ref{section:linear_type_theory} -- a place where the motto is resource consciousness and truth is not for free.
-Following along the same path, in Section~\ref{section:lambek_calculi} we take the extra step of making content immovable and bracket-bound to its surroundings, revealing the landscape of Lambek calculi $\logic{(N)L(P)}$.
-To regain some of the expressivity lost in the passage, we call to the aid of modalities in Section~\ref{section:modalities} -- these allow us to reinstate the implicit equivalences of before, now as explicit rules the applicability of which we can control.
-We deploy the above as categorial grammars: type-driven frameworks for reasoning about natural language syntax and semantics in Section~\ref{section:linguistics}.
-We discuss two relevant and related paradigms: multi-modal type-logical grammars and abstract categorial grammars, both of which treat grammatical content as typed propositions.
-Constraints imported by types are used to control grammatical composition, and parsing becomes a process of logical deduction, giving us finally the foundation of this thesis and allowing us to move on.
+Following along the same path, in Section~\ref{section:lambek_calculi} we take the extra step of making propositions immovable and bracket-bound to their surroundings, revealing the landscape of Lambek calculi $\logic{(N)L(P)}$.
+To regain some of the expressivity lost in the passage, we call to the aid of modalities in Section~\ref{section:modalities} -- these allow us to reinstate the implicit equivalences of before as explicit rules, the applicability of which we can now control.
+In Section~\ref{section:linguistics}, the theoretical wisdoms amassed through our substructural expidition find use in defining categorial grammars: type-driven frameworks formalizing the syntax and semantics of natural languages.
+We discuss two relevant and related paradigms: multi-modal type-logical grammars and abstract categorial grammars; both use constraints imported by types to control grammatical composition, and parsing becomes a process of logical deduction.
+At long last, we have all the foundational knowledge needed to move on.
 \item[\textbf{Chapter~\ref{chapter:chapter_2}}] offers a non-standard usecase for the structural control modalities of the multimodal Lambek family $\logic{(N)L(P)}_{\diamond, \bx}$.
-We begin in Section~\ref{section:phrase_vs_dependecy} with a face-off between the two strands of grammar flavors that have dominated computational linguistics in the past decades, constituency and dependency grammars, and see how they compare to categorial grammars.
-Unsatisfied by the comparison, we move on to Section~\ref{section:modalities_for_dependency}, where we appropriate the modalities resorted to earlier, repurposing them now as dependency domain demarcators.
-\item[\textbf{Chapter~\ref{chapter:chapter_3}}] instantiates the type system as a derivational semantics logic (or abstract syntax logic, depending on which side of the dividing line you stand at), and aligns it with real-world corpus data. 
-We set the stage in Section~\ref{section:preliminaries} with a backstory intended to motivate the design choices behind the logic, and a description of the corpus used.
-In Section~\ref{section:aethel}, we proceed to describe how the corpus' analyses can be recast as proof-theoretic inhabitants of our framework.
+We begin in Section~\ref{section:phrase_vs_dependecy} with a face-off between the two strands of grammar flavors that have dominated computational linguistics in the past decades, namely constituency grammars and dependency grammars, and see how they compare to categorial grammars.
+Unsatisfied by the comparison, we move on to Section~\ref{section:modalities_for_dependency}, where we appropriate the modalities we resorted to earlier, repurposing them now as dependency domain demarcators.
+\item[\textbf{Chapter~\ref{chapter:chapter_3}}] instantiates a type system based on this new envisaging of modalities, and employs it a derivational semantics logic%
+	\footnote{Or abstract syntax logic, depending on which side of the dividing line you stand at.}%
+, in alignment with real-world corpus data. 
+Section~\ref{section:preliminaries} sets the stage with a backstory motivating the design choices made and describing the source corpus.
+We proceed to the real thing in Section~\ref{section:aethel}, where we illustrate how the corpus' analyses can be recast as proof-theoretic inhabitants in our framework.
 We detail the extraction process, the resulting view of the corpus, and its practical evaluation as a stand-alone resource.
 \item[\textbf{Chapter~\ref{chapter:chapter_4}}] makes for a drastic change of scenery, offering a collection of insights on the neural parsing of substructural grammar logics.
-We first paint a picture of the archetypical categorial grammar parser in Section~\ref{section:parse}, pinpointing the tension points between abstract theory and applied practice and illustrating the need for a disciplined merger between the formal and the informal.
+We first paint a picture of the archetypical categorial grammar parser in Section~\ref{section:parse}, pinpointing the tension points between abstract theory and applied practice and exposing the need for a disciplined merger between the formal and the informal.
 In Section~\ref{section:supertagging} we trace along the history of supertagging: the statistical disambiguation process (and the machinery empowering it) through which a system can automatically infer the most likely type for a lexical item in context (i.e. word in a sentence).
-We start  from its (not-so-ancient) origins all the way to tomorrow, motivating the abolition of a set-in-stone type vocabulary as a natural step in its evolutionary progress and providing two convincing implementations to that end.
-Finally, in Section~\ref{section:npn} we propose a neural operationalization for the proof nets of linear logic.
-Invoking their bureaucracy-free format, we expose a brand new paradigm for the statistical parsing of substructural grammar logics in the \logic{(N)L(P)} lineage.
-\item[\textbf{Chapter~\ref{chapter:chapter_5}}] provides concluding remarks and waves the reader goodbye.
+We start from its (not-so-ancient) origins all the way to tomorrow, motivating the abolition of a set-in-stone type vocabulary as a natural step in its evolutionary progress and providing two convincing implementations to that end.
+For the grand finale, in Section~\ref{section:npn} we propose a neural operationalization for the proof nets of linear logic.
+Invoking their bureaucracy-free format, we uncover a brand new paradigm for the statistical parsing of substructural grammar logics in the \logic{(N)L(P)} lineage.
+\item[\textbf{Chapter~\ref{chapter:chapter_5}}] wraps things up and waves the reader goodbye.
 \end{enumerate}
 
 \paragraph{Contributions}
@@ -85,10 +87,18 @@ Contributions produced and presented in this thesis, organized in bullet points 
 \item a big, open-source, \textbf{well-typed dataset} of proof-derivations for written Dutch
 \item the \textbf{first supertagger} to correctly \textbf{construct novel type assignments}, operating without a fixed lexicon
 \item the current \textbf{state of the art} supertagger that outperforms accuracy benchmarks \textbf{across grammar frameworks}, without foregoing the ability to predict rare and unseen assignments -- essentially an assurance that sparse and elaborated categorial grammars are of practical use, despite prior disdains
-\item a \textbf{neural operationalization} of linear logic \textbf{proof nets} into a massively parallel, differentiable and hyper-performant proof search engine -- essentially a reconciliation between the modern neural toolbox and the Lambekian tradition, and a call back to typing discipline for categorial practitioners
+\item a \textbf{neural operationalization} of linear logic's \textbf{proof nets} into a massively parallel, differentiable and hyper-performant proof search engine -- essentially a reconciliation between the modern neural toolbox and the Lambekian tradition, and a call back to typing discipline for categorial practitioners
 \item several attempts at dry humor, to varying degrees of success; in the words of my beloved: ``this thesis is a joke''
 \end{itemize}
 
+\paragraph{How to README}
+The thesis is best read in the order presented; each hapter is (weakly) dependent on its predecessors.
+That said, you can skip Chapter~\ref{chapter:Introduction} if already familiar with type theory and grammar logics -- you can always refer back to it later in case of emergency.
+Chapter~\ref{chapter:chapter_2} is self-standing and provides background that is necessary for Chapter~\ref{chapter:chapter_3} to make sense -- skipping it is ill-advised.
+But while Chapter~\ref{chapter:chapter_3} should prove helpful in appreciating the empirical results of Chapter~\ref{chapter:chapter_4}, it is by no means a prerequisite.
+If you are indifferent to the dataset and its construction, and only interested in the neural stuff from a high-level perspective, you could skip through straight to Chapter~\ref{chapter:chapter_4} (use your power of imagination to fill in any gaps).
+If you're not interested in the neural stuff either, there must have been a misunderstanding; you probably downloaded the wrong document and may as well stop reading now.
+Assuming you're still with me, I wish you a pleasant reading.
 
 \paragraph{Publications}
 Chapter~\ref{chapter:chapter_2} is a novel, extended collage of work taking secondary role in \citet{kogkalidis-etal-2020-aethel} and \citet{rouss}.
@@ -98,5 +108,5 @@ The whole manuscript is a bigger, better, faster, stronger (or so I'd like to th
 
 
 \bibliographystyle{abbrvnat}
-\bibliography{bibliography}
+\relax\bibliography{bibliography}
 }

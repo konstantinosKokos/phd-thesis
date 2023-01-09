@@ -10,7 +10,7 @@ What is undisputable, however, is the nobility of our goals and the purity of ou
 Beyond purpose and methodology, and having a priori given up any ideation of truth, the only measure of success for our model is that of its utility (``...but some are useful'', ~\cite{doi:10.1080/01621459.1976.10480949}).
 This sets up a new research imperative: we must prove the model useful!
 
-``Oof, that's a tricky one'', you might say, and you wouldn't be wrong.
+``Oof, that's a tricky one'', you might exclaim, and you wouldn't be wrong.
 Thankfully, there are two tried and tested ways to proceed.
 The first is the way of the scholar, which requires a rare combination of high intellectual capacity, strong persuasive skills and a pinch of luck.
 It starts off with some profound abstract thinking, gradually overtaken by agressive campaigning: bashing the competition at workshops and conferences, making bold claims and generating traction at any chance given (optionally over social media platforms, for the modernists), eventually building a cult of personality, and finally resting on your laurels as the hype becomes self-sustainining -- at long last, utility affirmed by popular approval.
@@ -1486,11 +1486,69 @@ With all the numbers laid down, all that's left to do is showcase how \AE thel t
 For space economy, we'll drop the natural deduction presentation in favor of the compactified $\lambda$ terms -- we've seen enough back-and-forths by now to take the training wheels off.
 The examples to follow contain a third line for type assignments, and the prescribed $\lambda$ term before the free translation.
 
+\paragraph{Higher-Order Reasoning}
+The extraction recipe applied to coindexed phantom nodes seems to generalize well, producing elegant higher-order proof patterns that capture the corresponding syntactic reentrancies prescribed from the Lassy graph quite well.
+In (\ref{gloss:whq}), \textex{waarom} both coordinates the wh-question and provides a hypothetical argument for its verb-initial subordinate sentence.
+In (\ref{gloss:passive}), the auxiliary \textex{woorden} properly accounts for the passive by providing a hypothetical object for the transitive past participle \textex{behandeld}.
+
+\begin{exe}
+\ex {\small\fname{dpc-vla-001161-nl-sen.p.107.s.1(1)}}\label{gloss:whq}
+\glll Waarom werken we ? \\
+Why work we ? \\
+	$\con{0}::\ddia{whbody}(\ddia{mod}\dbox{mod}(\svi[s]\li\svi[s])\li\svi[s])\li\whq[s]$
+	$\con{1}::\ddia{su}\vnw[s]\li\svi[s]$
+	$\con{1}::\vnw[s]$
+	$\punct[s]$\\
+	
+%	c0 ▵whbody((λx0.case ▿mod(x0) of x1 in ▾mod(x1) (c1 ▵su(c2)))) : WHQ
+\glt{$\small\term{
+	\con{0}~
+	\ddiaintro{whbody}(
+		\lam \Var{0}.
+			\caseof
+				{\ddiaelim{mod}\Var{0}}
+				{\Var{1}}
+				{(\dboxelim{mod}\Var{1} ~(\con{1}~\ddiaintro{su}\con{2})}
+	)
+}$}
+\glt{`Why do we work?'}
+\ex  {\small\fname{WR-P-P-J-0000000001.p.38.s.2(1)}}\label{gloss:passive}
+\glll Deze worden behandeld in hoofdstuk 4 .\\
+these become treated in chapter 4 .\\
+	$\con{0}::\vnw[s]$
+	$\con{1}::\ddia{vc}(\ddia{obj1}\vnw[s]\li\ppart[s])\li\ddia{su}\vnw[s]\li\smain[s]$
+	$\con{2}::\ddia{obj1}\vnw[s]\li\ppart[s]$
+	$\con{3}::\ddia{obj1}\np[s]\li\dbox{mod}(\ppart[s]\li\ppart[s])$
+	$\con{4}::\np[s]$
+	$\con{5}::\dbox{app}(\np[s]\li\np[s])$
+	$\punct[s]$\\
+\glt{$\small\term{
+	\con{1}
+	~\ddiaintro{vc}(
+		\lam \Var{0}.
+		\dboxelim{mod}(
+			\con{3}
+			~\ddiaintro{obj}(
+				\dboxelim{app}\con{5}~\con{4}
+			)
+		~(\con{2}~\Var{0})
+		)
+	)
+	~\ddiaintro{su}\con{0}
+}$}
+\glt{`These will be treated in chapter 4.'}
+\end{exe}
+
+
 \paragraph{Relative Clauses}
 The derivational ambiguity attributed to relative clauses is now implicitly cast into lexical type ambiguity -- the relativizer obtains a different type assignment depending on the type of relative clause it introduces.
-Compare the type assignments to the relativizer \textex{die} in the examples below.
+Examine the type assignments to the relativizer \textex{die} in the examples below, and notice that the hypothesis of (\ref{gloss:su}) is forced to occupy the subject slot of \textex{oproepen}, as opposed to the hypothesis of (\ref{gloss:obj}) which is forced to occupy the subject slot of \textex{volgen}.
+This is not just due to the decorations assigned, but also because of the atomic type distinction between pronouns $\vnw[s]$ and noun phrases $\np[s]$%
+	\footnote{Where relative clause gaps are always the former, due to being coindexed with the relativizer.}%
+, implicitly filtering out implausible argument associations.
+
 \begin{exe}
-\ex {\small\fname{WS-U-E-A-0000000215.p.25.s.1(1)}}
+\ex {\small\fname{WS-U-E-A-0000000215.p.25.s.1(1)}}\label{gloss:su}
 \glll Beelden die slechte herinneringen oproepen .\\
 Pictures that bad memories evoke . \\
 	$\con{0}::\np[s]$
@@ -1512,7 +1570,7 @@ Pictures that bad memories evoke . \\
 	~\con{0}
 }$}
 \glt{`Pictures that evoke bad memories.'}
-\ex  {\small\fname{pc-ind-001645-nl-sen.p.12.s.1(13)}}
+\ex  {\small\fname{pc-ind-001645-nl-sen.p.12.s.1(13)}}\label{gloss:obj}
 \glll de strategie die ze volgen is eeuwenoud .\\
 the strategy that they follow is centuries.old .\\
 	$\con{0}::\dbox{det}(\n[s]\li\np[s])$ 
@@ -1537,6 +1595,9 @@ the strategy that they follow is centuries.old .\\
 \paragraph{Word Order \& Sentential Types}
 Similarly, word order may not be formally treated, but the subcategorization of sentential types provides a heuristic clue toward what the correct association between verbal arguments and their sentential positioning should be.
 Compare the distinct positioning of the verbal head \textex{heeft} in the examples below and how it reflects on its type assignment.
+In (\ref{gloss:smain_ta}), the result type is fixed to being a main clause, whereas in (\ref{gloss:svi_ta}) the result type accounts for direct questions being verb initial.
+This goes to show that lexical type ambiguity is not the adverse effect of a misbehaved extraction or an ill-thought logic, but actually a reflection of the real morphosyntactic plurality of Lassy (and by extension, Dutch).
+
 \begin{exe}
 \ex {\small\fname{WR-P-P-I-0000000130.p.1.s.1(1)}}\label{gloss:smain_ta}
 \glll Vet heeft geen smaak .\\
@@ -1611,9 +1672,9 @@ Neither the discontinuous \texttr{om..te}{to} nor the displaced participle of th
 }$}
 \glt{`To cast away any doubts'}
 \end{exe}
-Likewise, types don't have to vary for the two different placements of past participles in the perfect or the passive; inspect the positioning of the auxiliary \textex{heeft} in relation to the past participle in Examples (\ref{gloss:green}) and (\ref{gloss:red}) below.
-Verb clusters also become straightforward to derive, regardless of the cluster-internal dominance hierarchy.
-%;
+Likewise, types don't have to vary for the two different placements of past participles in the perfect or the passive; inspect the positioning of the auxiliary \textex{heeft} in relation to the past participles \textex{ge\"informeerd} and \textex{bezield} in Examples (\ref{gloss:green}) and (\ref{gloss:red}) below.
+%Verb clusters also become straightforward to derive, regardless of the cluster-internal dominance hierarchy.
+
 \begin{exe}
 \ex {\small\fname{WS-U-E-A-0000000046.p.8.s.6(1)}} \label{gloss:green}
 \glll Hij erkent dat hij de kamer onjuist ge\"informeerd heeft .\\
@@ -1624,7 +1685,7 @@ He admits that he the chamber wrongly informed has .\\
 	$\con{3}::\vnw[s]$
 	$\con{4}::\dbox{det}(\n[s]\li\np[s])$
 	$\con{5}::\n[s]$
-	$\con{6}::\dbox{mod}(\ppart[s]\li\ppart[s]$
+	$\con{6}::\dbox{mod}(\ppart[s]\li\ppart[s])$
 	$\con{7}::\ddia{obj1}\np[s]\li\ppart[s]$
 	$\con{8}::\ddia{vc}\ppart[s]\li\ddia{su}\vnw[s]\li\ssub[s]$
 	$\punct[s]$\\
@@ -1634,7 +1695,7 @@ He admits that he the chamber wrongly informed has .\\
 	~\ddiaintro{su}(\con{0})
 	}$}
 \glt{`He admits that he has wrongly informed the chamber.'}
-\nolistbreak\ex {\small\fname{WR-P-P-I-0000000173.p.1.s.2(1)}} \label{gloss:red}
+\ex {\small\fname{WR-P-P-I-0000000173.p.1.s.2(1)}} \label{gloss:red}
 \glll Hij moet begrijpen wat de verdachte heeft bezield .\\
 He must understand what the suspect has possessed .\\
 	$\con{0}::\vnw[s]$
@@ -1712,28 +1773,81 @@ How become models developed\\
 \end{exe}
 
 \paragraph{Conjunctions}
+A similar effect is observed with conjunctions.
+Even though the polymorphic scheme works wonders with simple coordination, ellipses can quickly turn types humongous and analyses illegible.
+In (\ref{gloss:horror}) our defense of Lassy's tendency to distribute modifiers among conjuncts backfires, as we end up with a coordinator joining not two noun phrases, but noun phrases missing a mobile modifier. 
+The proof abides by our design decision to allow for flexible semantic interpretations, but in doing so gives us a headache to visually parse.
 
-%\ex {\small\fname{dpc-vla-001175-nl-sen.p.302.s.2(1)}}
-%\glll De jobinhoud van leraren zou moeten kunnen vari\"eren .\\
-%The job-content of teachers will must(\abbrv{inf}) can(\abbrv{inf}) vary(\abbrv{inf}) .\\
-%{$\dbox{det}(\n[s]\li\np[s])$}
-%{$\n[s]$}
-%{$\ddia{obj1}\np[s]\li\dbox{mod}(\np[s]\li\np[s])$}
-%{$\np[s]$}
-%{$\ddia{vc}\infp[s]\li\ddia{su}\np[s]\li\smain[s]$}
-%{$\ddia{vc}\infp[s]\li\infp[s]$}
-%{$\ddia{vc}\infp[s]\li\infp[s]$}
-%{$\infp[s]$}
-%{$\punct$}\\
-%\glt{\small $\term{
-%	\con{4}
-%	~\ddiaintro{vc}(\con{5}~\ddiaintro{vc}(\con{6}~\ddiaintro{vc}\con{7}))
-%	~\ddiaintro{su}(\dboxelim{mod}(\con{2}~\ddiaintro{obj1}\con{3})~(\dboxelim{det}\con{0}~\con{1}))
-%}$
-%}
-%\glt{`The job content of teachers must be able to change'}
-%\end{xlist}
-%\end{exe}
+\begin{exe}
+\ex {\small\fname{WS-U-E-A-0000000243.p.1.s.1(14)}}\label{gloss:horror}
+\glll Dertig vrouwen en kinderen\\
+Thirty women and children\\
+	$\con{0}::\dbox{mod}(\np[s]\li\np[s])$
+	$\con{1}::\np[s]$
+	$\con{2}::\ddia{cnj}{\chi}\li\ddia{cnj}(\chi)\li\chi$
+	$\con{3}::\np[s]$
+%	\li
+%	\ddia{mod}\dbox{mod}(\np[s\li\np[s])\li\np[s]$
+%	$\np[s]$
+\\
+\glt{\footnotesize\hfill
+	$\chi := \ddia{mod}\dbox{mod}(\np[s]\li\np[s])\li\np[s]$
+}
+\glt{\small
+  $ \displaystyle
+    \begin{aligned} 
+       \term{
+       	\con{2}}
+       	&~\ddiaintro{cnj}(
+       		\lam \Var{0}.
+       		\caseof
+       			{\ddiaelim{mod}\Var{0}}
+				{\Var{1}}
+				{(\dboxelim{mod}\Var{1}~\con{3})}
+       	)\\
+       	&~\ddiaintro{cnj}(
+       		\lam \Var{2}.
+       		\caseof
+       			{\ddiaelim{mod}\Var{2}}
+				{\Var{3}}
+				{(\dboxelim{mod}\Var{3}~\con{1})}
+       	)
+    \end{aligned}
+  $
+}
+\glt{`Thirty women and children'}
+\end{exe}
+
+\paragraph{Multiwords \& Discourse Parts}
+Multiword phrases not caught by our ad hoc transformations find their way to \AE thel's derivations, polluting the lexicon with opaque, non-compositional phrasal types;
+in (\ref{gloss:mwp}), for instance, the phrase \textex{Op het laatst} is assigned a single type.
+This is suboptimal, but except for manually reannotating all multiword annotations, no immediate solution presents itself.
+The example is also interesting in showing how \AE thel treats isolated non constituents torn apart from their phrasal context.
+The phrase is obviously an adjunct of sorts, but the usual type assigment of a boxed endomorphism is impossible, since the phrasal head is absent.
+Not knowing what the wider phrasal type is, the extraction algorithm falls back to calling the non-constituent what it is: an adverbial.
+The same approach is followed universally, meaning that all of \AE thel's samples derive atomic types.
+
+\begin{exe}
+\ex {\small\fname{WR-P-E-I-0000050381.p.1.s.531(3)}}\label{gloss:mwp}
+\glll {Op het laatst} van de oorlog\\
+{At the end} of the war\\
+	$\con{0}::\adv[s]$
+	$\con{1}::\ddia{obj1}\li\dbox{mod}(\adv[s]\li\adv[s])$
+	$\con{2}\dbox{det}(\n[s]\li\np[s])$
+	$\n[s]$
+\\
+{\small
+  $\term{
+	\dboxelim{mod}(\con{1}~\ddiaintro{obj1}(
+		\dboxelim{det}\con{2}~\con{3}
+	)
+	~\con{0}
+  }
+  $}
+\glt{`At the end of the war'}
+\end{exe}
+
+
 %Thankfully, that's none of our concerns -- word orders variations 
 %
 %\paragraph{Passives}

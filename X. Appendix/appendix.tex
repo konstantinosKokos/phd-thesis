@@ -65,25 +65,27 @@
 %	\label{table:gloss_abbreviations}
 %\end{table}
 
-\section{\todo}
+\section{Implementation Notes}
 \label{appendix:aethel}
-
 The acronym \AE thel has two readings, depending on the aspect of the E.
 Read as automatically extract\textit{ed} theorems from Lassy, it is an elaborate dataset of type-checked derivations of Dutch in $\NLPplus{}$.
 Read as automatically extract\textit{ing} theorems from Lassy, it is a Python library for extracting, processing and representing these derivations.
-The two are made for one another and, even though they can live independently, they are best presented together.
+The two are made for one another; even though they can live independently, they are best presented together.
 We'll start from the second aspect and move towards the first.
 The exposition is honest but not exhaustive with respect to the actual code -- the intention is not to write a full API reference manual but rather just a quick how-to guide, with occasional commentary motivating design decisions.
 The full source code is available at \href{https://github.com/konstantinosKokos/aethel}{github.com/konstantinosKokos/aethel}.%
-	\footnote{Latest commit is 407dbb47a420a3c37606d1b6d65d1a3121e635fd.}
-Up-to-date user instructions and data downloads are best retrieved from the repository, which shall remain active for the foreseeable future.
+	\footnote{Latest commit is 7e9e4c472df22582708ff03a35cf90718c17c60e.}
+Up-to-date user instructions and data downloads are best retrieved from the repository, which shall remain active and accessible for the foreseeable future.
 
 \subsection{\NLPplus{} with Python}
-Our implementation of \NLPplus{} proofs is faithful to the decomposition of Chapter~\ref{chapter:Introduction}.
+Implementing a type system in an untyped language is a perversity of nature, but allows at least a subversive title, and, with it, a chance to a medium-hosted blog post.
+More than providing comic value, it makes the code easy to integrate with standard machine learning libraries, for which Python is the de facto choice -- we're just planning ahead.
+The absence of first-class inductive types in Python means we'll have to use the object-oriented  abstract class pattern instead -- I apologize in advance for the mandatory eye bleach to follow.
+In spite of the impediments, our implementation of \NLPplus{} proofs is as faithful as possible to the decomposition of Chapter~\ref{chapter:Introduction}.
 We disentangle proofs and terms into distinct entities, following our observations that the latter can be less informative than the former (e.g. hiding structural brackets and structural rules, being equivalent under order variations, etc.).
 Practically, the relation between proof and term is modeled as a relation of inclusion rather than equivalence, i.e. a proof \textit{has} a term, but a term is \textit{not} a proof.
 To carve a path to our objects of interest, we will go from small to big, starting with the basic definitions of structures, types, structural primitives, terms and rules.
-The absence of first-class inductive data in Python means we'll have to make do with abstract class patterns instead -- I apologize in advance for the mandatory eye bleach to follow.
+
 
 \subsubsection{Structures}
 Structures are implemented as an abstract class, parameterizable with respect to their contents \py{T}.
@@ -405,7 +407,7 @@ class LexicalItem:
 \end{minted}
 
 \noindent Finally, the entire dataset is packaged into a \py{ProofBank} record; practically a list of samples with some extra niceties on top, like indexing utilities and a version field used to tell different temporal instances apart.
-Loading from a binarized dump is done by a convenience static function.
+%Loading from a binarized dump is done by a convenience static function.
 
 \begin{minted}{python}
 class ProofBank:
@@ -421,8 +423,134 @@ class ProofBank:
     def load_data(path: str) -> ProofBank: ...
 \end{minted}
 
+\subsubsection{User Interface}
+User interface is barebones but practical.
+The user procures (some version of) the source code from the official repository and a compatible binarized dump of the dataset (download links are also provided there).
+From then on, the dataset can easily be loaded as follows:
 
-%The third field simply associates the sample to its Lassy identifier, whereas the fourth field suggests a standard train/dev/test split for machine learning applications.
+\begin{minted}{pycon}
+>>> from LassyExtraction import ProofBank
+>>> aethel = ProofBank.load_data('path/to/dump')
+Loading and verifying path/to/dump...
+Loaded æthel version 1.x.x containing xxxxx samples.
+\end{minted}
 
+\noindent Individual samples can be indexed numerically, or found by name, and their attributes can be explored according to the earlier specifications; here's inspecting the sample of Figure~\ref{figure:simple_abstraction}, for instance:
 
+\begin{minted}{pycon}
+>>> sample = aethel.find_by_name('WS-U-E-A-0000000016.p.37.s.1(3)')[0]
+>>> sample.sentence
+"Auto's die niet starten"
+>>> sample.lexical_phrases
+(LexicalPhrase(string=Auto's, type=NP, len=1),
+ LexicalPhrase(string=die, 
+               type=(◇relcl(◇su(VNW)⟶SSUB))⟶□mod(NP⟶NP), 
+               len=1),
+ LexicalPhrase(string=niet, type=□mod(SSUB⟶SSUB), len=1),
+ LexicalPhrase(string=starten, type=◇su(VNW)⟶SSUB, len=1))
+>>> sample.lexical_phrases[0].items[0]
+LexicalItem(word="Auto's", pos='noun', pt='n', lemma='auto')
+>>> sample.proof.structure
+〈c1, 〈〈c2〉mod, c3〉relcl〉mod, c0
+>>> sample.proof.term
+▾mod(c1 ▵relcl((λx0.▾mod(c2) (c3 x0)))) c0 : NP
+\end{minted}
+
+\subsubsection{Visualization}
+Proofs and samples can be converted to pdf format for easier inspection; the conversion utility simply follows along the inductive definitions of proofs and terms, casting them into corresponding \LaTeX{} code.
+All proofs rendered in this document were built this way.
+Assuming you have pdflatex installed, you can replicate this by running:
+\begin{minted}{pycon}
+>>> from LassyExraction.utils.tex import compile_tex, sample_to_tex
+>>> tex_code = sample_to_tex(sample)
+>>> compile_tex(tex_code, './output.pdf') # see Figure \ref{figure:simple_abstraction}
+\end{minted}
+
+\subsubsection{Corpus Search}
+To facilitate corpus exploration, we provide search utilities in the form of composable queries and a lazy search function.
+New queries can be made bottom-up from custom boolean predicates applied to samples, or point-free composed from existing queries using standard boolean operations.
+Preimplemented queries include searching for samples utilizing only (a subset of) some rules, enumerating a specific number of constants, having some specific word or lemma or being of a specific type, etc.
+
+\begin{minted}{pycon}
+>>> from scripts.search import (search, contains_word,
+>>>                             length_between, of_type)
+>>> x = next(search(aethel, contains_word('vuur') & length_between(4, 7)))
+>>> x.name
+'WS-U-E-A-0000000004.p.28.s.3(1).xml'
+>>> x.sentence
+'Het vuur greep snel om zich heen .'
+\end{minted}
+
+\noindent And here's an example of what the creation of a primitive query looks like; we start from the creation of a boolean predicate on samples that tells us whether the opening letters of each word follow a reverse alphanumeric order:
+\begin{minted}{python}
+def alphanumerically_ordered(sample: Sample) -> bool:
+    first_letters = [lp.string[0].lower() 
+                     for lp in sample.lexical_phrases]
+    return first_letters == sorted(set(first_letters), reverse=True)
+\end{minted}
+
+\noindent which we can then wrap into a \py{Query} and compose it with a type condition to find the longest sentence with strictly alphanumerically descending initial word letters:
+
+\begin{minted}{pycon}
+>>> sample = sorted(search(aethel, 
+>>>                        Query(alphanumerically_ordered)
+>>>                        & of_type(Atom('SMAIN')),
+>>>                 key=len,
+>>>                 reverse=True))[0]
+>>> sample.sentence
+'Ze vinden nog een bombrief ...'
+\end{minted}
+
+\noindent Less (or more) ad-hoc searches can be similarly written, predicating over any of the properties enclosed within a \py{Sample}; i.e. proof depth, maximal type order, variable count, nestedness of verbal complements, presence of a part of speech tag, or anything of the sort.
+
+\subsection{Neural Interfacing: Spind$\lambda$e}
+A practical user-facing front integrating the neural proof search engine described in Section~\ref{section:npn} and the type system's implementation is available at 
+\href{https://github.com/konstantinosKokos/spindle}{github.com/konstantinosKokos/spindle}, the acronym standing for a supervised prover intended for deriving $\lambda$ expressions.
+Installation instructions are provided online; they invole downloading the source code, installing prerequisite packages and obtaining a copy of the pretrained model's parameters.
+Aftewards, the model can be invoked using:
+
+\begin{minted}{pycon}
+>>> from inference import InferenceWrapper
+>>> inferer = InferenceWrapper(weight_path='/path/to/model/weights')
+\end{minted}
+
+\noindent and analyses requisitioned with:
+\begin{minted}{pycon}
+>>> analyses = inferer.analyze(
+>>>     ['Ik zie dat Jan Marie de kinderen helpt leren zwemmen',
+>>>      'Wat is de lambda term van dit vorbeeldzin?'])
+\end{minted}
+
+\noindent What we get back is a list of Python objects that partially abide by the \py{Sample} protocol, each containing a field for lexical phrases and a proof, one such object per input sentence.
+Lexical phrases are chunked by the supertagger, but lemma and part of speech information are not provided.
+The compatibility between parser-produced analyses and \AE thel samples allows us to use on the former methods originally intended for the latter.
+More importantly, it asserts that what we get back is not a cheap, duck-typed imitation of a proof, but a \sout{duck} proof proper. 
+The parser is by construction bound to either give us some proof, or, if it fails, the reason for its failure. 
+
+\begin{minted}[breaklines]{pycon}
+>>> analyses[0].lexical_phrases
+(LexicalPhrase(string=Ik, type=VNW, len=1),
+ LexicalPhrase(string=zie, type=◇vc(CP)⟶◇su(VNW)⟶SMAIN, len=1),
+ LexicalPhrase(string=dat, type=◇cmpbody(SSUB)⟶CP, len=1),
+ LexicalPhrase(string=Jan Marie, type=NP, len=2),
+ LexicalPhrase(string=de, type=□det(N⟶NP), len=1),
+ LexicalPhrase(string=kinderen, type=N, len=1),
+ LexicalPhrase(string=hulpt, type=◇vc(INF)⟶◇su(NP)⟶SSUB, len=1),
+ LexicalPhrase(string=leren, type=◇vc(INF)⟶◇obj1(NP)⟶INF, len=1),
+ LexicalPhrase(string=zwemmen, type=INF, len=1))
+>>> analyses[0].proof.term
+c1 ▵vc(c2 ▵cmpbody(c6 ▵vc(c7 ▵vc(c8) ▵obj1(▾det(c4) c5)) ▵su(c3))) ▵su(c0) : SMAIN
+>>> analyses[1].lexical_phrases
+(LexicalPhrase(string=Wat, type=(◇whbody(◇predc(VNW)⟶SV1))⟶WHQ, len=1),
+ LexicalPhrase(string=is, type=◇predc(VNW)⟶◇su(NP)⟶SV1, len=1),
+ LexicalPhrase(string=de, type=□det(N⟶NP), len=1),
+ LexicalPhrase(string=lambda, type=□mod(N⟶N), len=1),
+ LexicalPhrase(string=term, type=N, len=1),
+ LexicalPhrase(string=van, type=◇obj1(NP)⟶□mod(NP⟶NP), len=1),
+ LexicalPhrase(string=dit, type=□det(N⟶NP), len=1),
+ LexicalPhrase(string=vorbeeldzin, type=N, len=1),
+ LexicalPhrase(string=?, type=PUNCT, len=1))
+>>> analyses[1].proof.term
+c0 ▵whbody((λx0.c1 x0 ▵su(▾mod(c5 ▵obj1(▾det(c6) c7)) (▾det(c2) (▾mod(c3) c4))))) : WHQ
+\end{minted}
 

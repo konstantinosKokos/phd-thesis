@@ -911,7 +911,7 @@ Their representations of size $d_n$ are computed on the basis of (i) their primi
 Primitive symbol embeddings are obtained from a standard embedding table $W_e: \mathcal{S} \to \mathbb{R}^{d_n}$ that contains a distinct vector for each symbol in the set of primitives $\mathcal{S}$. 
 When it comes to embedding positions, we are presented with a number of options.
 It would be straightforward to fix a vocabulary of positions, and learn a distinct vector for each.
-But this is neither inclusive nor elegant: it imposes an ad-hoc bound to the shape and size of tree nodes that can be encoded (contradicting the constructive paradigm), and fails to account for the compositional nature of trees.
+But this is neither inclusive nor elegant: it imposes an ad hoc bound to the shape and size of tree nodes that can be encoded (contradicting the constructive paradigm), and fails to account for the compositional nature of trees.
 The structure-conscious route requires noting that \textit{paths} over binary branching trees form a semi-group, i.e. they consist of two primitives (namely a left and a right path), and an associative non-commutative binary operator that binds two paths together into a single new one.
 The archetypical example of a semigroup is matrix multiplication; we therefore instantiate a tensor $P \in \mathbb{R}^{2 \times n_d \times n_d}$ encoding each of the two path primitives as a linear map over symbol embeddings.
 From the above we can derive a function $p$ that converts positions to linear maps, by performing consecutive matrix multiplications of the primitive weights, as indexed by the binary word of a node's position; e.g. the linear map corresponding to position $12_{10} = 0011_{2}$ would be $p(12) = P_0P_0P_1P_1 \in \mathbb{R}^{d_n \times d_n}$.
@@ -1125,6 +1125,7 @@ We train using AdamW~\cite{	loshchilov2018decoupled} and a variable learning rat
 During training we provide strict teacher forcing and apply feature and edge dropout at 20\% chance.
 The loss signal is derived as the label-smoothed negative log-likelihood between the network's prediction and the ground truth label.
 Base-sized BERT variants are procured from the transformers library~\cite{wolf2020transformers}: RoBERTa for English~\cite{liu2019roberta}, BERTje for Dutch~\cite{de2019bertje} and CamemBERT for French~\cite{martin2020camembert}, all fine-tuned during training.
+The model is trained to be responsible for its own chunking, merging subsequent words into a multiword phrase by assigning a merge-left metasymbol to multiword parts. 
 
 \paragraph{Evaluation}
 We perform model selection on the basis of validation accuracy, and gather the corresponding test scores according to the frequency bins of Table~\ref{table:datasets}.
@@ -1268,7 +1269,7 @@ The model takes approximately 5 hours to train on each dataset, and boasts a con
 \paragraph{Supertagging and Sparsity}
 Practice aside, the results obtained pose concrete evidence that lexical sparsity, historically deemed the categorial grammar's curse, might well just require a change of perspective to tame and deploy as the answer to the very problem it poses.
 Crucially, the architecture's relative gains scale with respect to the task's complexity.
-In the original version of the CCGbank, the model is only slightly superior to the next best performing model -- an ad-hoc graph neural network with built in lexical biases (quite literally the ideological antipode of our endeavour).
+In the original version of the CCGbank, the model is only slightly superior to the next best performing model -- an ad hoc graph neural network with built in lexical biases (quite literally the ideological antipode of our endeavour).
 The difference becomes an order of magnitude wider for the slightly more challenging rebank version.
 The effect is maximally pronounced for the harder type-logical datasets.
 For the French TLGbank, performance jumps up to CCGbank scales (despite it being significantly smaller and sparser).
@@ -1583,7 +1584,7 @@ Leaf representations are binned according to their sentential index, atomic type
 Each bin is zipped with its opposite polarity counterpart, and their element-wise similarity scores are computed via the chosen metric.%
 	\footnote{Note that the zipping function is not \textit{the} similarity metric but the pairwise application of one. 
 	In other words, the agreement scores are independently computed between pairs of elements from the two sets.
-	This is necessary to account for the variably sized sets encountered without ad-hoc padding, but also to ensure that the end operator is permutation invariant.}
+	This is necessary to account for the variably sized sets encountered without ad hoc padding, but also to ensure that the end operator is permutation invariant.}
 Similarity scores are normalized by a fixed number of Sinkhorn iterations -- three iterations suffice to produce sharp activations without eroding the gradient updates.
 Similarity scores and Sinkhorn normalizations are computed in parallel and batched across bins of the same size (i.e. according to the bijected sets' cardinality) -- a faster alternative would be to pad them to a fixed size using some arbitrarily low constant as a padding value, but the difference is minor and not worth the memory overhead. 
 
@@ -1601,8 +1602,8 @@ If it does, leaf representations are extracted and binned and their agreement sc
 In the event that the local discretization (i.e. rounding) of a normalized matrix does not correspond to a bijection, we resort to an explicit combinatorial optimization via the Hungarian method, using the normalized scores as assignment weights.
 In either case, the pairings obtained correspond to axiom links, which are traversed to produce a proof (more on that in a bit).
 
-We proceed with evaluation with no training wheels: no pre- or post- processing, no tokenization or chunking oracles, and no length, depth or
-frequency thresholding. All scores reported are the average of three repetitions.
+We proceed with evaluation with no training wheels: no pre- or post- processing, no tokenization or chunking oracles, and no length, depth or frequency thresholding. 
+All scores reported are the average of three repetitions.
 Numeric evaluation requires a way to compare proofs.
 The first and most transparent thing to consider are sentential- (or proof-) level performance metrics, where there's two axes of interest; axis one is whether we could have gotten or did get a proof, and axis two is whether that proof could be or was the correct one.
 The key results are presented in Table~\ref{table:key_results}.
