@@ -665,7 +665,7 @@ Internalizing the syntactic validity assertions of \NLPplus{} is a costly proced
 On the other hand, it serves to eliminate the need for asynchronously interfacing with some external checker, and provides a formal guarantee that whatever the extraction algorithm produces is \textit{correct by construction}: any syntactic missteps will be caught on the spot and raise an exception.
 As a bonus, the system can (and will) find use outside the scope of the extraction, as a representational intermediary for parsing and proof representation.
 Detailing the specifics behind the implementation shouldn't be our main concern here; it suffices to know it exists and runs as a constant safety belt in all that follows.
-If for whatever reason you enjoy watching people try to beat types into Python, you can take at a look at Appendix~\ref{appendix:aethel} (not for the faint of heart).
+If for whatever reason you enjoy watching people try to beat types into Python, you can take at a look at Appendix~\ref{appendix:implementation_notes} (not for the faint of heart).
 
 \subsubsection{Parameters}
 We start by declaring our basic necessities.
@@ -1171,7 +1171,7 @@ From a representational perspective, our proofs are still overly attached to the
 Constants and variables are named according to their node origins, which will no longer make any sense after the tree has been discarded.
 We therefore rename constants according to their order of appearance in the sentence, and variables by enumeration, following a depth-first left-first traversal of the proof tree (preferrable to de Bruijn indexing for human legibility).
 The collection of extracted proofs we will call \AE thel, for automatically extracted theorems from Lassy, thus resolving the mystery of this section's cryptic name for those that made it this far.
-For a practical user's guide to \AE thel, refer to Appendix~\ref{appendix:aethel}.
+For a practical user's guide to \AE thel, refer to Appendix~\ref{subappendix:aethel}.
 For moving on, it suffices to know that an analysis is essentially a nicely packaged tuple, containing a proof on one coordinate and a tokenized and type-annotated sentence on the other.
 
 \subsection{Analysis}
@@ -1775,8 +1775,10 @@ How become models developed\\
 \paragraph{Conjunctions}
 A similar effect is observed with conjunctions.
 Even though the polymorphic scheme works wonders with simple coordination, ellipses can quickly turn types humongous and analyses illegible.
-In (\ref{gloss:horror}) our defense of Lassy's tendency to distribute modifiers among conjuncts backfires, as we end up with a coordinator joining not two noun phrases, but noun phrases missing a mobile modifier. 
+In (\ref{gloss:horror}) our defense of Lassy's tendency to distribute modifiers among conjuncts backfires, as we end up with a coordinator joining not two noun phrases, but two noun phrases missing a mobile modifier. 
 The proof abides by our design decision to allow for flexible semantic interpretations, but in doing so gives us a headache to visually parse.
+It's worth pointing out that the actual modifier does not actually need to be mobile, being just an argument to the coordinator.
+This goes to show that the polymorphic scheme is a gentle suggestion and not a strict mandate, allowing for sentence-specific adjustments and variations.
 
 \begin{exe}
 \ex {\small\fname{WS-U-E-A-0000000243.p.1.s.1(14)}}\label{gloss:horror}
@@ -1784,14 +1786,14 @@ The proof abides by our design decision to allow for flexible semantic interpret
 Thirty women and children\\
 	$\con{0}::\dbox{mod}(\np[s]\li\np[s])$
 	$\con{1}::\np[s]$
-	$\con{2}::\ddia{cnj}{\chi}\li\ddia{cnj}(\chi)\li\chi$
+	$\con{2}::\ddia{cnj}{\chi}\li\ddia{cnj}(\chi)\li\chi^\star$
 	$\con{3}::\np[s]$
-%	\li
-%	\ddia{mod}\dbox{mod}(\np[s\li\np[s])\li\np[s]$
-%	$\np[s]$
 \\
 \glt{\footnotesize\hfill
 	$\chi := \ddia{mod}\dbox{mod}(\np[s]\li\np[s])\li\np[s]$
+}
+\glt{\footnotesize\hfill
+	$\chi^\star := \dbox{mod}(\np[s]\li\np[s])\li\np[s]$
 }
 \glt{\small
   $ \displaystyle
@@ -1811,7 +1813,8 @@ Thirty women and children\\
        			{\ddiaelim{mod}\Var{2}}
 				{\Var{3}}
 				{(\dboxelim{mod}\Var{3}~\con{1})}
-       	)
+       	)\\
+       	&~\con{0}
     \end{aligned}
   $
 }
