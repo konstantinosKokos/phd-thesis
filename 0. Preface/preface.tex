@@ -59,12 +59,12 @@ Starting from the former:
 We set things off in Section~\ref{section:simple_type_theory} with a crash course on simple type theory, a formal model of computation and logical deduction.
 Removing the ability to erase or duplicate logical propositions, we transition to linear type theory in Section~\ref{section:linear_type_theory} -- a place where the motto is resource consciousness and truth is not for free.
 Following along the same path, in Section~\ref{section:lambek_calculi} we take the extra step of making propositions immovable and bracket-bound to their surroundings, revealing the landscape of Lambek calculi $\logic{(N)L(P)}$.
-To regain some of the expressivity lost in the passage, we call to the aid of modalities in Section~\ref{section:modalities} -- these allow us to reinstate the implicit equivalences of before as explicit rules, the applicability of which we can now control.
-In Section~\ref{section:linguistics}, the theoretical wisdoms amassed through our substructural expidition find use in defining categorial grammars: type-driven frameworks formalizing the syntax and semantics of natural languages.
-We discuss two relevant and related paradigms: multi-modal type-logical grammars and abstract categorial grammars; both use constraints imported by types to control grammatical composition, and parsing becomes a process of logical deduction.
+To regain some of the expressivity lost in the passage, we call to the aid of modalities in Section~\ref{section:modalities} -- these allow us to reinstate the implicit equivalences of before as explicit rules with limited and controllable applicability.
+In Section~\ref{section:linguistics}, the theoretical wisdoms amassed through our substructural expedition find use in defining categorial grammars: type-driven frameworks formalizing the syntax and semantics of natural languages.
+We discuss two relevant and related paradigms: multi-modal type-logical grammars and abstract categorial grammars; both use constraints imported by types to control grammatical composition, converting parsing to process of logical deduction.
 At long last, we have all the foundational knowledge needed to move on.
 \item[\textbf{Chapter~\ref{chapter:chapter_2}}] offers a non-standard usecase for the structural control modalities of the multimodal Lambek family $\logic{(N)L(P)}_{\diamond, \bx}$.
-We begin in Section~\ref{section:phrase_vs_dependecy} with a face-off between the two strands of grammar flavors that have dominated computational linguistics in the past decades, namely constituency grammars and dependency grammars, and see how they compare to categorial grammars.
+We begin in Section~\ref{section:phrase_vs_dependecy} with a face-off between the two strands of grammar flavors that have dominated computational linguistics in the past decades -- namely constituency  and dependency grammars -- and see how they compare to categorial grammars.
 Unsatisfied by the comparison, we move on to Section~\ref{section:modalities_for_dependency}, where we appropriate the modalities we resorted to earlier, repurposing them now as dependency domain demarcators.
 \item[\textbf{Chapter~\ref{chapter:chapter_3}}] instantiates a type system based on this new envisaging of modalities, and employs it a derivational semantics logic%
 	\footnote{Or abstract syntax logic, depending on which side of the dividing line you stand at.}%
@@ -74,8 +74,8 @@ We proceed to the real thing in Section~\ref{section:aethel}, where we illustrat
 We detail the extraction process, the resulting view of the corpus, and its practical evaluation as a stand-alone resource.
 \item[\textbf{Chapter~\ref{chapter:chapter_4}}] makes for a drastic change of scenery, offering a collection of insights on the neural parsing of substructural grammar logics.
 We first paint a picture of the archetypical categorial grammar parser in Section~\ref{section:parse}, pinpointing the tension points between abstract theory and applied practice and exposing the need for a disciplined merger between the formal and the informal.
-In Section~\ref{section:supertagging} we trace along the history of supertagging: the statistical disambiguation process (and the machinery empowering it) through which a system can automatically infer the most likely type for a lexical item in context (i.e. word in a sentence).
-We start from its (not-so-ancient) origins all the way to tomorrow, motivating the abolition of a set-in-stone type vocabulary as a natural step in its evolutionary progress and providing two convincing implementations to that end.
+In Section~\ref{section:supertagging} we trace along the history of supertagging: the statistical disambiguation process (and the machinery empowering it) through which a system can automatically infer the most likely type for a lexical item in context (i.e. a word in a sentence).
+We start from its (not-so-ancient) origins and go all the way to today, motivating the abolition of a set-in-stone type vocabulary as a natural step in its evolutionary progress and providing two convincing implementations to that end.
 For the grand finale, in Section~\ref{section:npn} we propose a neural operationalization for the proof nets of linear logic.
 Invoking their bureaucracy-free format, we uncover a brand new paradigm for the statistical parsing of substructural grammar logics in the \logic{(N)L(P)} lineage.
 \item[\textbf{Chapter~\ref{chapter:chapter_5}}] wraps things up and waves the reader goodbye.
@@ -89,7 +89,7 @@ Contributions produced and presented in this thesis, organized in bullet points 
 \item the \textbf{first supertagger} to correctly \textbf{construct novel type assignments}, operating without a fixed lexicon
 \item the current \textbf{state of the art} supertagger that outperforms accuracy benchmarks \textbf{across grammar frameworks}, without foregoing the ability to predict rare and unseen assignments -- essentially an assurance that sparse and elaborated categorial grammars are of practical use, despite prior disdains
 \item a \textbf{neural operationalization} of linear logic's \textbf{proof nets} into a massively parallel, differentiable and hyper-performant proof search engine -- essentially a reconciliation between the modern neural toolbox and the Lambekian tradition, and a call back to typing discipline for categorial practitioners
-\item several attempts at dry humor, to varying degrees of success; in the words of my beloved: ``this thesis is a joke''
+\item several attempts at dry humor to varying degrees of success; in the words of my beloved: ``this thesis is a joke''
 \end{itemize}
 
 \paragraph{How to README}
@@ -98,7 +98,7 @@ That said, you can skip Chapter~\ref{chapter:Introduction} if already familiar w
 Chapter~\ref{chapter:chapter_2} is self-standing and provides background that is necessary for Chapter~\ref{chapter:chapter_3} to make sense -- skipping it is ill-advised.
 But while Chapter~\ref{chapter:chapter_3} should prove helpful in appreciating the empirical results of Chapter~\ref{chapter:chapter_4}, it is by no means a prerequisite.
 If you are indifferent to the dataset and its construction, and only interested in the neural stuff from a high-level perspective, you could skip through straight to Chapter~\ref{chapter:chapter_4} (use your power of imagination to fill in any gaps).
-If you're not interested in the neural stuff either, there must have been a misunderstanding; you probably downloaded the wrong document and may as well stop reading now.
+If you're not interested in the neural stuff either, you probably downloaded the wrong document and may as well stop reading now.
 Assuming you're still with me, I wish you a pleasant reading.
 
 \paragraph{Publications}

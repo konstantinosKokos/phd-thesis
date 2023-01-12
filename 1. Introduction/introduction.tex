@@ -4,7 +4,8 @@
 \chapabstract{In the beginning there was the word, and the word had a \type.}
 
 Our story begins with the (over-ambitious, in hindsight) musings of one of the world's most famous mathematicians, David Hilbert. 
-Unhappy with the numerous paradoxes and inconsistencies of mathematics at the end of the 19th century, Hilbert would postulate the existence and advocate the formulation of a finite set of axiomatic rules, which, when put together, would give rise to the most well-behaved system known to [wo]mankind: a system capable of acting as a universal meta-theory for all mathematics, in the process absolving all mathematicians of their sins.
+Unhappy with the numerous paradoxes and inconsistencies of mathematics at the end of the 19th century, Hilbert would postulate the existence and advocate the formulation of a finite set of axiomatic rules, which, when put together, would give rise to the most well-behaved system known to [wo]mankind.
+The system would enact a universal meta-theory for all mathematics, in the process absolving all mathematicians of their sins.
 The idea was of course appealing and gained traction, not the least due to Hilbert's influence over the field (and his will to exercise it).
 As with all ideas that generate traction, however, it was not long before a cultural counter-movement would develop.
 Intuitionism, with Luitzen Egbertus Jan Brouwer as its forefather, would challenge Hilbert's program by questioning the objective validity of (any) mathematical logic.
@@ -26,7 +27,7 @@ By that time, Richard Montague had already come up with the fantastically novel 
 With this, he fulfilled Gottlob Frege's long-prophesized principle of compositionality, which would once and for all put the Chomskian tradition to rest\footnote{In some corners of the Earth, this part of the prophecy is yet to transpire.}, ushering linguistics into a new era.
 With the benefit of posterity, it would be tempting for us to act smart and exclaim that Lambek and Montague's ideas were remarkably aligned. 
 In reality, it took another couple of decades for someone to notice.
-The credit is due to Johan van Benthem, who basically pointed out that Lambek's calculi make for the perfect syntactic machinery for Montague's program, seeing as they admit the Curry-Howard correspondence, and are therefore able to drive semantic composition virtually for free (in fact one could go as far as to say that they are the \textit{only} kind of machinery that can accomplish such a feat without being riddled with ad hoc designs).
+The credit is due to Johan van Benthem, who basically pointed out that Lambek's calculi make for the perfect syntactic machinery for Montague's program, seeing as they admit the Curry-Howard correspondence, and are therefore able to drive semantic composition virtually for free (in fact one could go as far as to say they are the \textit{only} kind of machinery that can accomplish such a feat without being riddled with ad hoc designs).
 This revelation, combined with the contemporary bloom of substructural logics, was the spark that ignited a renewed interest in Lambek's work.
 The culmination point for this interest was type-logical grammars (or categorial type logics): families of closely related type theories extending the original calculi of Lambek with unary operators lent from modal logic, intended to implement a stricter but more linguistically faithful modeling of the composition of natural language form and meaning.
 
@@ -39,7 +40,7 @@ If confident in your knowledge of the subject matter, \texttt{goto} Chapter~\ref
 \section{The Simple Theory of Types}\label{section:simple_type_theory}
 
 Simple type theory is the computational formalization of intuitionistic logic. 
-It is in essence an adornment of the rules of intuitionistic logic with the computational manipulations they dictate upon mathematical terms.
+It is in essence an adornment of the rules of intuitionistic logic with the compositional manipulations they dictate upon computational terms.
 Dually, it provides a decision procedure that allows one to infer the type of a given program by inspecting the operations that led up to its construction.
 It is a staple of almost folkloric standing for computer scientists across the globe, tracing its origins to the seminal works of Russel and Church~\cite{russel1908,church1940}.
 The adjective ``simple'' is not intended as either a diminutive nor a condescending remark pertaining to the difficulty of the subject matter, but rather to distinguish it from the broader class of intuitionistic type theories, which attempt to systematize the notions of quantification (universal and existential), stratification of propositional hierarchies, and more recently equivalence (neither of which we will concern ourselves with).
@@ -51,7 +52,7 @@ Once that is done, we will give a brief account of the the Curry-Howard correspo
 \label{subsection:intuitionistic_logic}
 Intuitionistic logic is due to Arend Heyting~\cite{heyting1930}, who was the first to formalize Bouwer's intuitionism.
 It is a restricted version of classical logic, where the laws of the excluded middle (\textit{tertium non datur}) and the elimination of the double negation no longer hold universally.
-The first states that one must choose between a proposition $\prop{a}$ and its negation $\neg \prop{a}$ ($\prop{a} \vee \neg \prop{a}$), whereas the second that a double negation is equivalent to an identity ($\neg \neg \prop{a} \equiv \prop{a}$).
+The first states that one must choose between a proposition $\prop{a}$ and its negation $\neg \prop{a}$ ($\prop{a} \vee \neg \prop{a}$), whereas the second that negation is its own inverse ($\neg \neg \prop{a} \equiv \prop{a}$).
 The absence of these two laws implies that several theorems of classical logic are no longer derivable in intuitionistic logic, meaning that the logic is weaker in terms of expressivity.
 On the bright side, it has the pleasant effect that proofs of intuitionistic logic are constructive, i.e. they explicitly demonstrate the formation of a concrete instance of whatever proposition they claim to be proving.
 
@@ -64,7 +65,7 @@ Given some finite set of \textit{propositional constants} (or \textit{atomic for
 \end{equation}
 where $p \in \propcon{}$.
 Propositions are therefore closed under the two binary \textit{logical connectives} $\ii$ and $\times$; we call the first an \textit{implication}, and the second a \textit{conjunction}. 
-A \textit{complex} proposition is any proposition that is not a member of \propcon{}, and its \textit{primary} (or main) connective is the last logical connective used when writing it down according to the grammar~(\ref{equation:IL}).
+A \textit{complex} proposition is any proposition that is not a member of \propcon{}, and its \textit{primary} (or main) connective is the last logical connective used when writing it down according to the grammar of (\ref{equation:IL}).
 
 Besides propositions, we have \textit{structures}. 
 Structures are built from propositions with the aid of a single binary operation, the notation and properties of which can vary between different presentations of the logic.
@@ -90,20 +91,20 @@ Rules may be split in two conceptual categories.
 \textit{Logical} rules, on the one hand, provide instructions for eliminating and introducing logical connectives.
 Figure~\ref{subfigure:intuitionistic_logic_rules:logical} presents the logical rules of intuitionistic logic.
 The first rule, the axiom of identity $\Ax$, contains no premises and asserts the reflexivity of the provability operator $\vdash$. 
-It states that from a proposition $\smallprop{A}$ one can infer, guess what, that very proposition.
+It states that from a proposition $\smallprop{a}$ one can infer -- guess what -- that very proposition.
 The remaining logical rules come in pairs, one per logical connective.
-The elimination of the implication (or modus ponens) states that, given a proof of a proposition $\smallprop A \ii \prop{b}$ from assumptions $\Gamma$ and a proof of proposition $\smallprop{A}$ from assumptions $\Delta$, one can join the two to derive a proposition $\smallprop{B}$.
-Dually, the introduction of the implication (or \textit{deduction theorem}) states that from a proof of a proposition \prop{b} given assumptions $\Gamma, \smallprop{A}$, one can use $\Gamma$ alone to derive an implicational proposition $\smallprop A \ii \smallprop B$.
-In a similar manner, the elimination of the conjunction $\times E $ states that, given a proof of a proposition $\smallprop A \times \smallprop B$ from assumptions $\Gamma$, and a proof that the triplet $\Delta, \smallprop A, \smallprop B$ allows us to derive a proposition $\smallprop C$, one could well use $\Gamma$ together with $\Delta$ to derive $\prop C$ directly.
-And dually again, the introduction of the conjunction $\times I$ permits us to join two unrelated proofs, one of $\smallprop A$ from $\Gamma$ and one of $\smallprop B$ from $\Delta$ into a single proof, that of their product $\smallprop A \times \smallprop B$, from $\Gamma$ joined with $\Delta$.
+The elimination of the implication (or \textit{modus ponens}) states that, given a proof of a proposition $\smallprop{a} \ii \prop{b}$ from assumptions $\Gamma$ and a proof of proposition $\smallprop{a}$ from assumptions $\Delta$, one can join the two to derive a proposition $\smallprop{b}$.
+Dually, the introduction of the implication (or \textit{deduction theorem}) states that from a proof of a proposition \prop{b} given assumptions $\Gamma, \smallprop{a}$, one can use $\Gamma$ alone to derive an implicational proposition $\smallprop{a} \ii \smallprop{b}$.
+In a similar manner, the elimination of the conjunction $\times E $ states that, given a proof of a proposition $\smallprop{a} \times \smallprop{b}$ from assumptions $\Gamma$, and a proof that the triplet $\Delta, \smallprop{a}, \smallprop{b}$ allows us to derive a proposition $\smallprop{c}$, one could well use $\Gamma$ together with $\Delta$ to derive $\smallprop{c}$ directly.
+And dually again, the introduction of the conjunction $\times I$ permits us to join two unrelated proofs, one of $\smallprop{a}$ from $\Gamma$ and one of $\smallprop{b}$ from $\Delta$ into a single proof, that of their product $\smallprop{a} \times \smallprop{b}$, from $\Gamma$ joined with $\Delta$.
 
 \textit{Structural} rules, on the other hand, allow us to manipulate structures (who would have thought); they are presented in Figure~\ref{subfigure:intuitionistic_logic_rules:structural}.
 Structural rules have a two-fold role.
 First, they explicate an extra propery of our structure binding operator, namely commutativity.
 One could also make do with an implicit exchange rule by treating structures as \textit{multisets} rather than lists -- having it explicit, however, will keep us conscious of its presence and strengthen our emotional bond to it, in turn making us really notice its absence when it will no longer be there (it also keeps the presentation tidier).
 Second, they give an account of propositions as permanent and reusable facts.
-The weakening rule $\Weakening{}$ states that if we were able to derive a proposition $\smallprop{B}$ from some assumptions $\Gamma$, we will also be able to do so if the assumptions were to contain some arbitrary extra proposition $\smallprop{A}$.
-Conversely, the contraction rule $\Contraction{}$ states that if we needed some assumption structure containing two instances of a proposition $\smallprop{A}$ to derive a proposition $\smallprop{B}$, we could also make do with just one instance of it, discarding the other without remorse.
+The weakening rule $\Weakening{}$ states that if we were able to derive a proposition $\smallprop{b}$ from some assumptions $\Gamma$, we will also be able to do so if the assumptions were to contain some arbitrary extra proposition $\smallprop{a}$.
+Conversely, the contraction rule $\Contraction{}$ states that if we needed some assumption structure containing two instances of a proposition $\smallprop{a}$ to derive a proposition $\smallprop{b}$, we could also make do with just one instance of it, discarding the other without remorse.
 
 A \textit{proof}, finally, is a heterogeneous variadic tree.
 At its root, it has a judgement, guaranteed to be derivable (provided we did not mess up somewhere), called its \textit{endsequent}.
@@ -144,7 +145,7 @@ At its leaves, it has identity axioms -- the smallest kind of proof.
 \subsubsection{Proof Equivalences}
 The same judgement may be provable in more than one ways.
 The difference between two proofs of the same judgement can be substantial, when they indeed describe distinct derivation procedures, or trivial.
-Trivial variations come in two kinds: syntactic equivalences (i.e. sequences of rule applications that can safely be rearranged) and redundant detours (i.e. sequences of rule applications that can altogether removed).
+Trivial variations come in two kinds: syntactic equivalences (i.e. sequences of rule applications that can safely be rearranged) and redundant detours (i.e. sequences of rule applications that can altogether be removed).
 
 The first kind is not particularly noteworthy.
 In essence, we say that two proofs are syntactically equivalent if they differ only in the positioning of structural rule applications.
@@ -157,8 +158,8 @@ The strong normalisation property guarantees that a canonical form exists for an
 Figure~\ref{figure:intuitionistic_proof_reduction} presents rewrite instructions for the two detour patterns we may encounter (one per logical connective).
 Read bottom-up%
 \footnote{In the small-to-big rather than literal sense! If confused: start from the proof leaves and go down.},
-the first one suggests that if one were to hypothesize a proposition $\smallprop{A}$, use it within an (arbitrarily deep) proof $s$ together with extra assumptions $\Gamma$ to derive a proposition $\smallprop{B}$, before finally redacting the hypothesis and composing with a proof $t$ that derives $\smallprop{A}$ from assumptions $\Delta$, it would have been smarter (and more concise!) to just plug in $t$ directly when previously hypothesizing $\smallprop{A}$, since then no redaction or composition would have been necessary.
-In a similar vein, the second suggests that if one were to derive and merge proofs $s$ and $t$ (of propositions $\smallprop{A}$ and $\smallprop{B}$, respectively), only to eliminate their product against hypothetical instances of $\smallprop{A}$ and $\smallprop{B}$ that were used in proof $u$ to derive $\smallprop{C}$ (together with assumptions $\Theta$), the proof can be reduced by just plugging $s$ and $t$ in place of the axiom leaves of $u$.
+the first one suggests that if one were to hypothesize a proposition $\smallprop{a}$, use it within an (arbitrarily deep) proof $s$ together with extra assumptions $\Gamma$ to derive a proposition $\smallprop{b}$, before finally redacting the hypothesis and composing with a proof $t$ that derives $\smallprop{a}$ from assumptions $\Delta$, it would have been smarter (and more concise!) to just plug in $t$ directly when previously hypothesizing $\smallprop{a}$, since then no redaction or composition would have been necessary.
+In a similar vein, the second suggests that if one were to derive and merge proofs $s$ and $t$ (of propositions $\smallprop{a}$ and $\smallprop{b}$, respectively), only to eliminate their product against hypothetical instances of $\smallprop{a}$ and $\smallprop{b}$ that were used in proof $u$ to derive $\smallprop{c}$ (together with assumptions $\Theta$), the proof can be reduced by just plugging $s$ and $t$ in place of the axiom leaves of $u$.
 Note the use of horizontal dots at the axiom leaves, denoting simultaneous substitutions of \textit{all} occurrences of redundant hypotheses, and the use of unnamed vertical dots, denoting (invertible) sequences of \Contraction{} and/or \Exchange{} rules.
 
 \begin{figure}
@@ -252,7 +253,7 @@ Each logical rule is identified with a programming pattern: the axiom rule is va
 The question of whether a logical proposition is provable translates to the question of whether the corresponding type is inhabited; i.e. whether an object of such a type can be created -- we will refer to the latter as a \textit{well-formed} term.
 
 Rather than present a grammar of terms and later ground it in the logic, we will instead simply revisit the rules we established just above, now adorning each with a term rewrite instruction -- the result is a tiny yet still elegant and expressive type theory, presented in Figure~\ref{figure:simple_type_theory}.
-Given an infinite but enumerable set $\vars$ consisting of (unique names for) indexed variables with elements \{\term{\vari, \varj, \vark, \varl, \dots}\}, and denoting arbitrary but well-formed terms with \smallterm{s}, \smallterm{t}, \smallterm{u}, we will use $\smallterm{s}: \smallprop{a}$ (or $\smallterm{s}^{\smallprop{A}}$) to indicate that term \smallterm{s} is of type \smallprop{a}.
+Given an infinite but enumerable set $\vars$ consisting of (unique names for) indexed variables with elements \{\term{\vari, \varj, \vark, \varl, \dots}\}, and denoting arbitrary but well-formed terms with \smallterm{s}, \smallterm{t}, \smallterm{u}, we will use $\smallterm{s}: \smallprop{a}$ (or $\smallterm{s}^{\smallprop{a}}$) to indicate that term \smallterm{s} is of type \smallprop{a}.
 Assumptions $\Gamma$, $\Delta$ will now denote a \textit{typing environment}:
 \begin{equation}
 \vari : \prop a ,~  \varj : \prop a',~ \vark : \prop a'' \dots
@@ -306,7 +307,7 @@ The second has to do with do with the $\Exchange{}$ rule.
 The careful reader might notice that the rule leaves no imprint on the term level, meaning we cannot distinguish between a program where variables were a priori provided in the correct order, and one where they were shuffled into position later on.
 This is justifiable if one is to treat the rule as a syntactic bureaucracy that has no real semantic effect, i.e. if we consider the two proofs as equivalent, following along the commuting conversions mentioned earlier (supporting the idea that in this type theory, asssumptions are multisets rather than sequences).
 A slightly more perverse problem arises out of the product elimination rule $\times E$.
-The rule posits that two assumptions $\smallterm{\vari }: \smallprop{A}$ and $\smallterm{\varj}: \smallprop{B}$ can be substituted by a single (derived) term of their product type $\smallterm{s}: \smallprop{A}\times\smallprop{B}$. 
+The rule posits that two assumptions $\smallterm{\vari }: \smallprop{a}$ and $\smallterm{\varj}: \smallprop{b}$ can be substituted by a single (derived) term of their product type $\smallterm{s}: \smallprop{a}\times\smallprop{b}$. 
 Choosing different depths within the proof tree upon which to perform this substitution will yield distinct terms (because indeed they represent distinct sequences of computation); whether there's any merit in distinguishing between the two is, however, debatable.
 Finally, whereas other rules can be read as syntactic operations on terms, (this presentation of) the $\Contraction{}$ rule contains meta-notation that is not part of the term syntax itself.
 That is to say, $\smallterm{s}_{[\smallterm{\vari } \mapsto \smallterm{t}]}$ is \textit{not} a valid term -- even if the result of the operation it denotes is.
@@ -314,13 +315,13 @@ Generally speaking, substitution of objects for others of the same type is (modu
 Mixing syntax and meta-syntax in the same system is a dirty but useful trick people sporadically employ; this surely invites some trouble, but conscious use of it can be worth it, since it significantly simplifies presentation.
 
 \subsubsection{Term Equivalences}
-There exist three kinds of equivalence relations between terms, each given an identifying Greek letter.\footnote{The denotational significance of these letters I have yet to understand -- legend has it that it only starts making sense after having written your 10th compiler from scratch.}
+There exist three kinds of equivalence relations between terms, each given an identifying Greek letter.\footnote{The denotational significance of these letters I have yet to understand -- legend has it that the spirit of Curry will gently whisper it in your ear after having successfully written your 100th compiler from scratch.}
 
 \paragraph{$\alpha$ conversion} is a semantically null rewrite obtained by renaming variables according to the substitution meta-notation $\smallterm{s}_{[\smallterm{\vari } \mapsto \smallterm{\varj}]}$ described above. 
 Despite seeming innocuous at a first glance, $\alpha$ conversion is an evil and dangerous operation that needs to be applied with extreme caution so as to avoid variable capture, i.e. substituting a variable's name with one that is already in use.  
 Two terms are $\alpha$ equivalent if we can rewrite one into the other using just $\alpha$ conversions, e.g.
 \begin{equation}
-	\lam \vari .\vari ^{\smallprop{A}} \overset{\alpha}{\equiv} \lam \varj.\varj^{\smallprop{A}}
+	\lam \vari .\vari ^{\smallprop{a}} \overset{\alpha}{\equiv} \lam \varj.\varj^{\smallprop{a}}
 \end{equation}
 Standardizing variable naming, e.g. according to the distance between variables and their respective binders, alleviates the effort required to check for $\alpha$ equivalence by casting it to simple syntactic equality (string matching).
 
@@ -407,9 +408,9 @@ The two judgements of the next paragraph have their subformulas annotated with a
 
 
 \paragraph{Type Raising}
-Type raising $\pprop{A} \vdash (\nprop{A} \ii \pprop{B}) \ii \nprop{B}$ is a derivable theorem of intuitionistic logic presented in Figure~\ref{figure:type_raising}. 
-It states that for \smallprop{A}, \smallprop{B} arbitrary propositions, from \smallprop{A} one can derive its raised form $\smallprop{A} \ii \smallprop{B}$.
-The converse, i.e. type lowering, is not true: $(\pprop{A} \ii \nprop{B}) \ii \pprop{B} \nvdash \nprop{A}$.
+Type raising $\pprop{a} \vdash (\nprop{a} \ii \pprop{b}) \ii \nprop{b}$ is a derivable theorem of intuitionistic logic presented in Figure~\ref{figure:type_raising}. 
+It states that for \smallprop{a}, \smallprop{b} arbitrary propositions, from \smallprop{a} one can derive its raised form $(\smallprop{a} \ii \smallprop{b})\li\smallprop{b}$.
+The converse, i.e. type lowering, is not true: $(\pprop{a} \ii \nprop{b}) \ii \pprop{b} \nvdash \nprop{a}$.
 \begin{figure}
 	\[
 		\infer[\ii I]{\varj: \prop{a} \vdash \term{\lam \vari.\vari~\varj}: (\prop{a} \ii \prop{b}) \ii \prop{b}}{
@@ -447,7 +448,7 @@ We will always provide type declarations for derived terms (right of the turnsti
 The examples of the next paragraph (and many of the ones to follow) will use this alternative notation.
 
 \paragraph{Currying}
-A product type occurring in the argument position of an implication is interderivable with a longer implication where its coordinates are sequentialized: $(\smallprop{A}\times\smallprop{B}) \ii \smallprop{C} \dashv \vdash \smallprop{A} \ii \smallprop{B} \ii \smallprop{C}$.
+A product type occurring in the argument position of an implication is interderivable with a longer implication where its coordinates are sequentialized: $(\smallprop{a}\times\smallprop{b}) \ii \smallprop{c} \dashv \vdash \smallprop{a} \ii \smallprop{b} \ii \smallprop{c}$.
 The forward direction is called currying, and the backward uncurrying; you can find a proof for each in Figure~\ref{figure:curry_uncurry}.
 Having proven that once, we can reuse that proof for deriving implicational equivalents from conjunctions (including nested ones, provided they occur as arguments to an implication).
 Combined with type raising, this trick is interesting, as it permits us to indirectly argue about product types as higher-order implications, even in presentations of the theory that do not include an explicit product (and thus avoid the issues related to its elimination), e.g. we have:
@@ -503,11 +504,11 @@ Keep a mental note.
 \end{figure}
 
 \paragraph{Proof Search}
-Attempting to derive a judgement of the form $\Gamma \vdash \smallprop{A}$ amounts to searching for a suitable proof of that statement, a process called \textit{proof search}.
+Attempting to derive a judgement of the form $\Gamma \vdash \smallprop{a}$ amounts to searching for a suitable proof of that statement, a process called \textit{proof search}.
 We distinguish two directions of proof search: the \textit{backward chaining} (or top-down) approach starts from the goal judgement and iteratively expands it into judgements with smaller assumptions -- one judgement per premise generated by the rule of inference applied -- with the intention being the eventual deconstruction of all branches into axioms of identity.
 The other direction is called \textit{forward chaining} (or bottom-up), and starts from a collection of hypothesized propositions (axioms) that are glued together to form progressively more complex structures, until the goal judgement is reached.
 Without digressing further, it is important to realize that both directions suffer the same issue, albeit from different angles, namely hypothetical reasoning.
-Forward chaining requires a perfect guess of any and all propositions reqired in deriving $\smallprop{A}$ from $\Gamma$, even those that will be redacted and thus never occur in $\Gamma$.
+Forward chaining requires a perfect guess of any and all propositions reqired in deriving $\smallprop{a}$ from $\Gamma$, even those that will be redacted and thus never occur in $\Gamma$.
 Dually, backward chaining might require introduction of substructures and subformulas that are nowhere to be found in either the antecedents or the succedent of the current judgement due to the modus ponens-like behavior of implication elimination.
 Long story short, proof search is hard.
 
@@ -535,14 +536,14 @@ For the fragment of interest to us, the type grammar becomes:
 \label{equation:ILL}
 \end{equation}
 There is not really much we have to do to manipulate these new types, other than a slight cognitive rewiring.
-We will note first that the meaning of the implication arrow changes from material implication to transformation process; i.e. where we previously had $\smallprop{A} \ii \smallprop{B}$ to denote that \smallprop{B} logically follows from \smallprop{A}, we will now have $\smallprop{A} \li \smallprop{B}$ to denote an irreversible process that transforms a single \smallprop{A} into a single \smallprop{B}, consuming the former in the process (we can think of this as a perfect chemical reaction).
+We will note first that the meaning of the implication arrow changes from material implication to transformation process; i.e. where we previously had $\smallprop{a} \ii \smallprop{b}$ to denote that \smallprop{b} logically follows from \smallprop{a}, we will now have $\smallprop{a} \li \smallprop{b}$ to denote an irreversible process that transforms a single \smallprop{a} into a single \smallprop{b}, consuming the former in the process (we can think of this as a perfect chemical reaction).
 The new, weird-looking arrow of linear implication is read as lolli(pop) due to its suggestive appearance.\footnote{If trying to typeset it yourself, DO NOT duckduckgo for ``lolli in latex''. It can be found as \texttt{\textbackslash multimap}. You are welcome.}
 Conjunction $\times$ is now separated into two distinct operators, the multiplicative $\otimes$ and the additive $\with$. 
-The first denotes a linear tuple, and $\smallprop{A} \otimes \smallprop{B}$ is read as \textit{both} \prop{a} \textit{and} \prop{b}.
+The first denotes a linear tuple, and $\smallprop{a} \otimes \smallprop{b}$ is read as \textit{both} \prop{a} \textit{and} \prop{b}.
 A linear tuple offers no possibility of projection: we will need to use both coordinates going forward.
-The second denotes a choice, and $\smallprop{A} \with \smallprop{B}$ is read as \smallprop{A} \textit{with} \smallprop{B}, or \textit{choose one of}\smallprop{A} \textit{or} \smallprop{B}.
+The second denotes a choice, and $\smallprop{a} \with \smallprop{b}$ is read as \smallprop{a} \textit{with} \smallprop{b}, or \textit{choose one of}\smallprop{a} \textit{or} \smallprop{b}.
 This choice is \textit{external}, as the freedom of applying it lies with the operator rather than the proof, and is manifested by the presence of two eliminators for our new connective: a left projection $\with E_1$ and a right projection $\with E_2$; choosing one means we lose the possibility of obtaining the other.
-Unique to the $\with I$ rule is the fact that two proof branches used to derive each coordinate of the $\smallprop{A} \with \smallprop{B}$ conclusion share the same assumptions $\Gamma$.
+Unique to the $\with I$ rule is the fact that two proof branches used to derive each coordinate of the $\smallprop{a} \with \smallprop{b}$ conclusion share the same assumptions $\Gamma$.
 The subset of linear logic concerning the connectives discussed is presented in Figure~\ref{figure:linear_logic_rules}, together with its term rewrites (assumptions, judgements, rules and proofs look just like before).
 For the sake of homogeneity and explicitness, \Exchange{} still makes an appearance as the sole structural rule.
 
@@ -598,7 +599,7 @@ The notions of proof and term equivalence discussed in the previous section hold
 Proof normalization looks almost identical to before in the case of $\ii$ and $\times$ (substituting of course for $\li$ and $\otimes$).
 The key difference lies in the absence of horizontal dots and unnamed vertical dots (since the \Contraction{} rule is no more, meaning that there can only be a single occurrence of each axiom replaced with a proof).
 The extra connective $\with$ introduces its own two redexes (one per eliminator); the reduction of the first projection is shown in Figure~\ref{figure:linear_proof_reductions}. 
-Its reading is straightforward: if one were to use $\Gamma$ to independently derive \smallprop{A} and \smallprop{B} along two parallel proofs, proceed by constructing a choice between the two, and then also make that choice (favoring either), there was never any need for the other in the first place.
+Its reading is straightforward: if one were to use $\Gamma$ to independently derive \smallprop{a} and \smallprop{b} along two parallel proofs, proceed by constructing a choice between the two, and then also make that choice (favoring either), there was never any need for the other in the first place.
 The equivalent term reduction steps this time around are:
 \begin{align}
 (\term{\lam \vari .s})~\term{t} & \bred \term{s}_{[\term{\vari } \mapsto \term{t}]}\\
@@ -735,22 +736,22 @@ An arrangement of the decomposition trees of all formulas as they occur within a
 	\begin{subfigure}{1\textwidth}
 		\centering
 		\begin{tikzpicture}
-		\node (A1)	at (-0.66, 1) {$\vnorm{\nprop{A}}$};
-		\node (B1)	at (0.66, 1) {$\vnorm{\pprop{B}}$};
+		\node (A1)	at (-0.66, 1) {$\vnorm{\nprop{a}}$};
+		\node (B1)	at (0.66, 1) {$\vnorm{\pprop{b}}$};
 		\node (li) 	at (0, 0) {$\vnorm{\li}$};
 		\draw (li) -- (A1);
 		\draw (li) -- (B1);
 		\node (x0)	at (0, -0.5)	{$\term{\vari}$};
 		%%%
-		\node (B2)	at (2.33, 1) {$\vnorm{\nprop{B}}$};
-		\node (C1)	at (3.66, 1) {$\vnorm{\pprop{C}}$};
+		\node (B2)	at (2.33, 1) {$\vnorm{\nprop{b}}$};
+		\node (C1)	at (3.66, 1) {$\vnorm{\pprop{c}}$};
 		\node (li2) 	at (3, 0) {$\vnorm{\li}$};
 		\draw (li2) -- (B2);
 		\draw (li2) -- (C1);
 		\node (x1)	at (3, -0.5)	{$\term{\varj}$};
 		%%%
-		\node (A2)	at (5.33, 1) {$\vnorm{\pprop{A}}$};
-		\node (C2)	at (6.66, 1) {$\vnorm{\nprop{C}}$};
+		\node (A2)	at (5.33, 1) {$\vnorm{\pprop{a}}$};
+		\node (C2)	at (6.66, 1) {$\vnorm{\nprop{c}}$};
 		\node (li3) 	at (6, 0) {$\vnorm{\li}$};
 		\draw[dashed] (li3) -- (A2) node[midway, left]{$\term{\vark}$};
 		\draw (li3) -- (C2);
@@ -761,22 +762,22 @@ An arrangement of the decomposition trees of all formulas as they occur within a
 	\begin{subfigure}{1\textwidth}
 		\centering
 		\begin{tikzpicture}
-		\node (A1)	at (-0.66, 1) {$\vnorm{\nprop{A}}$};
-		\node (B1)	at (0.66, 1) {$\vnorm{\pprop{B}}$};
+		\node (A1)	at (-0.66, 1) {$\vnorm{\nprop{a}}$};
+		\node (B1)	at (0.66, 1) {$\vnorm{\pprop{b}}$};
 		\node (li) 	at (0, 0) {$\vnorm{\li}$};
 		\draw (li) -- (A1);
 		\draw (li) -- (B1);
 		\node (x0)	at (0, -0.5)	{$\term{\vari}$};
 		%%%
-		\node (B2)	at (2.33, 1) {$\vnorm{\nprop{B}}$};
-		\node (C1)	at (3.66, 1) {$\vnorm{\pprop{C}}$};
+		\node (B2)	at (2.33, 1) {$\vnorm{\nprop{b}}$};
+		\node (C1)	at (3.66, 1) {$\vnorm{\pprop{c}}$};
 		\node (li2) 	at (3, 0) {$\vnorm{\li}$};
 		\draw (li2) -- (B2);
 		\draw (li2) -- (C1);
 		\node (x1)	at (3, -0.5)	{$\term{\varj}$};
 		%%%
-		\node (A2)	at (5.33, 1) {$\vnorm{\pprop{A}}$};
-		\node (C2)	at (6.66, 1) {$\vnorm{\nprop{C}}$};
+		\node (A2)	at (5.33, 1) {$\vnorm{\pprop{a}}$};
+		\node (C2)	at (6.66, 1) {$\vnorm{\nprop{c}}$};
 		\node (li3) 	at (6, 0) {$\vnorm{\li}$};
 		\draw[dashed] (li3) -- (A2) node[midway, left]{$\term{\vark}$};
 		\draw (li3) -- (C2);
@@ -794,7 +795,7 @@ An arrangement of the decomposition trees of all formulas as they occur within a
 A proof frame must satisfy an invariance property before the eligibility of the judgement it prescribes can even be considered.
 Namely, it must contain an equal number of positive and negative occurrences of each unique atomic formula that appears within it.
 This perfectly fits the linear logic paradigm: everything produced has to be consumed, and vice versa.
-In our case, we have three unique formulas, \smallprop{A}, \smallprop{B} and \smallprop{C}, each one of which has a single positive and a single negative occurrence: check.
+In our case, we have three unique formulas, \smallprop{a}, \smallprop{b} and \smallprop{c}, each one of which has a single positive and a single negative occurrence: check.
 The next thing to do in building a proof net is to establish a bijection between atomic formulas of opposite polarity, and draw it as an extra set of edges, pointing negative atoms to their positive matches: we call those \textit{axiom links}.
 Axiom links essentially specify the elimination of function types: they identify function arguments with their concrete inputs in a geometric fashion.
 We do not need to put much thought for our running example: since all atoms have a single occurrence of each polarity, there is just one possible bijection to consider, presented in Figure~\ref{subfigure:proof_structure_funcomp}.
@@ -821,9 +822,9 @@ Upon running out of positive nodes to visit, we will write down the variable lab
 We will start from the root of the formula tree occurring right of the turnstile (we know which one that is by the fact it has no variable label underneath it) in negative mode.
 
 In our case, this is a negative implication, the dashed line of which reads $\smallterm{\vark}$, so we start by writing down $\smallterm{\lam \vark. (\dots)}$. 
-We move on to \nprop{C}, which is a leaf, so we cross over to \pprop{C} and switch to positive mode. Going down, we encounter an implication as the positive root, and write down the positive tree's name, getting $\smallterm{\lam \vark.\varj (\dots)}$.
-We proceed in negatative mode to \nprop{B}, cross over to \pprop{B} and repeat the above, getting $\smallterm{\lam \vark.\varj~(\vari~\dots)}$ before going into negative mode again.
-The final axiom link points us to \pprop{A}, which is its own root, named $\smallterm{\vark}$.
+We move on to \nprop{c}, which is a leaf, so we cross over to \pprop{c} and switch to positive mode. Going down, we encounter an implication as the positive root, and write down the positive tree's name, getting $\smallterm{\lam \vark.\varj (\dots)}$.
+We proceed in negatative mode to \nprop{b}, cross over to \pprop{b} and repeat the above, getting $\smallterm{\lam \vark.\varj~(\vari~\dots)}$ before going into negative mode again.
+The final axiom link points us to \pprop{a}, which is its own root, named $\smallterm{\vark}$.
 At this point, our traversal has transcribed the term $\smallterm{\lam \vark.\varj~(\vari~\vark)}$ and we have ran out of paths to explore.
 By now, all our nodes and edges have been visited, and our final term is both well-formed and identical to the one prescribed by the natural deduction proof of Figure~\ref{figure:funcomp}: a joyful outcome!
 If we consider ourselves bound to the permutation of assumptions dictated by the variable indices, the only thing we would need to do going backwards is guess the presence (and position) of the \Exchange{} rule.
@@ -838,24 +839,24 @@ Regardless, we cannot reasonably anticipate there to always be a single possible
 \begin{figure}
 	\centering
 	\begin{tikzpicture}[
-		   focus/.style={circle, draw, minimum size=18pt},
+		   focus/.style={circle, draw, minimum size=17pt},
 		   link/.style={thick, dashed}
 	]
 	\node[inner sep=0pt, outer sep=0pt] (bg) at (0,0) 
 	{
 	\textcolor{gray!80}{
 	$
-		\infer[\Exchange]{\nprop{A}_k\li\pprop{B}_l, \nprop{B}_i\li\pprop{C}_j \vdash \pprop{A}_m \li \nprop{C}_j}{
-			\infer[\li I]{\nprop{B}_i\li\pprop{C}_j, \pprop{A}_k\li\pprop{B}_l \vdash  \pprop{A}_m \li \nprop{C}_j}{
-				\infer[\li E (2)]{\nprop{B}_i\li\pprop{C}_j, \nprop{A}_k\li\pprop{B}_l, \pprop{A}_m \vdash \nprop{C}_j}{
-					\infer[\Ax]{\nprop{B}_i\li\pprop{C}_j\vdash \pprop{B}_i \li \nprop{C}_j}{
+		\infer[\Exchange]{\nprop{a}_k\li\pprop{b}_l, \nprop{b}_i\li\pprop{c}_j \vdash \pprop{a}_m \li \nprop{c}_j}{
+			\infer[\li I]{\nprop{b}_i\li\pprop{c}_j, \pprop{a}_k\li\pprop{b}_l \vdash  \pprop{a}_m \li \nprop{c}_j}{
+				\infer[\li E (2)]{\nprop{b}_i\li\pprop{c}_j, \nprop{a}_k\li\pprop{b}_l, \pprop{a}_m \vdash \nprop{c}_j}{
+					\infer[\Ax]{\nprop{b}_i\li\pprop{c}_j\vdash \pprop{b}_i \li \nprop{c}_j}{
 					}
 					&
-					\infer[\li E (1)]{\nprop{A}_k\li\pprop{B}_l, \pprop{A}_m \vdash \nprop{B}_l}{
-	  					\infer[\Ax]{\nprop{A}_k\li\pprop{B}_l \vdash \pprop{A}_k\li\nprop{B}_l}{	
+					\infer[\li E (1)]{\nprop{a}_k\li\pprop{b}_l, \pprop{a}_m \vdash \nprop{b}_l}{
+	  					\infer[\Ax]{\nprop{a}_k\li\pprop{b}_l \vdash \pprop{a}_k\li\nprop{b}_l}{	
 						}
 						&
-						\infer[\Ax]{\pprop{A}_m \vdash \nprop{A}_m}{
+						\infer[\Ax]{\pprop{a}_m \vdash \nprop{a}_m}{
 						}
 					}
 				}
@@ -865,14 +866,14 @@ Regardless, we cannot reasonably anticipate there to always be a single possible
 	}
 	};
 	\node[focus] (ak) at (0.65, 1.2) {};
-	\node[focus] (am) at (3.85	,  1.2) {};
+	\node[focus] (am) at (3.7	,  1.2) {};
 	\draw[link, <-] (ak) to[bend left=45] (am); %$(am.north)$);
-	\node[focus] (bl1) at	(1.55, 1.2) {};
-	\node[focus] (bl2) at (2.6, 0.6) {};
+	\node[focus] (bl1) at	(1.5, 1.2) {};
+	\node[focus] (bl2) at (2.45, 0.6) {};
 	\draw[link, ->] (bl1) -- (bl2);
-	\node[focus] (bi) at (-3.45, 0.6) {};
-	\node[focus] (cj1) at (-2.55, 0.6) {};
-	\node[focus] (cj2) at (0.7, -0.05) {};	
+	\node[focus] (bi) at (-3.35, 0.6) {};
+	\node[focus] (cj1) at (-2.45, 0.6) {};
+	\node[focus] (cj2) at (0.6, -0.05) {};	
 	\draw[link, <-] (bi) to[bend left=60] (bl2);
 	\draw[link, ->] (cj1) -- (cj2);
 	\end{tikzpicture}
@@ -884,7 +885,7 @@ Let's revisit the natural deduction proof of Figure~\ref{figure:funcomp}.
 This time around, we will explicate polarity information, and put an identifying index to each atomic formula occurrence at its axiom leaves; 
 the turnstile mirrors indices faithfully, but inverts atomic polarities.
 Going bottom up through Figure~\ref{figure:funcomp_annotated}, every encounter of an implication elimination allows us (i) to identify the set of indices coming from the functor's negative part with the set of indices provided by the counterpart positive argument and (ii) to propagate the negative indices of the functor's remainder to the succedent of the next conclusion.
-That is, the first elimination $\li E(1)$ creates the identification $\{k \leftrightarrow m\}$, and propagates the positive leftover $\nprop{B}_l$ to the next proof step, whereas the next elimination $\li E(2)$ identifies $\{i \leftrightarrow l\}$ and propagates $\nprop{C}_j$ downwards.
+That is, the first elimination $\li E(1)$ creates the identification $\{k \leftrightarrow m\}$, and propagates the positive leftover $\nprop{b}_l$ to the next proof step, whereas the next elimination $\li E(2)$ identifies $\{i \leftrightarrow l\}$ and propagates $\nprop{c}_j$ downwards.
 Upon reaching the proof's conclusion, we get to merge all identifications established along the proof%
 \footnote{
 Let's avoid any misteps here. The joining described is \textit{not} set-theoretic union. Rather, we first take the set-theoretic union, and then iteratively reduce the set by conflating all identifications that agree in at least one element, up to a fixpoint.
@@ -926,7 +927,7 @@ Let us do our newfound friend justice, and make this distinction explicit.
 
 The logic that provides us with the tools to accomplish this is due to Jim Lambek~\cite{lambek1958mathematics}, and has come to by known as the Lambek calculus $\LC$.
 At this point, the careful reader will notice a chronological inconsistency in our presentational tour: the Lambek calculus predates Linear Logic! Despite the fact, it is in essence a \textit{refinement} of its purely linear part -- a substructural logic within a substructural logic -- and our previous exposition makes us better equiped to appreciate it.
-With commutativity gone, the Lambek calculus brings \textit{order} to Linear Logic -- in the literal sense -- assumptions must now be used exactly in the order they were instantiated.
+With commutativity gone, the Lambek calculus brings \textit{order} -- in the literal sense -- to Linear Logic; assumptions must now be used exactly in the order they were instantiated.
 It also brings forth the notion of \textit{adjacency}: structures joined by a rule are now immobile, and therefore obliged to remain adjacent from then on, unless broken apart by abstractions.
 
 Formulas in the Lambek calculus are generated by the grammar:
@@ -942,10 +943,10 @@ The elimination rule $\divright E$ (resp. $\divleft E$) can then be read as frac
 An analogus reading can be attributed to the introduction rules, them now being the instantiation of a division by withdrawing items from the left or right of the assumption sequence (it might be helpful to think of $\divright I$ as dequeuing and $\divleft I$ as popping from the assumptions in the premise).
 The division paradigm is of pedagogical utility only, and we will not take it any further for fear of (incorrectly) hinting at other properties of fractionals being applicable in the logic.
 A noteworthy change of notation appears in the elimination of the product: with $\Delta\ctx{\Gamma}$ we denote a structure $\Delta$ containing substructure $\Gamma$: $\Delta\ctx{\_}$ now serves as a \textit{context}, i.e. a structure of assumptions with a hole.
-The rule now claims it is acceptable to \textit{replace} substructure $\smallprop{A}, \smallprop{B}$ in $\Delta$ by $\Gamma$, if $\Gamma \vdash \smallprop{A}\otimes\smallprop{B}$ holds.
+The rule now claims it is acceptable to \textit{replace} substructure $\smallprop{a}, \smallprop{b}$ in $\Delta$ by $\Gamma$, if $\Gamma \vdash \smallprop{a}\otimes\smallprop{b}$ holds.
 The notions of structure and substructure depend of course on the logic used -- in the current setting, $\Delta$ is a sequence, to which $\Gamma$ is a subsequence. 
 The reformulation of the rule is necessary to arbitrate elimination of nested products, since their extraction to the right or left edge of an assumption sequence is no longer possible.
-This also serves to better illustrate a remark made earlier: the rule can be applied at arbitrary nesting depths, each position corresponding to a supposedly different proof (consider for instance that if $\Delta\ctx{\Gamma}$, and $\Gamma\ctx{\smallprop{A}, \smallprop{B}}$, then it is also the case that $\Delta\ctx{\prop{a}, \prop{b}}$).
+This also serves to better illustrate a remark made earlier: the rule can be applied at arbitrary nesting depths, each position corresponding to a supposedly different proof (consider for instance that if $\Delta\ctx{\Gamma}$, and $\Gamma\ctx{\smallprop{a}, \smallprop{b}}$, then it is also the case that $\Delta\ctx{\prop{a}, \prop{b}}$).
 
 \begin{figure}
 	\centering
@@ -976,7 +977,7 @@ We use $\appright$ and $\appleft$ to denote right and left application, respecti
 \subsubsection{Proof \& Term Reductions}
 The proof reductions of Figure~\ref{figure:lambek_proof_reductions} should be at this point straightforward to decode.
 The only addition is the symmetric version of the familiar implicational redex.
-For the redex of the product, the substituted $\smallprop{A}$ and $\smallprop{B}$ hypotheses are now wrapped on both sides by a context $\Theta$, following the formulation of $\otimes E$.
+For the redex of the product, the substituted $\smallprop{a}$ and $\smallprop{b}$ hypotheses are now wrapped on both sides by a context $\Theta$, following the formulation of $\otimes E$.
 The corresponding term reductions are:
 \begin{align}
 (\term{\lam \vari .s})\appright\term{t} & \bred \term{s}_{[\term{\vari } \mapsto \term{t}]}\\
@@ -1147,7 +1148,7 @@ This will still remain the case even after (if?) this manuscript sees the light 
 With every step we have taken further into substructuraland, we have been paying a price in expressivity; it is now time for us to acknowledge the accumulated bill.
 Dropping \Contraction{} and \Weakening{} made us resource conscious, but theorems of $\IL$ that required resource duplication or erasure became underivable.
 Dropping \Exchange{} forced us to pay attention to the order of assumptions, but costed us access to theorems that required permutation to derive.
-Substituting the structural comma $\_,\_$ with the non-associative $(\_\sbind\_)$ casted our sequences to trees, this time at the expense of theorems that required rebracketing.
+Substituting the structural comma $(\_,\_)$ with the non-associative $(\_\sbind\_)$ casted our sequences to trees, this time at the expense of theorems that required rebracketing.
 Woe is us -- is there even anything left we can derive?
 
 Perhaps this is painting an overly dramatic picture, considering that none of this is necessarily bad.
@@ -1165,7 +1166,7 @@ The defeatist attitude here would be to just accept the trade-off between expres
 The problem lies however in the common occasion where the structure of objects under scrutiny overlaps only \textit{partially} with a specific substructural flavour, modulo some exceptional but real cases that require added expressivity.
 In such a scenario, taking a step up in the hierarchy would cause an undesirable combinatorial explosion, whereas staying put would sacrifice our ability to argue about these exceptional cases. 
 By contrast, the maximalist attitude makes no concessions and seeks both for the cake to be whole and the dog to be fed.%
-\footnote{Direct translation of a silly but fitting Greek aphorism that won by a small margin over the Italian equivalent (wine barrel full and wife drunk). In any case, cake is bad for dogs.}
+\footnote{Direct translation of a silly but fitting Greek aphorism that won over the less politically correct Italian equivalent (wine barrel full and wife drunk). In any case, cake is bad for dogs.}
 What if there was a way to keep our logic computationally tractable but with temporary and on-demand access to normally excluded reasoning tools?
 
 \subsection{The Logic of Modalities}\label{subsec:modal_logic}
@@ -1198,7 +1199,7 @@ and the adjointness of their compositions, where $\diamond\bx(\_)$ is an \textit
 		$\infer[\bx I]{\Gamma \vdash \boxintro{\term{s}}:\bx\prop{a}}{
 			\bracket{\Gamma} \vdash \term{s}:\prop{a}
 		}$
-		\\[\smallsep]
+		\\[\midsep]
 		$\infer[\diamond E]{\Gamma\ctx{\Delta} \vdash \cterm{case \term{\diaelim t} of \term{\vari } in \term{s}}: \prop{b}}{
 			\Gamma\ctx{\bracket{\term{\vari }:\prop{a}}}\vdash\term{s}:\prop{b}
 			&
@@ -1227,20 +1228,28 @@ Its introduction counterpart $\bx I$ does the exact opposite: it frees a judgeme
 The diamond behaves just the other way around.
 Its introduction rule $\diamond I$ is straightforward: it offers the possibility of putting the succedent under the scope of a diamond, in exchange wrapping the antecedents with brackets.
 The elimination rule $\diamond E$ is more of a problem child, behaving akin to a unary product.
-Without locality restrictions, it inspects a proof of $\smallprop{B}$, the assumptions of which contain a substructure $\bracket{\smallprop{A}}$ within context $\Gamma{\ctx{\_}}$, and allows the post-hoc substitution of the hypothesis together with its brackets by a structure $\Delta$, if from it one can derive $\diamond \smallprop{A}$.
+Without locality restrictions, it inspects a proof of $\smallprop{b}$, the assumptions of which contain a substructure $\bracket{\smallprop{a}}$ within context $\Gamma{\ctx{\_}}$, and allows the post-hoc substitution of the hypothesis together with its brackets by a structure $\Delta$, if from it one can derive $\diamond \smallprop{a}$.
 
 Rules are adorned with term rewrite instructions in the propositions as types style, similar to how temporal logic can be operationalized in the $\lam$-calculus~\cite{wansing2002sequent}.
 The mnemonic is now two-dimensional: upward triangles denote introduction and downward ones elimination, whereas black triangles are for the box, white ones for the diamond.
 Term constructions for the single-premise rules are uncomplicated: each type operation just leaves the corresponding term footprint.
 This is not the case for the $\diamond E$ rule, which requires some attention:
-the structural substitution of $\bracket{\smallprop{A}}$ for $\Delta$ necessitates a case construct that calls for a term substitution of the variable $\smallterm{\vari }$ for $\diaelim\smallterm{t}$.
+the structural substitution of $\bracket{\smallprop{a}}$ for $\Delta$ necessitates a case construct that calls for a term substitution of the variable $\smallterm{\vari }$ for $\diaelim\smallterm{t}$.
 Note that the free variables of the resulting expression ($\caseof{\diaelim t}{\vari }{s}$) are the union of the free variables of \smallterm{t} and those of \smallterm{s} except for \smallterm{\vari }, which becomes \textit{bound} by the case construct.
 
 \subsubsection{Proof \& Term Reductions}
+The proof patterns of Figure~\ref{figure:modal_beta_reductions} exhibit introduction elimination chains of modal operators, and thus constitute $\beta$ redexes subject to normalization.
+The first one is trivial: it just says that a sequential application of $\bx I$ followed by $\bx E$ can be safely excised.
+The second one proposes that if a $\diamond I$ is the last rule to have been applied on the substitution branch $t$ of the $\diamond E$ rule, it would make sense to simply plug proof $t$ in place of the proposition $\smallprop{a}$ hypothesized in the other  branch $s$.
+On the term level, these correspond to normalizations:
+\begin{align}
+\boxelim \boxintro \term{s} & \bred \term{s}\\
+\cterm{case \term{\diaelim \diaintro t} of \term{x} in \term{s}} & \bred \term{s}_{[\term{x} \mapsto \term{t}]}
+\end{align}
+
 \begin{figure}
-	\begin{subfigure}{1\textwidth}
 	\centering
-		\begin{tabularx}{0.85\textwidth}{@{}ccc@{}}
+		\begin{tabularx}{0.85\textwidth}{@{}c@{\qquad}c@{\qquad}c@{}}
 		$\infer[\bx E]{\bracket{\Gamma} \vdash \prop{a}}{
 			\infer[\bx I]{\Gamma \vdash \bx \prop{a}}{
 				\infer*[s]{\bracket{\Gamma} \vdash  \prop{a}}{}
@@ -1251,7 +1260,7 @@ Note that the free variables of the resulting expression ($\caseof{\diaelim t}{\
 		\raisebox{10pt}{$\implies$}
 		&
 		$\infer*[s]{\bracket{\Gamma} \vdash \prop{a}}{}
-		$\\[\smallsep]
+		$\\[\midsep]
 		$\infer[\diamond E]{\Gamma\ctx{\bracket{\Delta}} \vdash \prop{b}}{
 			\infer*[s]{\Gamma\ctx{\bracket{\prop{a}}} \vdash \prop{b}}{
 				\infer[\Ax]{\prop{a} \vdash \prop{a}}{}}
@@ -1270,11 +1279,20 @@ Note that the free variables of the resulting expression ($\caseof{\diaelim t}{\
 		$
 		\end{tabularx}
 		\caption{Modal $\beta$ redexes.}
-		\label{subfigure:modal_beta_reductions}
-	\end{subfigure}\\[\midsep]
-	\begin{subfigure}{1\textwidth}
+		\label{figure:modal_beta_reductions}
+\end{figure}
+
+The dual direction of $\eta$ equivalences also holds -- since these are discovered in the literature less frequently than the more pedestrian implication and product equivalences, we explictly present them in Figure~\ref{figure:modal_eta_reductions}.
+The term equivalences they materialize are:
+\begin{align}
+\boxintro \boxelim \term{s} & \overset{\eta}{\equiv} \term{s}\\
+\cterm{case \term{\diaelim{s}} of \term{x} in \term{\diaintro{x}}} & \overset{\eta}{\equiv} \term{s}
+%\cterm{case \term{\diaelim \diaintro t} of \term{x} in \term{s}} & \bred \term{s}_{[\termt{x} \mapsto \term{t}]}
+\end{align}
+
+\begin{figure}
 	\centering
-		\begin{tabularx}{0.8\textwidth}{@{}ccc@{}}
+		\begin{tabularx}{0.8\textwidth}{@{}c@{\qquad}c@{\qquad}c@{}}
 			$\infer[\bx I]{\Gamma \vdash \bx\prop{a}}{
 			\infer[\bx E]{\bracket{\Gamma} \vdash \prop{a}}{
 					\infer*[s]{\Gamma \vdash  \bx\prop{a}}{}
@@ -1301,27 +1319,7 @@ Note that the free variables of the resulting expression ($\caseof{\diaelim t}{\
 		\end{tabularx}
 	\caption{Modal $\eta$ redexes.}
 	\label{subfigure:modal_eta_reductions}
-	\end{subfigure}
-	\caption{Modal redexes}
-	\label{figure:modal_reductions}
 \end{figure}
-
-The proof patterns of Figure~\ref{subfigure:modal_beta_reductions} exhibit introduction elimination chains of modal operators, and thus constitute $\beta$ redexes subject to normalization.
-The first one is trivial: it just says that a sequential application of $\bx I$ followed by $\bx E$ can be safely excised.
-The second one proposes that if a $\diamond I$ is the last rule to have been applied on the substitution branch $t$ of the $\diamond E$ rule, it would make sense to simply plug proof $t$ in place of the proposition $\smallprop{A}$ hypothesized in the other  branch $s$.
-On the term level, these rules correspond to computations:
-\begin{align}
-\boxelim \boxintro \term{s} & \bred \term{s}\\
-\cterm{case \term{\diaelim \diaintro t} of \term{x} in \term{s}} & \bred \term{s}_{[\term{x} \mapsto \term{t}]}
-\end{align}
-
-The dual direction of $\eta$ equivalences also holds -- since these are discovered in the literature less frequently than the more pedestrian implication and product equivalences, we explictly present them in Figure~\ref{subfigure:modal_eta_reductions}.
-The term equivalences they materialize are:
-\begin{align}
-\boxintro \boxelim \term{s} & \overset{\eta}{\equiv} \term{s}\\
-\cterm{case \term{\diaelim{s}} of \term{x} in \term{\diaintro{x}}} & \overset{\eta}{\equiv} \term{s}
-%\cterm{case \term{\diaelim \diaintro t} of \term{x} in \term{s}} & \bred \term{s}_{[\termt{x} \mapsto \term{t}]}
-\end{align}
 
 \subsubsection{A Digression on Modal Terms}
 \label{subsubsection:digression}
@@ -1414,7 +1412,7 @@ With this in mind (and in a rare moment of excessive formal zeal), we will exerc
 				\infer[\Ax]{\term{\varj}: \diamond \prop{a} \vdash \term{\varj}: \diamond \prop{a}}{}
 			}
 		\]
-	\caption{Residuation law: from $\smallprop{A} \vdash \bx\smallprop{B}$ to $\diamond\smallprop{A} \vdash \smallprop{B}$.}
+	\caption{Residuation law: from $\smallprop{a} \vdash \bx\smallprop{b}$ to $\diamond\smallprop{a} \vdash \smallprop{b}$.}
 	\label{subfigure:modal_properties:residuation:1}	
 	\end{subfigure}\\[\smallsep]
 	\begin{subfigure}{1\textwidth}
@@ -1805,8 +1803,8 @@ For this to work, we need to make the tiniest of modifications to our lexicon so
 	\w{litten} \qquad :: \qquad \diamond\bx (\np[s]\divleft\np[s])\divright\pp[s]
 \end{equation}
 Intuitively, the new type requests a prepositional phrase complement to the right, after the consumption of which it produces a movable postnominal modifier that can penetrate constituent phrase boundaries to the left.
-Equipped with it, we can derive both the local versions hinted at earlier, and their discontinuous variations; see Figure~\ref{figure:lovecraft_postnominal} for a proof of concept.%
-\footnote{Get it? It's an actual \textit{proof}.} 
+Equipped with it, we can derive both the local versions hinted at earlier, and their discontinuous variations; see Figure~\ref{figure:lovecraft_postnominal} for a \textit{proof} of concept.%
+\footnote{Get it? It's an actual proof.} 
 
 \begin{figure}
 	\centering
@@ -1947,7 +1945,7 @@ The analysis just performed illustrated the necessity of (at least) two distinct
 One, more opinionated than I, might argue that each type is mapped to a distinct lexical item (one per relativization type), and that the identification between their strings is a mere coincidence, an idiosyncracy of the language, or anyway irrelevant; even if a string is multi-typed, each type is a witness to a unique latent word hiding behind it.
 Of different effect but similar flavour would be the line of defense that appeals to null syntax, a covert process that can conditionally nominalize infinitives, determine plural nouns, relativize gerunds or do any sort of thing, really; a word is never multi-typed, but ad hoc type conversions can take place out of the blue.
 Even under premises as radical as the above, occassions of type undeterminism are all but rare.
-Consider for instance the verb \textex{to have}, whose argument structure for the possessive meaning alone) is specified (according to its FrameNet entry~\cite{baker1998berkeley}) as having mandatory owner and possession semantic arguments (corresponding to syntactic subject and direct object), but also any combination of depictive, duration, explanation, manner and temporal optional complements, in various orders -- each variation necessarily expressed with a distinct type.
+Consider for instance the verb \textex{to have}, whose argument structure for the possessive meaning alone is specified (according to its FrameNet entry~\cite{baker1998berkeley}) as having mandatory owner and possession semantic arguments (corresponding to syntactic subject and direct object), but also any combination of depictive, duration, explanation, manner and temporal optional complements, in various orders -- each variation necessarily expressed with a distinct type.
 In our case, we need the type:
 \begin{equation}
 	\w{having} :: (\diamond\bx(\np\divleft\np)\divright\np)\divright\pp
@@ -1958,7 +1956,7 @@ The reality of optional arguments and non-trivial argument order variations alon
 Having acknowledged that, the question shifts to how we deal with it.
 From a theoretical perspective, we can incorporate the question of type choice into our proof-machinery via the additive conjunction $\with$ of $\ILL$, which is essentially recovering the functional nature of our lexicon, with type assignments reformulated as nested choices:
 \begin{equation}
- \smallprop{A}_1 \with (\smallprop{A}_2 \with (\smallprop{A}_3 \dots (\smallprop{A}_{n-1}\with\smallprop{A}_{n})))
+ \smallprop{a}_1 \with (\smallprop{a}_2 \with (\smallprop{a}_3 \dots (\smallprop{a}_{n-1}\with\smallprop{a}_{n})))
 \end{equation}
 and the subscript enumerating each of the possible instantiations in the context of a single sentence.
 In such a regime, the lexical assignment rule $\Lex$ would need to be followed by a sequence of projections to isolate the desired type, contributing little other than excessive verbosity.%
@@ -1981,11 +1979,11 @@ This is in fact an exemplar of \textit{parametric polymorphism}, which is proper
 \begin{tabularx}{0.6\textwidth}{@{}cc@{}}
 $\infer[\Pi I]{\Gamma \vdash \lam \alpha.\term{M}: \Pi \alpha.\sigma}{\Gamma, \alpha : \type \vdash \term{M}: \sigma}$
 &
-$\infer[\Pi E]{\Gamma, \Delta \vdash \term{M~\prop{b}}: \sigma_{[\alpha\mapsto\smallprop{B}}]}{\Gamma \vdash\term{M}: \Pi \alpha.\sigma &  \Delta \vdash \term{B}: \type}$
+$\infer[\Pi E]{\Gamma, \Delta \vdash \term{M~\prop{b}}: \sigma_{[\alpha\mapsto\smallprop{b}}]}{\Gamma \vdash\term{M}: \Pi \alpha.\sigma &  \Delta \vdash \term{B}: \type}$
 \end{tabularx}
 \end{center}
 The rules above showcase the introduction and elimination of types quantified over types $\Pi \alpha.\sigma$, and the term analogue of abstracting over types $\lam \alpha.M$.
-In this notation, a coordinator would be a quantification of type $\Pi\chi.(\chi\divleft\chi)\divright\chi$, that when reduced against arbitrary type $\smallprop{A}$ would yield $(\smallprop{A}\divleft\smallprop{A})\divright\smallprop{A}$.
+In this notation, a coordinator would be a quantification of type $\Pi\chi.(\chi\divleft\chi)\divright\chi$, that when reduced against arbitrary type $\smallprop{a}$ would yield $(\smallprop{a}\divleft\smallprop{a})\divright\smallprop{a}$.
 Other than this unique occurrence of polymorphism, second order term and type constructions are an overkill to our purposes here, relegating this comment to footnote status.
 }
 
@@ -1998,8 +1996,9 @@ Collaging these last bits together is left as an exercise to the motivated reade
 
 \begin{figure}
 	\begin{subfigure}{1\textwidth}
-		\smaller[2]
 			\[
+			\resizebox{1\textwidth}{!}{
+
 				\infer[\divleft E]{\delta := (\w{strange}\sbind\w{dolphins})\sbind(\w{and}\sbind(\w{sea-nymphs}\sbind(\w{of}\sbind(\w{unrememberable}\sbind\w{deeps}))))\vdash \np}{
 					\infer{\w{strange}\sbind\w{dolphins} \vdash \np}{\text{(\ref{subfigure:strange_dolphins})}}
 					&
@@ -2010,13 +2009,14 @@ Collaging these last bits together is left as an exercise to the motivated reade
 						\infer{\w{sea-nymphs}\sbind(\w{of}\sbind(\w{unrememberable}\sbind\w{deeps}))\vdash \np}{\text{(\ref{subfigure:sea-nymphs of unrememberable deeps})}}
 					}
 				}
+			}
 			\]
 			\caption{Deriving noun-phrase coordination...}
 			\label{subfigure:strange_dolphins_and_sea_nymphs}
 	\end{subfigure}
 	\begin{subfigure}{1\textwidth}
-		\smaller[2]
 		\[
+		\resizebox{1\textwidth}{!}{
 			\infer[\divright E]{(\w{having}\sbind(\w{in}\sbind(\w{their}\sbind\w{whirlpools})))\sbind\delta) \vdash \diamond\bx(\np\divleft\np)}{
 				\infer[\divright E]{\w{having}\sbind(\w{in}\sbind(\w{their}\sbind\w{whirlpools})) \vdash \diamond\bx(\np\divleft\np)\divright\np}{
 					\infer[\Lex]{\w{having}: (\diamond\bx(\np\divleft\np)\divright\np)\divright\pp}{}
@@ -2032,9 +2032,10 @@ Collaging these last bits together is left as an exercise to the motivated reade
 					}
 				}
 				&
-				\hspace{-10pt}
+				\hspace{-15pt}
 				\infer{\delta \vdash \np}{\text{(\ref{subfigure:strange_dolphins_and_sea_nymphs})}}
 			}
+		}
 		\]
 		\caption{...and using it to construct yet another postnominal modifier.}
 		\label{subfigure:having_in_their_whirlpools}
@@ -2066,7 +2067,7 @@ Even though constituency structure is de facto acknowledged by linguistic theory
 The connotation of this is that even though backwards proof search in $\NL$ may find use in \textit{verifying} the plausibility of a type-assigned, pre-bracketed phrase, forward search is necessary in \textit{eliciting} a type and a bracketing structure from a phrase. 
 
 \subsubsection{Syntax-Semantics Interface}\label{subsubsection:ssi_tlg}
-The game played so far, challenging as it may be, might prove dull to someone indifferent to syntax or its type-theoretic formulation; we will attempt to fix that by expanding our target crowd to semanticists and Montagovian grammarians, who are said to recite daily before beditme:
+The game played so far, challenging as it may be, might prove dull to someone indifferent to syntax or its type-theoretic formulation; we will attempt to fix that by expanding our target crowd to semanticists and Montagovian grammarians, who are said to recite daily before bedtime:
 \begin{quote}
 I fail to see any interest in syntax except as a preliminary to semantics.~\cite{montague1970universal}
 \end{quote}
@@ -2120,7 +2121,7 @@ Similarly, we will denote with $\cons^{X}$ its set of constants, $\vars^{X}$ its
 \end{figure}
 
 The homomorphism $\hm{.}$ operates on proofs, i.e. typed terms, and thus does double duty: it transforms both terms and types of $\Sigma$ to corresponding terms and types of $\Tau$.
-It is handy, then, to define it on the basis of two components $\langle \eta, \theta \rangle$, where $\eta : \types^{\Sigma} \to \types^{\Tau}$ and $\theta: \terms^{\Sigma} \to \terms^{\Tau}$, such that $\hm{\smallterm{s}: \smallprop{A}} = \theta({\smallterm{s}}) : \eta({\smallprop{A}})$, where the typing relation at the right-hand side of the equation must hold (i.e. the two maps mutually respect derivability).
+It is handy, then, to define it on the basis of two components $\langle \eta, \theta \rangle$, where $\eta : \types^{\Sigma} \to \types^{\Tau}$ and $\theta: \terms^{\Sigma} \to \terms^{\Tau}$, such that $\hm{\smallterm{s}: \smallprop{a}} = \theta({\smallterm{s}}) : \eta({\smallprop{a}})$, where the typing relation at the right-hand side of the equation must hold (i.e. the two maps mutually respect derivability).
 On the type level, $\eta$ must specify a pointwise mapping $\eta_0$ from the propositional constants $\propcon^{\Sigma}$ of the source logic to types $\types^{\Tau}$ of the intermediate logic.
 In our case, we will consider this a bijection from $\propcon^{\Sigma}$ to $\propcon^{\Tau}$, such that $\eta_0(p) \mapsto p$ (i.e. instantiating $\propcon^{\Tau}$ as a literal copy of $\propcon^{\Sigma}$).
 Then, to extend $\eta_0$ to $\eta$ we need to specify its action on complex types, where it essentially forgets the unary modalities and removes the directionality of the implications, as shown in Table~\ref{table:eta_nl}.
@@ -2136,9 +2137,9 @@ As an example, applying $\hm{.}$ to the proof of Figure~\ref{figure:lovecract_re
 		\multicolumn{1}{@{}c}{$\types^{\Sigma}$} & \multicolumn{1}{c@{}}{$\types^{\Tau}$}\\
 		\toprule
 		$p \in \propcon^{\Sigma}$							& $\eta_0(p) := p \in \propcon^{\Tau}$\\
-		$\smallprop{A}\divleft\smallprop{B}$,		
-		$\smallprop{B}\divright\smallprop{A}$				& $\eta(\smallprop{A})\li\eta(\smallprop{B})$\\
-		$\diamond\smallprop{A}$, 	$\bx\smallprop{A}$		& $\eta(\smallprop{A})$
+		$\smallprop{a}\divleft\smallprop{b}$,		
+		$\smallprop{b}\divright\smallprop{a}$				& $\eta(\smallprop{a})\li\eta(\smallprop{b})$\\
+		$\diamond\smallprop{a}$, 	$\bx\smallprop{a}$		& $\eta(\smallprop{a})$
 	\end{tabularx}
 	\caption{Translating $\NL_{\diamond,\bx}$ types to $\ILL_{\li}$.}
 	\label{table:eta_nl}
@@ -2182,8 +2183,8 @@ Structurally rich lexical entries can utilize \textit{any} term constructor made
 Of course, such terms are still bound by the promise to obay the type dictated by the homomorphic translation of their original syntactic type, and must also be derivable theorems of the semantic logic they live in.
 Increasing expressivity therefore may indeed not in itself add to the function/argument structures inherited by syntax, but provides the tools necessary for complex lexical semantic actions to take effect as needed.
 
-A case in point is the coordinator \textex{and} conjoining the two modifiers of the previous section: \textex{litten by \dots \textbf{and} having in \dots}.
-Each individual conjunct fulfills a descriptive filter that intersects the properties of its argument with the properties attributed by its internal meaning.
+A case in point is the coordinator \textex{and} conjoining the two modifiers of the previous section: \textex{litten by \dots \textbf{and} having in \dots};
+each individual conjunct fulfills a descriptive filter that intersects the properties of its argument with the properties attributed by its internal meaning.
 That is, of all objects of type $*$ (where $*$ an arbitrary type, denoting the interpretation target of $\smallprop{np}$), the first modifier withdraws all but those lit by unseeable suns, whereas the second one withdraws all but those with weird entities in their whirlpools.
 For the full conjunction to have the intended meaning, i.e. evoke the image of exclusively this subset of oceans characterized by both the above properties, the coordinator would need to enact the role of a portable implementation of function composition%
 	\footnote{Before anyone gets angry: I am neither pitching some provocative theory of conjunction semantics here,  nor secretly advocating for the dot-combinator -- just trying to make a point.} 
@@ -2359,7 +2360,8 @@ Enforcing grammaticality while blocking overgeneration of the object language si
 What's worse, words triggering higher-order tectogrammatic phenomena will then need object translations of an even higher order for their surface forms, making the design and population of a strict tectogrammatic translation $\hm{.}$ practically unfeasible.
 This part could in principle be partially mitigated by flattening complex syntactic phenomena into lower-order (alias) types in the source domain, and outsourcing their expansion to a parallel grammar for concrete semantics -- this is less of a solution and more of a deferral, though.
 Beyond issues of practicality, there are also foundational problems at stake, as resorting to a lexical enumeration of phenogrammatic forms evidences inability to perform linguistic generalization -- what \citet{moot2014hybrid} calls a problem of \textit{descriptive inadequacy} revolving around \textit{any} abstract replacement to a Lambek higher-order type.
-Last but not least, it is hard to imagine an abstract categrial grammar in action: it is unclear how to procure an abstract proof object from the \textit{evaluated} yield of its object translation (i.e. the string form we are most likely encounter in the open) using traditional proof-theoretic disciplines -- the two layers of function/argument structures (abstract- and object- level) and their interacting reductions would unnerve even the sturdiest of parsers (or so it seems).
+Last but not least, it is hard to imagine an abstract categrial grammar in action: it is unclear how to procure an abstract proof object from the \textit{evaluated} yield of its object translation (i.e. the string form we are most likely encounter in the open) using traditional proof-theoretic disciplines -- the two layers of function/argument structures (abstract- and object- level) and their interacting reductions would unnerve even the sturdiest of parsers%
+	\footnote{Or so it seems.}
 
 As an artificial yet illustrative and down-to-earth example, let's brave the design of an abstract categorial grammar tasked with the production of an end-to-end linguistic example.
 Once more, we start with the specification of our two logics $\Sigma$ and $\Tau$.
@@ -2425,7 +2427,7 @@ The only alternative that does not resort to contaminating the original term -- 
 It seems therefore that the appealing simplicity and elegance of the tectogrammatic logic is counterbalanced by an increasingy bulky and cumbersome transition to the (equally simple, yet far less elegant) phenogrammatic logic.
 The problem is of course more pronounced for natural languages, which overstep the strict confines of their formal counterparts~\cite{moot2014hybrid}.
 If only we had a way to keep just the good part of a type-driven and semantically transparent deep syntax, without having to get involved with all the tedious labour of its surface materialization or the translation to it...
-Spoiler alert: we will in a bit.
+Spoiler alert: we will, in the near future.
 
 \subsection{Other Formalisms}
 Type-logical and abstract categorial grammars have monopolized our interest, yet are not the only members of the categorial grammar family.
@@ -2464,7 +2466,7 @@ The marriage of these two layers of abstraction in the same term calculus might 
 Concetenative terms allow the framework to relax the lexical pressure of an abstract categorial grammar by preserving the canonical categorial grammar treatment of local syntactic phenomena.
 Applicative terms constitute localized and controlled bursts of ad hoc expressivity that can exceptionally allow the derivation of higher-order and non-local phenomena normally inacessible to the OG Lambek calculi.
 Hybrid type-logical grammars are a relatively new addition to the family, and are subject to ongoing research, both from the linguistic and the proof-theoretic perspective~\cite{kubota2020type,moot2022logical}.
-As to why one would choose this setup over alternatives, your guess is as good as mine; hybrid proponents proclaim the system less obscure and more fit for linguistic applications~\cite{kubota2020type} -- external validation is still pending.
+As to why one would choose this setup over alternatives, your guess is as good as mine; hybrid proponents proclaim the system less obscure and more fit for linguistic applications~\cite{kubota2020type} -- external validation to these claims is still pending.
 
 
 \section{Key References \& Further Reading}

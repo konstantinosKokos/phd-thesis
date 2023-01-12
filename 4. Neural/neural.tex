@@ -21,7 +21,7 @@ Converting raw signals intro structured representations thereof allows us to sta
 The more well-behaved the representational format chosen, the more powerful, transparent and verifiable the reasoning can be.
 The less localized and problem-specific the representational format chosen, the more adaptive and better understood the reasoning can be.
 On the basis of these observations, $\lambda$ calculi make for an ideal representation format.
-Now choice of format aside, a formal system operating on formal representations is not prone to implicit biases, latent variables, ambiguity, inconsistency, or any of the the modern pestilences of the sort.
+But choice of format aside, a formal system operating on formal representations is not prone to implicit biases, latent variables, ambiguity, inconsistency, or any of the the modern pestilences of the sort.
 Erroneous outputs are the result of \textit{bad input} or \textit{bad programming}; there's always someone to blame.
 Specifically in the natural language domain, advancing the conversion of text into formal representations is promoting accountable automation of textual processing, and eliminates the anthromorphic delusion of the ghost in the machine; for to imitate linguistic form is not to understand linguistic meaning.
 Parsing is therefore only superficially in competition with large language models, and its seeming obsoletion is just a by-product of the ephemeral and rapidly shifting pop science trends of the artificial stupidity race.
@@ -291,12 +291,13 @@ This bias is not to be mistaken for a vice, nor for a deeply motivated ruling; i
 The issue is really quite shallow: statistical models have always had a very hard time dealing with under-represented samples (in our case, supertags), and correctly recognizing items outside the training data is an open problem with no general solution.
 
 That is not to say the compromise is an unjust one; its heedless proliferation does come with two major side effects, though.
-One, it forces parsers to give up on potentially rare syntactic phenomena, assuming those manifest through unique and uncommon supertags.
+One, it forces parsers to give up on potentially rare syntactic phenomena, at least when those manifest through unique and uncommon supertags.
 Even though a parser should in principle be able to handle any valid supertag (regardless of its statistical properties), the a priori exclusion of rare ones corresponds to an externally imposed restriction to its generalization.
 In other words, exactly those difficult phenomena that would benefit from the linguistic expertise of a robust parser are to be discarded in the first place!
-There's a bit of a self-fulfilling defeatism here: we'll always only parse what we \textit{can} parse, sure, but we'll never be able to parse what we won't ever \textit{try} to parse.
+There's a bit of a self-fulfilling defeatism here: we'll always only parse what we \textit{can} parse, sure, but we'll never be able to parse what we won't ever \textit{•}it{try} to parse.
 Two, in becoming part of the first page of the (as of yet unwritten) supertagging bible, the concept implicitly reinforces the belief that grammars not following a distribution of occurrences similar to (or denser than) that of the CCGbank are practically unusable.
-A densely featured type system and its overpopulated lexicon have become demonified as pitfalls we have to steer away from, which is actually quite the contradiction -- we came up with supertagging to treat lexicalized grammars, but we won't push lexicalized grammars further because of a lingering fear that our supertaggers are not good enough, i.e. lexicalization is good, but only as long as it's not too lexicalized! 
+A densely featured type system and its overpopulated lexicon have become demonified as pitfalls we have to steer away from
+This is actually quite the contradiction -- we came up with supertagging to treat lexicalized grammars, but we won't push lexicalized grammars further because of a lingering fear that our supertaggers are not good enough; lexicalization is good, but only as long as it's not too lexicalized! 
 
 Epistemological ramblings aside and back to reality, the type grammar we have developed is not among the lucky few.
 \AE thel is way sparser than the CCGbank, containing five times as many types, while test samples with at least one rare type (i.e. a type with less than 10 occurrences in the joined train and dev subsets) appear four times as often as in the CCGbank (14.5\% vs 3.5\%).
@@ -369,7 +370,7 @@ Attention has its roots in neural image processing~\cite[inter alia]{larochelle2
 Even though attention was originally used as an enhancement on top of RNNs, the code of conduct today is basically attention only.
 The instigator of that paradigm shift was the transformer architecture~\cite{vaswani2017attention}, which by now enjoys an unprecedented pop-science status (saving me the hassle of having to regurgitate yet another ``transformers explained'' pamphlet).
 In high level terms (and consciously oversimplifying), the transformer is a heteroassociative memory mechanism.
-It builds three distinct representations for each sequence token: \textit{queries} dictate what each token looks for, \textit{keys} dictate what each token associates with, and \textit{values} correspond to stored memories.
+It builds three distinct representations for each sequence token: \textit{queries} dictate what each token looks for, \textit{keys} dictate what each token associates with, and \textit{values} correspond to memory storage.
 A distance metric (commonly a scaled dot-product) is used to induce a weighting over the keys matrix for each query vector; we may say that queries \textit{attend} to keys.
 The resulting weights are normalized to sum to one, and act as multiplicative factors in the weighted averaging of the values matrix, yielding a vector acting as a distinct evaluation of the full sequence for each query.
 This basic operation is trivial to parallelize, both across tokens within the same sequence, as well as across independent sequences, thus allowing an efficient many-to-many message passing contextualization that can be stacked multiple times in depth for extra expressivity.
@@ -914,14 +915,14 @@ It would be straightforward to fix a vocabulary of positions, and learn a distin
 But this is neither inclusive nor elegant: it imposes an ad hoc bound to the shape and size of tree nodes that can be encoded (contradicting the constructive paradigm), and fails to account for the compositional nature of trees.
 The structure-conscious route requires noting that \textit{paths} over binary branching trees form a semi-group, i.e. they consist of two primitives (namely a left and a right path), and an associative non-commutative binary operator that binds two paths together into a single new one.
 The archetypical example of a semigroup is matrix multiplication; we therefore instantiate a tensor $P \in \mathbb{R}^{2 \times n_d \times n_d}$ encoding each of the two path primitives as a linear map over symbol embeddings.
-From the above we can derive a function $p$ that converts positions to linear maps, by performing consecutive matrix multiplications of the primitive weights, as indexed by the binary word of a node's position; e.g. the linear map corresponding to position $12_{10} = 0011_{2}$ would be $p(12) = P_0P_0P_1P_1 \in \mathbb{R}^{d_n \times d_n}$.
+From the above we can derive a function $p$ that converts positions to linear maps, by performing consecutive matrix multiplications of the primitive weights, as indexed by the binary word of a node's position; e.g. the linear map corresponding to position $12_{10} = 1100_{2}$ would be $p(12) = P_0P_0P_1P_1 \in \mathbb{R}^{d_n \times d_n}$.
 We flatten the final map by evaluating it against an initial seed vector $\rho_0 \in \mathbb{R}^{d_n}$, corresponding to the tree root (or the initial hidden state in the RNN paradigm).
 To stabilize training and avoid vanishing or exploding weights and gradients, we model paths as \textit{unitary} transformations by parameterizing the two matrices of $P$ to orthogonality using the exponentiation trick on skew-symmetric bases~\cite{bader2019computing,lezcano2019trivializations}.
 Now, let tree node $s_{i, k}$ contain symbol $\sigma \in \mathcal{S}$; its embedding $n_{i,k}$ will be agnostic to its tree index $i$ and given as the element-wise product of its tree-positional and content embeddings:
 \begin{equation}
 n_{i, k} = p(k)(\rho_0) \odot \left(W_e(\sigma)\right) \in \mathbb{R}^{d_n}
 \end{equation}
-The embedder is then essentially an instantiation of a unitary RNN~\cite{arjovsky2016unitary}, except applied on tree paths rather than symbol sequences.%
+The embedder is then essentially an instantiation of a binary branching unitary RNN~\cite{arjovsky2016unitary}, the choice of which hidden-to-hidden map to follow at each step depending on the node's position relative to its ancestor.%
 	\footnote{Concurrently, \citet{bernardy2022assessing} follow a similar approach in teaching a unitary RNN to recognize Dyck words, and find the unitary representations learned to respect the compositional properties of the task.
 	Here we go the other way around, using the unitary recurrence exactly because we expect them to respect the compositional properties of the task.}
 Since paths are shared across trees, their representations are in practice efficiently computed once per batch for each unique tree position during training, and stored as fixed embeddings during inference.
@@ -1000,7 +1001,7 @@ Hence, we shall employ it not just on \AE thel but also on the two versions of t
         & \multicolumn{2}{c}{\textbf{\textit{CCGbank}}} 
         & \textbf{\textit{TLGbank}}
         & \textbf{\textit{\AE thel}}\\ 
-        & \textit{original} & \textit{rebank} & & ($\mathtt{1.0.0a4}$)\\
+        & \textit{original} & \textit{rebank} & & ($\mathtt{1.0.0a5}$)\\
         \toprule
         \textbf{Primitives}     & 37        & 40        & 27        & 81\\
         ~ Zeroary           & 35        & 38        & 19        & 31\\ 
@@ -1608,7 +1609,7 @@ Numeric evaluation requires a way to compare proofs.
 The first and most transparent thing to consider are sentential- (or proof-) level performance metrics, where there's two axes of interest; axis one is whether we could have gotten or did get a proof, and axis two is whether that proof could be or was the correct one.
 The key results are presented in Table~\ref{table:key_results}.
 
-\begin{table}[h]
+\begin{table}
 	\centering
 	\begin{tabular}{@{}c@{\qquad}c@{}}
 		\textbf{parsability}	&
@@ -1680,14 +1681,15 @@ Whether they are informative or not is up to debate; practically, they suggest t
 \paragraph{Advantages}
 The position that parsing is a problem of permutation offers an appealing way of encoding the parse space, where computational efficiency and formal correctness are no longer at odds.
 This challenges the status quo of shift-reduce parsing, scorning iterative structure manipulation in favor of a direct translation of structural constraints into vectorial ones, directly optimizable with numerical methods.
-Neural proof nets embody this in being fully parallel (even \textit{intra}-sententially), living entirely on the GPU.
+Neural proof nets embody this in being fully parallel (even \textit{intra}-sententially) and living entirely on the GPU.
 They refuse to engage in the over-parameterization game; combined with a constructive architecture, they're practically parameterless -- you can use them on your grandma's laptop.
 To call their asymptotic behavior favorable would be an understatement; modern machines can perform a Sinkhorn normalization over batches of 64 matrices in constant time (in the $\mu s$ scale) for any matrix order up to $2^7$ -- to comprehend how extremely ridiculous this is, consider that this would amount to finding the correct bijection out of ${2^7}! = 3.9\times 10^{215}$ possibilities across 64 pairs of sets in parallel.
 More than just efficient, they are effective -- employed here for an objectively difficult, sparse, underspecified and nascent type logic, they achieve accuracy comparable to that of established parsers boasting decades of combined community wisdom and collective effort.
 Numbers aside, neural proof nets are messengers of unity and not confrontation.
 In trivializing the difficulties associated with hypothetical reasoning, they bring explicit variable binding into \textit{practical} relevance for wide-coverage categorial grammars, discrediting decades of naysaying.
 The same pipeline we used here applies to \textit{any} grammar logic in the linear tradition -- type theoretic purity is no longer a foe to shy away from, but a free pass at proof nets and their vectorized forms.
-The framework is finally open to modification; explicit structural constraints additional to linearity may always be imported as objective functions or representational adjustments.
+To piggyback to our early discussions on abstract categorial grammars, the methodology presents a way to deliver type-correct tectogrammatic proofs \textit{directly} from surface form, without having to ever engage in the difficult game of explicating the phenogrammatic type- and term- morphism, the latter implicitly internalized within a 128 parameter long black box instead.
+The framework is finally open to modification; explicit structural constraints additional to linearity may always be imported, either as additional objective functions or representational adjustments.
 
 \paragraph{Limitations}
 The key issue with the end-to-end architecture is inherited from the supertagger -- our inability to mix and match multiple assignments is now here to haunt us with a sharp 13\% reduction in absolute coverage.
@@ -1799,7 +1801,7 @@ Below you'll find some pointers to get you started.
 
 Despite digressions against the sequence-to-sequence paradigm, our original supertagger~\cite{kogkalidis-etal-2019-constructive} is inspired and preceded by a ton of inventive applications of such models repurposed for structure induction \cite[inter alia]{vinyals2015grammar,wiseman2016sequence,dong-lapata-2016-language,buys2017robust}.
 Our early results have somewhat sensitivized the community to the problem of open-domain lexicalized supertagging.
-\citet{bhargava2020supertagging} essentially replicate our experiments with minor modifications, in parallel [sic] to us (i.e. same venue, but a year later).
+\citet{bhargava2020supertagging} essentially replicate our early experiments in parallel [sic] to us (i.e. same venue but a year later, this time on the CCGbank).
 Other, serious steps forward include the ones by \citet{prange-etal-2021-supertagging} and \citet{Liu_Ji_Wu_Lan_2021}, who concurrently saught to account for the tree-like structure of lexical categories, the former through a tree-biased architecture and the latter through transition-based parsers applied at the lexical level.
 
 These serve as the inspiration for the geometry-informed supertagger of \citet{kogkalidis2022geometryaware}, which bears semblance and owes credit to various ongoing lines of architectural work.
@@ -1808,7 +1810,7 @@ Analogously to structure-aware self-attention networks~\cite[inter alia]{zhu-eta
 Finally, akin to dynamic graph approaches~\cite{liao2019efficient,pareja2020evolvegcn}, it forms a closed loop system that autoregressively generates its own input, in the process becoming exposed to subgraph structures that drastically differ between time steps.
 
 Our neuralification of proof nets~\cite{kogkalidis-etal-2020-neural} is really just the creative application of modern breakthroughs in optimal transport learning and differentiable set representations~\cite[inter alia]{cuturi2013sinkhorn,mena2018learning,grover2018stochastic,peyre2019computational}, combined with existing insights and intuitions on the application of graph-theoretic machinery for proof search~\cite{moot2008graph}.
-Again in parallel [sic], \citet{bhargava2021proof} present our operationalization anew, modulo microvariations, and apply it on a Lambek-style adaptation of the CCGbank.
+Again in parallel [sic], \citet{bhargava2021proof} present our operationalization anew and apply it on a Lambek-adapted subset of the CCGbank.
 As for steps forward, \citet{moot2022perspectives} raises a shismatic criticism of proof nets from within, but also provides stimuli and incentives for alternative operationalizations.
 \Citet{deepgrail23} are more devout, adapting the architecture for use with a multimodal Lambek calculus targeted for French. 
 Finally, \citet{DBLP:journals/corr/abs-2109-10044} recounts an up-to-date tale of categorial grammar parsing, and offers new insights along the way, but from the combinatory side of history -- this might prove handy if you're looking for alternative perspectives.

@@ -28,12 +28,12 @@ Proof extraction serves a ternary purpose.
 One, it gives us access to an uncompromisingly realistic testbed upon which we can immediately inspect and iteratively finetune the specifics of the grammar logic.
 Two, it fills in for a strict and impartial external critic in providing a quantitative evaluation regime -- at each point in time, we are able to measure the proportion of source analyses (and corresponding linguistic phenomena) the algorithm provides a (reasonable) output for.
 And three, the end-yield of this process has merit of its own.
-As a derived dataset, it is first a building block necessary for populating the computational toolshed of the theory, and also a public resource for the world to do with as they please.
+As a derived dataset, it is first a building block necessary for populating the computational toolshed of the theory, but also a public resource for the world to do with as they please.
 
 Before we get started, let me apologize for the gloomy mood that might permeate this chapter here and there.
 Proof extraction has been the most gruesome and iterated aspect of my path to doctorhood, its maintance and upkeep having an almost annual recurrence (with nothing festive about it).%
 \footnote{Fun(?) fact: at least one revision to the extraction was made after these lines were written.}
-For the sake of scientific transparency, I have no choice other than to expose it in all its gory details, but it might be that my fatigue of the topic occassionally reflects in a less-than-usually interesting prose.
+For the sake of scientific transparency, I have no choice other than to expose it in all its gory details, but my fatigue of the topic might occassionally reflect in a less-than-usually interesting prose.
 
 \section{Preliminaries}
 \label{section:preliminaries}
@@ -53,11 +53,11 @@ The effect becomes apparent when employing a preverbal adverb -- contrast (\ref{
 \begin{xlist}
 \ex\label{gloss:simple_smain}
 \gll Frans verkoop-t kaas.\\
-Frans sell-\abbrv{prs.3sg} cheese\\
+Frans sell-\abbrv{3sg} cheese\\
 \glt{`Frans sells cheese.'}
 \ex\label{gloss:simple_smain_v2}
 \gll Morgen verkoop-t Frans kaas.\\
-tomorrow sell-\abbrv{prs.3sg} Frans cheese\\
+tomorrow sell-\abbrv{3sg} Frans cheese\\
 \end{xlist}
 \end{exe}
 Subordinate sentences are unaffected by the V2 rule.
@@ -71,7 +71,7 @@ Frans wants merchant become[\abbrv{inf}]\\
 \glt{`Frans wants to be a merchant.'}
 \ex\label{gloss:embedded_q}
 \gll Weet je wie kaas verkoop-t?\\
-know you who cheese sell-\abbrv{prs.3sg}\\
+know you who cheese sell-\abbrv{3sg}\\
 \glt{`Do you know who sells cheese?'}
 \end{xlist}
 \end{exe}
@@ -116,7 +116,7 @@ The first two  below depict the canonical and ``inverted'' word orders; the thir
 \end{xlist}
 \end{exe}
 A similar phenomenon is observed in the passive voice and the perfect tense, both of which are formed periphrastically using a past participle and the appropriate auxiliary verb.
-There, the past participle may occur either to the left or the right of the auxiliary, leading to either a German- or English- like construction.
+There, the past participle may occur either to the left or the right of the auxiliary, leading to either a German- or an English- like construction.
 \begin{exe}
 \ex\label{gloss:green_vs_red}
 \begin{xlist}
@@ -149,7 +149,7 @@ I have the duck a nest see[\abbrv{inf}] make[\abbrv{inf}]\\
 \end{exe}
 
 There's of course a lot more to the story, but we will steer clear of the rabbit hole.
-The matter is of more than typological interest, though -- Dutch verb clusters have been a favorite topic of debate for formal grammarians for a while now, since their construction requires expressive capacity beyond what a context-free grammar can offer, and thus brinking an end to any delusion that human languages are context-free~\cite[\textit{inter alia}]{huybregts1984weak,shieber1985evidence}.%
+The matter is of more than typological interest, though -- Dutch verb clusters have been a favorite topic of debate for formal grammarians for a while now, since their construction requires expressive capacity beyond what a context-free grammar can offer, and thus putting an end to any delusion that human languages are context-free~\cite[\textit{inter alia}]{huybregts1984weak,shieber1985evidence}.%
 	\footnote{Or, depending on the reader, that Dutch is a human language.}
 The impenetrable nature of verb clusters means that verbs that partake in their construction may often be forced to detach from their arguments, or, worse yet, become stranded from them by the infixation of another verb in between -- in the dependency grammar paradigm, these discontinuities materialize as non-projective (or cross-serial) dependencies -- see Figure~\ref{figure:xdep_udparse} for an example.
 Long story short, Dutch word order is a complex puzzle that is not to be trifled with.
@@ -235,9 +235,9 @@ An example analysis as provided by Lassy is shown in Figure~\ref{figure:example_
 
 Of the two corpora only the smallest one is of real interest.
 Lassy Small includes approximately 65\,000 sentences, amassing a total of almost 1 million words. 
-Its annotations have been manually checked, corrected and externally validated, with a reported 97.8\% of sentences correctly analyzed, and a 98.63\% of tokens correctly tagged -- neither perfect, but both more than good enough for our present needs.%
+It is a gold standard corpus, meaning its annotations have been manually checked, corrected and externally validated, with a reported 97.8\% of sentences correctly analyzed, and a 98.63\% of tokens correctly tagged -- neither perfect, but both more than good enough for our present needs.%
 	\footnote{For a detailed exposition of Lassy annotation guidelines, refer to \url{http://www.let.rug.nl/vannoord/Lassy/sa-man_lassy.pdf} (in Dutch).}
-Its larger sibling favors quantity over quality -- it is more than 500 times the size, but an ill-fit for our endeavours, being the parser's unmodified output.
+Its larger sibling favors quantity over quality -- it is more than 500 times the size, but an ill-fit for our endeavours, being the parser's unmodified output (i.e. silver standard).
 Table~\ref{table:catset} and Table~\ref{table:depset} present aggregated summaries of the syntactic category tags and depedency labels found in Lassy Small, together with their relative frequencies. 
 A breakdown of the corpus' contents is presented in Table~\ref{table:lassy_contents}.%
 \footnote{Sourced from \url{http://nederbooms.ccl.kuleuven.be/eng/tags}.}
@@ -419,7 +419,7 @@ This doesn't have any unintended consequences on the interal structure and typin
 Lassy is occassionally inconsistent with the use of the determiner \textit{det} and modifier \textit{mod} labels in the nominal domain, marking either as the other in various contexts.
 Examples include marking indefinite, demonstrative or possessive pronouns as modifiers, and, the other way around, marking numerals, names in genitive form, quantifiers and complex quantifying phrases as determiners -- but neither direction is strictly followed.
 These annotations can at times result in a phrase with multiple determiners.
-Despite determiners not being heads, the presence of multiple of them makes it hard to decide on a compositional structure as it poses the challenge of choosing one as the primary between them.
+Despite determiners not being heads, the presence of multiple of them makes it hard to decide on a compositional structure as it poses the challenge of choosing one as primary between them.
 To impose the restriction of a single determiner per nominal domain and to standardize (some of the) inconsistencies, we uniformly cast the former to determiners and the latter to modifiers, using simple lexical filtering.
 This results in a unique determiner per phrase (resolving constructions like \texttr{geen enkel}{no}, \texttr{de beide}{both}, etc.), and an elimination of complex determiner phrases.
 
@@ -430,7 +430,7 @@ This has no effect on our extracted types and proofs but shall help us formulate
 
 \subsubsection{Non-Compositional Annotations}
 Despite its admittedly high quality, Lassy has not been built with an inherent focus towards compositionality.
-This reflects in some not so uncommon exceptions to the canonical phrasal annotation that de facto necessitate some global concessions and adaptations, and some local emergency measures, ranging from targeted transformations in the best case, to occassionally just giving up on a sample in the worst.
+This reflects in some not so uncommon exceptions to the canonical phrasal annotation that de facto necessitate some global concessions and some local emergency measures, ranging from targeted transformations in the best case, to occassionally just giving up on a sample in the worst.
 The biggest problem that we are faced with right off the bat is the abundance of vague, general purpose annotation schemes to convey non-compositional structures.
 These come in two flavours -- discourse level annotations, and multiword phrases.
 
@@ -508,7 +508,7 @@ The result is the possibile duplication of lingustic material among different pr
 Another common pain point is the prominence of multiword phrase annotations, indicated in Lassy by the \textit{mwu} dependency.
 Multiword expressions are a pervasive pest from the shadowy realms between lexicon and syntax.
 They can be categorized as being either (i) morphosyntactically fixed or (partially) productive expressions that deviate from the expected compositional meaning, or (ii) just compositional expressions that have an idiosyncratic frequency.
-In all but the first case and regardless of their semantic use, they are not necessarily without internal structure.
+In all but the first subcase and regardless of their semantic use, they are not necessarily without internal structure.
 The criteria of what constitutes a multiword phrase and what doesn't are somewhat muddy, subjective and not clearly motivated.
 The example of Figure~\ref{figure:du_mwp_example} claims that \texttr{Eerste Wereldoorlog}{first world.war} is one, for instance -- eliciting the questions of whether expressions like the \textex{third/current/last/next world war} are also instances of a multiword phrase, and, if so, where the line is drawn (if at all).
 Anyway, multiword expressions are bad, but what's really bad is how overindulgent Lassy is with their use, which feels more like a free pass at disclaiming any responsibility of actually providing an analysis: a preposterous 5.9\% of all composite phrases are labeled as being multiword expressions.
@@ -533,7 +533,7 @@ For consistency, punctuations originally analyzed as multiword parts (presumably
 These minor changes suffice to cut down the frequency of multiword expressions to a more manageable 4.5\% (an overall reduction of 25\%).
 Unresolved expressions have their parts merged into a single node; the resulting node gets a new syntactic label, that being the most common part of speech tag of the merged units (with a bias towards \textit{n} or \textit{np}, if either is present in the parts).
 The goal is to contain the effect of multiword annotations within their own phrasal boundaries (i.e. to avoid functors higher in the tree from selecting for \smallgtype{mwu}-typed arguments).
-In the case of a multiword phrase consisting solely of phantom parts, the merged phrase also gets assigned an index and associating it to its material counterpart.
+In the case of a multiword phrase consisting solely of phantom parts, the merged phrase also gets assigned an index associating it to its material counterpart.
 
 \subsubsection{There Can Be Only One (Head)}
 Having dealt with structureless structures, the next thing to tackle are subtrees that fail to elect a single head, falling to civil war (when multiple nodes compete for the role) or rising to anarchy (when all relinquish it).
@@ -542,7 +542,7 @@ The culprit behind both cases is always a conjunction, canonically containing a 
 Exceptionally, we may have an instance of a so-called \textit{correlative conjunction}, where two words jointly perform the role of the coordinator (e.g. \texttr{zowel ... als}{as much ... as}, etc.).
 We resolve this by changing the label of the second coordinator (in terms of left-to-right sentential precedence) to \textit{cor} (for correlative), which we will later treat as a complement.
 Otherwise in the second case we have an arrangement of conjuncts with no coordinator in between.
-In reality, the conjunction is licensed by a punctuation symbol (usually a comma, but sometimes a dash or an ampersand), which, being a punctuation, has gone under Lassy's radar.
+In reality, the conjunction is licensed by a punctuation symbol (usually a comma, but sometimes a dash or an ampersand), which, being a punctuation, has flown under Lassy's radar.
 We heuristically resolve this by first locating any occurrence of a single punctuation infixed between headless conjuncts, relocating it to its rightful place, and assigning it a \textit{crd} label; see Figure~\ref{figure:p2crd} for an example.
 
 \begin{figure}
@@ -564,10 +564,11 @@ We heuristically resolve this by first locating any occurrence of a single punct
 \end{figure}
 
 \subsubsection{Phrasal Restructuring}
-Other than the incompatibilities detailed so far, some Lassy annotations are suboptimal for the target logic in specifying a phrasal structure that we want to treat differently than prescribed.
+Other than the incompatibilities detailed so far, some Lassy annotations are suboptimal for the target logic, in specifying a phrasal structure that we want to treat differently than prescribed.
 Such cases are treated by automatically adjusting the phrasal structure to one we are happier with.
-Since these adjustments involve removing or establishing new subtrees and edges, we run the risk of accidentally removing the material tree that grounds a set of phantom nodes sharing the same index.
-As a safety measure, we first enforce the convention that the most shallow occurrence of a node should correspond to a material tree.
+Since such adjustments involve removing or reorganizing subtrees and edges, we run the risk of accidentally removing the material tree that grounds a set of phantom nodes sharing the same index.
+As a precautionary measure, we enforce the convention of having the material tree appear as close to the root as possible.
+%enforce the convention that the most shallow occurrence of a node should correspond to a material version of all nodes sharing its index.
 
 \begin{figure}
 	\centering
@@ -623,12 +624,12 @@ Other than this coindexing, it will soon be made apparent that no meaningful fun
 
 \paragraph{Modifier Scope}
 Unlike complements, adjuncts in Lassy are not limited to one occurrence per unique label.
-In other words, they are attached in parallel to the phrasal domain they are part of, rather than recursive paired in a binary fashion to the node they modify or determine.
+In other words, they are attached in parallel to the phrasal domain they are part of, rather than recursively paired in a binary fashion to the node they modify or determine.
 We managed to cheat our way around multiple determiners so as to avoid any conflicts of priority, but the same lexical strategy does not apply to modifiers.
 Since Lassy abstains from taking a stance on what the order of modifier attachment is, and sees no distinction between modifying a phrase or its head, we are forced to by and large adopt the same strategy.
 Exceptionally in the nominal domain, we have the option of imposing structure based on word order alone.
 That is, we can distinguish between a noun and a noun phrase modifier depending on where the modifier is located: a modifier that occurs before the determiner must modify the entire phrase, whereas a modifier that occurs between the determiner and the head noun must modify the noun alone; see Figure~\ref{figure:prenom} for an example.
-This simple heuristic is as as far as we can get, but it will help homogenize our extracted proofs and types by (i) aligning function application order and word order and (ii) alleviating any unecessary typing tension between \smallgtype{np} and \smallgtype{n} modifiers.
+This simple heuristic is as as far as we can get, but it will help homogenize our extracted proofs and types by (i) aligning dominance hierarchy and word order and (ii) alleviating any unecessary typing tension between \smallgtype{np} and \smallgtype{n} modifiers.
 
 \paragraph{Ellided Constituents}
 Other than non-finite verbal arguments, shared indexing is primarily employed by Lassy to indicate an omission of linguistic material in ellipses.
@@ -659,13 +660,13 @@ Prior to sending the transformed tree on its way, we make some basic checks of i
 With our transformations in place, the subdued corpus should be ripe for our proof extraction algorithm.
 
 \subsubsection{Proof Charming}
-The extraction is built around a tiny DSL written in Python, which allows one to formulate, represent, transform and traverse valid proofs of \NLPplus.
-By invoking the DSL while traversing the dependency tree of a Lassy sample, the extraction algorithm dynamically constructs a natural deduction proof, translating tree patterns into meta-theoretical proof operations.
-Internalizing the syntactic validity assertions of \NLPplus{} is a costly procedure, both in terms of processing overhead and of maintainance effort required, especially considering how unconducive the language is to formal rigor.
+The extraction is built around a tiny domain-specific language, written in Python and allowing one to formulate, represent, transform and traverse valid proofs of \NLPplus.
+By invoking the language while traversing the dependency tree of a Lassy sample, the extraction algorithm dynamically constructs a natural deduction proof, translating tree patterns into meta-theoretical proof operations.
+Internalizing the syntactic validity assertions of \NLPplus{} is a costly procedure, both in terms of processing overhead and of maintainance effort required, especially considering how unconducive Python is to formal rigor.
 On the other hand, it serves to eliminate the need for asynchronously interfacing with some external checker, and provides a formal guarantee that whatever the extraction algorithm produces is \textit{correct by construction}: any syntactic missteps will be caught on the spot and raise an exception.
 As a bonus, the system can (and will) find use outside the scope of the extraction, as a representational intermediary for parsing and proof representation.
 Detailing the specifics behind the implementation shouldn't be our main concern here; it suffices to know it exists and runs as a constant safety belt in all that follows.
-If for whatever reason you enjoy watching people try to beat types into Python, you can take at a look at Appendix~\ref{appendix:implementation_notes} (not for the faint of heart).
+If for whatever reason you enjoy watching people try to beat types into Python, you can take at a look at Appendix~\ref{subappendix:nlp} (not for the faint of heart).
 
 \subsubsection{Parameters}
 We start by declaring our basic necessities.
@@ -677,7 +678,7 @@ The codomain of the translation is in our case coincident with our logic's set o
 As hinted at earlier, the extraction is \textit{parametric} to this translation: the domain can be any of the sets of lexical tags Lassy provides access to, and the codomain is by no means restricted to atomic types.
 This allows an easy adaptation to morpologically informed types, or a transition to an expanded theory (e.g. one that includes subtyping, additional axes of modal decorations, etc.). 
 In principle, this can also allow a re-incorporation of the semantic subjects of non-finite verbal forms, but doing so would not amount to much: as promised earlier, these are already trivially recoverable by a simple morphism (readily applicable on the extracted proofs) that sends non-finite types (e.g. $\ppart[s]$) to the desired complex types (e.g. $\ddia{su}\np[s]\li\ppart[s]$); immediate return on investment for taking source labels at face value.
-In any case, the translation induces a function that naively tells us for each node what type the translation table prescribes to its part of speech tag (if lexical), syntactic category (if phrasal) or the correspond translations of its material counterpart (if phantom).
+In any case, the translation induces a function that naively tells us for each node what type the translation table prescribes to its part of speech tag (if lexical), syntactic category (if phrasal) or the corresponding translations of its material counterpart (if phantom).
 
 Then, we need an equivalence relation on the set of dependencies so as to partition it into heads, adjuncts and complements -- each non-head dependency is translated into a modal label, the union of which (together with the extraction modality) forming the set of modalities $\deps$.
 For the set of dependencies, we also need a strict partial order, serving to impose an informal ordering of the arguments of a multi-argument functor.
@@ -988,7 +989,7 @@ The latter is bracketless and exactly where we want it -- we can finally perform
 \paragraph{Nominal Domain}
 The situation is not much different in the nominal domain, except for a change in the order we do things in.
 First, we must call $\mathsf{prove}$ on the head; unlike before, it receives no type hint, as we do not expect it to come out as a functor.
-Next, we requisit a proof for the determiner, hinted as a function from the head's type to the top type (with a complementary box on top, of course).
+Next, we requisition a proof for the determiner, hinted as a function from the head's type to the top type (with a complementary box on top, of course).
 Last, we ask for a proof for each adjunct, again as the boxed endomorphism of the result.
 Same as before, we take the function composition of all adjuncts; determiner first, since it's the one responsible for raising the noun to a noun phrase, followed by the garden variety modifiers in order of appearance.
 At this point, we must thank our past selves for the separation of noun and noun-phrase modifiers in two different tree layers, as this has saved us the trouble of having to scratch our head contemplating how to organize adjuncts.
@@ -1291,7 +1292,7 @@ We can use this to our advantage to try and estimate the \textit{real} derivatio
 In total, there's 56\,098 unique proof frames, but 53\,867 (96\%) of those occur only once, thus being of little use to our purposes (since each will unavoidably be mapped to a single proof).
 Of the remaining 2\,292, 2\,231 (97.3\%) are mapped to one unique proof, whereas 61 (2.7\%) may derive one of two unique proofs.
 Using this as a guideline, we find 472 potentially ambiguous samples in the entirety of \AE thel (a measly 0.7\%), their frames being among the 61 suspects.
-Manual inspection reveals most of them to really be ambiguous (e.g. the proof assigned prescribes one of two possible modifier attachments), 
+Manual inspection reveals most of them to really be ambiguous (e.g. the proof assigned might prescribe one of two possible modifier attachments), 
 although in some cases the alternative reading is linguistically ruled out on the basis of selectional restrictions.
 Repeating the above after first casting the proof and type assignments to \NLP{} (dropping any dependency information via a stripping morphism), we end up with 56\,185 unique frames for 54\,170 unique proofs, with 2\,471 frames occurring more than once.
 Of these, 2\,374 are behind 1 unique proof, 112 behind 2, 6 behind 3, and 1 is behind 5.
@@ -1442,8 +1443,9 @@ On the other side of the lexicon lie lexical keys -- the words and phrases we ma
 Lexical key sparsity is completely external to the extraction algorithm (words and their occurrence statistics being directly inherited from Lassy and its choice of corpora).
 It's also no longer a real practical consideration, since distributed word vectors and pretrained language models have long superseded the lexically fixed components of the modern NLP pipeline.
 Still, for the sake of completeness (and since the lexicon is a tiny resource of its own), we may as well have a quick glance of the statistics of the lexicon's domain.
-Figure~\ref{figure:entry_sparsity} shows the distribution of lexical key occurrences; most keys occur just once, whereas a handful occur up to a few thousand times (interpolate between most and a handful in the log\textsubscript{10}/log\textsubscript{2} plane to find any point of interest).
-The most common word of \AE thel is the gendered definite determiner \textex{de}, claiming the throne with an incontestible 56\,925 occurrences (making up for 5.7\% of all words just by itself).
+Figure~\ref{figure:entry_sparsity} shows the distribution of lexical key occurrences; most keys occur just once, whereas a handful occur up to a few thousand times.%
+	\footnote{Interpolate between most and a handful in the log\textsubscript{10}/log\textsubscript{2} plane to find any point of interest.}
+The most common word of \AE thel is the gendered definite determiner \textex{de}, claiming the throne with an incontestible 56\,925 occurrences and making up for 5.7\% of all words just by itself.
 
 \begin{figure}
 	\centering
@@ -1484,7 +1486,7 @@ The most common word of \AE thel is the gendered definite determiner \textex{de}
 We made it through the boring part!
 With all the numbers laid down, all that's left to do is showcase how \AE thel treats common and idiosyncratic constructios of Dutch.
 For space economy, we'll drop the natural deduction presentation in favor of the compactified $\lambda$ terms -- we've seen enough back-and-forths by now to take the training wheels off.
-The examples to follow contain a third line for type assignments, and the prescribed $\lambda$ term before the free translation.
+The glossed examples to follow contain a third line for type assignments, and the prescribed $\lambda$ term before the free translation.
 
 \paragraph{Higher-Order Reasoning}
 The extraction recipe applied to coindexed phantom nodes seems to generalize well, producing elegant higher-order proof patterns that capture the corresponding syntactic reentrancies prescribed from the Lassy graph quite well.
@@ -1726,7 +1728,7 @@ He must understand what the suspect has possessed .\\
 	}$}
 \glt{`He must understand what possessed the subject.'}
 \end{exe}
-Example (\ref{gloss:red}) is of special interest, showcasing also the absence of ``conversion'' rules --  the nominalized present participle \textex{verdachte} is not cast into a $\np[s]$, but used as-is, forcing a non-standard type assignment to the determiner.
+Example (\ref{gloss:red}) is of special interest, showcasing also the absence of ``conversion'' rules --  the nominalized present participle \textex{verdachte} is not cast into a $\n[s]$, but used as-is, forcing a non-standard type assignment to the determiner.
 
 Vertical (i.e. dependency domain) discontinuities are a tad trickier, requiring the $\dxdia{x}\dxbox{x}$ type pattern to unlock.
 Combined with our position-explicit formulation of the $\diamond E$ rules, this has the side-effect of producing rather complicated proofs and terms, even for relatively short and simple sentences.
@@ -1826,7 +1828,7 @@ Multiword phrases not caught by our ad hoc transformations find their way to \AE
 in (\ref{gloss:mwp}), for instance, the phrase \textex{Op het laatst} is assigned a single type.
 This is suboptimal, but except for manually reannotating all multiword annotations, no immediate solution presents itself.
 The example is also interesting in showing how \AE thel treats isolated non constituents torn apart from their phrasal context.
-The phrase is obviously an adjunct of sorts, but the usual type assigment of a boxed endomorphism is impossible, since the phrasal head is absent.
+The phrase is obviously a pruned adjunct of sorts, but the usual type assigment of a boxed endomorphism is impossible, since the phrasal head is absent.
 Not knowing what the wider phrasal type is, the extraction algorithm falls back to calling the non-constituent what it is: an adverbial.
 The same approach is followed universally, meaning that all of \AE thel's samples derive atomic types.
 

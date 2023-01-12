@@ -102,7 +102,7 @@ class Structure(abc.ABC, typing.Generic[T]):
 \noindent\NLP{} structures are multisets; yet in our use case we do care about order (even if only in the representational sense) -- we can treat them as \textit{sequences} instead (altering the notion of equality to account for permutation invariance if/when necessary).
 The $\diamond$, $\bx$ modalities impose structure in the form of brackets -- we can treat them as \textit{unary} containers.
 A container structure will carry a name for its brackets; strictly speaking a tagged union object, but implemented as a string.
-To canonicalize ambiguous representations and remain faithful to the absence of tree-like recursion, we impose that a unary must necessarily contain a sequence (may as well be a singleton), while a sequence can contain either unary structures or elementary objects (i.e. no sequences of sequences).
+To canonicalize ambiguous representations and remain faithful to the absence of tree-like recursion as described in Section~\ref{subsubsection:dependency_trees}, we impose that a unary must necessarily contain a sequence (may as well be a singleton), while a sequence can contain either unary structures or elementary objects (i.e. no sequences of sequences).
 With this simple mutual induction in mind, we arrive at the definitions below (the type hints serve as little more than mental notes).
 
 \begin{minted}{python}

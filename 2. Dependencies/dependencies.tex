@@ -17,7 +17,7 @@ A different approach to grammatical theory abandons the constituency relation, a
 Dependency relations do not seem compatible with the categorial setup at a first glance: they are flat, and lack the notion of finite phrasal parts -- in showing no attachment to iterative phrasal division, they are also not obviously compositional.
 
 In this, chapter we will focus our efforts into bridging this gap between these two perspectives under a unified categorial grammar setup.
-We will motivate the incorporation of dependency relations into the categorial vocabulary by repurposing existing and well-studied tools that remain faithful to the type theory roots the previous chapter has established (spoiler it's the modalities).
+We will motivate the incorporation of dependency relations into the categorial vocabulary by repurposing existing and well-studied tools that remain faithful to the type theory roots the previous chapter has established (spoiler: it's the modalities).
 We will finally discuss how their inclusion alters the structural paradigms of the previous chapter, and the opportunities and problems this change comes with.
 
 \section{Phrase vs. Dependency Structure}
@@ -149,7 +149,7 @@ In that setup, the added direction (which needs not agree with that of syntactic
 to semantic arguments~\cite{mel2003levels}.
 
 A dependency grammar that has gained significant traction over the last decade is the framework of universal dependencies~\cite{10.1162/coli_a_00402}, claiming a broad collection of multi-lingual treebanks~\cite{nivre2020universal} and tools.
-In universal dependencies, words are usually assigned a label pulled from a rudimentary set of part of speech tags and lexical identifiers and more importantly, dependency relations are also labeled according to their grammatical function, allowing the distinction of a words' dependents according to the grammatical role they fulfill.
+In universal dependencies, words are usually assigned a label pulled from a rudimentary set of part of speech tags and lexical identifiers; more importantly, dependency relations are also labeled according to their grammatical function, allowing the distinction of a words' dependents according to the grammatical role they fulfill.
 Grammatical roles are typologically and thematically informed, and are inventorized with language universality as the prime goal.
 This inventorization upholds no semantic promises, but is not inconsistent with the aforementioned semantic view either.
 To obtain a semantic transcription of the dependency tree, one needs only specify whether the semantic flow of each grammatical role is co- or contra- directional to the edge's syntactic flow, i.e. whether the arc marks its dependent as a \textit{complement} (where syntactic head and semantic predicate coincide) or an \textit{adjunct} (where the syntactic head is the semantic argument to its syntactic dependent).%
@@ -213,7 +213,7 @@ Each phrase can be iteratively split apart into two subphrases (not necessarily 
 Note that this distinction does not preclude the possibility that the argument itself has a functional type -- no assumption is made on the form of either subphrase's type, other than the two being compatible.
 But what assumes the role of the functor in a local domain needs not always be the syntactic head of that domain.
 There's a plethora of example cases.
-Quantifiers, for one, are inarguably predicates over the objects they quantify, yet they exactly obey the morphosyntactic characteristics prescribed by these objects (i.e. grammatical gender, case, number, etc.), evidencing that the latter are in fact the heads -- a clear violation of any alignment between syntactic predicate and syntactic head we could ever hypothesize. 
+Quantifiers, for one, are inarguably predicates over the objects they quantify, yet they exactly obey the morphosyntactic characteristics prescribed by these objects (i.e. grammatical gender, case, number, etc.), evidencing that the latter are in fact the heads -- a clear violation of any alignment we could ever hypothesize between functional predicateness and syntactic headedness.
 A similar argument can be made for determiners and, more broadly speaking, any phrasal element that takes functional precedence without being the syntactically prominent part of its phrase, e.g. adjectival and adverbial modifiers.
 
 This observation gives rise to a binary subcategorization of a binary predicate structure; to establish some risky terminology, it is either:
@@ -275,7 +275,7 @@ In that sense, they \textit{assign} diamonds to their complements by necessitati
 Recalling the structural imprint of the rule, this results in an extra layer of bracketing structure the delimits complement phrases and isolates them from their surroundings.
 
 The adjunct case may at first glance seem slightly more obscure.
-Following the directives of the previous paragraph, we need to mark the dependent -- this time a predicate in non head position -- in a way such that its application on its argument leaves a bracketing imprint on the structure of the former rather than the latter.
+Following the directives of the previous paragraph, we need to mark the dependent -- this time a predicate in non head position -- in a way such that its application on its argument leaves a bracketing imprint on the structure of the former instead of the latter.
 The solution manifests in the form of a box:
 \begin{align}
 	\prop{b} \divright_r \prop{a} \ \equiv \ \bx (\prop{b} \divright \prop{a}) \\
@@ -341,7 +341,7 @@ The next thing to consider is how the inclusion of dependency modalities alters 
 In any case, modalities induce a multi-labeled unary bracketing structure.
 For the non-associative $\NL$, the result is trees of mixed but consistent arity -- our subclassing of functors in~(\ref{equation:dependency_functors}) means that each binary branch (imposed by a function/argument structure) will contain a normal branch that corresponds to the local head \textit{phrase} and a distinguished unary branch that labels the non-head phrase -- brackets and parentheses galore.
 Opting for the more traditional associative base of $\LC$ changes the scenery to one of shorter, wider and less exucerbant trees.
-Since the vanilla structure is now just a sequence, treeness is imposed solely by the modal brackets; the result is a variadic but uniform tree structure, where each subtree contains a single local head  \textit{word} and multiple dependent phrases, each of them in turn wrapped under a unary branch (or simply just having its edge labeled, to make things easier to the eye).
+Since the vanilla structure is now just a sequence, treeness is imposed solely by the modal brackets; the result is a variadic but uniform tree structure, where each subtree contains a single local head  \textit{word} and multiple dependent \textit{phrases}, each of them in turn wrapped under a unary branch (or simply just having its edge labeled, to make things easier to the eye).
 This visual paradigm also applies to the even laxer $\NLP$ -- the difference being that the yield of each local tree is recursively equivalent under bracket-preserving permutation, i.e. commutativity now holds between constituent phrases (subtrees) rather than words (terminal nodes).
 
 The above points hint to the fact that dependency modalities introduce structural constraints that may (to some extent) obviate the need for a strict structural binder.
@@ -426,7 +426,7 @@ Exciting (or not) as this might sound, it was only ever meant to incentivize the
 \paragraph{Crossing Boundaries}
 The structural rule format hinted at would be capable of dealing with the movement of phrases \textit{within} a dependency domain, conditionally relaxing the word order constraints of $\LC$ under certain dependency configurations.
 Yet it fails to provide any insights on how this could work in the case of structures that are misplaced not in terms of linear order, but of nestedness level.
-That is, beyond the standard question of word order, dependency modalities import previously invisible structural brackets that can pose a challenge when it comes to traversing \textit{along} dependency domains -- a challenge external to the grammar's implicational core.
+That is, beyond the standard question of word order, dependency modalities import previously invisible structural brackets that can pose a challenge when it comes to traversing \textit{along} dependency domains -- a challenge unrelated to the choice of implicational core.
 To make this clearer, let us revisit the keystone achievement of the previous chapter, namely the derivation of the object-relative clause of Figure~\ref{subfigure:lovecraft_rel_clause:rc} (the phrase in question is \textex{that the eye may never behold}, in case you were confident enough to skip the chapter).
 Conforming to our routine, let's first adapt some of the lexical assignments of Table~\ref{table:toy_dep_lexicon} (and add a few new ones for good measure).
 
@@ -529,8 +529,8 @@ which is faithful to both (\ref{equation:deprel}) and (\ref{equation:objrel}), a
 
 
 \begin{figure}
-	\smaller[2]
 	\[
+	\resizebox{1\textwidth}{!}{
 		\infer[\divright E]{\w{that}, \dbra{\dbra{\dbra{\w{the}}{det}, \w{eye}}{su}, \w{may}, \dbra{\dbra{\w{never}}{mod}, \w{behold}}{vc}}{body} \vdash \dbox{mod}(\np\divleft\np)}{
 			\infer[\Lex]{\w{that} :  \subcat{l}{rel}{o}}{}
 			&
@@ -570,6 +570,7 @@ which is faithful to both (\ref{equation:deprel}) and (\ref{equation:objrel}), a
 				}
 			}
 		}
+	}
 	\]
 	\caption{Dependency-enhanced adaptation of the proof of Figure~\ref{subfigure:lovecraft_rel_clause:rc}, exemplifying the interaction between dependency and control modalities.}
 	\label{figure:lovecraft_dep_rep_clause}
@@ -590,7 +591,7 @@ First, the presentation makes an implicit quantification over the outer label, \
 Beyond a bookkeeping obligation, this parameterization can also be to our advantage: it allows us to directly control which of the dependency domains allow extraction, and which do not.
 On a less bureaucratic note, the contextual formulation of the rule carries the usual problem of complicating syntactic equality checking. 
 In practice, we can employ a localized version, i.e. one where $\Gamma$ is a flat context (i.e. a sequence with a hole), which means that extractions need to be preemptively applied before every bracketing operation, rather than deferred and done in bulk in the future.
-Finally, it is important to remember that the rule is supplementary to (and \textit{not} a substitute for) controlled associacitivity and/or commutativity: altering the linear order of substructures in $\LC$, or their binary brackets in $\NL$, still calls for different structural rules with possibly different control modalities that will need to coexist with the \Extraction{} rule for structures to find their intended positions.
+Finally, it is important to remember that the rule is supplementary to (and \textit{not} a substitute for) controlled associacitivity and/or commutativity: altering the linear order of substructures in $\logic{(N)L}$ and/or their binary brackets in $\NL$ still calls for different structural rules with possibly different control modalities that will need to coexist with the \Extraction{} rule for structures to find their intended positions.
 
 
 \paragraph{Ever higher order}
@@ -629,7 +630,7 @@ Upon closer inspection, we can verify that this is in fact just the $\eta$ norma
 Hypothetical adjuncts are less forgiving.
 A hypothesized adjunct will seek to apply itself to some phrasal head, which is impossible unless it first drops its box.
 But in dropping its box, it becomes enclosed in structural dependency brackets that prohibit its eventual abstraction.
-We will need to once more resort to the $\diamond E$ rule to remove , except this time it will be the interior combination of Figure~\ref{subfigure:modal_properties:interior} that we are invoking, not subject to $\eta$ contraction.
+We will need to once more resort to the $\diamond E$ rule to remove , except this time it will be the interior combination of Figure~\ref{subfigure:modal_properties:interior} that we are invoking, which is not subject to $\eta$ contraction.
 To see this in action, let us once more consider an excerpt from our go-to source: \textex{a city of high walls where sterile twilight reigned}%
 \footnote{H.P. Lovecraft, \textit{Azathoth} (1938). In \textit{Leaves} (2).}.
 The relative adverb \textex{where} heads yet another a relative clause, \textex{where sterile twilight reigned}, acting as a postnominal modifier to the noun phrase \textex{a city of high walls}.
@@ -735,12 +736,13 @@ Having completed our tour of dependency-decorated proofs, it is time for respite
 Let us take a moment to internalize where we started from and where we are now.
 
 \subsubsection{Dependency Trees}
+\label{subsubsection:dependency_trees}
 Our first ambition was to provide categorial type logics with the means necessary to argue about dependency relations, ideally subsuming dependency trees within the logic's antecedent structures. 
 To claim our endeavour a success, we need to actually \textit{show} how these dependency trees can be extracted.
 
 Let's begin with some trivial observations.
 In the domain of dependency annotated proofs, endsequents will contain neither variables nor any control brackets.
-Collapsing any notion of structure imposed by the functional core (i.e. drop constituency and word order from the builtin structural binder, since dependency trees are agnostic to those), we end up with structures made exclusively of constants (terminal nodes), multisets of structures (unordered variadic branches) and dependency enclosed structures (unary branches).
+Collapsing any notion of structure imposed by the functional core (i.e. drop constituency and word order from the builtin structural binder, since dependency trees are agnostic to those), we end up with structures made exclusively of constants (terminal nodes), multisets of structures (unordered variadic branches) and dependency-enclosed structures (unary branches).
 This typological description can be further refined by noticing that the non-zeroary tree operators alternate in turns: there's no chaining of unary brackets (each phrase is only assigned at most one dependency role), nor a multiset of multisets (as the simplified structural binder is flat).
 Finally, consider that each multiset will coincide with a dependency domain, containing exactly one (unmarked) head constant (necessarily a word), some $n$ adjuncts and some $m$ complements.
 
@@ -838,7 +840,7 @@ The good news is you're reading the most extensive overview available at the tim
 The bad news is I don't have much references for you -- if it's any consolation, there's still two more chapters to go.
 Of work not included in this chapter or the ones to come, the one by \citet{rouss} has dependency modalities play a key role in the annotation and generation of complex verb clusters with subtle semantic dependencies, the recursive nature of which seems to break the omnipotence attributed to neural language models.
 For a less avant-garde reading, I'd like to draw your attention to this chapter's historical roots, namely the manuscript of \citet{moortgat1991heads}.
-If unsated you crave for more modalities-as-dependencies, you have the option of either writing something yourself or waiting until someone else does.\footnote{Calling it now, next big development in Moortgat et al. [2051].}
+If unsated and craving for more modalities-as-dependencies, you have the option of either writing something yourself or waiting until someone else does.\footnote{Calling it now, next big development in Moortgat et al. [2051].}
 
 More broadly and outside their use as dependency markers, unary modalities have long now been a tempting way to encode linguistic features -- see \citet{moa} and \citet{10.7551/mitpress/6169.003.0012,johnson1999resource}, for instance.
 Further away from our niche territories, the relation between dependency grammars and lexicalism is extensively analyzed by \citet{kuhlmann2010dependency}, who asks (and answers) the question of which formal grammars induce what kind of dependency structures.
