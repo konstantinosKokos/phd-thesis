@@ -5,7 +5,7 @@
 
 With our theorycrafting over, we have in our hands an uninstantiated descriptive model of syntactic and semantic composition, promising to capture dependency relations while keeping both its feet set firmly in type theory.
 Unfortunately, it is well attested by now that ``all models are wrong...''~\cite{doi:10.1080/01621459.1976.10480949}.
-Any promise of theoretical universality, cognitive plausibility, linguistic intrinsicness or what have you, would require some degree of handwaving and conjencturing that I am not comfortable with.
+Any promise of theoretical universality, cognitive plausibility, linguistic intrinsicness or what have you, would require some degree of handwaving and conjecturing that I am not comfortable with.
 What is undisputable, however, is the nobility of our goals and the purity of our tools: the \textit{omniversality} of the $\lambda$ calculus~\cite{wadler2015propositions} asserts that our modeling approach is not some ad hoc machinery designed to tackle a highly localized problem, but the one and only programming language ever worth writing. 
 Beyond purpose and methodology, and having a priori given up any ideation of truth, the only measure of success for our model is that of its utility (``...but some are useful'', ~\cite{doi:10.1080/01621459.1976.10480949}).
 This sets up a new research imperative: we must prove the model useful!
@@ -38,15 +38,16 @@ For the sake of scientific transparency, I have no choice other than to expose i
 \section{Preliminaries}
 \label{section:preliminaries}
 
-\subsection{Dutch (or: if German had a stroke)}
+\subsection{Dutch}
 For our linguistic inquiries, the focus will be on Dutch.
 Other than being the language I was contractually obliged to conduct this research on, Dutch is an interesting specimen, the idiosyncracies of which have in the past proven quite a topic of debate for others, and a source of headaches for myself.
-I don't have any intention (or delusion of competence) to casually throw an overview of the Dutch grammar here; I'm certain that interested parties will be able to easily get their hands on some introductory guide way more adequate than any I could have ever written.
+I don't have any intention (or delusion of competence) to casually throw an overview of the Dutch grammar here; I'm certain that interested parties will be able to easily get their hands on some introductory guide way more adequate than any I could have ever written.%
+	\footnote{An online version of the standard Dutch reference grammar can be found at \url{https://e-ans.ivdnt.org/} (in Dutch).}
 In any case, knowledge of Dutch or its grammar is by no means a prerequisite to moving on%
 	\footnote{Speaking from experience.} -- the framework we will describe might be instantiated for Dutch (thus inheriting typological labels and conventions typical to the language), but is actually language-agnostic; it's not a framework \textit{made for} the language, but a framework \textit{applied to} the language.	
 What could be of use, however, is the briefest of expositions to Dutch word order.
 
-Even though main clauses emanate a false sense of safety, coming off as SVO at first glance, Dutch is an SOV language where exceptionally for matrix clauses the verb appears in the \textit{second} position.
+Even though main clauses emanate a false sense of safety, coming off as SVO at first glance, Dutch surface word order is SOV canonically, where exceptionally for matrix clauses the verb appears in the \textit{second} position.
 The effect becomes apparent when employing a preverbal adverb -- contrast (\ref{gloss:simple_smain}) with (\ref{gloss:simple_smain_v2}), where both the subject and its predicate complement follow the verb in a VSO pattern.
 \begin{exe}
 \ex
@@ -100,7 +101,7 @@ The question of which factors influence the grammaticality of word order variati
 	\footnote{As a fun trivia,  out of the 6 possible orderings of 3-verb clusters, 4 to 5 were found admissible by Dutch speakers depending on the construction~\cite{3vc}.}
 What follows are some simplified common observations.
 
-For starters, bare infinitives usually follow their governor -- but: this is not necessarily the case for clusters of 2 verbs where the finite verb is a modal.
+For starters, bare infinitives usually follow their governor -- but: this is not necessarily the case for clusters of two verbs where the finite verb is a modal.
 The first two  below depict the canonical and ``inverted'' word orders; the third example is ungrammaticaul due to the adjective \textex{naamloos} interrupting the cluster.
 \begin{exe}
 \ex\label{gloss:rusten_zal}
@@ -209,7 +210,7 @@ $\NLP_{\ddia, \bx}$ is \textit{not} intended to be the logic you put in generati
 Rather, it is an adequately expressive formalism that can accommodate the duality of function-argument structures and dependency annotations we set out to capture.
 The problem is more practical than theoretical: who is going to hand us these deep syntactic proofs if not for the morphism that was promised?
 Suffice it to say this requires adopting a new notion of parsing (still well under the deductive paradigm): that of associating a well-formed input with the correct tectogrammatic analysis.
-How exactly this is to be done doesn't need to concern us for now -- we'll cross that bridge when we get to it.
+How exactly this is to be done doesn't need to concern us for now -- we'll cross that bridge when we get to it, in Chapter~\ref{chapter:chapter_4}.
 
 \subsection{Lassy}
 To facilitate the agenda just established, what we need next is a sizeable resource of syntactic annotations that are both high-quality and sufficiently compatible to our needs.
@@ -275,13 +276,13 @@ A breakdown of the corpus' contents is presented in Table~\ref{table:lassy_conte
 	      \multicolumn{4}{@{}c@{}}{Lassy Phrasal Categories}\\
 	      \midrule[0.005pt]
 	      \textit{advp} & Adverbial Phrase & 0.6 & \adv[s]\\
-	      \textit{ahi} & Aan-Het Infinitive & $<$0.1 & \ahi[s]\\
+	      \textit{ahi} & \textex{aan-het} Infinitive & $<$0.1 & \ahi[s]\\
 	      \textit{ap} & Adjectival Phrase & 2.1 & \adjp[s]\\
 	      \textit{cp} & Complementizer Phrase & 3.3 & \cp[s]\\
 	      \textit{detp} & Determiner Phrase & 0.2 & \detp[s]\\
 	      \textit{inf} & Bare Infinitival Phrase & 4.7 & \infp[s]\\
 	      \textit{np} & Noun Phrase & 36.7 & \np[s]\\
-	      \textit{oti} & Om-Te Infinitive & 0.8 & \oti[s]\\
+	      \textit{oti} & \textex{om-te} Infinitive & 0.8 & \oti[s]\\
 	      \textit{pp} & Prepositional Phrase & 23.2 & \pp[s]\\
 	      \textit{ppart} & Past Participial Phrase & 4.2 & \ppart[s]\\
 	      \text{ppres} & Present Participial Phrase & 0.1 & \ppres[s]\\
@@ -289,8 +290,8 @@ A breakdown of the corpus' contents is presented in Table~\ref{table:lassy_conte
 	      \textit{smain} & SVO Clause & 4.7 & \smain[s]\\
 	      \textit{ssub} & SOV Clause & 0.8 & \ssub[s]\\
 	      \textit{sv1} & VSO Clause & $<$0.1& \svi[s]\\
-	      \textit{svan} & Van Clause & $<$0.1 & \svan[s]\\
-	      \textit{ti} & Te Infinitive & 1.8 & \ti[s]\\
+	      \textit{svan} & \textex{van} Clause & $<$0.1 & \svan[s]\\
+	      \textit{ti} & \textex{te} Infinitive & 1.8 & \ti[s]\\
 	      \textit{whq} & Main WH-Q & 0.1 & \whq[s]\\
 	      \textit{whrel} & Free Relative & 0.2 & \whrel[s]\\
 	      \textit{whsub} & Subordinate WH-Q & 0.2 & \whsub[s]\\
@@ -342,7 +343,7 @@ A breakdown of the corpus' contents is presented in Table~\ref{table:lassy_conte
 	      \textit{rhd} & Relative Clause Head & 0.1 & --\\
 	\end{tabularx}
 	\caption{Lassy dependency labels, and corresponding modalities.
-	Grayed out dependencies don't make their way to the extrated proofs.
+	Grayed out dependencies don't make their way to the extracted proofs.
 	Heady dependencies don't get a modality.
 	}
 	\label{table:depset}
@@ -393,7 +394,7 @@ A breakdown of the corpus' contents is presented in Table~\ref{table:lassy_conte
 \section{\AE thel}
 \label{section:aethel}
 The stage is set.
-We need to devise an algorithm that accepts trees like the one of Figure~\ref{figure:example_lassy_tree} and spits out proofs of $\NLP_{\diamond,\bx}$.
+We need to devise an algorithm that accepts trees like the one of Figure~\ref{figure:example_lassy_tree} and emits proofs of $\NLP_{\diamond,\bx}$.
 Following our prior discussions, some assumptions need to be met before we get to even contemplate our approach.
 First, we need a clear three-way partition of the set of dependency labels, so that each dependency relation marks either a head, a complement or an adjunct.
 Further, we require that each dependency domain has exactly one head.
@@ -448,7 +449,7 @@ These come in two flavours -- discourse level annotations, and multiword phrases
 Discourse level annotations are materialized by dependencies \textit{dlink}, \textit{dpart}, \textit{nucl} and \textit{sat}, used in a catch-all fashion in place of an actual syntactic analysis.
 In the example of Figure~\ref{figure:du_mwp_example} the two sentences are analyzed as ``discourse parts'' of a single ``discourse unit'' rather than matrix clauses conjoined by the comma -- with some goodwill we could let that slide, but that same strategy is internally applied within the second sentence (apparently a ``discourse unit'' rather than a sentence), thus avoiding a proper syntactic justification for the elided verb. 
 Unfortunatey, there is no algorithmic way to mend these pretend annotations, in part due to their wildly general use, but mostly due to the fact they give us nothing to work with.
-This phenomenon is unpleasantly common; discourse level annotations sum up to about 2\% of the total dependency edges in the corpus, and are present in some 11\,700 samples, polluting a hard to ignore 18\% of the dataset.
+This phenomenon is unpleasantly common; discourse level annotations sum up to about 2\% of the total dependency edges in the corpus, and are present in some 11\,700 samples, affecting a hard to ignore 18\% of the dataset.
 In order not to lose all the precious samples in their totality, we take the more conservative approach of simply pruning the problematic edges rather than discard the entire tree.
 The subtree underneath each cut is subsequently rooted as an independent sample, sprouting an array of smaller samples from the larger unusuable original; in the example under scrutiny, we end up with three samples rooted at nodes 3, 12 and 15.
 Albeit being a sensible solution in terms of data preservation, this has the unavoidable downside of a priori breaking the alignment between the source corpus and the collection of proofs to-be.
@@ -468,42 +469,6 @@ When that's not the case, the phantom node is substituted by a copy of the mater
 The process is repeated (to circumvent the possibility of adding a new floating node when fixing the first) until a fixpoint is reached.
 The result is the possibile duplication of lingustic material among different prunings (i.e. a subtree that occurred once in the original Lassy sample can sometimes be found in more than one of the processed samples).
 
-\begin{figure}
-	\centering
-	\begin{subfigure}[b]{0.65\textwidth}
-		\includegraphics[width=1\textwidth,trim={1.5cm 1.5cm 1.5cm 1.5cm}]{./prebuilt/date_before.pdf}
-		\caption{Before.}
-	\end{subfigure}\\[\midsep]
-	\begin{subfigure}[b]{0.55\textwidth}
-			\includegraphics[width=1\textwidth,trim={1.5cm 1.5cm 1.5cm 1.5cm}]{./prebuilt/date_after.pdf}
-			\caption{After.}
-	\end{subfigure}\\[\smallsep]
-	\lassycap
-		{WR-P-P-I-0000000242.p.16.s.2~\textnormal{(excerpt)}}
-		{...op 9 en 10 maart...}
-		{...on March 9 and 10...}
-	\caption{Reannotating a date expression containing a conjunction.}
-	\label{figure:mwu:datetime}
-\end{figure}
-
-\begin{figure}
-	\centering
-	\begin{subfigure}[b]{0.85\textwidth}
-		\includegraphics[width=1\textwidth,trim={1.5cm 1.5cm 1.5cm 1.5}]{./prebuilt/watvoor_before.pdf}
-		\caption{Before.}
-	\end{subfigure}\\[\midsep]
-	\begin{subfigure}[b]{0.75\textwidth}
-			\includegraphics[width=1\textwidth,trim={1.5cm 1.5cm 1.5cm 1.5cm}]{./prebuilt/watvoor_after.pdf}
-		\caption{Before.}
-	\end{subfigure}\\[\smallsep]
-	\lassycap
-		{WR-P-P-H-0000000039.p.8.s.3(6)}
-		{wat voor keuze heb je?}
-		{what kind of choice do you have?}
-	\caption{Rennotating an erroneously analyzed interrogative.}
-	\label{figure:mwu:watvoor}
-\end{figure}
-
 \paragraph{Multiword Phrases}
 Another common pain point is the prominence of multiword phrase annotations, indicated in Lassy by the \textit{mwu} dependency.
 Multiword expressions are a pervasive pest from the shadowy realms between lexicon and syntax.
@@ -511,7 +476,7 @@ They can be categorized as being either (i) morphosyntactically fixed or (partia
 In all but the first subcase and regardless of their semantic use, they are not necessarily without internal structure.
 The criteria of what constitutes a multiword phrase and what doesn't are somewhat muddy, subjective and not clearly motivated.
 The example of Figure~\ref{figure:du_mwp_example} claims that \texttr{Eerste Wereldoorlog}{first world.war} is one, for instance -- eliciting the questions of whether expressions like the \textex{third/current/last/next world war} are also instances of a multiword phrase, and, if so, where the line is drawn (if at all).
-Anyway, multiword expressions are bad, but what's really bad is how overindulgent Lassy is with their use, which feels more like a free pass at disclaiming any responsibility of actually providing an analysis: a preposterous 5.9\% of all composite phrases are labeled as being multiword expressions.
+Anyway, multiword expressions are bad, but what's really bad is how overindulgent Lassy is with their use, which feels more like a free pass at disclaiming any responsibility of actually providing an analysis: a stunning 5.9\% of all composite phrases are labeled as being multiword expressions.
 
 Multiword phrases are not an impassable roadblock; they can be tackled by relaxing the lexicalist word-to-type restriction, i.e. allowing entries in the lexical dictionary to be keyed by arbitrary strings rather than words.
 This is indeed the approach we'll follow, but only after having salvaged however many of the missing annotations as we can.
@@ -525,8 +490,6 @@ In a similar vein, a tiny parser is employed to analyze expressions of time and 
 
 On the lexical side of things, some expressions tend to default to a multiword annotation despite not being one -- clearly an artifact of Alpino's rule-based parser that was never corrected in the manual verification stage.
 These are for the most part prepositional phrases (like \texttr{ten noorden van}{north of}, \texttr{met uitzondering van}{except for}, etc.), which are caught and reanalyzed by having the genitive-substitute \textex{van} attach to the modified noun (as consistently done otherwise throughout Lassy), which the remainder of the expression consumes as a direct object.
-More problematic is the occasional mischaracterization of the interrogative \texttr{wat voor}{what kind of}, where the preposition \texttr{voor}{for} is analyzed as part of a multiword expression together with a phantom node coindexed with the pronoun \texttr{wat}{what}.
-These are also caught and corrected, as in the example of Figure~\ref{figure:mwu:watvoor}; the preposition is reannotated as being the head of a prepositional phrase selecting for a direct object, that being the afforementioned phantom node.
 Other, less severe, cases include the mislabeling of nationality adjectives (like \texttr{afrikaans}{Afrikan}, \texttr{europees}{european}, etc.), which are recast as modifiers of the noun they were merged with.
 For consistency, punctuations originally analyzed as multiword parts (presumably so as not to break phrasal contiguity) are instead pushed to the topmost root.
 
@@ -651,7 +614,7 @@ We resolve this exactly like before, namely by conducting a majority voting over
 \paragraph{Raising Nouns}
 Bare nouns are assigned the \textit{n} part of speech regardless of whether they need (or occur with) a determiner to occupy a verbal argument position.
 To circumvent (to the extent possible) a combinatorial explosion of meaningless \smallgtype{n} and \smallgtype{np} argument variations, we alter the part of speech assignment of \textit{n} nodes that are not roofed under a \textit{np} from the former to the latter.
-As we will soon see, this will alter the type assignment of these nodes, in analogy to an implicit and contextual lexicalization of an explicit noun raising rule.
+As we will soon see, this will alter the type assignment of these nodes, in analogy to an implicit and contextual lexicalization of an explicit noun raising rule turning $\n[s]$ to $\np[s]$.
 
 \paragraph{Assertions}
 Prior to sending the transformed tree on its way, we make some basic checks of its structural integrity; we assert first of all it is indeed a tree (all nodes but the root have one incoming edge, nodes are all connected), that every phantom node has a material counterpart, and that no phantom nodes are labeled as multiword parts (as these would be humanly impossible to type).
@@ -681,7 +644,7 @@ In principle, this can also allow a re-incorporation of the semantic subjects of
 In any case, the translation induces a function that naively tells us for each node what type the translation table prescribes to its part of speech tag (if lexical), syntactic category (if phrasal) or the corresponding translations of its material counterpart (if phantom).
 
 Then, we need an equivalence relation on the set of dependencies so as to partition it into heads, adjuncts and complements -- each non-head dependency is translated into a modal label, the union of which (together with the extraction modality) forming the set of modalities $\deps$.
-For the set of dependencies, we also need a strict partial order, serving to impose an informal ordering of the arguments of a multi-argument functor.
+For the set of dependencies, we also need a strict partial order, serving to impose a canonical ordering of the arguments of a multi-argument functor.
 With this, we avoid the responsibility of having to explicitly argue about an equivalence between argument order variations of the same head function: each complement will have a distinct modal decoration that decides how strongly it is attracted to the end result, yielding a canonical form for all types we'd be faced with (given the uniqueness of complements restriction).
 This is reminiscent of the notion of a \textit{obliqueness hierarchy}~\cite{dowty1982grammatical}, which we can in fact use to produce some linguistically sensible types.
 From more to least oblique, we have: \textit{svp}\textgreater\textit{obcomp}\textgreater\textit{vc}\textgreater\textit{me}\textgreater\textit{ld}\textgreater\textit{hdf}\textgreater\textit{pc}\textgreater\textit{se}\textgreater\textit{obj2}\textgreater\textit{predc}\textgreater\textit{obj1} \textgreater\textit{pobj1}\textgreater\textit{su}\textgreater\textit{sup}.
@@ -807,7 +770,7 @@ The way to go is simple: we need to first left fold the head's proof against the
 Let's reiterate this for clarity.
 Each step of the initial fold will produce a ``shorter'' type, and, by the time we run out of complements, the result's type will coincide with the top type.
 Each unboxed adjunct will be a function from the top type to itself -- their n-ary function composition will then still be the of the same type, meaning it can be directly applied to our intermediate result.
-At this point, we have each tree below exactly once (yay, linearity), and we have produced a proof of the type we were asked to (or the tree prescribed), meaning we're good to go.
+At this point, we have used each tree below exactly once (adherent to linearity), and we have produced a proof of the type we were asked to (or the tree prescribed), meaning we're good to go.
 Exceptionally to the above, nodes assigned the \textit{punct} tag are given a plain \smallgtype{punct} type that does not partake in the proof.
 
 This simple setup already suffices to cover quite a lot of trees with simple applicative phenomena, including higher-order modifiers like in the example of Figure~\ref{figure:simple_extraction}.
@@ -863,10 +826,10 @@ Within each domain, heads apply to their arguments and adjuncts drop their boxes
 \paragraph{Subordinate Clauses \& Verbal Complements}
 Now, if you have a sneaking suspicion that this looks oddly easy, you're right.
 We have not yet made any attempt to cover cases of hypothetical reasoning triggered by relative clauses, wh-questions and passive constructions.
-The hypotheses in such phenomena have already been established by the phantom nodes underlying them -- all we need to do is know when to withdraw them.
+The hypotheses in such phenomena have already been established by the phantom nodes underlying them -- all we need to do is find out when to withdraw them.
 The criterion we'll follow applies to the proofs assigned to phrasal complements, and inspects the variables contained therein.
 Variables and nodes are in a one-to-one relation, owing to their common naming scheme; from a variable, we can refer to its node, and from a node we can extract its index, inducing a many-to-one variable to index relation.
-Any variable's that maps to an index coinciding with that of the phrasal head (for subordinate clauses), the phrasal subject (for passives), or the phrasal subject of any ancestor phrase (for passives nested under auxiliaries), the variable is abstracted over.
+Any variable that maps to an index coinciding with that of the phrasal head (for subordinate clauses), the phrasal subject (for passives), or the phrasal subject of any ancestor phrase (for passives nested under auxiliaries), the variable is abstracted over.
 The complement then becomes a functional type, before the diamond introduction rule is applied.
 This forces the head to attain a higher-order type that \textit{licenses} the hypothetical argument.
 Figure~\ref{figure:simple_abstraction} presents a concrete example: head node 6 carries index 1 and looks for its complement in node 7.
@@ -1157,6 +1120,7 @@ On the other hand, it absolves us from having to incorporate an explicit product
 On the less cynical side, it also has the merit of permitting more flexible semantic interpretations for the user-to-be.
 Conjoining a series of arguments and feeding the result to the predicate means that the semantic interpretation of the coordinator would be inescapably bound to a local scope.
 Conjoining a series of $\lambda$ abstractions and applying the result to the shared predicate grants the coordinator access to the full context of the conjunction, opening the door to a future semantic interpretation that can duplicate and distribute meaning if and as desired.
+Such a lifted interpretation is aligned in spirit with the long line of work on categorial conjunction semantics~\citet[inter alia]{oehrle1987boolean,hendriks1995ellipsis}, except simplified in \textit{not} having to account for the surface discontinuity caused by the elision of linguistic material.
 
 More generally, the proof of each conjunct will contain a mixture of constants and variables, the latter being any combination of heads, complements and adjuncts.
 All ``shared'' variables will be abstracted over.
@@ -1247,7 +1211,7 @@ Not bad, considering.
 
 
 \paragraph{Theorems}
-To quantify the proof-theoretic diversity of the 68\,763 extracted samples, we abstract away from the sentences and end up with a total of 55\,108 unique theorems.
+To quantify the proof-theoretic diversity of the 68\,763 extracted samples, we abstract away from lexical content and end up with a total of 55\,108 unique theorems, where constants are identified indexically or not by their string.
 Figure~\ref{figure:proof_assignments} groups and displays them according to how common they are, i.e. how many times we see the same theorem associated to a different sentence.
 Evidently, the vast majority of unique theorems (52\,739 or 95.7\%) occur but a single time within the dataset (i.e. they are assigned to a single sample), with logarithmically\textsubscript{10} fewer theorems being assigned to exponentially\textsubscript{2} more sentences, making \AE thel a rich and intricate resource.
 
@@ -1298,7 +1262,7 @@ Repeating the above after first casting the proof and type assignments to \NLP{}
 Of these, 2\,374 are behind 1 unique proof, 112 behind 2, 6 behind 3, and 1 is behind 5.
 Potentially ambiguous samples are now doubled (909, or 1.3\% of the total), and ambiguities are more commonly artificial; would-be alternative readings for the newly ambiguous samples are usually ruled out by morphosyntactic constraints invisible to the theory.
 
-What are these boring numbers trying to tell us?
+What are these numbers trying to tell us?
 Well, two things.
 First, that using an undirectional logical core doesn't really estrange the grammar from the lexicon.
 Proof frames are sparse, and the bulk of them are pointing to a single proof; we are still as lexicalized as it gets.
@@ -1314,7 +1278,7 @@ This brings us to the lexicon: the binary relation connecting keys (words or str
 These amount to  74\,812 (67\,883 after case normalization) unique words and 76\,746 (71\,077) unique phrases, the latter being essentially the lexicon's domain.
 On the codomain's side, we have a grand total of 5\,762 unique \NLPplus{} types.
 Stripped of their modalities, these fall back to 3\,542 pure linear types, evidencing the import of the added dependency axis.
-The first question to ask then is: how functional is this lexicon?
+The first question to ask then is: how functional is the word to type relation encoded by the lexicon?
 Answering that question is Figure~\ref{figure:type_ambiguity}, which in short says ``not much, really''.
 Despite most lexical keys (56\,224) having a single unique image, ambiguities are quite common, the number of assignments exponentially\textsubscript{2} increasing for a logarthmically\textsubscript{10} declining number of keys.
 At the end of the tail we find several chameleon words appearing in multiple guises; chief among them is the usual suspect \texttr{en}{and}, counting as many as 1\,045 (!) unique types in just 41\,614 occurrences.
@@ -1484,14 +1448,14 @@ The most common word of \AE thel is the gendered definite determiner \textex{de}
 
 \subsubsection{Quality Control}
 We made it through the boring part!
-With all the numbers laid down, all that's left to do is showcase how \AE thel treats common and idiosyncratic constructios of Dutch.
+With all the numbers laid down, all that's left to do is showcase how \AE thel treats common and idiosyncratic constructions of Dutch.
 For space economy, we'll drop the natural deduction presentation in favor of the compactified $\lambda$ terms -- we've seen enough back-and-forths by now to take the training wheels off.
 The glossed examples to follow contain a third line for type assignments, and the prescribed $\lambda$ term before the free translation.
 
 \paragraph{Higher-Order Reasoning}
 The extraction recipe applied to coindexed phantom nodes seems to generalize well, producing elegant higher-order proof patterns that capture the corresponding syntactic reentrancies prescribed from the Lassy graph quite well.
-In (\ref{gloss:whq}), \textex{waarom} both coordinates the wh-question and provides a hypothetical argument for its verb-initial subordinate sentence.
-In (\ref{gloss:passive}), the auxiliary \textex{woorden} properly accounts for the passive by providing a hypothetical object for the transitive past participle \textex{behandeld}.
+In (\ref{gloss:whq}), \textex{waarom} both heads the wh-question and provides a hypothetical argument for the verb-initial direct question nested within.
+In (\ref{gloss:passive}), the auxiliary \textex{worden} properly accounts for the passive by providing a hypothetical object for the transitive past participle \textex{behandeld}.
 
 \begin{exe}
 \ex {\small\fname{dpc-vla-001161-nl-sen.p.107.s.1(1)}}\label{gloss:whq}
@@ -1544,7 +1508,7 @@ these become treated in chapter 4 .\\
 
 \paragraph{Relative Clauses}
 The derivational ambiguity attributed to relative clauses is now implicitly cast into lexical type ambiguity -- the relativizer obtains a different type assignment depending on the type of relative clause it introduces.
-Examine the type assignments to the relativizer \textex{die} in the examples below, and notice that the hypothesis of (\ref{gloss:su}) is forced to occupy the subject slot of \textex{oproepen}, as opposed to the hypothesis of (\ref{gloss:obj}) which is forced to occupy the subject slot of \textex{volgen}.
+Examine the type assignments to the relativizer \textex{die} in the examples below, and notice that the hypothesis of (\ref{gloss:su}) is forced to occupy the object slot of \textex{oproepen}, as opposed to the hypothesis of (\ref{gloss:obj}) which is forced to occupy the subject slot of \textex{volgen}.
 This is not just due to the decorations assigned, but also because of the atomic type distinction between pronouns $\vnw[s]$ and noun phrases $\np[s]$%
 	\footnote{Where relative clause gaps are always the former, due to being coindexed with the relativizer.}%
 , implicitly filtering out implausible argument associations.
@@ -1748,9 +1712,9 @@ $
 \glll Hoe worden modellen ontwikkeld\\
 How become models developed\\
 	$\con{0}::\ddia{whbody}(\dxdia{x}\dxbox{x}\ddia{mod}\dbox{mod}(\ppart[s]\li\ppart[s])\li\svi[s])\li\whq[s]$
-	$\ddia{vc}(\ddia{obj1}\np[s]\li\ppart[s])\li\ddia{su}\np[s]\li\svi[s]$
-	$\np[s]$
-	$\ddia{obj1}\np[s]\li\ppart[s]$\\
+	$\con{1}::\ddia{vc}(\ddia{obj1}\np[s]\li\ppart[s])\li\ddia{su}\np[s]\li\svi[s]$
+	$\con{2}::\np[s]$
+	$\con{3}::\ddia{obj1}\np[s]\li\ppart[s]$\\
 \glt{\small
   $ \displaystyle
     \begin{aligned} 
@@ -1839,7 +1803,7 @@ The same approach is followed universally, meaning that all of \AE thel's sample
 	$\con{0}::\adv[s]$
 	$\con{1}::\ddia{obj1}\li\dbox{mod}(\adv[s]\li\adv[s])$
 	$\con{2}\dbox{det}(\n[s]\li\np[s])$
-	$\n[s]$
+	$\con{3}::\n[s]$
 \\
 {\small
   $\term{
@@ -1851,141 +1815,6 @@ The same approach is followed universally, meaning that all of \AE thel's sample
   $}
 \glt{`At the end of the war'}
 \end{exe}
-
-
-%Thankfully, that's none of our concerns -- word orders variations 
-%
-%\paragraph{Passives}
-%Dutch has a periphrastic passive, built with the aid of modals \texttr{worden}{to become} and \texttr{zijn}{to be}.
-%Following Lassy's guidelines, past participles of transitives look for a direct object argument, supplied by a higher-order assignment to the modal matrix head.
-%
-%\begin{exe}
-%\nolistbreak\ex {\small\fname{WS-U-E-A-0000000040.p.14.s.3(1)}}
-%\glll Zijn die theorie\"en nu uit\textlangle ge\textrangle sloten ?\\
-%Are those theories now \textlangle\abbrv{pst.ppart}\textrangle rule-out ?\\
-%{$\ddia{vc}(\ddia{obj1}\np[s]\li\ppart)\li\ddia{su}\np[s]\li\svi[s]$}
-%{$\dbox{det}(\n[s]\li\np[s])$}
-%{$\n[s]$}
-%{$\dbox{mod}(\ppart[s]\li\ppart[s])$}
-%{$\ddia{obj1}\np[s]\li\ppart[s]$}
-%{$\punct[s]$}\\
-%\glt{\small $\term{
-%\con{0}
-%~\ddiaintro{vc}(\lam \Var{0}.\dboxelim{mod}\con{3}~(\con{4}~\Var{0}))
-%~\ddiaintro{su}(\dboxelim{det}\con{1}~\con{2})
-%}$}
-%\glt{`Are those theories now ruled out?'}
-%\end{exe}
-%A similar strategy is applied in the case of passivized infinitives.
-%\begin{exe}
-%\nolistbreak\ex {\small\fname{dpc-ind-001638-nl-sen.p.21.s.3(7)}}
-%\glll Vorbeelden zijn niet moelijk te vinden\\
-%Are those theories now \textlangle\abbrv{pst.ppart}\textrangle rule-out ?\\
-%{$\ddia{vc}(\ddia{obj1}\np[s]\li\ppart)\li\ddia{su}\np[s]\li\svi[s]$}
-%{$\dbox{det}(\n[s]\li\np[s])$}
-%{$\n[s]$}
-%{$\dbox{mod}(\ppart[s]\li\ppart[s])$}
-%{$\ddia{obj1}\np[s]\li\ppart[s]$}
-%{$\punct[s]$}\\
-%\glt{\small $\term{
-%\con{0}
-%~\ddiaintro{vc}(\lam \Var{0}.\dboxelim{mod}\con{3}~(\con{4}~\Var{0}))
-%~\ddiaintro{su}(\dboxelim{det}\con{1}~\con{2})
-%}$}
-%\glt{`Are those theories now ruled out?'}
-%\end{exe}
-%
-%%Out[263]: 'dpc-ind-001638-nl-sen.p.21.s.3(7).xml'
-%%Voorbeelden zijn niet moeilijk te vinden
-%
-%%\paragraph{Pronominal Adverbs}
-%%Dutch pronouns have adverbial counterparts which find use as locatives (e.g. \texttr{dit}{this} becomes \texttr{hier}{here}, texttr{dat}{that} becomes \texttr{daar}{there}, etc.).
-%%These locatives commonly combine with prepositions, giving rise to so-called pronominal adverbs -- these can occassionally give rise to higher-order patterns.
-%
-%%\begin{exe}
-%%\nolistbreak\ex
-%%\glll Werk waarmee vandaag moet worden begonnen . \\
-%%Work with-which today must become begin .\\
-%%	{$\np[s]$}
-%%	{$\ddia{relcl}(\dxdia{x}\dxbox{x}\ddia{pc}\bw[s]\li\ssub[s])\li\dbox{mod}(\ssub[s]\li\ssub[s])$}
-%%	{$\dbox{mod}(\ppart[s]\li\ppart[s])$}
-%%	{$\ddia{vc}(\infp[s]\li\ssub[s]$}
-%%	{$\ddia{vc}\ppart[s]\li\infp[s]$}
-%%	{$\ddia{pc}\bw[s]\li\ppart[s]$}
-%%	{$\punct[s]$}\\
-%%\glt{\small $\term{
-%%					\dboxelim{mod}(\con{1}~\ddiaintro{relcl}(\lam \Var{0}.
-%%					\caseof{\ddiaelim{x}\Var{0}}{\Var{1}}
-%%					{\con{3}~\ddiaintro{vc}(\con{4}~\ddiaintro{vc}(\dboxelim{mod}\con{2}~\dboxelim{x}{\Var{1}}))}))~\con{0}}$}
-%%\glt{`Work which must begin today'}
-%%\glt{\hfill \small\fname{dpc-bal-001237-nl-sen.p.21.s.4(1)}}
-%%\end{exe}
-%%\paragraph{Infinitives}
-%%
-%%%Depending on the modal, the preposition \texttr{te}{to}, or the discontinuous \texttr{om ... te}{to}, may be either necessary, optionally admissible or completely disallowed -- if one does manifest, it precedes the infinitive.
-%%\begin{exe}
-%%\nolistbreak\ex
-%%\glll We leerden elkaar te respecteren .\\
-%%We learned each-other to respect .\\
-%%{$\vnw[s]$} {$\ddia{vc}\ti[s]\li\ddia{su}\vnw[s]\li\smain[s]$} {$\vnw[s]$} {$\ddia{cmpbody}\infp[s]\li\ti[s]$} {$\infp[s]$} {$\punct[s]$}\\
-%%\glt{\small $\con{1}~\ddiaintro{vc}(\con{2}~\ddiaintro{cmpbody}(\con{3}))~\ddiaintro{su}(\con{0})$}
-%%\glt{`We learned to respect each other.'}
-%%\glt{\hfill \small\fname{dpc-bal-001238-nl-sen.p.27.s.2(1)}}
-%%\end{exe}
-%%\begin{exe}
-%%\nolistbreak\ex
-%%\glll privaat bezit moest worden afgeschaft .\\
-%%We learned each-other to respect\\
-%%{$\dbox{mod}(\np[s]\l\np[s]$} {$\np[s]$} {}
-%%%{$\vnw[s]$} {$\ddia{vc}\ti[s]\li\ddia{su}\vnw[s]\li\smain[s]$} {$\vnw[s]$} {$\ddia{cmpbody}\infp[s]\li\ti[s]$} {$\infp[s]$}\\
-%%\glt{\small $\con{1}~\ddiaintro{vc}(\con{2}~\ddiaintro{cmpbody}(\con{3}))~\ddiaintro{su}(\con{0})$}
-%%\glt{`We learned to respect each other.'}
-%%\glt{\hfill \small\fname{WR-P-E-I-0000039081.p.1.s.7(12)}}
-%%\end{exe}
-%%Out[72]: 
-%
-%%The discontinuous variant is only selected for by specific verbs -- it can enclose linguistic material, like the infinitive's object or any adverbs modifying it.
-%%\begin{exe}
-%%\ex
-%%\gll Ik dwing mezelf om wat te schrijven.\\
-%%I force myself \_ something to write(\abbrv{inf})\\
-%%\glt{`I force myself to write something.'}
-%%\end{exe}
-%%An infinitive directly following \textex{aan het} can combine with \textex{zijn} to construct the continuous aspect, in either the present or the past tense.
-%%\begin{exe}
-%%\ex
-%%\gll Ik ben aan het schrijven.\\
-%%I am in the write(\abbrv{inf})\\
-%%\glt{`I am writing.'}
-%%\end{exe}
-%%Infinitives are also often nominalized, the resulting nominals being singular neuters.
-%%\begin{exe}
-%%\ex
-%%\gll Het schrijven is pijnlijk.\\
-%%The write(\abbrv{inf}) is painful\\
-%%\glt{`The writing is painful.'}
-%%\end{exe}
-%
-%
-%%\paragraph{Verb Clusters}
-%%
-%%\paragraph{Passive Voice}
-%%
-%%\paragraph{Continuous Aspect}
-%%
-%%\paragraph{Om x Te}
-%%
-%%\paragraph{Separable Verbs}
-%%
-%%\paragraph{Pronominal Adverbs}
-%%
-%%\paragraph{Conjunctions}
-%
-%%\todo
-%
-%% PROOFBANK!!
-%
-%% qualtitative
 
 
 \section{Key References \& Further Reading}

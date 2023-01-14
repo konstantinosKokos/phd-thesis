@@ -29,7 +29,7 @@ Phrase structure grammars build on the observation that certain phrases seem to 
 Viewed from within, these phrases may be rich in internal structure, but keep it sealed off to the outside.
 Viewed externally (i.e. in the context of a wider phrase that contains them), they are indivisible units, or at least for the purposes of phrasal composition.
 Phrases are inventorized according to their syntactic \textit{categories}.
-If one so wishes, they can for the most part replace a phrase for another of the same category, with no effect to grammaticality or local structure, which suggests they are functionally indiscernible.
+If one so wishes, one can for the most part replace a phrase for another of the same category, with no effect to grammaticality or local structure, which suggests they are functionally indiscernible.
 The examples below testify to this%
 \footnote{Sourced from H.P. Lovecraft, \textit{Celepha\"{i}s}  (1922). In \textit{The Rainbow, vol. 2.}}; the underlined phrases can be freely interchanged -- despite their wildly different internal structures, substituting one for another has no effect on the outer sentential structure:
 
@@ -118,7 +118,7 @@ claiming that one of the ways to make a verb phrase $VP$ involves concatenating 
 
 Even though context-free grammars are no longer seriously considered in the linguistic world, they have directly influenced most early attempts at grammar design -- and, by extension, their later successors and refinements.
 Notational evidence of this past are more than noticeable today, ranging from the wide adoption of tree-style notation for syntactic analyses to the conceptual syncretism of constituency grammars and phrase structure ones.
-More up-to-date frameworks expand upon the barebones context-free backend with niceties like a separation of functional dominance and linear precedence, added rules that manipulate movement and discontuinity, the proclamation of a single category as the \textit{head} of a production rule (or subtree), feature markings that carry semantic, morphological or phonological information, incorporation of dependency information, etc.~\cite[inter alia]{gazdar1985generalized,jacobson1987phrase,pollard1994head,dalrymple2001lexical}.
+More up-to-date frameworks expand upon the barebones context-free backend with niceties like a separation of functional dominance and linear precedence, added rules that manipulate movement and discontinuity, the proclamation of a single category as the \textit{head} of a production rule (or subtree), feature markings that carry semantic, morphological or phonological information, incorporation of dependency information, etc.~\cite[inter alia]{gazdar1985generalized,jacobson1987phrase,pollard1994head,dalrymple2001lexical}.
 
 To our ill fortune, the field of formal syntax is actually an informal mess, more akin to a mine field rather than an academic one; it's best if I tread carefully and refrain from overextending myself here, in order to avoid setting off unseen traps or causing easily avoidable confusion.
 The point I want to make is that the focal center of the above formalisms is the \textit{phrase} and its structure -- as such, they are all referred to as phrase structure grammars, regardless of whatever extra fluff they carry or what their expressive capacity is.
@@ -148,12 +148,12 @@ In that setup, the added direction (which needs not agree with that of syntactic
 	\footnote{Apparently also an overloaded term. I will only ever use this in the strictly logical sense.},
 to semantic arguments~\cite{mel2003levels}.
 
-A dependency grammar that has gained significant traction over the last decade is the framework of universal dependencies~\cite{10.1162/coli_a_00402}, claiming a broad collection of multi-lingual treebanks~\cite{nivre2020universal} and tools.
-In universal dependencies, words are usually assigned a label pulled from a rudimentary set of part of speech tags and lexical identifiers; more importantly, dependency relations are also labeled according to their grammatical function, allowing the distinction of a words' dependents according to the grammatical role they fulfill.
+A dependency grammar that has gained significant traction over the last decade is the framework of universal dependencies (UD)~\cite{10.1162/coli_a_00402}, claiming a broad collection of multi-lingual treebanks~\cite{nivre2020universal} and tools.
+In UD, words are usually assigned a label pulled from a rudimentary set of part of speech tags and lexical identifiers; more importantly, dependency relations are also labeled according to their grammatical function, allowing the distinction of a words' dependents according to the grammatical role they fulfill.
 Grammatical roles are typologically and thematically informed, and are inventorized with language universality as the prime goal.
 This inventorization upholds no semantic promises, but is not inconsistent with the aforementioned semantic view either.
 To obtain a semantic transcription of the dependency tree, one needs only specify whether the semantic flow of each grammatical role is co- or contra- directional to the edge's syntactic flow, i.e. whether the arc marks its dependent as a \textit{complement} (where syntactic head and semantic predicate coincide) or an \textit{adjunct} (where the syntactic head is the semantic argument to its syntactic dependent).%
-	\footnote{Universal dependencies, a staunch pacifist, carefully and vocally refuses to make this claim, as complements and adjuncts are largely language-particular syntactic constructs and a notorious point of debate~\cite{haspelmath2014arguments}.
+	\footnote{UD explicitly refuses to make this claim, as complements and adjuncts are largely language-particular syntactic constructs and a notorious point of debate~\cite{haspelmath2014arguments}.
 	I would like to believe I am not trespassing here, either -- as will be made clearer in a bit, I employ the two terms in a purely semantic fashion.}
 
 \begin{figure}
@@ -276,7 +276,7 @@ Recalling the structural imprint of the rule, this results in an extra layer of 
 
 The adjunct case may at first glance seem slightly more obscure.
 Following the directives of the previous paragraph, we need to mark the dependent -- this time a predicate in non head position -- in a way such that its application on its argument leaves a bracketing imprint on the structure of the former instead of the latter.
-The solution manifests in the form of a box:
+The solution manifests itself in the form of a box:
 \begin{align}
 	\prop{b} \divright_r \prop{a} \ \equiv \ \bx (\prop{b} \divright \prop{a}) \\
 	\prop{a} \divleft_l \prop{b} \ \equiv \ \bx (\prop{a} \divleft \prop{b})
@@ -292,7 +292,7 @@ The duality of predicate structure is thus mirrored in the innate distinction be
 \subsubsection{Grammatical Functions}
 Let's take this a bit further.
 Universal dependencies may make no adjunct vs. complement distinction, but they go the extra mile of subspecifying dependents according to the exact grammatical roles they play.
-Extending our grammar logic accordingly is trivial.
+Extending our grammar logic accordingly is straightforward.
 Rather than have a single diamond and box, we can consider a usecase where modalities are a \textit{family} of unary residuals, i.e. a set of pairs, each labeled according to a single, unique dependency label.
 The generalization is a multimodal type system consisting of modal pairs:
 \begin{equation}
@@ -305,7 +305,7 @@ The edge case of \deps{} being a singleton set collapses to the previous exposit
 
 Each instance of a labeled modality will now come with its own introduction and elimination rules.
 Concomitantly, both the term calculus and the bracketing structures are extended with multiple labels; the modal rewrites and unary brackets of Section~\ref{subsec:modal_logic} are now differentiated on the basis of the dependency label that induced them.
-Unlike before, the structural effect is not a means to the end of structural reasoning, but the very purpose of the dependency modalities -- as such, they are not necessarily associated with any structural rules (even though nothing precludes the possibility -- it might even be reasonable to condition each dependency or combinations thereof to a unique set of structural irregularities, as we will see in a bit).
+Unlike before, the structural effect is not a means to the end of structural reasoning, but the very purpose of the dependency modalities -- as such, they are not necessarily associated with any structural rules (even though nothing precludes the possibility -- it might even be reasonable to condition each dependency or combinations thereof to a unique set of structural transformations, as we will see in a bit).
 Note, also, that the residuation properties and normalization routines apply only between diamonds and boxes of the \textit{same label} -- no interaction between mismatched types and terms is stipulated.
 
 
@@ -326,7 +326,7 @@ A determiner, however, would be typed as $\dbox{det}(\np[s]\divright\n[s])$ -- i
 Similarly, a prenominal modifier would be typed as $\dbox{mod}(\np[s]\divright\np[s])$ -- to apply to its unmarked head, the type would need first liberate itself of its box, being a modifying adjunct.
 
 Atomic type assignments will remain for the most part unchanged, as propositional constants are necessarily complements (or heads of a singleton phrase, to be pedantic) and their grammatical role cannot be decided a priori, anticipating a phrasal head to enforce it instead.
-Plural nouns like the \textex{dolphins} and \textex{whirlpools} of Table~\ref{table:toy_lambek_lexicon}, for instance, would still be typed as $\np[s]$ -- there's no telling in advance whether they will occur as subjects, direct objects or something else.
+Plural nouns like the \textex{dolphins} and \textex{whirlpools} of Table~\ref{table:toy_lambek_lexicon}, for instance, would still be typed as plain  $\np[s]$s -- there's no telling in advance whether they will occur as subjects, direct objects or something else.
 Exceptionally for words whose morphological characteristics already confine them to a single possible grammatical role, we can consider an alternative typing that restricts them to exclusively that grammatical role.
 The straightforward thing to do would be to lexically mark them with a diamond -- e.g. for the nominative version of the third person singular personal pronoun, \textex{he}, we might assign the type $\ddia{su}\np[s]$, denoting it must necessarily occur in subject position.
 However, this would create a structural assymetry between a nominal \textit{assigned} the subject role via the $\ddia{su} I$ rule (inducing corresponding brackets) versus the pronoun \textit{carrying} the subject role (and thus remaining bracket-free).
@@ -338,9 +338,10 @@ Now for the verbal head to find its subject-marked argument, the pronoun would n
 \label{subsubsection:sreason_dep}
 \paragraph{Lambek vs. Lambek (vs. van Benthem)}
 The next thing to consider is how the inclusion of dependency modalities alters the structural core of each base logic.
-In any case, modalities induce a multi-labeled unary bracketing structure.
+In any case, modalities induce a multi-labeled unary bracketing structure, inpenetrable by the the structural rules the core logic assigns to its structural binder.
+In that sense, they act akin to the \textit{blocking} modalities of \citet{morrill2012type}.
 For the non-associative $\NL$, the result is trees of mixed but consistent arity -- our subclassing of functors in~(\ref{equation:dependency_functors}) means that each binary branch (imposed by a function/argument structure) will contain a normal branch that corresponds to the local head \textit{phrase} and a distinguished unary branch that labels the non-head phrase -- brackets and parentheses galore.
-Opting for the more traditional associative base of $\LC$ changes the scenery to one of shorter, wider and less exucerbant trees.
+Opting for the more traditional associative base of $\LC$ changes the scenery to one of shallower and wider trees.
 Since the vanilla structure is now just a sequence, treeness is imposed solely by the modal brackets; the result is a variadic but uniform tree structure, where each subtree contains a single local head  \textit{word} and multiple dependent \textit{phrases}, each of them in turn wrapped under a unary branch (or simply just having its edge labeled, to make things easier to the eye).
 This visual paradigm also applies to the even laxer $\NLP$ -- the difference being that the yield of each local tree is recursively equivalent under bracket-preserving permutation, i.e. commutativity now holds between constituent phrases (subtrees) rather than words (terminal nodes).
 
@@ -440,7 +441,7 @@ Conforming to our routine, let's first adapt some of the lexical assignments of 
 		reigned										& $\smallgtype{itv}$ & $:=\ddia{su}\smallnp\divleft\smalls$\\
 		behold										& $\smallgtype{tv}$ & $:= \smallgtype{itv}\divright\ddia{obj}\smallnp$\\
 		never										& $\smallgtype{adv}_{\divright}$ & $:= \dbox{mod}(\smallgtype{itv}\divright\smallgtype{itv})$\\
-		may											& $\smallgtype{aux}$ & $:= \ddia{vc}\smallgtype{itv}\divright\smallgtype{itv}$
+		may											& $\smallgtype{aux}$ & $:= \smallgtype{itv}\divright\ddia{vc}\smallgtype{itv}$
 	\end{tabularx}
 	\caption{Dependency-enhanced lovecraftian lexicon.}
 	\label{table:toy_dep_lexicon}
@@ -600,7 +601,7 @@ Control modalities may impose transient bracketing structure upon hypotheses, te
 The bracketing imposed by dependency modalities, however, is built to last, posing a potential roadblock to hypothetical reasoning and higher-order types.
 
 Hypothetical complements are relatively easy to tackle: they just come packed with their diamonds at variable instantiation time.
-Excluding the presence of the irrelevant control box, this is exactly the strategy followed in the example under scrutiny (see the $\Ax$ rule intantating $\vari$ in Figure~\ref{figure:lovecraft_dep_rep_clause}).
+Excluding the presence of the irrelevant control box, this is exactly the strategy followed in the example under scrutiny (see the $\Ax$ rule instantiating $\vari$ in Figure~\ref{figure:lovecraft_dep_rep_clause}).
 Upon closer inspection, we can verify that this is in fact just the $\eta$ normalized version of hypothesizing a plain type, assigning it the desired dependency brackets via the $\diamond I$ rule, and then performing a substitution of the bracketed variable for a logical equivalent (wrapped under the necessary control brackets) via the $\diamond E$ rule -- consult Figure~\ref{figure:eta_normalized_complement_hypothesis} and contrast with Figure~\ref{subfigure:modal_eta_reductions} if unconvinced.
 
 \begin{figure}
@@ -827,9 +828,10 @@ But the radical path would have us preserve dependency operators in the intermed
 	\footnote{And thus necessarily also the extraction pair $\dxdia{x}$, $\dxbox{x}$.},
 in hope of them findind downstream applications later on.
 A first merit would be the availability of richer type assignments in the lexical semantics domain, where previously identical function types become distinguishable by virtue of their modal decorations.
-There, syntactic modalities can be translated to semantic operators, lifting the target signature accordingly -- \textit{monads} make for a natural choice~\cite{kobayashi1997monad}.
+There, syntactic modalities can be translated to semantic operators, lifting the target signature accordingly and allowing for a stronger syntax-semantics interface -- as for what these translations might be, quite a few reasonable paths are presented.
+\textit{Monads} make for a natural translation choice, both because of their affinity with modalities~\cite{kobayashi1997monad} as well as their progressively maturing adoption by the linguistics community~\cite{asudeh2020enriched}.
 Furthermore, dependents are delineated and identified by their syntactic roles, allowing distinct semantic treatments, if so desired.
-Even in the modest setting of a non-inflated translation, modalities can help tell which of the (possibly many) combinations of semantic slots are occupied in a given construction, allowing the correct compositional recipe to be retrieved from the semantic lexicon.
+Even in the modest setting of a non-inflated translation, modalities can help tell which of the (possibly many) combinations of semantic slots are occupied in a given construction, allowing the correct compositional recipe to be retrieved from the semantic lexicon, while still distinguishing between optional and necessary ones~\cite{asudeh2012flexible}.
 In the edge case, they open the possibility for a homomorphic translation that ``forgets'' parts of the implicational directives of the logic, relying instead on the source dependency markings for the construction of its semantic terms.
 
 
@@ -845,7 +847,6 @@ If unsated and craving for more modalities-as-dependencies, you have the option 
 More broadly and outside their use as dependency markers, unary modalities have long now been a tempting way to encode linguistic features -- see \citet{moa} and \citet{10.7551/mitpress/6169.003.0012,johnson1999resource}, for instance.
 Further away from our niche territories, the relation between dependency grammars and lexicalism is extensively analyzed by \citet{kuhlmann2010dependency}, who asks (and answers) the question of which formal grammars induce what kind of dependency structures.
 On a relevant note, the slightly disheveled categorial dependency grammars make for an attempt to provide a categorial treatment of dependency structure, where the arcs and their labels are themselves the grammar's propositional constants~\cite{dekhtyar2015categorial}.
-For even more general literature on constituency grammars, dependency grammars or instantiations thereof, I will unfortunately have to direct you towards your favorite web search engine.
 
 \bibliographystyle{abbrvnat}
 \bibliography{bibliography}

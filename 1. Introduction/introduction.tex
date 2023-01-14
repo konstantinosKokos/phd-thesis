@@ -22,7 +22,7 @@ a fact both important and interesting, but which won't concern us much presently
 
 In a more niche (but equally beautiful) fragment of the academic world, and in parallel to the above developments, applied logicians and formally inclined linguists have been demonstrating a stunning perserverance in their self-imposed quest of modeling natural language syntax and semantics, making do only with the vocabulary provided by formal logics.
 This noble endeavour traces its origins back to Aristotle, but its modern incarnation is due to Jim Lambek, who was the first to point out that the grammaticality of a natural language utterance can be equated to provability in a certain logic (or type inhabitation, if one is to borrow the terminology of constructive type theories), if the grammar (a collection of empirical linguistic rules) were to be treated as a substructural logic (a collection of formal mathematical rules).
-Funnily enough, the kind of logics Lambek would employ for his purposes would be exactly those at the interesection of intuitionistic and linear logic, the latter only made formally explicit in a breakthrough paper by Jean-Yves Girard almost three decades later.
+Funnily enough, the kind of logics Lambek would employ for his purposes would be exactly those at the intersection of intuitionistic and linear logic, the latter only made formally explicit in a breakthrough paper by Jean-Yves Girard almost three decades later.
 By that time, Richard Montague had already come up with the fantastically novel idea of seeing no distinction between formal and natural languages, single-handedly birthing and popularizing the field of formal semantics (which would chiefly invole semantic computations using $\lam$-calculus notation).
 With this, he fulfilled Gottlob Frege's long-prophesized principle of compositionality, which would once and for all put the Chomskian tradition to rest\footnote{In some corners of the Earth, this part of the prophecy is yet to transpire.}, ushering linguistics into a new era.
 With the benefit of posterity, it would be tempting for us to act smart and exclaim that Lambek and Montague's ideas were remarkably aligned. 
@@ -100,11 +100,11 @@ And dually again, the introduction of the conjunction $\times I$ permits us to j
 
 \textit{Structural} rules, on the other hand, allow us to manipulate structures (who would have thought); they are presented in Figure~\ref{subfigure:intuitionistic_logic_rules:structural}.
 Structural rules have a two-fold role.
-First, they explicate an extra propery of our structure binding operator, namely commutativity.
+First, the exchange rule $\Exchange$ explicates an extra propery of our structure binding operator, namely commutativity.
 One could also make do with an implicit exchange rule by treating structures as \textit{multisets} rather than lists -- having it explicit, however, will keep us conscious of its presence and strengthen our emotional bond to it, in turn making us really notice its absence when it will no longer be there (it also keeps the presentation tidier).
 Second, they give an account of propositions as permanent and reusable facts.
-The weakening rule $\Weakening{}$ states that if we were able to derive a proposition $\smallprop{b}$ from some assumptions $\Gamma$, we will also be able to do so if the assumptions were to contain some arbitrary extra proposition $\smallprop{a}$.
-Conversely, the contraction rule $\Contraction{}$ states that if we needed some assumption structure containing two instances of a proposition $\smallprop{a}$ to derive a proposition $\smallprop{b}$, we could also make do with just one instance of it, discarding the other without remorse.
+The weakening rule $\Weakening{}$ formalizes \textit{deletion}; it states that if we were able to derive a proposition $\smallprop{b}$ from some assumptions $\Gamma$, we will also be able to do so if the assumptions were to contain some arbitrary extra proposition $\smallprop{a}$.
+Conversely, the contraction rule $\Contraction{}$ formalizes \textit{copying}; it states that if we needed some assumption structure containing two instances of a proposition $\smallprop{a}$ to derive a proposition $\smallprop{b}$, we could also make do with just one instance of it, discarding the other without remorse.
 
 A \textit{proof}, finally, is a heterogeneous variadic tree.
 At its root, it has a judgement, guaranteed to be derivable (provided we did not mess up somewhere), called its \textit{endsequent}.
@@ -269,14 +269,14 @@ i.e. rather than a sequence of formulas, we have a sequence of distinct variable
 		$\infer[\ii I]{\Gamma \vdash \term{\lam \vari .s} : \prop a \ii \prop{b}}{\Gamma, \term{\vari }: \prop{a} \vdash \term{s}:\prop{b}}$\\[2em]
 		$\infer[\times E]
 			{\Gamma,\Delta \vdash
-			\caseof{s}{\vari}{t}: \prop{c}}
+			\caseof{s}{(\vari,\varj)}{t}: \prop{c}}
 			{\Gamma \vdash \term{s}: \prop{a} \times \prop{b} & 
-			\Delta, \term{\vari }: \prop{a} , \term{\varj}: \prop{b} \vdash \term{t}: \prop{c}}$ 
+			\Gamma, \term{\vari }: \prop{a} , \term{\varj}: \prop{b} \vdash \term{t}: \prop{c}}$ 
 		&
 		$\infer[\times I]
 			{\Gamma, \Delta \vdash \cterm{(\term{s}, \term{t})}: \prop{a} \times \prop{b}}
 			{\Gamma \vdash \term{s}: \prop{a} & \Delta \vdash \term{t}:\prop{b}}$\\[\smallsep]
-		\multicolumn{2}{@{}c@{}}{$\infer[\Exchange{}]{\Delta, \Gamma \vdash \term{s}: \prop{a}}{\Gamma, \Delta \vdash \term{s}: \prop{a}}$}\\[2em]
+		\multicolumn{2}{@{}c@{}}{$\infer[\Exchange{}]{\Gamma, \prop{a}, \prop{b}, \Delta \vdash \term{s}: \prop{c}}{\Gamma, \prop{b}, \prop{a}, \Delta \vdash \term{s}: \prop{c}}$}\\[2em]
 		$\infer[\Weakening{}]
 			{\Gamma, \term{\vari }: \prop{a} \vdash \term{s}: \prop{b}}
 			{\Gamma \vdash \term{s}:\prop{b}} $ 
@@ -303,7 +303,7 @@ And finally, we can introduce throwaway variables into our typing environment wi
 
 There's just a few catches to beware of.
 The first has to do with tracing variables in a proof; the concatenation of structures $\Gamma$, $\Delta$ is only valid if $\Gamma$ and $\Delta$ contain no variables of the same name; if that were to be the case, we would be dealing with variable shadowing, a situation where the same name could ambiguously refer to two distinct objects (a horrible thing).
-The second has to do with do with the $\Exchange{}$ rule. 
+The second has to do with the $\Exchange{}$ rule. 
 The careful reader might notice that the rule leaves no imprint on the term level, meaning we cannot distinguish between a program where variables were a priori provided in the correct order, and one where they were shuffled into position later on.
 This is justifiable if one is to treat the rule as a syntactic bureaucracy that has no real semantic effect, i.e. if we consider the two proofs as equivalent, following along the commuting conversions mentioned earlier (supporting the idea that in this type theory, asssumptions are multisets rather than sequences).
 A slightly more perverse problem arises out of the product elimination rule $\times E$.
@@ -317,7 +317,7 @@ Mixing syntax and meta-syntax in the same system is a dirty but useful trick peo
 \subsubsection{Term Equivalences}
 There exist three kinds of equivalence relations between terms, each given an identifying Greek letter.\footnote{The denotational significance of these letters I have yet to understand -- legend has it that the spirit of Curry will gently whisper it in your ear after having successfully written your 100th compiler from scratch.}
 
-\paragraph{$\alpha$ conversion} is a semantically null rewrite obtained by renaming variables according to the substitution meta-notation $\smallterm{s}_{[\smallterm{\vari } \mapsto \smallterm{\varj}]}$ described above. 
+\paragraph{$\alpha$ conversion} is a semantically null rewrite obtained by renaming variables according to the substitution meta-notation ${[\smallterm{\vari } \mapsto \smallterm{\varj}]}$ described above. 
 Despite seeming innocuous at a first glance, $\alpha$ conversion is an evil and dangerous operation that needs to be applied with extreme caution so as to avoid variable capture, i.e. substituting a variable's name with one that is already in use.  
 Two terms are $\alpha$ equivalent if we can rewrite one into the other using just $\alpha$ conversions, e.g.
 \begin{equation}
@@ -330,7 +330,7 @@ The term rewrites we have so far inspected were either provided by specific rule
 Aside from the above, our type system provides two minimal computation steps that tell us how to reduce expressions that involve the deconstruction of a just-constructed type:
 \begin{align}
 (\term{\lam \vari .s})~\term{t} & \overset{\beta}{\leadsto} \term{s}_{[\term{\vari } \mapsto \term{t}]}\\
-\caseof{(s, t)}{(\vari, \varj)}{u} & \bred \term{u_{[\term{s} \mapsto \term{\vari }, \term{t} \mapsto \term{\varj}]}}
+\caseof{(s, t)}{(\vari, \varj)}{u} & \bred \term{u_{[\term{\vari} \mapsto \term{s}, \term{\varj} \mapsto \term{t}]}}
 \end{align}
 
 A term on which no $\beta$ reductions can be applied is said to be in $\beta$-normal form.
@@ -385,7 +385,7 @@ This is also a chance to do a bit of warming up with some baby examples before s
 
 \paragraph{Formula Polarity}
 Each unique occurrence of (part of) a formula within a judgement can be assigned a polarity value, positive or negative.
-All antecedent formulas are positive, and the lone succdent formula right is negative.
+All antecedent formulas are positive, and the lone succedent formula right is negative.
 Complex formulas propagate polarities to their constituents depending on their own polarity and primary connective -- this way, all subformulas down to propositional constants are polarized.
 Conjunctive formulas propagate their polarity unchanged to both their coordinates, whereas implicative formulas flip their polarity for the constituent left of the arrow; see Table~\ref{table:polarity_induction}.
 Intuitively, we can think of negative formulas as being in argument position (conditions for the proof to proceed), and positive formulas as being in result position (conditionally provable statements).
@@ -410,7 +410,7 @@ The two judgements of the next paragraph have their subformulas annotated with a
 \paragraph{Type Raising}
 Type raising $\pprop{a} \vdash (\nprop{a} \ii \pprop{b}) \ii \nprop{b}$ is a derivable theorem of intuitionistic logic presented in Figure~\ref{figure:type_raising}. 
 It states that for \smallprop{a}, \smallprop{b} arbitrary propositions, from \smallprop{a} one can derive its raised form $(\smallprop{a} \ii \smallprop{b})\li\smallprop{b}$.
-The converse, i.e. type lowering, is not true: $(\pprop{a} \ii \nprop{b}) \ii \pprop{b} \nvdash \nprop{a}$.
+The converse, i.e. type lowering, does not generally hold: $(\pprop{a} \ii \nprop{b}) \ii \pprop{b} \nvdash \nprop{a}$.
 \begin{figure}
 	\[
 		\infer[\ii I]{\varj: \prop{a} \vdash \term{\lam \vari.\vari~\varj}: (\prop{a} \ii \prop{b}) \ii \prop{b}}{
@@ -438,7 +438,7 @@ For instance, for $p$ and $s$ atomic propositions of order 0, their respective i
 
 \paragraph{Notational Shorthands}
 The verbosity of term-decorated proofs can get cumbersome in the long run, and does not play well with the unforgiving horizontal margins enforced by the template imposed on writer and reader alike.
-It is probably inevitable that at some point proofs will need a smaller font size to fit in a page (or, worse yet, some neck-breaking rotations of the orientation plane), but in a futile attempt to postpone such emergency measures, we will occasionally make use of a shorthand notation for natural deduction proofs that avoids repetition, at the cost of maybe requiring some extra time to visually parse.
+It is probably inevitable that at some point proofs will need a smaller font size to fit on a page (or, worse yet, some neck-breaking rotations of the orientation plane), but in a futile attempt to postpone such emergency measures, we will occasionally make use of a shorthand notation for natural deduction proofs that avoids repetition, at the cost of maybe requiring some extra time to visually parse.
 In this notation, axioms will be rewritten as follows:
 \[
 \infer[\Ax]{\term{\vari }: \prop{a} \vdash \term{\vari }: \prop{a}}{} \quad \raisebox{7pt}{$=:$} \quad \infer[\Ax]{\term{\vari }:\prop{a}}{}
@@ -518,7 +518,7 @@ The weakest links are the $\Contraction{}$ and $\Weakening{}$ rules.
 These two rules are a cultural and ideological remnant of a long-gone age infested by delusions of prosperity and abundance.
 In their presence, propositions are proof objects that can be freely replicated and discarded.
 Removing them (or controlling their applicability via other means) directs us towards a more eco-conscious regime by turning propositions into finite resources, the production and/or consumption of which is not to be taken for granted.
-Removing the $\Contraction{}$ rule yields Affine Logic, a logic in which resources can be used no more than once.
+Removing the $\Contraction{}$ rule yields Affine Logic, a logic in which resources must be used no more than once.
 Removing the $\Weakening{}$ rule yields Relevant Logic, a logic in which resources can be used no less than once.
 Removing both yields Linear Logic, a logic in which resources can be used \textit{exactly} once.
 The intuitionistic formulations of the above give rise to corresponding type theories~\cite{pierce2004advanced}.
@@ -801,13 +801,13 @@ Axiom links essentially specify the elimination of function types: they identify
 We do not need to put much thought for our running example: since all atoms have a single occurrence of each polarity, there is just one possible bijection to consider, presented in Figure~\ref{subfigure:proof_structure_funcomp}.
 A proof frame with axiom links on top is called a \textit{proof structure}, and this representation provides all of the information contained within a proof.
 
-Alas, the relation from proofs structures is not one-to-one: there exist many more proof structures than proofs.
+Alas, the relation from proof structures to proof nets is not one-to-one: there exist many more proof structures than proofs.
 A proof structure is a \textit{proof net} if and only if it satisfies a correctness criterion.
 There have been various formulations of this criterion, each with a different time complexity, ranging from exponential to linear~\cite{girard1987linear,danos1989structure,murawski2000dominator,guerrini2011linear}.
 We will adopt an (informally rephrased) version of the acyclicity and connectedness criterion of \citet{danos1989structure}.
 We are going to treat a proof structure as a heterogeneous graph, consisting of two node types, logical connectives and atomic formulas, and three edge types: tree-structure edges, further subcategorized according to their polarity, and axiom links.
 We will then attempt a traversal of that graph using an algorithm defined on the basis of the above parameterization, that further utilizes the  ancillary tree labels we have assigned earlier.
-At each step of the traversal, the algorithm will write down a (partial) term or term instruction.
+At each step of the traversal, the algorithm will write down a (partial) term or term instruction~\cite{lamarche2008proof}.
 We will expect the traversal to be terminating (i.e. to not get stuck in a loop) and complete without repeats (i.e. to have passed through all nodes and edges exactly once), and the term it has transcribed at its last step to be well-formed, at which point we will happily claim the proof structure to indeed be a proof net.
 
 \paragraph{Traversing $\ILL_{\li}$ Nets}
@@ -909,7 +909,7 @@ In that sense, their strength is also their weakness; same as the $\lam$-terms t
 At the same time, performing search over proof nets is a horrible idea; the number of possible links we need to consider scales factorially with respect to the number of atoms in the proof frame, and checking whether a set of links is valid is in the best case linear.
 Due to these limitations, proof nets were envisaged as a compiled form of an existing proof, rather than a canvas to find that proof on.
 We will not see proof nets again for a while, but we will keep their memory warm in our hearts.
-Because when we do, we will challenge this perception and see how their parallel nature can actually be very convenient for proof search.
+Because when we do in Chapter~\ref{chapter:chapter_4}, we will challenge this perception, and see how their parallel nature can actually be very convenient for heuristic proof search.
 Until then, we can temporarily store them in our mental backlog. 
 
 
@@ -925,7 +925,7 @@ The answer is simple: the conflation between the two directions was natural, up 
 With \Exchange{} removed, the veil is lifted and we can now see this clearly: there were always two implications, except disguised by the same symbol!
 Let us do our newfound friend justice, and make this distinction explicit.
 
-The logic that provides us with the tools to accomplish this is due to Jim Lambek~\cite{lambek1958mathematics}, and has come to by known as the Lambek calculus $\LC$.
+The logic that provides us with the tools to accomplish this is due to Jim Lambek~\cite{lambek1958mathematics}, and has come to be known as the Lambek calculus $\LC$.
 At this point, the careful reader will notice a chronological inconsistency in our presentational tour: the Lambek calculus predates Linear Logic! Despite the fact, it is in essence a \textit{refinement} of its purely linear part -- a substructural logic within a substructural logic -- and our previous exposition makes us better equiped to appreciate it.
 With commutativity gone, the Lambek calculus brings \textit{order} -- in the literal sense -- to Linear Logic; assumptions must now be used exactly in the order they were instantiated.
 It also brings forth the notion of \textit{adjacency}: structures joined by a rule are now immobile, and therefore obliged to remain adjacent from then on, unless broken apart by abstractions.
@@ -938,7 +938,7 @@ Formulas in the Lambek calculus are generated by the grammar:
 \end{equation}
 The rules of this fragment are presented in Figure~\ref{figure:lambek_calculus_rules}.
 Alternative presentations can include additive conjunction and/or either of the disjunctions, but the key feature of interest lies in the two implications, $\divright$ and $\divleft$.
-The intuitive way of reading those is as directed fractionals, the formula hidden under the cover of the slash being the divisor, and the formula lying on it the dividend.
+The intuitive way of reading those is as directed fractionals, the formula hidden under the cover of the slash being the denominator, and the formula lying on it the numerator.
 The elimination rule $\divright E$ (resp. $\divleft E$) can then be read as fractional simplifications, whereby right (resp. left) multiplication by the divisor cancels out the division as a whole.
 An analogus reading can be attributed to the introduction rules, them now being the instantiation of a division by withdrawing items from the left or right of the assumption sequence (it might be helpful to think of $\divright I$ as dequeuing and $\divleft I$ as popping from the assumptions in the premise).
 The division paradigm is of pedagogical utility only, and we will not take it any further for fear of (incorrectly) hinting at other properties of fractionals being applicable in the logic.
@@ -970,7 +970,7 @@ This also serves to better illustrate a remark made earlier: the rule can be app
 \end{figure}
 
 The Lambek calculus hails from an intuitionistic tradition, and is thus amenable to a propositions as types interpretation~\cite{wansing1990formulas}.
-Addorning its rules with faithful term rewrites translates into a type system that is both linear and ordered~\cite{pierce2004advanced}.
+Adorning its rules with faithful term rewrites translates into a type system that is both linear and ordered~\cite{pierce2004advanced}.
 Things get funky there: we now have two distinct modes of function application and $\lam$ abstraction, each pair with its own reduction.
 We use $\appright$ and $\appleft$ to denote right and left application, respectively -- the mnemonic is that the triangle points to the function -- and $\lam$ and $\adbmal$ to denote the two kinds of anonymous functions.
 
@@ -1104,7 +1104,7 @@ The notation $\Gamma\ctx{\Delta}$ now denotes that $\Delta$ is a \textit{subtree
 \end{figure}
 
 The syntax of the isomorphic $\lam$-calculus is identical to before, except this time we use $\nappright$ and $\nappleft$ to notationally differentiate with the non-associative application (not unlike how we replaced the intuitionistic implication $\ii$ with its linear counterpart $\li$ earlier).
-The new structural constraint on the introduction of a directed implication can be intuititively translated to a constraint on the applicability of an abstraction.
+The new structural constraint on the introduction of a directed implication can be intuitively translated to a constraint on the applicability of abstraction.
 Namely, the variable to abstract over needs to occur at the top-most level of a function application in the term's inductive body.%
 \footnote{Abusing terminology, here by inductive body we mean the term itself (if it's an implicative one), the term's inner body (if it's a sequence of abstractions), the left or right coordinate (if it's a product), or the nested body on which substitution is performed (if it's a deconstructed product).}
 
@@ -1148,7 +1148,7 @@ This will still remain the case even after (if?) this manuscript sees the light 
 With every step we have taken further into substructuraland, we have been paying a price in expressivity; it is now time for us to acknowledge the accumulated bill.
 Dropping \Contraction{} and \Weakening{} made us resource conscious, but theorems of $\IL$ that required resource duplication or erasure became underivable.
 Dropping \Exchange{} forced us to pay attention to the order of assumptions, but costed us access to theorems that required permutation to derive.
-Substituting the structural comma $(\_,\_)$ with the non-associative $(\_\sbind\_)$ casted our sequences to trees, this time at the expense of theorems that required rebracketing.
+Substituting the structural comma $(\_,\_)$ with the non-associative $(\_\sbind\_)$ cast our sequences to trees, this time at the expense of theorems that required rebracketing.
 Woe is us -- is there even anything left we can derive?
 
 Perhaps this is painting an overly dramatic picture, considering that none of this is necessarily bad.
@@ -1216,7 +1216,7 @@ and the adjointness of their compositions, where $\diamond\bx(\_)$ is an \textit
 \end{figure}
 
 The logical manipulation of these modalities is handled by corresponding elimination and introduction rules, presented in Figure~\ref{figure:modal_logical}.
-The presentation is intentionally detached from a specific subtructural strand -- modalities are plug-and-play to any member of the $\logic{(N)L(P)}$ family.
+The presentation is intentionally detached from a specific substructural strand -- modalities are plug-and-play to any member of the $\logic{(N)L(P)}$ family.
 Their incorporation adds a new kind of structure to the ones provided by the underlying logic, altering judgements accordingly:
 \begin{equation}
 	\Gamma, \Delta, \Theta := \dots \ | \ \bracket{\Gamma}
@@ -1236,6 +1236,7 @@ Term constructions for the single-premise rules are uncomplicated: each type ope
 This is not the case for the $\diamond E$ rule, which requires some attention:
 the structural substitution of $\bracket{\smallprop{a}}$ for $\Delta$ necessitates a case construct that calls for a term substitution of the variable $\smallterm{\vari }$ for $\diaelim\smallterm{t}$.
 Note that the free variables of the resulting expression ($\caseof{\diaelim t}{\vari }{s}$) are the union of the free variables of \smallterm{t} and those of \smallterm{s} except for \smallterm{\vari }, which becomes \textit{bound} by the case construct.
+As for what the interpretation of these esoteric term rewrites is, our insights are limited to the fact they form a residuated pair that respects the normalizations prescribed by the typing rules.
 
 \subsubsection{Proof \& Term Reductions}
 The proof patterns of Figure~\ref{figure:modal_beta_reductions} exhibit introduction elimination chains of modal operators, and thus constitute $\beta$ redexes subject to normalization.
@@ -1336,7 +1337,7 @@ For instance, $\diamond E$ can often be spotted in the wild as:
 In this disguise, the rule is again seen as realizing a retroactive substitution of $\smallterm{\vari }$ with $\smallterm{\diaelim t}$, except this time around the substitution is \textit{actually} performed, resulting in less cumbersome terms being carried around.
 
 Opting for this alternative notation has, however, a number of negative consequences.
-The more superficial one is that the main term connective does not take scope at the outermost layer of rule's yield, but rather nested arbitrarily deeply within it, unlike its better behaved version.
+The more superficial one is that the main term connective does not take scope at the outermost layer of the rule's yield, but rather nested arbitrarily deeply within it, unlike its better behaved version.
 From a proof-theoretic perspective, normalization is now baked directly into the theory, as the term yield of the rule exactly coincides with its $\beta$ reduced form.
 At the same time, all rule permutations boil down to having the exact same reduction, i.e. multiple previously distinct terms are conflated into a single representation.
 This establishes an impicit syntactic equivalence on proofs that claims that the exact position of the $\diamond E$ rule is \textit{syntactically irrelevant} (so long of course as the same variable $\smallterm{\vari }$ is substituted by the same term $\smallterm{\diaelim t}$).
@@ -1436,7 +1437,7 @@ With this in mind (and in a rare moment of excessive formal zeal), we will exerc
 	\label{figure:modal_properties:residuation}
 \end{figure}
 
-Situating our unary operators within the modal logic zoo is no trivial endeavour (especially if you, like me, have had limited exposure to it before).
+Situating our unary operators within the modal logic zoo is no trivial endeavour.
 They are best characterized by the properties they satisfy, so inspecting them should shed some light on their proof-theoretic behavior (as a bonus, it will also help us get better acquainted with the kind of term rewrites their rules prescribe).
 Figure~\ref{figure:modal_properties:residuation} presents the proof transformations equivalent to the properties foretold:
  (\subref{subfigure:modal_properties:diamond_mono}) and (\subref{subfigure:modal_properties:box_mono}) for monotonicity, (\subref{subfigure:modal_properties:closure}) and (\subref{subfigure:modal_properties:interior}) for composition, and (\subref{subfigure:modal_properties:residuation:1}) and (\subref{subfigure:modal_properties:residuation:2}) for the two directions of the residuation law.
@@ -1511,101 +1512,12 @@ Figure~\ref{figure:modal_triple_laws} presents proofs of the above in both direc
 \end{figure}
 
 \subsection{Structural Reasoning}
-
-\begin{figure}
-	\centering
-	\begin{subfigure}{1\textwidth}
-		\centering
-		\begin{tabularx}{0.75\textwidth}{@{}c@{\qquad}c@{}}	
-		$
-		\infer[\rulestyle{ass}_{\diamond}]{\Gamma\ctx{(\Delta, \Theta), \bracket{\Phi}} \vdash \prop{a}}{
-			\Gamma\ctx{\Delta, (\Theta, \bracket{\Phi})} \vdash \prop{a}
-		}
-		$
-		&
-		$
-		\infer[\rulestyle{mix}_{\diamond}]{\Gamma\ctx{(\Delta, \Phi), \bracket{\Theta}} \vdash \prop{a}}{
-			\Gamma\ctx{(\Delta, \bracket{\Theta}), \Phi} \vdash \prop{a}
-		}
-		$
-		\end{tabularx}
-		\caption{In rule format.}
-		\label{subfigure:modal_structural_rules:rules}
-	\end{subfigure}\\[\midsep]
-	\begin{subfigure}{1\textwidth}
-		\centering
-		\begin{tabularx}{0.99\textwidth}{@{}cccXccc@{}}
-		\begin{tikzpicture}
-		\draw node[rectangle, minimum width=50pt,draw=black, minimum height=110pt,dotted,thick,label={$\Gamma$}] (x) at (-0.1,-1.5) {};
-		\Tree 
-			[ 
-				[
-					{$\Delta$}
-					{$\Theta$}
-				]
-				\edge[unary]; {$\Phi$}
-			]
-		\end{tikzpicture}
-		&
-		\raisebox{60pt}{$\xleftarrow{\rulestyle{ass}_{\diamond}}$}
-		&
-		\begin{tikzpicture}
-		\draw node[rectangle, minimum width=50pt,draw=black, minimum height=110pt,dotted,thick,label={$\Gamma$}] (x) at (0.1,-1.5) {};
-		\Tree 
-			[
-				[.{$\Delta$} ] 
-				[
-					{$\Theta$}
-					\edge[unary]; {$\Phi$}
-				]
-			]
-		\end{tikzpicture}
-		&
-		&
-		\begin{tikzpicture}
-		\draw node[rectangle, minimum width=50pt,draw=black, minimum height=110pt,dotted,thick,label={$\Gamma$}] (x) at (-0.1,-1.5) {};
-		\Tree
-			[
-				[
-					{$\Delta$}
-					{$\Phi$}
-				]
-				\edge[unary]; {$\Theta$}
-			]
-		\end{tikzpicture}
-		&
-		\raisebox{60pt}{$\xleftarrow{\rulestyle{mix}_{\diamond}}$}
-		&
-		\begin{tikzpicture}
-		\draw node[rectangle, minimum width=50pt,draw=black, minimum height=110pt,dotted,thick,label={$\Gamma$}] (x) at (-0.1,-1.5) {};
-		\Tree
-			[
-				[
-					{$\Delta$}
-					\edge[unary]; {$\Theta$}
-				]
-				{$\Phi$}
-			]
-		\end{tikzpicture}
-		\end{tabularx}
-		\caption{Corresponding tree transformations. Double edges denote bracketed substructures.}
-		\label{subfigure:modal_structural_rules:trees}
-	\end{subfigure}
-	\caption{Controlled associativity/mixed commutativity.}	
-	\label{figure:modal_structural_rules}
-\end{figure} 
-
-
 This detour may have proven lengthy, but has hopefully helped us acquire a first taste for modalities.
 We now know how to introduce and eliminate them and what the effect of doing so is on the antecedent structure, and got a first glimpse of their properties, the term rewrites they prescribe and the type inequalities (in the form of unidirectional derivations) they give rise to.
 The question then becomes how to actually use them for the task at hand, namely disciplined traversal between substructural logics.
 Structural reasoning is accomplished via structural postulates, rules of inference that enact commutativity and associativity (or combinations thereof), except in a controlled fashion.
-These are permissible only under strict conditions on the substructures constituent to the antecedent structure -- this is exactly where the new kind of structures will prove useful.
+These are permissible only under strict conditions on the \textit{shape} of the antecedent structure and its constituents -- this is exactly where the new kind of structures will prove useful.
 There is no fixed vocabulary of structural rules, as they are intended for application-specific finetuning of a universal logical core, so we are free to design and populate it according to our own needs.
-Prime examples and standard items for consideration include the controlled associativity and mixed associativity-commutativity rules of Figure~\ref{subfigure:modal_structural_rules:rules} (and the corresponding tree transformations of Figure~\ref{subfigure:modal_structural_rules:trees}, if you have a disdain for brackets).
-The first rule $\rulestyle{ass}_{\diamond}$ allows a unary branch $\bracket{\Phi}$ to escape its bind to its neighbour $\Theta$, forcing it to associate to the structure $\Delta$ to its left instead.
-The second one $\rulestyle{mix}_{\diamond}$ allows a unary $\bracket{\Theta}$ to swap position with its right-adjacent neighbor $\Phi$, disassociating from its left neighbour $\Delta$ in the process.
-In domains where even finer control is needed, one can consider indexed families of (interacting) modalities, each with their own structural brackets and rulesets.
 
 \section{The Linguistic Perspective}\label{section:linguistics}
 Despite their presentation having intentionally been left vague and abstract, the ideas explored so far have been a keystone element of computer science, from its inception until recent modernity.
@@ -1622,7 +1534,7 @@ In this section we will examine some of their main strands, with a special empha
 
 \subsection{Type-Logical Grammars}
 \label{subsection:typelogical}
-The earliest take at a categorial grammar are the AB grammars attributed to Kazimierz Adjukiewicz~\cite{ajdukiewicz1935syntaktische} and Yehoshua Bar-Hillel~\cite{bar1953quasi}, but it was Jim Lambek that raised the existing notation and operations into the glory of a fully-fledged type theory.
+The earliest take at a categorial grammar are the AB grammars attributed to Kazimierz Adjukiewicz~\cite{ajdukiewicz1935syntaktische} and Yehoshua Bar-Hillel~\cite{bar1953quasi}, but it was Jim Lambek that raised the existing notation and operations into the glory of a fully-fledged type logic.
 In their original purpose as envisaged by Lambek, his calculi would find use as \textit{grammar logics}, i.e. universal systems of \textit{grammatical} computation -- a perspective adopted and advanced into what has presently come to be known as type-logical grammars~\cite{morrill1994type,moortgat1997categorial,sep-typelogical-grammar}.
 In a natural language setting, the linear base of the Lambek calculi is naturally equated to the resource sensitivity of grammar: words play a single grammatical role in the phrases they help form -- there's no ignoring or reusing items at will.
 There, the original Lambek calculus $\LC$ would be the logic of \textit{strings}; it can faithfully portray the generation of natural language utterances, where arbitrary reordering is a destructive process that ruins coherence.
@@ -1650,11 +1562,11 @@ In a toy fragment and for illustrative purposes, this could look like:
 	\propcon := \{\smalln, \smallnp, \smallsmain, \smallpp\}
 \]
 for a grammar able to reason about nouns \smalln, noun phrases and bare nouns \smallnp{}, sentential clauses \smallsmain{}, prepositional phrases \smallpp{} and functions thereof in English.
-One might wonder: what happened to the remaining kinds of phrasal categories like verbs, adjectives and adverbs?
+One might wonder: what happened to the remaining kinds of phrasal categories, like verbs, adjectives and adverbs?
 These would indicate grammatical functions, and in fact should be represented as such.
 An intransitive phrase, for instance, is a grammatical function that would consume a left-adjacent noun phrase to produce a sentence, therefore it would materialize as $\smallnp\divleft\smallsmain$.
-It follows that a transitive phrase or copula would then be of type $(\smallnp\divleft\smallsmain)\divright\smallnp$, a function that requires a right-adjacent noun phrase to produce an intransitive phrase, whereas a bitransitive, requiring two, would be $((\smallnp\divleft\smallsmain)\divright\smallnp)\divright\smallnp$, etc.
-In the same vein, determiner phrases consume right-adjacent nouns and lift them to noun phrases $\smallnp\divright\smalln$, whereas prenominal adjectives are noun phrase (or noun) endomorphisms modifying them but keeping their type intact, $\smallnp\divright\smallnp$ (and the other way around for postnominal use).
+It follows that a transitive phrase or copula would then be of type $(\smallnp\divleft\smallsmain)\divright\smallnp$, a function that requires a right-adjacent noun phrase to produce an intransitive, whereas a bitransitive, requiring two, would be $((\smallnp\divleft\smallsmain)\divright\smallnp)\divright\smallnp$, etc.
+In the same vein, determiner phrases $\smallnp\divright\smalln$ consume right-adjacent nouns and lift them to noun phrases, whereas prenominal adjectives $\smallnp\divright\smallnp$  are noun phrase (or noun) endomorphisms modifying them but keeping their type intact (and the other way around for postnominal use).
 Adverbs would also be endomorphisms, except this time higher-order -- \linebreak$(\smallnp\divright\smallnp)\divright(\smallnp\divright\smallnp)$ for adjectival and $(\smallnp\divleft\smalls)\divleft(\smallnp\divleft\smalls)$ for verbal modification, respectively.
 
 \begin{table}
@@ -1788,13 +1700,101 @@ One could of course attept to cop out of the problem by just introducing ad hoc 
 The repercussions of such a move would soon, however, prove catastrophic.
 On the one hand, the once reliably concise lexicon would become overpopulated by endless variations on the same theme: each expansion point of a lexical type would percolate into all other lexical items it interacts with (either as consumers or producers thereof), the effect cascading at progressively larger lexical neighborhoods, until (if ever) an eventual equilibrium is reached.
 On the other hand, raised types obfuscate the functional relations and constituency structures we have worked so hard to reveal and incorporate, virtually beating the very purpose of the logic.
-Relaxing the structural constraints of the logic to globally allow movement and/or rebracketing is no good either.
+Relaxing the structural constraints of the logic to globally allow movement and/or rebracketing is no good either (at least not for the formal syntactician).
 Spurious ambiguity would be the least of our concerns as we would be faced with \textit{overgeneration}, i.e. the unwelcome ability to derive proofs that have no correspondence to correct linguistic structures whatsoever, leading us back to square zero.
 If you have not skipped any parts yet, your reward should now manifest as an unwavering faith for a solution, and a premonition of what is to come: modalities to the rescue!
 
 \subsubsection{The Role of Modalities}
-Ever since their original integration with the vanilla multiplicative toolkit, (the early pioneer being none other than my \#1 supervisor!) modalities have played an indispensable role in the history and development of type-logical grammars~\cite{hendriks1995ellipsis, moortgat1996multimodal,kurtonina1997structural,moortgat1997categorial,vermaat1999controlling}.
+Ever since their original integration with the vanilla multiplicative toolkit, modalities have played an indispensable role in the history and development of type-logical grammars~\cite{hendriks1995ellipsis, moortgat1996multimodal,kurtonina1997structural,moortgat1997categorial,vermaat1999controlling}.
 They find use as either licensors or licensees of structural rewrites, now in the form of movement and rebracketing of words and phrases.
+Prime examples and standard items for consideration include the controlled associativity and mixed associativity-commutativity rules of Figure~\ref{subfigure:modal_structural_rules:rules} (and the corresponding tree transformations of Figure~\ref{subfigure:modal_structural_rules:trees}, if you have a disdain for brackets).
+The first rule $\rulestyle{ass}_{\diamond}$ allows a unary branch $\bracket{\Phi}$ to escape its bind to its neighbour $\Theta$, forcing it to associate to the structure $\Delta$ to its left instead.
+The second one $\rulestyle{mix}_{\diamond}$ allows a unary $\bracket{\Theta}$ to swap position with its right-adjacent neighbor $\Phi$, disassociating from its left neighbour $\Delta$ in the process.
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{1\textwidth}
+		\centering
+		\begin{tabularx}{0.75\textwidth}{@{}c@{\qquad}c@{}}	
+		$
+		\infer[\rulestyle{ass}_{\diamond}]{\Gamma\ctx{(\Delta, \Theta), \bracket{\Phi}} \vdash \prop{a}}{
+			\Gamma\ctx{\Delta, (\Theta, \bracket{\Phi})} \vdash \prop{a}
+		}
+		$
+		&
+		$
+		\infer[\rulestyle{mix}_{\diamond}]{\Gamma\ctx{(\Delta, \Phi), \bracket{\Theta}} \vdash \prop{a}}{
+			\Gamma\ctx{(\Delta, \bracket{\Theta}), \Phi} \vdash \prop{a}
+		}
+		$
+		\end{tabularx}
+		\caption{In rule format.}
+		\label{subfigure:modal_structural_rules:rules}
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}{1\textwidth}
+		\centering
+		\begin{tabularx}{0.99\textwidth}{@{}cccXccc@{}}
+		\begin{tikzpicture}
+		\draw node[rectangle, minimum width=50pt,draw=black, minimum height=110pt,dotted,thick,label={$\Gamma$}] (x) at (-0.1,-1.5) {};
+		\Tree 
+			[ 
+				[
+					{$\Delta$}
+					{$\Theta$}
+				]
+				\edge[unary]; {$\Phi$}
+			]
+		\end{tikzpicture}
+		&
+		\raisebox{60pt}{$\xleftarrow{\rulestyle{ass}_{\diamond}}$}
+		&
+		\begin{tikzpicture}
+		\draw node[rectangle, minimum width=50pt,draw=black, minimum height=110pt,dotted,thick,label={$\Gamma$}] (x) at (0.1,-1.5) {};
+		\Tree 
+			[
+				[.{$\Delta$} ] 
+				[
+					{$\Theta$}
+					\edge[unary]; {$\Phi$}
+				]
+			]
+		\end{tikzpicture}
+		&
+		&
+		\begin{tikzpicture}
+		\draw node[rectangle, minimum width=50pt,draw=black, minimum height=110pt,dotted,thick,label={$\Gamma$}] (x) at (-0.1,-1.5) {};
+		\Tree
+			[
+				[
+					{$\Delta$}
+					{$\Phi$}
+				]
+				\edge[unary]; {$\Theta$}
+			]
+		\end{tikzpicture}
+		&
+		\raisebox{60pt}{$\xleftarrow{\rulestyle{mix}_{\diamond}}$}
+		&
+		\begin{tikzpicture}
+		\draw node[rectangle, minimum width=50pt,draw=black, minimum height=110pt,dotted,thick,label={$\Gamma$}] (x) at (-0.1,-1.5) {};
+		\Tree
+			[
+				[
+					{$\Delta$}
+					\edge[unary]; {$\Theta$}
+				]
+				{$\Phi$}
+			]
+		\end{tikzpicture}
+		\end{tabularx}
+		\caption{Corresponding tree transformations. Double edges denote bracketed substructures.}
+		\label{subfigure:modal_structural_rules:trees}
+	\end{subfigure}
+	\caption{Controlled associativity/mixed commutativity.}	
+	\label{figure:modal_structural_rules}
+\end{figure} 
+
+%In domains where even finer control is needed, one can consider indexed families of (interacting) modalities, each with their own structural brackets and rulesets.
 Figure~\ref{figure:lovecract_rel_clause} progresses our agenda by accounting for the presence of a (hypothetical) movable postnominal modifier via the rules of Figure~\ref{figure:modal_structural_rules}.
 To make the hypothesis movable, we need to instantiate it as a box -- for the pure function contained therein to be applicable, the box needs to be removed, enclosing the hypothesis in angular brackets, which in turn license its structural extraction to the rightmost edge of the assumptions via the $\rulestyle{mix}_{\diamond}$ rule.
 At that point, we need to eliminate the bracketed variable with a term of the corresponding type, plus a diamond.
@@ -1856,7 +1856,7 @@ Equipped with it, we can derive both the local versions hinted at earlier, and t
 
 This methodology is in fact adopted from \citet{moortgat1999constants}, where it finds similar use in dealing with the grammatical ambivalence of relativizers like \textex{that} or \textex{which}.
 Bound relative clauses headed by complementizers like the above contain a subordinate sentence with a \textit{gap}, which can vary in its position.
-Let's make things unnecessarily convoluted for the sake of clich{\'e}d self-referentialism by considering the relative clause \textex{which can very in its position} of the previous sentence.
+Let's make things unnecessarily convoluted for the sake of clich{\'e}d self-referentialism by considering the relative clause \textex{which can vary in its position} of the previous sentence.
 There, the subordinate clause \textex{\gap{} can vary in its position} contains a gap in the subject position, which the head \textex{a gap} occupies implicitly.
 This is not the case in the last relative clause \textex{which the head \textex{gap} occupies implicitly}, whose subordinate clause \textex{the head \textex{gap} occupies \gap{} implicitly} contains a non-peripheral (nested) gap in direct object position.
 What a mess! 
@@ -2076,7 +2076,7 @@ I fail to see any interest in syntax except as a preliminary to semantics.~\cite
 A full exposition to Montague grammar is beyond the scope of this thesis, but a brief introduction to some of its foundations will go a long way in helping us perceive its relevance to the type-logical approach.
 Richard Montague was disillusioned with the tackling of natural language semantics at the time, which he found formally inadequate and lacking the elegance of contemporary approaches to mathematical syntax.
 He saught to fill this gap by arguing that formal and natural languages are morally indistinguishable -- different instantiations of the same theory -- and advocating their treatment in just the same way.
-Influenced by his own background on modal logic and the highly influential work of Saul Kripke on possible world semantics~\cite{kripke1963semantical}, the machinery he thought was best fit for the task at hand was a model theoretic semantics axiomatized on the basis of set theory and higher-order logic; his work is marked with heavy use of $\lam$ notation, the adoption of which by today's working linguist is largely attributed to him.
+Influenced by his own background on modal logic and the highly influential work of Saul Kripke on possible world semantics~\cite{kripke1963semantical}, the machinery he thought was best fit for the task at hand was a model theoretic semantics axiomatized on the basis of set theory and higher-order logic; his work is marked with heavy use of $\lam$ notation, the adoption of which by today's working linguist is largely attributable to him.
 
 Revolutionary as it may have been at the time, this semantic machinery and its antiquated details are largely irrelevant to this work.
 What is of prime interest, though, is Montague's treatment of the passage between syntax and semantics.
@@ -2171,7 +2171,7 @@ As an example, applying $\hm{.}$ to the proof of Figure~\ref{figure:lovecract_re
 With the Curry-Howard isomorphism as our guiding star, there's no peril in navigating between syntactic and semantic theories.
 Syntactic proofs are equated to syntactic terms, on which our homomorphism can be applied to yield derivational semantics terms, in turn equatable to derivational semantics proofs.
 This might seem like a lot of work to simply ``forget'' syntax, but it showcases how one can step up the computational hierarchy of substructural logics in order to attain access to more expressive semantics.
-Note also that such a path is merely a suggestion and not an imperative; a more ambitious line of though could maintain that word order variations (and the structural rules licensing them) can carry semantic cues which, albeit subtle, need to be upheld in the compositional meaning translation (see for instance  the contemporary work of \citet{duarte2022quantum} for some exotic interpretations of the control modalities).
+Note also that such a path is merely a suggestion and not an imperative; a more ambitious line of though could maintain that word order variations (and the structural rules licensing them) can carry semantic cues which, albeit subtle, need to be upheld in the compositional meaning translation; see for instance  the contemporary work of \citet{duarte2022quantum} for a quantum (!) interpretation of the control modalities.
 
 \paragraph{The Role of the Lexicon}
 The sentiments of the previous paragraph could be met with some skepticism.
@@ -2180,8 +2180,8 @@ To dispel such doubts, we need to keep in mind that derivational terms refrain f
 Opening these black boxes would reveal flat entries (i.e. term constants) in the case of words providing meaning \textit{ingredients}, as opposed to structurally rich entries (i.e. complex terms with internal structure) in the case of words providing meaning \textit{recipes}.%
 \footnote{This distinction is usually paralleled with the linguistic distinction between \textit{content} and \textit{function} words, but commiting to this being the case is an unecessary restriction. Depending on the end-target semantics logic and the granularity of the semantic lexicon, content words might still be assigned complex term structure -- a common trick, for instance, in delivering dependent type semantics; see the book of \citet{chatzikyriakidis2020formal} for an overview of recent developments.}
 Structurally rich lexical entries can utilize \textit{any} term constructor made available by the semantic logic; crucially, this includes constructors that escape the narrow borders of the homomorphic codomain (i.e. do not have a syntactic origin).
-Of course, such terms are still bound by the promise to obay the type dictated by the homomorphic translation of their original syntactic type, and must also be derivable theorems of the semantic logic they live in.
-Increasing expressivity therefore may indeed not in itself add to the function/argument structures inherited by syntax, but provides the tools necessary for complex lexical semantic actions to take effect as needed.
+Of course, such terms are still bound by the promise to obey the type dictated by the homomorphic translation of their original syntactic type, and must also be derivable theorems of the semantic logic they live in.
+Increasing expressivity therefore may indeed not in itself add to the function/argument structures inherited from syntax, but provides the tools necessary for complex lexical semantic actions to take effect as needed.
 
 A case in point is the coordinator \textex{and} conjoining the two modifiers of the previous section: \textex{litten by \dots \textbf{and} having in \dots};
 each individual conjunct fulfills a descriptive filter that intersects the properties of its argument with the properties attributed by its internal meaning.
