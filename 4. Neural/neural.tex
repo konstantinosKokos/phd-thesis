@@ -1,4 +1,4 @@
-\chapter{Learning to Prove}
+f\chapter{Learning to Prove}
 \label{chapter:chapter_4}
 
 
@@ -164,7 +164,7 @@ Going one step further and making the assumption that the \textit{emission proba
 p(\mathbf{w}_{0:n} \ | \ \mathbf{t}_{0:n}) \approx \prod_i^n p(w_i \ | \ t_i)
 \end{equation}
 Putting (\ref{equation:contextual_prob_jb}) and (\ref{equation:emission_prob_jb}) together, we get an approximation to (\ref{equation:supertag}) that is blatantly wrong.
-Despite the fact, it is also workable, in having efficiently circumvented sparsity, adequate, in having accounted for the very important axis of output-to-output interactions, and practical, in allowing a tangible implementation as a hidden Markov model.
+Nevertheless, it is also workable, in having efficiently circumvented sparsity, adequate, in having accounted for the very important axis of output-to-output interactions, and practical, in allowing a tangible implementation as a hidden Markov model.
 Simple structural constraints would then be applied to filter out candidate predictions on the basis of admissibility criteria related to the shape and content of the supertag as well as the surrounding lexical context.
 
 
@@ -1314,11 +1314,11 @@ Decisions cannot be detached from the structure they bind to and help form -- to
 At the same time, even if the proof is to be dynamically constructed, thus abolishing the need for enumerating all options globally, each local junction point still needs to be exhaustively expanded for the construction to proceed.
 Explicit symbolic manipulation and neural representations are inseparably bound, and even though the former can be somewhat localized, it can never be foregone fully.
 Practically speaking, type safety is not for free: it costs back-and-forth between the logical and numerical back ends, inhibiting integration.
-Proof nets, on the other hand, are the embodiment of data parallelism, the most saught after property of neural computation and the holy grail of efficient training and optimization.
+Proof nets, on the other hand, are the embodiment of data parallelism, the most saught-after property of neural computation and the holy grail of efficient training and optimization.
 Decision making and validity testing are detached: we must first make all the decisions that are to be made, and only then can we check whether they are structurally legitimate.
 This laxness was the very reason we abandoned proof nets in the first place, but it is exactly what makes them so very appealing now.
 
-\subsection{Parsing as Permutation}
+\subsection{Permuting Types to Alignment}
 So what exactly is the structure of decisions encoded in a proof net?
 Recalling our earlier discussion, a proof net is essentially two things and a promise.
 First, a sequence of decomposition trees, called a proof frame.
@@ -1540,7 +1540,7 @@ In practice, this is not a major concern -- both integrations perform exceptiona
 Choosing between the two decoders seems like a no brainer at first -- the geometry-aware formulation is significantly faster and more accurate, let alone easier to train (despite these factors usually being in conflict).
 But in transitioning to it, we fortfeit the right to algorithmically \textit{search} in the output space.
 In practical terms, while we may keep demanding a new proof frame from the symbol sequential supertagger ad infinitum (or until satisfied), the geometric one won't be at all receptive to our pleas -- its greedily decoded proof frame is our one and only chance at a parse.
-This limitation becomes especially relevant considering the impenetrable barrier placed by the count invariance property, requiring an equal count of positive and negatlives for every atomic type present (no square matrix otherwise!).
+This limitation becomes especially relevant considering the impenetrable barrier placed by the count invariance property, requiring an equal count of positive and negatives for every atomic type present (no square matrix otherwise!).
 A proof frame that fails to satisfy that property is no good for proof search.
 This obstacle can be repurposed to a tool, as long as search is an option -- hard-wiring the constraint into beam search yields a correct-by-construction (yet painfully slow) decoding algorithm, massively increasing computational load but practically ensuring parsability.%
 	\footnote{
@@ -1557,7 +1557,7 @@ This obstacle can be repurposed to a tool, as long as search is an option -- har
 	We can import the count invariance condition by overwriting the probability score $p(s_{\beta, n, ||t_n||} | \dots )$ assigned by the decoder with $-\infty$ when $\mathbf{t}_{0:n}$ fails the check, essentially discarding the sequence and forcing a backtrack.
 }
 Sticking with the parallel decoder means having to wave such niceties goodbye, at least until some search algorithm is formulated and implemented.
-Despite the fact, the drastically improved accuracy and speed translate to a multiplicative increase in the performance-to-compute ratio -- the greedy output of the novel supertagger is practically as good as -- and incomparably faster than -- a vanilla beam search on the original one, but with no guarantee of structural correctness.
+Even so, the drastically improved accuracy and speed translate to a multiplicative increase in the performance-to-compute ratio -- the greedy output of the novel supertagger is practically as good as -- and incomparably faster than -- a vanilla beam search on the original one, but with no guarantee of structural correctness.
 Long story short, the geometry-aware decoder is not a no brainer, but it's still the superior choice.
 
 Since the permutations require access to the atoms of goal (succedent) formula, we train the supertagger to produce one, using the input sequence's sentential summary token (the \texttt{[CLS]} token, in jargon) as the stateful decoding seed.
@@ -1600,7 +1600,9 @@ When decoding completes, the output must first be ``parsed'' into types proper.
 Assuming no structural integrity issues, leaf positions are indexed, keeping track of their polarities and atomic types -- the result is a proof frame.
 For the frame to be an eligible starting point for proof search, it must satisfy the count invariance property, which is dynamically asserted on the spot.
 If it does, leaf representations are extracted and binned and their agreement scores are computed and normalized like before (except sequentially for each sentence).
-In the event that the local discretization (i.e. rounding) of a normalized matrix does not correspond to a bijection, we resort to an explicit combinatorial optimization via the Hungarian method, using the normalized scores as assignment weights.
+In the rare event that the local discretization (i.e. rounding) of a normalized matrix does not correspond to a bijection,
+we resort to an explicit combinatorial optimization via the Hungarian method, using the normalized scores as assignment weights.
+This authorizes a sensible, static number of Sinkhorn iterations while still providing a fallback to ensure the output's structural integrity.
 In either case, the pairings obtained correspond to axiom links, which are traversed to produce a proof (more on that in a bit).
 
 We proceed with evaluation with no training wheels: no pre- or post- processing, no tokenization or chunking oracles, and no length, depth or frequency thresholding. 
@@ -1802,7 +1804,7 @@ Below you'll find some pointers to get you started.
 Despite digressions against the sequence-to-sequence paradigm, our original supertagger~\cite{kogkalidis-etal-2019-constructive} is inspired and preceded by a ton of inventive applications of such models repurposed for structure induction \cite[inter alia]{vinyals2015grammar,wiseman2016sequence,dong-lapata-2016-language,buys2017robust}.
 Our early results have somewhat sensitivized the community to the problem of open-domain lexicalized supertagging.
 \citet{bhargava2020supertagging} essentially replicate our early experiments in parallel [sic] to us (i.e. same venue but a year later, this time on the CCGbank).
-Other, serious steps forward include the ones by \citet{prange-etal-2021-supertagging} and \citet{Liu_Ji_Wu_Lan_2021}, who concurrently saught to account for the tree-like structure of lexical categories, the former through a tree-biased architecture and the latter through transition-based parsers applied at the lexical level.
+Other, serious steps forward include the ones by \citet{prange-etal-2021-supertagging} and \citet{Liu_Ji_Wu_Lan_2021}, who concurrently sought to account for the tree-like structure of lexical categories, the former through a tree-biased architecture and the latter through transition-based parsers applied at the lexical level.
 
 These serve as the inspiration for the geometry-informed supertagger of \citet{kogkalidis2022geometryaware}, which bears semblance and owes credit to various ongoing lines of architectural work.
 The depth recurrence is evocative of weight-tied architectures~\cite{dehghani2018universal,bai2019deep} and their graph-oriented variants~\cite{li2016gated}, which model neural computation as the fix-point iteration of a single layer against a structured input, thus allowing for a dynamically adaptive computation ``depth'' -- albeit with a constant parameter count.

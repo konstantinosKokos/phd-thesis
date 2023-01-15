@@ -73,9 +73,9 @@ Read as automatically extract\textit{ing} theorems from Lassy, it is a Python li
 The two are made for one another; even though they can live independently, they are best presented together.
 We'll start from the second aspect and move towards the first.
 The exposition is honest but not exhaustive with respect to the actual code -- the intention is not to write a full API reference manual but rather just a quick how-to guide, with occasional commentary motivating design decisions.
-The full source code is available at \href{https://github.com/konstantinosKokos/aethel}{github.com/konstantinosKokos/aethel}.%
+The full source code is available at \url{https://github.com/konstantinosKokos/aethel}.%
 	\footnote{Latest commit is 7e9e4c472df22582708ff03a35cf90718c17c60e.}
-Up-to-date user instructions and data downloads are best retrieved from the repository, which shall remain active and accessible for the foreseeable future.
+For up-to-date user instructions and data downloads please refer to the repository, which shall remain active and accessible for the foreseeable future.
 
 \subsection{\NLPplus{} with Python}
 \label{subappendix:nlp}
@@ -476,7 +476,8 @@ Preimplemented queries include searching for samples utilizing only (a subset of
 \begin{minted}{pycon}
 >>> from scripts.search import (search, contains_word,
 >>>                             length_between, of_type)
->>> x = next(search(aethel, contains_word('vuur') & length_between(4, 7)))
+>>> x = next(search(aethel, contains_word('vuur')  
+>>>                         & length_between(4, 7)))
 >>> x.name
 'WS-U-E-A-0000000004.p.28.s.3(1).xml'
 >>> x.sentence
@@ -550,7 +551,7 @@ c1 ▵vc(c2 ▵cmpbody(c6 ▵vc(c7 ▵vc(c8) ▵obj1(▾det(c4) c5)) ▵su(c3)))
  LexicalPhrase(string=lambda, type=□mod(N⟶N), len=1),
  LexicalPhrase(string=term, type=N, len=1),
  LexicalPhrase(string=van, type=◇obj1(NP)⟶□mod(NP⟶NP), len=1),
- LexicalPhrase(string=dit, type=□det(N⟶NP), len=1),
+ LexicalPhrase(string=deze, type=□det(N⟶NP), len=1),
  LexicalPhrase(string=vorbeeldzin, type=N, len=1),
  LexicalPhrase(string=?, type=PUNCT, len=1))
 >>> analyses[1].proof.term

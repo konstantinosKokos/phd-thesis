@@ -4,19 +4,12 @@
 \chapabstract{\textit{A program that only lives on paper is not a program.}}
 
 With our theorycrafting over, we have in our hands an uninstantiated descriptive model of syntactic and semantic composition, promising to capture dependency relations while keeping both its feet set firmly in type theory.
-Unfortunately, it is well attested by now that ``all models are wrong...''~\cite{doi:10.1080/01621459.1976.10480949}.
-Any promise of theoretical universality, cognitive plausibility, linguistic intrinsicness or what have you, would require some degree of handwaving and conjecturing that I am not comfortable with.
-What is undisputable, however, is the nobility of our goals and the purity of our tools: the \textit{omniversality} of the $\lambda$ calculus~\cite{wadler2015propositions} asserts that our modeling approach is not some ad hoc machinery designed to tackle a highly localized problem, but the one and only programming language ever worth writing. 
-Beyond purpose and methodology, and having a priori given up any ideation of truth, the only measure of success for our model is that of its utility (``...but some are useful'', ~\cite{doi:10.1080/01621459.1976.10480949}).
-This sets up a new research imperative: we must prove the model useful!
-
-``Oof, that's a tricky one'', you might exclaim, and you wouldn't be wrong.
-Thankfully, there are two tried and tested ways to proceed.
-The first is the way of the scholar, which requires a rare combination of high intellectual capacity, strong persuasive skills and a pinch of luck.
-It starts off with some profound abstract thinking, gradually overtaken by agressive campaigning: bashing the competition at workshops and conferences, making bold claims and generating traction at any chance given (optionally over social media platforms, for the modernists), eventually building a cult of personality, and finally resting on your laurels as the hype becomes self-sustainining -- at long last, utility affirmed by popular approval.
+To ascertain the model's utility without resorting to promises of theoretical universality, cognitive plausibility, linguistic intrinsicness and the like, we have two tried and tested ways to proceed.
+The first is the way of the scholar, requiring a rare combination of high intelligence and charisma with a pinch of luck.
+It involves equal doses or profound thinking and aggressive campaigning, stirred vigorously in hope of the torque becoming self-sustaining --  at long last, utility affirmed by popular approval.
 This path, sometimes called the scientific method, is a rather involved and painstakingly slow process, a high stakes gamble that only starts yielding profits in the long run.
 More befitting the modern paradigm of the mobile, adaptive, multi-purpose researcher is the alternative path, the way of the engineer.
-A shorter term investment, it requires only the acquirable skills of endurance and hardheadedness, and offers a recipe that's easier to follow: simply swing at it until it cracks.
+A shorter term investment, it requires only the acquirable skills of endurance and stamina, and offers a recipe that's easier to follow: simply swing at it until it cracks.
 After a lot of obsessive iteration and self-correction (interchanged with the occasional feeling of despair), (f)utility will sooner or later be affirmed by cold, hard numbers.
 We'll go for this one.
 
@@ -31,8 +24,7 @@ And three, the end-yield of this process has merit of its own.
 As a derived dataset, it is first a building block necessary for populating the computational toolshed of the theory, but also a public resource for the world to do with as they please.
 
 Before we get started, let me apologize for the gloomy mood that might permeate this chapter here and there.
-Proof extraction has been the most gruesome and iterated aspect of my path to doctorhood, its maintance and upkeep having an almost annual recurrence (with nothing festive about it).%
-\footnote{Fun(?) fact: at least one revision to the extraction was made after these lines were written.}
+Proof extraction has been the most gruesome and iterated aspect of my path to doctorhood, its maintance and upkeep having an almost annual recurrence (with nothing festive about it).
 For the sake of scientific transparency, I have no choice other than to expose it in all its gory details, but my fatigue of the topic might occassionally reflect in a less-than-usually interesting prose.
 
 \section{Preliminaries}
@@ -1140,7 +1132,7 @@ For a practical user's guide to \AE thel, refer to Appendix~\ref{subappendix:aet
 For moving on, it suffices to know that an analysis is essentially a nicely packaged tuple, containing a proof on one coordinate and a tokenized and type-annotated sentence on the other.
 
 \subsection{Analysis}
-\subsubsection{Quantitative Snoozefest}
+\subsubsection{Quantitative Obligations}
 We are done with proving; time to get to counting.
 But first, a disclaimer.
 The numbers reported below have been relatively stable, but may well get to differ in between the time I write these words and the time you get to read them.

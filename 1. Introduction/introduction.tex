@@ -13,7 +13,7 @@ What it would claim, instead, is that mathematics is but a subjective process of
 In practice, intuitionists would reject the law of the excluded middle (an essential tool for Hilbert's school of formalists) and argue that for a proof to be considered valid, it has to provide concrete instructions for the construction of the object it claims to prove.
 The dispute went on for a couple of decades, its flame carried on by the respective students of the two rivals.
 Logic, intrigue, conflict, fame, no \LaTeX{} errors...  these truly were the years to be an active mathematician.
-Eventually, in a critical moment of clarity and inspiration, and tired by the ongoing drama, Kurt G\"odel, with his famous incompleteness theorem, would declare Hilbert's program unattainable, thus putting a violent end to the line of formalist heathens, and paving the way for the true revolution that was to come.
+Eventually, in a critical moment of clarity and inspiration, and tired by the ongoing drama, Kurt G\"odel, with his famous incompleteness theorem, would declare Hilbert's program unattainable, thus putting a violent end to the formalist hubris, and paving the way for the true revolution that was to come.
 This is in reference, of course, to the biggest discovery of the last century\footnote{In proof theory, at least.}, made independently (using wildly different words every time) by various mathematicians and logicians spanning different timelines.
 Put plainly, what is now known as the Curry-Howard correspondence establishes a syntactic equivalence between deductive systems in intuitionistic brands of logic and corresponding computational systems, called $\lam$-calculi.
 Put even more plainly, it suggests that valid proofs in such logics constitute in fact compilable code for functional progams, bridging in essence the seemingly disparate fields of mathematical logic and computer science.
@@ -50,7 +50,7 @@ Once that is done, we will give a brief account of the the Curry-Howard correspo
 
 \subsection{Intuitionistic Logic}
 \label{subsection:intuitionistic_logic}
-Intuitionistic logic is due to Arend Heyting~\cite{heyting1930}, who was the first to formalize Bouwer's intuitionism.
+Intuitionistic logic is due to Arend Heyting~\cite{heyting1930}, who was the first to formalize Brouwer's intuitionism.
 It is a restricted version of classical logic, where the laws of the excluded middle (\textit{tertium non datur}) and the elimination of the double negation no longer hold universally.
 The first states that one must choose between a proposition $\prop{a}$ and its negation $\neg \prop{a}$ ($\prop{a} \vee \neg \prop{a}$), whereas the second that negation is its own inverse ($\neg \neg \prop{a} \equiv \prop{a}$).
 The absence of these two laws implies that several theorems of classical logic are no longer derivable in intuitionistic logic, meaning that the logic is weaker in terms of expressivity.
@@ -108,7 +108,7 @@ Conversely, the contraction rule $\Contraction{}$ formalizes \textit{copying}; i
 
 A \textit{proof}, finally, is a heterogeneous variadic tree.
 At its root, it has a judgement, guaranteed to be derivable (provided we did not mess up somewhere), called its \textit{endsequent}.
-Its branches are themselves proofs, fused together by a rule -- the number of premises being the local tree's arity.
+Its subtrees are themselves proofs, fused together by a rule -- the number of premises being the local tree's arity.
 At its leaves, it has identity axioms -- the smallest kind of proof.
 
 \begin{figure}
@@ -926,7 +926,8 @@ With \Exchange{} removed, the veil is lifted and we can now see this clearly: th
 Let us do our newfound friend justice, and make this distinction explicit.
 
 The logic that provides us with the tools to accomplish this is due to Jim Lambek~\cite{lambek1958mathematics}, and has come to be known as the Lambek calculus $\LC$.
-At this point, the careful reader will notice a chronological inconsistency in our presentational tour: the Lambek calculus predates Linear Logic! Despite the fact, it is in essence a \textit{refinement} of its purely linear part -- a substructural logic within a substructural logic -- and our previous exposition makes us better equiped to appreciate it.
+At this point, the careful reader will notice a chronological inconsistency in our presentational tour: the Lambek calculus predates Linear Logic! 
+Nonetheless, it is in essence a \textit{refinement} of its purely linear part -- a substructural logic within a substructural logic -- and our previous exposition makes us better equiped to appreciate it.
 With commutativity gone, the Lambek calculus brings \textit{order} -- in the literal sense -- to Linear Logic; assumptions must now be used exactly in the order they were instantiated.
 It also brings forth the notion of \textit{adjacency}: structures joined by a rule are now immobile, and therefore obliged to remain adjacent from then on, unless broken apart by abstractions.
 
@@ -1798,7 +1799,7 @@ The second one $\rulestyle{mix}_{\diamond}$ allows a unary $\bracket{\Theta}$ to
 Figure~\ref{figure:lovecract_rel_clause} progresses our agenda by accounting for the presence of a (hypothetical) movable postnominal modifier via the rules of Figure~\ref{figure:modal_structural_rules}.
 To make the hypothesis movable, we need to instantiate it as a box -- for the pure function contained therein to be applicable, the box needs to be removed, enclosing the hypothesis in angular brackets, which in turn license its structural extraction to the rightmost edge of the assumptions via the $\rulestyle{mix}_{\diamond}$ rule.
 At that point, we need to eliminate the bracketed variable with a term of the corresponding type, plus a diamond.
-For this to work, we need to make the tiniest of modifications to our lexicon so as to get access to the saught-after diamond:
+For this to work, we need to make the tiniest of modifications to our lexicon so as to get access to the sought-after diamond:
 \begin{equation}\label{equation:litten}
 	\w{litten} \qquad :: \qquad \diamond\bx (\np[s]\divleft\np[s])\divright\pp[s]
 \end{equation}
@@ -2276,7 +2277,7 @@ The above -- all of type $\mathtt{str}$, and underlined to distinguish from func
 
 \begin{table}
 	\centering
-	\begin{tabularx}{0.75\textwidth}{@{}cc@{}}
+	\begin{tabular}{@{}cc@{}}
 		Abstract Constant							& Object Term\\
 		\toprule
 		$\smallterm{n}$								& $\underline{\smallprop{n}}$\\
@@ -2287,7 +2288,7 @@ The above -- all of type $\mathtt{str}$, and underlined to distinguish from func
 		$\smallterm{box}$							& $\smallterm{\lam  \vari.\underline{\bx} + \vark}$\\		
 		$\smallterm{ldiv}$							& $\smallterm{\lam  \vari\varj.\underline{(} + \vari + \underline{\divleft} + \varj + \underline{)}}$\\
 		$\smallterm{rdiv}$							& $\smallterm{\lam  \vari\varj.\underline{(} + \varj + \underline{\divright} + \vari + \underline{)}}$
-	\end{tabularx}
+	\end{tabular}
 	\caption{Object translation for the lexicon of Figure~\ref{figure:acg_nl_abstract_lex}.}
 	\label{table:nl_tg_acg}
 \end{table}
@@ -2353,87 +2354,81 @@ The maximal order of the abstract constants is 1, and the maximal order of the t
 Elegant and successful as they might be in their meta-theoretical enterprises, abstract categorial grammars have not fared as well with linguistic applications, in large part due to their computationally intractable nature.
 On the one hand, they stand out from the rest of the categorial family in not being lexicalized by default.
 The conceptual separation between lexicon and rules no longer holds: rules are fixed to the ones supplied by $\ILL_{\li}$, but inference is largely guided by the abstract constants.
-Abstract constants may contain lexical items that make their way to the final (object) derivation, or simply compositional recipes that leave no imprint whatsoever.
+Abstract constants may contain lexical items that make their way to the final (object) derivation, or otherwise simply be compositional recipes that leave no imprint whatsoever.
 At the same time, the framework is overly reliant on the constant map $\theta_0$ (defined on a per-item basis) for the translation into the object language to take effect.
 Even in the lexicalized setup where the abstract lexicon is populated by words and words only, every abstract constant needs to be assigned both an abstract type and a unique object term for every phenogrammatic behavior it exhibits; two lexical dimensions, compared to the one of vanilla categorial grammars.
 Enforcing grammaticality while blocking overgeneration of the object language similarly requires a careful, parallel finetuning of both the abstract language and the translation --  gone is the adage of words carrying their combinatorics on their sleeves. 
 What's worse, words triggering higher-order tectogrammatic phenomena will then need object translations of an even higher order for their surface forms, making the design and population of a strict tectogrammatic translation $\hm{.}$ practically unfeasible.
-This part could in principle be partially mitigated by flattening complex syntactic phenomena into lower-order (alias) types in the source domain, and outsourcing their expansion to a parallel grammar for concrete semantics -- this is less of a solution and more of a deferral, though.
-Beyond issues of practicality, there are also foundational problems at stake, as resorting to a lexical enumeration of phenogrammatic forms evidences inability to perform linguistic generalization -- what \citet{moot2014hybrid} calls a problem of \textit{descriptive inadequacy} revolving around \textit{any} abstract replacement to a Lambek higher-order type.
-Last but not least, it is hard to imagine an abstract categrial grammar in action: it is unclear how to procure an abstract proof object from the \textit{evaluated} yield of its object translation (i.e. the string form we are most likely encounter in the open) using traditional proof-theoretic disciplines -- the two layers of function/argument structures (abstract- and object- level) and their interacting reductions would unnerve even the sturdiest of parsers%
-	\footnote{Or so it seems.}
+This part could in principle be partially mitigated by flattening complex syntactic phenomena into lower-order aliases in the source domain, outsourcing their expansion to a parallel grammar for concrete semantics -- though this is less of a solution and more of a deferral.
+Beyond practicality, there are also foundational issues at stake, as resorting to a lexical enumeration of phenogrammatic forms evidences inability to perform linguistic generalization -- what \citet{moot2014hybrid} calls a problem of \textit{descriptive inadequacy} revolving around any abstract replacement to a Lambek higher-order type.
+Last but not least, it is hard to imagine an abstract categrial grammar in action: it is unclear how to procure an abstract proof object from the \textit{evaluated} yield of its object translation (i.e. the string form we are most likely encounter in the open) using traditional proof-theoretic disciplines -- the two layers of function/argument structures (abstract- and object- level) and their interacting reductions would unnerve even the sturdiest of parsers, or so it seems.
+%As an artificial yet illustrative and down-to-earth example, let's brave the design of an abstract categorial grammar tasked with the production of an end-to-end linguistic example.
+%Once more, we start with the specification of our two logics $\Sigma$ and $\Tau$.
+%For efficacy and simplicity, we can have $\Sigma$ coincide with the derivational semantics logic of Section~\ref{subsubsection:ssi_tlg}, inheriting its terms and types for free.
+%Doing so requires of course that we assume some high-level equivalence between the representations of what used to be abstract semantics before, and what now we call deep syntax -- let's naively take this for granted.
+%The object logic $\Tau$, being responsible for the surface materialization of our derivational proofs, will again need to be a logic of strings and is thus populated by a single atomic type $\propcon^{\Tau} = \{ *\}$; all abstract atoms atoms are then sent to $\mathtt{str}$.
+%For each word, we will need an abstract constant $\w{c} \in \cons^{\Sigma}$, and a corresponding object constant $\str{c} :: \mathtt{str} \in \cons^{\Tau}$, denoting the word's string form. 
+%Abstract constants will be sent to object terms via $\theta_0$, each of which must contain a single occurence of a term constant, in order to preserve lexicalism and respect lexical transparency.
+%Worth a special mention is the fact that the tectogrammatic image of words assigns them syntactic recipes, as they carry their own $\lam$ terms.
+%The story is summarized in Table~\ref{table:toy_acg_lexicon} (object types are ommitted for brevity -- simply substitute all atoms of the corresponding abstract types with $\mathtt{str}$ to obtain them).
+%
+%\begin{table}[h]
+%	\centering
+%	\begin{tabularx}{0.85\textwidth}{@{}ccC@{}}
+%		Abstract Constant							& Abstract Type										& Object Term\\
+%		\toprule
+%		eye											& $\smalln$											& \str{eye}	\\
+%		suns										& $\smallnp$										& \str{suns} \\
+%		oceans										& $\smallnp$										& \str{ocreans} \\
+%		the											& $\smalln\li\smallnp$								& $\smallterm{\lam \vari.\str{the}+\vari}$\\
+%		opiate										& $\smallnp\li\smallnp$								& $\smallterm{\lam \vari.\str{opiate}+\vari}$\\
+%		poured										& $\smallnp\li\smalls$								& $\smallterm{\lam \vari.\vari + \str{poured}}$\\
+%		behold										& $\smallnp\li\smallnp\li\smalls$					& $\smallterm{\lam \vari\varj.\varj+\str{behold}+\vari }$\\
+%		there										& $(\smallnp\li\smalls)\li\smallnp\li\smalls$		& $\smallterm{\lam \vari \varj.(\vari~\varj) + \str{there}}$\\
+%		never										& $(\smallnp\li\smalls)\li\smallnp\li\smalls$		& $\smallterm{\lam \vari \varj.\str{never}+(\vari ~\varj)}$\\
+%		may											& $(\smallnp\li\smalls)\li\smallnp\li\smalls$		& $\smallterm{\lam \vari \varj.\str{may}+(\vari ~\varj)}$\\
+%		by											& $\np\li\pp$										& $\smallterm{\lam \vari.\str{by}+ \vari}$\\
+%		litten 										& $\smallpp\li\smallnp\li\smallnp$					& $\smallterm{\lam \vari\varj.\varj + \str{litten}+ \vari}$\\
+%		that										& $(\smallnp\li\smalls)\li\smallnp\li\smallnp$		& $\smallterm{\lam \vari\varj. \varj + \str{that} + \vari(\str{\gap})}$
+%	\end{tabularx}
+%	\caption{Abstract lovecraftian lexicon abiding to the types of Table~\ref{table:toy_lambek_lexicon}.}
+%	\label{table:toy_acg_lexicon}
+%\end{table}
+%
+%
+%The equation below shows the computation of the homomorphic translation to the derivational term (\ref{equation:litten_derterm}) inspected earlier.
+%
+%{\smaller
+%\begin{equation}\label{equation:acg_pheno}
+%	\begin{aligned}
+%	& 			\hm{\term{litten~(by~(that~(\lam \vari .(may~(never~(behold~\vari )))~(the~eye)))~(suns))}} \\
+%	= \ 
+%	&							(\lam \vari\varj.\varj + \str{litten}+ \vari) \\
+%	&\quad								(\lam \vark.\str{by}+ \vark)\\
+%	&\qquad									(\lam \varl\varm. \varm + \str{that} + \varl(\str{\gap}))\\
+%	&\qqquad								(\lam x_n. \\
+%	&\qqquad\quad										(\lam x_o x_p.\str{may}+(x_o ~x_p))\\
+%	&\qqquad\qquad											(\lam x_q x_r.\str{never}+(x_q~x_r))\\
+%	&\qqquad\qqquad												(\lam x_sx_t.x_t+\str{behold}+x_s)\\
+%	&\qqquad\qqqquad												x_n \\
+%	&\qqquad												((\lam x_u.\str{the}+x_u)~\str{eye})\\
+%	&\quad									\str{suns}\\
+%	\bredstar \ & \term{\lam \vari.\vari + \str{litten}\str{by}\str{suns}\str{that}\str{the}\str{eye}\str{may}\str{never}\str{behold}}\str{\gap}
+%	\end{aligned}
+%\end{equation}
+%}%
+%This already proves quite an endeavour; twelve reduction steps later, we are presented with a seemingly reasonable output.
+%Upon closer inspection, though, an issue pops up: the end term is of type $\mathtt{str}\li\mathtt{str}$, making it an ill-fit for the discontinuous application to the \textit{substring} \str{opiate}\str{oceans}, which we expect to find nested within the main clause \str{opiate}\str{oceans}\str{poured}\str{there}.
+%For the tectogrammatical form to be able to surface correctly, some drastic adjustments are necessary.
+%We could alter the derivational proof by including non-lexical abstract constants, or refine the source types to impose (or enable) structural variation, but either option would be undermining the cohesion between deep syntax and semantics we started from.
+%The only alternative that does not resort to contaminating the original term -- abstract and pure -- with vulgar restrictions of form would be to lift the complexity of the interpretation and design it anew.
 
-As an artificial yet illustrative and down-to-earth example, let's brave the design of an abstract categorial grammar tasked with the production of an end-to-end linguistic example.
-Once more, we start with the specification of our two logics $\Sigma$ and $\Tau$.
-For efficacy and simplicity, we can have $\Sigma$ coincide with the derivational semantics logic of Section~\ref{subsubsection:ssi_tlg}, inheriting its terms and types for free.
-Doing so requires of course that we assume some high-level equivalence between the representations of what used to be abstract semantics before, and what now we call deep syntax -- let's naively take this for granted.
-The object logic $\Tau$, being responsible for the surface materialization of our derivational proofs, will again need to be a logic of strings and is thus populated by a single atomic type $\propcon^{\Tau} = \{ *\}$; all abstract atoms atoms are then sent to $\mathtt{str}$.
-For each word, we will need an abstract constant $\w{c} \in \cons^{\Sigma}$, and a corresponding object constant $\str{c} :: \mathtt{str} \in \cons^{\Tau}$, denoting the word's string form. 
-Abstract constants will be sent to object terms via $\theta_0$, each of which must contain a single occurence of a term constant, in order to preserve lexicalism and respect lexical transparency.
-Worth a special mention is the fact that the tectogrammatic image of words assigns them syntactic recipes, as they carry their own $\lam$ terms.
-The story is summarized in Table~\ref{table:toy_acg_lexicon} (object types are ommitted for brevity -- simply substitute all atoms of the corresponding abstract types with $\mathtt{str}$ to obtain them).
-
-\begin{table}[h]
-	\centering
-	\begin{tabularx}{0.85\textwidth}{@{}ccC@{}}
-		Abstract Constant							& Abstract Type										& Object Term\\
-		\toprule
-		eye											& $\smalln$											& \str{eye}	\\
-		suns										& $\smallnp$										& \str{suns} \\
-		oceans										& $\smallnp$										& \str{ocreans} \\
-		the											& $\smalln\li\smallnp$								& $\smallterm{\lam \vari.\str{the}+\vari}$\\
-		opiate										& $\smallnp\li\smallnp$								& $\smallterm{\lam \vari.\str{opiate}+\vari}$\\
-		poured										& $\smallnp\li\smalls$								& $\smallterm{\lam \vari.\vari + \str{poured}}$\\
-		behold										& $\smallnp\li\smallnp\li\smalls$					& $\smallterm{\lam \vari\varj.\varj+\str{behold}+\vari }$\\
-		there										& $(\smallnp\li\smalls)\li\smallnp\li\smalls$		& $\smallterm{\lam \vari \varj.(\vari~\varj) + \str{there}}$\\
-		never										& $(\smallnp\li\smalls)\li\smallnp\li\smalls$		& $\smallterm{\lam \vari \varj.\str{never}+(\vari ~\varj)}$\\
-		may											& $(\smallnp\li\smalls)\li\smallnp\li\smalls$		& $\smallterm{\lam \vari \varj.\str{may}+(\vari ~\varj)}$\\
-		by											& $\np\li\pp$										& $\smallterm{\lam \vari.\str{by}+ \vari}$\\
-		litten 										& $\smallpp\li\smallnp\li\smallnp$					& $\smallterm{\lam \vari\varj.\varj + \str{litten}+ \vari}$\\
-		that										& $(\smallnp\li\smalls)\li\smallnp\li\smallnp$		& $\smallterm{\lam \vari\varj. \varj + \str{that} + \vari(\str{\gap})}$
-	\end{tabularx}
-	\caption{Abstract lovecraftian lexicon abiding to the types of Table~\ref{table:toy_lambek_lexicon}.}
-	\label{table:toy_acg_lexicon}
-\end{table}
-
-
-The equation below shows the computation of the homomorphic translation to the derivational term (\ref{equation:litten_derterm}) inspected earlier.
-
-{\smaller
-\begin{equation}\label{equation:acg_pheno}
-	\begin{aligned}
-	& 			\hm{\term{litten~(by~(that~(\lam \vari .(may~(never~(behold~\vari )))~(the~eye)))~(suns))}} \\
-	= \ 
-	&							(\lam \vari\varj.\varj + \str{litten}+ \vari) \\
-	&\quad								(\lam \vark.\str{by}+ \vark)\\
-	&\qquad									(\lam \varl\varm. \varm + \str{that} + \varl(\str{\gap}))\\
-	&\qqquad								(\lam x_n. \\
-	&\qqquad\quad										(\lam x_o x_p.\str{may}+(x_o ~x_p))\\
-	&\qqquad\qquad											(\lam x_q x_r.\str{never}+(x_q~x_r))\\
-	&\qqquad\qqquad												(\lam x_sx_t.x_t+\str{behold}+x_s)\\
-	&\qqquad\qqqquad												x_n \\
-	&\qqquad												((\lam x_u.\str{the}+x_u)~\str{eye})\\
-	&\quad									\str{suns}\\
-	\bredstar \ & \term{\lam \vari.\vari + \str{litten}\str{by}\str{suns}\str{that}\str{the}\str{eye}\str{may}\str{never}\str{behold}}\str{\gap}
-	\end{aligned}
-\end{equation}
-}%
-This already proves quite an endeavour; twelve reduction steps later, we are presented with a seemingly reasonable output.
-Upon closer inspection, though, an issue pops up: the end term is of type $\mathtt{str}\li\mathtt{str}$, making it an ill-fit for the discontinuous application to the \textit{substring} \str{opiate}\str{oceans}, which we expect to find nested within the main clause \str{opiate}\str{oceans}\str{poured}\str{there}.
-For the tectogrammatical form to be able to surface correctly, some drastic adjustments are necessary.
-We could alter the derivational proof by including non-lexical abstract constants, or refine the source types to impose (or enable) structural variation, but either option would be undermining the cohesion between deep syntax and semantics we started from.
-The only alternative that does not resort to contaminating the original term -- abstract and pure -- with vulgar restrictions of form would be to lift the complexity of the interpretation and design it anew.
-
-It seems therefore that the appealing simplicity and elegance of the tectogrammatic logic is counterbalanced by an increasingy bulky and cumbersome transition to the (equally simple, yet far less elegant) phenogrammatic logic.
-The problem is of course more pronounced for natural languages, which overstep the strict confines of their formal counterparts~\cite{moot2014hybrid}.
+The appealing simplicity and elegance of the tectogrammatic logic is therefore counterbalanced by an increasingy bulky and cumbersome transition to the (equally simple, yet far less elegant) phenogrammatic logic.
+The problem is of course more pronounced for natural languages, which overstep the strict confines of their formal counterparts.
 If only we had a way to keep just the good part of a type-driven and semantically transparent deep syntax, without having to get involved with all the tedious labour of its surface materialization or the translation to it...
-Spoiler alert: we will, in the near future.
+Spoiler alert: we will, in Chapter~\ref{chapter:chapter_4}.
 
-\subsection{Other Formalisms}
-Type-logical and abstract categorial grammars have monopolized our interest, yet are not the only members of the categorial grammar family.
-For the sake of completeness and impartiality, we will briefly discuss two other major flavours and contrast them to the ones so far presented.
-
-\subsubsection{Combinatory Categorial Grammars}
+\subsection{Combinatory Categorial Grammars}
 A deviant from the categorial tradition are the broadly adopted combinatory categorial grammars~\cite{ades1982order,szabolcsi1989bound, steedman2022combinatory}.
 These stray from the norm by rejecting the very idea of the syntactic variable (and with it, hypothetical reasoning), citing reasons of cognitive plausibility and parsing complexity.
 Obviously, a categorial grammar stripped of hypothetical reasoning would not amount to much on its own: it would only be able to resolve syntactically flat sentences.
@@ -2450,23 +2445,6 @@ For better or worse, combinatory categorial grammars have taken the lion's share
 \footnote{At least if one is to consider the reviewers I get assigned a reliable statistical sample of the NLP population.}
 I hope that, by its end, this thesis will have slightly adjusted the scales towards a healthier epistemological pluralism.
 
-\subsubsection{Hybrid Type-Logical Grammars}
-In the lands between type-logical grammars and their abstract siblings, there lives the strangeness of hybrid type-logical grammars.
-Originally proposed by~\citet{kubota2012gapping}, hybrid type-logical grammars utilize a combination of the two slashes of traditional Lambek calculi with the non-directional linear implication, to give birth to a type grammar that combines the good aspects of both approaches while purportedly suffering the restrictions of neither.
-The types of a hybrid type-logical grammar are the result of two stages of induction.
-The first stage creates standard Lambek types, as in~(\ref{equation:LC}).
-The second stage is of the form 
-\begin{equation}
-	\prop{a}, \prop{b}, \prop{c} := \prop{l} \ | \ \prop{a} \li \prop{b}
-\end{equation}
-where $\smallprop{l}$ a valid Lambek type.
-The term calculus of hybrid type-logical grammars requires a translation of logical types into so-called \textit{prosodic} types $\smallprop{st}$ (for structure or string), such that all stage 1 (Lambek) types are sent to $\smallprop{st}$, and stage 2 types are inductively translated as (higher-order) functions over $\smallprop{st}$. 
-The term constructors assigned to the elimination (resp. introduction) of the Lambek connectives is that of structure concatenation (resp. separation), whereas the term constructors assigned to the linear connective are standard function application and variable abstraction.
-The marriage of these two layers of abstraction in the same term calculus might seem unorthodox or at least aesthetically displeasing, but is not without merit.
-Concetenative terms allow the framework to relax the lexical pressure of an abstract categorial grammar by preserving the canonical categorial grammar treatment of local syntactic phenomena.
-Applicative terms constitute localized and controlled bursts of ad hoc expressivity that can exceptionally allow the derivation of higher-order and non-local phenomena normally inacessible to the OG Lambek calculi.
-Hybrid type-logical grammars are a relatively new addition to the family, and are subject to ongoing research, both from the linguistic and the proof-theoretic perspective~\cite{kubota2020type,moot2022logical}.
-As to why one would choose this setup over alternatives, your guess is as good as mine; hybrid proponents proclaim the system less obscure and more fit for linguistic applications~\cite{kubota2020type} -- external validation to these claims is still pending.
 
 
 \section{Key References \& Further Reading}
