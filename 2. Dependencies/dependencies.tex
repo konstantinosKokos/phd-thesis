@@ -325,7 +325,7 @@ The story is no different with more than one complements -- i.e. a transitive wo
 A determiner, however, would be typed as $\dbox{det}(\np[s]\divright\n[s])$ -- it recognizes the right-adjacent noun as its head, but still takes functional precedence over it, licensing the function application by dropping its determiner box.
 Similarly, a prenominal modifier would be typed as $\dbox{mod}(\np[s]\divright\np[s])$ -- to apply to its unmarked head, the type would need first liberate itself of its box, being a modifying adjunct.
 
-Atomic type assignments will remain for the most part unchanged, as propositional constants are necessarily complements (or heads of a singleton phrase, to be pedantic) and their grammatical role cannot be decided a priori, anticipating a phrasal head to enforce it instead.
+Atomic type assignments will remain for the most part unchanged, as these are necessarily complements (or heads of a singleton phrase, to be pedantic) and their grammatical role cannot be decided a priori, anticipating a phrasal head to enforce it instead.
 Plural nouns like the \textex{dolphins} and \textex{whirlpools} of Table~\ref{table:toy_lambek_lexicon}, for instance, would still be typed as plain  $\np[s]$s -- there's no telling in advance whether they will occur as subjects, direct objects or something else.
 Exceptionally for words whose morphological characteristics already confine them to a single possible grammatical role, we can consider an alternative typing that restricts them to exclusively that grammatical role.
 The straightforward thing to do would be to lexically mark them with a diamond -- e.g. for the nominative version of the third person singular personal pronoun, \textex{he}, we might assign the type $\ddia{su}\np[s]$, denoting it must necessarily occur in subject position.
@@ -447,7 +447,7 @@ Conforming to our routine, let's first adapt some of the lexical assignments of 
 	\label{table:toy_dep_lexicon}
 \end{table}
 
-The propositional constants for nouns $\n[s]$ and noun phrases $\np[s]$ are unmarked, plain and boring; let's not speak of them any further.
+The base types for nouns $\n[s]$ and noun phrases $\np[s]$ are unmarked, plain and boring; let's not speak of them any further.
 The first-order types of the determiner $\smallgtype{det}$, adjectival modifier $\smallgtype{adj}_{\divright}$ and verbal types, $\smallgtype{itv}$ and $\smallgtype{tv}$, should by now also be familiar.
 The higher-order types of the adverb and the modal auxiliary, $\smallgtype{adv}$ and $\smallgtype{aux}$, might, however, require some elucidation.
 Note, first, that despite seemingly divergent, the two types are identical when stripped of their modalities.
@@ -846,7 +846,7 @@ If unsated and craving for more modalities-as-dependencies, you have the option 
 
 More broadly and outside their use as dependency markers, unary modalities have long now been a tempting way to encode linguistic features -- see \citet{moa} and \citet{10.7551/mitpress/6169.003.0012,johnson1999resource}, for instance.
 Further away from our niche territories, the relation between dependency grammars and lexicalism is extensively analyzed by \citet{kuhlmann2010dependency}, who asks (and answers) the question of which formal grammars induce what kind of dependency structures.
-On a relevant note, the slightly disheveled categorial dependency grammars make for an attempt to provide a categorial treatment of dependency structure, where the arcs and their labels are themselves the grammar's propositional constants~\cite{dekhtyar2015categorial}.
+On a relevant note, the slightly disheveled categorial dependency grammars make for an attempt to provide a categorial treatment of dependency structure, where the arcs and their labels are themselves the grammar's base types~\cite{dekhtyar2015categorial}.
 
 \bibliographystyle{abbrvnat}
 \bibliography{bibliography}

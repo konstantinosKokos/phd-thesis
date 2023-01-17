@@ -58,7 +58,7 @@ On the bright side, it has the pleasant effect that proofs of intuitionistic log
 
 Focusing on the disjunction-free fragment of the logic, we have a tiny recursive language that allows us to define the various shapes of logical \textit{propositions} (or \textit{formulas}).%
 \footnote{The full logic also includes disjunctive formulas, but we will skip them from this presentation as they are of little interest to us. For brevity, we will from now on use intuitionistic logic to refer to its disjunction-free fragment.}
-Given some finite set of \textit{propositional constants} (or \textit{atomic formulas}) \propcon{}, and \prop{a}, \prop{b}, \prop{c} arbitrary well-formed propositions, the language of propositions in Backus-Naur form is inductively defined as:
+Given some finite set of \textit{atomic formulas} \propcon{}, and \prop{a}, \prop{b}, \prop{c} arbitrary well-formed propositions, the language of propositions in Backus-Naur form is inductively defined as:
 \begin{equation}
 \prop{a}, \prop{b}, \prop{c} := p \ | \ \prop{a} \ii \prop{b} \ | \ \prop{a} \times \prop{b} 
 \label{equation:IL}
@@ -71,9 +71,9 @@ Besides propositions, we have \textit{structures}.
 Structures are built from propositions with the aid of a single binary operation, the notation and properties of which can vary between different presentations of the logic.
 In our case, we will indicate valid structures with Greek uppercase letters $\Gamma$, $\Delta, \Theta$, and define structures inductively as 
 \begin{equation}
-	\Gamma, \Delta, \Theta := 1 \ | \ \prop{a} \ | \ \Gamma, \Delta
+	\Gamma, \Delta, \Theta := \varnothing \ | \ \prop{a} \ | \ \Gamma, \Delta
 \end{equation}
-In other words, structures are an inductive set closed under the operator $\_,\_$ which satisfies associativity and is equipped with an identity element $1$ (the \textit{empty} structure), i.e. a monoid.
+In other words, structures are an inductive set closed under the operator $\_,\_$ which satisfies associativity and is equipped with an identity element $\varnothing$ (the \textit{empty} structure), i.e. a monoid.
 A perhaps more down-to-earth way of looking at a structure is as a \textit{list} or \textit{sequence} of propositions.
 
 Given propositions and structures, we can next define \textit{judgements}, statements of the form
@@ -130,7 +130,8 @@ At its leaves, it has identity axioms -- the smallest kind of proof.
 	\begin{subfigure}{1\textwidth}
 		\centering
 		\begin{tabularx}{0.7\textwidth}{@{}C@{\qquad}C@{}}
-		\multicolumn{2}{@{}c@{}}{$\infer[\Exchange{}]{\Delta, \Gamma \vdash \prop{a}}{\Gamma, \Delta \vdash \prop{a}}$}\\[\smallsep]
+		\multicolumn{2}{@{}c@{}}{
+			$\infer[\Exchange{}]{\Gamma, \prop{a}, \prop{b}, \Delta \vdash \prop{c}}{\Gamma, \prop{b}, \prop{a}, \Delta \vdash \prop{c}}$}\\[\smallsep]
 		$\infer[\Weakening{}]{\Gamma, \prop{a} \vdash \prop{b}}{\Gamma \vdash \prop{b}} $ 
 		&
 		$\infer[\Contraction{}]{\Gamma, \prop{a} \vdash \prop{b}}{\Gamma, \prop{a}, \prop{a} \vdash \prop{b}}$
@@ -244,7 +245,7 @@ Note the use of horizontal dots at the axiom leaves, denoting simultaneous subst
 The Curry-Howard correspondence asserts an equivalence between the above presentation of the logic in natural deduction, and a system of computation known as the $\lam$-calculus.
 It was first formulated by Haskell Curry in the 30s before being independently rediscovered by William Alvin Howard and Nicolaas Govert de Bruijn in the 60s~\cite{curry1934functionality,de1983automath,howard1980formulae}.
 The entry point for such an approach is to interpret propositions as \textit{types} of a minimal functional programming language (a perhaps more aptly named alternative to the Curry-Howard correspondence is the \textit{propositions-as-types interpretation}).
-In that sense, the set of propositional constants \propcon{} becomes the programming language's basic set of \textit{primitive} types (think of them as built-ins).
+In that sense, the set of atomic formulas \propcon{} becomes the programming language's basic set of \textit{primitive} or \textit{base} types (think of them as built-ins).
 Implicational formulas $\smallprop{a} \ii \smallprop{b}$ are read as \textit{function} types, and conjunction formulas are read as \textit{tuple} (or cartesian product) types.
 From now we will use formulas, propositions and types interchangeably.
 Following along the correspondence allows us to selectively speak about individual, named instances of propositions -- we call these \textit{terms}.
@@ -318,7 +319,7 @@ Mixing syntax and meta-syntax in the same system is a dirty but useful trick peo
 There exist three kinds of equivalence relations between terms, each given an identifying Greek letter.\footnote{The denotational significance of these letters I have yet to understand -- legend has it that the spirit of Curry will gently whisper it in your ear after having successfully written your 100th compiler from scratch.}
 
 \paragraph{$\alpha$ conversion} is a semantically null rewrite obtained by renaming variables according to the substitution meta-notation ${[\smallterm{\vari } \mapsto \smallterm{\varj}]}$ described above. 
-Despite seeming innocuous at a first glance, $\alpha$ conversion is an evil and dangerous operation that needs to be applied with extreme caution so as to avoid variable capture, i.e. substituting a variable's name with one that is already in use.  
+Despite seeming innocuous at a first glance, $\alpha$ conversion is an operation that needs to be applied with extreme caution so as to avoid variable capture, i.e. substituting a variable's name with one that is already in use.  
 Two terms are $\alpha$ equivalent if we can rewrite one into the other using just $\alpha$ conversions, e.g.
 \begin{equation}
 	\lam \vari .\vari ^{\smallprop{a}} \overset{\alpha}{\equiv} \lam \varj.\varj^{\smallprop{a}}
@@ -340,7 +341,7 @@ Two terms are $\beta$ equivalent to one another if they both reduce to the same 
 If you are at this point getting a feeling of deja vu, rest assured this is not on you; we have indeed gone through this before, last time around with proofs rather than terms.
 If one were to replicate the above term reductions with their corresponding proofs, they would end up exactly with the proof reduction patterns of Figure~\ref{figure:intuitionistic_proof_reduction}.
 I will spare you the theatrics of faking surprise at this fact, but if this not something you were exposed to previously, take a moment here to marvel at the realization that proof normalization is in reality ``just'' computation.
-This ground-shattering discovery lies at the essence of the Curry-Howard correspondence.
+This discovery lies at the essence of the Curry-Howard correspondence.
 
 \paragraph{$\eta$ conversion}
 In contrast to $\beta$ conversion, which tells us how to simplify an introduce-then-eliminate pattern, $\eta$ conversion tells us how to modify an eliminate-then-introduce pattern.
@@ -386,7 +387,7 @@ This is also a chance to do a bit of warming up with some baby examples before s
 \paragraph{Formula Polarity}
 Each unique occurrence of (part of) a formula within a judgement can be assigned a polarity value, positive or negative.
 All antecedent formulas are positive, and the lone succedent formula right is negative.
-Complex formulas propagate polarities to their constituents depending on their own polarity and primary connective -- this way, all subformulas down to propositional constants are polarized.
+Complex formulas propagate polarities to their constituents depending on their own polarity and primary connective -- this way, all subformulas down to the atomic level are polarized.
 Conjunctive formulas propagate their polarity unchanged to both their coordinates, whereas implicative formulas flip their polarity for the constituent left of the arrow; see Table~\ref{table:polarity_induction}.
 Intuitively, we can think of negative formulas as being in argument position (conditions for the proof to proceed), and positive formulas as being in result position (conditionally provable statements).
 The two judgements of the next paragraph have their subformulas annotated with a superscript denoting their polarity, for illustrative purposes.
@@ -409,7 +410,7 @@ The two judgements of the next paragraph have their subformulas annotated with a
 
 \paragraph{Type Raising}
 Type raising $\pprop{a} \vdash (\nprop{a} \ii \pprop{b}) \ii \nprop{b}$ is a derivable theorem of intuitionistic logic presented in Figure~\ref{figure:type_raising}. 
-It states that for \smallprop{a}, \smallprop{b} arbitrary propositions, from \smallprop{a} one can derive its raised form $(\smallprop{a} \ii \smallprop{b})\li\smallprop{b}$.
+It states that for \smallprop{a}, \smallprop{b} arbitrary propositions, from \smallprop{a} one can derive its raised form $(\smallprop{a} \ii \smallprop{b})\ii\smallprop{b}$.
 The converse, i.e. type lowering, does not generally hold: $(\pprop{a} \ii \nprop{b}) \ii \pprop{b} \nvdash \nprop{a}$.
 \begin{figure}
 	\[
@@ -507,7 +508,7 @@ Keep a mental note.
 Attempting to derive a judgement of the form $\Gamma \vdash \smallprop{a}$ amounts to searching for a suitable proof of that statement, a process called \textit{proof search}.
 We distinguish two directions of proof search: the \textit{backward chaining} (or top-down) approach starts from the goal judgement and iteratively expands it into judgements with smaller assumptions -- one judgement per premise generated by the rule of inference applied -- with the intention being the eventual deconstruction of all branches into axioms of identity.
 The other direction is called \textit{forward chaining} (or bottom-up), and starts from a collection of hypothesized propositions (axioms) that are glued together to form progressively more complex structures, until the goal judgement is reached.
-Without digressing further, it is important to realize that both directions suffer the same issue, albeit from different angles, namely hypothetical reasoning.
+Without digressing further, it is important to realize that both directions are confronted with the same issue, albeit from different angles, namely hypothetical reasoning.
 Forward chaining requires a perfect guess of any and all propositions reqired in deriving $\smallprop{a}$ from $\Gamma$, even those that will be redacted and thus never occur in $\Gamma$.
 Dually, backward chaining might require introduction of substructures and subformulas that are nowhere to be found in either the antecedents or the succedent of the current judgement due to the modus ponens-like behavior of implication elimination.
 Long story short, proof search is hard.
@@ -518,9 +519,9 @@ The weakest links are the $\Contraction{}$ and $\Weakening{}$ rules.
 These two rules are a cultural and ideological remnant of a long-gone age infested by delusions of prosperity and abundance.
 In their presence, propositions are proof objects that can be freely replicated and discarded.
 Removing them (or controlling their applicability via other means) directs us towards a more eco-conscious regime by turning propositions into finite resources, the production and/or consumption of which is not to be taken for granted.
-Removing the $\Contraction{}$ rule yields Affine Logic, a logic in which resources must be used no more than once.
+Removing the $\Contraction{}$ rule yields Affine Logic, a logic in which resources can be used no more than once.
 Removing the $\Weakening{}$ rule yields Relevant Logic, a logic in which resources can be used no less than once.
-Removing both yields Linear Logic, a logic in which resources can be used \textit{exactly} once.
+Removing both yields Linear Logic, a logic in which resources must be used \textit{exactly} once.
 The intuitionistic formulations of the above give rise to corresponding type theories~\cite{pierce2004advanced}.
 For the purposes of this manuscript, we will focus our presentation on linear type theory.
 
@@ -723,7 +724,7 @@ We will consider the natural deduction proof of linear function composition of F
 \end{figure}
 
 The first thing we need to do is write formulas as their \textit{decomposition trees}; it sounds fancy, but in reality this is just recompiling formulas according to their underlying grammar, but now in tree form:
-propositional constants become leaves, and logical connectives become branch nodes.
+atomic formulas become leaves, and logical connectives become branch nodes.
 To make this a tiny bit more interesting, we will decorate atomic subformulas with a superscript denoting their polarity, according to the schema of Subsection~\ref{subsection:utility_definitions}.
 For formula trees with positive roots (i.e. trees occuring left of the turnstile), we will put a label beneath them to identify them with the variable that provides them.
 We will also distinguish tree edges originating from a negative implication and pointing to a positive tree by marking them with dashed lines -- these denote positively rooted trees that are either nested within a higher-order positive implication, or in the argument position of an implication right of the turnstile.%
@@ -807,7 +808,7 @@ There have been various formulations of this criterion, each with a different ti
 We will adopt an (informally rephrased) version of the acyclicity and connectedness criterion of \citet{danos1989structure}.
 We are going to treat a proof structure as a heterogeneous graph, consisting of two node types, logical connectives and atomic formulas, and three edge types: tree-structure edges, further subcategorized according to their polarity, and axiom links.
 We will then attempt a traversal of that graph using an algorithm defined on the basis of the above parameterization, that further utilizes the  ancillary tree labels we have assigned earlier.
-At each step of the traversal, the algorithm will write down a (partial) term or term instruction~\cite{lamarche2008proof}.
+At each step of the traversal, the algorithm will write down a (partial) term or term instruction~\cite{de1996semantic,lamarche2008proof}.
 We will expect the traversal to be terminating (i.e. to not get stuck in a loop) and complete without repeats (i.e. to have passed through all nodes and edges exactly once), and the term it has transcribed at its last step to be well-formed, at which point we will happily claim the proof structure to indeed be a proof net.
 
 \paragraph{Traversing $\ILL_{\li}$ Nets}
@@ -948,6 +949,7 @@ The rule now claims it is acceptable to \textit{replace} substructure $\smallpro
 The notions of structure and substructure depend of course on the logic used -- in the current setting, $\Delta$ is a sequence, to which $\Gamma$ is a subsequence. 
 The reformulation of the rule is necessary to arbitrate elimination of nested products, since their extraction to the right or left edge of an assumption sequence is no longer possible.
 This also serves to better illustrate a remark made earlier: the rule can be applied at arbitrary nesting depths, each position corresponding to a supposedly different proof (consider for instance that if $\Delta\ctx{\Gamma}$, and $\Gamma\ctx{\smallprop{a}, \smallprop{b}}$, then it is also the case that $\Delta\ctx{\prop{a}, \prop{b}}$).
+Generally speaking, the empty structure $\varnothing$ is now disallowed.
 
 \begin{figure}
 	\centering
@@ -1142,9 +1144,6 @@ This will still remain the case even after (if?) this manuscript sees the light 
 \end{figure}
 
 
-%\paragraph{Proof nets}
-%\todo{}
-
 \section{Restoring Control}\label{section:modalities}
 With every step we have taken further into substructuraland, we have been paying a price in expressivity; it is now time for us to acknowledge the accumulated bill.
 Dropping \Contraction{} and \Weakening{} made us resource conscious, but theorems of $\IL$ that required resource duplication or erasure became underivable.
@@ -1157,23 +1156,23 @@ From an epistemic perspective, the less structural equivalences we take for gran
 In the best case, if it just so happens that the kind of structures we want to investigate overlaps \textit{fully} with the kind of structures our logic can explicitly reason about, the distinction between theorem and non-theorem becomes a refinement rather than a loss of expressivity.
 From a more pragmatic perspective, more structural constraints means easier proof search, and less theorems means faster exhaustion of possibilities.
 To make the scale of the combinatorics tangible, reflect for a second on this.
-A single judgement of $n$ hypotheses in $\NL$ is but one of the Catalan number of bracketings $C(n)$ it would be syntactically undistinguishable from in $\LC$, each one of which in turn is but one of the factorially many permutations $n!$ it would be equivalent to in $\LP$.%
-\footnote{Boom, goes the combinatorial explosion.}
+A single judgement of $n$ hypotheses in $\NL$ is but one of the Catalan number of bracketings $C(n)$ it would be syntactically undistinguishable from in $\LC$, each one of which in turn is but one of the factorially many permutations $n!$ it would be equivalent to in $\LP$.
 In the case for checking the satisfiability of a judgement (i.e. searching for \textit{any} valid proof), all the above would have made for potential proof candidates;
 in the case for attempting to enumerate the proofs of a judgement (i.e. searching for \textit{all} valid proof), they would all have needed to be exhausted.
 The point to take home is that proof search becomes decidedly easier in the absence of syntactic equivalences, so perhaps a double-edged sword would have made for a better analogy than a bill.
 
 The defeatist attitude here would be to just accept the trade-off between expressivity and complexity, weep for the theorems forever lost, take our victory and walk away.
 The problem lies however in the common occasion where the structure of objects under scrutiny overlaps only \textit{partially} with a specific substructural flavour, modulo some exceptional but real cases that require added expressivity.
-In such a scenario, taking a step up in the hierarchy would cause an undesirable combinatorial explosion, whereas staying put would sacrifice our ability to argue about these exceptional cases. 
+In such a scenario, taking a step up in the hierarchy would cause an undesirable combinatorial explosion, whereas staying put would sacrifice our ability to argue about these \hide{exceptional } cases. 
 By contrast, the maximalist attitude makes no concessions and seeks both for the cake to be whole and the dog to be fed.%
 \footnote{Direct translation of a silly but fitting Greek aphorism that won over the less politically correct Italian equivalent (wine barrel full and wife drunk). In any case, cake is bad for dogs.}
-What if there was a way to keep our logic computationally tractable but with temporary and on-demand access to normally excluded reasoning tools?
+What if there was a way to keep our logic computationally tractable but with temporary\hide[,]{ and} on-demand access to normally excluded reasoning tools?
 
 \subsection{The Logic of Modalities}\label{subsec:modal_logic}
 The answer comes in the form of unary \textit{modalities}, type-forming operators lent from modal logics, that allow navigation between logics of different structural properties.
 Unary modalities hold a key role in the presentation of full linear logic; there, a single operator $!$ (called \textit{bang}) would allow an embedding of intuitionistic (non-linear) propositions into the linear regime, essentially acting as a licensor of \Contraction{} and \Weakening{}.
-In our case, we will make do with two modalities from temporal logic, the diamond $\diamond$ and the box $\bx$.
+In our case, we will make do with two modalities from temporal logic, the diamond $\diamond$ and the box $\bx$.%
+	\footnote{Note that these are not duals, but \textit{inverse} duals -- $\diamond$ being past necessity, $\bx$ being future possibility.}
 
 The two form a residuated pair, the properties of which can be formulated either (i) in the form of a type-level biconditional derivability relation:
 \begin{equation}
@@ -1237,7 +1236,7 @@ Term constructions for the single-premise rules are uncomplicated: each type ope
 This is not the case for the $\diamond E$ rule, which requires some attention:
 the structural substitution of $\bracket{\smallprop{a}}$ for $\Delta$ necessitates a case construct that calls for a term substitution of the variable $\smallterm{\vari }$ for $\diaelim\smallterm{t}$.
 Note that the free variables of the resulting expression ($\caseof{\diaelim t}{\vari }{s}$) are the union of the free variables of \smallterm{t} and those of \smallterm{s} except for \smallterm{\vari }, which becomes \textit{bound} by the case construct.
-As for what the interpretation of these esoteric term rewrites is, our insights are limited to the fact they form a residuated pair that respects the normalizations prescribed by the typing rules.
+As for what the computational interpretation of these esoteric term rewrites is, our insights are limited to the fact they form a residuated pair that respects the normalizations prescribed by the typing rules.
 
 \subsubsection{Proof \& Term Reductions}
 The proof patterns of Figure~\ref{figure:modal_beta_reductions} exhibit introduction elimination chains of modal operators, and thus constitute $\beta$ redexes subject to normalization.
@@ -1707,7 +1706,7 @@ If you have not skipped any parts yet, your reward should now manifest as an unw
 
 \subsubsection{The Role of Modalities}
 Ever since their original integration with the vanilla multiplicative toolkit, modalities have played an indispensable role in the history and development of type-logical grammars~\cite{hendriks1995ellipsis, moortgat1996multimodal,kurtonina1997structural,moortgat1997categorial,vermaat1999controlling}.
-They find use as either licensors or licensees of structural rewrites, now in the form of movement and rebracketing of words and phrases.
+They find use as either licensors or inhibitors of structural rewrites, now in the form of movement and rebracketing of words and phrases.
 Prime examples and standard items for consideration include the controlled associativity and mixed associativity-commutativity rules of Figure~\ref{subfigure:modal_structural_rules:rules} (and the corresponding tree transformations of Figure~\ref{subfigure:modal_structural_rules:trees}, if you have a disdain for brackets).
 The first rule $\rulestyle{ass}_{\diamond}$ allows a unary branch $\bracket{\Phi}$ to escape its bind to its neighbour $\Theta$, forcing it to associate to the structure $\Delta$ to its left instead.
 The second one $\rulestyle{mix}_{\diamond}$ allows a unary $\bracket{\Theta}$ to swap position with its right-adjacent neighbor $\Phi$, disassociating from its left neighbour $\Delta$ in the process.
@@ -2068,7 +2067,9 @@ Even though constituency structure is de facto acknowledged by linguistic theory
 The connotation of this is that even though backwards proof search in $\NL$ may find use in \textit{verifying} the plausibility of a type-assigned, pre-bracketed phrase, forward search is necessary in \textit{eliciting} a type and a bracketing structure from a phrase. 
 
 \subsubsection{Syntax-Semantics Interface}\label{subsubsection:ssi_tlg}
-The game played so far, challenging as it may be, might prove dull to someone indifferent to syntax or its type-theoretic formulation; we will attempt to fix that by expanding our target crowd to semanticists and Montagovian grammarians, who are said to recite daily before bedtime:
+The game played so far, challenging as it may be, might prove dull to someone indifferent to syntax or its type-theoretic formulation; we will attempt to fix that by expanding our target crowd to semanticists and Montagovian grammarians, who are
+commonly heard reciting the quote:
+% said to recite daily before bedtime:
 \begin{quote}
 I fail to see any interest in syntax except as a preliminary to semantics.~\cite{montague1970universal}
 \end{quote}
@@ -2076,7 +2077,7 @@ I fail to see any interest in syntax except as a preliminary to semantics.~\cite
 \paragraph{Montague's Insights}
 A full exposition to Montague grammar is beyond the scope of this thesis, but a brief introduction to some of its foundations will go a long way in helping us perceive its relevance to the type-logical approach.
 Richard Montague was disillusioned with the tackling of natural language semantics at the time, which he found formally inadequate and lacking the elegance of contemporary approaches to mathematical syntax.
-He saught to fill this gap by arguing that formal and natural languages are morally indistinguishable -- different instantiations of the same theory -- and advocating their treatment in just the same way.
+He sought to fill this gap by arguing that formal and natural languages are morally indistinguishable -- different instantiations of the same theory -- and advocating their treatment in just the same way.
 Influenced by his own background on modal logic and the highly influential work of Saul Kripke on possible world semantics~\cite{kripke1963semantical}, the machinery he thought was best fit for the task at hand was a model theoretic semantics axiomatized on the basis of set theory and higher-order logic; his work is marked with heavy use of $\lam$ notation, the adoption of which by today's working linguist is largely attributable to him.
 
 Revolutionary as it may have been at the time, this semantic machinery and its antiquated details are largely irrelevant to this work.
@@ -2103,7 +2104,7 @@ A natural first stop would be that of $\ILL_{\li}$ as a \textit{derivational sem
 To make things concrete, let's consider this in the context of the source logic $\Sigma$ being identified with the instantiation of $\NL_{\diamond,\bx}$ of the previous section, and the intermediate logic $\Tau$ being its $\ILL_{\li}$ mirror image.
 Using the superscript $X := \Sigma \ | \ \Tau$ to distinguish between the two logics,
 we will denote with $\propcon^X$ the set of atomic types of X, and $\types^X$ its type universe, i.e. the inductive closure of types under type operators.
-Similarly, we will denote with $\cons^{X}$ its set of constants, $\vars^{X}$ its set of variable names, and $\terms^{X}$ its well-formed terms, i.e. the inductive closure of terms under term operators.
+Similarly, we will denote with $\cons^{X}$ its set of base types, $\vars^{X}$ its set of variable names, and $\terms^{X}$ its well-formed terms, i.e. the inductive closure of terms under term operators.
 
 \begin{figure}
 	\centering
@@ -2123,7 +2124,7 @@ Similarly, we will denote with $\cons^{X}$ its set of constants, $\vars^{X}$ its
 
 The homomorphism $\hm{.}$ operates on proofs, i.e. typed terms, and thus does double duty: it transforms both terms and types of $\Sigma$ to corresponding terms and types of $\Tau$.
 It is handy, then, to define it on the basis of two components $\langle \eta, \theta \rangle$, where $\eta : \types^{\Sigma} \to \types^{\Tau}$ and $\theta: \terms^{\Sigma} \to \terms^{\Tau}$, such that $\hm{\smallterm{s}: \smallprop{a}} = \theta({\smallterm{s}}) : \eta({\smallprop{a}})$, where the typing relation at the right-hand side of the equation must hold (i.e. the two maps mutually respect derivability).
-On the type level, $\eta$ must specify a pointwise mapping $\eta_0$ from the propositional constants $\propcon^{\Sigma}$ of the source logic to types $\types^{\Tau}$ of the intermediate logic.
+On the type level, $\eta$ must specify a pointwise mapping $\eta_0$ from the base types $\propcon^{\Sigma}$ of the source logic to types $\types^{\Tau}$ of the intermediate logic.
 In our case, we will consider this a bijection from $\propcon^{\Sigma}$ to $\propcon^{\Tau}$, such that $\eta_0(p) \mapsto p$ (i.e. instantiating $\propcon^{\Tau}$ as a literal copy of $\propcon^{\Sigma}$).
 Then, to extend $\eta_0$ to $\eta$ we need to specify its action on complex types, where it essentially forgets the unary modalities and removes the directionality of the implications, as shown in Table~\ref{table:eta_nl}.
 In the exact same vein, $\theta$ pointwise sends constants and variables to their copycat images, and is then inductively defined on complex terms, where it casts directional applications and abstractions to undirectional ones, drops modal decorations and performs the simplified substitution prescribed by the $\diamond E$ rule, as shown in Table~\ref{table:theta_nl}.
@@ -2199,6 +2200,7 @@ In a set-theoretic semantics domain unbound by linearity constraints, another (p
 \lam \smallterm{\vari\varj\vark.(\vari~\vark)\wedge(\varj~\vark)} :: (*\ii *)\ii(*\ii *)\ii * \ii *
 \end{equation}
 
+
 \subsection{Abstract Categorial Grammars}
 \label{subsection:ACG}
 So far, we have been predisposed to treating syntax as the hidden process that forms grammatically correct sentences.
@@ -2209,15 +2211,15 @@ Type-logical grammars pose no challenge to the legitimacy of this distinction: i
 In being tectogrammar-first, however, they diverge in its operationalization.
 The computational pipeline they propose is sequential in nature, and follows the Aristotelian path from observable evidence to latent variables: the surface string is perceived as the yield of a (shallow) syntactic proof, from which a deep semantic proof is extracted.
 The operationalization closer to Curry would be inverted, placing phenogrammar at the top of the generative process, and following the Platonic information flow from deep and abstract to shallow and concrete.
-This perspective is embodied by abstract categorial grammars~\cite{de2001towards} and their contemporary and closely related lambda grammars~\cite{muskens2001lambda}.
-Both are tectogrammar-first formalisms that make use of $\ILL_{\li}$ and the Curry-Howard isomoprhism to obtain phenogrammatic realizations via homomorphic translations of the tectogrammatic parse.
+This perspective is embodied by abstract categorial grammars~\cite{de2001towards} and their contemporary and closely related lambda grammars~\cite{muskens2001lambda} -- both formalisms make extensive use of $\ILL_{\li}$ and the Curry-Howard isomoprhism to obtain a phenogrammatic realizations via the homomorphic translation of a tectogrammatic parse.
+Our presentation will stick to the former, as they are closer in spirit to what is to come later.
 
 \begin{figure}
 	\centering
 	\begin{tikzpicture}
-		\node (ds)		at (0, 2)		{Phenogrammar};
+		\node (ds)		at (0, 2)		{Tectoogrammar};
 		\node (dsl)		at (0, 1.5)		{$\Sigma := \ILL_{\li}$};
-		\node (ss)		at (-4.5, 0)		{Tectogrammar};
+		\node (ss)		at (-4.5, 0)		{Phenogrammar};
 		\node (ssl)		at (-4.5, -0.5)	{$\Tau := \ILL_{\li}$};
 		\node (ls)		at (4.5, 0)		{Semantics};
 		\node (lsl)		at (4.5, -0.5)	{?};
@@ -2229,21 +2231,16 @@ Both are tectogrammar-first formalisms that make use of $\ILL_{\li}$ and the Cur
 \end{figure}
 
 \subsubsection{Basic Definitions}
-The focus of our presentation will be on abstract categorial grammars, as they are closer in spirit to what is to come later.
 In its original definition, an abstract categoral grammar consists of two instantiations $\Sigma$, $\Tau$ of $\ILL_{\li}$, and a map between them.
 The source instantiation $\Sigma$ provides a set of base types $\propcon^{\Sigma}$, and the so-called \textit{abstract vocabulary}: a set of \textit{abstract constants} $\cons^{\Sigma}$, each assigned a type from $\types^{\Sigma}$.
 The target instantation $\Tau$ provides another set of base types $\propcon^{\Tau}$, and constants $\cons^{\Tau}$ with types from $\types^{\Tau}$, called the \textit{object vocabulary}.
-The map between them is once again a homomomorphism $\hm{.}$, defined on the basis of $\langle \eta_0, \theta_0\rangle$.
+The map between them is once again a homomorphism $\hm{.}$, defined on the basis of $\langle \eta_0, \theta_0\rangle$.
 Not unlike before, $\eta_0$ is seen as implementing a mapping $\propcon^{\Sigma} \to \types^{\Tau}$, and $\theta_0$ a mapping $\cons^{\Sigma}\to \terms^{\Tau}$, both pointwise defined.
 Their homomorphic extension is trivially obtained by recursively defining their actions on implicational types, function terms and $\lam$ abstractions, where they simply mimic the source type- and term- structure.
 This formulation lends itself nicely to the notion of \textit{grammar composition}, if one is to use the object logic of a grammar as the abstract logic of another.
 Each grammar is accompanied by two \textit{languages}; the abstract language, i.e. the set of terms (of some \textit{distinguished} type $p_d\in \propcon^{\Sigma}$) derivable in the source logic, and the object language, i.e. the set of object terms the abstract language maps into.
 For the phenogrammar to tectogrammar picture to be made evident, the distinguished type needs to be mapped to the functional string type $p_{d} \mapsto \mathtt{str}$, forcing terms of the object language to evaluate to strings.
-Note that, despite appearances, $\mathtt{str}$ is a first-order type $*\li *$ (where $*$ some arbitrary primitive) so as to permit the view of string concatenation as function composition, identical to~(\ref{equation:funcomp}):
-\begin{equation}
-+ := \lam \term{\vari^{\mathtt{str}}\varj^{\mathtt{str}}\vark^{*}.\vari~(\varj~\vark)}
-\end{equation}
-
+Note that, despite appearances, $\mathtt{str}$ is a first-order type $*\li *$ (where $*$ some arbitrary primitive) so as to permit the view of string concatenation $+$ as function composition, identical to~(\ref{equation:funcomp}), with the identity function enacting the empty string.
 
 \subsubsection{Artificial Languages}
 \label{subsubsection:acg_artificial}
@@ -2281,8 +2278,8 @@ The above -- all of type $\mathtt{str}$, and underlined to distinguish from func
 		Abstract Constant							& Object Term\\
 		\toprule
 		$\smallterm{n}$								& $\underline{\smallprop{n}}$\\
-		$\smallterm{np}$							& $\underline{\smallprop{np}}$\\
-		$\smallterm{pp}$							& $\underline{\smallprop{pp}}$\\
+		$\smallterm{np}$								& $\underline{\smallprop{np}}$\\
+		$\smallterm{pp}$								& $\underline{\smallprop{pp}}$\\
 		$\smallterm{s}$								& $\underline{\smallprop{s}}$\\
 		$\smallterm{dia}$							& $\smallterm{\lam  \vari.\underline{\diamond} + \varj}$\\		
 		$\smallterm{box}$							& $\smallterm{\lam  \vari.\underline{\bx} + \vark}$\\		
@@ -2326,7 +2323,7 @@ The above -- all of type $\mathtt{str}$, and underlined to distinguish from func
 \end{figure}
 
 Figure~\ref{figure:litten_acg_der} presents the construction of the type previously assigned to \textex{litten}, $\diamond\bx (\np[s]\divleft\np[s])\divright\pp[s]$ (contexts are intentionally left empty and axioms replaced by abstract constants for brevity).
-Applying the homomorphic translation to its abstract yields a printout in the form of the object term below (source function/argument brackets substituted with indendation levels for legibility):
+Applying the homomorphic translation to its abstract term yields a printout in the form of the object term below (source function/argument brackets substituted with indendation levels for legibility):
 \begin{equation}
 	{
 	\begin{aligned}
@@ -2348,7 +2345,10 @@ Applying the homomorphic translation to its abstract yields a printout in the fo
 	}
 \end{equation}
 Six reduction steps later and... \textit{voil\`{a}} -- our pretty printer works!
-The maximal order of the abstract constants is 1, and the maximal order of the translation is 2, making our grammar's complexity class (1, 2), a proper subset of the (2,2) that encapsulates context-free grammars.
+The maximal order of the abstract constants is 1,
+and the maximal order of the translation is 2, making our grammar's complexity class (1, 2), the subset that encapsulates context-free grammars.%
+	\footnote{Or (2,2) if we set start from $\mathcal{O}(p) = 1$ for the base case $p \in \propcon$ in (\ref{equation:type_order}).}
+
 
 \subsubsection{Human Languages}
 Elegant and successful as they might be in their meta-theoretical enterprises, abstract categorial grammars have not fared as well with linguistic applications, in large part due to their computationally intractable nature.
@@ -2428,23 +2428,24 @@ The problem is of course more pronounced for natural languages, which overstep t
 If only we had a way to keep just the good part of a type-driven and semantically transparent deep syntax, without having to get involved with all the tedious labour of its surface materialization or the translation to it...
 Spoiler alert: we will, in Chapter~\ref{chapter:chapter_4}.
 
-\subsection{Combinatory Categorial Grammars}
-A deviant from the categorial tradition are the broadly adopted combinatory categorial grammars~\cite{ades1982order,szabolcsi1989bound, steedman2022combinatory}.
+\subsection{Alternatives}
+Type-logical and abstract categorial grammars have so far monopolized our interest, but not due to an absence of alternatives.
+The extended type-logical family includes relatives like the displacement calculus~\cite{morrill2011displacement} and hybrid type-logical grammars~\cite{kubota2012gapping}; each offers a unique perspective in treatment in the tackling of discontinuities, but neither concerns us much here, for our agenda is different.
+
+Further away from the radiant warmth of type theory, we find a deviant from the categorial tradition in combinatory categorial grammars~\cite{ades1982order,szabolcsi1989bound, steedman2022combinatory}.
 These stray from the norm by rejecting the very idea of the syntactic variable (and with it, hypothetical reasoning), citing reasons of cognitive plausibility and parsing complexity.
-Obviously, a categorial grammar stripped of hypothetical reasoning would not amount to much on its own: it would only be able to resolve syntactically flat sentences.
-To regain some of the lost expressivity (ideally, exactly and only as much as needed), combinatory categorial grammars incorporate a collection of rules lent from the combinatory logic of~\citet{curry1958combinatory}, albeit in restricted form.
-The first such rule is morpholexical in nature; it allows lexical items to raise their types once, before administering them to the syntactic derivation, forcing a flip in the local function/argument structure and allowing different semantic scopes to take effect as/when needed.
+Obviously, a categorial grammar stripped of hypothetical reasoning would not amount to much on its own: it would only be able to resolve syntactically flat sentences with uninteresting semantics.
+To circumvent the problem, combinatory categorial grammars incorporate a collection of rules lent from the combinatory logic of~\citet{curry1958combinatory}, albeit in restricted form.
+The first such rule is morpholexical, allowing types to be raised once before being administered to the derivation, thus forcing a flip in the local function/argument structure and semantic scope.
 The remaining rules are essentially four instances of function composition -- one for each unique pair of directional implications considered.
-The absence of hypothetical reasoning means that these are no longer derivable theorems of some underlying type theory, but ad hoc schemata, fixed a priori to fit their designated purpose.
-To counteract overgeneration, these rules are made available only to a pre-defined subset of the sum of lexical types, empirically specified.
+The absence of hypothetical reasoning means that these are no longer derivable theorems of some underlying theory, but ad hoc schemata, fixed a priori to fit their designated purpose.
+To counteract overgeneration, these rules are to be made available only to some empirically defined subset of the full lexicon.
 With respect to the interface, a combinatory derivaton can be cast into a semantic $\lam$ term the usual way; by assigning to each rule a corresponding term constructor.
-Note, however, that this procedure is a non-invertible \textit{transformation} rather than an isomorphic correspondence; the purity of the Curry-Howard correspondence is lost, traded away for the aforementioned decrease in parsing complexity.
+Unlike before, this procedure is a non-invertible \textit{transformation} rather than an isomorphic correspondence; the purity of the Curry-Howard correspondence is lost, traded away for the aforementioned decrease in parsing complexity.
 
-In spite of their (non-minor) differences, the agendas of multimodal type-logical grammars and combinatory categorial grammars are quite aligned, at least at a high level: they both stipulate the presence of syntactic universals that guide structure formation, utilize them as a pathway to semantics \`{a} la Montague, and acknowledge the need for language-specific syntactic fine-tuning; one exercising proof-theoretic control via unary type operators and structural rules, the other controlling the applicability of the so-called combinatory rules via lexical adjustment.
-For better or worse, combinatory categorial grammars have taken the lion's share of the practitioners' focus: they boast an assortment of tools and annotated corpora across languages, the size of which far exceeds that of their less popular siblings -- to the point where the term categorial grammars has become an almost synonym of combinatory categorial grammars.%
-\footnote{At least if one is to consider the reviewers I get assigned a reliable statistical sample of the NLP population.}
+In spite of their non-minor differences, the agendas of type-logical grammars and combinatory categorial ones are aligned, at least at a high level: they both stipulate the existence of syntactic universals that guide structure formation, utilize them as a pathway to semantics \`{a} la Montague, and acknowledge the need for language-specific fine-tuning; one exercising proof-theoretic control via structural rules, the other controlling the applicability of the so-called combinatory rules via lexical adjustment.
+For better or worse, combinatory categorial grammars have taken the lion's share of the practitioners' focus: they boast an assortment of tools and annotated corpora across languages, the size of which far exceeds that of their less popular relatives -- to the point where the term categorial grammars has become an almost synonym of combinatory categorial grammars.
 I hope that, by its end, this thesis will have slightly adjusted the scales towards a healthier epistemological pluralism.
-
 
 
 \section{Key References \& Further Reading}
@@ -2461,7 +2462,7 @@ If your eco-conscious side was moved by linear logic, but you find yourself lack
 If on the other hand you were intrigued about the vast expanse of type theories beyond the tiny scope of this thesis, the entry point to the downwards descent into the rabbit hole should be the seminal work of~\citet{martin1982constructive}.
 A convincingly easy-to-swallow application of such type theories in the formal semantics world is extensively summarized by \citet{chatzikyriakidis2020formal}.
 If you do like formal semantics but big lambdas give you nausea, there's a broad selection of books to go for; I still find myself guiltily cross-checking definitions and examples with that of \citet{winter2016elements} at times.
-Finally, if what caught your attention was the historical drama at the beginning of the chapter, you will enjoy reading about the history of constructivism by \citet{troelstra2011history}, and the history of categorial grammars by~\citet{morrill2007chronicle}.
+Finally, if what caught your attention was the historical drama at the beginning of the chapter, you will enjoy reading about the history of constructivism by \citet{troelstra2011history}.
 
 
 \bibliographystyle{abbrvnat}

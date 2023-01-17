@@ -164,12 +164,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                  term / type / rule macros
 \newcommand{\lam}{\mathnormal{\lambda}}
-\newcommand{\smallprop}[1]{	\ensuremath{\normalfont\textsc{#1}}}
+\newcommand{\smallprop}[1]{\ensuremath{\normalfont\textsc{#1}}}
 \newcommand{\prop}[1]{\ensuremath{\vnorm{\smallprop{#1}}}}
 \newcommand{\smallterm}[1]{\ensuremath{\mathsf{#1}}}
 \newcommand{\term}[1]{\smallterm{#1}}
 \newcommand{\propcon}{\ensuremath{\mathsf{Prop}_0}}
-\newcommand{\cterm}[1]{	\textrm{#1}}
+\newcommand{\cterm}[1]{\textrm{#1}}
 \newcommand{\li}{\scalebox{1}[1]{\ensuremath{\multimap}}}
 \newcommand{\ii}{\scalebox{1}[1]{\ensuremath{\to}}}
 \newcommand{\il}{\scalebox{-1}[1]{$\li$}}
@@ -185,10 +185,10 @@
 \newcommand{\Ax}{\rulestyle{id}}
 \newcommand{\ctx}[1]{\llbracket{#1}\rrbracket}
 \newcommand{\bracket}[1]{\langle{#1}\rangle}
-\newcommand{\appright}{	\ensuremath{\triangleleft}}
+\newcommand{\appright}{\ensuremath{\triangleleft}}
 \newcommand{\appleft}{\ensuremath{\triangleright}}
 \newcommand{\nappright}{\ensuremath{\blacktriangleleft}}
-\newcommand{\nappleft}{	\ensuremath{\blacktriangleright}}
+\newcommand{\nappleft}{\ensuremath{\blacktriangleright}}
 \newcommand{\adbmal}{\scalebox{-1}[1]{\ensuremath{\lambda}}}
 \newcommand{\types}{\ensuremath{\mathcal{U}}}
 \newcommand{\lexicon}{\ensuremath{\mathcal{L}}}
@@ -382,6 +382,8 @@
 \newcommand{\biject}{\rightarrowtail\mathrel{\mkern-15mu}\twoheadrightarrow}
 \newcommand{\stat}[2]{#1\textsubscript{$\pm$#2}}
 
+\newcommand{\hide}[2][]{#1}
+
 \DeclareUnicodeCharacter{25C7}{$\diamond$}
 \DeclareUnicodeCharacter{27F6}{$\li$}
 \DeclareUnicodeCharacter{25A1}{$\bx$}
@@ -397,6 +399,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					hyphenations
 \hyphenation{con-sti-tuen-cy}
+\hyphenation{in-stru-ctions}
 \hyphenation{a-me-na-ble}
 \hyphenation{phra-ses}
 \hyphenation{name-ly}

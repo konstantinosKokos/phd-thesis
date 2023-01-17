@@ -629,7 +629,7 @@ First, a translation table (or function) that maps part of speech tags and synta
 The translation table currently in use is depicted in Table~\ref{table:catset}; it maps strictly to atomic types and takes most of the categorial labels at face value, mapping each of them to a unique image%
 \footnote{It basically just converts italics to smallcaps.}.
 Exceptionally, the \textit{spec} tag is cast into \smallgtype{np}, as the tag is (inconsistently) used as a generic annotation for places, persons, events and the like.
-The codomain of the translation is in our case coincident with our logic's set of propositional constants, $\propcon$.
+The codomain of the translation is in our case coincident with our logic's set of atomic formulas, $\propcon$.
 As hinted at earlier, the extraction is \textit{parametric} to this translation: the domain can be any of the sets of lexical tags Lassy provides access to, and the codomain is by no means restricted to atomic types.
 This allows an easy adaptation to morpologically informed types, or a transition to an expanded theory (e.g. one that includes subtyping, additional axes of modal decorations, etc.). 
 In principle, this can also allow a re-incorporation of the semantic subjects of non-finite verbal forms, but doing so would not amount to much: as promised earlier, these are already trivially recoverable by a simple morphism (readily applicable on the extracted proofs) that sends non-finite types (e.g. $\ppart[s]$) to the desired complex types (e.g. $\ddia{su}\np[s]\li\ppart[s]$); immediate return on investment for taking source labels at face value.
@@ -938,7 +938,7 @@ There, node 31 is originally assigned $\Var{31} : \dbox{mod}(\infp[s]\li\infp[s]
 Upon unboxing it for application, we realize it's a hypothetical adjunct, therefore we follow through with a diamond elimination to $\Var{31}' : \ddia{mod}\dbox{mod}(\infp[s]\li\infp[s])$ to lose the \dep{mod} brackets.
 Further down the line, we attempt to abstract over $\Var{31}'$, only to find it trapped in a $\dep{vc}$ bracket.
 To facilitate the emancipation of the hypothesis, we perform the meta-syntactic substitution $\Var{31}' \mapsto \dboxelim{x}\Var{31}'$, where the new $\Var{31}'$ is of type $\dxbox{x}\ddia{mod}\dbox{mod}(\infp[s]\li\infp[s])$.
-Empowered by its black box, the variable breaks free of its chains with the $\Extraction$ rule, and gets diamond eliminated to $\Var{31}'' : \dxdia{x}\dxbox{x}\ddia{mod}\dbox{mod}(\infp[s]\li\infp[s])$.
+Empowered by its rectangular black flag, the variable breaks free of its chains with the $\Extraction$ rule, and gets diamond eliminated to $\Var{31}'' : \dxdia{x}\dxbox{x}\ddia{mod}\dbox{mod}(\infp[s]\li\infp[s])$.
 The latter is bracketless and exactly where we want it -- we can finally perform the abstraction.
 
 \paragraph{Nominal Domain}

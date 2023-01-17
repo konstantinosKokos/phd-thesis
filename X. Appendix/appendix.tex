@@ -445,9 +445,7 @@ Loaded æthel version 1.x.x containing xxxxx samples.
 "Auto's die niet starten"
 >>> sample.lexical_phrases
 (LexicalPhrase(string=Auto's, type=NP, len=1),
- LexicalPhrase(string=die, 
-               type=(◇relcl(◇su(VNW)⟶SSUB))⟶□mod(NP⟶NP), 
-               len=1),
+ LexicalPhrase(string=die, type=(◇relcl(◇su(VNW)⟶SSUB))⟶□mod(NP⟶NP), len=1),
  LexicalPhrase(string=niet, type=□mod(SSUB⟶SSUB), len=1),
  LexicalPhrase(string=starten, type=◇su(VNW)⟶SSUB, len=1))
 >>> sample.lexical_phrases[0].items[0]
@@ -508,9 +506,9 @@ def alphanumerically_ordered(sample: Sample) -> bool:
 
 \subsection{Neural Interfacing: Spind$\lambda$e}
 \label{subappendix:spindle}
-A practical user-facing front integrating the neural proof search engine described in Section~\ref{section:npn} and the type system's implementation is available at 
-\href{https://github.com/konstantinosKokos/spindle}{github.com/konstantinosKokos/spindle}, the acronym standing for a supervised prover intended for deriving $\lambda$ expressions.
-Installation instructions are provided online; they invole downloading the source code, installing prerequisite packages and obtaining a copy of the pretrained model's parameters.
+A practical user-facing front integrating the neural proof search engine described in Section~\ref{section:npn} and the type system's implementation can be found at
+\url{https://github.com/konstantinosKokos/spindle}. 
+To install, refer to the instructions provided online; they invole downloading the source code, installing prerequisite packages and obtaining a copy of the pretrained model's parameters.
 Aftewards, the model can be invoked using:
 
 \begin{minted}{pycon}
@@ -521,8 +519,8 @@ Aftewards, the model can be invoked using:
 \noindent and analyses requisitioned with:
 \begin{minted}{pycon}
 >>> analyses = inferer.analyze(
->>>     ['Ik zie dat Jan Marie de kinderen helpt leren zwemmen',
->>>      'Wat is de lambda term van dit vorbeeldzin?'])
+>>>     ['omdat ik Henk haar de nijlpaarden zag helpen voeren',
+>>>      'Wat is de lambda term van deze voorbeeldzin?'])
 \end{minted}
 
 \noindent What we get back is a list of Python objects that partially abide by the \py{Sample} protocol, each containing a field for lexical phrases and a proof, one such object per input sentence.
@@ -533,17 +531,17 @@ The parser is by construction bound to either give us some proof, or, if it fail
 
 \begin{minted}[breaklines]{pycon}
 >>> analyses[0].lexical_phrases
-(LexicalPhrase(string=Ik, type=VNW, len=1),
- LexicalPhrase(string=zie, type=◇vc(CP)⟶◇su(VNW)⟶SMAIN, len=1),
- LexicalPhrase(string=dat, type=◇cmpbody(SSUB)⟶CP, len=1),
- LexicalPhrase(string=Jan Marie, type=NP, len=2),
+(LexicalPhrase(string=omdat, type=◇cmpbody(SSUB)⟶CP, len=1),
+ LexicalPhrase(string=ik, type=VNW, len=1),
+ LexicalPhrase(string=Henk, type=NP, len=1),
+ LexicalPhrase(string=haar, type=VNW, len=1),
  LexicalPhrase(string=de, type=□det(N⟶NP), len=1),
- LexicalPhrase(string=kinderen, type=N, len=1),
- LexicalPhrase(string=hulpt, type=◇vc(INF)⟶◇su(NP)⟶SSUB, len=1),
- LexicalPhrase(string=leren, type=◇vc(INF)⟶◇obj1(NP)⟶INF, len=1),
- LexicalPhrase(string=zwemmen, type=INF, len=1))
+ LexicalPhrase(string=nijlpaarden, type=N, len=1),
+ LexicalPhrase(string=zag, type=◇vc(INF)⟶◇obj1(NP)⟶◇su(VNW)⟶SSUB, len=1),
+ LexicalPhrase(string=helpen, type=◇vc(INF)⟶◇obj1(VNW)⟶INF, len=1),
+ LexicalPhrase(string=voeren, type=◇obj1(NP)⟶INF, len=1))
 >>> analyses[0].proof.term
-c1 ▵vc(c2 ▵cmpbody(c6 ▵vc(c7 ▵vc(c8) ▵obj1(▾det(c4) c5)) ▵su(c3))) ▵su(c0) : SMAIN
+c0 ▵cmpbody(c6 ▵vc(c7 ▵vc(c8 ▵obj1(▾det(c4) c5)) ▵obj1(c3)) ▵obj1(c2) ▵su(c1)) : CP
 >>> analyses[1].lexical_phrases
 (LexicalPhrase(string=Wat, type=(◇whbody(◇predc(VNW)⟶SV1))⟶WHQ, len=1),
  LexicalPhrase(string=is, type=◇predc(VNW)⟶◇su(NP)⟶SV1, len=1),
@@ -552,7 +550,7 @@ c1 ▵vc(c2 ▵cmpbody(c6 ▵vc(c7 ▵vc(c8) ▵obj1(▾det(c4) c5)) ▵su(c3)))
  LexicalPhrase(string=term, type=N, len=1),
  LexicalPhrase(string=van, type=◇obj1(NP)⟶□mod(NP⟶NP), len=1),
  LexicalPhrase(string=deze, type=□det(N⟶NP), len=1),
- LexicalPhrase(string=vorbeeldzin, type=N, len=1),
+ LexicalPhrase(string=voorbeeldzin, type=N, len=1),
  LexicalPhrase(string=?, type=PUNCT, len=1))
 >>> analyses[1].proof.term
 c0 ▵whbody((λx0.c1 x0 ▵su(▾mod(c5 ▵obj1(▾det(c6) c7)) (▾det(c2) (▾mod(c3) c4))))) : WHQ
