@@ -4,7 +4,7 @@
 \chapabstract{\textit{A program that only lives on paper is not a program.}}
 
 With our theorycrafting over, we have in our hands an uninstantiated descriptive model of syntactic and semantic composition, promising to capture dependency relations while keeping both its feet set firmly in type theory.
-To ascertain the model's utility without resorting to promises of theoretical universality, cognitive plausibility, linguistic intrinsicness and the like, we have two tried and tested ways to proceed.
+\hide[Pragmatically, this means to to try and directly align it with real-world linguistic data at scale.]{To ascertain the model's utility without resorting to promises of theoretical universality, cognitive plausibility, linguistic intrinsicness and the like, we have two tried and tested ways to proceed.
 The first is the way of the scholar, requiring a rare combination of high intelligence and charisma with a pinch of luck.
 It involves equal doses or profound thinking and aggressive campaigning, stirred vigorously in hope of the torque becoming self-sustaining --  at long last, utility affirmed by popular approval.
 This path, sometimes called the scientific method, is a rather involved and painstakingly slow process, a high stakes gamble that only starts yielding profits in the long run.
@@ -15,7 +15,7 @@ We'll go for this one.
 
 This choice has some methodological repercussions.
 Under more tranquil circumstances, we'd wait for the theory to be disseminated, criticized, adapted, error-corrected and returned to sender before finally moving on; it being a theory of language, this would entail a thorough qualitative analysis of several kinds of linguistic phenomena, coupled with a theoretical investigation of what it can or cannot adequately capture.
-We are however in a compressed timeframe, forcing our hand into putting it straight to the test; the pragmatic approach is then to try and directly align it with real-world linguistic data at scale, and hope for the best.
+We are however in a compressed timeframe, forcing our hand into putting it straight to the test; the pragmatic approach is then to try and directly align it with real-world linguistic data at scale, and hope for the best.}
 The process, called \textit{proof extraction}, revolves around ``proving''  some source corpus of syntactically annotated sentences via the design and application of an algorithm tasked with translating the existing annotation format into derivations of the target grammar -- in our case, a grammar of dependency-enhanced compositional assembly.
 Proof extraction serves a ternary purpose.
 One, it gives us access to an uncompromisingly realistic testbed upon which we can immediately inspect and iteratively finetune the specifics of the grammar logic.
@@ -23,9 +23,9 @@ Two, it fills in for a strict and impartial external critic in providing a quant
 And three, the end-yield of this process has merit of its own.
 As a derived dataset, it is first a building block necessary for populating the computational toolshed of the theory, but also a public resource for the world to do with as they please.
 
-Before we get started, let me apologize for the gloomy mood that might permeate this chapter here and there.
+\hide{Before we get started, let me apologize for the gloomy mood that might permeate this chapter here and there.
 Proof extraction has been the most gruesome and iterated aspect of my path to doctorhood, its maintance and upkeep having an almost annual recurrence (with nothing festive about it).
-For the sake of scientific transparency, I have no choice other than to expose it in all its gory details, but my fatigue of the topic might occassionally reflect in a less-than-usually interesting prose.
+For the sake of scientific transparency, I have no choice other than to expose it in all its gory details, but my fatigue of the topic might occassionally reflect in a less-than-usually interesting prose.}
 
 \section{Preliminaries}
 \label{section:preliminaries}
@@ -424,7 +424,7 @@ This has no effect on our extracted types and proofs but shall help us formulate
 \subsubsection{Non-Compositional Annotations}
 Despite its admittedly high quality, Lassy has not been built with an inherent focus towards compositionality.
 This reflects in some not so uncommon exceptions to the canonical phrasal annotation that de facto necessitate some global concessions and some local emergency measures, ranging from targeted transformations in the best case, to occassionally just giving up on a sample in the worst.
-The biggest problem that we are faced with right off the bat is the abundance of vague, general purpose annotation schemes to convey non-compositional structures.
+The biggest problem that we are faced with right off the bat is the abundance of \hide{vague, }general purpose annotation schemes to convey non-compositional structures.
 These come in two flavours -- discourse level annotations, and multiword phrases.
 
 \begin{figure}
@@ -438,7 +438,7 @@ These come in two flavours -- discourse level annotations, and multiword phrases
 \end{figure}
 
 \paragraph{Discourse Level Annotations}
-Discourse level annotations are materialized by dependencies \textit{dlink}, \textit{dpart}, \textit{nucl} and \textit{sat}, used in a catch-all fashion in place of an actual syntactic analysis.
+Discourse level annotations are materialized by dependencies \textit{dlink}, \textit{dpart}, \textit{nucl} and \textit{sat}\hide{, used in a catch-all fashion in place of an actual syntactic analysis}.
 In the example of Figure~\ref{figure:du_mwp_example} the two sentences are analyzed as ``discourse parts'' of a single ``discourse unit'' rather than matrix clauses conjoined by the comma -- with some goodwill we could let that slide, but that same strategy is internally applied within the second sentence (apparently a ``discourse unit'' rather than a sentence), thus avoiding a proper syntactic justification for the elided verb. 
 Unfortunatey, there is no algorithmic way to mend these pretend annotations, in part due to their wildly general use, but mostly due to the fact they give us nothing to work with.
 This phenomenon is unpleasantly common; discourse level annotations sum up to about 2\% of the total dependency edges in the corpus, and are present in some 11\,700 samples, affecting a hard to ignore 18\% of the dataset.
@@ -463,7 +463,7 @@ The result is the possibile duplication of lingustic material among different pr
 
 \paragraph{Multiword Phrases}
 Another common pain point is the prominence of multiword phrase annotations, indicated in Lassy by the \textit{mwu} dependency.
-Multiword expressions are a pervasive pest from the shadowy realms between lexicon and syntax.
+Multiword expressions are a \hide[inhabitants of the grey area]{pervasive pest from the shadowy realms} between lexicon and syntax.
 They can be categorized as being either (i) morphosyntactically fixed or (partially) productive expressions that deviate from the expected compositional meaning, or (ii) just compositional expressions that have an idiosyncratic frequency.
 In all but the first subcase and regardless of their semantic use, they are not necessarily without internal structure.
 The criteria of what constitutes a multiword phrase and what doesn't are somewhat muddy, subjective and not clearly motivated.
@@ -600,7 +600,7 @@ Awkward as these might be, they pose no issue to the extraction algorithm, provi
 We keep them as is so as to avoid the tedious and error-prone work of unecesssarily reindexing nodes.
 
 \paragraph{Labelless Conjunctions}
-The \textit{conj} label, used as an umbrella category to classify all conjunctions, carries the same risk as the \textit{mwu} label, namely of polluting the functional type assignments of phrases outside the conjunction itself with a generic, multi-purpose argument type.
+The \textit{conj} label, used as an umbrella category to classify all conjunctions, carries the same risk as the \textit{mwu} label, namely of \hide[affecting]{polluting} the functional type assignments of phrases outside the conjunction itself with a generic, multi-purpose argument type.
 We resolve this exactly like before, namely by conducting a majority voting over the categories of all conjunct siblings and propagating the elected category upwards to the conjunction node, prioritizing noun phrases over nouns over everything else in orderto account for nominalization.
 
 \paragraph{Raising Nouns}
@@ -657,7 +657,7 @@ For ease of communication, we will trace the algorithm in reverse, going from si
 Despite building proofs, we will at times use notation or terminology commonly reserved for terms/programs when both convenient and applicable, e.g. a variable will denote a proof containing a single $\Ax$ rule, and applying a proof to a proof will mean deriving a more complex proof via modus ponens -- do not be startled by this and remember your Curry-Howard.
 
 \paragraph{Terminal Nodes}
-Terminal nodes are easy-peasy.
+Terminal nodes are easy\hide{-peasy}.
 There's only three questions we have to ask, namely ``do we have a type hint?'', ``is the node a phantom?'' and ``was there a dependency label that got us here and, if so, was it either an adjunct or a complement?''.
 Ok, this is actually four questions but nonetheless.
 Any proof assignment we cook up must be uniquely identifiable with the node; we will use the node's identifier as the subscript of the instantiated variable or constant (we will from now on use indexing to tell constants apart, as strings do not make for trustworthy identifiers, i.e. $\con{i}$ for constant i).
@@ -755,7 +755,7 @@ A simple verbal domain consists of a single head, some complements and (possibly
 First, we'll call $\mathsf{prove}$ on each argument tree, passing its corresponding dependency edge and no type hint as arguments.
 Each proof that does not correspond to an instance of the $\Ax$ rule, we will apply a diamond introduction over, to enforce the appropriate complement dependency (hypotheses are excluded due to \textit{already} being of the correct diamond type).
 By isolating the result types of the proofs extracted this way, we can infer the type of the phrasal head.
-We can thefore call $\mathsf{prove}$ on the head tree, passing no correspoding dependency edge, but type hinting it as the curried function from the sequentialized arguments to the top type.
+We can thefore call $\mathsf{prove}$ on the head tree, passing no corresponding dependency edge, but type hinting it as the curried function from the sequentialized arguments to the top type.
 In a dual fashion, we can call $\mathsf{prove}$ on each adjunct tree, type hinting it as the endomorphism of the top type, enclosed under a box of the corresponding dependency label.
 With this and that, we now have proofs for each subtree underneath us -- what remains to be done is fusing these proofs together.
 The way to go is simple: we need to first left fold the head's proof against the complements' proofs, and then apply the function composition of the ``unboxed'' adjuncts' proofs onto the result (unbox literally meaning using the box elimination rule to reveal the endomorphism enclosed within).
@@ -925,7 +925,7 @@ In the second case, we are in trouble.
 We need to employ the structural licensing pair $\dxdia{x}\dxbox{x}$, as in Figure~\ref{figure:higher_order_nested_dep}, but there is no way for the proof assignment to have been correct preemptively: we would have needed to know that the variable is nested before ever getting to actually build its nesting context.
 To solve this chicken and egg problem, we need to allow ourselves an erroneous assignment, and then travel back in time to retroactively correct it.
 No big deal: going back in time means simply applying the substitution meta-pattern $\vari^{\smallgtype{a}} \mapsto \dboxelim{x}(\vari^{\dxbox{x}\smallgtype{a}})$.
-In non-obscure, this translates to traversing the proof, finding the problematic hypothesis and replacing it with an $\dep{x}$-marked (i.e. extractable) equivalent.
+In non-obscure\hide[ language]{}, this translates to traversing the proof, finding the problematic hypothesis and replacing it with an $\dep{x}$-marked (i.e. extractable) equivalent.
 Reconstructing the proof is not sufficient though -- we also need to perform all the $\Extraction$ rules necessary for the $\dep{x}$-marked structure to always appear at the structural onion's outermost layer, as well as substitute it for its logical diamond counterpart.
 At that point, we are at long last able to abstract over the hypothesis.
 
@@ -1029,10 +1029,10 @@ The proof we get back is coincidentally an $\eta$-expanded version of the heads'
 What if the elided item is not a complement, though?
 Not much changes, really: we must still look for hypotheses ``shared'' between adjuncts and materially present in the current conjunction branch.
 The difference is that withdrawing them this time around yields proofs of higher-order types.
-To see this in practice, let's consider the example of Figure~\ref{figure:vp_ellipsis}%
-	\footnote{Give it up for our first ever landscape proof!}.
+To see this in practice, let's consider the example of Figure~\ref{figure:vp_ellipsis}.%
+	\hide[ ]{\footnote{Give it up for our first ever landscape proof!}}
 Conjuncts 14 and 24 contain two phantom nodes each: 21 and 33, and 30 and 25, respectively.
-The first of each pair (21 and 30) are the phantom objects attributed to the past participles.
+The first of each pair (21 and 30) are the phantom objects attributed to the passive participles.
 Their indices, 1 and 3, are properly contained within each conjunct -- therefore they are of no interest to us here.
 The second ones (31 and 25) stand in for the missing auxilliary verb heading each conjunct, implementing higher-order functions of type:
 $\ddia{vc}(\ddia{obj1}\np[s]\li\ppart[s])\li\ddia{su}\np[s]\li\smain[s]$.
@@ -1041,7 +1041,7 @@ The abstraction will result in type variable $\chi$ being instantiated as the th
 \begin{equation*}
 (\ddia{vc}(\ddia{obj1}\np[s]\li\ppart[s])\li\ddia{su}\np[s]\li\smain[s])\li\smain
 \end{equation*}
-in turn producing a fourth order type hint for the coordinator which doesn't even fit in the line... oof.
+in turn producing a fourth order type hint for the coordinator which doesn't even fit in the line...\hide{ oof}.
 
 \begin{sidewaysfigure}
 	\begin{subfigure}{1\textwidth}

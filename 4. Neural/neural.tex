@@ -18,7 +18,7 @@ With their sheer force,
 %(and the hype surrounding it), 
 large language models usurped the heir apparent and condemned structure-aware semantic computation to obscurity.
 %; the future of computational semantics is to be opaque, boring, steered by industry and provided as-a-service instead.
-My thesis got caught in the blast of this change of power, necessitating a clear positioning in the current state of affairs, and a careful statement of purpose before we get to the the chapter's juicy content -- so here goes.
+My thesis got caught in the blast of this change of power, necessitating a clear positioning in the current state of affairs, and a careful statement of purpose before we get to the the chapter's content -- so here goes.
 
 Parsing is good.
 Converting raw signals intro structured representations thereof allows us to standardize their machine processing, and elevates automated reasoning away from form and into substance.
@@ -28,8 +28,7 @@ On the basis of these observations, $\lambda$ calculi make for an ideal represen
 But choice of format aside, a formal system operating on formal representations is not prone to implicit biases, latent variables, ambiguity, inconsistency, or any of the the modern \hide[pitfalls]{pestilences} of the sort.
 Erroneous outputs are the result of \textit{bad input} or \textit{bad programming}; there's always someone to blame.
 Specifically in the natural language domain, advancing the conversion of text into formal representations is promoting accountable automation of textual processing, and eliminates the anthromorphic delusion of the ghost in the machine; for to imitate linguistic form is not to understand linguistic meaning.
-Parsing is therefore only superficially in competition with large language models, and its seeming obsoletion is just a by-product \hide[of ephemeral trends].
-{the ephemeral and rapidly shifting pop science trends of the artificial stupidity race}.
+Parsing is therefore only superficially in competition with large language models\hide{, and its seeming obsoletion is just a by-product of ephemeral and rapidly shifting pop science trends}.
 
 That said, machine learning is not bad.
 Shifting the focus away from the algorithm and toward the data can often be a reasonable concession in the automation of complex or labor-intensive tasks, provided that the task is not risk critical and that no intelligence is attributed to the end system.
@@ -374,7 +373,7 @@ These representations can be dynamically weighted and summed, yielding a distinc
 Attention has its roots in neural image processing~\cite[inter alia]{larochelle2010learning,NIPS2014_09c6c378}, but its application to language was essentially the catalyst that set the field ablaze~\cite{bahdanau2015neural}.
 
 Even though attention was originally used as an enhancement on top of RNNs, the code of conduct today is basically attention only.
-The instigator of that paradigm shift was the transformer architecture~\cite{vaswani2017attention}, which by now enjoys an unprecedented \hide[pop-science status (saving me the hassle of having to regurgitate yet another ``transformers explained'' pamphlet)]{popularity}.
+The instigator of that paradigm shift was the transformer architecture~\cite{vaswani2017attention}, which by now enjoys an unprecedented \hide[popularity]{pop-science status (saving me the hassle of having to regurgitate yet another ``transformers explained'' pamphlet)}.
 In high level terms (and consciously oversimplifying), the transformer is a heteroassociative memory mechanism.
 It builds three distinct representations for each sequence token: \textit{queries} dictate what each token looks for, \textit{keys} dictate what each token associates with, and \textit{values} correspond to memory storage.
 A distance metric (commonly a scaled dot-product) is used to induce a weighting over the keys matrix for each query vector; we may say that queries \textit{attend} to keys.
@@ -996,7 +995,7 @@ We insert skip connections between the input and output of the message-passing a
 
 \subsubsection{Experiments \& Results}
 \paragraph{Datasets}
-Testing the architecture on multiple datasets is good practice for multiple reasons, \hide[the least cynical]{one} being that it helps us better affirm its potential.
+Testing the architecture on multiple datasets is good practice for multiple reasons, \hide{one}{the least cynical} being that it helps us better affirm its potential.
 Hence, we shall employ it not just on \AE thel but also on the two versions of the CCGbank, as well as the French TLGbank; in total, 4 different datasets spanning three languages and as many grammar formalisms.
 
 \begin{table}
@@ -1119,7 +1118,7 @@ Back then, we were creating shorthands for frequent (sub-)types (self standing t
 		\end{tikzpicture}
 		\caption{With notational shorthands.}
 		\end{subfigure}
-	\caption{Compactifying the \hide{horrifying} type of Figure~\ref{figure:hard_abstraction}.}
+	\caption{Compactifying the\hide{ horrifying} type of Figure~\ref{figure:hard_abstraction}.}
 	\label{figure:tree_compression}
 \end{figure}
 	
@@ -1519,7 +1518,7 @@ Normalizing these scores with Sinkhorn and contrasting the result with the targe
 If training goes according to plan, the $\pi_{\chi}$-image (resp. $\pi_{\chi}^{-1}$) of each element of $P_{\chi}$ (resp. $N_{\chi}$) will outrank all competing items in $N_{\chi}$ (resp. $P_{\chi}$), i.e. be the largest entry of its row (resp. column) in $S_{\chi}$.
 For this to have any chance of success, the mechanism producing $S_{\chi}$, and by extension the representations of $P_{\chi}$ and $N_{\chi}$, will need to be highly contextual.
 Embedding a leaf's type, polarity and/or tree position won't cut it -- sequential context is crucial to disambiguate between leaves living in distinct instances of identical types, whereas lexical association context should prove beneficial in resolving derivational ambiguities (rare as they might be).
-Coincidentally and to our great fortune, the two constructive supertaggers we have described and implemented in the previous section do in fact provide contextual representations, at exactly this granularity scale\hide[ -- imagine that!]{.}
+Coincidentally and to our great fortune, the two constructive supertaggers we have described and implemented in the previous section do in fact provide contextual representations, at exactly this granularity scale\hide[.]{ -- imagine that!}
 Happy coincidence aside, the operationalization described is plug-and-play for any supertagger, constructive or otherwise -- the picky requirements on subtype representations can always be satisfied by some third party encoder.
 Employing such an encoder might even be for the best, in terms of performance alone -- but for the sake of parameter compression and model reuse, we are given the chance to have the decoding architectures described earlier do double duty as ``proof frame encoders''.
 To that end, we simply need to jointly train supertagging and axiom linking in a unified, end-to-end architecture, simultaneously optimizing both objectives.%
@@ -1533,7 +1532,7 @@ To that end, we simply need to jointly train supertagging and axiom linking in a
 
 \subsubsection{Implementation(s)}
 Since the original version of \citet{kogkalidis-etal-2020-neural}, the architecture was revised with minor micro-adjustments, and retrained with each new major adaptation of \AE thel, charting a multidimensional course of only partially compatible successive stops.
-\hide[In what follows, I describe]{[Rather than suffocate us all with irrelevant distractions and boring tables of deltas, I think it's best if I stick to describing]} in detail only the current and most recent implementation, drawing parallels with isolated historical insights only when relevant.
+\hide[In what follows, I describe]{[Rather than suffocate us all with irrelevant distractions and boring tables of deltas, I think it's best if I stick to describing]} in detail only the current and most recent implementation~\cite{spindle}, drawing parallels with isolated historical insights only when relevant.
 
 \paragraph{Supertagger Integration}
 The architecture combines just as easily with both the symbol sequential and the geometrically informed decoder, requiring only an adaptation of how leaf nodes are indexed and gathered.

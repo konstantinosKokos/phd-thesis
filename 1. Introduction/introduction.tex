@@ -585,7 +585,7 @@ Similarly for the implication introduction rule $\li I$, no redundant variables 
 		\centering
 		\begin{tabularx}{0.7\textwidth}{@{}C@{}}
 		$
-		\infer[\Exchange{}]{\Delta, \Gamma \vdash \term{s}: \prop{a}}{\Gamma, \Delta \vdash \term{s}:  \prop{a}}
+		\infer[\Exchange{}]{\Gamma, \vari: \prop{a}, \varj: \prop{b}, \Delta \vdash \term{s}: \prop{c}}{\Gamma, \varj: \prop{b}, \vari: \prop{a}, \Delta \vdash \term{s}: \prop{c}}
 		$
 		\end{tabularx}
 		\caption{Structural rule.}
@@ -1172,10 +1172,10 @@ What if there was a way to keep our logic computationally tractable but with tem
 The answer comes in the form of unary \textit{modalities}, type-forming operators lent from modal logics, that allow navigation between logics of different structural properties.
 Unary modalities hold a key role in the presentation of full linear logic; there, a single operator $!$ (called \textit{bang}) would allow an embedding of intuitionistic (non-linear) propositions into the linear regime, essentially acting as a licensor of \Contraction{} and \Weakening{}.
 In our case, we will make do with two modalities from temporal logic, the diamond $\diamond$ and the box $\bx$.%
-	\footnote{Note that these are not duals, but \textit{inverse} duals -- $\diamond$ being past necessity, $\bx$ being future possibility.}
+	\footnote{As will made clear by (\ref{equation:db}), these are not the possibility/necessity duals of modal logic, but rather \textit{inverse} duals as found for instance in temporal logic, $\bx$ being past necessity and $\diamond$ being future possibility.}
 
 The two form a residuated pair, the properties of which can be formulated either (i) in the form of a type-level biconditional derivability relation:
-\begin{equation}
+\begin{equation}\label{equation:db}
 		\diamond \prop{a} \vdash \prop{b}\text{ iff }\prop{a} \vdash \bx\prop{b}
 \end{equation}
 or (ii) the monotonic behavior of its parts:
@@ -1859,7 +1859,7 @@ Bound relative clauses headed by complementizers like the above contain a subord
 Let's make things unnecessarily convoluted for the sake of clich{\'e}d self-referentialism by considering the relative clause \textex{which can vary in its position} of the previous sentence.
 There, the subordinate clause \textex{\gap{} can vary in its position} contains a gap in the subject position, which the head \textex{a gap} occupies implicitly.
 This is not the case in the last relative clause \textex{which the head \textex{gap} occupies implicitly}, whose subordinate clause \textex{the head \textex{gap} occupies \gap{} implicitly} contains a non-peripheral (nested) gap in direct object position.
-What a mess! 
+\hide{What a mess!}
 The subject-relative case can easily be dealt with in a pure Lambek grammar, as the gap hypothesis occurs adjacent to the verb phrase, but
 the same cannot be said for the object-relative case, whose structurally free gap seems to pose a challenge.
 The solution comes in the form of two distinct type assignments for the relativizer, one per grammatical role fulfilled:
@@ -2217,7 +2217,7 @@ Our presentation will stick to the former, as they are closer in spirit to what 
 \begin{figure}
 	\centering
 	\begin{tikzpicture}
-		\node (ds)		at (0, 2)		{Tectoogrammar};
+		\node (ds)		at (0, 2)		{Tectogrammar};
 		\node (dsl)		at (0, 1.5)		{$\Sigma := \ILL_{\li}$};
 		\node (ss)		at (-4.5, 0)		{Phenogrammar};
 		\node (ssl)		at (-4.5, -0.5)	{$\Tau := \ILL_{\li}$};

@@ -286,7 +286,7 @@ class Structural(Rule):
 \noindent At long last, we have all the components necessary to define a proof.
 A proof is a record of zero or more premises (themselves proofs), a conclusion (a verified judgement), the last rule of inference used to bind the premises together (an identifier of the previous enumeration), and maybe a variable under focus (used to tell which variable is abstracted over or substituted, for rules $\li I$ and $\diamond E$ respectively).
 A proof has a structure (that of its conclusion's antecedent), a term (that of its conclusion succedent) and a type (that of its term's).
-Other than being comparable, representable and yada yada, and on top of some proof-theoretic utilities, proof objects provide instance-level access to the compositional operations implemented by rules, allowing (relatively) easy bottom-up synthesis.
+Other than being comparable, representable \hide[etc.]{and yada yada}, and on top of some proof-theoretic utilities, proof objects provide instance-level access to the compositional operations implemented by rules, allowing (relatively) easy bottom-up synthesis.
 
 \begin{minted}{python}
 class Proof:

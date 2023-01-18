@@ -120,7 +120,7 @@ Even though context-free grammars are no longer seriously considered in the ling
 Notational evidence of this past are more than noticeable today, ranging from the wide adoption of tree-style notation for syntactic analyses to the conceptual syncretism of constituency grammars and phrase structure ones.
 More up-to-date frameworks expand upon the barebones context-free backend with niceties like a separation of functional dominance and linear precedence, added rules that manipulate movement and discontinuity, the proclamation of a single category as the \textit{head} of a production rule (or subtree), feature markings that carry semantic, morphological or phonological information, incorporation of dependency information, etc.~\cite[inter alia]{gazdar1985generalized,jacobson1987phrase,pollard1994head,dalrymple2001lexical}.
 
-To our ill fortune, the field of formal syntax is actually an informal mess, more akin to a mine field rather than an academic one; it's best if I tread carefully and refrain from overextending myself here, in order to avoid setting off unseen traps or causing easily avoidable confusion.
+\hide{To our ill fortune, the field of formal syntax is actually an informal mess, more akin to a mine field rather than an academic one; it's best if I tread carefully and refrain from overextending myself here, in order to avoid setting off unseen traps or causing easily avoidable confusion.}
 The point I want to make is that the focal center of the above formalisms is the \textit{phrase} and its structure -- as such, they are all referred to as phrase structure grammars, regardless of whatever extra fluff they carry or what their expressive capacity is.
 In that broader sense of the term, and removing any implicit connotations of intellectual lineage, categorial grammars can also be conceived as phrase-centric.
 Pure Lambek systems, for one, also explicate how phrases are combined, adhere to hierarchical forms similar to those of context-free grammars (except beautifully, see Figure~\ref{subfigure:lambektree}) and in fact have the same expressive capacity with respect to string formation (i.e. the two are \textit{weakly} equivalent)~\cite{pentus1993lambek}.
@@ -129,7 +129,7 @@ Bracketing structure is now the footprint of function application, and the inter
 Rather than a $VP$ category and rule~(\ref{equation:sfromnpvp}), we have the \textit{type} $\np[s]\divleft\s[s]$ -- transparent with respect to both its syntactic combinatorics and semantic function.
 Performing the function application on a left-adjacent \np[s] will then result to a local tree structure, not unlike the corresponding production rule -- see Figure~\ref{figure:cfgvslambek} for a comparison.
 Note that in reality, categorial derivations in the type-theoretic tradition resemble trees only locally, since in high-order phenomena involving abstractions the unary, non-terminal $\lambda$ nodes will either need to be uniquely named with the variable they are binding, or otherwise point to it  with an additional edge -- hence a directed acyclic graph could make for a more accurate representation format.
-Long story short, even without extensions to the logical core for managing discontuinity, calling deductive parsing constituency parsing would obviously not be doing the former justice; yet despite their methodological and theoretical divergences, their end yield is comparable -- the antecedent structures of Figures~\ref{figure:nl_applicative_examples} to~\ref{figure:lovecraft_coord} testify that the former may in fact be seen as subsuming the latter.
+Long story short, even without extensions to the logical core for managing discontinuity, calling deductive parsing constituency parsing would obviously not be doing the former justice; yet despite their methodological and theoretical divergences, their end yield is comparable -- the antecedent structures of Figures~\ref{figure:nl_applicative_examples} to~\ref{figure:lovecraft_coord} testify that the former may in fact be seen as subsuming the latter.
 
 \subsection{Dependency Grammars}
 \label{subsection:dep_grammars}
@@ -223,7 +223,7 @@ This observation gives rise to a binary subcategorization of a binary predicate 
 \end{enumerate}
 where the distinction between complement and adjunct is made solely on the basis of their functional relation to the head.
 
-The vanilla categorial vocabulary does not suffice to capture this extra dimension of function application -- a problem also noticed by the intellectuals of proto-categorial civilizations, as archeological excavations reveal.
+The vanilla categorial vocabulary does not suffice to capture this extra dimension of function application\hide{ -- a problem also noticed by the intellectuals of proto-categorial civilizations, as archeological excavations reveal}.
 In an unpublished manuscript, \citet{moortgat1991heads} propose a bidimensional implicational type operator and corresponding residuation laws: the first binary dimension is reserved for the usual left- vs. right- application distinction, whereas the second binary dimension specifies whether the head occurs to the left or to the right; the result is four unique ways of building up an implication.
 Congruent with the substructural trend of revealing structure that was once hidden, this division brings forth a two-valued structural binder, allowing the corresponding logic $\logic{DNL}$ to reason about \textit{headed} binary trees.
 The authors refrain from commiting to a specific linguistic application, but, translated into our terminology, their proposal can be schematically summarized by Figure~\ref{figure:heads_and_phrases}.
@@ -261,7 +261,7 @@ Further away from syntax, \citet{hendriks1997logic} employs \logic{DNL} to accou
 As an alternative to introducing implicational (and by residuation, product) variants, we can instead opt for the more fashionable modal decomposition approach~\cite{kurtonina1997structural}.
 The allows us to view a specialized (here: head-aware) implicational variant as a composition of its uniform base with a unary modality.
 The standard route would have use the modality to mark the head -- we will instead mark the dependent.
-More than a petty act of rejection to establishment, this shall provide us with the means to further differentiate dependents according to the exact grammatical slots they occupy -- after all, there's quite a few different dependency labels, but only the one head.
+\hide[T]{More than a petty act of rejection to establishment, t}his shall provide us with the means to further differentiate dependents according to the exact grammatical slots they occupy -- after all, there's quite a few different dependency labels, but only the one head.
 
 \subsubsection{Complements vs. Adjuncts}
 Sticking to our risky agenda, the first distinction we need to make is that of complements versus adjuncts.
@@ -422,7 +422,7 @@ which can be read as saying that an object can be preposed within its local \dep
 	\footnote{In reality, we would need to mark complete clauses to remove the possibility of arbitrary shuffling and accidental overgeneration, but this can be trivially accomplished by boxing the phrasal end-result, e.g. $\ddia{su}\np[s]\divleft\dbox{cl}{\s[s]}$ for an intransitive, where \dep{cl} would mark a complete clause and assume the role of \dep{d} in (\ref{equation:fronting}).}
 In principle, this could simplify the categorial treatment of such phenomena: one can always start with a canonical derivation, e.g. one where all arguments are in their expected positions, and proceed by shuffling them around given the structural rule inventory.
 As a bonus, adorning these rules with non-void term rewrites would allow them to upkeep their relevance for pragmatics.
-Exciting (or not) as this might sound, it was only ever meant to incentivize the use of dependency modalities; it won't be something we will be pursuing presently, for we have another kind of beast to face.
+Exciting (or not) as this might sound, it was only ever meant to incentivize the use of dependency modalities; it won't be something we will be pursuing presently, for we have another \hide[challenge]{kind of beast} to face.
 
 \paragraph{Crossing Boundaries}
 The structural rule format hinted at would be capable of dealing with the movement of phrases \textit{within} a dependency domain, conditionally relaxing the word order constraints of $\LC$ under certain dependency configurations.
@@ -584,9 +584,9 @@ The magical conconction is presented in Figure~\ref{subfigure:extraction_rule}.
 Within arbitrary context $\Gamma$, it looks for a \dep{d}-labelled unary tree enclosing a \dep{x}-labelled unary tree $\Theta$ wrapped by sequences $\Delta$ to the left and $\Phi$ to the right.
 There, it allows us to pull the $\Delta$ out, casting the outermost unary tree into a binary sequence and assigning \dep{d} to the concatenation of $\Delta$ and $\Phi$ alone. 
 If this makes little sense, see Figure~\ref{subfigure:extraction_tree} for a visual rendition.
-If still unclear, move your mental cursor four sentences back (this one included) and try again.
+\hide{If still unclear, move your mental cursor four sentences back (this one included) and try again.}
 
-Equipped with this missing bit of alchemical understanding, we're at long last able to produce analyses for some less contrived linguistic examples; Figure~\ref{figure:lovecraft_dep_rep_clause} presents the dependency-enhanced derivation we set out to deliver.
+Equipped with this missing bit of \hide{alchemical }understanding, we're at long last able to produce analyses for some less contrived linguistic examples; Figure~\ref{figure:lovecraft_dep_rep_clause} presents the dependency-enhanced derivation we set out to deliver.
 Before we move on, though, some important observations are in order.
 First, the presentation makes an implicit quantification over the outer label, \dep{d} -- if we were to be really pedantic, we'd need a unique instantiation of that rule for each dependency (but not control!) modal label in the logic.
 Beyond a bookkeeping obligation, this parameterization can also be to our advantage: it allows us to directly control which of the dependency domains allow extraction, and which do not.
