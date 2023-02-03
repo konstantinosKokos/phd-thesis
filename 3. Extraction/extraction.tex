@@ -461,6 +461,24 @@ When that's not the case, the phantom node is substituted by a copy of the mater
 The process is repeated (to circumvent the possibility of adding a new floating node when fixing the first) until a fixpoint is reached.
 The result is the possibile duplication of lingustic material among different prunings (i.e. a subtree that occurred once in the original Lassy sample can sometimes be found in more than one of the processed samples).
 
+\begin{figure}
+	\centering
+	\begin{subfigure}[b]{0.65\textwidth}
+		\includegraphics[width=1\textwidth,trim={1.5cm 1.5cm 1.5cm 1.5cm}]{./prebuilt/date_before.pdf}
+		\caption{Before.}
+	\end{subfigure}\\[\midsep]
+	\begin{subfigure}[b]{0.55\textwidth}
+			\includegraphics[width=1\textwidth,trim={1.5cm 1.5cm 1.5cm 1.5cm}]{./prebuilt/date_after.pdf}
+			\caption{After.}
+	\end{subfigure}\\[\smallsep]
+	\lassycap
+		{WR-P-P-I-0000000242.p.16.s.2~\textnormal{(excerpt)}}
+		{...op 9 en 10 maart...}
+		{...on March 9 and 10...}
+	\caption{Reannotating a date expression containing a conjunction.}
+	\label{figure:mwu:datetime}
+\end{figure}
+
 \paragraph{Multiword Phrases}
 Another common pain point is the prominence of multiword phrase annotations, indicated in Lassy by the \textit{mwu} dependency.
 Multiword expressions are a \hide[inhabitants of the grey area]{pervasive pest from the shadowy realms} between lexicon and syntax.
@@ -523,7 +541,6 @@ Other than the incompatibilities detailed so far, some Lassy annotations are sub
 Such cases are treated by automatically adjusting the phrasal structure to one we are happier with.
 Since such adjustments involve removing or reorganizing subtrees and edges, we run the risk of accidentally removing the material tree that grounds a set of phantom nodes sharing the same index.
 As a precautionary measure, we enforce the convention of having the material tree appear as close to the root as possible.
-%enforce the convention that the most shallow occurrence of a node should correspond to a material version of all nodes sharing its index.
 
 \begin{figure}
 	\centering

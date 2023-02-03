@@ -27,7 +27,7 @@ Before we get to theorycrafting, it would be useful to try and clarify what exac
 \subsection{Phrase Structure Grammars}
 Phrase structure grammars build on the observation that certain phrases seem to act as rigid and independent chunks, sometimes referred to as \textit{constituents}. 
 Viewed from within, these phrases may be rich in internal structure, but keep it sealed off to the outside.
-Viewed externally (i.e. in the context of a wider phrase that contains them), they are indivisible units, or at least for the purposes of phrasal composition.
+Viewed externally (i.e. in the context of a wider phrase that contains them), they are indivisible units, at least for the purposes of phrasal composition.
 Phrases are inventorized according to their syntactic \textit{categories}.
 If one so wishes, one can for the most part replace a phrase for another of the same category, with no effect to grammaticality or local structure, which suggests they are functionally indiscernible.
 The examples below testify to this%
@@ -586,7 +586,7 @@ There, it allows us to pull the $\Delta$ out, casting the outermost unary tree i
 If this makes little sense, see Figure~\ref{subfigure:extraction_tree} for a visual rendition.
 \hide{If still unclear, move your mental cursor four sentences back (this one included) and try again.}
 
-Equipped with this missing bit of \hide{alchemical }understanding, we're at long last able to produce analyses for some less contrived linguistic examples; Figure~\ref{figure:lovecraft_dep_rep_clause} presents the dependency-enhanced derivation we set out to deliver.
+Equipped with this missing bit of \hide{alchemical }knowledge, we're at long last able to produce analyses for some less contrived linguistic examples; Figure~\ref{figure:lovecraft_dep_rep_clause} presents the dependency-enhanced derivation we set out to deliver.
 Before we move on, though, some important observations are in order.
 First, the presentation makes an implicit quantification over the outer label, \dep{d} -- if we were to be really pedantic, we'd need a unique instantiation of that rule for each dependency (but not control!) modal label in the logic.
 Beyond a bookkeeping obligation, this parameterization can also be to our advantage: it allows us to directly control which of the dependency domains allow extraction, and which do not.
@@ -602,7 +602,7 @@ The bracketing imposed by dependency modalities, however, is built to last, posi
 
 Hypothetical complements are relatively easy to tackle: they just come packed with their diamonds at variable instantiation time.
 Excluding the presence of the irrelevant control box, this is exactly the strategy followed in the example under scrutiny (see the $\Ax$ rule instantiating $\vari$ in Figure~\ref{figure:lovecraft_dep_rep_clause}).
-Upon closer inspection, we can verify that this is in fact just the $\eta$ normalized version of hypothesizing a plain type, assigning it the desired dependency brackets via the $\diamond I$ rule, and then performing a substitution of the bracketed variable for a logical equivalent (wrapped under the necessary control brackets) via the $\diamond E$ rule -- consult Figure~\ref{figure:eta_normalized_complement_hypothesis} and contrast with Figure~\ref{subfigure:modal_eta_reductions} if unconvinced.
+Upon closer inspection, we can verify that this is in fact just the $\eta$ normalized version of hypothesizing a plain type, assigning it the desired dependency brackets via the $\diamond I$ rule, and then performing a substitution of the bracketed variable for a logical equivalent (wrapped under the necessary control brackets) via the $\diamond E$ rule -- consult Figure~\ref{figure:eta_normalized_complement_hypothesis} and contrast with Figure~\ref{figure:modal_eta_reductions} if unconvinced.
 
 \begin{figure}
 	\begin{tabularx}{0.9\textwidth}{@{}cCc@{}}
@@ -631,7 +631,7 @@ Upon closer inspection, we can verify that this is in fact just the $\eta$ norma
 Hypothetical adjuncts are less forgiving.
 A hypothesized adjunct will seek to apply itself to some phrasal head, which is impossible unless it first drops its box.
 But in dropping its box, it becomes enclosed in structural dependency brackets that prohibit its eventual abstraction.
-We will need to once more resort to the $\diamond E$ rule to remove , except this time it will be the interior combination of Figure~\ref{subfigure:modal_properties:interior} that we are invoking, which is not subject to $\eta$ contraction.
+We will need to once more resort to the $\diamond E$ rule to remove it, except this time it will be the interior combination of Figure~\ref{subfigure:modal_properties:interior} that we are invoking, which is not subject to $\eta$ contraction.
 To see this in action, let us once more consider an excerpt from our go-to source: \textex{a city of high walls where sterile twilight reigned}%
 \footnote{H.P. Lovecraft, \textit{Azathoth} (1938). In \textit{Leaves} (2).}.
 The relative adverb \textex{where} heads yet another a relative clause, \textex{where sterile twilight reigned}, acting as a postnominal modifier to the noun phrase \textex{a city of high walls}.
@@ -695,7 +695,7 @@ This beast of a type plays the starring role in the derivation of Figure~\ref{fi
 \end{figure}
 
 But why go through all this trouble of producing the dependency brackets only to then immediately cancel them out?
-The alternative of hypothesizing a plain functor without any dependency markings would be logically valid but grammatically suboptimal and contrary to our agenda, as it would give us no insights on what the dependency function of the gap is; the modalities stay.
+The alternative of hypothesizing a plain functor without any dependency markings would be logically valid but grammatically suboptimal and contrary to our agenda, as it would give us no insights on what the dependency function of the gap is -- the modalities stay.
 Another, more pressing question is that of the compatibility between hypothetical adjuncts and the control modality of the previous paragraph, i.e. how could we deal with the nested gap in e.g. \textex{where sterile twilight \textbf{may} reign \gap}.
 Fortunately, we need not worry: our previous treatment still holds with only the most minor of adjustments.
 Same as before, we have to alter the typing of the gap by prepending a boundary crossing permit, the interior pair $\dxdia{x}\dxbox{x}$.
@@ -829,7 +829,7 @@ But the radical path would have us preserve dependency operators in the intermed
 in hope of them findind downstream applications later on.
 A first merit would be the availability of richer type assignments in the lexical semantics domain, where previously identical function types become distinguishable by virtue of their modal decorations.
 There, syntactic modalities can be translated to semantic operators, lifting the target signature accordingly and allowing for a stronger syntax-semantics interface -- as for what these translations might be, quite a few reasonable paths are presented.
-\textit{Monads} make for a natural translation choice, both because of their affinity with modalities~\cite{kobayashi1997monad} as well as their progressively maturing adoption by the linguistics community~\cite{asudeh2020enriched}.
+\textit{Monads} make for a natural translation choice, both because of their affinity with modalities~\cite{kobayashi1997monad,corfield2020modal} as well as their progressively maturing adoption by the linguistics community~\cite{asudeh2020enriched}.
 Furthermore, dependents are delineated and identified by their syntactic roles, allowing distinct semantic treatments, if so desired.
 Even in the modest setting of a non-inflated translation, modalities can help tell which of the (possibly many) combinations of semantic slots are occupied in a given construction, allowing the correct compositional recipe to be retrieved from the semantic lexicon, while still distinguishing between optional and necessary ones~\cite{asudeh2012flexible}.
 In the edge case, they open the possibility for a homomorphic translation that ``forgets'' parts of the implicational directives of the logic, relying instead on the source dependency markings for the construction of its semantic terms.
@@ -846,7 +846,7 @@ If unsated and craving for more modalities-as-dependencies, you have the option 
 
 More broadly and outside their use as dependency markers, unary modalities have long now been a tempting way to encode linguistic features -- see \citet{moa} and \citet{10.7551/mitpress/6169.003.0012,johnson1999resource}, for instance.
 Further away from our niche territories, the relation between dependency grammars and lexicalism is extensively analyzed by \citet{kuhlmann2010dependency}, who asks (and answers) the question of which formal grammars induce what kind of dependency structures.
-On a relevant note, the slightly disheveled categorial dependency grammars make for an attempt to provide a categorial treatment of dependency structure, where the arcs and their labels are themselves the grammar's base types~\cite{dekhtyar2015categorial}.
+On a relevant note, the slightly disheveled categorial dependency grammars make for an attempt to provide a categorial treatment of dependency structure, where the arcs and their labels are in themselves the grammar's base types~\cite{dekhtyar2015categorial}.
 
 \bibliographystyle{abbrvnat}
 \bibliography{bibliography}

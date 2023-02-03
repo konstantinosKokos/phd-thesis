@@ -1,5 +1,6 @@
-\chapter{Appendix}
-\addtocounter{chapter}{1}
+\chapter{Implementation Notes}
+\label{appendix:implementation_notes}
+%\addtocounter{chapter}{1}
 
 %\section{Abbreviations}
 %\label{sec:abbrevations}
@@ -65,8 +66,7 @@
 %	\label{table:gloss_abbreviations}
 %\end{table}
 
-\section{Implementation Notes}
-\label{appendix:implementation_notes}
+%\section{Implementation Notes}
 The acronym \AE thel has two readings, depending on the aspect of the E.
 Read as automatically extract\textit{ed} theorems from Lassy, it is an elaborate dataset of type-checked derivations of Dutch in $\NLPplus{}$.
 Read as automatically extract\textit{ing} theorems from Lassy, it is a Python library for extracting, processing and representing these derivations.
@@ -77,7 +77,7 @@ The full source code is available at \url{https://github.com/konstantinosKokos/a
 	\footnote{Latest commit is 7e9e4c472df22582708ff03a35cf90718c17c60e.}
 For up-to-date user instructions and data downloads please refer to the repository, which shall remain active and accessible for the foreseeable future.
 
-\subsection{\NLPplus{} with Python}
+\section{\NLPplus{} with Python}
 \label{subappendix:nlp}
 Implementing a type system in an untyped language is a perversity of nature, but enables us at least to poke fun at the run-of-the-mill medium-hosted blog post.
 More than providing comedic value, it makes the code easy to integrate with standard machine learning libraries, for which Python is the de facto choice -- we're just planning ahead.
@@ -88,7 +88,7 @@ Practically, proofs and terms are functionally related but not equivalent, i.e. 
 To carve a path to our objects of interest, we will go from small to big, starting with the basic definitions of structures, types, structural primitives, terms and rules.
 
 
-\subsubsection{Structures}
+\subsection{Structures}
 Structures are implemented as an abstract class, parameterizable with respect to their contents \py{T}.
 Structures must be traversable, representable and pairwise comparable, and we must be able to check whether a structure contains an object, where the notion of containment changes depending on the concrete structure under scrutiny.
 
@@ -114,7 +114,7 @@ class Sequence(Structure[T], typing.Sequence[T]):
 	structures: tuple[T | Unary[T], ...]
 \end{minted}
 
-\subsubsection{Types}
+\subsection{Types}
 Next, we take the inductive type grammar and break it into multiple classes, starting with the abstract class that all concrete patterns inherit from.%
 	\footnote{Older implementations had \py{Type} be an abstract factory pattern, with each type-pattern being a concrete factory, with the intention of dynamically constructing types that are indeed distinct python ``types''.
 	This would then allow the native creation of terms of the appropriate ``type''. 
@@ -175,7 +175,7 @@ class TypeInference:
     def dia_elim(inner: Type, dia: str | None) -> tuple[Type, str]: ...
 \end{minted}
 
-\subsubsection{Terms}
+\subsection{Terms}
 In the exact same vein, we have to define a painstaking number of different classes to capture all the ways we can cook up a term.
 We'll adorn terms with types to ensure a first layer of well-typedness pertaining to logical constraints.
 Rather than redundantly transcribe the type of all complex terms, we compute it dynamically on the basis of their primitive parts and the operations that bind them.
@@ -245,7 +245,7 @@ class CaseOf(Term):
 \noindent This is already showing how proofs and terms diverge.
 A valid (sub-)term is not necessarily a valid proof:  its validity can only be asserted given some external context (and under structural conditions it is blind to), in turn relying on our definition of proof.
 
-\subsubsection{Proofs}
+\subsection{Proofs}
 To close the circle, we start by mimicking the definition of a judgement as an antecedent structure of variables and constants and a succedent term (which carries a type).
 As before, we restrict the assumptions to being a \py{Sequence} for the sake of canonicalization.
 
@@ -318,7 +318,7 @@ class Proof:
 
 \noindent Since we now have access to the full picture, rule applications are sufficiently informed to assert all validity checks necessary, both logical and structural.
 
-\subsubsection{Examples}
+\subsection{Examples}
 To see this in action, the snippets below showcase the construction of simple proofs seen through Chapter~\ref{chapter:Introduction}.
 But first, some type shortcuts to make our lifes easier:
 
@@ -366,7 +366,7 @@ TypeCheckError: A⟶B is not a functor of B
 ProofError: x0 : A is not a singleton containing a unary
 \end{minted}
 
-\subsection{Manipulating \AE thel}
+\section{Manipulating \AE thel}
 \label{subappendix:aethel}
 To allow the incorporation of extra-theoretical information, proofs are repackaged with the sentence into a \py{Sample} record, containing also a name (the Lassy identifier of the source file, plus a node identifier indicating the pruning point) and a subset specification, imposing a canonical train/dev/test split.
 
@@ -425,7 +425,7 @@ class ProofBank:
     def load_data(path: str) -> ProofBank: ...
 \end{minted}
 
-\subsubsection{User Interface}
+\subsection{User Interface}
 User interface is barebones but practical.
 The user procures (some version of) the source code from the official repository and a compatible binarized dump of the dataset (download links are also provided there).
 From then on, the dataset can easily be loaded as follows:
@@ -456,7 +456,7 @@ LexicalItem(word="Auto's", pos='noun', pt='n', lemma='auto')
 ▾mod(c1 ▵relcl((λx0.▾mod(c2) (c3 x0)))) c0 : NP
 \end{minted}
 
-\subsubsection{Visualization}
+\subsection{Visualization}
 Proofs and samples can be converted to pdf format for easier inspection; the conversion utility simply follows along the inductive definitions of proofs and terms, casting them into corresponding \LaTeX{} code.
 All proofs rendered in this document were built this way.
 Assuming you have pdflatex installed, you can replicate this by running:
@@ -466,7 +466,7 @@ Assuming you have pdflatex installed, you can replicate this by running:
 >>> compile_tex(tex_code, './output.pdf') # see Figure \ref{figure:simple_abstraction}
 \end{minted}
 
-\subsubsection{Corpus Search}
+\subsection{Corpus Search}
 To facilitate corpus exploration, we provide search utilities in the form of composable queries and a lazy search function.
 New queries can be made bottom-up from custom boolean predicates applied to samples, or point-free composed from existing queries using standard boolean operations.
 Preimplemented queries include searching for samples utilizing only (a subset of) some rules, enumerating a specific number of constants, having some specific word or lemma or being of a specific type, etc.
@@ -504,7 +504,7 @@ def alphanumerically_ordered(sample: Sample) -> bool:
 
 \noindent Less (or more) ad-hoc searches can be similarly written, predicating over any of the properties enclosed within a \py{Sample}; i.e. proof depth, maximal type order, variable count, nestedness of verbal complements, presence of a part of speech tag, or anything of the sort.
 
-\subsection{Neural Interfacing: Spind$\lambda$e}
+\section{Neural Interfacing: Spind$\lambda$e}
 \label{subappendix:spindle}
 A practical user-facing front integrating the neural proof search engine described in Section~\ref{section:npn} and the type system's implementation can be found at
 \url{https://github.com/konstantinosKokos/spindle}. 
@@ -526,7 +526,7 @@ Aftewards, the model can be invoked using:
 \noindent What we get back is a list of Python objects that partially abide by the \py{Sample} protocol, each containing a field for lexical phrases and a proof, one such object per input sentence.
 Lexical phrases are chunked by the supertagger, but lemma and part of speech information are not provided.
 The compatibility between parser-produced analyses and \AE thel samples allows us to use on the former methods originally intended for the latter.
-More importantly, it asserts that what we get back is not a cheap, duck-typed imitation of a proof, but a \sout{duck} proof proper. 
+More importantly, it asserts that what we get back is not a cheap, duck-typed imitation of a proof, but a proof proper. 
 The parser is by construction bound to either give us some proof, or, if it fails, the reason for its failure. 
 
 \begin{minted}[breaklines]{pycon}

@@ -6,20 +6,22 @@
 %%%%%%%%%%%%%%%%%%%  The dissertation's title pages  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % These are the default sizes for titles. Customize them if you wish:
-%\let\TitleSize=\huge
-%\let\SubtitleSize=\LARGE
+\let\TitleSize=\LARGE
+\let\SubtitleSize=\large
 %\def\TitleStretch{1.4}
 
 % If your titles are too long to fit on one line, indicate desired breaks with \\
 \title{Dependency as Modality, \\Parsing as Permutation}
-\subtitle{A Neurosymbolic Perspective on\\
-Categorial Grammars}
-%\subtitle{A Practical Exploration of Parsing with Diamonds in the Post-Neural Era}
-%Parsing with Diamonds}
+\subtitle{A Neurosymbolic Perspective\\
+on Categorial Grammars}
+
 
 % Define the Dutch title (unless your entire Dissertation is in Dutch)
-\dutchtitle{\todo}
-\dutchsubtitle{\todo}
+{
+\dutchtitle{Dependenties als Modale Operatoren,\\ Ontleding als Permutatie}
+\dutchsubtitle{Een Neurosymbolische Blik\\
+op Categoriale Grammatica's}
+}
 
 
 % Fill in here as appropriate.
@@ -36,7 +38,7 @@ Categorial Grammars}
 %\NUR{000}  
 
 % A description or credit for the cover illustration
-\imagecredit{\todo}
+\imagecredit{Cover Illustration: Konstantinos Kogkalidis, \textit{First attempt at GIMP in case the whole academia thing goes awry} (2022)}
 
 
 % The copyright claim is automatically generated, but you can override it:
@@ -58,17 +60,27 @@ under the following terms:
 %%%%%%%%%%%%%%%%%%%%%
 % The promotors page
 \promotors{
-Promotores: & prof. dr. M. J. Moortgat \\
-			& dr. habil. R. Moot
-}			
+\textbf{Promotor:}\\
+Prof. dr. M. J. Moortgat\\
+\addlinespace[\smallsep]
+\textbf{Copromotor:}\\
+Dr. R. Moot\\
+\addlinespace[\midsep]
+\textbf{Beoordelingscommissie:}\\
+Prof. dr. A. P. J. Van Den Bosch (voorzitter)\\
+Prof. dr. M. Sadrzadeh\\
+Prof. dr. J. Bos\\
+Prof. dr. S. Clark\\
+Prof. dr. S. Chatzykiriakidis
+}
 
- \support{
+\support{
    The research reported here was supported by the Netherlands Organization 
    for Scientific Research, under the scope of the project ``A composition calculus for vector-based semantic modelling with a localization for Dutch'' (project number 360-89-070).
- }
+}
 
 % Fill this in when you have a promotion date
-\promotiondate{\todo}
+\promotiondate{}
 
 %\dedication{\raggedleft
 %	\textit{}
@@ -85,9 +97,10 @@ Promotores: & prof. dr. M. J. Moortgat \\
 \include{4. Neural/neural}
 \include{5. Conclusion/conclusion}
 
-\BackMatter
-\setcounter{section}{0}
-\renewcommand*{\thesection}{\Alph{section}}
+\appendix
 \include{X. Appendix/appendix}
+
+\BackMatter
+\include{curriculumvitae}
 
 \end{document}
