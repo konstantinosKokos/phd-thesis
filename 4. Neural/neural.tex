@@ -373,7 +373,7 @@ These representations can be dynamically weighted and summed, yielding a distinc
 Attention has its roots in neural image processing~\cite[inter alia]{larochelle2010learning,NIPS2014_09c6c378}, but its application to language was essentially the catalyst that set the field ablaze~\cite{bahdanau2015neural}.
 
 Even though attention was originally used as an enhancement on top of RNNs, the code of conduct today is basically attention only.
-The instigator of that paradigm shift was the transformer architecture~\cite{vaswani2017attention}, which by now enjoys an unprecedented \hide[popularity]{pop-science status (saving me the hassle of having to regurgitate yet another ``transformers explained'' pamphlet)}.
+The instigator of that paradigm shift was the transformer architecture~\cite{vaswani2017attention}, which by now enjoys an unprecedented \hide[popularity]{pop status (saving me the hassle of having to regurgitate yet another ``transformers explained'' pamphlet)}.
 In high level terms (and consciously oversimplifying), the transformer is a heteroassociative memory mechanism.
 It builds three distinct representations for each sequence token: \textit{queries} dictate what each token looks for, \textit{keys} dictate what each token associates with, and \textit{values} correspond to memory storage.
 A distance metric (commonly a scaled dot-product) is used to induce a weighting over the keys matrix for each query vector; we may say that queries \textit{attend} to keys.
@@ -904,8 +904,6 @@ A single iteration of step (iii) over the abstract canvas of Figure~\ref{figure:
 
 
 \subsubsection{Implementation}
-\hide{We are no longer in the distant past; high-level fluff will no longer suffice.
-Scientific integrity and lack of peer approval also compel explication.}
 The paragraphs to follow detail how the abstract pipeline is executed in practice. 
 \hide{Consider yourself warned: you are urged to skip to the next section if sensitive to machine learning jargon, or the calendar year in your frame of reference is greater or equal to 2026 (I expect every single word to be obsolete by then).}
 
@@ -1135,7 +1133,7 @@ The model is trained to be responsible for its own chunking, merging subsequent 
 \paragraph{Evaluation}
 We perform model selection on the basis of validation accuracy, and gather the corresponding test scores according to the frequency bins of Table~\ref{table:datasets}.
 Table~\ref{table:comparisons} presents our results compared to relevant published literature.
-Evidently, our model surpasses established benchmarks in terms of overall accuracy, matching or surpassing the performance of both traditional supertaggers on common categories and constructive ones on the tail end of the frequency distribution\hide{, so there's that}.
+Evidently, our model surpasses established benchmarks in terms of overall accuracy, matching or surpassing the performance of both traditional supertaggers on common categories and constructive ones on the tail end of the frequency distribution.
 
 \begin{table}
     \newcommand{\ave}[2]{\multirow{2}{*}{~~\stat{#1}{#2}}}
@@ -1297,8 +1295,7 @@ The issue is of course not unique to this system, but common to all decoders tha
 \label{section:npn}
 We have made significant progress with supertagging, first removing the scary-looking roadblock of lexical type sparsity, and then producing numbers bigger than any numbers seen before%
 	\footnote{Actually, \citet{tian2020supertagging} were reporting even bigger numbers for a while, but it later turned out that these numbers were in error and their real numbers were a lot smaller than the numbers they originally reported.
-	\hide{An honest mistake, no doubt due to churning out the same architecture 5 times over the span of a year -- they thought you're not supposed to measure performance on rare assignments at all.
-	Long story short, don't trust the numbers.}}%
+	Long story short, don't trust the numbers.}%
 \hide{, earning a spot at at the top 10 pop hits leaderboard for the next couple of months}.
 But supertagging alone is not going to take us to the end of the road.
 Far from it, in fact, since our chosen logic is extremely permissive, burning away any hope of making do using just the proof-theoretic tools we have available.
@@ -1532,7 +1529,7 @@ To that end, we simply need to jointly train supertagging and axiom linking in a
 
 \subsubsection{Implementation(s)}
 Since the original version of \citet{kogkalidis-etal-2020-neural}, the architecture was revised with minor micro-adjustments, and retrained with each new major adaptation of \AE thel, charting a multidimensional course of only partially compatible successive stops.
-\hide[In what follows, I describe]{[Rather than suffocate us all with irrelevant distractions and boring tables of deltas, I think it's best if I stick to describing]} in detail only the current and most recent implementation~\cite{spindle}, drawing parallels with isolated historical insights only when relevant.
+In what follows, I describe in detail only the current and most recent implementation~\cite{spindle}, drawing parallels with isolated historical insights only when relevant.
 
 \paragraph{Supertagger Integration}
 The architecture combines just as easily with both the symbol sequential and the geometrically informed decoder, requiring only an adaptation of how leaf nodes are indexed and gathered.
@@ -1675,7 +1672,7 @@ We measure $tp$ as the two sets' intersection, $fp$ as the difference between pr
 On top of the vanilla versions of these metrics, we can also examine relaxations by incorporating a combination of two modulo factors.
 Relaxation one targets the functional core of the logic, applying a forgetful transformation that strips proofs of their modalities in order to examine typed function-argument structures in isolation.
 Relaxation two targets the modal enhancement of the logic, collapsing the set of atomic types into a single point (thus treating all functional types of the same \textit{shape} as equal) in order to examine dependency structures in isolation.
-Relaxing on both axes at once is essentially casting proofs into the untyped $\lambda$ calculus, where all we care about are the type- and dependency- agnostic function/argument structures -- this is the metric most comparable to external theories.%
+Relaxing on both axes at once is essentially casting proofs into the untyped $\lambda$ calculus, where all we care about are the type- and dependency- agnostic function-argument structures -- this is the metric most comparable to external theories.%
 	\footnote{Proofs are in $\beta$ and $\eta$ normal, so no free points from abstractions. Identity proofs are only equal if they match in both name and type, so no free points from variable instantiations either.}
 Note that relaxations are performed only \textit{after} inference -- the point being that a strict proof must have been produced for its relaxations to be considered (i.e. lax accuracy is still bottlenecked by strict coverage).
 The results are averaged over covered samples%
@@ -1807,8 +1804,8 @@ Below you'll find some pointers to get you started.
 
 Despite digressions against the sequence-to-sequence paradigm, our original supertagger~\cite{kogkalidis-etal-2019-constructive} is inspired and preceded by a ton of inventive applications of such models repurposed for structure induction \cite[inter alia]{vinyals2015grammar,wiseman2016sequence,dong-lapata-2016-language,buys2017robust}.
 Our early results have somewhat sensitivized the community to the problem of open-domain lexicalized supertagging.
-\Citet{bhargava2020supertagging} essentially replicate our early experiments (i.e. same venue but a year later, this time on the CCGbank).
-Other, serious steps forward include the ones by \citet{prange-etal-2021-supertagging} and \citet{Liu_Ji_Wu_Lan_2021}, who concurrently sought to account for the tree-like structure of lexical categories, the former through a tree-biased architecture and the latter through transition-based parsers applied at the lexical level.
+\Citet{bhargava2020supertagging} essentially replicate our early experiments (i.e. same venue and paradigm but a year later, except this time on the CCGbank).
+Other, serious steps forward include the ones by \citet{prange-etal-2021-supertagging} and \citet{Liu_Ji_Wu_Lan_2021}, who concurrently sought to account for the tree-like structure of lexical categories, the former through a tree-biased architecture and the latter through transition-based parsers applied per category at the word level.
 
 These serve as the inspiration for the geometry-informed supertagger of \citet{kogkalidis2022geometryaware}, which bears semblance and owes credit to various ongoing lines of architectural work.
 The depth recurrence is evocative of weight-tied architectures~\cite{dehghani2018universal,bai2019deep} and their graph-oriented variants~\cite{li2016gated}, which model neural computation as the fix-point iteration of a single layer against a structured input, thus allowing for a dynamically adaptive computation ``depth'' -- albeit with a constant parameter count.

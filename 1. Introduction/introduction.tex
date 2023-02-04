@@ -1167,13 +1167,13 @@ The problem lies however in the common occasion where the structure of objects u
 In such a scenario, taking a step up in the hierarchy would cause an undesirable combinatorial explosion, whereas staying put would sacrifice our ability to argue about these \hide{exceptional } cases. 
 By contrast, the maximalist attitude makes no concessions and seeks both for the cake to be whole and the dog to be fed.%
 \footnote{Direct translation of a silly but fitting Greek aphorism that won over the less politically correct Italian equivalent (wine barrel full and wife drunk). In any case, cake is bad for dogs.}
-What if there was a way to keep our logic computationally tractable but with temporary\hide[,]{ and} on-demand access to normally excluded reasoning tools?
+What if there was a way to keep our logic computationally tractable but with temporary, on-demand access to normally excluded reasoning tools?
 
 \subsection{The Logic of Modalities}\label{subsec:modal_logic}
 The answer comes in the form of unary \textit{modalities}, type-forming operators lent from modal logics, that allow navigation between logics of different structural properties.
 Unary modalities hold a key role in the presentation of full linear logic; there, a single operator $!$ (called \textit{bang}) would allow an embedding of intuitionistic (non-linear) propositions into the linear regime, essentially acting as a licensor of \Contraction{} and \Weakening{}.
 In our case, we will make do with two modalities from temporal logic, the diamond $\diamond$ and the box $\bx$.%
-	\footnote{As will made clear by (\ref{equation:db}), these are not the possibility/necessity duals of modal logic, but rather \textit{inverse} duals as found for instance in temporal logic, $\bx$ being past necessity and $\diamond$ being future possibility.}
+	\footnote{Note that these are not the necessity/possibility duals of modal logic, but rather \textit{inverse} duals, $\bx$ being \textit{past} necessity and $\diamond$ being \textit{future} possibility. Read (\ref{equation:closure}) as ``what is, has always been bound to be'' and (\ref{equation:interior}) as ``what will have always been, is''.}
 
 The two form a residuated pair, the properties of which can be formulated either (i) in the form of a type-level biconditional derivability relation:
 \begin{equation}\label{equation:db}
@@ -2069,8 +2069,7 @@ The connotation of this is that even though backwards proof search in $\NL$ may 
 
 \subsubsection{Syntax-Semantics Interface}\label{subsubsection:ssi_tlg}
 The game played so far, challenging as it may be, might prove dull to someone indifferent to syntax or its type-theoretic formulation; we will attempt to fix that by expanding our target crowd to semanticists and Montagovian grammarians, who are
-commonly heard reciting the quote:
-% said to recite daily before bedtime:
+\hide[commonly heard reciting the quote]{said to recite daily before bedtime}:
 \begin{quote}
 I fail to see any interest in syntax except as a preliminary to semantics.~\cite{montague1970universal}
 \end{quote}
@@ -2097,10 +2096,10 @@ Semantics can also be a type theory; one with its own types and terms, potential
 The meaning interpretation would then be a homomorphism that translates syntactic proofs and programs to corresponding semantic ones -- a translation from one constructive logic to another.
 Its design would need to follow the rule-to-rule approach, according to which every syntactic construction will have its homomorphic image in the target system~\cite{bach1976extension}.
 This viewpoint is quite open-ended and admits a whole lot of creative liberty with respect to the the nature of the target system and the details of the translations.
-The only constraint imposed is the only one that matters: the high-level principle of compositionality needs to hold, i.e. the function/argument structure specified by syntax need to be carried through to the semantics.
+The only constraint imposed is the only one that matters: the high-level principle of compositionality needs to hold, i.e. the function-argument structure specified by syntax needs to be carried through to semantics.
 
 Interestingly, the approach permits a division of labour between syntax, semantics and everything in between: the end-to-end translation can be decomposed into a sequence of homomorphisms, each intermediate step explicating an additional layer of added expressivity (or fortfeited structure) and singling out a subset of the desiderata towards the end-target.
-A natural first stop would be that of $\ILL_{\li}$ as a \textit{derivational semantics} logic: it captures the function/argument structures prescribed by the syntactic proof and respects its no-reuse principle, but without the semantically void headaches of order and bracketing structures, or that of the rules manipulating them. 
+A natural first stop would be that of $\ILL_{\li}$ as a \textit{derivational semantics} logic: it captures the function-argument structures prescribed by the syntactic proof and respects its no-reuse principle, but without the semantically void headaches of order and bracketing structures, or that of the rules manipulating them. 
 
 To make things concrete, let's consider this in the context of the source logic $\Sigma$ being identified with the instantiation of $\NL_{\diamond,\bx}$ of the previous section, and the intermediate logic $\Tau$ being its $\ILL_{\li}$ mirror image.
 Using the superscript $X := \Sigma \ | \ \Tau$ to distinguish between the two logics,
@@ -2174,17 +2173,17 @@ As an example, applying $\hm{.}$ to the proof of Figure~\ref{figure:lovecract_re
 With the Curry-Howard isomorphism as our guiding star, there's no peril in navigating between syntactic and semantic theories.
 Syntactic proofs are equated to syntactic terms, on which our homomorphism can be applied to yield derivational semantics terms, in turn equatable to derivational semantics proofs.
 This might seem like a lot of work to simply ``forget'' syntax, but it showcases how one can step up the computational hierarchy of substructural logics in order to attain access to more expressive semantics.
-Note also that such a path is merely a suggestion and not an imperative; a more ambitious line of though could maintain that word order variations (and the structural rules licensing them) can carry semantic cues which, albeit subtle, need to be upheld in the compositional meaning translation; see for instance  the contemporary work of \citet{duarte2022quantum} for a quantum (!) interpretation of the control modalities.
+Note also that such a path is merely a suggestion and not an imperative; a more ambitious line of thought could maintain that word order variations (and the structural rules licensing them) can carry semantic cues which, albeit subtle, need to be upheld in the compositional meaning translation; see for instance  the contemporary work of \citet{duarte2022quantum} for a quantum (!) interpretation of the control modalities.
 
 \paragraph{The Role of the Lexicon}
 The sentiments of the previous paragraph could be met with some skepticism.
-A critical eye might argue that semantic interactions not already manifested in the syntax may never be born of this process, and thus wonder whether this added expressivity can serve any real purpose or offer any tangible benefits.
-To dispel such doubts, we need to keep in mind that derivational terms refrain from specifying \textit{lexical meaning}, i.e. they treat lexical items as black boxes, from a semantic perspective.
+A reader with a critical eye might argue that semantic interactions not already manifested in the syntax may never be born of this process, and thus wonder whether this added expressivity can serve any real purpose or offer any tangible benefits.
+To dispel such doubts, we need to keep in mind that derivational terms refrain from specifying \textit{lexical meaning}, i.e. they treat lexical items as semantic black boxes.
 Opening these black boxes would reveal flat entries (i.e. term constants) in the case of words providing meaning \textit{ingredients}, as opposed to structurally rich entries (i.e. complex terms with internal structure) in the case of words providing meaning \textit{recipes}.%
 \footnote{This distinction is usually paralleled with the linguistic distinction between \textit{content} and \textit{function} words, but commiting to this being the case is an unecessary restriction. Depending on the end-target semantics logic and the granularity of the semantic lexicon, content words might still be assigned complex term structure -- a common trick, for instance, in delivering dependent type semantics; see the book of \citet{chatzikyriakidis2020formal} for an overview of recent developments.}
 Structurally rich lexical entries can utilize \textit{any} term constructor made available by the semantic logic; crucially, this includes constructors that escape the narrow borders of the homomorphic codomain (i.e. do not have a syntactic origin).
 Of course, such terms are still bound by the promise to obey the type dictated by the homomorphic translation of their original syntactic type, and must also be derivable theorems of the semantic logic they live in.
-Increasing expressivity therefore may indeed not in itself add to the function/argument structures inherited from syntax, but provides the tools necessary for complex lexical semantic actions to take effect as needed.
+Increasing expressivity therefore may indeed not in itself add to the function-argument structures inherited from syntax, but provides the tools necessary for complex lexical semantic actions to take effect as needed.
 
 A case in point is the coordinator \textex{and} conjoining the two modifiers of the previous section: \textex{litten by \dots \textbf{and} having in \dots};
 each individual conjunct fulfills a descriptive filter that intersects the properties of its argument with the properties attributed by its internal meaning.
@@ -2324,7 +2323,7 @@ The above -- all of type $\mathtt{str}$, and underlined to distinguish from func
 \end{figure}
 
 Figure~\ref{figure:litten_acg_der} presents the construction of the type previously assigned to \textex{litten}, $\diamond\bx (\np[s]\divleft\np[s])\divright\pp[s]$ (contexts are intentionally left empty and axioms replaced by abstract constants for brevity).
-Applying the homomorphic translation to its abstract term yields a printout in the form of the object term below (source function/argument brackets substituted with indendation levels for legibility):
+Applying the homomorphic translation to its abstract term yields a printout in the form of the object term below (source function-argument brackets substituted with indendation levels for legibility):
 \begin{equation}
 	{
 	\begin{aligned}
@@ -2348,7 +2347,7 @@ Applying the homomorphic translation to its abstract term yields a printout in t
 Six reduction steps later and... \textit{voil\`{a}} -- our pretty printer works!
 The maximal order of the abstract constants is 1,
 and the maximal order of the translation is 2, making our grammar's complexity class (1, 2), the subset that encapsulates context-free grammars.%
-	\footnote{Or (2,2) if we set start from $\mathcal{O}(p) = 1$ for the base case $p \in \propcon$ in (\ref{equation:type_order}).}
+	\footnote{Or (2,2) if we set sail from $\mathcal{O}(p) = 1$ for the base case $p \in \propcon$ in (\ref{equation:type_order}), as commonly done in abstract categorial grammar literature.}
 
 
 \subsubsection{Human Languages}
@@ -2362,7 +2361,7 @@ Enforcing grammaticality while blocking overgeneration of the object language si
 What's worse, words triggering higher-order tectogrammatic phenomena will then need object translations of an even higher order for their surface forms, making the design and population of a strict tectogrammatic translation $\hm{.}$ practically unfeasible.
 This part could in principle be partially mitigated by flattening complex syntactic phenomena into lower-order aliases in the source domain, outsourcing their expansion to a parallel grammar for concrete semantics -- though this is less of a solution and more of a deferral.
 Beyond practicality, there are also foundational issues at stake, as resorting to a lexical enumeration of phenogrammatic forms evidences inability to perform linguistic generalization -- what \citet{moot2014hybrid} calls a problem of \textit{descriptive inadequacy} revolving around any abstract replacement to a Lambek higher-order type.
-Last but not least, it is hard to imagine an abstract categrial grammar in action: it is unclear how to procure an abstract proof object from the \textit{evaluated} yield of its object translation (i.e. the string form we are most likely encounter in the open) using traditional proof-theoretic disciplines -- the two layers of function/argument structures (abstract- and object- level) and their interacting reductions would unnerve even the sturdiest of parsers, or so it seems.
+Last but not least, it is hard to imagine an abstract categrial grammar in action: it is unclear how to procure an abstract proof object from the \textit{evaluated} yield of its object translation (i.e. the string form we are most likely encounter in the open) using traditional proof-theoretic disciplines -- the two layers of function-argument structures (abstract- and object- level) and their interacting reductions would unnerve even the sturdiest of parsers, or so it seems.
 %As an artificial yet illustrative and down-to-earth example, let's brave the design of an abstract categorial grammar tasked with the production of an end-to-end linguistic example.
 %Once more, we start with the specification of our two logics $\Sigma$ and $\Tau$.
 %For efficacy and simplicity, we can have $\Sigma$ coincide with the derivational semantics logic of Section~\ref{subsubsection:ssi_tlg}, inheriting its terms and types for free.
@@ -2437,7 +2436,7 @@ Further away from the radiant warmth of type theory, we find a deviant from the 
 These stray from the norm by rejecting the very idea of the syntactic variable (and with it, hypothetical reasoning), citing reasons of cognitive plausibility and parsing complexity.
 Obviously, a categorial grammar stripped of hypothetical reasoning would not amount to much on its own: it would only be able to resolve syntactically flat sentences with uninteresting semantics.
 To circumvent the problem, combinatory categorial grammars incorporate a collection of rules lent from the combinatory logic of~\citet{curry1958combinatory}, albeit in restricted form.
-The first such rule is morpholexical, allowing types to be raised once before being administered to the derivation, thus forcing a flip in the local function/argument structure and semantic scope.
+The first such rule is morpholexical, allowing types to be raised once before being administered to the derivation, thus forcing a flip in the local function-argument structure and semantic scope.
 The remaining rules are essentially four instances of function composition -- one for each unique pair of directional implications considered.
 The absence of hypothetical reasoning means that these are no longer derivable theorems of some underlying theory, but ad hoc schemata, fixed a priori to fit their designated purpose.
 To counteract overgeneration, these rules are to be made available only to some empirically defined subset of the full lexicon.
