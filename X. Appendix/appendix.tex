@@ -1,74 +1,8 @@
 \chapter{Implementation Notes}
 \label{appendix:implementation_notes}
-%\addtocounter{chapter}{1}
 
-%\section{Abbreviations}
-%\label{sec:abbrevations}
-%
-%\begin{table}[ht]
-%	\hfil
-%	\begin{minipage}{0.45\textwidth}
-%	\begin{tabularx}{1\textwidth}{@{}cc}
-%	\textbf{Abbreviation} & \textbf{Meaning}\\
-%	\toprule
-%	\abbrv{1} & first person\\
-%	\abbrv{3} & 3rd person\\
-%	\abbrv{acc} & accusative\\
-%	\abbrv{adv} & adverbial\\
-%	\abbrv{def} & definitive\\
-%	\abbrv{dim} & neuter \\
-%	\abbrv{f} & feminine\\
-%	\abbrv{imp} & imperative\\
-%	\abbrv{inf} & infinitive\\
-%	\abbrv{m} & masculine\\
-%	\abbrv{n} & neuter\\
-%%	\abbrv{nmlz} & nominalization\\
-%%	\abbrv{nn} & non-neuter\\
-%%	\abbrv{nom} & nominative\\
-%%	\abbrv{pl} & plural\\
-%%	\abbrv{ptcp} & participle\\
-%%	\abbrv{ptv} & partitive\\
-%%	\abbrv{prs} & present\\
-%%	\abbrv{pst} & past\\
-%%	\abbrv{sg} & singular\\
-%%	\abbrv{sup} & superlative\\
-%	\end{tabularx}
-%	\end{minipage}%
-%	\begin{minipage}{0.45\textwidth}
-%	\begin{tabularx}{1\textwidth}{cc@{}}
-%	\textbf{Abbreviation} & \textbf{Meaning}\\
-%	\toprule
-%%	\abbrv{1} & first person\\
-%%	\abbrv{3} & 3rd person\\
-%%	\abbrv{acc} & accusative\\
-%%	\abbrv{adv} & adverbial\\
-%%	\abbrv{def} & definitive\\
-%%	\abbrv{dim}\\
-%%	\abbrv{f} & feminine\\
-%%	\abbrv{imp} & imperative\\
-%%	\abbrv{inf} & infinitive\\
-%%	\abbrv{m} & masculine\\
-%%	\abbrv{n} & neuter\\
-%	\abbrv{nmlz} & nominalization\\
-%	\abbrv{nn} & non-neuter\\
-%	\abbrv{nom} & nominative\\
-%	\abbrv{pl} & plural\\
-%	\abbrv{ptcp} & participle\\
-%	\abbrv{ptv} & partitive\\
-%	\abbrv{prs} & present\\
-%	\abbrv{pst} & past\\
-%	\abbrv{sg} & singular\\
-%	\abbrv{sup} & superlative\\
-%	\\
-%	\end{tabularx}
-%	\end{minipage}
-%	\caption{Gloss abbreviations.}
-%	\label{table:gloss_abbreviations}
-%\end{table}
-
-%\section{Implementation Notes}
 The acronym \AE thel has two readings, depending on the aspect of the E.
-Read as automatically extract\textit{ed} theorems from Lassy, it is an elaborate dataset of type-checked derivations of Dutch in $\NLPplus{}$.
+Read as automatically extract\textit{ed} theorems from Lassy, it is an elaborate dataset of type-checked derivations of Dutch in \LPplus{}.
 Read as automatically extract\textit{ing} theorems from Lassy, it is a Python library for extracting, processing and representing these derivations.
 The two are made for one another; even though they can live independently, they are best presented together.
 We'll start from the second aspect and move towards the first.
@@ -77,12 +11,12 @@ The full source code is available at \url{https://github.com/konstantinosKokos/a
 	\footnote{Latest commit is 7e9e4c472df22582708ff03a35cf90718c17c60e.}
 For up-to-date user instructions and data downloads please refer to the repository, which shall remain active and accessible for the foreseeable future.
 
-\section{\NLPplus{} with Python}
+\section{\LPplus{} with Python}
 \label{subappendix:nlp}
 Implementing a type system in an untyped language is a perversity of nature, but enables us at least to poke fun at the run-of-the-mill medium-hosted blog post.
 More than providing comedic value, it makes the code easy to integrate with standard machine learning libraries, for which Python is the de facto choice -- we're just planning ahead.
 On the less fun side, the absence of first-class inductive types in Python means we'll have to use the object-oriented  abstract class pattern instead -- I apologize in advance for the mandatory eye bleach to follow.
-In spite of the impediments, our implementation of \NLPplus{} proofs is as faithful as possible to the decomposition of Chapter~\ref{chapter:Introduction}.
+In spite of the impediments, our implementation of \LPplus{} proofs is as faithful as possible to the decomposition of Chapter~\ref{chapter:Introduction}.
 We disentangle proofs and terms into distinct entities, following our observations that the latter can be less informative than the former (e.g. hiding structural brackets and structural rules, being equivalent under order variations, etc.).
 Practically, proofs and terms are functionally related but not equivalent, i.e. each proof \textit{induces} or \textit{has} a term, but a term is \textit{not} a proof -- it might be either many or none.
 To carve a path to our objects of interest, we will go from small to big, starting with the basic definitions of structures, types, structural primitives, terms and rules.
@@ -99,7 +33,7 @@ class Structure(abc.ABC, typing.Generic[T]):
 	def __contains__(self, item) -> bool: ...
 \end{minted}
 
-\noindent\NLP{} structures are multisets; yet in our use case we do care about order (even if only in the representational sense) -- we can treat them as \textit{sequences} instead (altering the notion of equality to account for permutation invariance if/when necessary).
+\noindent\LP{} structures are multisets; yet in our use case we do care about order (even if only in the representational sense) -- we can treat them as \textit{sequences} instead (altering the notion of equality to account for permutation invariance if/when necessary).
 The $\diamond$, $\bx$ modalities impose structure in the form of brackets -- we can treat them as \textit{unary} containers.
 A container structure will carry a name for its brackets; strictly speaking a tagged union object, but implemented as a string.
 To canonicalize ambiguous representations and remain faithful to the absence of tree-like recursion as described in Section~\ref{subsubsection:dependency_trees}, we impose that a unary must necessarily contain a sequence (may as well be a singleton), while a sequence can contain either unary structures or elementary objects (i.e. no sequences of sequences).
@@ -118,7 +52,7 @@ class Sequence(Structure[T], typing.Sequence[T]):
 Next, we take the inductive type grammar and break it into multiple classes, starting with the abstract class that all concrete patterns inherit from.%
 	\footnote{Older implementations had \py{Type} be an abstract factory pattern, with each type-pattern being a concrete factory, with the intention of dynamically constructing types that are indeed distinct python ``types''.
 	This would then allow the native creation of terms of the appropriate ``type''. 
-	In hindsight, the extra complexity was far from worth it -- tangling up $\NLPplus{}$ types and Python ``types'' offers little practical value aside the cheap thrill of calling \py{type()} on some proof object and reading back an actual formula.
+	In hindsight, the extra complexity was far from worth it -- tangling up \LPplus{} types and Python ``types'' offers little practical value aside the cheap thrill of calling \py{type()} on some proof object and reading back an actual formula.
 	The two implementations are mutually compatible, though.}
 Types must be representable and implement equality, while also providing auxiliary functionalities like back-and-forth translations between prefix and infix notation, computing order, stripping modalities, etc.
 

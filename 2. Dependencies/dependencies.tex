@@ -343,7 +343,7 @@ In that sense, they act akin to the \textit{blocking} modalities of \citet{morri
 For the non-associative $\NL$, the result is trees of mixed but consistent arity -- our subclassing of functors in~(\ref{equation:dependency_functors}) means that each binary branch (imposed by a function-argument structure) will contain a normal branch that corresponds to the local head \textit{phrase} and a distinguished unary branch that labels the non-head phrase -- brackets and parentheses galore.
 Opting for the more traditional associative base of $\LC$ changes the scenery to one of shallower and wider trees.
 Since the vanilla structure is now just a sequence, treeness is imposed solely by the modal brackets; the result is a variadic but uniform tree structure, where each subtree contains a single local head  \textit{word} and multiple dependent \textit{phrases}, each of them in turn wrapped under a unary branch (or simply just having its edge labeled, to make things easier to the eye).
-This visual paradigm also applies to the even laxer $\NLP$ -- the difference being that the yield of each local tree is recursively equivalent under bracket-preserving permutation, i.e. commutativity now holds between constituent phrases (subtrees) rather than words (terminal nodes).
+This visual paradigm also applies to the even laxer $\LP$ -- the difference being that the yield of each local tree is recursively equivalent under bracket-preserving permutation, i.e. commutativity now holds between constituent phrases (subtrees) rather than words (terminal nodes).
 
 The above points hint to the fact that dependency modalities introduce structural constraints that may (to some extent) obviate the need for a strict structural binder.
 From the linguistic perspective, $\LC$ seems to hit the sweet spot -- it has constituents live happily together in horizontal, non-binary clusters set upon lush trees, with each constitutent given a role to fulfill.
@@ -404,7 +404,7 @@ Figure~\ref{figure:first_dl_derivation} presents a simple first example to illus
 	\label{figure:first_dl_derivation}
 \end{figure}
 
-How about $\NLP$ though?
+How about $\LP$ though?
 We have so far dismissed the syntactic utility of the logic as being overly permissive, presenting it as meaningful only from a semantic perspective.
 With dependency brackets in the picture, the explosive combinatorics of global commutatitivity are somewhat tamed; it is now permitted only within the context of subtrees.
 In programming language terms, this can be paralleled to a tree-shaped variable scoping strategy, where scopes are identified by their names (unary labels) and those of their ancestors, and the order of variable declaration is irrelevant, but the nestedness of embedded trees is not.

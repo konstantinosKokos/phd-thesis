@@ -194,7 +194,7 @@ Put bluntly, this option allows us to sneak our way out of having to reason abou
 	\footnote{An atonement to the ghost of Montague, returned to claim his dues.}
 Obviously this alters the scope of our endeavours.
 Before any regrettable accusations are thrown, consider that we need not be apologetic for the elephant in the room, namely overgeneration.
-$\NLP_{\ddia, \bx}$ is \textit{not} intended to be the logic you put in generation mode, and its proof theory is \textit{not} Lambek's decision process.
+$\LPplus$ is \textit{not} intended to be the logic you put in generation mode, and its proof theory is \textit{not} Lambek's decision process.
 Rather, it is an adequately expressive formalism that can accommodate the duality of function-argument structures and dependency annotations we set out to capture.
 The problem is more practical than theoretical: who is going to hand us these deep syntactic proofs if not for the morphism that was promised?
 Suffice it to say this requires adopting a new notion of parsing (still well under the deductive paradigm): that of associating a well-formed input with the correct tectogrammatic analysis.
@@ -382,7 +382,7 @@ A breakdown of the corpus' contents is presented in Table~\ref{table:lassy_conte
 \section{\AE thel}
 \label{section:aethel}
 The stage is set.
-We need to devise an algorithm that accepts trees like the one of Figure~\ref{figure:example_lassy_tree} and emits proofs of $\NLP_{\diamond,\bx}$.
+We need to devise an algorithm that accepts trees like the one of Figure~\ref{figure:example_lassy_tree} and emits proofs of \LPplus{}.
 Following our prior discussions, some assumptions need to be met before we get to even contemplate our approach.
 First, we need a clear three-way partition of the set of dependency labels, so that each dependency relation marks either a head, a complement or an adjunct.
 Further, we require that each dependency domain has exactly one head.
@@ -628,9 +628,9 @@ Prior to sending the transformed tree on its way, we make some basic checks of i
 With our transformations in place, the subdued corpus should be ripe for our proof extraction algorithm.
 
 \subsubsection{Proof Charming}
-The extraction is built around a tiny domain-specific language, written in Python and allowing one to formulate, represent, transform and traverse valid proofs of \NLPplus.
+The extraction is built around a tiny domain-specific language, written in Python and allowing one to formulate, represent, transform and traverse valid proofs of \LPplus{}.
 By invoking the language while traversing the dependency tree of a Lassy sample, the extraction algorithm dynamically constructs a natural deduction proof, translating tree patterns into meta-theoretical proof operations.
-Internalizing the syntactic validity assertions of \NLPplus{} is a costly procedure, both in terms of processing overhead and of maintainance effort required, especially considering how unconducive Python is to formal rigor.
+Internalizing the syntactic validity assertions of \LPplus{} is a costly procedure, both in terms of processing overhead and of maintainance effort required, especially considering how unconducive Python is to formal rigor.
 On the other hand, it serves to eliminate the need for asynchronously interfacing with some external checker, and provides a formal guarantee that whatever the extraction algorithm produces is \textit{correct by construction}: any syntactic missteps will be caught on the spot and raise an exception.
 As a bonus, the system can (and will) find use outside the scope of the extraction, as a representational intermediary for parsing and proof representation.
 Detailing the specifics behind the implementation shouldn't be our main concern here; it suffices to know it exists and runs as a constant safety belt in all that follows.
@@ -1263,7 +1263,7 @@ Of the remaining 2\,292, 2\,231 (97.3\%) are mapped to one unique proof, whereas
 Using this as a guideline, we find 472 potentially ambiguous samples in the entirety of \AE thel (a measly 0.7\%), their frames being among the 61 suspects.
 Manual inspection reveals most of them to really be ambiguous (e.g. the proof assigned might prescribe one of two possible modifier attachments), 
 although in some cases the alternative reading is linguistically ruled out on the basis of selectional restrictions.
-Repeating the above after first casting the proof and type assignments to \NLP{} (dropping any dependency information via a stripping morphism), we end up with 56\,185 unique frames for 54\,170 unique proofs, with 2\,471 frames occurring more than once.
+Repeating the above after first casting the proof and type assignments to \LP{} (dropping any dependency information via a stripping morphism), we end up with 56\,185 unique frames for 54\,170 unique proofs, with 2\,471 frames occurring more than once.
 Of these, 2\,374 are behind 1 unique proof, 112 behind 2, 6 behind 3, and 1 is behind 5.
 Potentially ambiguous samples are now doubled (909, or 1.3\% of the total), and ambiguities are more commonly artificial; would-be alternative readings for the newly ambiguous samples are usually ruled out by morphosyntactic constraints invisible to the theory.
 
@@ -1281,7 +1281,7 @@ This is not really surprising: hypotheses launched by higher-order functors are 
 This brings us to the lexicon: the binary relation connecting keys (words or strings, really) to types, and obtained by the aggregation of all our proofs' type assignments.
 \AE thel as a whole contains 1\,033\,858 words chunked into 992\,385 phrases, each chunk carrying a single assignment.
 These amount to  74\,812 (67\,883 after case normalization) unique words and 76\,746 (71\,077) unique phrases, the latter being essentially the lexicon's domain.
-On the codomain's side, we have a grand total of 5\,762 unique \NLPplus{} types.
+On the codomain's side, we have a grand total of 5\,762 unique \LPplus{} types.
 Stripped of their modalities, these fall back to 3\,542 pure linear types, evidencing the import of the added dependency axis.
 The first question to ask then is: how functional is the word to type relation encoded by the lexicon?
 Answering that question is Figure~\ref{figure:type_ambiguity}, which in short says ``not much, really''.

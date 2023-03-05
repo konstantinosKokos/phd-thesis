@@ -43,7 +43,7 @@ This partition promotes the expenditure of formal effort where it really is need
 In this here context, I'm claiming that large language models should be treated not as a substitute, but as complementary to logic-based systems.
 This is exactly the route we'll follow in this chapter, deviating from the original plan in going not from structures of form to vectors of meaning, but from vectors of form to structures of meaning.
 %Less pompously, 
-In practical terms, we'll go through the hoops of designing and implementing a formally disciplined but accurate and robust wide-coverage parser, a neurosymbolic architecture aimed at substructural logics of the linear lineage, instantiated here for \NLPplus{} and trained on \AE thel.
+In practical terms, we'll go through the hoops of designing and implementing a formally disciplined but accurate and robust wide-coverage parser, a neurosymbolic architecture aimed at substructural logics of the linear lineage, instantiated here for \LPplus{} and trained on \AE thel.
 
 
 \section{The Categorial Parser}
@@ -303,7 +303,7 @@ Even though a parser should in principle be able to handle any valid supertag (r
 In other words, exactly those difficult phenomena that would benefit from the linguistic expertise of a robust parser are to be discarded in the first place\hide[!]{.}
 There's a bit of a self-fulfilling defeatism here: we'll always only parse what we \textit{can} parse, sure, but we'll never be able to parse what we won't ever \textit{try} to parse.
 Two, in becoming part of the first page of the (as of yet unwritten) supertagging bible, the concept implicitly reinforces the belief that grammars not following a distribution of occurrences similar to (or denser than) that of the CCGbank are practically unusable.
-A densely featured type system and its overpopulated lexicon have become demonized as pitfalls we have to steer away from
+A densely featured type system and its overpopulated lexicon have become demonized as pitfalls we have to steer away from.
 This is actually quite the contradiction -- we came up with supertagging to treat lexicalized grammars, but we won't push lexicalized grammars further because of a lingering fear that our supertaggers are not good enough; lexicalization is good, but only as long as it's not too lexicalized...
 
 Epistemological ramblings aside and back to reality, the type grammar we have developed is not among the lucky few.
@@ -397,7 +397,7 @@ The encoder was connected to a tiny transformer decoder of two layers, allowing 
 The model was trained with teacher forcing, i.e. predicting the current step assuming perfect rather than predicted (noisy) context.
 For regularization, and in order to discourage the model from memoizing common type patterns, the Kullback-Leibler divergence was employed as the loss function, computed between the model's predictions and the ground truth, with 20\% of the probability mass evenly distributed across the non-true entries (basically a naive implementation of the label smoothed cross entropy loss~\cite{szegedy2016rethinking}).
 The training data would consist of samples counting less than 20 words, pulled from the version of \AE thel then current.
-This historical version of the dataset diverges considerably from its present incarnation, the core difference being the use of $\NLP$ as the type logic, with an informal decoration of the implication standing for today's modalities.
+This historical version of the dataset diverges considerably from its present incarnation, the core difference being the use of \LP{} as the type logic, with an informal decoration of the implication standing for today's modalities.
 Despite formal and representational divergences, the distribution of types is practically identical in between the two versions; as a fun trivia, only about 85\% of the total unique types were present in the training split used.
 Modulo exact numbers, insights gained from this past venture do carry over to the present.
 
@@ -427,7 +427,7 @@ Secondary advantage \#1 is the unintended provision of trained representations f
 either contextual (i.e. as provided by the decoder) or stand-alone (i.e. as provided by the embedding layer).
 In the first case, they enact contextual representations that live in the disputed zone between the input sentence and the output derivation, suggesting new routes to parsing -- we'll see about that in Section~\ref{section:npn}.
 In the second case, they may find use as high-granularity supertag representations, allowing the dynamic representation of \textit{any} valid supertag, akin to character-level embeddings for a character level model -- supertag representations could then find use in downstream applications as an extralingual input~\cite{kasai-etal-2017-tag}.
-Secondary advantage \#2 is the possibility for a hyper-articulated heuristic search during decoding, as we are now able to branch off to different sequences of assignments by sampling not only across types, but also within them.
+Secondary advantage \#2 is the possibility for a hyper-articulated heuristic search during decoding, as we are now able to branch off to different sequences of assignments by sampling not only \textit{across} types, but also \textit{within} them.
 A different symbol might drastically alter and affect the future of the decoding, locally within the current type or globally across the full sequence.
 Other than potentially improving the sample efficiency of beam search, this can further be used to strictly enforce structural constraints, as we will also see in Section~\ref{section:npn}.
 
@@ -993,7 +993,7 @@ We insert skip connections between the input and output of the message-passing a
 
 \subsubsection{Experiments \& Results}
 \paragraph{Datasets}
-Testing the architecture on multiple datasets is good practice for multiple reasons, \hide{one}{the least cynical} being that it helps us better affirm its potential.
+Testing the architecture on multiple datasets is good practice for multiple reasons, \hide[one]{the least cynical} being that it helps us better affirm its potential.
 Hence, we shall employ it not just on \AE thel but also on the two versions of the CCGbank, as well as the French TLGbank; in total, 4 different datasets spanning three languages and as many grammar formalisms.
 
 \begin{table}
@@ -1303,7 +1303,7 @@ The problem is simple: our type assignments, even when fully correct, still allo
 And once more, the discriminator approach is not going to work: enumerating and ranking all well-formed proofs is a no-go -- we have to build the correct proof from scratch instead.
 
 To move forward we need to look back.
-Almost an entire book ago, we had a brief encounter with proof nets, and we saw them at work in the context of $\ILL_{\li}$ (by now rebranded as \NLP).
+Almost an entire book ago, we had a brief encounter with proof nets, and we saw them at work in the context of $\ILL_{\li}$ (by now rebranded as \LP).
 Back then, we were quick to dismiss them after a moment of shallow appreciation, seeing as they were too complicated of a proof format for conducting search on, and too underspecific of a representational format for showing around.
 Lots have changed since, and not for the better; we added modalities, which impose further structure on their own, invisible to proof nets (at least in their unaltered form).
 Why then should we turn our attention back to them now?
@@ -1479,7 +1479,7 @@ Besides, matrices are the bread and butter of machine learning -- we're on the r
         \draw[->, idx] (11) -- ($(11) + (0, 2.5)$) -| (2);
 	    \end{tikzpicture}
     }
-    \caption{The two layers of an $\NLPplus$ proof net: a proof frame (below) with its axiom links (above).}
+    \caption{The two layers of an $\LPplus$ proof net: a proof frame (below) with its axiom links (above).}
     \label{figure:rare_teken}
 \end{figure}
 
@@ -1707,14 +1707,14 @@ On a relevant note, the permutation module is currently implemented as a greedy 
 This is a sensible decision for the current set of experiments, given that ambiguity is mostly captured at the type level.
 Still, the limitation could be lifted by cross-contextualizing and/or adding noise and incorporating sampling routines in a probabilistic learning setup.
 
-\subsection{Proof Nets in \NLPplus}
+\subsection{Proof Nets in \LPplus}
 Everything has been done, but not everything has been said.
 A cautious reader might have noticed an argumentative sleight of hand in the current section.
 To clear the air of any suspicion of deception, we need to step away from neural matters and take one last detour through the loopy land of proof nets.%
 	\footnote{Actually a loop is the one thing a proof net should never have.}
 The issue at hand is none other than the use of proof nets as our representational standard, which might be seen as implicating an equivalence relation between proofs and proof nets.
 Such an implication would be sloppy -- the two sure are closely related, and going from proof to proof net is straightforward, but the opposite direction is tricky: a proof net encodes less than necessary to allow a perfect proof reconstruction.
-Luckily, we are not really demanding an isomorphism between \NLPplus{} and our version of proof nets; we just want a locally one-to-one relation between the two, covering only the neighborhood of proofs inhabited by our linguistic usecases.
+Luckily, we are not really demanding an isomorphism between \LPplus{} and our version of proof nets; we just want a locally one-to-one relation between the two, covering only the neighborhood of proofs inhabited by our linguistic usecases.
 There's a whole lot of proof patterns we don't expect to ever encounter, and can thus safely ignore, practically reducing the combinatorial space to a manageable size.
 This might still seem quite ambituous at a first -- our proof nets have no means of encoding the positionally underspecified diamond elimination rule $\diamond E$, and are altogether imperceptive of the structural extraction rule $\Extraction$
 This would've indeed been the case if it wasn't for our earlier providence: we have imposed a canonical placement on both these rules, which should relieve the burden of translation.

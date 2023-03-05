@@ -836,7 +836,7 @@ It would be understandable if at this point we allowed ourselves a feeling of co
 But upon careful inspection, you might realize that you have been tricked.
 There never was any room for error in transitioning from the proof frame of Figure~\ref{subfigure:proof_frame_funcomp} to the proof structure of Figure~\ref{subfigure:proof_structure_funcomp}. 
 A rare and lucky coindidence, or perhaps the result of carefully planned concealment?
-Regardless, we cannot reasonably anticipate there to always be a single possible set of axiom links, so we need a decision procedure that tells us how to actually extract them from a less forgiving proof.
+Whichever the case, we cannot reasonably anticipate there to always be a single possible set of axiom links, so we need a decision procedure that tells us how to actually extract them from a less forgiving proof.
 
 \begin{figure}
 	\centering
@@ -1158,7 +1158,7 @@ In the best case, if it just so happens that the kind of structures we want to i
 From a more pragmatic perspective, more structural constraints means easier proof search, and less theorems means faster exhaustion of possibilities.
 To make the scale of the combinatorics tangible, reflect for a second on this.
 A single judgement of $n$ hypotheses in $\NL$ is but one of the Catalan number of bracketings $C(n)$ it would be syntactically undistinguishable from in $\LC$, each one of which in turn is but one of the factorially many permutations $n!$ it would be equivalent to in $\LP$.
-In the case for checking the satisfiability of a judgement (i.e. searching for \textit{any} valid proof), all the above would have made for potential proof candidates;
+In the case for checking the satisfiability of a judgement (i.e. searching for \textit{any} valid proofs), all the above would have made for potential proof candidates;
 in the case for attempting to enumerate the proofs of a judgement (i.e. searching for \textit{all} valid proof), they would all have needed to be exhausted.
 The point to take home is that proof search becomes decidedly easier in the absence of syntactic equivalences, so perhaps a double-edged sword would have made for a better analogy than a bill.
 
