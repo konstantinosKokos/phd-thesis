@@ -53,7 +53,7 @@ Once that is done, we will give a brief account of the the Curry-Howard correspo
 \label{subsection:intuitionistic_logic}
 Intuitionistic logic is due to Arend Heyting~\cite{heyting1930}, who was the first to formalize Brouwer's intuitionism.
 It is a restricted version of classical logic, where the laws of the excluded middle (\textit{tertium non datur}) and the elimination of the double negation no longer hold universally.
-The first states that one must choose between a proposition $\prop{a}$ and its negation $\neg \prop{a}$ ($\prop{a} \vee \neg \prop{a}$), whereas the second that negation is its own inverse ($\neg \neg \prop{a} \equiv \prop{a}$).
+The first states that one must choose between a proposition $\prop{a}$ and its negation $\neg \prop{a}$ ($\prop{a} \vee \neg \prop{a}$), whereas the second states that negation is its own inverse ($\neg \neg \prop{a} \equiv \prop{a}$).
 The absence of these two laws implies that several theorems of classical logic are no longer derivable in intuitionistic logic, meaning that the logic is weaker in terms of expressivity.
 On the bright side, it has the pleasant effect that proofs of intuitionistic logic are constructive, i.e. they explicitly demonstrate the formation of a concrete instance of whatever proposition they claim to be proving.
 
@@ -101,7 +101,7 @@ And dually again, the introduction of the conjunction $\times I$ permits us to j
 
 \textit{Structural} rules, on the other hand, allow us to manipulate structures (who would have thought); they are presented in Figure~\ref{subfigure:intuitionistic_logic_rules:structural}.
 Structural rules have a two-fold role.
-First, the exchange rule $\Exchange$ explicates an extra propery of our structure binding operator, namely commutativity.
+First, the exchange rule $\Exchange$ explicates an extra property of our structure binding operator, namely commutativity.
 One could also make do with an implicit exchange rule by treating structures as \textit{multisets} rather than lists -- having it explicit, however, will keep us conscious of its presence and strengthen our emotional bond to it, in turn making us really notice its absence when it will no longer be there (it also keeps the presentation tidier).
 Second, they give an account of propositions as permanent and reusable facts.
 The weakening rule $\Weakening{}$ formalizes \textit{deletion}; it states that if we were able to derive a proposition $\smallprop{b}$ from some assumptions $\Gamma$, we will also be able to do so if the assumptions were to contain some arbitrary extra proposition $\smallprop{a}$.
@@ -357,9 +357,9 @@ Both directions are facets of $\eta$ conversion -- the equivalence relation enac
 
 
 \subsubsection{In Place of a Summary}
-Table~\ref{table:CHC} summarizes the subsection.
+Figure~\ref{figure:CHC} summarizes the subsection.
 
-\begin{table}
+\begin{figure}
 	\centering
 	\begin{tabularx}{0.8\textwidth}{@{}CC@{}}
 	\textbf{Logic}			& \textbf{Computer Science}\\
@@ -375,8 +375,8 @@ Table~\ref{table:CHC} summarizes the subsection.
 	Provability				& Type Inhabitation	 
 	\end{tabularx}
 	\caption{The Curry-Howard correspondence in tabular form.}
-	\label{table:CHC}
-\end{table}
+	\label{figure:CHC}
+\end{figure}
 
 \subsection{Intermezzo}
 \label{subsection:utility_definitions}
@@ -524,7 +524,7 @@ Removing the $\Contraction{}$ rule yields Affine Logic, a logic in which resourc
 Removing the $\Weakening{}$ rule yields Relevant Logic, a logic in which resources can be used no less than once.
 Removing both yields Linear Logic, a logic in which resources must be used \textit{exactly} once.
 The intuitionistic formulations of the above give rise to corresponding type theories~\cite{pierce2004advanced}.
-For the purposes of this manuscript, we will focus our presentation on linear type theory.
+For the purposes of this thesis, we will focus our presentation on linear type theory.
 
 \subsection{Linear Types}
 Linear logic is due to Jean-Yves Girard~\cite{girard1987linear}, and its computational interpretation due to Samson Ambramsky~\cite{abramsky1993computational}.
@@ -1540,9 +1540,9 @@ In their original purpose as envisaged by Lambek, his calculi would find use as 
 In a natural language setting, the linear base of the Lambek calculi is naturally equated to the resource sensitivity of grammar: words play a single grammatical role in the phrases they help form -- there's no ignoring or reusing items at will.
 There, the original Lambek calculus $\LC$ would be the logic of \textit{strings}; it can faithfully portray the generation of natural language utterances, where arbitrary reordering is a destructive process that ruins coherence.
 Its stricter version $\NL$ would instead be the logic of \textit{constituency trees}; on top of word order, it further specifies constituency structure, allowing a distinction between different syntactic analyses of the same surface form.
-Type-logical grammars extend the Curry-Howard correspondence with a new axis, that of natural language; the transference of points of interest across that axis is presented in Table~\ref{table:CHC-lang}; our motto shall from now on be \textit{parsing as deduction}.
+Type-logical grammars extend the Curry-Howard correspondence with a new axis, that of natural language; the transference of points of interest across that axis is presented in Figure~\ref{figure:CHC-lang}; our motto shall from now on be \textit{parsing as deduction}.
 
-\begin{table}
+\begin{figure}
 	\centering
 	\begin{tabularx}{0.99\textwidth}{@{}ccC@{}}
 	\textbf{Logic}			& \textbf{Computer Science} 	& \textbf{Linguistics}\\
@@ -1554,8 +1554,8 @@ Type-logical grammars extend the Curry-Howard correspondence with a new axis, th
 	Deduction				& Program Synthesis				& Parsing
 	\end{tabularx}
 	\caption{The Curry-Howard correspondence applied in linguistics.}
-	\label{table:CHC-lang}
-\end{table}
+	\label{figure:CHC-lang}
+\end{figure}
 
 To see this in action, let's consider first an instantiation of a Lambek calculus $\NL$ with the set of primitive types $\propcon$ populated with signs characterizing the grammatical role of a piece of text that can independently stand on its own (i.e. phrasal categories or, more crudely, parts of speech).
 In a toy fragment and for illustrative purposes, this could look like:
@@ -1736,7 +1736,7 @@ The second one $\rulestyle{mix}_{\diamond}$ allows a unary $\bracket{\Theta}$ to
 		\centering
 		\begin{tabularx}{0.99\textwidth}{@{}cccXccc@{}}
 		\begin{tikzpicture}
-		\draw node[rectangle, minimum width=50pt,draw=black, minimum height=110pt,dotted,thick,label={$\Gamma$}] (x) at (-0.1,-1.5) {};
+%		\draw node[rectangle, minimum width=50pt,draw=black, minimum height=110pt,dotted,thick,label={$\Gamma$}] (x) at (-0.1,-1.5) {};
 		\Tree 
 			[ 
 				[
@@ -1747,13 +1747,13 @@ The second one $\rulestyle{mix}_{\diamond}$ allows a unary $\bracket{\Theta}$ to
 			]
 		\end{tikzpicture}
 		&
-		\raisebox{60pt}{$\xleftarrow{\rulestyle{ass}_{\diamond}}$}
+		\raisebox{30pt}{$\xleftarrow{\rulestyle{ass}_{\diamond}}$}
 		&
 		\begin{tikzpicture}
-		\draw node[rectangle, minimum width=50pt,draw=black, minimum height=110pt,dotted,thick,label={$\Gamma$}] (x) at (0.1,-1.5) {};
+%		\draw node[rectangle, minimum width=50pt,draw=black, minimum height=110pt,dotted,thick,label={$\Gamma$}] (x) at (0.1,-1.5) {};
 		\Tree 
 			[
-				[.{$\Delta$} ] 
+				{$\Delta$} 
 				[
 					{$\Theta$}
 					\edge[unary]; {$\Phi$}
@@ -1763,7 +1763,7 @@ The second one $\rulestyle{mix}_{\diamond}$ allows a unary $\bracket{\Theta}$ to
 		&
 		&
 		\begin{tikzpicture}
-		\draw node[rectangle, minimum width=50pt,draw=black, minimum height=110pt,dotted,thick,label={$\Gamma$}] (x) at (-0.1,-1.5) {};
+%		\draw node[rectangle, minimum width=50pt,draw=black, minimum height=110pt,dotted,thick,label={$\Gamma$}] (x) at (-0.1,-1.5) {};
 		\Tree
 			[
 				[
@@ -1774,10 +1774,10 @@ The second one $\rulestyle{mix}_{\diamond}$ allows a unary $\bracket{\Theta}$ to
 			]
 		\end{tikzpicture}
 		&
-		\raisebox{60pt}{$\xleftarrow{\rulestyle{mix}_{\diamond}}$}
+		\raisebox{30pt}{$\xleftarrow{\rulestyle{mix}_{\diamond}}$}
 		&
 		\begin{tikzpicture}
-		\draw node[rectangle, minimum width=50pt,draw=black, minimum height=110pt,dotted,thick,label={$\Gamma$}] (x) at (-0.1,-1.5) {};
+%		\draw node[rectangle, minimum width=50pt,draw=black, minimum height=110pt,dotted,thick,label={$\Gamma$}] (x) at (-0.1,-1.5) {};
 		\Tree
 			[
 				[
@@ -1943,8 +1943,9 @@ The proof of Figure~\ref{figure:lovecract_rel_clause} employs this typing in com
 \subsubsection{Intricacies of the Lexicon}
 \label{subsubsection:intricacies}
 The analysis just performed illustrated the necessity of (at least) two distinct types for the same string \textex{that}, hinting at the fact that the lexicon is \textit{not a function} from words to types, but rather a \textit{relation} between them.
-One, more opinionated than I, might argue that each type is mapped to a distinct lexical item (one per relativization type), and that the identification between their strings is a mere coincidence, an idiosyncracy of the language, or anyway irrelevant; even if a string is multi-typed, each type is a witness to a unique latent word hiding behind it.
+One more opinionated than I might argue that each type is mapped to a distinct lexical item (one per relativization type), and that the identification between their strings is a mere coincidence, an idiosyncracy of the language, or anyway irrelevant; even if a string is multi-typed, each type is a witness to a unique latent word hiding behind it.
 Of different effect but similar flavour would be the line of defense that appeals to null syntax, a covert process that can conditionally nominalize infinitives, determine plural nouns, relativize gerunds or do any sort of thing, really; a word is never multi-typed, but ad hoc type conversions can take place out of the blue.
+
 Even under premises as radical as the above, occassions of type undeterminism are all but rare.
 Consider for instance the verb \textex{to have}, whose argument structure for the possessive meaning alone is specified (according to its FrameNet entry~\cite{baker1998berkeley}) as having mandatory owner and possession semantic arguments (corresponding to syntactic subject and direct object), but also any combination of depictive, duration, explanation, manner and temporal optional complements, in various orders -- each variation necessarily expressed with a distinct type.
 In our case, we need the type:

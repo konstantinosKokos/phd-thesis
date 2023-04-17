@@ -391,7 +391,7 @@ Unfortunately, these requirements are not always met; our first step is therefor
 
 \subsection{Taming Lassy}
 \subsubsection{Edge Relabeling}
-A phrasal annotation canonically contains a single head, a collection of complements (no more than one of each), and a collection of adjuncts (without any restriction on their plurality), where verbal, nominal and sentential domains differ in the the labels they may contain.
+A phrasal annotation canonically contains a single head, a collection of complements (no more than one of each), and a collection of adjuncts (without any restriction on their plurality), where verbal, nominal and sentential domains differ in labels they may contain.
 Deciding whether a dependency edge signifies a head, a complement or an adjunct requires little effort on our part, as the distinction has already been made.
 The Lassy annotation manual specifies labels \{\textit{hd}, \textit{rhd}, \textit{whd}, \textit{cmp}, \textit{crd}, \textit{dlink}\} as heads of various kinds, \{\textit{det}, \textit{mod}, \textit{app}, \textit{predm}\} as adjuncts, and \{\textit{body}, \textit{cnj}, \textit{hdf}, \textit{ld}, \textit{me}, \textit{obcomp}, \textit{obj1}, \textit{obj2}, \textit{pc}, \textit{pobj1}, \textit{predc}, \textit{se}, \textit{su}, \textit{sup}, \textit{svp}, \textit{vc}\} as complements.
 This is not a full partition of the set of dependency labels of Table~\ref{table:depset}, as several items fall in neither of the above bins -- more on that in a second.
@@ -1125,7 +1125,7 @@ On the other hand, it absolves us from having to incorporate an explicit product
 On the less cynical side, it also has the merit of permitting more flexible semantic interpretations for the user-to-be.
 Conjoining a series of arguments and feeding the result to the predicate means that the semantic interpretation of the coordinator would be inescapably bound to a local scope.
 Conjoining a series of $\lambda$ abstractions and applying the result to the shared predicate grants the coordinator access to the full context of the conjunction, opening the door to a future semantic interpretation that can duplicate and distribute meaning if and as desired.
-Such a lifted interpretation is aligned in spirit with the long line of work on categorial conjunction semantics~\citet[inter alia]{oehrle1987boolean,hendriks1995ellipsis}, except simplified in \textit{not} having to account for the surface discontinuity caused by the elision of linguistic material.
+Such a lifted interpretation is aligned in spirit with the long line of work on categorial conjunction semantics~\cite[inter alia]{oehrle1987boolean,hendriks1995ellipsis}, except simplified in \textit{not} having to account for the surface discontinuity caused by the elision of linguistic material.
 
 More generally, the proof of each conjunct will contain a mixture of constants and variables, the latter being any combination of heads, complements and adjuncts.
 All ``shared'' variables will be abstracted over.
@@ -1216,7 +1216,7 @@ Not bad, considering.
 
 
 \paragraph{Theorems}
-To quantify the proof-theoretic diversity of the 68\,763 extracted samples, we abstract away from lexical content and end up with a total of 55\,108 unique theorems, where constants are identified indexically or not by their string.
+To quantify the proof-theoretic diversity of the 68\,763 extracted samples, we abstract away from lexical content and end up with a total of 55\,108 unique theorems, where constants are identified indexically (and not by their string).
 Figure~\ref{figure:proof_assignments} groups and displays them according to how common they are, i.e. how many times we see the same theorem associated to a different sentence.
 Evidently, the vast majority of unique theorems (52\,739 or 95.7\%) occur but a single time within the dataset (i.e. they are assigned to a single sample), with logarithmically\textsubscript{10} fewer theorems being assigned to exponentially\textsubscript{2} more sentences, making \AE thel a rich and intricate resource.
 
@@ -1832,8 +1832,8 @@ The chapter is a significantly more mature version of the paper, describing an o
 The most important feature of the overhaul is the revised extraction algorithm, reimlemented so as to ensure type safety, guaranteeing the formal correctness of the extracted proofs and fixing some suboptimal annotations pertaining to the modal decorations of higher-order types.
 
 My little bubble aside, corpus extraction is a fan favorite for the computationally inclined linguists (or the linguistically inclined computists).
-The endeavour was popularized by the CCGbank~\cite{10.1162/coli.2007.33.3.355}, a semi-automatically extracted corpus of combinatory categorial grammar derivations, following a similar endeavour in German~\cite{hockenmaier2006creating}.
-CCGbank has since become a flagship for the applied categorial grammarian, spawning many offsprings across different languages~\cite[inter alia]{johan2009converting,tse2010chinese,ambati2018hindi}.
+The endeavour was popularized by the CCGbank~\cite{10.1162/coli.2007.33.3.355}, a semi-automatically extracted corpus of combinatory categorial grammar derivations, following a proof of concept in German~\cite{hockenmaier2006creating}.
+CCGbank has since become a flagship for the applied categorial grammarian, spawning many offsprings, monolingual~\cite[inter alia]{johan2009converting,tse2010chinese,ambati2018hindi}, and aligned~\cite{Bos2017GMB, abzianidze-etal-2017-parallel}.
 More akin to our proof-theoretic regime and forebearers to this work are the French TLGbank~\cite{moot:inria-00494062}, and the type-logical conversion of the spoken Dutch corpus~\cite{moot2010extraction}, both following the multimodal Lambek tradition.
 
 
