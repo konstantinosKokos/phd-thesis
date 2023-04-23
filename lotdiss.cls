@@ -142,8 +142,8 @@ To suppress the title page and other front matter, comment out the command^^J
 \headheight=\baselineskip 
 
 % Text dimensions: 12 x 20cm, including the running heads. 
-\textwidth=12cm
-\UseTextheight{20cm}   %  Use the full height available. (20cm = 569.055pt)
+%\textwidth=12cm
+%\UseTextheight{20cm}   %  Use the full height available. (20cm = 569.055pt)
 
 % The results:
 % at [10pt]: 538pt   (45 lines)
@@ -152,11 +152,11 @@ To suppress the title page and other front matter, comment out the command^^J
 
 
 % Left/right margins = (210-120)/2 = 4.5 cm
-\oddsidemargin=4.5cm \advance\oddsidemargin by -1in % Correct by TeX's "zero" margin
-\evensidemargin=\oddsidemargin
+%\oddsidemargin=4.5cm \advance\oddsidemargin by -1in % Correct by TeX's "zero" margin
+%\evensidemargin=\oddsidemargin
 
 % Top margin: 5.8cm
-\topmargin=5.8cm \advance\topmargin by -1in % Correct by TeX's "zero" margin
+%\topmargin=4.8cm \advance\topmargin by -1in % Correct by TeX's "zero" margin
 
 
 % But if the [preview] option was given, override the above margins:
@@ -171,7 +171,7 @@ To suppress the title page and other front matter, comment out the command^^J
     \pdfpageheight=24cm
   \fi
 
-  % Text is 12x20cm, so we have 2cm margins all around
+%  % Text is 12x20cm, so we have 2cm margins all around
   \oddsidemargin=2cm \advance\oddsidemargin by -1in % Correct by "zero" margin
   \evensidemargin=\oddsidemargin
   \topmargin=2cm \advance\topmargin by -1in % Correct by TeX's "zero" margin
@@ -405,8 +405,8 @@ To suppress the title page and other front matter, comment out the command^^J
 	{\@abovepublisher \bigskip }
 	
 Published by \\[4pt]
-LOT  		\hfill	phone: +31 30 253 6111  \\
-Trans 10    	\hfill 	e-mail: lot@uu.nl  \\
+LOT  		\hfill	phone: +31 20 525 2461  \\
+Binnengasthuisstraat 9    	\hfill 	lot@uva.nl \\
 3512 JK Utrecht  	\hfill	http://www.lotschool.nl \\
 The Netherlands 	\hfill	
 
