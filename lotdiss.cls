@@ -277,6 +277,7 @@ To suppress the title page and other front matter, comment out the command^^J
 \long\def\imagecredit#1{\gdef\@imagecredit{#1}}		\imagecredit{\relax}
 \def\isbn#1{\gdef\@isbn{#1}} 
 \def\NUR#1{\gdef\@nurnumber{#1}}
+\def\DOI#1{\gdef\@doi{#1}}
 
 \def\copyrightyear#1{\gdef\@copyrightyear{#1}}  
 \copyrightyear{\number\year}         % may be overridden in the document
@@ -415,6 +416,7 @@ The Netherlands 	\hfill
 	{\@imagecredit \bigskip }
 	
 ISBN: \@isbn \\
+DOI: \@doi \\
 NUR: \@nurnumber
 
 \bigskip
