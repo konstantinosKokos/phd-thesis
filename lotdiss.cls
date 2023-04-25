@@ -407,9 +407,9 @@ To suppress the title page and other front matter, comment out the command^^J
 	
 Published by \\[4pt]
 LOT  		\hfill	phone: +31 20 525 2461  \\
-Binnengasthuisstraat 9    	\hfill 	lot@uva.nl \\
-3512 JK Utrecht  	\hfill	http://www.lotschool.nl \\
-The Netherlands 	\hfill	
+Binnengasthuisstraat 9    	\\
+1012 ZA Amsterdam  	\hfill	lot@uva.nl \\
+The Netherlands 	\hfill	http://www.lotschool.nl
 
 \bigskip\bigskip
 \@ifundefined{@imagecredit} \relax
