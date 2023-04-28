@@ -196,9 +196,9 @@ To suppress the title page and other front matter, comment out the command^^J
 \fancypagestyle{lotpage}{%
   \fancyhf{}% start on a clean slate: clear all fields
   \renewcommand\headrulewidth{0pt} 
-  \fancyhead[LE,RO]{\textrm{\thepage}}
-  \fancyhead[LO]{\nouppercase{\textbf{\strut\leftmark}}}
-  \fancyhead[RE]{\nouppercase{\textbf{\strut\rightmark}}}}
+  \fancyhead[LE]{\textrm{\thepage} \hspace{0.3cm} \textit{Dependency as Modality, Parsing as Permutation}}
+  \fancyhead[RO]{\nouppercase{\textsl{\strut\leftmark}} \hspace{0.3cm} \textrm{\thepage}}}
+
 
 % Actual plain style: Just the page number
 \fancypagestyle{realplain}{%	
